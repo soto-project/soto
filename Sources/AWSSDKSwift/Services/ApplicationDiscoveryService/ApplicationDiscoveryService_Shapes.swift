@@ -5,6 +5,295 @@ import AWSSDKSwiftCore
 
 extension ApplicationDiscoveryService {
 
+    public struct AgentConfigurationStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "agentId", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "operationSucceeded", required: false, type: .boolean)
+        ]
+        /// The agent/connector ID.
+        public let agentId: String?
+        /// A description of the operation performed.
+        public let description: String?
+        /// Information about the status of the StartDataCollection and StopDataCollection operations. The system has recorded the data collection operation. The agent/connector receives this command the next time it polls for a new command. 
+        public let operationSucceeded: Bool?
+
+        public init(agentId: String? = nil, description: String? = nil, operationSucceeded: Bool? = nil) {
+            self.agentId = agentId
+            self.description = description
+            self.operationSucceeded = operationSucceeded
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentId = "agentId"
+            case description = "description"
+            case operationSucceeded = "operationSucceeded"
+        }
+    }
+
+    public struct AgentInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "agentId", required: false, type: .string), 
+            AWSShapeMember(label: "agentNetworkInfoList", required: false, type: .list), 
+            AWSShapeMember(label: "agentType", required: false, type: .string), 
+            AWSShapeMember(label: "collectionStatus", required: false, type: .string), 
+            AWSShapeMember(label: "connectorId", required: false, type: .string), 
+            AWSShapeMember(label: "health", required: false, type: .enum), 
+            AWSShapeMember(label: "hostName", required: false, type: .string), 
+            AWSShapeMember(label: "lastHealthPingTime", required: false, type: .string), 
+            AWSShapeMember(label: "registeredTime", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .string)
+        ]
+        /// The agent or connector ID.
+        public let agentId: String?
+        /// Network details about the host where the agent or connector resides.
+        public let agentNetworkInfoList: [AgentNetworkInfo]?
+        /// Type of agent.
+        public let agentType: String?
+        /// Status of the collection process for an agent or connector.
+        public let collectionStatus: String?
+        /// The ID of the connector.
+        public let connectorId: String?
+        /// The health of the agent or connector.
+        public let health: AgentStatus?
+        /// The name of the host where the agent or connector resides. The host can be a server or virtual machine.
+        public let hostName: String?
+        /// Time since agent or connector health was reported.
+        public let lastHealthPingTime: String?
+        /// Agent's first registration timestamp in UTC.
+        public let registeredTime: String?
+        /// The agent or connector version.
+        public let version: String?
+
+        public init(agentId: String? = nil, agentNetworkInfoList: [AgentNetworkInfo]? = nil, agentType: String? = nil, collectionStatus: String? = nil, connectorId: String? = nil, health: AgentStatus? = nil, hostName: String? = nil, lastHealthPingTime: String? = nil, registeredTime: String? = nil, version: String? = nil) {
+            self.agentId = agentId
+            self.agentNetworkInfoList = agentNetworkInfoList
+            self.agentType = agentType
+            self.collectionStatus = collectionStatus
+            self.connectorId = connectorId
+            self.health = health
+            self.hostName = hostName
+            self.lastHealthPingTime = lastHealthPingTime
+            self.registeredTime = registeredTime
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentId = "agentId"
+            case agentNetworkInfoList = "agentNetworkInfoList"
+            case agentType = "agentType"
+            case collectionStatus = "collectionStatus"
+            case connectorId = "connectorId"
+            case health = "health"
+            case hostName = "hostName"
+            case lastHealthPingTime = "lastHealthPingTime"
+            case registeredTime = "registeredTime"
+            case version = "version"
+        }
+    }
+
+    public struct AgentNetworkInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ipAddress", required: false, type: .string), 
+            AWSShapeMember(label: "macAddress", required: false, type: .string)
+        ]
+        /// The IP address for the host where the agent/connector resides.
+        public let ipAddress: String?
+        /// The MAC address for the host where the agent/connector resides.
+        public let macAddress: String?
+
+        public init(ipAddress: String? = nil, macAddress: String? = nil) {
+            self.ipAddress = ipAddress
+            self.macAddress = macAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipAddress = "ipAddress"
+            case macAddress = "macAddress"
+        }
+    }
+
+    public enum AgentStatus: String, CustomStringConvertible, Codable {
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
+        case running = "RUNNING"
+        case unknown = "UNKNOWN"
+        case blacklisted = "BLACKLISTED"
+        case shutdown = "SHUTDOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AssociateConfigurationItemsToApplicationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "applicationConfigurationId", required: true, type: .string), 
+            AWSShapeMember(label: "configurationIds", required: true, type: .list)
+        ]
+        /// The configuration ID of an application with which items are to be associated.
+        public let applicationConfigurationId: String
+        /// The ID of each configuration item to be associated with an application.
+        public let configurationIds: [String]
+
+        public init(applicationConfigurationId: String, configurationIds: [String]) {
+            self.applicationConfigurationId = applicationConfigurationId
+            self.configurationIds = configurationIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationConfigurationId = "applicationConfigurationId"
+            case configurationIds = "configurationIds"
+        }
+    }
+
+    public struct AssociateConfigurationItemsToApplicationResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public enum ConfigurationItemType: String, CustomStringConvertible, Codable {
+        case server = "SERVER"
+        case process = "PROCESS"
+        case connection = "CONNECTION"
+        case application = "APPLICATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ConfigurationTag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configurationId", required: false, type: .string), 
+            AWSShapeMember(label: "configurationType", required: false, type: .enum), 
+            AWSShapeMember(label: "key", required: false, type: .string), 
+            AWSShapeMember(label: "timeOfCreation", required: false, type: .timestamp), 
+            AWSShapeMember(label: "value", required: false, type: .string)
+        ]
+        /// The configuration ID for the item to tag. You can specify a list of keys and values.
+        public let configurationId: String?
+        /// A type of IT asset to tag.
+        public let configurationType: ConfigurationItemType?
+        /// A type of tag on which to filter. For example, serverType.
+        public let key: String?
+        /// The time the configuration tag was created in Coordinated Universal Time (UTC).
+        public let timeOfCreation: TimeStamp?
+        /// A value on which to filter. For example key = serverType and value = web server.
+        public let value: String?
+
+        public init(configurationId: String? = nil, configurationType: ConfigurationItemType? = nil, key: String? = nil, timeOfCreation: TimeStamp? = nil, value: String? = nil) {
+            self.configurationId = configurationId
+            self.configurationType = configurationType
+            self.key = key
+            self.timeOfCreation = timeOfCreation
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationId = "configurationId"
+            case configurationType = "configurationType"
+            case key = "key"
+            case timeOfCreation = "timeOfCreation"
+            case value = "value"
+        }
+    }
+
+    public struct ContinuousExportDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "dataSource", required: false, type: .enum), 
+            AWSShapeMember(label: "exportId", required: false, type: .string), 
+            AWSShapeMember(label: "s3Bucket", required: false, type: .string), 
+            AWSShapeMember(label: "schemaStorageConfig", required: false, type: .map), 
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "statusDetail", required: false, type: .string), 
+            AWSShapeMember(label: "stopTime", required: false, type: .timestamp)
+        ]
+        /// The type of data collector used to gather this data (currently only offered for AGENT).
+        public let dataSource: DataSource?
+        /// The unique ID assigned to this export.
+        public let exportId: String?
+        /// The name of the s3 bucket where the export data parquet files are stored.
+        public let s3Bucket: String?
+        /// An object which describes how the data is stored.    databaseName - the name of the Glue database used to store the schema.  
+        public let schemaStorageConfig: [String: String]?
+        /// The timestamp representing when the continuous export was started.
+        public let startTime: TimeStamp?
+        /// Describes the status of the export. Can be one of the following values:   START_IN_PROGRESS - setting up resources to start continuous export.   START_FAILED - an error occurred setting up continuous export. To recover, call start-continuous-export again.   ACTIVE - data is being exported to the customer bucket.   ERROR - an error occurred during export. To fix the issue, call stop-continuous-export and start-continuous-export.   STOP_IN_PROGRESS - stopping the export.   STOP_FAILED - an error occurred stopping the export. To recover, call stop-continuous-export again.   INACTIVE - the continuous export has been stopped. Data is no longer being exported to the customer bucket.  
+        public let status: ContinuousExportStatus?
+        /// Contains information about any errors that may have occurred.
+        public let statusDetail: String?
+        /// The timestamp that represents when this continuous export was stopped.
+        public let stopTime: TimeStamp?
+
+        public init(dataSource: DataSource? = nil, exportId: String? = nil, s3Bucket: String? = nil, schemaStorageConfig: [String: String]? = nil, startTime: TimeStamp? = nil, status: ContinuousExportStatus? = nil, statusDetail: String? = nil, stopTime: TimeStamp? = nil) {
+            self.dataSource = dataSource
+            self.exportId = exportId
+            self.s3Bucket = s3Bucket
+            self.schemaStorageConfig = schemaStorageConfig
+            self.startTime = startTime
+            self.status = status
+            self.statusDetail = statusDetail
+            self.stopTime = stopTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSource = "dataSource"
+            case exportId = "exportId"
+            case s3Bucket = "s3Bucket"
+            case schemaStorageConfig = "schemaStorageConfig"
+            case startTime = "startTime"
+            case status = "status"
+            case statusDetail = "statusDetail"
+            case stopTime = "stopTime"
+        }
+    }
+
+    public enum ContinuousExportStatus: String, CustomStringConvertible, Codable {
+        case startInProgress = "START_IN_PROGRESS"
+        case startFailed = "START_FAILED"
+        case active = "ACTIVE"
+        case error = "ERROR"
+        case stopInProgress = "STOP_IN_PROGRESS"
+        case stopFailed = "STOP_FAILED"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateApplicationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string)
+        ]
+        /// Description of the application to be created.
+        public let description: String?
+        /// Name of the application to be created.
+        public let name: String
+
+        public init(description: String? = nil, name: String) {
+            self.description = description
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+        }
+    }
+
+    public struct CreateApplicationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configurationId", required: false, type: .string)
+        ]
+        /// Configuration ID of an application to be created.
+        public let configurationId: String?
+
+        public init(configurationId: String? = nil) {
+            self.configurationId = configurationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationId = "configurationId"
+        }
+    }
+
     public struct CreateTagsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "configurationIds", required: true, type: .list), 
@@ -26,41 +315,131 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct TagFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "values", required: true, type: .list), 
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
-        /// Values for the tag filter.
-        public let values: [String]
-        /// A name of the tag filter.
-        public let name: String
+    public struct CreateTagsResponse: AWSShape {
 
-        public init(name: String, values: [String]) {
-            self.values = values
-            self.name = name
+        public init() {
+        }
+
+    }
+
+    public struct CustomerAgentInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "activeAgents", required: true, type: .integer), 
+            AWSShapeMember(label: "blackListedAgents", required: true, type: .integer), 
+            AWSShapeMember(label: "healthyAgents", required: true, type: .integer), 
+            AWSShapeMember(label: "shutdownAgents", required: true, type: .integer), 
+            AWSShapeMember(label: "totalAgents", required: true, type: .integer), 
+            AWSShapeMember(label: "unhealthyAgents", required: true, type: .integer), 
+            AWSShapeMember(label: "unknownAgents", required: true, type: .integer)
+        ]
+        /// Number of active discovery agents.
+        public let activeAgents: Int32
+        /// Number of blacklisted discovery agents.
+        public let blackListedAgents: Int32
+        /// Number of healthy discovery agents
+        public let healthyAgents: Int32
+        /// Number of discovery agents with status SHUTDOWN.
+        public let shutdownAgents: Int32
+        /// Total number of discovery agents.
+        public let totalAgents: Int32
+        /// Number of unhealthy discovery agents.
+        public let unhealthyAgents: Int32
+        /// Number of unknown discovery agents.
+        public let unknownAgents: Int32
+
+        public init(activeAgents: Int32, blackListedAgents: Int32, healthyAgents: Int32, shutdownAgents: Int32, totalAgents: Int32, unhealthyAgents: Int32, unknownAgents: Int32) {
+            self.activeAgents = activeAgents
+            self.blackListedAgents = blackListedAgents
+            self.healthyAgents = healthyAgents
+            self.shutdownAgents = shutdownAgents
+            self.totalAgents = totalAgents
+            self.unhealthyAgents = unhealthyAgents
+            self.unknownAgents = unknownAgents
         }
 
         private enum CodingKeys: String, CodingKey {
-            case values = "values"
-            case name = "name"
+            case activeAgents = "activeAgents"
+            case blackListedAgents = "blackListedAgents"
+            case healthyAgents = "healthyAgents"
+            case shutdownAgents = "shutdownAgents"
+            case totalAgents = "totalAgents"
+            case unhealthyAgents = "unhealthyAgents"
+            case unknownAgents = "unknownAgents"
         }
     }
 
-    public struct StopContinuousExportRequest: AWSShape {
+    public struct CustomerConnectorInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "exportId", required: true, type: .string)
+            AWSShapeMember(label: "activeConnectors", required: true, type: .integer), 
+            AWSShapeMember(label: "blackListedConnectors", required: true, type: .integer), 
+            AWSShapeMember(label: "healthyConnectors", required: true, type: .integer), 
+            AWSShapeMember(label: "shutdownConnectors", required: true, type: .integer), 
+            AWSShapeMember(label: "totalConnectors", required: true, type: .integer), 
+            AWSShapeMember(label: "unhealthyConnectors", required: true, type: .integer), 
+            AWSShapeMember(label: "unknownConnectors", required: true, type: .integer)
         ]
-        /// The unique ID assigned to this export.
-        public let exportId: String
+        /// Number of active discovery connectors.
+        public let activeConnectors: Int32
+        /// Number of blacklisted discovery connectors.
+        public let blackListedConnectors: Int32
+        /// Number of healthy discovery connectors.
+        public let healthyConnectors: Int32
+        /// Number of discovery connectors with status SHUTDOWN,
+        public let shutdownConnectors: Int32
+        /// Total number of discovery connectors.
+        public let totalConnectors: Int32
+        /// Number of unhealthy discovery connectors.
+        public let unhealthyConnectors: Int32
+        /// Number of unknown discovery connectors.
+        public let unknownConnectors: Int32
 
-        public init(exportId: String) {
-            self.exportId = exportId
+        public init(activeConnectors: Int32, blackListedConnectors: Int32, healthyConnectors: Int32, shutdownConnectors: Int32, totalConnectors: Int32, unhealthyConnectors: Int32, unknownConnectors: Int32) {
+            self.activeConnectors = activeConnectors
+            self.blackListedConnectors = blackListedConnectors
+            self.healthyConnectors = healthyConnectors
+            self.shutdownConnectors = shutdownConnectors
+            self.totalConnectors = totalConnectors
+            self.unhealthyConnectors = unhealthyConnectors
+            self.unknownConnectors = unknownConnectors
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportId = "exportId"
+            case activeConnectors = "activeConnectors"
+            case blackListedConnectors = "blackListedConnectors"
+            case healthyConnectors = "healthyConnectors"
+            case shutdownConnectors = "shutdownConnectors"
+            case totalConnectors = "totalConnectors"
+            case unhealthyConnectors = "unhealthyConnectors"
+            case unknownConnectors = "unknownConnectors"
         }
+    }
+
+    public enum DataSource: String, CustomStringConvertible, Codable {
+        case agent = "AGENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteApplicationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configurationIds", required: true, type: .list)
+        ]
+        /// Configuration ID of an application to be deleted.
+        public let configurationIds: [String]
+
+        public init(configurationIds: [String]) {
+            self.configurationIds = configurationIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationIds = "configurationIds"
+        }
+    }
+
+    public struct DeleteApplicationsResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct DeleteTagsRequest: AWSShape {
@@ -84,81 +463,265 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct OrderByElement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "sortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "fieldName", required: true, type: .string)
-        ]
-        /// Ordering direction.
-        public let sortOrder: OrderString?
-        /// The field on which to order.
-        public let fieldName: String
+    public struct DeleteTagsResponse: AWSShape {
 
-        public init(fieldName: String, sortOrder: OrderString? = nil) {
-            self.sortOrder = sortOrder
-            self.fieldName = fieldName
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case sortOrder = "sortOrder"
-            case fieldName = "fieldName"
-        }
     }
 
-    public struct AgentNetworkInfo: AWSShape {
+    public struct DescribeAgentsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "macAddress", required: false, type: .string), 
-            AWSShapeMember(label: "ipAddress", required: false, type: .string)
-        ]
-        /// The MAC address for the host where the agent/connector resides.
-        public let macAddress: String?
-        /// The IP address for the host where the agent/connector resides.
-        public let ipAddress: String?
-
-        public init(ipAddress: String? = nil, macAddress: String? = nil) {
-            self.macAddress = macAddress
-            self.ipAddress = ipAddress
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case macAddress = "macAddress"
-            case ipAddress = "ipAddress"
-        }
-    }
-
-    public struct ListServerNeighborsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "neighborConfigurationIds", required: false, type: .list), 
-            AWSShapeMember(label: "portInformationNeeded", required: false, type: .boolean), 
+            AWSShapeMember(label: "agentIds", required: false, type: .list), 
+            AWSShapeMember(label: "filters", required: false, type: .list), 
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "configurationId", required: true, type: .string)
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// List of configuration IDs to test for one-hop-away.
-        public let neighborConfigurationIds: [String]?
-        /// Flag to indicate if port and protocol information is needed as part of the response.
-        public let portInformationNeeded: Bool?
-        /// Maximum number of results to return in a single page of output.
+        /// The agent or the Connector IDs for which you want information. If you specify no IDs, the system returns information about all agents/Connectors associated with your AWS user account.
+        public let agentIds: [String]?
+        /// You can filter the request using various logical operators and a key-value format. For example:   {"key": "collectionStatus", "value": "STARTED"} 
+        public let filters: [Filter]?
+        /// The total number of agents/Connectors to return in a single page of output. The maximum value is 100.
         public let maxResults: Int32?
-        /// Token to retrieve the next set of results. For example, if you previously specified 100 IDs for ListServerNeighborsRequest$neighborConfigurationIds but set ListServerNeighborsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
+        /// Token to retrieve the next set of results. For example, if you previously specified 100 IDs for DescribeAgentsRequest$agentIds but set DescribeAgentsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
         public let nextToken: String?
-        /// Configuration ID of the server for which neighbors are being listed.
-        public let configurationId: String
 
-        public init(configurationId: String, maxResults: Int32? = nil, neighborConfigurationIds: [String]? = nil, nextToken: String? = nil, portInformationNeeded: Bool? = nil) {
-            self.neighborConfigurationIds = neighborConfigurationIds
-            self.portInformationNeeded = portInformationNeeded
+        public init(agentIds: [String]? = nil, filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.agentIds = agentIds
+            self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
-            self.configurationId = configurationId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case neighborConfigurationIds = "neighborConfigurationIds"
-            case portInformationNeeded = "portInformationNeeded"
+            case agentIds = "agentIds"
+            case filters = "filters"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
-            case configurationId = "configurationId"
+        }
+    }
+
+    public struct DescribeAgentsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "agentsInfo", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// Lists agents or the Connector by ID or lists all agents/Connectors associated with your user account if you did not specify an agent/Connector ID. The output includes agent/Connector IDs, IP addresses, media access control (MAC) addresses, agent/Connector health, host name where the agent/Connector resides, and the version number of each agent/Connector.
+        public let agentsInfo: [AgentInfo]?
+        /// Token to retrieve the next set of results. For example, if you specified 100 IDs for DescribeAgentsRequest$agentIds but set DescribeAgentsRequest$maxResults to 10, you received a set of 10 results along with this token. Use this token in the next query to retrieve the next set of 10.
+        public let nextToken: String?
+
+        public init(agentsInfo: [AgentInfo]? = nil, nextToken: String? = nil) {
+            self.agentsInfo = agentsInfo
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentsInfo = "agentsInfo"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeConfigurationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configurationIds", required: true, type: .list)
+        ]
+        /// One or more configuration IDs.
+        public let configurationIds: [String]
+
+        public init(configurationIds: [String]) {
+            self.configurationIds = configurationIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationIds = "configurationIds"
+        }
+    }
+
+    public struct DescribeConfigurationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configurations", required: false, type: .list)
+        ]
+        /// A key in the response map. The value is an array of data.
+        public let configurations: [[String: String]]?
+
+        public init(configurations: [[String: String]]? = nil) {
+            self.configurations = configurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurations = "configurations"
+        }
+    }
+
+    public struct DescribeContinuousExportsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "exportIds", required: false, type: .list), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The unique IDs assigned to the exports.
+        public let exportIds: [String]?
+        /// A number between 1 and 100 specifying the maximum number of continuous export descriptions returned.
+        public let maxResults: Int32?
+        /// The token from the previous call to DescribeExportTasks.
+        public let nextToken: String?
+
+        public init(exportIds: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.exportIds = exportIds
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportIds = "exportIds"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeContinuousExportsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "descriptions", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// A list of continuous export descriptions.
+        public let descriptions: [ContinuousExportDescription]?
+        /// The token from the previous call to DescribeExportTasks.
+        public let nextToken: String?
+
+        public init(descriptions: [ContinuousExportDescription]? = nil, nextToken: String? = nil) {
+            self.descriptions = descriptions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case descriptions = "descriptions"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeExportConfigurationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "exportIds", required: false, type: .list), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// A list of continuous export ids to search for.
+        public let exportIds: [String]?
+        /// A number between 1 and 100 specifying the maximum number of continuous export descriptions returned.
+        public let maxResults: Int32?
+        /// The token from the previous call to describe-export-tasks.
+        public let nextToken: String?
+
+        public init(exportIds: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.exportIds = exportIds
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportIds = "exportIds"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeExportConfigurationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "exportsInfo", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        public let exportsInfo: [ExportInfo]?
+        /// The token from the previous call to describe-export-tasks.
+        public let nextToken: String?
+
+        public init(exportsInfo: [ExportInfo]? = nil, nextToken: String? = nil) {
+            self.exportsInfo = exportsInfo
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportsInfo = "exportsInfo"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeExportTasksRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "exportIds", required: false, type: .list), 
+            AWSShapeMember(label: "filters", required: false, type: .list), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// One or more unique identifiers used to query the status of an export request.
+        public let exportIds: [String]?
+        /// One or more filters.    AgentId - ID of the agent whose collected data will be exported  
+        public let filters: [ExportFilter]?
+        /// The maximum number of volume results returned by DescribeExportTasks in paginated output. When this parameter is used, DescribeExportTasks only returns maxResults results in a single page along with a nextToken response element.
+        public let maxResults: Int32?
+        /// The nextToken value returned from a previous paginated DescribeExportTasks request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        public init(exportIds: [String]? = nil, filters: [ExportFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.exportIds = exportIds
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportIds = "exportIds"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeExportTasksResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "exportsInfo", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// Contains one or more sets of export request details. When the status of a request is SUCCEEDED, the response includes a URL for an Amazon S3 bucket where you can view the data in a CSV file.
+        public let exportsInfo: [ExportInfo]?
+        /// The nextToken value to include in a future DescribeExportTasks request. When the results of a DescribeExportTasks request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        public init(exportsInfo: [ExportInfo]? = nil, nextToken: String? = nil) {
+            self.exportsInfo = exportsInfo
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportsInfo = "exportsInfo"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeTagsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filters", required: false, type: .list), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// You can filter the list using a key-value format. You can separate these items by using logical operators. Allowed filters include tagKey, tagValue, and configurationId. 
+        public let filters: [TagFilter]?
+        /// The total number of items to return in a single page of output. The maximum value is 100.
+        public let maxResults: Int32?
+        /// A token to start the list. Use this token to get the next set of results.
+        public let nextToken: String?
+
+        public init(filters: [TagFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -183,185 +746,24 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct Filter: AWSShape {
+    public struct DisassociateConfigurationItemsFromApplicationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "values", required: true, type: .list), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "condition", required: true, type: .string)
+            AWSShapeMember(label: "applicationConfigurationId", required: true, type: .string), 
+            AWSShapeMember(label: "configurationIds", required: true, type: .list)
         ]
-        /// A string value on which to filter. For example, if you choose the destinationServer.osVersion filter name, you could specify Ubuntu for the value.
-        public let values: [String]
-        /// The name of the filter.
-        public let name: String
-        /// A conditional operator. The following operators are valid: EQUALS, NOT_EQUALS, CONTAINS, NOT_CONTAINS. If you specify multiple filters, the system utilizes all filters as though concatenated by AND. If you specify multiple values for a particular filter, the system differentiates the values using OR. Calling either DescribeConfigurations or ListConfigurations returns attributes of matching configuration items.
-        public let condition: String
+        /// Configuration ID of an application from which each item is disassociated.
+        public let applicationConfigurationId: String
+        /// Configuration ID of each item to be disassociated from an application.
+        public let configurationIds: [String]
 
-        public init(condition: String, name: String, values: [String]) {
-            self.values = values
-            self.name = name
-            self.condition = condition
+        public init(applicationConfigurationId: String, configurationIds: [String]) {
+            self.applicationConfigurationId = applicationConfigurationId
+            self.configurationIds = configurationIds
         }
 
         private enum CodingKeys: String, CodingKey {
-            case values = "values"
-            case name = "name"
-            case condition = "condition"
-        }
-    }
-
-    public struct DescribeTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// You can filter the list using a key-value format. You can separate these items by using logical operators. Allowed filters include tagKey, tagValue, and configurationId. 
-        public let filters: [TagFilter]?
-        /// A token to start the list. Use this token to get the next set of results.
-        public let nextToken: String?
-        /// The total number of items to return in a single page of output. The maximum value is 100.
-        public let maxResults: Int32?
-
-        public init(filters: [TagFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.filters = filters
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case filters = "filters"
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public enum DataSource: String, CustomStringConvertible, Codable {
-        case agent = "AGENT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeAgentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "agentIds", required: false, type: .list), 
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// The agent or the Connector IDs for which you want information. If you specify no IDs, the system returns information about all agents/Connectors associated with your AWS user account.
-        public let agentIds: [String]?
-        /// You can filter the request using various logical operators and a key-value format. For example:   {"key": "collectionStatus", "value": "STARTED"} 
-        public let filters: [Filter]?
-        /// Token to retrieve the next set of results. For example, if you previously specified 100 IDs for DescribeAgentsRequest$agentIds but set DescribeAgentsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
-        public let nextToken: String?
-        /// The total number of agents/Connectors to return in a single page of output. The maximum value is 100.
-        public let maxResults: Int32?
-
-        public init(agentIds: [String]? = nil, filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.agentIds = agentIds
-            self.filters = filters
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case agentIds = "agentIds"
-            case filters = "filters"
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct DeleteApplicationsResponse: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct AgentInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "connectorId", required: false, type: .string), 
-            AWSShapeMember(label: "hostName", required: false, type: .string), 
-            AWSShapeMember(label: "registeredTime", required: false, type: .string), 
-            AWSShapeMember(label: "agentId", required: false, type: .string), 
-            AWSShapeMember(label: "collectionStatus", required: false, type: .string), 
-            AWSShapeMember(label: "lastHealthPingTime", required: false, type: .string), 
-            AWSShapeMember(label: "health", required: false, type: .enum), 
-            AWSShapeMember(label: "agentNetworkInfoList", required: false, type: .list), 
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "agentType", required: false, type: .string)
-        ]
-        /// The ID of the connector.
-        public let connectorId: String?
-        /// The name of the host where the agent or connector resides. The host can be a server or virtual machine.
-        public let hostName: String?
-        /// Agent's first registration timestamp in UTC.
-        public let registeredTime: String?
-        /// The agent or connector ID.
-        public let agentId: String?
-        /// Status of the collection process for an agent or connector.
-        public let collectionStatus: String?
-        /// Time since agent or connector health was reported.
-        public let lastHealthPingTime: String?
-        /// The health of the agent or connector.
-        public let health: AgentStatus?
-        /// Network details about the host where the agent or connector resides.
-        public let agentNetworkInfoList: [AgentNetworkInfo]?
-        /// The agent or connector version.
-        public let version: String?
-        /// Type of agent.
-        public let agentType: String?
-
-        public init(agentId: String? = nil, agentNetworkInfoList: [AgentNetworkInfo]? = nil, agentType: String? = nil, collectionStatus: String? = nil, connectorId: String? = nil, health: AgentStatus? = nil, hostName: String? = nil, lastHealthPingTime: String? = nil, registeredTime: String? = nil, version: String? = nil) {
-            self.connectorId = connectorId
-            self.hostName = hostName
-            self.registeredTime = registeredTime
-            self.agentId = agentId
-            self.collectionStatus = collectionStatus
-            self.lastHealthPingTime = lastHealthPingTime
-            self.health = health
-            self.agentNetworkInfoList = agentNetworkInfoList
-            self.version = version
-            self.agentType = agentType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectorId = "connectorId"
-            case hostName = "hostName"
-            case registeredTime = "registeredTime"
-            case agentId = "agentId"
-            case collectionStatus = "collectionStatus"
-            case lastHealthPingTime = "lastHealthPingTime"
-            case health = "health"
-            case agentNetworkInfoList = "agentNetworkInfoList"
-            case version = "version"
-            case agentType = "agentType"
-        }
-    }
-
-    public struct DescribeExportConfigurationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "exportIds", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// A number between 1 and 100 specifying the maximum number of continuous export descriptions returned.
-        public let maxResults: Int32?
-        /// A list of continuous export ids to search for.
-        public let exportIds: [String]?
-        /// The token from the previous call to describe-export-tasks.
-        public let nextToken: String?
-
-        public init(exportIds: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.exportIds = exportIds
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case exportIds = "exportIds"
-            case nextToken = "nextToken"
+            case applicationConfigurationId = "applicationConfigurationId"
+            case configurationIds = "configurationIds"
         }
     }
 
@@ -370,12 +772,6 @@ extension ApplicationDiscoveryService {
         public init() {
         }
 
-    }
-
-    public enum ExportDataFormat: String, CustomStringConvertible, Codable {
-        case csv = "CSV"
-        case graphml = "GRAPHML"
-        public var description: String { return self.rawValue }
     }
 
     public struct ExportConfigurationsResponse: AWSShape {
@@ -394,6 +790,89 @@ extension ApplicationDiscoveryService {
         }
     }
 
+    public enum ExportDataFormat: String, CustomStringConvertible, Codable {
+        case csv = "CSV"
+        case graphml = "GRAPHML"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ExportFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "condition", required: true, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "values", required: true, type: .list)
+        ]
+        /// Supported condition: EQUALS 
+        public let condition: String
+        /// A single ExportFilter name. Supported filters: agentId.
+        public let name: String
+        /// A single agentId for a Discovery Agent. An agentId can be found using the DescribeAgents action. Typically an ADS agentId is in the form o-0123456789abcdef0.
+        public let values: [String]
+
+        public init(condition: String, name: String, values: [String]) {
+            self.condition = condition
+            self.name = name
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case condition = "condition"
+            case name = "name"
+            case values = "values"
+        }
+    }
+
+    public struct ExportInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configurationsDownloadUrl", required: false, type: .string), 
+            AWSShapeMember(label: "exportId", required: true, type: .string), 
+            AWSShapeMember(label: "exportRequestTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "exportStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "isTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "requestedEndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "requestedStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "statusMessage", required: true, type: .string)
+        ]
+        /// A URL for an Amazon S3 bucket where you can review the exported data. The URL is displayed only if the export succeeded.
+        public let configurationsDownloadUrl: String?
+        /// A unique identifier used to query an export.
+        public let exportId: String
+        /// The time that the data export was initiated.
+        public let exportRequestTime: TimeStamp
+        /// The status of the data export job.
+        public let exportStatus: ExportStatus
+        /// If true, the export of agent information exceeded the size limit for a single export and the exported data is incomplete for the requested time range. To address this, select a smaller time range for the export by using startDate and endDate.
+        public let isTruncated: Bool?
+        /// The endTime used in the StartExportTask request. If no endTime was requested, this result does not appear in ExportInfo.
+        public let requestedEndTime: TimeStamp?
+        /// The value of startTime parameter in the StartExportTask request. If no startTime was requested, this result does not appear in ExportInfo.
+        public let requestedStartTime: TimeStamp?
+        /// A status message provided for API callers.
+        public let statusMessage: String
+
+        public init(configurationsDownloadUrl: String? = nil, exportId: String, exportRequestTime: TimeStamp, exportStatus: ExportStatus, isTruncated: Bool? = nil, requestedEndTime: TimeStamp? = nil, requestedStartTime: TimeStamp? = nil, statusMessage: String) {
+            self.configurationsDownloadUrl = configurationsDownloadUrl
+            self.exportId = exportId
+            self.exportRequestTime = exportRequestTime
+            self.exportStatus = exportStatus
+            self.isTruncated = isTruncated
+            self.requestedEndTime = requestedEndTime
+            self.requestedStartTime = requestedStartTime
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationsDownloadUrl = "configurationsDownloadUrl"
+            case exportId = "exportId"
+            case exportRequestTime = "exportRequestTime"
+            case exportStatus = "exportStatus"
+            case isTruncated = "isTruncated"
+            case requestedEndTime = "requestedEndTime"
+            case requestedStartTime = "requestedStartTime"
+            case statusMessage = "statusMessage"
+        }
+    }
+
     public enum ExportStatus: String, CustomStringConvertible, Codable {
         case failed = "FAILED"
         case succeeded = "SUCCEEDED"
@@ -401,180 +880,29 @@ extension ApplicationDiscoveryService {
         public var description: String { return self.rawValue }
     }
 
-    public struct CustomerAgentInfo: AWSShape {
+    public struct Filter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "shutdownAgents", required: true, type: .integer), 
-            AWSShapeMember(label: "activeAgents", required: true, type: .integer), 
-            AWSShapeMember(label: "unhealthyAgents", required: true, type: .integer), 
-            AWSShapeMember(label: "healthyAgents", required: true, type: .integer), 
-            AWSShapeMember(label: "blackListedAgents", required: true, type: .integer), 
-            AWSShapeMember(label: "unknownAgents", required: true, type: .integer), 
-            AWSShapeMember(label: "totalAgents", required: true, type: .integer)
+            AWSShapeMember(label: "condition", required: true, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "values", required: true, type: .list)
         ]
-        /// Number of discovery agents with status SHUTDOWN.
-        public let shutdownAgents: Int32
-        /// Number of active discovery agents.
-        public let activeAgents: Int32
-        /// Number of unhealthy discovery agents.
-        public let unhealthyAgents: Int32
-        /// Number of healthy discovery agents
-        public let healthyAgents: Int32
-        /// Number of blacklisted discovery agents.
-        public let blackListedAgents: Int32
-        /// Number of unknown discovery agents.
-        public let unknownAgents: Int32
-        /// Total number of discovery agents.
-        public let totalAgents: Int32
+        /// A conditional operator. The following operators are valid: EQUALS, NOT_EQUALS, CONTAINS, NOT_CONTAINS. If you specify multiple filters, the system utilizes all filters as though concatenated by AND. If you specify multiple values for a particular filter, the system differentiates the values using OR. Calling either DescribeConfigurations or ListConfigurations returns attributes of matching configuration items.
+        public let condition: String
+        /// The name of the filter.
+        public let name: String
+        /// A string value on which to filter. For example, if you choose the destinationServer.osVersion filter name, you could specify Ubuntu for the value.
+        public let values: [String]
 
-        public init(activeAgents: Int32, blackListedAgents: Int32, healthyAgents: Int32, shutdownAgents: Int32, totalAgents: Int32, unhealthyAgents: Int32, unknownAgents: Int32) {
-            self.shutdownAgents = shutdownAgents
-            self.activeAgents = activeAgents
-            self.unhealthyAgents = unhealthyAgents
-            self.healthyAgents = healthyAgents
-            self.blackListedAgents = blackListedAgents
-            self.unknownAgents = unknownAgents
-            self.totalAgents = totalAgents
+        public init(condition: String, name: String, values: [String]) {
+            self.condition = condition
+            self.name = name
+            self.values = values
         }
 
         private enum CodingKeys: String, CodingKey {
-            case shutdownAgents = "shutdownAgents"
-            case activeAgents = "activeAgents"
-            case unhealthyAgents = "unhealthyAgents"
-            case healthyAgents = "healthyAgents"
-            case blackListedAgents = "blackListedAgents"
-            case unknownAgents = "unknownAgents"
-            case totalAgents = "totalAgents"
-        }
-    }
-
-    public enum ContinuousExportStatus: String, CustomStringConvertible, Codable {
-        case startInProgress = "START_IN_PROGRESS"
-        case startFailed = "START_FAILED"
-        case active = "ACTIVE"
-        case error = "ERROR"
-        case stopInProgress = "STOP_IN_PROGRESS"
-        case stopFailed = "STOP_FAILED"
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct StartContinuousExportResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "s3Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "dataSource", required: false, type: .enum), 
-            AWSShapeMember(label: "exportId", required: false, type: .string), 
-            AWSShapeMember(label: "schemaStorageConfig", required: false, type: .map)
-        ]
-        /// The timestamp representing when the continuous export was started.
-        public let startTime: TimeStamp?
-        /// The name of the s3 bucket where the export data parquet files are stored.
-        public let s3Bucket: String?
-        /// The type of data collector used to gather this data (currently only offered for AGENT).
-        public let dataSource: DataSource?
-        /// The unique ID assigned to this export.
-        public let exportId: String?
-        /// A dictionary which describes how the data is stored.    databaseName - the name of the Glue database used to store the schema.  
-        public let schemaStorageConfig: [String: String]?
-
-        public init(dataSource: DataSource? = nil, exportId: String? = nil, s3Bucket: String? = nil, schemaStorageConfig: [String: String]? = nil, startTime: TimeStamp? = nil) {
-            self.startTime = startTime
-            self.s3Bucket = s3Bucket
-            self.dataSource = dataSource
-            self.exportId = exportId
-            self.schemaStorageConfig = schemaStorageConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case startTime = "startTime"
-            case s3Bucket = "s3Bucket"
-            case dataSource = "dataSource"
-            case exportId = "exportId"
-            case schemaStorageConfig = "schemaStorageConfig"
-        }
-    }
-
-    public struct DeleteTagsResponse: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct ListConfigurationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "orderBy", required: false, type: .list), 
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "configurationType", required: true, type: .enum)
-        ]
-        /// Certain filter criteria return output that can be sorted in ascending or descending order. For a list of output characteristics for each filter, see Using the ListConfigurations Action.
-        public let orderBy: [OrderByElement]?
-        /// You can filter the request using various logical operators and a key-value format. For example:   {"key": "serverType", "value": "webServer"}  For a complete list of filter options and guidance about using them with this action, see Querying Discovered Configuration Items. 
-        public let filters: [Filter]?
-        /// The total number of items to return. The maximum value is 100.
-        public let maxResults: Int32?
-        /// Token to retrieve the next set of results. For example, if a previous call to ListConfigurations returned 100 items, but you set ListConfigurationsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
-        public let nextToken: String?
-        /// A valid configuration identified by Application Discovery Service. 
-        public let configurationType: ConfigurationItemType
-
-        public init(configurationType: ConfigurationItemType, filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, orderBy: [OrderByElement]? = nil) {
-            self.orderBy = orderBy
-            self.filters = filters
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.configurationType = configurationType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case orderBy = "orderBy"
-            case filters = "filters"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case configurationType = "configurationType"
-        }
-    }
-
-    public struct GetDiscoverySummaryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "connectorSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "agentSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "applications", required: false, type: .long), 
-            AWSShapeMember(label: "serversMappedToApplications", required: false, type: .long), 
-            AWSShapeMember(label: "serversMappedtoTags", required: false, type: .long), 
-            AWSShapeMember(label: "servers", required: false, type: .long)
-        ]
-        /// Details about discovered connectors, including connector status and health.
-        public let connectorSummary: CustomerConnectorInfo?
-        /// Details about discovered agents, including agent status and health.
-        public let agentSummary: CustomerAgentInfo?
-        /// The number of applications discovered.
-        public let applications: Int64?
-        /// The number of servers mapped to applications.
-        public let serversMappedToApplications: Int64?
-        /// The number of servers mapped to tags.
-        public let serversMappedtoTags: Int64?
-        /// The number of servers discovered.
-        public let servers: Int64?
-
-        public init(agentSummary: CustomerAgentInfo? = nil, applications: Int64? = nil, connectorSummary: CustomerConnectorInfo? = nil, servers: Int64? = nil, serversMappedToApplications: Int64? = nil, serversMappedtoTags: Int64? = nil) {
-            self.connectorSummary = connectorSummary
-            self.agentSummary = agentSummary
-            self.applications = applications
-            self.serversMappedToApplications = serversMappedToApplications
-            self.serversMappedtoTags = serversMappedtoTags
-            self.servers = servers
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectorSummary = "connectorSummary"
-            case agentSummary = "agentSummary"
-            case applications = "applications"
-            case serversMappedToApplications = "serversMappedToApplications"
-            case serversMappedtoTags = "serversMappedtoTags"
-            case servers = "servers"
+            case condition = "condition"
+            case name = "name"
+            case values = "values"
         }
     }
 
@@ -585,202 +913,137 @@ extension ApplicationDiscoveryService {
 
     }
 
-    public enum OrderString: String, CustomStringConvertible, Codable {
-        case asc = "ASC"
-        case desc = "DESC"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateTagsResponse: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct StartExportTaskResponse: AWSShape {
+    public struct GetDiscoverySummaryResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "exportId", required: false, type: .string)
+            AWSShapeMember(label: "agentSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "applications", required: false, type: .long), 
+            AWSShapeMember(label: "connectorSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "servers", required: false, type: .long), 
+            AWSShapeMember(label: "serversMappedToApplications", required: false, type: .long), 
+            AWSShapeMember(label: "serversMappedtoTags", required: false, type: .long)
         ]
-        /// A unique identifier used to query the status of an export request.
-        public let exportId: String?
+        /// Details about discovered agents, including agent status and health.
+        public let agentSummary: CustomerAgentInfo?
+        /// The number of applications discovered.
+        public let applications: Int64?
+        /// Details about discovered connectors, including connector status and health.
+        public let connectorSummary: CustomerConnectorInfo?
+        /// The number of servers discovered.
+        public let servers: Int64?
+        /// The number of servers mapped to applications.
+        public let serversMappedToApplications: Int64?
+        /// The number of servers mapped to tags.
+        public let serversMappedtoTags: Int64?
 
-        public init(exportId: String? = nil) {
-            self.exportId = exportId
+        public init(agentSummary: CustomerAgentInfo? = nil, applications: Int64? = nil, connectorSummary: CustomerConnectorInfo? = nil, servers: Int64? = nil, serversMappedToApplications: Int64? = nil, serversMappedtoTags: Int64? = nil) {
+            self.agentSummary = agentSummary
+            self.applications = applications
+            self.connectorSummary = connectorSummary
+            self.servers = servers
+            self.serversMappedToApplications = serversMappedToApplications
+            self.serversMappedtoTags = serversMappedtoTags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportId = "exportId"
+            case agentSummary = "agentSummary"
+            case applications = "applications"
+            case connectorSummary = "connectorSummary"
+            case servers = "servers"
+            case serversMappedToApplications = "serversMappedToApplications"
+            case serversMappedtoTags = "serversMappedtoTags"
         }
     }
 
-    public struct StartContinuousExportRequest: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct AssociateConfigurationItemsToApplicationResponse: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct StopContinuousExportResponse: AWSShape {
+    public struct ListConfigurationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "stopTime", required: false, type: .timestamp)
-        ]
-        /// Timestamp that represents when this continuous export started collecting data.
-        public let startTime: TimeStamp?
-        /// Timestamp that represents when this continuous export was stopped.
-        public let stopTime: TimeStamp?
-
-        public init(startTime: TimeStamp? = nil, stopTime: TimeStamp? = nil) {
-            self.startTime = startTime
-            self.stopTime = stopTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case startTime = "startTime"
-            case stopTime = "stopTime"
-        }
-    }
-
-    public struct StopDataCollectionByAgentIdsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "agentsConfigurationStatus", required: false, type: .list)
-        ]
-        /// Information about the agents or connector that were instructed to stop collecting data. Information includes the agent/connector ID, a description of the operation performed, and whether the agent/connector configuration was updated.
-        public let agentsConfigurationStatus: [AgentConfigurationStatus]?
-
-        public init(agentsConfigurationStatus: [AgentConfigurationStatus]? = nil) {
-            self.agentsConfigurationStatus = agentsConfigurationStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case agentsConfigurationStatus = "agentsConfigurationStatus"
-        }
-    }
-
-    public struct UpdateApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "configurationId", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
-        /// New description of the application to be updated.
-        public let description: String?
-        /// Configuration ID of the application to be updated.
-        public let configurationId: String
-        /// New name of the application to be updated.
-        public let name: String?
-
-        public init(configurationId: String, description: String? = nil, name: String? = nil) {
-            self.description = description
-            self.configurationId = configurationId
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "description"
-            case configurationId = "configurationId"
-            case name = "name"
-        }
-    }
-
-    public struct ContinuousExportDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "s3Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "statusDetail", required: false, type: .string), 
-            AWSShapeMember(label: "exportId", required: false, type: .string), 
-            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "schemaStorageConfig", required: false, type: .map), 
-            AWSShapeMember(label: "dataSource", required: false, type: .enum), 
-            AWSShapeMember(label: "stopTime", required: false, type: .timestamp)
-        ]
-        /// The name of the s3 bucket where the export data parquet files are stored.
-        public let s3Bucket: String?
-        /// Contains information about any errors that may have occurred.
-        public let statusDetail: String?
-        /// The unique ID assigned to this export.
-        public let exportId: String?
-        /// The timestamp representing when the continuous export was started.
-        public let startTime: TimeStamp?
-        /// Describes the status of the export. Can be one of the following values:   START_IN_PROGRESS - setting up resources to start continuous export.   START_FAILED - an error occurred setting up continuous export. To recover, call start-continuous-export again.   ACTIVE - data is being exported to the customer bucket.   ERROR - an error occurred during export. To fix the issue, call stop-continuous-export and start-continuous-export.   STOP_IN_PROGRESS - stopping the export.   STOP_FAILED - an error occurred stopping the export. To recover, call stop-continuous-export again.   INACTIVE - the continuous export has been stopped. Data is no longer being exported to the customer bucket.  
-        public let status: ContinuousExportStatus?
-        /// An object which describes how the data is stored.    databaseName - the name of the Glue database used to store the schema.  
-        public let schemaStorageConfig: [String: String]?
-        /// The type of data collector used to gather this data (currently only offered for AGENT).
-        public let dataSource: DataSource?
-        /// The timestamp that represents when this continuous export was stopped.
-        public let stopTime: TimeStamp?
-
-        public init(dataSource: DataSource? = nil, exportId: String? = nil, s3Bucket: String? = nil, schemaStorageConfig: [String: String]? = nil, startTime: TimeStamp? = nil, status: ContinuousExportStatus? = nil, statusDetail: String? = nil, stopTime: TimeStamp? = nil) {
-            self.s3Bucket = s3Bucket
-            self.statusDetail = statusDetail
-            self.exportId = exportId
-            self.startTime = startTime
-            self.status = status
-            self.schemaStorageConfig = schemaStorageConfig
-            self.dataSource = dataSource
-            self.stopTime = stopTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3Bucket = "s3Bucket"
-            case statusDetail = "statusDetail"
-            case exportId = "exportId"
-            case startTime = "startTime"
-            case status = "status"
-            case schemaStorageConfig = "schemaStorageConfig"
-            case dataSource = "dataSource"
-            case stopTime = "stopTime"
-        }
-    }
-
-    public struct StopDataCollectionByAgentIdsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "agentIds", required: true, type: .list)
-        ]
-        /// The IDs of the agents or connectors from which to stop collecting data.
-        public let agentIds: [String]
-
-        public init(agentIds: [String]) {
-            self.agentIds = agentIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case agentIds = "agentIds"
-        }
-    }
-
-    public struct DescribeContinuousExportsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configurationType", required: true, type: .enum), 
+            AWSShapeMember(label: "filters", required: false, type: .list), 
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "exportIds", required: false, type: .list)
+            AWSShapeMember(label: "orderBy", required: false, type: .list)
         ]
-        /// A number between 1 and 100 specifying the maximum number of continuous export descriptions returned.
+        /// A valid configuration identified by Application Discovery Service. 
+        public let configurationType: ConfigurationItemType
+        /// You can filter the request using various logical operators and a key-value format. For example:   {"key": "serverType", "value": "webServer"}  For a complete list of filter options and guidance about using them with this action, see Querying Discovered Configuration Items. 
+        public let filters: [Filter]?
+        /// The total number of items to return. The maximum value is 100.
         public let maxResults: Int32?
-        /// The token from the previous call to DescribeExportTasks.
+        /// Token to retrieve the next set of results. For example, if a previous call to ListConfigurations returned 100 items, but you set ListConfigurationsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
         public let nextToken: String?
-        /// The unique IDs assigned to the exports.
-        public let exportIds: [String]?
+        /// Certain filter criteria return output that can be sorted in ascending or descending order. For a list of output characteristics for each filter, see Using the ListConfigurations Action.
+        public let orderBy: [OrderByElement]?
 
-        public init(exportIds: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(configurationType: ConfigurationItemType, filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, orderBy: [OrderByElement]? = nil) {
+            self.configurationType = configurationType
+            self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
-            self.exportIds = exportIds
+            self.orderBy = orderBy
         }
 
         private enum CodingKeys: String, CodingKey {
+            case configurationType = "configurationType"
+            case filters = "filters"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
-            case exportIds = "exportIds"
+            case orderBy = "orderBy"
+        }
+    }
+
+    public struct ListConfigurationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configurations", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// Returns configuration details, including the configuration ID, attribute names, and attribute values.
+        public let configurations: [[String: String]]?
+        /// Token to retrieve the next set of results. For example, if your call to ListConfigurations returned 100 items, but you set ListConfigurationsRequest$maxResults to 10, you received a set of 10 results along with this token. Use this token in the next query to retrieve the next set of 10.
+        public let nextToken: String?
+
+        public init(configurations: [[String: String]]? = nil, nextToken: String? = nil) {
+            self.configurations = configurations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurations = "configurations"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListServerNeighborsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configurationId", required: true, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "neighborConfigurationIds", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "portInformationNeeded", required: false, type: .boolean)
+        ]
+        /// Configuration ID of the server for which neighbors are being listed.
+        public let configurationId: String
+        /// Maximum number of results to return in a single page of output.
+        public let maxResults: Int32?
+        /// List of configuration IDs to test for one-hop-away.
+        public let neighborConfigurationIds: [String]?
+        /// Token to retrieve the next set of results. For example, if you previously specified 100 IDs for ListServerNeighborsRequest$neighborConfigurationIds but set ListServerNeighborsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
+        public let nextToken: String?
+        /// Flag to indicate if port and protocol information is needed as part of the response.
+        public let portInformationNeeded: Bool?
+
+        public init(configurationId: String, maxResults: Int32? = nil, neighborConfigurationIds: [String]? = nil, nextToken: String? = nil, portInformationNeeded: Bool? = nil) {
+            self.configurationId = configurationId
+            self.maxResults = maxResults
+            self.neighborConfigurationIds = neighborConfigurationIds
+            self.nextToken = nextToken
+            self.portInformationNeeded = portInformationNeeded
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationId = "configurationId"
+            case maxResults = "maxResults"
+            case neighborConfigurationIds = "neighborConfigurationIds"
+            case nextToken = "nextToken"
+            case portInformationNeeded = "portInformationNeeded"
         }
     }
 
@@ -810,323 +1073,251 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct ConfigurationTag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "key", required: false, type: .string), 
-            AWSShapeMember(label: "configurationType", required: false, type: .enum), 
-            AWSShapeMember(label: "timeOfCreation", required: false, type: .timestamp), 
-            AWSShapeMember(label: "value", required: false, type: .string), 
-            AWSShapeMember(label: "configurationId", required: false, type: .string)
-        ]
-        /// A type of tag on which to filter. For example, serverType.
-        public let key: String?
-        /// A type of IT asset to tag.
-        public let configurationType: ConfigurationItemType?
-        /// The time the configuration tag was created in Coordinated Universal Time (UTC).
-        public let timeOfCreation: TimeStamp?
-        /// A value on which to filter. For example key = serverType and value = web server.
-        public let value: String?
-        /// The configuration ID for the item to tag. You can specify a list of keys and values.
-        public let configurationId: String?
-
-        public init(configurationId: String? = nil, configurationType: ConfigurationItemType? = nil, key: String? = nil, timeOfCreation: TimeStamp? = nil, value: String? = nil) {
-            self.key = key
-            self.configurationType = configurationType
-            self.timeOfCreation = timeOfCreation
-            self.value = value
-            self.configurationId = configurationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "key"
-            case configurationType = "configurationType"
-            case timeOfCreation = "timeOfCreation"
-            case value = "value"
-            case configurationId = "configurationId"
-        }
-    }
-
     public struct NeighborConnectionDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destinationPort", required: false, type: .integer), 
             AWSShapeMember(label: "connectionsCount", required: true, type: .long), 
+            AWSShapeMember(label: "destinationPort", required: false, type: .integer), 
+            AWSShapeMember(label: "destinationServerId", required: true, type: .string), 
             AWSShapeMember(label: "sourceServerId", required: true, type: .string), 
-            AWSShapeMember(label: "transportProtocol", required: false, type: .string), 
-            AWSShapeMember(label: "destinationServerId", required: true, type: .string)
+            AWSShapeMember(label: "transportProtocol", required: false, type: .string)
         ]
-        /// The destination network port for the connection.
-        public let destinationPort: Int32?
         /// The number of open network connections with the neighboring server.
         public let connectionsCount: Int64
+        /// The destination network port for the connection.
+        public let destinationPort: Int32?
+        /// The ID of the server that accepted the network connection.
+        public let destinationServerId: String
         /// The ID of the server that opened the network connection.
         public let sourceServerId: String
         /// The network protocol used for the connection.
         public let transportProtocol: String?
-        /// The ID of the server that accepted the network connection.
-        public let destinationServerId: String
 
         public init(connectionsCount: Int64, destinationPort: Int32? = nil, destinationServerId: String, sourceServerId: String, transportProtocol: String? = nil) {
-            self.destinationPort = destinationPort
             self.connectionsCount = connectionsCount
+            self.destinationPort = destinationPort
+            self.destinationServerId = destinationServerId
             self.sourceServerId = sourceServerId
             self.transportProtocol = transportProtocol
-            self.destinationServerId = destinationServerId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationPort = "destinationPort"
             case connectionsCount = "connectionsCount"
+            case destinationPort = "destinationPort"
+            case destinationServerId = "destinationServerId"
             case sourceServerId = "sourceServerId"
             case transportProtocol = "transportProtocol"
-            case destinationServerId = "destinationServerId"
         }
     }
 
-    public struct ExportInfo: AWSShape {
+    public struct OrderByElement: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "statusMessage", required: true, type: .string), 
-            AWSShapeMember(label: "exportStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "exportRequestTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "requestedEndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "isTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "exportId", required: true, type: .string), 
-            AWSShapeMember(label: "configurationsDownloadUrl", required: false, type: .string), 
-            AWSShapeMember(label: "requestedStartTime", required: false, type: .timestamp)
+            AWSShapeMember(label: "fieldName", required: true, type: .string), 
+            AWSShapeMember(label: "sortOrder", required: false, type: .enum)
         ]
-        /// A status message provided for API callers.
-        public let statusMessage: String
-        /// The status of the data export job.
-        public let exportStatus: ExportStatus
-        /// The time that the data export was initiated.
-        public let exportRequestTime: TimeStamp
-        /// The endTime used in the StartExportTask request. If no endTime was requested, this result does not appear in ExportInfo.
-        public let requestedEndTime: TimeStamp?
-        /// If true, the export of agent information exceeded the size limit for a single export and the exported data is incomplete for the requested time range. To address this, select a smaller time range for the export by using startDate and endDate.
-        public let isTruncated: Bool?
-        /// A unique identifier used to query an export.
-        public let exportId: String
-        /// A URL for an Amazon S3 bucket where you can review the exported data. The URL is displayed only if the export succeeded.
-        public let configurationsDownloadUrl: String?
-        /// The value of startTime parameter in the StartExportTask request. If no startTime was requested, this result does not appear in ExportInfo.
-        public let requestedStartTime: TimeStamp?
+        /// The field on which to order.
+        public let fieldName: String
+        /// Ordering direction.
+        public let sortOrder: OrderString?
 
-        public init(configurationsDownloadUrl: String? = nil, exportId: String, exportRequestTime: TimeStamp, exportStatus: ExportStatus, isTruncated: Bool? = nil, requestedEndTime: TimeStamp? = nil, requestedStartTime: TimeStamp? = nil, statusMessage: String) {
-            self.statusMessage = statusMessage
-            self.exportStatus = exportStatus
-            self.exportRequestTime = exportRequestTime
-            self.requestedEndTime = requestedEndTime
-            self.isTruncated = isTruncated
-            self.exportId = exportId
-            self.configurationsDownloadUrl = configurationsDownloadUrl
-            self.requestedStartTime = requestedStartTime
+        public init(fieldName: String, sortOrder: OrderString? = nil) {
+            self.fieldName = fieldName
+            self.sortOrder = sortOrder
         }
 
         private enum CodingKeys: String, CodingKey {
-            case statusMessage = "statusMessage"
-            case exportStatus = "exportStatus"
-            case exportRequestTime = "exportRequestTime"
-            case requestedEndTime = "requestedEndTime"
-            case isTruncated = "isTruncated"
-            case exportId = "exportId"
-            case configurationsDownloadUrl = "configurationsDownloadUrl"
-            case requestedStartTime = "requestedStartTime"
+            case fieldName = "fieldName"
+            case sortOrder = "sortOrder"
         }
     }
 
-    public enum ConfigurationItemType: String, CustomStringConvertible, Codable {
-        case server = "SERVER"
-        case process = "PROCESS"
-        case connection = "CONNECTION"
-        case application = "APPLICATION"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeContinuousExportsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "descriptions", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// A list of continuous export descriptions.
-        public let descriptions: [ContinuousExportDescription]?
-        /// The token from the previous call to DescribeExportTasks.
-        public let nextToken: String?
-
-        public init(descriptions: [ContinuousExportDescription]? = nil, nextToken: String? = nil) {
-            self.descriptions = descriptions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case descriptions = "descriptions"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct ListConfigurationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "configurations", required: false, type: .list)
-        ]
-        /// Token to retrieve the next set of results. For example, if your call to ListConfigurations returned 100 items, but you set ListConfigurationsRequest$maxResults to 10, you received a set of 10 results along with this token. Use this token in the next query to retrieve the next set of 10.
-        public let nextToken: String?
-        /// Returns configuration details, including the configuration ID, attribute names, and attribute values.
-        public let configurations: [[String: String]]?
-
-        public init(configurations: [[String: String]]? = nil, nextToken: String? = nil) {
-            self.nextToken = nextToken
-            self.configurations = configurations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case configurations = "configurations"
-        }
-    }
-
-    public struct CustomerConnectorInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "healthyConnectors", required: true, type: .integer), 
-            AWSShapeMember(label: "unknownConnectors", required: true, type: .integer), 
-            AWSShapeMember(label: "unhealthyConnectors", required: true, type: .integer), 
-            AWSShapeMember(label: "blackListedConnectors", required: true, type: .integer), 
-            AWSShapeMember(label: "shutdownConnectors", required: true, type: .integer), 
-            AWSShapeMember(label: "activeConnectors", required: true, type: .integer), 
-            AWSShapeMember(label: "totalConnectors", required: true, type: .integer)
-        ]
-        /// Number of healthy discovery connectors.
-        public let healthyConnectors: Int32
-        /// Number of unknown discovery connectors.
-        public let unknownConnectors: Int32
-        /// Number of unhealthy discovery connectors.
-        public let unhealthyConnectors: Int32
-        /// Number of blacklisted discovery connectors.
-        public let blackListedConnectors: Int32
-        /// Number of discovery connectors with status SHUTDOWN,
-        public let shutdownConnectors: Int32
-        /// Number of active discovery connectors.
-        public let activeConnectors: Int32
-        /// Total number of discovery connectors.
-        public let totalConnectors: Int32
-
-        public init(activeConnectors: Int32, blackListedConnectors: Int32, healthyConnectors: Int32, shutdownConnectors: Int32, totalConnectors: Int32, unhealthyConnectors: Int32, unknownConnectors: Int32) {
-            self.healthyConnectors = healthyConnectors
-            self.unknownConnectors = unknownConnectors
-            self.unhealthyConnectors = unhealthyConnectors
-            self.blackListedConnectors = blackListedConnectors
-            self.shutdownConnectors = shutdownConnectors
-            self.activeConnectors = activeConnectors
-            self.totalConnectors = totalConnectors
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case healthyConnectors = "healthyConnectors"
-            case unknownConnectors = "unknownConnectors"
-            case unhealthyConnectors = "unhealthyConnectors"
-            case blackListedConnectors = "blackListedConnectors"
-            case shutdownConnectors = "shutdownConnectors"
-            case activeConnectors = "activeConnectors"
-            case totalConnectors = "totalConnectors"
-        }
-    }
-
-    public struct DeleteApplicationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "configurationIds", required: true, type: .list)
-        ]
-        /// Configuration ID of an application to be deleted.
-        public let configurationIds: [String]
-
-        public init(configurationIds: [String]) {
-            self.configurationIds = configurationIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configurationIds = "configurationIds"
-        }
-    }
-
-    public enum AgentStatus: String, CustomStringConvertible, Codable {
-        case healthy = "HEALTHY"
-        case unhealthy = "UNHEALTHY"
-        case running = "RUNNING"
-        case unknown = "UNKNOWN"
-        case blacklisted = "BLACKLISTED"
-        case shutdown = "SHUTDOWN"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateApplicationResponse: AWSShape {
+    public struct StartContinuousExportRequest: AWSShape {
 
         public init() {
         }
 
     }
 
-    public struct ExportFilter: AWSShape {
+    public struct StartContinuousExportResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "values", required: true, type: .list), 
-            AWSShapeMember(label: "condition", required: true, type: .string)
+            AWSShapeMember(label: "dataSource", required: false, type: .enum), 
+            AWSShapeMember(label: "exportId", required: false, type: .string), 
+            AWSShapeMember(label: "s3Bucket", required: false, type: .string), 
+            AWSShapeMember(label: "schemaStorageConfig", required: false, type: .map), 
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp)
         ]
-        /// A single ExportFilter name. Supported filters: agentId.
-        public let name: String
-        /// A single agentId for a Discovery Agent. An agentId can be found using the DescribeAgents action. Typically an ADS agentId is in the form o-0123456789abcdef0.
-        public let values: [String]
-        /// Supported condition: EQUALS 
-        public let condition: String
+        /// The type of data collector used to gather this data (currently only offered for AGENT).
+        public let dataSource: DataSource?
+        /// The unique ID assigned to this export.
+        public let exportId: String?
+        /// The name of the s3 bucket where the export data parquet files are stored.
+        public let s3Bucket: String?
+        /// A dictionary which describes how the data is stored.    databaseName - the name of the Glue database used to store the schema.  
+        public let schemaStorageConfig: [String: String]?
+        /// The timestamp representing when the continuous export was started.
+        public let startTime: TimeStamp?
 
-        public init(condition: String, name: String, values: [String]) {
-            self.name = name
-            self.values = values
-            self.condition = condition
+        public init(dataSource: DataSource? = nil, exportId: String? = nil, s3Bucket: String? = nil, schemaStorageConfig: [String: String]? = nil, startTime: TimeStamp? = nil) {
+            self.dataSource = dataSource
+            self.exportId = exportId
+            self.s3Bucket = s3Bucket
+            self.schemaStorageConfig = schemaStorageConfig
+            self.startTime = startTime
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case values = "values"
-            case condition = "condition"
+            case dataSource = "dataSource"
+            case exportId = "exportId"
+            case s3Bucket = "s3Bucket"
+            case schemaStorageConfig = "schemaStorageConfig"
+            case startTime = "startTime"
         }
     }
 
-    public struct DescribeAgentsResponse: AWSShape {
+    public struct StartDataCollectionByAgentIdsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "agentsInfo", required: false, type: .list)
+            AWSShapeMember(label: "agentIds", required: true, type: .list)
         ]
-        /// Token to retrieve the next set of results. For example, if you specified 100 IDs for DescribeAgentsRequest$agentIds but set DescribeAgentsRequest$maxResults to 10, you received a set of 10 results along with this token. Use this token in the next query to retrieve the next set of 10.
-        public let nextToken: String?
-        /// Lists agents or the Connector by ID or lists all agents/Connectors associated with your user account if you did not specify an agent/Connector ID. The output includes agent/Connector IDs, IP addresses, media access control (MAC) addresses, agent/Connector health, host name where the agent/Connector resides, and the version number of each agent/Connector.
-        public let agentsInfo: [AgentInfo]?
+        /// The IDs of the agents or connectors from which to start collecting data. If you send a request to an agent/connector ID that you do not have permission to contact, according to your AWS account, the service does not throw an exception. Instead, it returns the error in the Description field. If you send a request to multiple agents/connectors and you do not have permission to contact some of those agents/connectors, the system does not throw an exception. Instead, the system shows Failed in the Description field.
+        public let agentIds: [String]
 
-        public init(agentsInfo: [AgentInfo]? = nil, nextToken: String? = nil) {
-            self.nextToken = nextToken
-            self.agentsInfo = agentsInfo
+        public init(agentIds: [String]) {
+            self.agentIds = agentIds
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case agentsInfo = "agentsInfo"
+            case agentIds = "agentIds"
         }
     }
 
-    public struct AssociateConfigurationItemsToApplicationRequest: AWSShape {
+    public struct StartDataCollectionByAgentIdsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "applicationConfigurationId", required: true, type: .string), 
-            AWSShapeMember(label: "configurationIds", required: true, type: .list)
+            AWSShapeMember(label: "agentsConfigurationStatus", required: false, type: .list)
         ]
-        /// The configuration ID of an application with which items are to be associated.
-        public let applicationConfigurationId: String
-        /// The ID of each configuration item to be associated with an application.
-        public let configurationIds: [String]
+        /// Information about agents or the connector that were instructed to start collecting data. Information includes the agent/connector ID, a description of the operation performed, and whether the agent/connector configuration was updated.
+        public let agentsConfigurationStatus: [AgentConfigurationStatus]?
 
-        public init(applicationConfigurationId: String, configurationIds: [String]) {
-            self.applicationConfigurationId = applicationConfigurationId
-            self.configurationIds = configurationIds
+        public init(agentsConfigurationStatus: [AgentConfigurationStatus]? = nil) {
+            self.agentsConfigurationStatus = agentsConfigurationStatus
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationConfigurationId = "applicationConfigurationId"
-            case configurationIds = "configurationIds"
+            case agentsConfigurationStatus = "agentsConfigurationStatus"
+        }
+    }
+
+    public struct StartExportTaskRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "exportDataFormat", required: false, type: .list), 
+            AWSShapeMember(label: "filters", required: false, type: .list), 
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp)
+        ]
+        /// The end timestamp for exported data from the single Application Discovery Agent selected in the filters. If no value is specified, exported data includes the most recent data collected by the agent.
+        public let endTime: TimeStamp?
+        /// The file format for the returned export data. Default value is CSV. Note: The GRAPHML option has been deprecated. 
+        public let exportDataFormat: [ExportDataFormat]?
+        /// If a filter is present, it selects the single agentId of the Application Discovery Agent for which data is exported. The agentId can be found in the results of the DescribeAgents API or CLI. If no filter is present, startTime and endTime are ignored and exported data includes both Agentless Discovery Connector data and summary data from Application Discovery agents. 
+        public let filters: [ExportFilter]?
+        /// The start timestamp for exported data from the single Application Discovery Agent selected in the filters. If no value is specified, data is exported starting from the first data collected by the agent.
+        public let startTime: TimeStamp?
+
+        public init(endTime: TimeStamp? = nil, exportDataFormat: [ExportDataFormat]? = nil, filters: [ExportFilter]? = nil, startTime: TimeStamp? = nil) {
+            self.endTime = endTime
+            self.exportDataFormat = exportDataFormat
+            self.filters = filters
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case exportDataFormat = "exportDataFormat"
+            case filters = "filters"
+            case startTime = "startTime"
+        }
+    }
+
+    public struct StartExportTaskResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "exportId", required: false, type: .string)
+        ]
+        /// A unique identifier used to query the status of an export request.
+        public let exportId: String?
+
+        public init(exportId: String? = nil) {
+            self.exportId = exportId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportId = "exportId"
+        }
+    }
+
+    public struct StopContinuousExportRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "exportId", required: true, type: .string)
+        ]
+        /// The unique ID assigned to this export.
+        public let exportId: String
+
+        public init(exportId: String) {
+            self.exportId = exportId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportId = "exportId"
+        }
+    }
+
+    public struct StopContinuousExportResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "stopTime", required: false, type: .timestamp)
+        ]
+        /// Timestamp that represents when this continuous export started collecting data.
+        public let startTime: TimeStamp?
+        /// Timestamp that represents when this continuous export was stopped.
+        public let stopTime: TimeStamp?
+
+        public init(startTime: TimeStamp? = nil, stopTime: TimeStamp? = nil) {
+            self.startTime = startTime
+            self.stopTime = stopTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "startTime"
+            case stopTime = "stopTime"
+        }
+    }
+
+    public struct StopDataCollectionByAgentIdsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "agentIds", required: true, type: .list)
+        ]
+        /// The IDs of the agents or connectors from which to stop collecting data.
+        public let agentIds: [String]
+
+        public init(agentIds: [String]) {
+            self.agentIds = agentIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentIds = "agentIds"
+        }
+    }
+
+    public struct StopDataCollectionByAgentIdsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "agentsConfigurationStatus", required: false, type: .list)
+        ]
+        /// Information about the agents or connector that were instructed to stop collecting data. Information includes the agent/connector ID, a description of the operation performed, and whether the agent/connector configuration was updated.
+        public let agentsConfigurationStatus: [AgentConfigurationStatus]?
+
+        public init(agentsConfigurationStatus: [AgentConfigurationStatus]? = nil) {
+            self.agentsConfigurationStatus = agentsConfigurationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentsConfigurationStatus = "agentsConfigurationStatus"
         }
     }
 
@@ -1151,255 +1342,64 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct CreateApplicationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "configurationId", required: false, type: .string)
-        ]
-        /// Configuration ID of an application to be created.
-        public let configurationId: String?
-
-        public init(configurationId: String? = nil) {
-            self.configurationId = configurationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configurationId = "configurationId"
-        }
-    }
-
-    public struct StartDataCollectionByAgentIdsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "agentIds", required: true, type: .list)
-        ]
-        /// The IDs of the agents or connectors from which to start collecting data. If you send a request to an agent/connector ID that you do not have permission to contact, according to your AWS account, the service does not throw an exception. Instead, it returns the error in the Description field. If you send a request to multiple agents/connectors and you do not have permission to contact some of those agents/connectors, the system does not throw an exception. Instead, the system shows Failed in the Description field.
-        public let agentIds: [String]
-
-        public init(agentIds: [String]) {
-            self.agentIds = agentIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case agentIds = "agentIds"
-        }
-    }
-
-    public struct AgentConfigurationStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "operationSucceeded", required: false, type: .boolean), 
-            AWSShapeMember(label: "agentId", required: false, type: .string)
-        ]
-        /// A description of the operation performed.
-        public let description: String?
-        /// Information about the status of the StartDataCollection and StopDataCollection operations. The system has recorded the data collection operation. The agent/connector receives this command the next time it polls for a new command. 
-        public let operationSucceeded: Bool?
-        /// The agent/connector ID.
-        public let agentId: String?
-
-        public init(agentId: String? = nil, description: String? = nil, operationSucceeded: Bool? = nil) {
-            self.description = description
-            self.operationSucceeded = operationSucceeded
-            self.agentId = agentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "description"
-            case operationSucceeded = "operationSucceeded"
-            case agentId = "agentId"
-        }
-    }
-
-    public struct DisassociateConfigurationItemsFromApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "applicationConfigurationId", required: true, type: .string), 
-            AWSShapeMember(label: "configurationIds", required: true, type: .list)
-        ]
-        /// Configuration ID of an application from which each item is disassociated.
-        public let applicationConfigurationId: String
-        /// Configuration ID of each item to be disassociated from an application.
-        public let configurationIds: [String]
-
-        public init(applicationConfigurationId: String, configurationIds: [String]) {
-            self.applicationConfigurationId = applicationConfigurationId
-            self.configurationIds = configurationIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationConfigurationId = "applicationConfigurationId"
-            case configurationIds = "configurationIds"
-        }
-    }
-
-    public struct CreateApplicationRequest: AWSShape {
+    public struct TagFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string)
+            AWSShapeMember(label: "values", required: true, type: .list)
         ]
-        /// Name of the application to be created.
+        /// A name of the tag filter.
         public let name: String
-        /// Description of the application to be created.
-        public let description: String?
+        /// Values for the tag filter.
+        public let values: [String]
 
-        public init(description: String? = nil, name: String) {
+        public init(name: String, values: [String]) {
             self.name = name
-            self.description = description
+            self.values = values
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "name"
+            case values = "values"
+        }
+    }
+
+    public struct UpdateApplicationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configurationId", required: true, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string)
+        ]
+        /// Configuration ID of the application to be updated.
+        public let configurationId: String
+        /// New description of the application to be updated.
+        public let description: String?
+        /// New name of the application to be updated.
+        public let name: String?
+
+        public init(configurationId: String, description: String? = nil, name: String? = nil) {
+            self.configurationId = configurationId
+            self.description = description
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationId = "configurationId"
             case description = "description"
+            case name = "name"
         }
     }
 
-    public struct DescribeConfigurationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "configurationIds", required: true, type: .list)
-        ]
-        /// One or more configuration IDs.
-        public let configurationIds: [String]
+    public struct UpdateApplicationResponse: AWSShape {
 
-        public init(configurationIds: [String]) {
-            self.configurationIds = configurationIds
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case configurationIds = "configurationIds"
-        }
     }
 
-    public struct StartExportTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "exportDataFormat", required: false, type: .list), 
-            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "filters", required: false, type: .list)
-        ]
-        /// The file format for the returned export data. Default value is CSV. Note: The GRAPHML option has been deprecated. 
-        public let exportDataFormat: [ExportDataFormat]?
-        /// The start timestamp for exported data from the single Application Discovery Agent selected in the filters. If no value is specified, data is exported starting from the first data collected by the agent.
-        public let startTime: TimeStamp?
-        /// The end timestamp for exported data from the single Application Discovery Agent selected in the filters. If no value is specified, exported data includes the most recent data collected by the agent.
-        public let endTime: TimeStamp?
-        /// If a filter is present, it selects the single agentId of the Application Discovery Agent for which data is exported. The agentId can be found in the results of the DescribeAgents API or CLI. If no filter is present, startTime and endTime are ignored and exported data includes both Agentless Discovery Connector data and summary data from Application Discovery agents. 
-        public let filters: [ExportFilter]?
-
-        public init(endTime: TimeStamp? = nil, exportDataFormat: [ExportDataFormat]? = nil, filters: [ExportFilter]? = nil, startTime: TimeStamp? = nil) {
-            self.exportDataFormat = exportDataFormat
-            self.startTime = startTime
-            self.endTime = endTime
-            self.filters = filters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case exportDataFormat = "exportDataFormat"
-            case startTime = "startTime"
-            case endTime = "endTime"
-            case filters = "filters"
-        }
-    }
-
-    public struct DescribeConfigurationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "configurations", required: false, type: .list)
-        ]
-        /// A key in the response map. The value is an array of data.
-        public let configurations: [[String: String]]?
-
-        public init(configurations: [[String: String]]? = nil) {
-            self.configurations = configurations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configurations = "configurations"
-        }
-    }
-
-    public struct DescribeExportTasksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "exportsInfo", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// Contains one or more sets of export request details. When the status of a request is SUCCEEDED, the response includes a URL for an Amazon S3 bucket where you can view the data in a CSV file.
-        public let exportsInfo: [ExportInfo]?
-        /// The nextToken value to include in a future DescribeExportTasks request. When the results of a DescribeExportTasks request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        public let nextToken: String?
-
-        public init(exportsInfo: [ExportInfo]? = nil, nextToken: String? = nil) {
-            self.exportsInfo = exportsInfo
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case exportsInfo = "exportsInfo"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct DescribeExportConfigurationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "exportsInfo", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        public let exportsInfo: [ExportInfo]?
-        /// The token from the previous call to describe-export-tasks.
-        public let nextToken: String?
-
-        public init(exportsInfo: [ExportInfo]? = nil, nextToken: String? = nil) {
-            self.exportsInfo = exportsInfo
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case exportsInfo = "exportsInfo"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct DescribeExportTasksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "exportIds", required: false, type: .list), 
-            AWSShapeMember(label: "filters", required: false, type: .list)
-        ]
-        /// The nextToken value returned from a previous paginated DescribeExportTasks request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
-        public let nextToken: String?
-        /// The maximum number of volume results returned by DescribeExportTasks in paginated output. When this parameter is used, DescribeExportTasks only returns maxResults results in a single page along with a nextToken response element.
-        public let maxResults: Int32?
-        /// One or more unique identifiers used to query the status of an export request.
-        public let exportIds: [String]?
-        /// One or more filters.    AgentId - ID of the agent whose collected data will be exported  
-        public let filters: [ExportFilter]?
-
-        public init(exportIds: [String]? = nil, filters: [ExportFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.exportIds = exportIds
-            self.filters = filters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-            case exportIds = "exportIds"
-            case filters = "filters"
-        }
-    }
-
-    public struct StartDataCollectionByAgentIdsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "agentsConfigurationStatus", required: false, type: .list)
-        ]
-        /// Information about agents or the connector that were instructed to start collecting data. Information includes the agent/connector ID, a description of the operation performed, and whether the agent/connector configuration was updated.
-        public let agentsConfigurationStatus: [AgentConfigurationStatus]?
-
-        public init(agentsConfigurationStatus: [AgentConfigurationStatus]? = nil) {
-            self.agentsConfigurationStatus = agentsConfigurationStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case agentsConfigurationStatus = "agentsConfigurationStatus"
-        }
+    public enum OrderString: String, CustomStringConvertible, Codable {
+        case asc = "ASC"
+        case desc = "DESC"
+        public var description: String { return self.rawValue }
     }
 
 }

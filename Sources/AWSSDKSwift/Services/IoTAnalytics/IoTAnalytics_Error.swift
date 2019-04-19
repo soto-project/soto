@@ -4,13 +4,13 @@ import AWSSDKSwiftCore
 
 /// Error enum for IoTAnalytics
 public enum IoTAnalyticsErrorType: AWSErrorType {
-    case invalidRequestException(message: String?)
-    case resourceNotFoundException(message: String?)
     case internalFailureException(message: String?)
+    case invalidRequestException(message: String?)
+    case limitExceededException(message: String?)
+    case resourceAlreadyExistsException(message: String?)
+    case resourceNotFoundException(message: String?)
     case serviceUnavailableException(message: String?)
     case throttlingException(message: String?)
-    case resourceAlreadyExistsException(message: String?)
-    case limitExceededException(message: String?)
 }
 
 extension IoTAnalyticsErrorType {
@@ -20,20 +20,20 @@ extension IoTAnalyticsErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
         case "InternalFailureException":
             self = .internalFailureException(message: message)
+        case "InvalidRequestException":
+            self = .invalidRequestException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
+        case "ResourceAlreadyExistsException":
+            self = .resourceAlreadyExistsException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         case "ServiceUnavailableException":
             self = .serviceUnavailableException(message: message)
         case "ThrottlingException":
             self = .throttlingException(message: message)
-        case "ResourceAlreadyExistsException":
-            self = .resourceAlreadyExistsException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
         default:
             return nil
         }

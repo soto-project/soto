@@ -5,243 +5,11 @@ import AWSSDKSwiftCore
 
 extension RoboMaker {
 
-    public struct CreateFleetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp)
-        ]
-        /// The name of the fleet.
-        public let name: String?
-        /// The Amazon Resource Name (ARN) of the fleet.
-        public let arn: String?
-        /// The time, in milliseconds since the epoch, when the fleet was created.
-        public let createdAt: TimeStamp?
-
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, name: String? = nil) {
-            self.name = name
-            self.arn = arn
-            self.createdAt = createdAt
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case arn = "arn"
-            case createdAt = "createdAt"
-        }
-    }
-
-    public struct DescribeSimulationApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "application", required: true, type: .string), 
-            AWSShapeMember(label: "applicationVersion", required: false, type: .string)
-        ]
-        /// The application information for the simulation application.
-        public let application: String
-        /// The version of the simulation application to describe.
-        public let applicationVersion: String?
-
-        public init(application: String, applicationVersion: String? = nil) {
-            self.application = application
-            self.applicationVersion = applicationVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case application = "application"
-            case applicationVersion = "applicationVersion"
-        }
-    }
-
-    public enum DeploymentJobErrorCode: String, CustomStringConvertible, Codable {
-        case resourcenotfound = "ResourceNotFound"
-        case failurethresholdbreached = "FailureThresholdBreached"
-        case robotdeploymentnoresponse = "RobotDeploymentNoResponse"
-        case greengrassdeploymentfailed = "GreengrassDeploymentFailed"
-        case missingrobotarchitecture = "MissingRobotArchitecture"
-        case missingrobotapplicationarchitecture = "MissingRobotApplicationArchitecture"
-        case missingrobotdeploymentresource = "MissingRobotDeploymentResource"
-        case greengrassgroupversiondoesnotexist = "GreengrassGroupVersionDoesNotExist"
-        case extractingbundlefailure = "ExtractingBundleFailure"
-        case prelaunchfilefailure = "PreLaunchFileFailure"
-        case postlaunchfilefailure = "PostLaunchFileFailure"
-        case badpermissionerror = "BadPermissionError"
-        case internalservererror = "InternalServerError"
-        public var description: String { return self.rawValue }
-    }
-
     public enum Architecture: String, CustomStringConvertible, Codable {
         case x8664 = "X86_64"
         case arm64 = "ARM64"
         case armhf = "ARMHF"
         public var description: String { return self.rawValue }
-    }
-
-    public struct CreateSimulationApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "renderingEngine", required: true, type: .structure), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "robotSoftwareSuite", required: true, type: .structure), 
-            AWSShapeMember(label: "simulationSoftwareSuite", required: true, type: .structure), 
-            AWSShapeMember(label: "sources", required: true, type: .list)
-        ]
-        /// The rendering engine for the simulation application.
-        public let renderingEngine: RenderingEngine
-        /// The name of the simulation application.
-        public let name: String
-        /// The robot software suite of the simulation application.
-        public let robotSoftwareSuite: RobotSoftwareSuite
-        /// The simulation software suite used by the simulation application.
-        public let simulationSoftwareSuite: SimulationSoftwareSuite
-        /// The sources of the simulation application.
-        public let sources: [SourceConfig]
-
-        public init(name: String, renderingEngine: RenderingEngine, robotSoftwareSuite: RobotSoftwareSuite, simulationSoftwareSuite: SimulationSoftwareSuite, sources: [SourceConfig]) {
-            self.renderingEngine = renderingEngine
-            self.name = name
-            self.robotSoftwareSuite = robotSoftwareSuite
-            self.simulationSoftwareSuite = simulationSoftwareSuite
-            self.sources = sources
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case renderingEngine = "renderingEngine"
-            case name = "name"
-            case robotSoftwareSuite = "robotSoftwareSuite"
-            case simulationSoftwareSuite = "simulationSoftwareSuite"
-            case sources = "sources"
-        }
-    }
-
-    public enum RobotStatus: String, CustomStringConvertible, Codable {
-        case available = "Available"
-        case registered = "Registered"
-        case pendingnewdeployment = "PendingNewDeployment"
-        case deploying = "Deploying"
-        case failed = "Failed"
-        case insync = "InSync"
-        case noresponse = "NoResponse"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteFleetResponse: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct RestartSimulationJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "job", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the simulation job.
-        public let job: String
-
-        public init(job: String) {
-            self.job = job
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case job = "job"
-        }
-    }
-
-    public struct CreateRobotResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "architecture", required: false, type: .enum), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "greengrassGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp)
-        ]
-        /// The target architecture of the robot.
-        public let architecture: Architecture?
-        /// The Amazon Resource Name (ARN) of the robot.
-        public let arn: String?
-        /// The Amazon Resource Name (ARN) of the Greengrass group associated with the robot.
-        public let greengrassGroupId: String?
-        /// The name of the robot.
-        public let name: String?
-        /// The time, in milliseconds since the epoch, when the robot was created.
-        public let createdAt: TimeStamp?
-
-        public init(architecture: Architecture? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, greengrassGroupId: String? = nil, name: String? = nil) {
-            self.architecture = architecture
-            self.arn = arn
-            self.greengrassGroupId = greengrassGroupId
-            self.name = name
-            self.createdAt = createdAt
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case architecture = "architecture"
-            case arn = "arn"
-            case greengrassGroupId = "greengrassGroupId"
-            case name = "name"
-            case createdAt = "createdAt"
-        }
-    }
-
-    public struct Source: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "etag", required: false, type: .string), 
-            AWSShapeMember(label: "architecture", required: false, type: .enum), 
-            AWSShapeMember(label: "s3Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "s3Key", required: false, type: .string)
-        ]
-        /// A hash of the object specified by s3Bucket and s3Key.
-        public let etag: String?
-        /// The taget processor architecture for the application.
-        public let architecture: Architecture?
-        /// The s3 bucket name.
-        public let s3Bucket: String?
-        /// The s3 object key.
-        public let s3Key: String?
-
-        public init(architecture: Architecture? = nil, etag: String? = nil, s3Bucket: String? = nil, s3Key: String? = nil) {
-            self.etag = etag
-            self.architecture = architecture
-            self.s3Bucket = s3Bucket
-            self.s3Key = s3Key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case etag = "etag"
-            case architecture = "architecture"
-            case s3Bucket = "s3Bucket"
-            case s3Key = "s3Key"
-        }
-    }
-
-    public struct CreateDeploymentJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "deploymentApplicationConfigs", required: true, type: .list), 
-            AWSShapeMember(label: "fleet", required: true, type: .string), 
-            AWSShapeMember(label: "clientRequestToken", required: true, type: .string)
-        ]
-        /// The requested deployment configuration.
-        public let deploymentConfig: DeploymentConfig?
-        /// The deployment application configuration.
-        public let deploymentApplicationConfigs: [DeploymentApplicationConfig]
-        /// The Amazon Resource Name (ARN) of the fleet to deploy.
-        public let fleet: String
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
-        public let clientRequestToken: String
-
-        public init(clientRequestToken: String, deploymentApplicationConfigs: [DeploymentApplicationConfig], deploymentConfig: DeploymentConfig? = nil, fleet: String) {
-            self.deploymentConfig = deploymentConfig
-            self.deploymentApplicationConfigs = deploymentApplicationConfigs
-            self.fleet = fleet
-            self.clientRequestToken = clientRequestToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentConfig = "deploymentConfig"
-            case deploymentApplicationConfigs = "deploymentApplicationConfigs"
-            case fleet = "fleet"
-            case clientRequestToken = "clientRequestToken"
-        }
     }
 
     public struct BatchDescribeSimulationJobRequest: AWSShape {
@@ -260,796 +28,32 @@ extension RoboMaker {
         }
     }
 
-    public struct VPCConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "assignPublicIp", required: false, type: .boolean), 
-            AWSShapeMember(label: "securityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "subnets", required: true, type: .list)
-        ]
-        /// A boolean indicating whether to assign a public IP address.
-        public let assignPublicIp: Bool?
-        /// A list of one or more security groups IDs in your VPC.
-        public let securityGroups: [String]?
-        /// A list of one or more subnet IDs in your VPC.
-        public let subnets: [String]
-
-        public init(assignPublicIp: Bool? = nil, securityGroups: [String]? = nil, subnets: [String]) {
-            self.assignPublicIp = assignPublicIp
-            self.securityGroups = securityGroups
-            self.subnets = subnets
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case assignPublicIp = "assignPublicIp"
-            case securityGroups = "securityGroups"
-            case subnets = "subnets"
-        }
-    }
-
-    public struct SimulationJobSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "robotApplicationNames", required: false, type: .list), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "simulationApplicationNames", required: false, type: .list), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "arn", required: false, type: .string)
-        ]
-        /// The name of the simulation job.
-        public let name: String?
-        /// A list of simulation job robot application names.
-        public let robotApplicationNames: [String]?
-        /// The time, in milliseconds since the epoch, when the simulation job was last updated.
-        public let lastUpdatedAt: TimeStamp?
-        /// A list of simulation job simulation application names.
-        public let simulationApplicationNames: [String]?
-        /// The status of the simulation job.
-        public let status: SimulationJobStatus?
-        /// The Amazon Resource Name (ARN) of the simulation job.
-        public let arn: String?
-
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, robotApplicationNames: [String]? = nil, simulationApplicationNames: [String]? = nil, status: SimulationJobStatus? = nil) {
-            self.name = name
-            self.robotApplicationNames = robotApplicationNames
-            self.lastUpdatedAt = lastUpdatedAt
-            self.simulationApplicationNames = simulationApplicationNames
-            self.status = status
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case robotApplicationNames = "robotApplicationNames"
-            case lastUpdatedAt = "lastUpdatedAt"
-            case simulationApplicationNames = "simulationApplicationNames"
-            case status = "status"
-            case arn = "arn"
-        }
-    }
-
-    public struct SourceConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "architecture", required: false, type: .enum), 
-            AWSShapeMember(label: "s3Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "s3Key", required: false, type: .string)
-        ]
-        /// The target processor architecture for the application.
-        public let architecture: Architecture?
-        /// The Amazon S3 bucket name.
-        public let s3Bucket: String?
-        /// The s3 object key.
-        public let s3Key: String?
-
-        public init(architecture: Architecture? = nil, s3Bucket: String? = nil, s3Key: String? = nil) {
-            self.architecture = architecture
-            self.s3Bucket = s3Bucket
-            self.s3Key = s3Key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case architecture = "architecture"
-            case s3Bucket = "s3Bucket"
-            case s3Key = "s3Key"
-        }
-    }
-
-    public struct RobotApplicationSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
-        /// The time, in milliseconds since the epoch, when the robot application was last updated.
-        public let lastUpdatedAt: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the robot.
-        public let arn: String?
-        /// The name of the robot application.
-        public let name: String?
-        /// The version of the robot application.
-        public let version: String?
-
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, version: String? = nil) {
-            self.lastUpdatedAt = lastUpdatedAt
-            self.arn = arn
-            self.name = name
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastUpdatedAt = "lastUpdatedAt"
-            case arn = "arn"
-            case name = "name"
-            case version = "version"
-        }
-    }
-
-    public struct CreateRobotApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "robotSoftwareSuite", required: true, type: .structure), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "sources", required: true, type: .list)
-        ]
-        /// The robot software suite used by the robot application.
-        public let robotSoftwareSuite: RobotSoftwareSuite
-        /// The name of the robot application.
-        public let name: String
-        /// The sources of the robot application.
-        public let sources: [SourceConfig]
-
-        public init(name: String, robotSoftwareSuite: RobotSoftwareSuite, sources: [SourceConfig]) {
-            self.robotSoftwareSuite = robotSoftwareSuite
-            self.name = name
-            self.sources = sources
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case robotSoftwareSuite = "robotSoftwareSuite"
-            case name = "name"
-            case sources = "sources"
-        }
-    }
-
-    public struct Filter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "values", required: false, type: .list)
-        ]
-        /// The name of the filter.
-        public let name: String?
-        /// A list of values.
-        public let values: [String]?
-
-        public init(name: String? = nil, values: [String]? = nil) {
-            self.name = name
-            self.values = values
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case values = "values"
-        }
-    }
-
-    public struct OutputLocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "s3Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "s3Bucket", required: false, type: .string)
-        ]
-        /// The S3 folder in the s3Bucket where output files will be placed.
-        public let s3Prefix: String?
-        /// The S3 bucket for output.
-        public let s3Bucket: String?
-
-        public init(s3Bucket: String? = nil, s3Prefix: String? = nil) {
-            self.s3Prefix = s3Prefix
-            self.s3Bucket = s3Bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3Prefix = "s3Prefix"
-            case s3Bucket = "s3Bucket"
-        }
-    }
-
-    public struct CreateSimulationApplicationVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "revisionId", required: false, type: .string), 
-            AWSShapeMember(label: "simulationSoftwareSuite", required: false, type: .structure), 
-            AWSShapeMember(label: "sources", required: false, type: .list), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "renderingEngine", required: false, type: .structure), 
-            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure)
-        ]
-        /// The version of the simulation application.
-        public let version: String?
-        /// The time, in milliseconds since the epoch, when the simulation application was last updated.
-        public let lastUpdatedAt: TimeStamp?
-        /// The name of the simulation application.
-        public let name: String?
-        /// The revision ID of the simulation application.
-        public let revisionId: String?
-        /// The simulation software suite used by the simulation application.
-        public let simulationSoftwareSuite: SimulationSoftwareSuite?
-        /// The sources of the simulation application.
-        public let sources: [Source]?
-        /// The Amazon Resource Name (ARN) of the simulation application.
-        public let arn: String?
-        /// The rendering engine for the simulation application.
-        public let renderingEngine: RenderingEngine?
-        /// Information about the robot software suite.
-        public let robotSoftwareSuite: RobotSoftwareSuite?
-
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
-            self.version = version
-            self.lastUpdatedAt = lastUpdatedAt
-            self.name = name
-            self.revisionId = revisionId
-            self.simulationSoftwareSuite = simulationSoftwareSuite
-            self.sources = sources
-            self.arn = arn
-            self.renderingEngine = renderingEngine
-            self.robotSoftwareSuite = robotSoftwareSuite
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case version = "version"
-            case lastUpdatedAt = "lastUpdatedAt"
-            case name = "name"
-            case revisionId = "revisionId"
-            case simulationSoftwareSuite = "simulationSoftwareSuite"
-            case sources = "sources"
-            case arn = "arn"
-            case renderingEngine = "renderingEngine"
-            case robotSoftwareSuite = "robotSoftwareSuite"
-        }
-    }
-
-    public struct UpdateSimulationApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "sources", required: true, type: .list), 
-            AWSShapeMember(label: "robotSoftwareSuite", required: true, type: .structure), 
-            AWSShapeMember(label: "application", required: true, type: .string), 
-            AWSShapeMember(label: "renderingEngine", required: true, type: .structure), 
-            AWSShapeMember(label: "currentRevisionId", required: false, type: .string), 
-            AWSShapeMember(label: "simulationSoftwareSuite", required: true, type: .structure)
-        ]
-        /// The sources of the simulation application.
-        public let sources: [SourceConfig]
-        /// Information about the robot software suite.
-        public let robotSoftwareSuite: RobotSoftwareSuite
-        /// The application information for the simulation application.
-        public let application: String
-        /// The rendering engine for the simulation application.
-        public let renderingEngine: RenderingEngine
-        /// The revision id for the robot application.
-        public let currentRevisionId: String?
-        /// The simulation software suite used by the simulation application.
-        public let simulationSoftwareSuite: SimulationSoftwareSuite
-
-        public init(application: String, currentRevisionId: String? = nil, renderingEngine: RenderingEngine, robotSoftwareSuite: RobotSoftwareSuite, simulationSoftwareSuite: SimulationSoftwareSuite, sources: [SourceConfig]) {
-            self.sources = sources
-            self.robotSoftwareSuite = robotSoftwareSuite
-            self.application = application
-            self.renderingEngine = renderingEngine
-            self.currentRevisionId = currentRevisionId
-            self.simulationSoftwareSuite = simulationSoftwareSuite
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sources = "sources"
-            case robotSoftwareSuite = "robotSoftwareSuite"
-            case application = "application"
-            case renderingEngine = "renderingEngine"
-            case currentRevisionId = "currentRevisionId"
-            case simulationSoftwareSuite = "simulationSoftwareSuite"
-        }
-    }
-
-    public struct RegisterRobotResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fleet", required: false, type: .string), 
-            AWSShapeMember(label: "robot", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the fleet that the robot will join.
-        public let fleet: String?
-        /// Information about the robot registration.
-        public let robot: String?
-
-        public init(fleet: String? = nil, robot: String? = nil) {
-            self.fleet = fleet
-            self.robot = robot
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fleet = "fleet"
-            case robot = "robot"
-        }
-    }
-
-    public struct ListSimulationJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "simulationJobSummaries", required: true, type: .list)
-        ]
-        /// The nextToken value to include in a future ListSimulationJobs request. When the results of a ListRobot request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
-        public let nextToken: String?
-        /// A list of simulation job summaries that meet the criteria of the request.
-        public let simulationJobSummaries: [SimulationJobSummary]
-
-        public init(nextToken: String? = nil, simulationJobSummaries: [SimulationJobSummary]) {
-            self.nextToken = nextToken
-            self.simulationJobSummaries = simulationJobSummaries
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case simulationJobSummaries = "simulationJobSummaries"
-        }
-    }
-
     public struct BatchDescribeSimulationJobResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "unprocessedJobs", required: false, type: .list), 
-            AWSShapeMember(label: "jobs", required: false, type: .list)
+            AWSShapeMember(label: "jobs", required: false, type: .list), 
+            AWSShapeMember(label: "unprocessedJobs", required: false, type: .list)
         ]
-        /// A list of unprocessed simulation job Amazon Resource Names (ARNs).
-        public let unprocessedJobs: [String]?
         /// A list of simulation jobs.
         public let jobs: [SimulationJob]?
+        /// A list of unprocessed simulation job Amazon Resource Names (ARNs).
+        public let unprocessedJobs: [String]?
 
         public init(jobs: [SimulationJob]? = nil, unprocessedJobs: [String]? = nil) {
-            self.unprocessedJobs = unprocessedJobs
             self.jobs = jobs
+            self.unprocessedJobs = unprocessedJobs
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unprocessedJobs = "unprocessedJobs"
             case jobs = "jobs"
+            case unprocessedJobs = "unprocessedJobs"
         }
     }
 
-    public struct DescribeRobotApplicationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "revisionId", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "sources", required: false, type: .list), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
-        /// The revision id of the robot application.
-        public let revisionId: String?
-        /// The name of the robot application.
-        public let name: String?
-        /// The robot software suite used by the robot application.
-        public let robotSoftwareSuite: RobotSoftwareSuite?
-        /// The time, in milliseconds since the epoch, when the robot application was last updated.
-        public let lastUpdatedAt: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the robot application.
-        public let arn: String?
-        /// The sources of the robot application.
-        public let sources: [Source]?
-        /// The version of the robot application.
-        public let version: String?
-
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
-            self.revisionId = revisionId
-            self.name = name
-            self.robotSoftwareSuite = robotSoftwareSuite
-            self.lastUpdatedAt = lastUpdatedAt
-            self.arn = arn
-            self.sources = sources
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case revisionId = "revisionId"
-            case name = "name"
-            case robotSoftwareSuite = "robotSoftwareSuite"
-            case lastUpdatedAt = "lastUpdatedAt"
-            case arn = "arn"
-            case sources = "sources"
-            case version = "version"
-        }
-    }
-
-    public struct DeregisterRobotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fleet", required: true, type: .string), 
-            AWSShapeMember(label: "robot", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the fleet.
-        public let fleet: String
-        /// The Amazon Resource Name (ARN) of the robot.
-        public let robot: String
-
-        public init(fleet: String, robot: String) {
-            self.fleet = fleet
-            self.robot = robot
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fleet = "fleet"
-            case robot = "robot"
-        }
-    }
-
-    public enum RobotSoftwareSuiteType: String, CustomStringConvertible, Codable {
-        case ros = "ROS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct SyncDeploymentJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentApplicationConfigs", required: false, type: .list), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
-            AWSShapeMember(label: "deploymentConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "fleet", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "failureCode", required: false, type: .enum)
-        ]
-        /// Information about the deployment application configurations.
-        public let deploymentApplicationConfigs: [DeploymentApplicationConfig]?
-        /// The status of the synchronization job.
-        public let status: DeploymentStatus?
-        /// The failure reason if the job fails.
-        public let failureReason: String?
-        /// Information about the deployment configuration.
-        public let deploymentConfig: DeploymentConfig?
-        /// The Amazon Resource Name (ARN) of the synchronization request.
-        public let arn: String?
-        /// The Amazon Resource Name (ARN) of the fleet.
-        public let fleet: String?
-        /// The time, in milliseconds since the epoch, when the fleet was created.
-        public let createdAt: TimeStamp?
-        /// The failure code if the job fails.
-        public let failureCode: DeploymentJobErrorCode?
-
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, deploymentApplicationConfigs: [DeploymentApplicationConfig]? = nil, deploymentConfig: DeploymentConfig? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, fleet: String? = nil, status: DeploymentStatus? = nil) {
-            self.deploymentApplicationConfigs = deploymentApplicationConfigs
-            self.status = status
-            self.failureReason = failureReason
-            self.deploymentConfig = deploymentConfig
-            self.arn = arn
-            self.fleet = fleet
-            self.createdAt = createdAt
-            self.failureCode = failureCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentApplicationConfigs = "deploymentApplicationConfigs"
-            case status = "status"
-            case failureReason = "failureReason"
-            case deploymentConfig = "deploymentConfig"
-            case arn = "arn"
-            case fleet = "fleet"
-            case createdAt = "createdAt"
-            case failureCode = "failureCode"
-        }
-    }
-
-    public struct DeleteRobotApplicationResponse: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct LaunchConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "packageName", required: true, type: .string), 
-            AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
-            AWSShapeMember(label: "launchFile", required: true, type: .string)
-        ]
-        /// The package name.
-        public let packageName: String
-        /// The environment variables for the application launch.
-        public let environmentVariables: [String: String]?
-        /// The launch file.
-        public let launchFile: String
-
-        public init(environmentVariables: [String: String]? = nil, launchFile: String, packageName: String) {
-            self.packageName = packageName
-            self.environmentVariables = environmentVariables
-            self.launchFile = launchFile
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case packageName = "packageName"
-            case environmentVariables = "environmentVariables"
-            case launchFile = "launchFile"
-        }
-    }
-
-    public struct SimulationApplicationSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp)
-        ]
-        /// The version of the simulation application.
-        public let version: String?
-        /// The Amazon Resource Name (ARN) of the simulation application.
-        public let arn: String?
-        /// The name of the simulation application.
-        public let name: String?
-        /// The time, in milliseconds since the epoch, when the simulation application was last updated.
-        public let lastUpdatedAt: TimeStamp?
-
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, version: String? = nil) {
-            self.version = version
-            self.arn = arn
-            self.name = name
-            self.lastUpdatedAt = lastUpdatedAt
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case version = "version"
-            case arn = "arn"
-            case name = "name"
-            case lastUpdatedAt = "lastUpdatedAt"
-        }
-    }
-
-    public struct DeploymentJob: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "fleet", required: false, type: .string), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
-            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "deploymentApplicationConfigs", required: false, type: .list), 
-            AWSShapeMember(label: "arn", required: false, type: .string)
-        ]
-        /// The deployment configuration.
-        public let deploymentConfig: DeploymentConfig?
-        /// The Amazon Resource Name (ARN) of the fleet.
-        public let fleet: String?
-        /// A short description of the reason why the deployment job failed.
-        public let failureReason: String?
-        /// The deployment job failure code.
-        public let failureCode: DeploymentJobErrorCode?
-        /// The time, in milliseconds since the epoch, when the deployment job was created.
-        public let createdAt: TimeStamp?
-        /// The status of the deployment job.
-        public let status: DeploymentStatus?
-        /// The deployment application configuration.
-        public let deploymentApplicationConfigs: [DeploymentApplicationConfig]?
-        /// The Amazon Resource Name (ARN) of the deployment job.
-        public let arn: String?
-
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, deploymentApplicationConfigs: [DeploymentApplicationConfig]? = nil, deploymentConfig: DeploymentConfig? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, fleet: String? = nil, status: DeploymentStatus? = nil) {
-            self.deploymentConfig = deploymentConfig
-            self.fleet = fleet
-            self.failureReason = failureReason
-            self.failureCode = failureCode
-            self.createdAt = createdAt
-            self.status = status
-            self.deploymentApplicationConfigs = deploymentApplicationConfigs
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentConfig = "deploymentConfig"
-            case fleet = "fleet"
-            case failureReason = "failureReason"
-            case failureCode = "failureCode"
-            case createdAt = "createdAt"
-            case status = "status"
-            case deploymentApplicationConfigs = "deploymentApplicationConfigs"
-            case arn = "arn"
-        }
-    }
-
-    public struct CreateDeploymentJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
-            AWSShapeMember(label: "deploymentApplicationConfigs", required: false, type: .list), 
-            AWSShapeMember(label: "deploymentConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "fleet", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "arn", required: false, type: .string)
-        ]
-        /// The failure code of the deployment job if it failed.
-        public let failureCode: DeploymentJobErrorCode?
-        /// The deployment application configuration.
-        public let deploymentApplicationConfigs: [DeploymentApplicationConfig]?
-        /// The deployment configuration.
-        public let deploymentConfig: DeploymentConfig?
-        /// The failure reason of the deployment job if it failed.
-        public let failureReason: String?
-        /// The time, in milliseconds since the epoch, when the fleet was created.
-        public let createdAt: TimeStamp?
-        /// The target fleet for the deployment job.
-        public let fleet: String?
-        /// The status of the deployment job.
-        public let status: DeploymentStatus?
-        /// The Amazon Resource Name (ARN) of the deployment job.
-        public let arn: String?
-
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, deploymentApplicationConfigs: [DeploymentApplicationConfig]? = nil, deploymentConfig: DeploymentConfig? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, fleet: String? = nil, status: DeploymentStatus? = nil) {
-            self.failureCode = failureCode
-            self.deploymentApplicationConfigs = deploymentApplicationConfigs
-            self.deploymentConfig = deploymentConfig
-            self.failureReason = failureReason
-            self.createdAt = createdAt
-            self.fleet = fleet
-            self.status = status
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failureCode = "failureCode"
-            case deploymentApplicationConfigs = "deploymentApplicationConfigs"
-            case deploymentConfig = "deploymentConfig"
-            case failureReason = "failureReason"
-            case createdAt = "createdAt"
-            case fleet = "fleet"
-            case status = "status"
-            case arn = "arn"
-        }
-    }
-
-    public struct SimulationApplicationConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "launchConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "application", required: true, type: .string), 
-            AWSShapeMember(label: "applicationVersion", required: false, type: .string)
-        ]
-        /// The launch configuration for the simulation application.
-        public let launchConfig: LaunchConfig
-        /// The application information for the simulation application.
-        public let application: String
-        /// The version of the simulation application.
-        public let applicationVersion: String?
-
-        public init(application: String, applicationVersion: String? = nil, launchConfig: LaunchConfig) {
-            self.launchConfig = launchConfig
-            self.application = application
-            self.applicationVersion = applicationVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case launchConfig = "launchConfig"
-            case application = "application"
-            case applicationVersion = "applicationVersion"
-        }
-    }
-
-    public struct UpdateSimulationApplicationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "simulationSoftwareSuite", required: false, type: .structure), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
-            AWSShapeMember(label: "sources", required: false, type: .list), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "revisionId", required: false, type: .string), 
-            AWSShapeMember(label: "renderingEngine", required: false, type: .structure)
-        ]
-        /// The simulation software suite used by the simulation application.
-        public let simulationSoftwareSuite: SimulationSoftwareSuite?
-        /// The time, in milliseconds since the epoch, when the simulation application was last updated.
-        public let lastUpdatedAt: TimeStamp?
-        /// The version of the robot application.
-        public let version: String?
-        /// Information about the robot software suite.
-        public let robotSoftwareSuite: RobotSoftwareSuite?
-        /// The sources of the simulation application.
-        public let sources: [Source]?
-        /// The Amazon Resource Name (ARN) of the updated simulation application.
-        public let arn: String?
-        /// The name of the simulation application.
-        public let name: String?
-        /// The revision id of the simulation application.
-        public let revisionId: String?
-        /// The rendering engine for the simulation application.
-        public let renderingEngine: RenderingEngine?
-
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
-            self.simulationSoftwareSuite = simulationSoftwareSuite
-            self.lastUpdatedAt = lastUpdatedAt
-            self.version = version
-            self.robotSoftwareSuite = robotSoftwareSuite
-            self.sources = sources
-            self.arn = arn
-            self.name = name
-            self.revisionId = revisionId
-            self.renderingEngine = renderingEngine
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case simulationSoftwareSuite = "simulationSoftwareSuite"
-            case lastUpdatedAt = "lastUpdatedAt"
-            case version = "version"
-            case robotSoftwareSuite = "robotSoftwareSuite"
-            case sources = "sources"
-            case arn = "arn"
-            case name = "name"
-            case revisionId = "revisionId"
-            case renderingEngine = "renderingEngine"
-        }
-    }
-
-    public struct ListRobotApplicationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "robotApplicationSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// A list of robot application summaries that meet the criteria of the request.
-        public let robotApplicationSummaries: [RobotApplicationSummary]?
-        /// The nextToken value to include in a future ListRobotApplications request. When the results of a ListRobotApplications request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
-        public let nextToken: String?
-
-        public init(nextToken: String? = nil, robotApplicationSummaries: [RobotApplicationSummary]? = nil) {
-            self.robotApplicationSummaries = robotApplicationSummaries
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case robotApplicationSummaries = "robotApplicationSummaries"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct Fleet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastDeploymentStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastDeploymentTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastDeploymentJob", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
-        /// The status of the last fleet deployment.
-        public let lastDeploymentStatus: DeploymentStatus?
-        /// The Amazon Resource Name (ARN) of the fleet.
-        public let arn: String?
-        /// The time, in milliseconds since the epoch, when the fleet was created.
-        public let createdAt: TimeStamp?
-        /// The time of the last deployment.
-        public let lastDeploymentTime: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the last deployment job.
-        public let lastDeploymentJob: String?
-        /// The name of the fleet.
-        public let name: String?
-
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, lastDeploymentJob: String? = nil, lastDeploymentStatus: DeploymentStatus? = nil, lastDeploymentTime: TimeStamp? = nil, name: String? = nil) {
-            self.lastDeploymentStatus = lastDeploymentStatus
-            self.arn = arn
-            self.createdAt = createdAt
-            self.lastDeploymentTime = lastDeploymentTime
-            self.lastDeploymentJob = lastDeploymentJob
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastDeploymentStatus = "lastDeploymentStatus"
-            case arn = "arn"
-            case createdAt = "createdAt"
-            case lastDeploymentTime = "lastDeploymentTime"
-            case lastDeploymentJob = "lastDeploymentJob"
-            case name = "name"
-        }
-    }
-
-    public struct DescribeSimulationJobRequest: AWSShape {
+    public struct CancelSimulationJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "job", required: true, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the simulation job to be described.
+        /// The simulation job ARN to cancel.
         public let job: String
 
         public init(job: String) {
@@ -1061,220 +65,427 @@ extension RoboMaker {
         }
     }
 
-    public struct ListSimulationApplicationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "simulationApplicationSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// A list of simulation application summaries that meet the criteria of the request.
-        public let simulationApplicationSummaries: [SimulationApplicationSummary]?
-        /// The nextToken value to include in a future ListSimulationApplications request. When the results of a ListRobot request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
-        public let nextToken: String?
+    public struct CancelSimulationJobResponse: AWSShape {
 
-        public init(nextToken: String? = nil, simulationApplicationSummaries: [SimulationApplicationSummary]? = nil) {
-            self.simulationApplicationSummaries = simulationApplicationSummaries
-            self.nextToken = nextToken
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case simulationApplicationSummaries = "simulationApplicationSummaries"
-            case nextToken = "nextToken"
-        }
     }
 
-    public struct CreateSimulationJobRequest: AWSShape {
+    public struct CreateDeploymentJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "simulationApplications", required: false, type: .list), 
-            AWSShapeMember(label: "maxJobDurationInSeconds", required: true, type: .long), 
-            AWSShapeMember(label: "robotApplications", required: false, type: .list), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "failureBehavior", required: false, type: .enum), 
-            AWSShapeMember(label: "iamRole", required: true, type: .string), 
-            AWSShapeMember(label: "vpcConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "outputLocation", required: false, type: .structure)
+            AWSShapeMember(label: "clientRequestToken", required: true, type: .string), 
+            AWSShapeMember(label: "deploymentApplicationConfigs", required: true, type: .list), 
+            AWSShapeMember(label: "deploymentConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "fleet", required: true, type: .string)
         ]
-        /// The simulation application to use in the simulation job.
-        public let simulationApplications: [SimulationApplicationConfig]?
-        /// The maximum simulation job duration in seconds (up to 14 days or 1,209,600 seconds. When maxJobDurationInSeconds is reached, the simulation job will status will transition to Completed.
-        public let maxJobDurationInSeconds: Int64
-        /// The robot application to use in the simulation job.
-        public let robotApplications: [RobotApplicationConfig]?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
-        public let clientRequestToken: String?
-        /// The failure behavior the simulation job.  Continue  Restart the simulation job in the same host instance.  Fail  Stop the simulation job and terminate the instance.  
-        public let failureBehavior: FailureBehavior?
-        /// The IAM role that allows the simulation instance to call the AWS APIs that are specified in its associated policies on your behalf. This is how credentials are passed in to your simulation job. See how to specify AWS security credentials for your application. 
-        public let iamRole: String
-        /// If your simulation job accesses resources in a VPC, you provide this parameter identifying the list of security group IDs and subnet IDs. These must belong to the same VPC. You must provide at least one security group and one subnet ID. 
-        public let vpcConfig: VPCConfig?
-        /// Location for output files generated by the simulation job.
-        public let outputLocation: OutputLocation?
+        public let clientRequestToken: String
+        /// The deployment application configuration.
+        public let deploymentApplicationConfigs: [DeploymentApplicationConfig]
+        /// The requested deployment configuration.
+        public let deploymentConfig: DeploymentConfig?
+        /// The Amazon Resource Name (ARN) of the fleet to deploy.
+        public let fleet: String
 
-        public init(clientRequestToken: String? = nil, failureBehavior: FailureBehavior? = nil, iamRole: String, maxJobDurationInSeconds: Int64, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, vpcConfig: VPCConfig? = nil) {
-            self.simulationApplications = simulationApplications
-            self.maxJobDurationInSeconds = maxJobDurationInSeconds
-            self.robotApplications = robotApplications
+        public init(clientRequestToken: String, deploymentApplicationConfigs: [DeploymentApplicationConfig], deploymentConfig: DeploymentConfig? = nil, fleet: String) {
             self.clientRequestToken = clientRequestToken
-            self.failureBehavior = failureBehavior
-            self.iamRole = iamRole
-            self.vpcConfig = vpcConfig
-            self.outputLocation = outputLocation
+            self.deploymentApplicationConfigs = deploymentApplicationConfigs
+            self.deploymentConfig = deploymentConfig
+            self.fleet = fleet
         }
 
         private enum CodingKeys: String, CodingKey {
-            case simulationApplications = "simulationApplications"
-            case maxJobDurationInSeconds = "maxJobDurationInSeconds"
-            case robotApplications = "robotApplications"
             case clientRequestToken = "clientRequestToken"
-            case failureBehavior = "failureBehavior"
-            case iamRole = "iamRole"
-            case vpcConfig = "vpcConfig"
-            case outputLocation = "outputLocation"
+            case deploymentApplicationConfigs = "deploymentApplicationConfigs"
+            case deploymentConfig = "deploymentConfig"
+            case fleet = "fleet"
         }
     }
 
-    public struct DeleteSimulationApplicationRequest: AWSShape {
+    public struct CreateDeploymentJobResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "application", required: true, type: .string), 
-            AWSShapeMember(label: "applicationVersion", required: false, type: .string)
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "deploymentApplicationConfigs", required: false, type: .list), 
+            AWSShapeMember(label: "deploymentConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
+            AWSShapeMember(label: "failureReason", required: false, type: .string), 
+            AWSShapeMember(label: "fleet", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum)
         ]
-        /// The application information for the simulation application to delete.
-        public let application: String
-        /// The version of the simulation application to delete.
-        public let applicationVersion: String?
+        /// The Amazon Resource Name (ARN) of the deployment job.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the fleet was created.
+        public let createdAt: TimeStamp?
+        /// The deployment application configuration.
+        public let deploymentApplicationConfigs: [DeploymentApplicationConfig]?
+        /// The deployment configuration.
+        public let deploymentConfig: DeploymentConfig?
+        /// The failure code of the deployment job if it failed.
+        public let failureCode: DeploymentJobErrorCode?
+        /// The failure reason of the deployment job if it failed.
+        public let failureReason: String?
+        /// The target fleet for the deployment job.
+        public let fleet: String?
+        /// The status of the deployment job.
+        public let status: DeploymentStatus?
 
-        public init(application: String, applicationVersion: String? = nil) {
-            self.application = application
-            self.applicationVersion = applicationVersion
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, deploymentApplicationConfigs: [DeploymentApplicationConfig]? = nil, deploymentConfig: DeploymentConfig? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, fleet: String? = nil, status: DeploymentStatus? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.deploymentApplicationConfigs = deploymentApplicationConfigs
+            self.deploymentConfig = deploymentConfig
+            self.failureCode = failureCode
+            self.failureReason = failureReason
+            self.fleet = fleet
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application = "application"
-            case applicationVersion = "applicationVersion"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case deploymentApplicationConfigs = "deploymentApplicationConfigs"
+            case deploymentConfig = "deploymentConfig"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case fleet = "fleet"
+            case status = "status"
         }
     }
 
-    public struct CreateRobotRequest: AWSShape {
+    public struct CreateFleetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "greengrassGroupId", required: true, type: .string), 
-            AWSShapeMember(label: "architecture", required: true, type: .enum), 
             AWSShapeMember(label: "name", required: true, type: .string)
         ]
-        /// The Greengrass group id.
-        public let greengrassGroupId: String
-        /// The target architecture of the robot.
-        public let architecture: Architecture
-        /// The name for the robot.
+        /// The name of the fleet.
         public let name: String
 
-        public init(architecture: Architecture, greengrassGroupId: String, name: String) {
-            self.greengrassGroupId = greengrassGroupId
-            self.architecture = architecture
+        public init(name: String) {
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case greengrassGroupId = "greengrassGroupId"
-            case architecture = "architecture"
             case name = "name"
         }
     }
 
-    public struct VPCConfigResponse: AWSShape {
+    public struct CreateFleetResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "vpcId", required: false, type: .string), 
-            AWSShapeMember(label: "assignPublicIp", required: false, type: .boolean), 
-            AWSShapeMember(label: "subnets", required: false, type: .list), 
-            AWSShapeMember(label: "securityGroups", required: false, type: .list)
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string)
         ]
-        /// The VPC ID associated with your simulation job.
-        public let vpcId: String?
-        /// A boolean indicating if a public IP was assigned.
-        public let assignPublicIp: Bool?
-        /// A list of subnet IDs associated with the simulation job.
-        public let subnets: [String]?
-        /// A list of security group IDs associated with the simulation job.
-        public let securityGroups: [String]?
+        /// The Amazon Resource Name (ARN) of the fleet.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the fleet was created.
+        public let createdAt: TimeStamp?
+        /// The name of the fleet.
+        public let name: String?
 
-        public init(assignPublicIp: Bool? = nil, securityGroups: [String]? = nil, subnets: [String]? = nil, vpcId: String? = nil) {
-            self.vpcId = vpcId
-            self.assignPublicIp = assignPublicIp
-            self.subnets = subnets
-            self.securityGroups = securityGroups
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, name: String? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vpcId = "vpcId"
-            case assignPublicIp = "assignPublicIp"
-            case subnets = "subnets"
-            case securityGroups = "securityGroups"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case name = "name"
+        }
+    }
+
+    public struct CreateRobotApplicationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "robotSoftwareSuite", required: true, type: .structure), 
+            AWSShapeMember(label: "sources", required: true, type: .list)
+        ]
+        /// The name of the robot application.
+        public let name: String
+        /// The robot software suite used by the robot application.
+        public let robotSoftwareSuite: RobotSoftwareSuite
+        /// The sources of the robot application.
+        public let sources: [SourceConfig]
+
+        public init(name: String, robotSoftwareSuite: RobotSoftwareSuite, sources: [SourceConfig]) {
+            self.name = name
+            self.robotSoftwareSuite = robotSoftwareSuite
+            self.sources = sources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case sources = "sources"
+        }
+    }
+
+    public struct CreateRobotApplicationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "revisionId", required: false, type: .string), 
+            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
+            AWSShapeMember(label: "sources", required: false, type: .list), 
+            AWSShapeMember(label: "version", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the robot application.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the robot application was last updated.
+        public let lastUpdatedAt: TimeStamp?
+        /// The name of the robot application.
+        public let name: String?
+        /// The revision id of the robot application.
+        public let revisionId: String?
+        /// The robot software suite used by the robot application.
+        public let robotSoftwareSuite: RobotSoftwareSuite?
+        /// The sources of the robot application.
+        public let sources: [Source]?
+        /// The version of the robot application.
+        public let version: String?
+
+        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
+            self.arn = arn
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.revisionId = revisionId
+            self.robotSoftwareSuite = robotSoftwareSuite
+            self.sources = sources
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case revisionId = "revisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case sources = "sources"
+            case version = "version"
+        }
+    }
+
+    public struct CreateRobotApplicationVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "application", required: true, type: .string), 
+            AWSShapeMember(label: "currentRevisionId", required: false, type: .string)
+        ]
+        /// The application information for the robot application.
+        public let application: String
+        /// The current revision id for the robot application. If you provide a value and it matches the latest revision ID, a new version will be created.
+        public let currentRevisionId: String?
+
+        public init(application: String, currentRevisionId: String? = nil) {
+            self.application = application
+            self.currentRevisionId = currentRevisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case application = "application"
+            case currentRevisionId = "currentRevisionId"
         }
     }
 
     public struct CreateRobotApplicationVersionResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "sources", required: false, type: .list), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "revisionId", required: false, type: .string), 
+            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
+            AWSShapeMember(label: "sources", required: false, type: .list), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the robot application.
         public let arn: String?
-        /// The sources of the robot application.
-        public let sources: [Source]?
-        /// The name of the robot application.
-        public let name: String?
         /// The time, in milliseconds since the epoch, when the robot application was last updated.
         public let lastUpdatedAt: TimeStamp?
-        /// The robot software suite used by the robot application.
-        public let robotSoftwareSuite: RobotSoftwareSuite?
+        /// The name of the robot application.
+        public let name: String?
         /// The revision id of the robot application.
         public let revisionId: String?
+        /// The robot software suite used by the robot application.
+        public let robotSoftwareSuite: RobotSoftwareSuite?
+        /// The sources of the robot application.
+        public let sources: [Source]?
         /// The version of the robot application.
         public let version: String?
 
         public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
             self.arn = arn
-            self.sources = sources
-            self.name = name
             self.lastUpdatedAt = lastUpdatedAt
-            self.robotSoftwareSuite = robotSoftwareSuite
+            self.name = name
             self.revisionId = revisionId
+            self.robotSoftwareSuite = robotSoftwareSuite
+            self.sources = sources
             self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
-            case sources = "sources"
-            case name = "name"
             case lastUpdatedAt = "lastUpdatedAt"
-            case robotSoftwareSuite = "robotSoftwareSuite"
+            case name = "name"
             case revisionId = "revisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case sources = "sources"
             case version = "version"
         }
     }
 
-    public enum RobotSoftwareSuiteVersionType: String, CustomStringConvertible, Codable {
-        case kinetic = "Kinetic"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteRobotRequest: AWSShape {
+    public struct CreateRobotRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "robot", required: true, type: .string)
+            AWSShapeMember(label: "architecture", required: true, type: .enum), 
+            AWSShapeMember(label: "greengrassGroupId", required: true, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the robot.
-        public let robot: String
+        /// The target architecture of the robot.
+        public let architecture: Architecture
+        /// The Greengrass group id.
+        public let greengrassGroupId: String
+        /// The name for the robot.
+        public let name: String
 
-        public init(robot: String) {
-            self.robot = robot
+        public init(architecture: Architecture, greengrassGroupId: String, name: String) {
+            self.architecture = architecture
+            self.greengrassGroupId = greengrassGroupId
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case robot = "robot"
+            case architecture = "architecture"
+            case greengrassGroupId = "greengrassGroupId"
+            case name = "name"
+        }
+    }
+
+    public struct CreateRobotResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "architecture", required: false, type: .enum), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "greengrassGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string)
+        ]
+        /// The target architecture of the robot.
+        public let architecture: Architecture?
+        /// The Amazon Resource Name (ARN) of the robot.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the robot was created.
+        public let createdAt: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the Greengrass group associated with the robot.
+        public let greengrassGroupId: String?
+        /// The name of the robot.
+        public let name: String?
+
+        public init(architecture: Architecture? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, greengrassGroupId: String? = nil, name: String? = nil) {
+            self.architecture = architecture
+            self.arn = arn
+            self.createdAt = createdAt
+            self.greengrassGroupId = greengrassGroupId
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case architecture = "architecture"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case greengrassGroupId = "greengrassGroupId"
+            case name = "name"
+        }
+    }
+
+    public struct CreateSimulationApplicationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "renderingEngine", required: true, type: .structure), 
+            AWSShapeMember(label: "robotSoftwareSuite", required: true, type: .structure), 
+            AWSShapeMember(label: "simulationSoftwareSuite", required: true, type: .structure), 
+            AWSShapeMember(label: "sources", required: true, type: .list)
+        ]
+        /// The name of the simulation application.
+        public let name: String
+        /// The rendering engine for the simulation application.
+        public let renderingEngine: RenderingEngine
+        /// The robot software suite of the simulation application.
+        public let robotSoftwareSuite: RobotSoftwareSuite
+        /// The simulation software suite used by the simulation application.
+        public let simulationSoftwareSuite: SimulationSoftwareSuite
+        /// The sources of the simulation application.
+        public let sources: [SourceConfig]
+
+        public init(name: String, renderingEngine: RenderingEngine, robotSoftwareSuite: RobotSoftwareSuite, simulationSoftwareSuite: SimulationSoftwareSuite, sources: [SourceConfig]) {
+            self.name = name
+            self.renderingEngine = renderingEngine
+            self.robotSoftwareSuite = robotSoftwareSuite
+            self.simulationSoftwareSuite = simulationSoftwareSuite
+            self.sources = sources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case renderingEngine = "renderingEngine"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case simulationSoftwareSuite = "simulationSoftwareSuite"
+            case sources = "sources"
+        }
+    }
+
+    public struct CreateSimulationApplicationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "renderingEngine", required: false, type: .structure), 
+            AWSShapeMember(label: "revisionId", required: false, type: .string), 
+            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
+            AWSShapeMember(label: "simulationSoftwareSuite", required: false, type: .structure), 
+            AWSShapeMember(label: "sources", required: false, type: .list), 
+            AWSShapeMember(label: "version", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the simulation application.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the simulation application was last updated.
+        public let lastUpdatedAt: TimeStamp?
+        /// The name of the simulation application.
+        public let name: String?
+        /// The rendering engine for the simulation application.
+        public let renderingEngine: RenderingEngine?
+        /// The revision id of the simulation application.
+        public let revisionId: String?
+        /// Information about the robot software suite.
+        public let robotSoftwareSuite: RobotSoftwareSuite?
+        /// The simulation software suite used by the simulation application.
+        public let simulationSoftwareSuite: SimulationSoftwareSuite?
+        /// The sources of the simulation application.
+        public let sources: [Source]?
+        /// The version of the simulation application.
+        public let version: String?
+
+        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
+            self.arn = arn
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.renderingEngine = renderingEngine
+            self.revisionId = revisionId
+            self.robotSoftwareSuite = robotSoftwareSuite
+            self.simulationSoftwareSuite = simulationSoftwareSuite
+            self.sources = sources
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case renderingEngine = "renderingEngine"
+            case revisionId = "revisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case simulationSoftwareSuite = "simulationSoftwareSuite"
+            case sources = "sources"
+            case version = "version"
         }
     }
 
@@ -1299,384 +510,210 @@ extension RoboMaker {
         }
     }
 
-    public enum SimulationJobStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case preparing = "Preparing"
-        case running = "Running"
-        case restarting = "Restarting"
-        case completed = "Completed"
-        case failed = "Failed"
-        case runningfailed = "RunningFailed"
-        case terminating = "Terminating"
-        case terminated = "Terminated"
-        case canceled = "Canceled"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeRobotRequest: AWSShape {
+    public struct CreateSimulationApplicationVersionResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "robot", required: true, type: .string)
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "renderingEngine", required: false, type: .structure), 
+            AWSShapeMember(label: "revisionId", required: false, type: .string), 
+            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
+            AWSShapeMember(label: "simulationSoftwareSuite", required: false, type: .structure), 
+            AWSShapeMember(label: "sources", required: false, type: .list), 
+            AWSShapeMember(label: "version", required: false, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the robot to be described.
-        public let robot: String
+        /// The Amazon Resource Name (ARN) of the simulation application.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the simulation application was last updated.
+        public let lastUpdatedAt: TimeStamp?
+        /// The name of the simulation application.
+        public let name: String?
+        /// The rendering engine for the simulation application.
+        public let renderingEngine: RenderingEngine?
+        /// The revision ID of the simulation application.
+        public let revisionId: String?
+        /// Information about the robot software suite.
+        public let robotSoftwareSuite: RobotSoftwareSuite?
+        /// The simulation software suite used by the simulation application.
+        public let simulationSoftwareSuite: SimulationSoftwareSuite?
+        /// The sources of the simulation application.
+        public let sources: [Source]?
+        /// The version of the simulation application.
+        public let version: String?
 
-        public init(robot: String) {
-            self.robot = robot
+        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
+            self.arn = arn
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.renderingEngine = renderingEngine
+            self.revisionId = revisionId
+            self.robotSoftwareSuite = robotSoftwareSuite
+            self.simulationSoftwareSuite = simulationSoftwareSuite
+            self.sources = sources
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
-            case robot = "robot"
+            case arn = "arn"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case renderingEngine = "renderingEngine"
+            case revisionId = "revisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case simulationSoftwareSuite = "simulationSoftwareSuite"
+            case sources = "sources"
+            case version = "version"
         }
     }
 
-    public struct SyncDeploymentJobRequest: AWSShape {
+    public struct CreateSimulationJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientRequestToken", required: true, type: .string), 
-            AWSShapeMember(label: "fleet", required: true, type: .string)
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "failureBehavior", required: false, type: .enum), 
+            AWSShapeMember(label: "iamRole", required: true, type: .string), 
+            AWSShapeMember(label: "maxJobDurationInSeconds", required: true, type: .long), 
+            AWSShapeMember(label: "outputLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "robotApplications", required: false, type: .list), 
+            AWSShapeMember(label: "simulationApplications", required: false, type: .list), 
+            AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
         ]
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
-        public let clientRequestToken: String
-        /// The target fleet for the synchronization.
-        public let fleet: String
+        public let clientRequestToken: String?
+        /// The failure behavior the simulation job.  Continue  Restart the simulation job in the same host instance.  Fail  Stop the simulation job and terminate the instance.  
+        public let failureBehavior: FailureBehavior?
+        /// The IAM role that allows the simulation instance to call the AWS APIs that are specified in its associated policies on your behalf. This is how credentials are passed in to your simulation job. See how to specify AWS security credentials for your application. 
+        public let iamRole: String
+        /// The maximum simulation job duration in seconds (up to 14 days or 1,209,600 seconds. When maxJobDurationInSeconds is reached, the simulation job will status will transition to Completed.
+        public let maxJobDurationInSeconds: Int64
+        /// Location for output files generated by the simulation job.
+        public let outputLocation: OutputLocation?
+        /// The robot application to use in the simulation job.
+        public let robotApplications: [RobotApplicationConfig]?
+        /// The simulation application to use in the simulation job.
+        public let simulationApplications: [SimulationApplicationConfig]?
+        /// If your simulation job accesses resources in a VPC, you provide this parameter identifying the list of security group IDs and subnet IDs. These must belong to the same VPC. You must provide at least one security group and one subnet ID. 
+        public let vpcConfig: VPCConfig?
 
-        public init(clientRequestToken: String, fleet: String) {
+        public init(clientRequestToken: String? = nil, failureBehavior: FailureBehavior? = nil, iamRole: String, maxJobDurationInSeconds: Int64, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, vpcConfig: VPCConfig? = nil) {
             self.clientRequestToken = clientRequestToken
-            self.fleet = fleet
+            self.failureBehavior = failureBehavior
+            self.iamRole = iamRole
+            self.maxJobDurationInSeconds = maxJobDurationInSeconds
+            self.outputLocation = outputLocation
+            self.robotApplications = robotApplications
+            self.simulationApplications = simulationApplications
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "clientRequestToken"
-            case fleet = "fleet"
-        }
-    }
-
-    public struct ProgressDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "currentProgress", required: false, type: .string), 
-            AWSShapeMember(label: "targetResource", required: false, type: .string)
-        ]
-        /// The current progress status.
-        public let currentProgress: String?
-        /// The Amazon Resource Name (ARN) of the deployment job.
-        public let targetResource: String?
-
-        public init(currentProgress: String? = nil, targetResource: String? = nil) {
-            self.currentProgress = currentProgress
-            self.targetResource = targetResource
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case currentProgress = "currentProgress"
-            case targetResource = "targetResource"
-        }
-    }
-
-    public struct DeregisterRobotResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "robot", required: false, type: .string), 
-            AWSShapeMember(label: "fleet", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the robot.
-        public let robot: String?
-        /// The Amazon Resource Name (ARN) of the fleet.
-        public let fleet: String?
-
-        public init(fleet: String? = nil, robot: String? = nil) {
-            self.robot = robot
-            self.fleet = fleet
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case robot = "robot"
-            case fleet = "fleet"
-        }
-    }
-
-    public struct DescribeRobotApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "applicationVersion", required: false, type: .string), 
-            AWSShapeMember(label: "application", required: true, type: .string)
-        ]
-        /// The version of the robot application to describe.
-        public let applicationVersion: String?
-        /// The Amazon Resource Name (ARN) of the robot application.
-        public let application: String
-
-        public init(application: String, applicationVersion: String? = nil) {
-            self.applicationVersion = applicationVersion
-            self.application = application
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationVersion = "applicationVersion"
-            case application = "application"
-        }
-    }
-
-    public struct DeleteRobotResponse: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct ListSimulationApplicationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "versionQualifier", required: false, type: .string), 
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// The version qualifier of the simulation application.
-        public let versionQualifier: String?
-        /// Optional list of filters to limit results. The only valid filter name is name.
-        public let filters: [Filter]?
-        /// The nextToken value returned from a previous paginated ListSimulationApplications request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        public let nextToken: String?
-        /// The maximum number of deployment job results returned by ListSimulationApplications in paginated output. When this parameter is used, ListSimulationApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListSimulationApplications returns up to 100 results and a nextToken value if applicable. 
-        public let maxResults: Int32?
-
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, versionQualifier: String? = nil) {
-            self.versionQualifier = versionQualifier
-            self.filters = filters
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case versionQualifier = "versionQualifier"
-            case filters = "filters"
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct ListRobotsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// Optional filters to limit results.
-        public let filters: [Filter]?
-        /// The nextToken value returned from a previous paginated ListRobots request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        public let nextToken: String?
-        /// The maximum number of deployment job results returned by ListRobots in paginated output. When this parameter is used, ListRobots only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListRobots returns up to 100 results and a nextToken value if applicable. 
-        public let maxResults: Int32?
-
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.filters = filters
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case filters = "filters"
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct DeploymentConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failureThresholdPercentage", required: false, type: .integer), 
-            AWSShapeMember(label: "concurrentDeploymentPercentage", required: false, type: .integer)
-        ]
-        /// The percentage of deployments that need to fail before stopping deployment.
-        public let failureThresholdPercentage: Int32?
-        /// The percentage of robots receiving the deployment at the same time.
-        public let concurrentDeploymentPercentage: Int32?
-
-        public init(concurrentDeploymentPercentage: Int32? = nil, failureThresholdPercentage: Int32? = nil) {
-            self.failureThresholdPercentage = failureThresholdPercentage
-            self.concurrentDeploymentPercentage = concurrentDeploymentPercentage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failureThresholdPercentage = "failureThresholdPercentage"
-            case concurrentDeploymentPercentage = "concurrentDeploymentPercentage"
+            case failureBehavior = "failureBehavior"
+            case iamRole = "iamRole"
+            case maxJobDurationInSeconds = "maxJobDurationInSeconds"
+            case outputLocation = "outputLocation"
+            case robotApplications = "robotApplications"
+            case simulationApplications = "simulationApplications"
+            case vpcConfig = "vpcConfig"
         }
     }
 
     public struct CreateSimulationJobResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "failureBehavior", required: false, type: .enum), 
+            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
+            AWSShapeMember(label: "iamRole", required: false, type: .string), 
             AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "maxJobDurationInSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "robotApplications", required: false, type: .list), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
             AWSShapeMember(label: "outputLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "robotApplications", required: false, type: .list), 
+            AWSShapeMember(label: "simulationApplications", required: false, type: .list), 
             AWSShapeMember(label: "simulationTimeMillis", required: false, type: .long), 
-            AWSShapeMember(label: "failureBehavior", required: false, type: .enum), 
-            AWSShapeMember(label: "iamRole", required: false, type: .string), 
-            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "vpcConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "simulationApplications", required: false, type: .list)
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
         ]
+        /// The Amazon Resource Name (ARN) of the simulation job.
+        public let arn: String?
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// the failure behavior for the simulation job.
+        public let failureBehavior: FailureBehavior?
+        /// The failure code of the simulation job if it failed.
+        public let failureCode: SimulationJobErrorCode?
+        /// The IAM role that allows the simulation job to call the AWS APIs that are specified in its associated policies on your behalf.
+        public let iamRole: String?
         /// The time, in milliseconds since the epoch, when the simulation job was last updated.
         public let lastUpdatedAt: TimeStamp?
         /// The maximum simulation job duration in seconds. The value must be 8 days (691,200 seconds) or less. 
         public let maxJobDurationInSeconds: Int64?
-        /// The status of the simulation job.
-        public let status: SimulationJobStatus?
-        /// The robot application used by the simulation job.
-        public let robotApplications: [RobotApplicationConfig]?
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
-        public let clientRequestToken: String?
         /// Simulation job output files location.
         public let outputLocation: OutputLocation?
-        /// The simulation job execution duration in milliseconds.
-        public let simulationTimeMillis: Int64?
-        /// the failure behavior for the simulation job.
-        public let failureBehavior: FailureBehavior?
-        /// The IAM role that allows the simulation job to call the AWS APIs that are specified in its associated policies on your behalf.
-        public let iamRole: String?
-        /// The failure code of the simulation job if it failed.
-        public let failureCode: SimulationJobErrorCode?
-        /// The Amazon Resource Name (ARN) of the simulation job.
-        public let arn: String?
-        /// Information about the vpc configuration.
-        public let vpcConfig: VPCConfigResponse?
+        /// The robot application used by the simulation job.
+        public let robotApplications: [RobotApplicationConfig]?
         /// The simulation application used by the simulation job.
         public let simulationApplications: [SimulationApplicationConfig]?
+        /// The simulation job execution duration in milliseconds.
+        public let simulationTimeMillis: Int64?
+        /// The status of the simulation job.
+        public let status: SimulationJobStatus?
+        /// Information about the vpc configuration.
+        public let vpcConfig: VPCConfigResponse?
 
         public init(arn: String? = nil, clientRequestToken: String? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, iamRole: String? = nil, lastUpdatedAt: TimeStamp? = nil, maxJobDurationInSeconds: Int64? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, vpcConfig: VPCConfigResponse? = nil) {
+            self.arn = arn
+            self.clientRequestToken = clientRequestToken
+            self.failureBehavior = failureBehavior
+            self.failureCode = failureCode
+            self.iamRole = iamRole
             self.lastUpdatedAt = lastUpdatedAt
             self.maxJobDurationInSeconds = maxJobDurationInSeconds
-            self.status = status
-            self.robotApplications = robotApplications
-            self.clientRequestToken = clientRequestToken
             self.outputLocation = outputLocation
-            self.simulationTimeMillis = simulationTimeMillis
-            self.failureBehavior = failureBehavior
-            self.iamRole = iamRole
-            self.failureCode = failureCode
-            self.arn = arn
-            self.vpcConfig = vpcConfig
+            self.robotApplications = robotApplications
             self.simulationApplications = simulationApplications
+            self.simulationTimeMillis = simulationTimeMillis
+            self.status = status
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case failureBehavior = "failureBehavior"
+            case failureCode = "failureCode"
+            case iamRole = "iamRole"
             case lastUpdatedAt = "lastUpdatedAt"
             case maxJobDurationInSeconds = "maxJobDurationInSeconds"
-            case status = "status"
-            case robotApplications = "robotApplications"
-            case clientRequestToken = "clientRequestToken"
             case outputLocation = "outputLocation"
-            case simulationTimeMillis = "simulationTimeMillis"
-            case failureBehavior = "failureBehavior"
-            case iamRole = "iamRole"
-            case failureCode = "failureCode"
-            case arn = "arn"
-            case vpcConfig = "vpcConfig"
+            case robotApplications = "robotApplications"
             case simulationApplications = "simulationApplications"
+            case simulationTimeMillis = "simulationTimeMillis"
+            case status = "status"
+            case vpcConfig = "vpcConfig"
         }
     }
 
-    public struct ListSimulationJobsRequest: AWSShape {
+    public struct DeleteFleetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "filters", required: false, type: .list)
-        ]
-        /// The maximum number of deployment job results returned by ListSimulationJobs in paginated output. When this parameter is used, ListSimulationJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListSimulationJobs returns up to 100 results and a nextToken value if applicable. 
-        public let maxResults: Int32?
-        /// The nextToken value returned from a previous paginated ListSimulationJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        public let nextToken: String?
-        /// Optional filters to limit results.
-        public let filters: [Filter]?
-
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.filters = filters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case filters = "filters"
-        }
-    }
-
-    public struct ListFleetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "fleetDetails", required: false, type: .list)
-        ]
-        /// The nextToken value to include in a future ListDeploymentJobs request. When the results of a ListFleets request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
-        public let nextToken: String?
-        /// A list of fleet details meeting the request criteria.
-        public let fleetDetails: [Fleet]?
-
-        public init(fleetDetails: [Fleet]? = nil, nextToken: String? = nil) {
-            self.nextToken = nextToken
-            self.fleetDetails = fleetDetails
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case fleetDetails = "fleetDetails"
-        }
-    }
-
-    public struct DescribeDeploymentJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "job", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the deployment job.
-        public let job: String
-
-        public init(job: String) {
-            self.job = job
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case job = "job"
-        }
-    }
-
-    public struct RegisterRobotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fleet", required: true, type: .string), 
-            AWSShapeMember(label: "robot", required: true, type: .string)
+            AWSShapeMember(label: "fleet", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleet: String
-        /// The Amazon Resource Name (ARN) of the robot.
-        public let robot: String
 
-        public init(fleet: String, robot: String) {
+        public init(fleet: String) {
             self.fleet = fleet
-            self.robot = robot
         }
 
         private enum CodingKeys: String, CodingKey {
             case fleet = "fleet"
-            case robot = "robot"
         }
     }
 
-    public struct RenderingEngine: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .enum)
-        ]
-        /// The version of the rendering engine.
-        public let version: String?
-        /// The name of the rendering engine.
-        public let name: RenderingEngineType?
+    public struct DeleteFleetResponse: AWSShape {
 
-        public init(name: RenderingEngineType? = nil, version: String? = nil) {
-            self.version = version
-            self.name = name
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case version = "version"
-            case name = "name"
-        }
     }
 
     public struct DeleteRobotApplicationRequest: AWSShape {
@@ -1700,237 +737,55 @@ extension RoboMaker {
         }
     }
 
-    public struct DeploymentApplicationConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "launchConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "applicationVersion", required: true, type: .string), 
-            AWSShapeMember(label: "application", required: true, type: .string)
-        ]
-        /// The launch configuration, usually roslaunch.
-        public let launchConfig: DeploymentLaunchConfig
-        /// The version of the application.
-        public let applicationVersion: String
-        /// The application.
-        public let application: String
+    public struct DeleteRobotApplicationResponse: AWSShape {
 
-        public init(application: String, applicationVersion: String, launchConfig: DeploymentLaunchConfig) {
-            self.launchConfig = launchConfig
-            self.applicationVersion = applicationVersion
-            self.application = application
+        public init() {
+        }
+
+    }
+
+    public struct DeleteRobotRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "robot", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the robot.
+        public let robot: String
+
+        public init(robot: String) {
+            self.robot = robot
         }
 
         private enum CodingKeys: String, CodingKey {
-            case launchConfig = "launchConfig"
-            case applicationVersion = "applicationVersion"
-            case application = "application"
+            case robot = "robot"
         }
     }
 
-    public struct ListRobotsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "robots", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// A list of robots that meet the criteria of the request.
-        public let robots: [Robot]?
-        /// The nextToken value to include in a future ListRobots request. When the results of a ListRobot request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
-        public let nextToken: String?
+    public struct DeleteRobotResponse: AWSShape {
 
-        public init(nextToken: String? = nil, robots: [Robot]? = nil) {
-            self.robots = robots
-            self.nextToken = nextToken
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case robots = "robots"
-            case nextToken = "nextToken"
-        }
     }
 
-    public struct CreateRobotApplicationVersionRequest: AWSShape {
+    public struct DeleteSimulationApplicationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "currentRevisionId", required: false, type: .string), 
-            AWSShapeMember(label: "application", required: true, type: .string)
-        ]
-        /// The current revision id for the robot application. If you provide a value and it matches the latest revision ID, a new version will be created.
-        public let currentRevisionId: String?
-        /// The application information for the robot application.
-        public let application: String
-
-        public init(application: String, currentRevisionId: String? = nil) {
-            self.currentRevisionId = currentRevisionId
-            self.application = application
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case currentRevisionId = "currentRevisionId"
-            case application = "application"
-        }
-    }
-
-    public struct DescribeDeploymentJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "robotDeploymentSummary", required: false, type: .list), 
-            AWSShapeMember(label: "deploymentApplicationConfigs", required: false, type: .list), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "deploymentConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "fleet", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "failureCode", required: false, type: .enum)
-        ]
-        /// The status of the deployment job.
-        public let status: DeploymentStatus?
-        /// A list of robot deployment summaries.
-        public let robotDeploymentSummary: [RobotDeployment]?
-        /// The deployment application configuration.
-        public let deploymentApplicationConfigs: [DeploymentApplicationConfig]?
-        /// A short description of the reason why the deployment job failed.
-        public let failureReason: String?
-        /// The time, in milliseconds since the epoch, when the deployment job was created.
-        public let createdAt: TimeStamp?
-        /// The deployment configuration.
-        public let deploymentConfig: DeploymentConfig?
-        /// The Amazon Resource Name (ARN) of the fleet.
-        public let fleet: String?
-        /// The Amazon Resource Name (ARN) of the deployment job.
-        public let arn: String?
-        /// The deployment job failure code.
-        public let failureCode: DeploymentJobErrorCode?
-
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, deploymentApplicationConfigs: [DeploymentApplicationConfig]? = nil, deploymentConfig: DeploymentConfig? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, fleet: String? = nil, robotDeploymentSummary: [RobotDeployment]? = nil, status: DeploymentStatus? = nil) {
-            self.status = status
-            self.robotDeploymentSummary = robotDeploymentSummary
-            self.deploymentApplicationConfigs = deploymentApplicationConfigs
-            self.failureReason = failureReason
-            self.createdAt = createdAt
-            self.deploymentConfig = deploymentConfig
-            self.fleet = fleet
-            self.arn = arn
-            self.failureCode = failureCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "status"
-            case robotDeploymentSummary = "robotDeploymentSummary"
-            case deploymentApplicationConfigs = "deploymentApplicationConfigs"
-            case failureReason = "failureReason"
-            case createdAt = "createdAt"
-            case deploymentConfig = "deploymentConfig"
-            case fleet = "fleet"
-            case arn = "arn"
-            case failureCode = "failureCode"
-        }
-    }
-
-    public struct UpdateRobotApplicationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "revisionId", required: false, type: .string), 
-            AWSShapeMember(label: "sources", required: false, type: .list)
-        ]
-        /// The name of the robot application.
-        public let name: String?
-        /// The time, in milliseconds since the epoch, when the robot application was last updated.
-        public let lastUpdatedAt: TimeStamp?
-        /// The robot software suite used by the robot application.
-        public let robotSoftwareSuite: RobotSoftwareSuite?
-        /// The Amazon Resource Name (ARN) of the updated robot application.
-        public let arn: String?
-        /// The version of the robot application.
-        public let version: String?
-        /// The revision id of the robot application.
-        public let revisionId: String?
-        /// The sources of the robot application.
-        public let sources: [Source]?
-
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
-            self.name = name
-            self.lastUpdatedAt = lastUpdatedAt
-            self.robotSoftwareSuite = robotSoftwareSuite
-            self.arn = arn
-            self.version = version
-            self.revisionId = revisionId
-            self.sources = sources
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case lastUpdatedAt = "lastUpdatedAt"
-            case robotSoftwareSuite = "robotSoftwareSuite"
-            case arn = "arn"
-            case version = "version"
-            case revisionId = "revisionId"
-            case sources = "sources"
-        }
-    }
-
-    public struct UpdateRobotApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "currentRevisionId", required: false, type: .string), 
-            AWSShapeMember(label: "robotSoftwareSuite", required: true, type: .structure), 
             AWSShapeMember(label: "application", required: true, type: .string), 
-            AWSShapeMember(label: "sources", required: true, type: .list)
+            AWSShapeMember(label: "applicationVersion", required: false, type: .string)
         ]
-        /// The revision id for the robot application.
-        public let currentRevisionId: String?
-        /// The robot software suite used by the robot application.
-        public let robotSoftwareSuite: RobotSoftwareSuite
-        /// The application information for the robot application.
+        /// The application information for the simulation application to delete.
         public let application: String
-        /// The sources of the robot application.
-        public let sources: [SourceConfig]
+        /// The version of the simulation application to delete.
+        public let applicationVersion: String?
 
-        public init(application: String, currentRevisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite, sources: [SourceConfig]) {
-            self.currentRevisionId = currentRevisionId
-            self.robotSoftwareSuite = robotSoftwareSuite
+        public init(application: String, applicationVersion: String? = nil) {
             self.application = application
-            self.sources = sources
+            self.applicationVersion = applicationVersion
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currentRevisionId = "currentRevisionId"
-            case robotSoftwareSuite = "robotSoftwareSuite"
             case application = "application"
-            case sources = "sources"
+            case applicationVersion = "applicationVersion"
         }
-    }
-
-    public enum RenderingEngineType: String, CustomStringConvertible, Codable {
-        case ogre = "OGRE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RobotSoftwareSuite: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .enum), 
-            AWSShapeMember(label: "version", required: false, type: .enum)
-        ]
-        /// The name of the robot software suite.
-        public let name: RobotSoftwareSuiteType?
-        /// The version of the robot software suite.
-        public let version: RobotSoftwareSuiteVersionType?
-
-        public init(name: RobotSoftwareSuiteType? = nil, version: RobotSoftwareSuiteVersionType? = nil) {
-            self.name = name
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case version = "version"
-        }
-    }
-
-    public enum FailureBehavior: String, CustomStringConvertible, Codable {
-        case fail = "Fail"
-        case `continue` = "Continue"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeleteSimulationApplicationResponse: AWSShape {
@@ -1940,85 +795,154 @@ extension RoboMaker {
 
     }
 
-    public struct DeploymentLaunchConfig: AWSShape {
+    public struct DeploymentApplicationConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "preLaunchFile", required: false, type: .string), 
-            AWSShapeMember(label: "postLaunchFile", required: false, type: .string), 
-            AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
-            AWSShapeMember(label: "packageName", required: true, type: .string), 
-            AWSShapeMember(label: "launchFile", required: true, type: .string)
+            AWSShapeMember(label: "application", required: true, type: .string), 
+            AWSShapeMember(label: "applicationVersion", required: true, type: .string), 
+            AWSShapeMember(label: "launchConfig", required: true, type: .structure)
         ]
-        /// The deployment pre-launch file. This file will be executed prior to the deployment launch file.
-        public let preLaunchFile: String?
-        /// The deployment post-launch file. This file will be executed after the deployment launch file.
-        public let postLaunchFile: String?
-        /// An array of key/value pairs specifying environment variables for the deployment application.
-        public let environmentVariables: [String: String]?
-        /// The package name.
-        public let packageName: String
-        /// The deployment launch file.
-        public let launchFile: String
+        /// The application.
+        public let application: String
+        /// The version of the application.
+        public let applicationVersion: String
+        /// The launch configuration, usually roslaunch.
+        public let launchConfig: DeploymentLaunchConfig
 
-        public init(environmentVariables: [String: String]? = nil, launchFile: String, packageName: String, postLaunchFile: String? = nil, preLaunchFile: String? = nil) {
-            self.preLaunchFile = preLaunchFile
-            self.postLaunchFile = postLaunchFile
-            self.environmentVariables = environmentVariables
-            self.packageName = packageName
-            self.launchFile = launchFile
+        public init(application: String, applicationVersion: String, launchConfig: DeploymentLaunchConfig) {
+            self.application = application
+            self.applicationVersion = applicationVersion
+            self.launchConfig = launchConfig
         }
 
         private enum CodingKeys: String, CodingKey {
-            case preLaunchFile = "preLaunchFile"
-            case postLaunchFile = "postLaunchFile"
-            case environmentVariables = "environmentVariables"
-            case packageName = "packageName"
-            case launchFile = "launchFile"
+            case application = "application"
+            case applicationVersion = "applicationVersion"
+            case launchConfig = "launchConfig"
         }
     }
 
-    public enum SimulationJobErrorCode: String, CustomStringConvertible, Codable {
-        case internalserviceerror = "InternalServiceError"
-        case robotapplicationcrash = "RobotApplicationCrash"
-        case simulationapplicationcrash = "SimulationApplicationCrash"
-        case badpermissionsrobotapplication = "BadPermissionsRobotApplication"
-        case badpermissionssimulationapplication = "BadPermissionsSimulationApplication"
-        case badpermissionss3output = "BadPermissionsS3Output"
-        case badpermissionscloudwatchlogs = "BadPermissionsCloudwatchLogs"
-        case subnetiplimitexceeded = "SubnetIpLimitExceeded"
-        case enilimitexceeded = "ENILimitExceeded"
-        case badpermissionsusercredentials = "BadPermissionsUserCredentials"
-        case invalidbundlerobotapplication = "InvalidBundleRobotApplication"
-        case invalidbundlesimulationapplication = "InvalidBundleSimulationApplication"
-        case robotapplicationversionmismatchedetag = "RobotApplicationVersionMismatchedEtag"
-        case simulationapplicationversionmismatchedetag = "SimulationApplicationVersionMismatchedEtag"
+    public struct DeploymentConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "concurrentDeploymentPercentage", required: false, type: .integer), 
+            AWSShapeMember(label: "failureThresholdPercentage", required: false, type: .integer)
+        ]
+        /// The percentage of robots receiving the deployment at the same time.
+        public let concurrentDeploymentPercentage: Int32?
+        /// The percentage of deployments that need to fail before stopping deployment.
+        public let failureThresholdPercentage: Int32?
+
+        public init(concurrentDeploymentPercentage: Int32? = nil, failureThresholdPercentage: Int32? = nil) {
+            self.concurrentDeploymentPercentage = concurrentDeploymentPercentage
+            self.failureThresholdPercentage = failureThresholdPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case concurrentDeploymentPercentage = "concurrentDeploymentPercentage"
+            case failureThresholdPercentage = "failureThresholdPercentage"
+        }
+    }
+
+    public struct DeploymentJob: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "deploymentApplicationConfigs", required: false, type: .list), 
+            AWSShapeMember(label: "deploymentConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
+            AWSShapeMember(label: "failureReason", required: false, type: .string), 
+            AWSShapeMember(label: "fleet", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum)
+        ]
+        /// The Amazon Resource Name (ARN) of the deployment job.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the deployment job was created.
+        public let createdAt: TimeStamp?
+        /// The deployment application configuration.
+        public let deploymentApplicationConfigs: [DeploymentApplicationConfig]?
+        /// The deployment configuration.
+        public let deploymentConfig: DeploymentConfig?
+        /// The deployment job failure code.
+        public let failureCode: DeploymentJobErrorCode?
+        /// A short description of the reason why the deployment job failed.
+        public let failureReason: String?
+        /// The Amazon Resource Name (ARN) of the fleet.
+        public let fleet: String?
+        /// The status of the deployment job.
+        public let status: DeploymentStatus?
+
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, deploymentApplicationConfigs: [DeploymentApplicationConfig]? = nil, deploymentConfig: DeploymentConfig? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, fleet: String? = nil, status: DeploymentStatus? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.deploymentApplicationConfigs = deploymentApplicationConfigs
+            self.deploymentConfig = deploymentConfig
+            self.failureCode = failureCode
+            self.failureReason = failureReason
+            self.fleet = fleet
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case deploymentApplicationConfigs = "deploymentApplicationConfigs"
+            case deploymentConfig = "deploymentConfig"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case fleet = "fleet"
+            case status = "status"
+        }
+    }
+
+    public enum DeploymentJobErrorCode: String, CustomStringConvertible, Codable {
+        case resourcenotfound = "ResourceNotFound"
+        case failurethresholdbreached = "FailureThresholdBreached"
+        case robotdeploymentnoresponse = "RobotDeploymentNoResponse"
+        case greengrassdeploymentfailed = "GreengrassDeploymentFailed"
+        case missingrobotarchitecture = "MissingRobotArchitecture"
+        case missingrobotapplicationarchitecture = "MissingRobotApplicationArchitecture"
+        case missingrobotdeploymentresource = "MissingRobotDeploymentResource"
+        case greengrassgroupversiondoesnotexist = "GreengrassGroupVersionDoesNotExist"
+        case extractingbundlefailure = "ExtractingBundleFailure"
+        case prelaunchfilefailure = "PreLaunchFileFailure"
+        case postlaunchfilefailure = "PostLaunchFileFailure"
+        case badpermissionerror = "BadPermissionError"
+        case internalservererror = "InternalServerError"
         public var description: String { return self.rawValue }
     }
 
-    public struct RestartSimulationJobResponse: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct ListDeploymentJobsResponse: AWSShape {
+    public struct DeploymentLaunchConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentJobs", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
+            AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
+            AWSShapeMember(label: "launchFile", required: true, type: .string), 
+            AWSShapeMember(label: "packageName", required: true, type: .string), 
+            AWSShapeMember(label: "postLaunchFile", required: false, type: .string), 
+            AWSShapeMember(label: "preLaunchFile", required: false, type: .string)
         ]
-        /// A list of deployment jobs that meet the criteria of the request.
-        public let deploymentJobs: [DeploymentJob]?
-        /// The nextToken value to include in a future ListDeploymentJobs request. When the results of a ListDeploymentJobs request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
-        public let nextToken: String?
+        /// An array of key/value pairs specifying environment variables for the deployment application.
+        public let environmentVariables: [String: String]?
+        /// The deployment launch file.
+        public let launchFile: String
+        /// The package name.
+        public let packageName: String
+        /// The deployment post-launch file. This file will be executed after the deployment launch file.
+        public let postLaunchFile: String?
+        /// The deployment pre-launch file. This file will be executed prior to the deployment launch file.
+        public let preLaunchFile: String?
 
-        public init(deploymentJobs: [DeploymentJob]? = nil, nextToken: String? = nil) {
-            self.deploymentJobs = deploymentJobs
-            self.nextToken = nextToken
+        public init(environmentVariables: [String: String]? = nil, launchFile: String, packageName: String, postLaunchFile: String? = nil, preLaunchFile: String? = nil) {
+            self.environmentVariables = environmentVariables
+            self.launchFile = launchFile
+            self.packageName = packageName
+            self.postLaunchFile = postLaunchFile
+            self.preLaunchFile = preLaunchFile
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentJobs = "deploymentJobs"
-            case nextToken = "nextToken"
+            case environmentVariables = "environmentVariables"
+            case launchFile = "launchFile"
+            case packageName = "packageName"
+            case postLaunchFile = "postLaunchFile"
+            case preLaunchFile = "preLaunchFile"
         }
     }
 
@@ -2029,6 +953,120 @@ extension RoboMaker {
         case failed = "Failed"
         case succeeded = "Succeeded"
         public var description: String { return self.rawValue }
+    }
+
+    public struct DeregisterRobotRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fleet", required: true, type: .string), 
+            AWSShapeMember(label: "robot", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the fleet.
+        public let fleet: String
+        /// The Amazon Resource Name (ARN) of the robot.
+        public let robot: String
+
+        public init(fleet: String, robot: String) {
+            self.fleet = fleet
+            self.robot = robot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleet = "fleet"
+            case robot = "robot"
+        }
+    }
+
+    public struct DeregisterRobotResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fleet", required: false, type: .string), 
+            AWSShapeMember(label: "robot", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the fleet.
+        public let fleet: String?
+        /// The Amazon Resource Name (ARN) of the robot.
+        public let robot: String?
+
+        public init(fleet: String? = nil, robot: String? = nil) {
+            self.fleet = fleet
+            self.robot = robot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleet = "fleet"
+            case robot = "robot"
+        }
+    }
+
+    public struct DescribeDeploymentJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "job", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the deployment job.
+        public let job: String
+
+        public init(job: String) {
+            self.job = job
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case job = "job"
+        }
+    }
+
+    public struct DescribeDeploymentJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "deploymentApplicationConfigs", required: false, type: .list), 
+            AWSShapeMember(label: "deploymentConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
+            AWSShapeMember(label: "failureReason", required: false, type: .string), 
+            AWSShapeMember(label: "fleet", required: false, type: .string), 
+            AWSShapeMember(label: "robotDeploymentSummary", required: false, type: .list), 
+            AWSShapeMember(label: "status", required: false, type: .enum)
+        ]
+        /// The Amazon Resource Name (ARN) of the deployment job.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the deployment job was created.
+        public let createdAt: TimeStamp?
+        /// The deployment application configuration.
+        public let deploymentApplicationConfigs: [DeploymentApplicationConfig]?
+        /// The deployment configuration.
+        public let deploymentConfig: DeploymentConfig?
+        /// The deployment job failure code.
+        public let failureCode: DeploymentJobErrorCode?
+        /// A short description of the reason why the deployment job failed.
+        public let failureReason: String?
+        /// The Amazon Resource Name (ARN) of the fleet.
+        public let fleet: String?
+        /// A list of robot deployment summaries.
+        public let robotDeploymentSummary: [RobotDeployment]?
+        /// The status of the deployment job.
+        public let status: DeploymentStatus?
+
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, deploymentApplicationConfigs: [DeploymentApplicationConfig]? = nil, deploymentConfig: DeploymentConfig? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, fleet: String? = nil, robotDeploymentSummary: [RobotDeployment]? = nil, status: DeploymentStatus? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.deploymentApplicationConfigs = deploymentApplicationConfigs
+            self.deploymentConfig = deploymentConfig
+            self.failureCode = failureCode
+            self.failureReason = failureReason
+            self.fleet = fleet
+            self.robotDeploymentSummary = robotDeploymentSummary
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case deploymentApplicationConfigs = "deploymentApplicationConfigs"
+            case deploymentConfig = "deploymentConfig"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case fleet = "fleet"
+            case robotDeploymentSummary = "robotDeploymentSummary"
+            case status = "status"
+        }
     }
 
     public struct DescribeFleetRequest: AWSShape {
@@ -2047,110 +1085,456 @@ extension RoboMaker {
         }
     }
 
-    public struct RobotApplicationConfig: AWSShape {
+    public struct DescribeFleetResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "applicationVersion", required: false, type: .string), 
-            AWSShapeMember(label: "application", required: true, type: .string), 
-            AWSShapeMember(label: "launchConfig", required: true, type: .structure)
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastDeploymentJob", required: false, type: .string), 
+            AWSShapeMember(label: "lastDeploymentStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "lastDeploymentTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "robots", required: false, type: .list)
         ]
-        /// The version of the robot application.
-        public let applicationVersion: String?
-        /// The application information for the robot application.
-        public let application: String
-        /// The launch configuration for the robot application.
-        public let launchConfig: LaunchConfig
+        /// The Amazon Resource Name (ARN) of the fleet.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the fleet was created.
+        public let createdAt: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the last deployment job.
+        public let lastDeploymentJob: String?
+        /// The status of the last deployment.
+        public let lastDeploymentStatus: DeploymentStatus?
+        /// The time of the last deployment.
+        public let lastDeploymentTime: TimeStamp?
+        /// The name of the fleet.
+        public let name: String?
+        /// A list of robots.
+        public let robots: [Robot]?
 
-        public init(application: String, applicationVersion: String? = nil, launchConfig: LaunchConfig) {
-            self.applicationVersion = applicationVersion
-            self.application = application
-            self.launchConfig = launchConfig
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, lastDeploymentJob: String? = nil, lastDeploymentStatus: DeploymentStatus? = nil, lastDeploymentTime: TimeStamp? = nil, name: String? = nil, robots: [Robot]? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.lastDeploymentJob = lastDeploymentJob
+            self.lastDeploymentStatus = lastDeploymentStatus
+            self.lastDeploymentTime = lastDeploymentTime
+            self.name = name
+            self.robots = robots
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationVersion = "applicationVersion"
-            case application = "application"
-            case launchConfig = "launchConfig"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case lastDeploymentJob = "lastDeploymentJob"
+            case lastDeploymentStatus = "lastDeploymentStatus"
+            case lastDeploymentTime = "lastDeploymentTime"
+            case name = "name"
+            case robots = "robots"
         }
     }
 
-    public struct SimulationJob: AWSShape {
+    public struct DescribeRobotApplicationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "outputLocation", required: false, type: .structure), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "simulationTimeMillis", required: false, type: .long), 
-            AWSShapeMember(label: "vpcConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "maxJobDurationInSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "failureBehavior", required: false, type: .enum), 
-            AWSShapeMember(label: "simulationApplications", required: false, type: .list), 
-            AWSShapeMember(label: "robotApplications", required: false, type: .list), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "iamRole", required: false, type: .string), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "failureCode", required: false, type: .enum)
+            AWSShapeMember(label: "application", required: true, type: .string), 
+            AWSShapeMember(label: "applicationVersion", required: false, type: .string)
         ]
-        /// Location for output files generated by the simulation job.
-        public let outputLocation: OutputLocation?
-        /// The time, in milliseconds since the epoch, when the simulation job was last updated.
-        public let lastUpdatedAt: TimeStamp?
-        /// The simulation job execution duration in milliseconds.
-        public let simulationTimeMillis: Int64?
-        /// VPC configuration information.
-        public let vpcConfig: VPCConfigResponse?
-        /// The maximum simulation job duration in seconds. The value must be 8 days (691,200 seconds) or less.
-        public let maxJobDurationInSeconds: Int64?
-        /// The failure behavior the simulation job.  Continue  Restart the simulation job in the same host instance.  Fail  Stop the simulation job and terminate the instance.  
-        public let failureBehavior: FailureBehavior?
-        /// A list of simulation applications.
-        public let simulationApplications: [SimulationApplicationConfig]?
-        /// A list of robot applications.
-        public let robotApplications: [RobotApplicationConfig]?
-        /// The name of the simulation job.
-        public let name: String?
-        /// The IAM role that allows the simulation instance to call the AWS APIs that are specified in its associated policies on your behalf. This is how credentials are passed in to your simulation job. See how to specify AWS security credentials for your application. 
-        public let iamRole: String?
-        /// A unique identifier for this SimulationJob request.
-        public let clientRequestToken: String?
-        /// Status of the simulation job.
-        public let status: SimulationJobStatus?
-        /// The Amazon Resource Name (ARN) of the simulation job.
-        public let arn: String?
-        /// The failure code of the simulation job if it failed.
-        public let failureCode: SimulationJobErrorCode?
+        /// The Amazon Resource Name (ARN) of the robot application.
+        public let application: String
+        /// The version of the robot application to describe.
+        public let applicationVersion: String?
 
-        public init(arn: String? = nil, clientRequestToken: String? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, iamRole: String? = nil, lastUpdatedAt: TimeStamp? = nil, maxJobDurationInSeconds: Int64? = nil, name: String? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, vpcConfig: VPCConfigResponse? = nil) {
-            self.outputLocation = outputLocation
-            self.lastUpdatedAt = lastUpdatedAt
-            self.simulationTimeMillis = simulationTimeMillis
-            self.vpcConfig = vpcConfig
-            self.maxJobDurationInSeconds = maxJobDurationInSeconds
-            self.failureBehavior = failureBehavior
-            self.simulationApplications = simulationApplications
-            self.robotApplications = robotApplications
-            self.name = name
-            self.iamRole = iamRole
-            self.clientRequestToken = clientRequestToken
-            self.status = status
-            self.arn = arn
-            self.failureCode = failureCode
+        public init(application: String, applicationVersion: String? = nil) {
+            self.application = application
+            self.applicationVersion = applicationVersion
         }
 
         private enum CodingKeys: String, CodingKey {
-            case outputLocation = "outputLocation"
-            case lastUpdatedAt = "lastUpdatedAt"
-            case simulationTimeMillis = "simulationTimeMillis"
-            case vpcConfig = "vpcConfig"
-            case maxJobDurationInSeconds = "maxJobDurationInSeconds"
-            case failureBehavior = "failureBehavior"
-            case simulationApplications = "simulationApplications"
-            case robotApplications = "robotApplications"
-            case name = "name"
-            case iamRole = "iamRole"
-            case clientRequestToken = "clientRequestToken"
-            case status = "status"
+            case application = "application"
+            case applicationVersion = "applicationVersion"
+        }
+    }
+
+    public struct DescribeRobotApplicationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "revisionId", required: false, type: .string), 
+            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
+            AWSShapeMember(label: "sources", required: false, type: .list), 
+            AWSShapeMember(label: "version", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the robot application.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the robot application was last updated.
+        public let lastUpdatedAt: TimeStamp?
+        /// The name of the robot application.
+        public let name: String?
+        /// The revision id of the robot application.
+        public let revisionId: String?
+        /// The robot software suite used by the robot application.
+        public let robotSoftwareSuite: RobotSoftwareSuite?
+        /// The sources of the robot application.
+        public let sources: [Source]?
+        /// The version of the robot application.
+        public let version: String?
+
+        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
+            self.arn = arn
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.revisionId = revisionId
+            self.robotSoftwareSuite = robotSoftwareSuite
+            self.sources = sources
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case revisionId = "revisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case sources = "sources"
+            case version = "version"
+        }
+    }
+
+    public struct DescribeRobotRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "robot", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the robot to be described.
+        public let robot: String
+
+        public init(robot: String) {
+            self.robot = robot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case robot = "robot"
+        }
+    }
+
+    public struct DescribeRobotResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "architecture", required: false, type: .enum), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "fleetArn", required: false, type: .string), 
+            AWSShapeMember(label: "greengrassGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "lastDeploymentJob", required: false, type: .string), 
+            AWSShapeMember(label: "lastDeploymentTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum)
+        ]
+        /// The target architecture of the robot application.
+        public let architecture: Architecture?
+        /// The Amazon Resource Name (ARN) of the robot.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the robot was created.
+        public let createdAt: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the fleet.
+        public let fleetArn: String?
+        /// The Greengrass group id.
+        public let greengrassGroupId: String?
+        /// The Amazon Resource Name (ARN) of the last deployment job.
+        public let lastDeploymentJob: String?
+        /// The time of the last deployment job.
+        public let lastDeploymentTime: TimeStamp?
+        /// The name of the robot.
+        public let name: String?
+        /// The status of the fleet.
+        public let status: RobotStatus?
+
+        public init(architecture: Architecture? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, fleetArn: String? = nil, greengrassGroupId: String? = nil, lastDeploymentJob: String? = nil, lastDeploymentTime: TimeStamp? = nil, name: String? = nil, status: RobotStatus? = nil) {
+            self.architecture = architecture
+            self.arn = arn
+            self.createdAt = createdAt
+            self.fleetArn = fleetArn
+            self.greengrassGroupId = greengrassGroupId
+            self.lastDeploymentJob = lastDeploymentJob
+            self.lastDeploymentTime = lastDeploymentTime
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case architecture = "architecture"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case fleetArn = "fleetArn"
+            case greengrassGroupId = "greengrassGroupId"
+            case lastDeploymentJob = "lastDeploymentJob"
+            case lastDeploymentTime = "lastDeploymentTime"
+            case name = "name"
+            case status = "status"
+        }
+    }
+
+    public struct DescribeSimulationApplicationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "application", required: true, type: .string), 
+            AWSShapeMember(label: "applicationVersion", required: false, type: .string)
+        ]
+        /// The application information for the simulation application.
+        public let application: String
+        /// The version of the simulation application to describe.
+        public let applicationVersion: String?
+
+        public init(application: String, applicationVersion: String? = nil) {
+            self.application = application
+            self.applicationVersion = applicationVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case application = "application"
+            case applicationVersion = "applicationVersion"
+        }
+    }
+
+    public struct DescribeSimulationApplicationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "renderingEngine", required: false, type: .structure), 
+            AWSShapeMember(label: "revisionId", required: false, type: .string), 
+            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
+            AWSShapeMember(label: "simulationSoftwareSuite", required: false, type: .structure), 
+            AWSShapeMember(label: "sources", required: false, type: .list), 
+            AWSShapeMember(label: "version", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the robot simulation application.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the simulation application was last updated.
+        public let lastUpdatedAt: TimeStamp?
+        /// The name of the simulation application.
+        public let name: String?
+        /// The rendering engine for the simulation application.
+        public let renderingEngine: RenderingEngine?
+        /// The revision id of the simulation application.
+        public let revisionId: String?
+        /// Information about the robot software suite.
+        public let robotSoftwareSuite: RobotSoftwareSuite?
+        /// The simulation software suite used by the simulation application.
+        public let simulationSoftwareSuite: SimulationSoftwareSuite?
+        /// The sources of the simulation application.
+        public let sources: [Source]?
+        /// The version of the simulation application.
+        public let version: String?
+
+        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
+            self.arn = arn
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.renderingEngine = renderingEngine
+            self.revisionId = revisionId
+            self.robotSoftwareSuite = robotSoftwareSuite
+            self.simulationSoftwareSuite = simulationSoftwareSuite
+            self.sources = sources
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case renderingEngine = "renderingEngine"
+            case revisionId = "revisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case simulationSoftwareSuite = "simulationSoftwareSuite"
+            case sources = "sources"
+            case version = "version"
+        }
+    }
+
+    public struct DescribeSimulationJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "job", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the simulation job to be described.
+        public let job: String
+
+        public init(job: String) {
+            self.job = job
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case job = "job"
+        }
+    }
+
+    public struct DescribeSimulationJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "failureBehavior", required: false, type: .enum), 
+            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
+            AWSShapeMember(label: "iamRole", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "maxJobDurationInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "outputLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "robotApplications", required: false, type: .list), 
+            AWSShapeMember(label: "simulationApplications", required: false, type: .list), 
+            AWSShapeMember(label: "simulationTimeMillis", required: false, type: .long), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
+        ]
+        /// The Amazon Resource Name (ARN) of the simulation job.
+        public let arn: String?
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The failure behavior for the simulation job.
+        public let failureBehavior: FailureBehavior?
+        /// The failure code of the simulation job if it failed:  InternalServiceError  Internal service error  RobotApplicationCrash  Robot application exited abnormally (segfault, etc.)  SimulationApplicationCrash   Simulation application exited abnormally (segfault, etc.)  BadPermissionsRobotApplication  Robot application bundle could not be downloaded  BadPermissionsSimulationApplication  Simulation application bundle could not be downloaded  BadPermissionsS3Output  Unable to publish outputs to customer-provided S3 bucket  BadPermissionsCloudwatchLogs  Unable to publish logs to customer-provided CloudWatch Logs resource  SubnetIpLimitExceeded  Subnet IP limit exceeded  ENILimitExceeded  ENI limit exceeded  BadPermissionsUserCredentials  Unable to use the Role provided  InvalidBundleRobotApplication  Robot bundle cannot be extracted (invalid format, bundling error, etc.)  InvalidBundleSimulationApplication  Simulation bundle cannot be extracted (invalid format, bundling error, etc.)  RobotApplicationVersionMismatchedEtag  Etag for RobotApplication does not match value during version creation  SimulationApplicationVersionMismatchedEtag  Etag for SimulationApplication does not match value during version creation  
+        public let failureCode: SimulationJobErrorCode?
+        /// The IAM role that allows the simulation instance to call the AWS APIs that are specified in its associated policies on your behalf.
+        public let iamRole: String?
+        /// The time, in milliseconds since the epoch, when the simulation job was last updated.
+        public let lastUpdatedAt: TimeStamp?
+        /// The maximum job duration in seconds. The value must be 8 days (691,200 seconds) or less.
+        public let maxJobDurationInSeconds: Int64?
+        /// The name of the simulation job.
+        public let name: String?
+        /// Location for output files generated by the simulation job.
+        public let outputLocation: OutputLocation?
+        /// A list of robot applications.
+        public let robotApplications: [RobotApplicationConfig]?
+        /// A list of simulation applications.
+        public let simulationApplications: [SimulationApplicationConfig]?
+        /// The simulation job execution duration in milliseconds.
+        public let simulationTimeMillis: Int64?
+        /// The status of the simulation job.
+        public let status: SimulationJobStatus?
+        /// The VPC configuration.
+        public let vpcConfig: VPCConfigResponse?
+
+        public init(arn: String? = nil, clientRequestToken: String? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, iamRole: String? = nil, lastUpdatedAt: TimeStamp? = nil, maxJobDurationInSeconds: Int64? = nil, name: String? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, vpcConfig: VPCConfigResponse? = nil) {
+            self.arn = arn
+            self.clientRequestToken = clientRequestToken
+            self.failureBehavior = failureBehavior
+            self.failureCode = failureCode
+            self.iamRole = iamRole
+            self.lastUpdatedAt = lastUpdatedAt
+            self.maxJobDurationInSeconds = maxJobDurationInSeconds
+            self.name = name
+            self.outputLocation = outputLocation
+            self.robotApplications = robotApplications
+            self.simulationApplications = simulationApplications
+            self.simulationTimeMillis = simulationTimeMillis
+            self.status = status
+            self.vpcConfig = vpcConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case failureBehavior = "failureBehavior"
             case failureCode = "failureCode"
+            case iamRole = "iamRole"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case maxJobDurationInSeconds = "maxJobDurationInSeconds"
+            case name = "name"
+            case outputLocation = "outputLocation"
+            case robotApplications = "robotApplications"
+            case simulationApplications = "simulationApplications"
+            case simulationTimeMillis = "simulationTimeMillis"
+            case status = "status"
+            case vpcConfig = "vpcConfig"
+        }
+    }
+
+    public enum FailureBehavior: String, CustomStringConvertible, Codable {
+        case fail = "Fail"
+        case `continue` = "Continue"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Filter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "values", required: false, type: .list)
+        ]
+        /// The name of the filter.
+        public let name: String?
+        /// A list of values.
+        public let values: [String]?
+
+        public init(name: String? = nil, values: [String]? = nil) {
+            self.name = name
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case values = "values"
+        }
+    }
+
+    public struct Fleet: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastDeploymentJob", required: false, type: .string), 
+            AWSShapeMember(label: "lastDeploymentStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "lastDeploymentTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the fleet.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the fleet was created.
+        public let createdAt: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the last deployment job.
+        public let lastDeploymentJob: String?
+        /// The status of the last fleet deployment.
+        public let lastDeploymentStatus: DeploymentStatus?
+        /// The time of the last deployment.
+        public let lastDeploymentTime: TimeStamp?
+        /// The name of the fleet.
+        public let name: String?
+
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, lastDeploymentJob: String? = nil, lastDeploymentStatus: DeploymentStatus? = nil, lastDeploymentTime: TimeStamp? = nil, name: String? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.lastDeploymentJob = lastDeploymentJob
+            self.lastDeploymentStatus = lastDeploymentStatus
+            self.lastDeploymentTime = lastDeploymentTime
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case lastDeploymentJob = "lastDeploymentJob"
+            case lastDeploymentStatus = "lastDeploymentStatus"
+            case lastDeploymentTime = "lastDeploymentTime"
+            case name = "name"
+        }
+    }
+
+    public struct LaunchConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
+            AWSShapeMember(label: "launchFile", required: true, type: .string), 
+            AWSShapeMember(label: "packageName", required: true, type: .string)
+        ]
+        /// The environment variables for the application launch.
+        public let environmentVariables: [String: String]?
+        /// The launch file.
+        public let launchFile: String
+        /// The package name.
+        public let packageName: String
+
+        public init(environmentVariables: [String: String]? = nil, launchFile: String, packageName: String) {
+            self.environmentVariables = environmentVariables
+            self.launchFile = launchFile
+            self.packageName = packageName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environmentVariables = "environmentVariables"
+            case launchFile = "launchFile"
+            case packageName = "packageName"
         }
     }
 
@@ -2180,169 +1564,387 @@ extension RoboMaker {
         }
     }
 
-    public struct CreateSimulationApplicationResponse: AWSShape {
+    public struct ListDeploymentJobsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "simulationSoftwareSuite", required: false, type: .structure), 
-            AWSShapeMember(label: "renderingEngine", required: false, type: .structure), 
-            AWSShapeMember(label: "revisionId", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
-            AWSShapeMember(label: "sources", required: false, type: .list), 
+            AWSShapeMember(label: "deploymentJobs", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// A list of deployment jobs that meet the criteria of the request.
+        public let deploymentJobs: [DeploymentJob]?
+        /// The nextToken value to include in a future ListDeploymentJobs request. When the results of a ListDeploymentJobs request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
+        public let nextToken: String?
+
+        public init(deploymentJobs: [DeploymentJob]? = nil, nextToken: String? = nil) {
+            self.deploymentJobs = deploymentJobs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentJobs = "deploymentJobs"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListFleetsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filters", required: false, type: .list), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// Optional filters to limit results.
+        public let filters: [Filter]?
+        /// The maximum number of deployment job results returned by ListFleets in paginated output. When this parameter is used, ListFleets only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListFleets returns up to 100 results and a nextToken value if applicable. 
+        public let maxResults: Int32?
+        /// The nextToken value returned from a previous paginated ListFleets request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListFleetsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fleetDetails", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// A list of fleet details meeting the request criteria.
+        public let fleetDetails: [Fleet]?
+        /// The nextToken value to include in a future ListDeploymentJobs request. When the results of a ListFleets request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
+        public let nextToken: String?
+
+        public init(fleetDetails: [Fleet]? = nil, nextToken: String? = nil) {
+            self.fleetDetails = fleetDetails
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetDetails = "fleetDetails"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListRobotApplicationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filters", required: false, type: .list), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "versionQualifier", required: false, type: .string)
+        ]
+        /// Optional filters to limit results.
+        public let filters: [Filter]?
+        /// The maximum number of deployment job results returned by ListRobotApplications in paginated output. When this parameter is used, ListRobotApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListRobotApplications returns up to 100 results and a nextToken value if applicable. 
+        public let maxResults: Int32?
+        /// The nextToken value returned from a previous paginated ListRobotApplications request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
+        public let nextToken: String?
+        /// The version qualifier of the robot application.
+        public let versionQualifier: String?
+
+        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, versionQualifier: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.versionQualifier = versionQualifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case versionQualifier = "versionQualifier"
+        }
+    }
+
+    public struct ListRobotApplicationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "robotApplicationSummaries", required: false, type: .list)
+        ]
+        /// The nextToken value to include in a future ListRobotApplications request. When the results of a ListRobotApplications request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
+        public let nextToken: String?
+        /// A list of robot application summaries that meet the criteria of the request.
+        public let robotApplicationSummaries: [RobotApplicationSummary]?
+
+        public init(nextToken: String? = nil, robotApplicationSummaries: [RobotApplicationSummary]? = nil) {
+            self.nextToken = nextToken
+            self.robotApplicationSummaries = robotApplicationSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case robotApplicationSummaries = "robotApplicationSummaries"
+        }
+    }
+
+    public struct ListRobotsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filters", required: false, type: .list), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// Optional filters to limit results.
+        public let filters: [Filter]?
+        /// The maximum number of deployment job results returned by ListRobots in paginated output. When this parameter is used, ListRobots only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListRobots returns up to 100 results and a nextToken value if applicable. 
+        public let maxResults: Int32?
+        /// The nextToken value returned from a previous paginated ListRobots request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListRobotsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "robots", required: false, type: .list)
+        ]
+        /// The nextToken value to include in a future ListRobots request. When the results of a ListRobot request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
+        public let nextToken: String?
+        /// A list of robots that meet the criteria of the request.
+        public let robots: [Robot]?
+
+        public init(nextToken: String? = nil, robots: [Robot]? = nil) {
+            self.nextToken = nextToken
+            self.robots = robots
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case robots = "robots"
+        }
+    }
+
+    public struct ListSimulationApplicationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filters", required: false, type: .list), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "versionQualifier", required: false, type: .string)
+        ]
+        /// Optional list of filters to limit results. The only valid filter name is name.
+        public let filters: [Filter]?
+        /// The maximum number of deployment job results returned by ListSimulationApplications in paginated output. When this parameter is used, ListSimulationApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListSimulationApplications returns up to 100 results and a nextToken value if applicable. 
+        public let maxResults: Int32?
+        /// The nextToken value returned from a previous paginated ListSimulationApplications request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
+        public let nextToken: String?
+        /// The version qualifier of the simulation application.
+        public let versionQualifier: String?
+
+        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, versionQualifier: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.versionQualifier = versionQualifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case versionQualifier = "versionQualifier"
+        }
+    }
+
+    public struct ListSimulationApplicationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "simulationApplicationSummaries", required: false, type: .list)
+        ]
+        /// The nextToken value to include in a future ListSimulationApplications request. When the results of a ListRobot request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
+        public let nextToken: String?
+        /// A list of simulation application summaries that meet the criteria of the request.
+        public let simulationApplicationSummaries: [SimulationApplicationSummary]?
+
+        public init(nextToken: String? = nil, simulationApplicationSummaries: [SimulationApplicationSummary]? = nil) {
+            self.nextToken = nextToken
+            self.simulationApplicationSummaries = simulationApplicationSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case simulationApplicationSummaries = "simulationApplicationSummaries"
+        }
+    }
+
+    public struct ListSimulationJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filters", required: false, type: .list), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// Optional filters to limit results.
+        public let filters: [Filter]?
+        /// The maximum number of deployment job results returned by ListSimulationJobs in paginated output. When this parameter is used, ListSimulationJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListSimulationJobs returns up to 100 results and a nextToken value if applicable. 
+        public let maxResults: Int32?
+        /// The nextToken value returned from a previous paginated ListSimulationJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListSimulationJobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "simulationJobSummaries", required: true, type: .list)
+        ]
+        /// The nextToken value to include in a future ListSimulationJobs request. When the results of a ListRobot request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
+        public let nextToken: String?
+        /// A list of simulation job summaries that meet the criteria of the request.
+        public let simulationJobSummaries: [SimulationJobSummary]
+
+        public init(nextToken: String? = nil, simulationJobSummaries: [SimulationJobSummary]) {
+            self.nextToken = nextToken
+            self.simulationJobSummaries = simulationJobSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case simulationJobSummaries = "simulationJobSummaries"
+        }
+    }
+
+    public struct OutputLocation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "s3Bucket", required: false, type: .string), 
+            AWSShapeMember(label: "s3Prefix", required: false, type: .string)
+        ]
+        /// The S3 bucket for output.
+        public let s3Bucket: String?
+        /// The S3 folder in the s3Bucket where output files will be placed.
+        public let s3Prefix: String?
+
+        public init(s3Bucket: String? = nil, s3Prefix: String? = nil) {
+            self.s3Bucket = s3Bucket
+            self.s3Prefix = s3Prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Bucket = "s3Bucket"
+            case s3Prefix = "s3Prefix"
+        }
+    }
+
+    public struct ProgressDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "currentProgress", required: false, type: .string), 
+            AWSShapeMember(label: "targetResource", required: false, type: .string)
+        ]
+        /// The current progress status.
+        public let currentProgress: String?
+        /// The Amazon Resource Name (ARN) of the deployment job.
+        public let targetResource: String?
+
+        public init(currentProgress: String? = nil, targetResource: String? = nil) {
+            self.currentProgress = currentProgress
+            self.targetResource = targetResource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentProgress = "currentProgress"
+            case targetResource = "targetResource"
+        }
+    }
+
+    public struct RegisterRobotRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fleet", required: true, type: .string), 
+            AWSShapeMember(label: "robot", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the fleet.
+        public let fleet: String
+        /// The Amazon Resource Name (ARN) of the robot.
+        public let robot: String
+
+        public init(fleet: String, robot: String) {
+            self.fleet = fleet
+            self.robot = robot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleet = "fleet"
+            case robot = "robot"
+        }
+    }
+
+    public struct RegisterRobotResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fleet", required: false, type: .string), 
+            AWSShapeMember(label: "robot", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the fleet that the robot will join.
+        public let fleet: String?
+        /// Information about the robot registration.
+        public let robot: String?
+
+        public init(fleet: String? = nil, robot: String? = nil) {
+            self.fleet = fleet
+            self.robot = robot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleet = "fleet"
+            case robot = "robot"
+        }
+    }
+
+    public struct RenderingEngine: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .enum), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the simulation application.
-        public let arn: String?
-        /// The name of the simulation application.
-        public let name: String?
-        /// The simulation software suite used by the simulation application.
-        public let simulationSoftwareSuite: SimulationSoftwareSuite?
-        /// The rendering engine for the simulation application.
-        public let renderingEngine: RenderingEngine?
-        /// The revision id of the simulation application.
-        public let revisionId: String?
-        /// The time, in milliseconds since the epoch, when the simulation application was last updated.
-        public let lastUpdatedAt: TimeStamp?
-        /// Information about the robot software suite.
-        public let robotSoftwareSuite: RobotSoftwareSuite?
-        /// The sources of the simulation application.
-        public let sources: [Source]?
-        /// The version of the simulation application.
+        /// The name of the rendering engine.
+        public let name: RenderingEngineType?
+        /// The version of the rendering engine.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
-            self.arn = arn
+        public init(name: RenderingEngineType? = nil, version: String? = nil) {
             self.name = name
-            self.simulationSoftwareSuite = simulationSoftwareSuite
-            self.renderingEngine = renderingEngine
-            self.revisionId = revisionId
-            self.lastUpdatedAt = lastUpdatedAt
-            self.robotSoftwareSuite = robotSoftwareSuite
-            self.sources = sources
             self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
             case name = "name"
-            case simulationSoftwareSuite = "simulationSoftwareSuite"
-            case renderingEngine = "renderingEngine"
-            case revisionId = "revisionId"
-            case lastUpdatedAt = "lastUpdatedAt"
-            case robotSoftwareSuite = "robotSoftwareSuite"
-            case sources = "sources"
             case version = "version"
         }
     }
 
-    public struct DescribeSimulationJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "iamRole", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "outputLocation", required: false, type: .structure), 
-            AWSShapeMember(label: "simulationApplications", required: false, type: .list), 
-            AWSShapeMember(label: "vpcConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "failureBehavior", required: false, type: .enum), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "simulationTimeMillis", required: false, type: .long), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxJobDurationInSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "robotApplications", required: false, type: .list), 
-            AWSShapeMember(label: "failureCode", required: false, type: .enum)
-        ]
-        /// The name of the simulation job.
-        public let name: String?
-        /// The IAM role that allows the simulation instance to call the AWS APIs that are specified in its associated policies on your behalf.
-        public let iamRole: String?
-        /// The status of the simulation job.
-        public let status: SimulationJobStatus?
-        /// The Amazon Resource Name (ARN) of the simulation job.
-        public let arn: String?
-        /// Location for output files generated by the simulation job.
-        public let outputLocation: OutputLocation?
-        /// A list of simulation applications.
-        public let simulationApplications: [SimulationApplicationConfig]?
-        /// The VPC configuration.
-        public let vpcConfig: VPCConfigResponse?
-        /// The failure behavior for the simulation job.
-        public let failureBehavior: FailureBehavior?
-        /// The time, in milliseconds since the epoch, when the simulation job was last updated.
-        public let lastUpdatedAt: TimeStamp?
-        /// The simulation job execution duration in milliseconds.
-        public let simulationTimeMillis: Int64?
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
-        public let clientRequestToken: String?
-        /// The maximum job duration in seconds. The value must be 8 days (691,200 seconds) or less.
-        public let maxJobDurationInSeconds: Int64?
-        /// A list of robot applications.
-        public let robotApplications: [RobotApplicationConfig]?
-        /// The failure code of the simulation job if it failed:  InternalServiceError  Internal service error  RobotApplicationCrash  Robot application exited abnormally (segfault, etc.)  SimulationApplicationCrash   Simulation application exited abnormally (segfault, etc.)  BadPermissionsRobotApplication  Robot application bundle could not be downloaded  BadPermissionsSimulationApplication  Simulation application bundle could not be downloaded  BadPermissionsS3Output  Unable to publish outputs to customer-provided S3 bucket  BadPermissionsCloudwatchLogs  Unable to publish logs to customer-provided CloudWatch Logs resource  SubnetIpLimitExceeded  Subnet IP limit exceeded  ENILimitExceeded  ENI limit exceeded  BadPermissionsUserCredentials  Unable to use the Role provided  InvalidBundleRobotApplication  Robot bundle cannot be extracted (invalid format, bundling error, etc.)  InvalidBundleSimulationApplication  Simulation bundle cannot be extracted (invalid format, bundling error, etc.)  RobotApplicationVersionMismatchedEtag  Etag for RobotApplication does not match value during version creation  SimulationApplicationVersionMismatchedEtag  Etag for SimulationApplication does not match value during version creation  
-        public let failureCode: SimulationJobErrorCode?
-
-        public init(arn: String? = nil, clientRequestToken: String? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, iamRole: String? = nil, lastUpdatedAt: TimeStamp? = nil, maxJobDurationInSeconds: Int64? = nil, name: String? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, vpcConfig: VPCConfigResponse? = nil) {
-            self.name = name
-            self.iamRole = iamRole
-            self.status = status
-            self.arn = arn
-            self.outputLocation = outputLocation
-            self.simulationApplications = simulationApplications
-            self.vpcConfig = vpcConfig
-            self.failureBehavior = failureBehavior
-            self.lastUpdatedAt = lastUpdatedAt
-            self.simulationTimeMillis = simulationTimeMillis
-            self.clientRequestToken = clientRequestToken
-            self.maxJobDurationInSeconds = maxJobDurationInSeconds
-            self.robotApplications = robotApplications
-            self.failureCode = failureCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case iamRole = "iamRole"
-            case status = "status"
-            case arn = "arn"
-            case outputLocation = "outputLocation"
-            case simulationApplications = "simulationApplications"
-            case vpcConfig = "vpcConfig"
-            case failureBehavior = "failureBehavior"
-            case lastUpdatedAt = "lastUpdatedAt"
-            case simulationTimeMillis = "simulationTimeMillis"
-            case clientRequestToken = "clientRequestToken"
-            case maxJobDurationInSeconds = "maxJobDurationInSeconds"
-            case robotApplications = "robotApplications"
-            case failureCode = "failureCode"
-        }
-    }
-
-    public struct CreateFleetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
-        /// The name of the fleet.
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
-    }
-
-    public enum SimulationSoftwareSuiteType: String, CustomStringConvertible, Codable {
-        case gazebo = "Gazebo"
+    public enum RenderingEngineType: String, CustomStringConvertible, Codable {
+        case ogre = "OGRE"
         public var description: String { return self.rawValue }
     }
 
-    public struct CancelSimulationJobRequest: AWSShape {
+    public struct RestartSimulationJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "job", required: true, type: .string)
         ]
-        /// The simulation job ARN to cancel.
+        /// The Amazon Resource Name (ARN) of the simulation job.
         public let job: String
 
         public init(job: String) {
@@ -2354,297 +1956,136 @@ extension RoboMaker {
         }
     }
 
-    public struct DescribeFleetResponse: AWSShape {
+    public struct RestartSimulationJobResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct Robot: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "architecture", required: false, type: .enum), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "robots", required: false, type: .list), 
+            AWSShapeMember(label: "fleetArn", required: false, type: .string), 
+            AWSShapeMember(label: "greenGrassGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "lastDeploymentJob", required: false, type: .string), 
             AWSShapeMember(label: "lastDeploymentTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "lastDeploymentJob", required: false, type: .string), 
-            AWSShapeMember(label: "lastDeploymentStatus", required: false, type: .enum)
+            AWSShapeMember(label: "status", required: false, type: .enum)
         ]
-        /// The time, in milliseconds since the epoch, when the fleet was created.
-        public let createdAt: TimeStamp?
-        /// A list of robots.
-        public let robots: [Robot]?
-        /// The time of the last deployment.
-        public let lastDeploymentTime: TimeStamp?
-        /// The name of the fleet.
-        public let name: String?
-        /// The Amazon Resource Name (ARN) of the fleet.
+        /// The architecture of the robot.
+        public let architecture: Architecture?
+        /// The Amazon Resource Name (ARN) of the robot.
         public let arn: String?
+        /// The time, in milliseconds since the epoch, when the robot was created.
+        public let createdAt: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the fleet.
+        public let fleetArn: String?
+        /// The Greengrass group associated with the robot.
+        public let greenGrassGroupId: String?
         /// The Amazon Resource Name (ARN) of the last deployment job.
         public let lastDeploymentJob: String?
-        /// The status of the last deployment.
-        public let lastDeploymentStatus: DeploymentStatus?
+        /// The time of the last deployment.
+        public let lastDeploymentTime: TimeStamp?
+        /// The name of the robot.
+        public let name: String?
+        /// The status of the robot.
+        public let status: RobotStatus?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, lastDeploymentJob: String? = nil, lastDeploymentStatus: DeploymentStatus? = nil, lastDeploymentTime: TimeStamp? = nil, name: String? = nil, robots: [Robot]? = nil) {
+        public init(architecture: Architecture? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, fleetArn: String? = nil, greenGrassGroupId: String? = nil, lastDeploymentJob: String? = nil, lastDeploymentTime: TimeStamp? = nil, name: String? = nil, status: RobotStatus? = nil) {
+            self.architecture = architecture
+            self.arn = arn
             self.createdAt = createdAt
-            self.robots = robots
+            self.fleetArn = fleetArn
+            self.greenGrassGroupId = greenGrassGroupId
+            self.lastDeploymentJob = lastDeploymentJob
             self.lastDeploymentTime = lastDeploymentTime
             self.name = name
-            self.arn = arn
-            self.lastDeploymentJob = lastDeploymentJob
-            self.lastDeploymentStatus = lastDeploymentStatus
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case architecture = "architecture"
+            case arn = "arn"
             case createdAt = "createdAt"
-            case robots = "robots"
+            case fleetArn = "fleetArn"
+            case greenGrassGroupId = "greenGrassGroupId"
+            case lastDeploymentJob = "lastDeploymentJob"
             case lastDeploymentTime = "lastDeploymentTime"
             case name = "name"
-            case arn = "arn"
-            case lastDeploymentJob = "lastDeploymentJob"
-            case lastDeploymentStatus = "lastDeploymentStatus"
+            case status = "status"
         }
     }
 
-    public struct CreateRobotApplicationResponse: AWSShape {
+    public struct RobotApplicationConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "application", required: true, type: .string), 
+            AWSShapeMember(label: "applicationVersion", required: false, type: .string), 
+            AWSShapeMember(label: "launchConfig", required: true, type: .structure)
+        ]
+        /// The application information for the robot application.
+        public let application: String
+        /// The version of the robot application.
+        public let applicationVersion: String?
+        /// The launch configuration for the robot application.
+        public let launchConfig: LaunchConfig
+
+        public init(application: String, applicationVersion: String? = nil, launchConfig: LaunchConfig) {
+            self.application = application
+            self.applicationVersion = applicationVersion
+            self.launchConfig = launchConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case application = "application"
+            case applicationVersion = "applicationVersion"
+            case launchConfig = "launchConfig"
+        }
+    }
+
+    public struct RobotApplicationSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "sources", required: false, type: .list), 
-            AWSShapeMember(label: "revisionId", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
-        /// The robot software suite used by the robot application.
-        public let robotSoftwareSuite: RobotSoftwareSuite?
-        /// The name of the robot application.
-        public let name: String?
+        /// The Amazon Resource Name (ARN) of the robot.
+        public let arn: String?
         /// The time, in milliseconds since the epoch, when the robot application was last updated.
         public let lastUpdatedAt: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the robot application.
-        public let arn: String?
-        /// The sources of the robot application.
-        public let sources: [Source]?
-        /// The revision id of the robot application.
-        public let revisionId: String?
+        /// The name of the robot application.
+        public let name: String?
         /// The version of the robot application.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
-            self.robotSoftwareSuite = robotSoftwareSuite
-            self.name = name
-            self.lastUpdatedAt = lastUpdatedAt
+        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, version: String? = nil) {
             self.arn = arn
-            self.sources = sources
-            self.revisionId = revisionId
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
             self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
-            case robotSoftwareSuite = "robotSoftwareSuite"
-            case name = "name"
+            case arn = "arn"
             case lastUpdatedAt = "lastUpdatedAt"
-            case arn = "arn"
-            case sources = "sources"
-            case revisionId = "revisionId"
-            case version = "version"
-        }
-    }
-
-    public struct DeleteFleetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fleet", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the fleet.
-        public let fleet: String
-
-        public init(fleet: String) {
-            self.fleet = fleet
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fleet = "fleet"
-        }
-    }
-
-    public struct ListRobotApplicationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "versionQualifier", required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "filters", required: false, type: .list)
-        ]
-        /// The maximum number of deployment job results returned by ListRobotApplications in paginated output. When this parameter is used, ListRobotApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListRobotApplications returns up to 100 results and a nextToken value if applicable. 
-        public let maxResults: Int32?
-        /// The version qualifier of the robot application.
-        public let versionQualifier: String?
-        /// The nextToken value returned from a previous paginated ListRobotApplications request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        public let nextToken: String?
-        /// Optional filters to limit results.
-        public let filters: [Filter]?
-
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, versionQualifier: String? = nil) {
-            self.maxResults = maxResults
-            self.versionQualifier = versionQualifier
-            self.nextToken = nextToken
-            self.filters = filters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case versionQualifier = "versionQualifier"
-            case nextToken = "nextToken"
-            case filters = "filters"
-        }
-    }
-
-    public struct DescribeSimulationApplicationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
-            AWSShapeMember(label: "sources", required: false, type: .list), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "renderingEngine", required: false, type: .structure), 
-            AWSShapeMember(label: "revisionId", required: false, type: .string), 
-            AWSShapeMember(label: "simulationSoftwareSuite", required: false, type: .structure), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp)
-        ]
-        /// The version of the simulation application.
-        public let version: String?
-        /// Information about the robot software suite.
-        public let robotSoftwareSuite: RobotSoftwareSuite?
-        /// The sources of the simulation application.
-        public let sources: [Source]?
-        /// The name of the simulation application.
-        public let name: String?
-        /// The Amazon Resource Name (ARN) of the robot simulation application.
-        public let arn: String?
-        /// The rendering engine for the simulation application.
-        public let renderingEngine: RenderingEngine?
-        /// The revision id of the simulation application.
-        public let revisionId: String?
-        /// The simulation software suite used by the simulation application.
-        public let simulationSoftwareSuite: SimulationSoftwareSuite?
-        /// The time, in milliseconds since the epoch, when the simulation application was last updated.
-        public let lastUpdatedAt: TimeStamp?
-
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
-            self.version = version
-            self.robotSoftwareSuite = robotSoftwareSuite
-            self.sources = sources
-            self.name = name
-            self.arn = arn
-            self.renderingEngine = renderingEngine
-            self.revisionId = revisionId
-            self.simulationSoftwareSuite = simulationSoftwareSuite
-            self.lastUpdatedAt = lastUpdatedAt
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case version = "version"
-            case robotSoftwareSuite = "robotSoftwareSuite"
-            case sources = "sources"
             case name = "name"
-            case arn = "arn"
-            case renderingEngine = "renderingEngine"
-            case revisionId = "revisionId"
-            case simulationSoftwareSuite = "simulationSoftwareSuite"
-            case lastUpdatedAt = "lastUpdatedAt"
-        }
-    }
-
-    public struct ListFleetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// Optional filters to limit results.
-        public let filters: [Filter]?
-        /// The nextToken value returned from a previous paginated ListFleets request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        public let nextToken: String?
-        /// The maximum number of deployment job results returned by ListFleets in paginated output. When this parameter is used, ListFleets only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListFleets returns up to 100 results and a nextToken value if applicable. 
-        public let maxResults: Int32?
-
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.filters = filters
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case filters = "filters"
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct DescribeRobotResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "greengrassGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "lastDeploymentJob", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "fleetArn", required: false, type: .string), 
-            AWSShapeMember(label: "architecture", required: false, type: .enum), 
-            AWSShapeMember(label: "lastDeploymentTime", required: false, type: .timestamp)
-        ]
-        /// The Greengrass group id.
-        public let greengrassGroupId: String?
-        /// The time, in milliseconds since the epoch, when the robot was created.
-        public let createdAt: TimeStamp?
-        /// The status of the fleet.
-        public let status: RobotStatus?
-        /// The Amazon Resource Name (ARN) of the last deployment job.
-        public let lastDeploymentJob: String?
-        /// The Amazon Resource Name (ARN) of the robot.
-        public let arn: String?
-        /// The name of the robot.
-        public let name: String?
-        /// The Amazon Resource Name (ARN) of the fleet.
-        public let fleetArn: String?
-        /// The target architecture of the robot application.
-        public let architecture: Architecture?
-        /// The time of the last deployment job.
-        public let lastDeploymentTime: TimeStamp?
-
-        public init(architecture: Architecture? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, fleetArn: String? = nil, greengrassGroupId: String? = nil, lastDeploymentJob: String? = nil, lastDeploymentTime: TimeStamp? = nil, name: String? = nil, status: RobotStatus? = nil) {
-            self.greengrassGroupId = greengrassGroupId
-            self.createdAt = createdAt
-            self.status = status
-            self.lastDeploymentJob = lastDeploymentJob
-            self.arn = arn
-            self.name = name
-            self.fleetArn = fleetArn
-            self.architecture = architecture
-            self.lastDeploymentTime = lastDeploymentTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case greengrassGroupId = "greengrassGroupId"
-            case createdAt = "createdAt"
-            case status = "status"
-            case lastDeploymentJob = "lastDeploymentJob"
-            case arn = "arn"
-            case name = "name"
-            case fleetArn = "fleetArn"
-            case architecture = "architecture"
-            case lastDeploymentTime = "lastDeploymentTime"
+            case version = "version"
         }
     }
 
     public struct RobotDeployment: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "progressDetail", required: false, type: .structure), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
             AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "deploymentFinishTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "deploymentStartTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "failureCode", required: false, type: .enum), 
+            AWSShapeMember(label: "failureReason", required: false, type: .string), 
+            AWSShapeMember(label: "progressDetail", required: false, type: .structure), 
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
-        /// Information about how the deployment is progressing.
-        public let progressDetail: ProgressDetail?
-        /// A short description of the reason why the robot deployment failed.
-        public let failureReason: String?
         /// The robot deployment Amazon Resource Name (ARN).
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the deployment finished.
@@ -2653,111 +2094,670 @@ extension RoboMaker {
         public let deploymentStartTime: TimeStamp?
         /// The robot deployment failure code.
         public let failureCode: DeploymentJobErrorCode?
+        /// A short description of the reason why the robot deployment failed.
+        public let failureReason: String?
+        /// Information about how the deployment is progressing.
+        public let progressDetail: ProgressDetail?
         /// The status of the robot deployment.
         public let status: RobotStatus?
 
         public init(arn: String? = nil, deploymentFinishTime: TimeStamp? = nil, deploymentStartTime: TimeStamp? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, progressDetail: ProgressDetail? = nil, status: RobotStatus? = nil) {
-            self.progressDetail = progressDetail
-            self.failureReason = failureReason
             self.arn = arn
             self.deploymentFinishTime = deploymentFinishTime
             self.deploymentStartTime = deploymentStartTime
             self.failureCode = failureCode
+            self.failureReason = failureReason
+            self.progressDetail = progressDetail
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case progressDetail = "progressDetail"
-            case failureReason = "failureReason"
             case arn = "arn"
             case deploymentFinishTime = "deploymentFinishTime"
             case deploymentStartTime = "deploymentStartTime"
             case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case progressDetail = "progressDetail"
             case status = "status"
         }
     }
 
-    public struct CancelSimulationJobResponse: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct SimulationSoftwareSuite: AWSShape {
+    public struct RobotSoftwareSuite: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .enum)
+            AWSShapeMember(label: "name", required: false, type: .enum), 
+            AWSShapeMember(label: "version", required: false, type: .enum)
         ]
-        /// The version of the simulation software suite.
-        public let version: String?
-        /// The name of the simulation software suite.
-        public let name: SimulationSoftwareSuiteType?
+        /// The name of the robot software suite.
+        public let name: RobotSoftwareSuiteType?
+        /// The version of the robot software suite.
+        public let version: RobotSoftwareSuiteVersionType?
 
-        public init(name: SimulationSoftwareSuiteType? = nil, version: String? = nil) {
-            self.version = version
+        public init(name: RobotSoftwareSuiteType? = nil, version: RobotSoftwareSuiteVersionType? = nil) {
             self.name = name
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
-            case version = "version"
             case name = "name"
+            case version = "version"
         }
     }
 
-    public struct Robot: AWSShape {
+    public enum RobotSoftwareSuiteType: String, CustomStringConvertible, Codable {
+        case ros = "ROS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RobotSoftwareSuiteVersionType: String, CustomStringConvertible, Codable {
+        case kinetic = "Kinetic"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RobotStatus: String, CustomStringConvertible, Codable {
+        case available = "Available"
+        case registered = "Registered"
+        case pendingnewdeployment = "PendingNewDeployment"
+        case deploying = "Deploying"
+        case failed = "Failed"
+        case insync = "InSync"
+        case noresponse = "NoResponse"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct SimulationApplicationConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastDeploymentJob", required: false, type: .string), 
-            AWSShapeMember(label: "lastDeploymentTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "fleetArn", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "architecture", required: false, type: .enum), 
-            AWSShapeMember(label: "greenGrassGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "application", required: true, type: .string), 
+            AWSShapeMember(label: "applicationVersion", required: false, type: .string), 
+            AWSShapeMember(label: "launchConfig", required: true, type: .structure)
+        ]
+        /// The application information for the simulation application.
+        public let application: String
+        /// The version of the simulation application.
+        public let applicationVersion: String?
+        /// The launch configuration for the simulation application.
+        public let launchConfig: LaunchConfig
+
+        public init(application: String, applicationVersion: String? = nil, launchConfig: LaunchConfig) {
+            self.application = application
+            self.applicationVersion = applicationVersion
+            self.launchConfig = launchConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case application = "application"
+            case applicationVersion = "applicationVersion"
+            case launchConfig = "launchConfig"
+        }
+    }
+
+    public struct SimulationApplicationSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the simulation application.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the simulation application was last updated.
+        public let lastUpdatedAt: TimeStamp?
+        /// The name of the simulation application.
+        public let name: String?
+        /// The version of the simulation application.
+        public let version: String?
+
+        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, version: String? = nil) {
+            self.arn = arn
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case version = "version"
+        }
+    }
+
+    public struct SimulationJob: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "failureBehavior", required: false, type: .enum), 
+            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
+            AWSShapeMember(label: "iamRole", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "maxJobDurationInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "outputLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "robotApplications", required: false, type: .list), 
+            AWSShapeMember(label: "simulationApplications", required: false, type: .list), 
+            AWSShapeMember(label: "simulationTimeMillis", required: false, type: .long), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
+        ]
+        /// The Amazon Resource Name (ARN) of the simulation job.
+        public let arn: String?
+        /// A unique identifier for this SimulationJob request.
+        public let clientRequestToken: String?
+        /// The failure behavior the simulation job.  Continue  Restart the simulation job in the same host instance.  Fail  Stop the simulation job and terminate the instance.  
+        public let failureBehavior: FailureBehavior?
+        /// The failure code of the simulation job if it failed.
+        public let failureCode: SimulationJobErrorCode?
+        /// The IAM role that allows the simulation instance to call the AWS APIs that are specified in its associated policies on your behalf. This is how credentials are passed in to your simulation job. See how to specify AWS security credentials for your application. 
+        public let iamRole: String?
+        /// The time, in milliseconds since the epoch, when the simulation job was last updated.
+        public let lastUpdatedAt: TimeStamp?
+        /// The maximum simulation job duration in seconds. The value must be 8 days (691,200 seconds) or less.
+        public let maxJobDurationInSeconds: Int64?
+        /// The name of the simulation job.
+        public let name: String?
+        /// Location for output files generated by the simulation job.
+        public let outputLocation: OutputLocation?
+        /// A list of robot applications.
+        public let robotApplications: [RobotApplicationConfig]?
+        /// A list of simulation applications.
+        public let simulationApplications: [SimulationApplicationConfig]?
+        /// The simulation job execution duration in milliseconds.
+        public let simulationTimeMillis: Int64?
+        /// Status of the simulation job.
+        public let status: SimulationJobStatus?
+        /// VPC configuration information.
+        public let vpcConfig: VPCConfigResponse?
+
+        public init(arn: String? = nil, clientRequestToken: String? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, iamRole: String? = nil, lastUpdatedAt: TimeStamp? = nil, maxJobDurationInSeconds: Int64? = nil, name: String? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, vpcConfig: VPCConfigResponse? = nil) {
+            self.arn = arn
+            self.clientRequestToken = clientRequestToken
+            self.failureBehavior = failureBehavior
+            self.failureCode = failureCode
+            self.iamRole = iamRole
+            self.lastUpdatedAt = lastUpdatedAt
+            self.maxJobDurationInSeconds = maxJobDurationInSeconds
+            self.name = name
+            self.outputLocation = outputLocation
+            self.robotApplications = robotApplications
+            self.simulationApplications = simulationApplications
+            self.simulationTimeMillis = simulationTimeMillis
+            self.status = status
+            self.vpcConfig = vpcConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case failureBehavior = "failureBehavior"
+            case failureCode = "failureCode"
+            case iamRole = "iamRole"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case maxJobDurationInSeconds = "maxJobDurationInSeconds"
+            case name = "name"
+            case outputLocation = "outputLocation"
+            case robotApplications = "robotApplications"
+            case simulationApplications = "simulationApplications"
+            case simulationTimeMillis = "simulationTimeMillis"
+            case status = "status"
+            case vpcConfig = "vpcConfig"
+        }
+    }
+
+    public enum SimulationJobErrorCode: String, CustomStringConvertible, Codable {
+        case internalserviceerror = "InternalServiceError"
+        case robotapplicationcrash = "RobotApplicationCrash"
+        case simulationapplicationcrash = "SimulationApplicationCrash"
+        case badpermissionsrobotapplication = "BadPermissionsRobotApplication"
+        case badpermissionssimulationapplication = "BadPermissionsSimulationApplication"
+        case badpermissionss3output = "BadPermissionsS3Output"
+        case badpermissionscloudwatchlogs = "BadPermissionsCloudwatchLogs"
+        case subnetiplimitexceeded = "SubnetIpLimitExceeded"
+        case enilimitexceeded = "ENILimitExceeded"
+        case badpermissionsusercredentials = "BadPermissionsUserCredentials"
+        case invalidbundlerobotapplication = "InvalidBundleRobotApplication"
+        case invalidbundlesimulationapplication = "InvalidBundleSimulationApplication"
+        case robotapplicationversionmismatchedetag = "RobotApplicationVersionMismatchedEtag"
+        case simulationapplicationversionmismatchedetag = "SimulationApplicationVersionMismatchedEtag"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SimulationJobStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case preparing = "Preparing"
+        case running = "Running"
+        case restarting = "Restarting"
+        case completed = "Completed"
+        case failed = "Failed"
+        case runningfailed = "RunningFailed"
+        case terminating = "Terminating"
+        case terminated = "Terminated"
+        case canceled = "Canceled"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct SimulationJobSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "robotApplicationNames", required: false, type: .list), 
+            AWSShapeMember(label: "simulationApplicationNames", required: false, type: .list), 
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
-        /// The time, in milliseconds since the epoch, when the robot was created.
-        public let createdAt: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the last deployment job.
-        public let lastDeploymentJob: String?
-        /// The time of the last deployment.
-        public let lastDeploymentTime: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the fleet.
-        public let fleetArn: String?
-        /// The name of the robot.
-        public let name: String?
-        /// The architecture of the robot.
-        public let architecture: Architecture?
-        /// The Greengrass group associated with the robot.
-        public let greenGrassGroupId: String?
-        /// The Amazon Resource Name (ARN) of the robot.
+        /// The Amazon Resource Name (ARN) of the simulation job.
         public let arn: String?
-        /// The status of the robot.
-        public let status: RobotStatus?
+        /// The time, in milliseconds since the epoch, when the simulation job was last updated.
+        public let lastUpdatedAt: TimeStamp?
+        /// The name of the simulation job.
+        public let name: String?
+        /// A list of simulation job robot application names.
+        public let robotApplicationNames: [String]?
+        /// A list of simulation job simulation application names.
+        public let simulationApplicationNames: [String]?
+        /// The status of the simulation job.
+        public let status: SimulationJobStatus?
 
-        public init(architecture: Architecture? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, fleetArn: String? = nil, greenGrassGroupId: String? = nil, lastDeploymentJob: String? = nil, lastDeploymentTime: TimeStamp? = nil, name: String? = nil, status: RobotStatus? = nil) {
-            self.createdAt = createdAt
-            self.lastDeploymentJob = lastDeploymentJob
-            self.lastDeploymentTime = lastDeploymentTime
-            self.fleetArn = fleetArn
-            self.name = name
-            self.architecture = architecture
-            self.greenGrassGroupId = greenGrassGroupId
+        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, robotApplicationNames: [String]? = nil, simulationApplicationNames: [String]? = nil, status: SimulationJobStatus? = nil) {
             self.arn = arn
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.robotApplicationNames = robotApplicationNames
+            self.simulationApplicationNames = simulationApplicationNames
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt = "createdAt"
-            case lastDeploymentJob = "lastDeploymentJob"
-            case lastDeploymentTime = "lastDeploymentTime"
-            case fleetArn = "fleetArn"
-            case name = "name"
-            case architecture = "architecture"
-            case greenGrassGroupId = "greenGrassGroupId"
             case arn = "arn"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case robotApplicationNames = "robotApplicationNames"
+            case simulationApplicationNames = "simulationApplicationNames"
             case status = "status"
+        }
+    }
+
+    public struct SimulationSoftwareSuite: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .enum), 
+            AWSShapeMember(label: "version", required: false, type: .string)
+        ]
+        /// The name of the simulation software suite.
+        public let name: SimulationSoftwareSuiteType?
+        /// The version of the simulation software suite.
+        public let version: String?
+
+        public init(name: SimulationSoftwareSuiteType? = nil, version: String? = nil) {
+            self.name = name
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case version = "version"
+        }
+    }
+
+    public enum SimulationSoftwareSuiteType: String, CustomStringConvertible, Codable {
+        case gazebo = "Gazebo"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Source: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "architecture", required: false, type: .enum), 
+            AWSShapeMember(label: "etag", required: false, type: .string), 
+            AWSShapeMember(label: "s3Bucket", required: false, type: .string), 
+            AWSShapeMember(label: "s3Key", required: false, type: .string)
+        ]
+        /// The taget processor architecture for the application.
+        public let architecture: Architecture?
+        /// A hash of the object specified by s3Bucket and s3Key.
+        public let etag: String?
+        /// The s3 bucket name.
+        public let s3Bucket: String?
+        /// The s3 object key.
+        public let s3Key: String?
+
+        public init(architecture: Architecture? = nil, etag: String? = nil, s3Bucket: String? = nil, s3Key: String? = nil) {
+            self.architecture = architecture
+            self.etag = etag
+            self.s3Bucket = s3Bucket
+            self.s3Key = s3Key
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case architecture = "architecture"
+            case etag = "etag"
+            case s3Bucket = "s3Bucket"
+            case s3Key = "s3Key"
+        }
+    }
+
+    public struct SourceConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "architecture", required: false, type: .enum), 
+            AWSShapeMember(label: "s3Bucket", required: false, type: .string), 
+            AWSShapeMember(label: "s3Key", required: false, type: .string)
+        ]
+        /// The target processor architecture for the application.
+        public let architecture: Architecture?
+        /// The Amazon S3 bucket name.
+        public let s3Bucket: String?
+        /// The s3 object key.
+        public let s3Key: String?
+
+        public init(architecture: Architecture? = nil, s3Bucket: String? = nil, s3Key: String? = nil) {
+            self.architecture = architecture
+            self.s3Bucket = s3Bucket
+            self.s3Key = s3Key
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case architecture = "architecture"
+            case s3Bucket = "s3Bucket"
+            case s3Key = "s3Key"
+        }
+    }
+
+    public struct SyncDeploymentJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientRequestToken", required: true, type: .string), 
+            AWSShapeMember(label: "fleet", required: true, type: .string)
+        ]
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String
+        /// The target fleet for the synchronization.
+        public let fleet: String
+
+        public init(clientRequestToken: String, fleet: String) {
+            self.clientRequestToken = clientRequestToken
+            self.fleet = fleet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case fleet = "fleet"
+        }
+    }
+
+    public struct SyncDeploymentJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "deploymentApplicationConfigs", required: false, type: .list), 
+            AWSShapeMember(label: "deploymentConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
+            AWSShapeMember(label: "failureReason", required: false, type: .string), 
+            AWSShapeMember(label: "fleet", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum)
+        ]
+        /// The Amazon Resource Name (ARN) of the synchronization request.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the fleet was created.
+        public let createdAt: TimeStamp?
+        /// Information about the deployment application configurations.
+        public let deploymentApplicationConfigs: [DeploymentApplicationConfig]?
+        /// Information about the deployment configuration.
+        public let deploymentConfig: DeploymentConfig?
+        /// The failure code if the job fails.
+        public let failureCode: DeploymentJobErrorCode?
+        /// The failure reason if the job fails.
+        public let failureReason: String?
+        /// The Amazon Resource Name (ARN) of the fleet.
+        public let fleet: String?
+        /// The status of the synchronization job.
+        public let status: DeploymentStatus?
+
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, deploymentApplicationConfigs: [DeploymentApplicationConfig]? = nil, deploymentConfig: DeploymentConfig? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, fleet: String? = nil, status: DeploymentStatus? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.deploymentApplicationConfigs = deploymentApplicationConfigs
+            self.deploymentConfig = deploymentConfig
+            self.failureCode = failureCode
+            self.failureReason = failureReason
+            self.fleet = fleet
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case deploymentApplicationConfigs = "deploymentApplicationConfigs"
+            case deploymentConfig = "deploymentConfig"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case fleet = "fleet"
+            case status = "status"
+        }
+    }
+
+    public struct UpdateRobotApplicationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "application", required: true, type: .string), 
+            AWSShapeMember(label: "currentRevisionId", required: false, type: .string), 
+            AWSShapeMember(label: "robotSoftwareSuite", required: true, type: .structure), 
+            AWSShapeMember(label: "sources", required: true, type: .list)
+        ]
+        /// The application information for the robot application.
+        public let application: String
+        /// The revision id for the robot application.
+        public let currentRevisionId: String?
+        /// The robot software suite used by the robot application.
+        public let robotSoftwareSuite: RobotSoftwareSuite
+        /// The sources of the robot application.
+        public let sources: [SourceConfig]
+
+        public init(application: String, currentRevisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite, sources: [SourceConfig]) {
+            self.application = application
+            self.currentRevisionId = currentRevisionId
+            self.robotSoftwareSuite = robotSoftwareSuite
+            self.sources = sources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case application = "application"
+            case currentRevisionId = "currentRevisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case sources = "sources"
+        }
+    }
+
+    public struct UpdateRobotApplicationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "revisionId", required: false, type: .string), 
+            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
+            AWSShapeMember(label: "sources", required: false, type: .list), 
+            AWSShapeMember(label: "version", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the updated robot application.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the robot application was last updated.
+        public let lastUpdatedAt: TimeStamp?
+        /// The name of the robot application.
+        public let name: String?
+        /// The revision id of the robot application.
+        public let revisionId: String?
+        /// The robot software suite used by the robot application.
+        public let robotSoftwareSuite: RobotSoftwareSuite?
+        /// The sources of the robot application.
+        public let sources: [Source]?
+        /// The version of the robot application.
+        public let version: String?
+
+        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
+            self.arn = arn
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.revisionId = revisionId
+            self.robotSoftwareSuite = robotSoftwareSuite
+            self.sources = sources
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case revisionId = "revisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case sources = "sources"
+            case version = "version"
+        }
+    }
+
+    public struct UpdateSimulationApplicationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "application", required: true, type: .string), 
+            AWSShapeMember(label: "currentRevisionId", required: false, type: .string), 
+            AWSShapeMember(label: "renderingEngine", required: true, type: .structure), 
+            AWSShapeMember(label: "robotSoftwareSuite", required: true, type: .structure), 
+            AWSShapeMember(label: "simulationSoftwareSuite", required: true, type: .structure), 
+            AWSShapeMember(label: "sources", required: true, type: .list)
+        ]
+        /// The application information for the simulation application.
+        public let application: String
+        /// The revision id for the robot application.
+        public let currentRevisionId: String?
+        /// The rendering engine for the simulation application.
+        public let renderingEngine: RenderingEngine
+        /// Information about the robot software suite.
+        public let robotSoftwareSuite: RobotSoftwareSuite
+        /// The simulation software suite used by the simulation application.
+        public let simulationSoftwareSuite: SimulationSoftwareSuite
+        /// The sources of the simulation application.
+        public let sources: [SourceConfig]
+
+        public init(application: String, currentRevisionId: String? = nil, renderingEngine: RenderingEngine, robotSoftwareSuite: RobotSoftwareSuite, simulationSoftwareSuite: SimulationSoftwareSuite, sources: [SourceConfig]) {
+            self.application = application
+            self.currentRevisionId = currentRevisionId
+            self.renderingEngine = renderingEngine
+            self.robotSoftwareSuite = robotSoftwareSuite
+            self.simulationSoftwareSuite = simulationSoftwareSuite
+            self.sources = sources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case application = "application"
+            case currentRevisionId = "currentRevisionId"
+            case renderingEngine = "renderingEngine"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case simulationSoftwareSuite = "simulationSoftwareSuite"
+            case sources = "sources"
+        }
+    }
+
+    public struct UpdateSimulationApplicationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "renderingEngine", required: false, type: .structure), 
+            AWSShapeMember(label: "revisionId", required: false, type: .string), 
+            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
+            AWSShapeMember(label: "simulationSoftwareSuite", required: false, type: .structure), 
+            AWSShapeMember(label: "sources", required: false, type: .list), 
+            AWSShapeMember(label: "version", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the updated simulation application.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the simulation application was last updated.
+        public let lastUpdatedAt: TimeStamp?
+        /// The name of the simulation application.
+        public let name: String?
+        /// The rendering engine for the simulation application.
+        public let renderingEngine: RenderingEngine?
+        /// The revision id of the simulation application.
+        public let revisionId: String?
+        /// Information about the robot software suite.
+        public let robotSoftwareSuite: RobotSoftwareSuite?
+        /// The simulation software suite used by the simulation application.
+        public let simulationSoftwareSuite: SimulationSoftwareSuite?
+        /// The sources of the simulation application.
+        public let sources: [Source]?
+        /// The version of the robot application.
+        public let version: String?
+
+        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
+            self.arn = arn
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.renderingEngine = renderingEngine
+            self.revisionId = revisionId
+            self.robotSoftwareSuite = robotSoftwareSuite
+            self.simulationSoftwareSuite = simulationSoftwareSuite
+            self.sources = sources
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case renderingEngine = "renderingEngine"
+            case revisionId = "revisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case simulationSoftwareSuite = "simulationSoftwareSuite"
+            case sources = "sources"
+            case version = "version"
+        }
+    }
+
+    public struct VPCConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assignPublicIp", required: false, type: .boolean), 
+            AWSShapeMember(label: "securityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "subnets", required: true, type: .list)
+        ]
+        /// A boolean indicating whether to assign a public IP address.
+        public let assignPublicIp: Bool?
+        /// A list of one or more security groups IDs in your VPC.
+        public let securityGroups: [String]?
+        /// A list of one or more subnet IDs in your VPC.
+        public let subnets: [String]
+
+        public init(assignPublicIp: Bool? = nil, securityGroups: [String]? = nil, subnets: [String]) {
+            self.assignPublicIp = assignPublicIp
+            self.securityGroups = securityGroups
+            self.subnets = subnets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assignPublicIp = "assignPublicIp"
+            case securityGroups = "securityGroups"
+            case subnets = "subnets"
+        }
+    }
+
+    public struct VPCConfigResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assignPublicIp", required: false, type: .boolean), 
+            AWSShapeMember(label: "securityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "subnets", required: false, type: .list), 
+            AWSShapeMember(label: "vpcId", required: false, type: .string)
+        ]
+        /// A boolean indicating if a public IP was assigned.
+        public let assignPublicIp: Bool?
+        /// A list of security group IDs associated with the simulation job.
+        public let securityGroups: [String]?
+        /// A list of subnet IDs associated with the simulation job.
+        public let subnets: [String]?
+        /// The VPC ID associated with your simulation job.
+        public let vpcId: String?
+
+        public init(assignPublicIp: Bool? = nil, securityGroups: [String]? = nil, subnets: [String]? = nil, vpcId: String? = nil) {
+            self.assignPublicIp = assignPublicIp
+            self.securityGroups = securityGroups
+            self.subnets = subnets
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assignPublicIp = "assignPublicIp"
+            case securityGroups = "securityGroups"
+            case subnets = "subnets"
+            case vpcId = "vpcId"
         }
     }
 

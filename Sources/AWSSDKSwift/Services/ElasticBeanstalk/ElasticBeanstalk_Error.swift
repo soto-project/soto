@@ -4,25 +4,25 @@ import AWSSDKSwiftCore
 
 /// Error enum for ElasticBeanstalk
 public enum ElasticBeanstalkErrorType: AWSErrorType {
-    case tooManyBucketsException(message: String?)
+    case codeBuildNotInServiceRegionException(message: String?)
     case elasticBeanstalkServiceException(message: String?)
     case insufficientPrivilegesException(message: String?)
-    case tooManyConfigurationTemplatesException(message: String?)
     case invalidRequestException(message: String?)
-    case tooManyEnvironmentsException(message: String?)
-    case tooManyApplicationsException(message: String?)
-    case tooManyApplicationVersionsException(message: String?)
-    case s3LocationNotInServiceRegionException(message: String?)
-    case codeBuildNotInServiceRegionException(message: String?)
-    case sourceBundleDeletionException(message: String?)
-    case operationInProgressException(message: String?)
     case managedActionInvalidStateException(message: String?)
-    case tooManyTagsException(message: String?)
+    case operationInProgressException(message: String?)
+    case platformVersionStillReferencedException(message: String?)
     case resourceNotFoundException(message: String?)
     case resourceTypeNotSupportedException(message: String?)
+    case s3LocationNotInServiceRegionException(message: String?)
     case s3SubscriptionRequiredException(message: String?)
+    case sourceBundleDeletionException(message: String?)
+    case tooManyApplicationVersionsException(message: String?)
+    case tooManyApplicationsException(message: String?)
+    case tooManyBucketsException(message: String?)
+    case tooManyConfigurationTemplatesException(message: String?)
+    case tooManyEnvironmentsException(message: String?)
     case tooManyPlatformsException(message: String?)
-    case platformVersionStillReferencedException(message: String?)
+    case tooManyTagsException(message: String?)
 }
 
 extension ElasticBeanstalkErrorType {
@@ -32,44 +32,44 @@ extension ElasticBeanstalkErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "TooManyBucketsException":
-            self = .tooManyBucketsException(message: message)
+        case "CodeBuildNotInServiceRegionException":
+            self = .codeBuildNotInServiceRegionException(message: message)
         case "ElasticBeanstalkServiceException":
             self = .elasticBeanstalkServiceException(message: message)
         case "InsufficientPrivilegesException":
             self = .insufficientPrivilegesException(message: message)
-        case "TooManyConfigurationTemplatesException":
-            self = .tooManyConfigurationTemplatesException(message: message)
         case "InvalidRequestException":
             self = .invalidRequestException(message: message)
-        case "TooManyEnvironmentsException":
-            self = .tooManyEnvironmentsException(message: message)
-        case "TooManyApplicationsException":
-            self = .tooManyApplicationsException(message: message)
-        case "TooManyApplicationVersionsException":
-            self = .tooManyApplicationVersionsException(message: message)
-        case "S3LocationNotInServiceRegionException":
-            self = .s3LocationNotInServiceRegionException(message: message)
-        case "CodeBuildNotInServiceRegionException":
-            self = .codeBuildNotInServiceRegionException(message: message)
-        case "SourceBundleDeletionException":
-            self = .sourceBundleDeletionException(message: message)
-        case "OperationInProgressException":
-            self = .operationInProgressException(message: message)
         case "ManagedActionInvalidStateException":
             self = .managedActionInvalidStateException(message: message)
-        case "TooManyTagsException":
-            self = .tooManyTagsException(message: message)
+        case "OperationInProgressException":
+            self = .operationInProgressException(message: message)
+        case "PlatformVersionStillReferencedException":
+            self = .platformVersionStillReferencedException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
         case "ResourceTypeNotSupportedException":
             self = .resourceTypeNotSupportedException(message: message)
+        case "S3LocationNotInServiceRegionException":
+            self = .s3LocationNotInServiceRegionException(message: message)
         case "S3SubscriptionRequiredException":
             self = .s3SubscriptionRequiredException(message: message)
+        case "SourceBundleDeletionException":
+            self = .sourceBundleDeletionException(message: message)
+        case "TooManyApplicationVersionsException":
+            self = .tooManyApplicationVersionsException(message: message)
+        case "TooManyApplicationsException":
+            self = .tooManyApplicationsException(message: message)
+        case "TooManyBucketsException":
+            self = .tooManyBucketsException(message: message)
+        case "TooManyConfigurationTemplatesException":
+            self = .tooManyConfigurationTemplatesException(message: message)
+        case "TooManyEnvironmentsException":
+            self = .tooManyEnvironmentsException(message: message)
         case "TooManyPlatformsException":
             self = .tooManyPlatformsException(message: message)
-        case "PlatformVersionStillReferencedException":
-            self = .platformVersionStillReferencedException(message: message)
+        case "TooManyTagsException":
+            self = .tooManyTagsException(message: message)
         default:
             return nil
         }

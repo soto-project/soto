@@ -5,1206 +5,6 @@ import AWSSDKSwiftCore
 
 extension CodeCommit {
 
-    public struct BlobMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "path", required: false, type: .string), 
-            AWSShapeMember(label: "blobId", required: false, type: .string), 
-            AWSShapeMember(label: "mode", required: false, type: .string)
-        ]
-        /// The path to the blob and any associated file name, if any.
-        public let path: String?
-        /// The full ID of the blob.
-        public let blobId: String?
-        /// The file mode permissions of the blob. File mode permission codes include:    100644 indicates read/write    100755 indicates read/write/execute    160000 indicates a submodule    120000 indicates a symlink  
-        public let mode: String?
-
-        public init(blobId: String? = nil, mode: String? = nil, path: String? = nil) {
-            self.path = path
-            self.blobId = blobId
-            self.mode = mode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case path = "path"
-            case blobId = "blobId"
-            case mode = "mode"
-        }
-    }
-
-    public struct DescribePullRequestEventsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
-            AWSShapeMember(label: "actorArn", required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "pullRequestEventType", required: false, type: .enum), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
-        public let pullRequestId: String
-        /// The Amazon Resource Name (ARN) of the user whose actions resulted in the event. Examples include updating the pull request with additional commits or changing the status of a pull request.
-        public let actorArn: String?
-        /// An enumeration token that when provided in a request, returns the next batch of the results.
-        public let nextToken: String?
-        /// Optional. The pull request event type about which you want to return information.
-        public let pullRequestEventType: PullRequestEventType?
-        /// A non-negative integer used to limit the number of returned results. The default is 100 events, which is also the maximum number of events that can be returned in a result.
-        public let maxResults: Int32?
-
-        public init(actorArn: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, pullRequestEventType: PullRequestEventType? = nil, pullRequestId: String) {
-            self.pullRequestId = pullRequestId
-            self.actorArn = actorArn
-            self.nextToken = nextToken
-            self.pullRequestEventType = pullRequestEventType
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pullRequestId = "pullRequestId"
-            case actorArn = "actorArn"
-            case nextToken = "nextToken"
-            case pullRequestEventType = "pullRequestEventType"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct RepositoryTrigger: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destinationArn", required: true, type: .string), 
-            AWSShapeMember(label: "branches", required: false, type: .list), 
-            AWSShapeMember(label: "customData", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "events", required: true, type: .list)
-        ]
-        /// The ARN of the resource that is the target for a trigger. For example, the ARN of a topic in Amazon Simple Notification Service (SNS).
-        public let destinationArn: String
-        /// The branches that will be included in the trigger configuration. If you specify an empty array, the trigger will apply to all branches.  While no content is required in the array, you must include the array itself. 
-        public let branches: [String]?
-        /// Any custom data associated with the trigger that will be included in the information sent to the target of the trigger.
-        public let customData: String?
-        /// The name of the trigger.
-        public let name: String
-        /// The repository events that will cause the trigger to run actions in another service, such as sending a notification through Amazon Simple Notification Service (SNS).   The valid value "all" cannot be used with any other values. 
-        public let events: [RepositoryTriggerEventEnum]
-
-        public init(branches: [String]? = nil, customData: String? = nil, destinationArn: String, events: [RepositoryTriggerEventEnum], name: String) {
-            self.destinationArn = destinationArn
-            self.branches = branches
-            self.customData = customData
-            self.name = name
-            self.events = events
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destinationArn = "destinationArn"
-            case branches = "branches"
-            case customData = "customData"
-            case name = "name"
-            case events = "events"
-        }
-    }
-
-    public struct CommentsForPullRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "beforeCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "afterCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "comments", required: false, type: .list), 
-            AWSShapeMember(label: "beforeBlobId", required: false, type: .string), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "afterBlobId", required: false, type: .string), 
-            AWSShapeMember(label: "pullRequestId", required: false, type: .string)
-        ]
-        /// The full commit ID of the commit that was the tip of the destination branch when the pull request was created. This commit will be superceded by the after commit in the source branch when and if you merge the source branch into the destination branch.
-        public let beforeCommitId: String?
-        /// he full commit ID of the commit that was the tip of the source branch at the time the comment was made. 
-        public let afterCommitId: String?
-        /// An array of comment objects. Each comment object contains information about a comment on the pull request.
-        public let comments: [Comment]?
-        /// The full blob ID of the file on which you want to comment on the destination commit.
-        public let beforeBlobId: String?
-        /// Location information about the comment on the pull request, including the file name, line number, and whether the version of the file where the comment was made is 'BEFORE' (destination branch) or 'AFTER' (source branch).
-        public let location: Location?
-        /// The name of the repository that contains the pull request.
-        public let repositoryName: String?
-        /// The full blob ID of the file on which you want to comment on the source commit.
-        public let afterBlobId: String?
-        /// The system-generated ID of the pull request.
-        public let pullRequestId: String?
-
-        public init(afterBlobId: String? = nil, afterCommitId: String? = nil, beforeBlobId: String? = nil, beforeCommitId: String? = nil, comments: [Comment]? = nil, location: Location? = nil, pullRequestId: String? = nil, repositoryName: String? = nil) {
-            self.beforeCommitId = beforeCommitId
-            self.afterCommitId = afterCommitId
-            self.comments = comments
-            self.beforeBlobId = beforeBlobId
-            self.location = location
-            self.repositoryName = repositoryName
-            self.afterBlobId = afterBlobId
-            self.pullRequestId = pullRequestId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case beforeCommitId = "beforeCommitId"
-            case afterCommitId = "afterCommitId"
-            case comments = "comments"
-            case beforeBlobId = "beforeBlobId"
-            case location = "location"
-            case repositoryName = "repositoryName"
-            case afterBlobId = "afterBlobId"
-            case pullRequestId = "pullRequestId"
-        }
-    }
-
-    public struct UpdatePullRequestStatusInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
-            AWSShapeMember(label: "pullRequestStatus", required: true, type: .enum)
-        ]
-        /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
-        public let pullRequestId: String
-        /// The status of the pull request. The only valid operations are to update the status from OPEN to OPEN, OPEN to CLOSED or from from CLOSED to CLOSED.
-        public let pullRequestStatus: PullRequestStatusEnum
-
-        public init(pullRequestId: String, pullRequestStatus: PullRequestStatusEnum) {
-            self.pullRequestId = pullRequestId
-            self.pullRequestStatus = pullRequestStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pullRequestId = "pullRequestId"
-            case pullRequestStatus = "pullRequestStatus"
-        }
-    }
-
-    public struct PullRequestTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "mergeMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "sourceCommit", required: false, type: .string), 
-            AWSShapeMember(label: "destinationCommit", required: false, type: .string), 
-            AWSShapeMember(label: "mergeBase", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "destinationReference", required: false, type: .string), 
-            AWSShapeMember(label: "sourceReference", required: false, type: .string)
-        ]
-        /// Returns metadata about the state of the merge, including whether the merge has been made.
-        public let mergeMetadata: MergeMetadata?
-        /// The full commit ID of the tip of the source branch used to create the pull request. If the pull request branch is updated by a push while the pull request is open, the commit ID will change to reflect the new tip of the branch.
-        public let sourceCommit: String?
-        /// The full commit ID that is the tip of the destination branch. This is the commit where the pull request was or will be merged.
-        public let destinationCommit: String?
-        /// The commit ID of the most recent commit that the source branch and the destination branch have in common.
-        public let mergeBase: String?
-        /// The name of the repository that contains the pull request source and destination branches.
-        public let repositoryName: String?
-        /// The branch of the repository where the pull request changes will be merged into. Also known as the destination branch. 
-        public let destinationReference: String?
-        /// The branch of the repository that contains the changes for the pull request. Also known as the source branch.
-        public let sourceReference: String?
-
-        public init(destinationCommit: String? = nil, destinationReference: String? = nil, mergeBase: String? = nil, mergeMetadata: MergeMetadata? = nil, repositoryName: String? = nil, sourceCommit: String? = nil, sourceReference: String? = nil) {
-            self.mergeMetadata = mergeMetadata
-            self.sourceCommit = sourceCommit
-            self.destinationCommit = destinationCommit
-            self.mergeBase = mergeBase
-            self.repositoryName = repositoryName
-            self.destinationReference = destinationReference
-            self.sourceReference = sourceReference
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mergeMetadata = "mergeMetadata"
-            case sourceCommit = "sourceCommit"
-            case destinationCommit = "destinationCommit"
-            case mergeBase = "mergeBase"
-            case repositoryName = "repositoryName"
-            case destinationReference = "destinationReference"
-            case sourceReference = "sourceReference"
-        }
-    }
-
-    public struct PutFileInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filePath", required: true, type: .string), 
-            AWSShapeMember(label: "commitMessage", required: false, type: .string), 
-            AWSShapeMember(label: "branchName", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "parentCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "email", required: false, type: .string), 
-            AWSShapeMember(label: "fileContent", required: true, type: .blob), 
-            AWSShapeMember(label: "fileMode", required: false, type: .enum)
-        ]
-        /// The name of the file you want to add or update, including the relative path to the file in the repository.  If the path does not currently exist in the repository, the path will be created as part of adding the file. 
-        public let filePath: String
-        /// A message about why this file was added or updated. While optional, adding a message is strongly encouraged in order to provide a more useful commit history for your repository.
-        public let commitMessage: String?
-        /// The name of the branch where you want to add or update the file. If this is an empty repository, this branch will be created.
-        public let branchName: String
-        /// The name of the person adding or updating the file. While optional, adding a name is strongly encouraged in order to provide a more useful commit history for your repository.
-        public let name: String?
-        /// The full commit ID of the head commit in the branch where you want to add or update the file. If this is an empty repository, no commit ID is required. If this is not an empty repository, a commit ID is required.  The commit ID must match the ID of the head commit at the time of the operation, or an error will occur, and the file will not be added or updated.
-        public let parentCommitId: String?
-        /// The name of the repository where you want to add or update the file.
-        public let repositoryName: String
-        /// An email address for the person adding or updating the file.
-        public let email: String?
-        /// The content of the file, in binary object format. 
-        public let fileContent: Data
-        /// The file mode permissions of the blob. Valid file mode permissions are listed below.
-        public let fileMode: FileModeTypeEnum?
-
-        public init(branchName: String, commitMessage: String? = nil, email: String? = nil, fileContent: Data, fileMode: FileModeTypeEnum? = nil, filePath: String, name: String? = nil, parentCommitId: String? = nil, repositoryName: String) {
-            self.filePath = filePath
-            self.commitMessage = commitMessage
-            self.branchName = branchName
-            self.name = name
-            self.parentCommitId = parentCommitId
-            self.repositoryName = repositoryName
-            self.email = email
-            self.fileContent = fileContent
-            self.fileMode = fileMode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case filePath = "filePath"
-            case commitMessage = "commitMessage"
-            case branchName = "branchName"
-            case name = "name"
-            case parentCommitId = "parentCommitId"
-            case repositoryName = "repositoryName"
-            case email = "email"
-            case fileContent = "fileContent"
-            case fileMode = "fileMode"
-        }
-    }
-
-    public struct UserInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "email", required: false, type: .string), 
-            AWSShapeMember(label: "date", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
-        /// The email address associated with the user who made the commit, if any.
-        public let email: String?
-        /// The date when the specified commit was commited, in timestamp format with GMT offset.
-        public let date: String?
-        /// The name of the user who made the specified commit.
-        public let name: String?
-
-        public init(date: String? = nil, email: String? = nil, name: String? = nil) {
-            self.email = email
-            self.date = date
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case email = "email"
-            case date = "date"
-            case name = "name"
-        }
-    }
-
-    public struct TestRepositoryTriggersOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failedExecutions", required: false, type: .list), 
-            AWSShapeMember(label: "successfulExecutions", required: false, type: .list)
-        ]
-        /// The list of triggers that were not able to be tested. This list provides the names of the triggers that could not be tested, separated by commas.
-        public let failedExecutions: [RepositoryTriggerExecutionFailure]?
-        /// The list of triggers that were successfully tested. This list provides the names of the triggers that were successfully tested, separated by commas.
-        public let successfulExecutions: [String]?
-
-        public init(failedExecutions: [RepositoryTriggerExecutionFailure]? = nil, successfulExecutions: [String]? = nil) {
-            self.failedExecutions = failedExecutions
-            self.successfulExecutions = successfulExecutions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failedExecutions = "failedExecutions"
-            case successfulExecutions = "successfulExecutions"
-        }
-    }
-
-    public struct GetRepositoryInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
-        /// The name of the repository to get information about.
-        public let repositoryName: String
-
-        public init(repositoryName: String) {
-            self.repositoryName = repositoryName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repositoryName = "repositoryName"
-        }
-    }
-
-    public struct GetMergeConflictsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "sourceCommitId", required: true, type: .string), 
-            AWSShapeMember(label: "destinationCommitId", required: true, type: .string), 
-            AWSShapeMember(label: "mergeable", required: true, type: .boolean)
-        ]
-        /// The commit ID of the source commit specifier that was used in the merge evaluation.
-        public let sourceCommitId: String
-        /// The commit ID of the destination commit specifier that was used in the merge evaluation.
-        public let destinationCommitId: String
-        /// A Boolean value that indicates whether the code is mergable by the specified merge option.
-        public let mergeable: Bool
-
-        public init(destinationCommitId: String, mergeable: Bool, sourceCommitId: String) {
-            self.sourceCommitId = sourceCommitId
-            self.destinationCommitId = destinationCommitId
-            self.mergeable = mergeable
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceCommitId = "sourceCommitId"
-            case destinationCommitId = "destinationCommitId"
-            case mergeable = "mergeable"
-        }
-    }
-
-    public enum SortByEnum: String, CustomStringConvertible, Codable {
-        case repositoryname = "repositoryName"
-        case lastmodifieddate = "lastModifiedDate"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetDifferencesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "afterPath", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "afterCommitSpecifier", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "beforePath", required: false, type: .string), 
-            AWSShapeMember(label: "beforeCommitSpecifier", required: false, type: .string)
-        ]
-        /// An enumeration token that when provided in a request, returns the next batch of the results.
-        public let nextToken: String?
-        /// The file path in which to check differences. Limits the results to this path. Can also be used to specify the changed name of a directory or folder, if it has changed. If not specified, differences will be shown for all paths.
-        public let afterPath: String?
-        /// A non-negative integer used to limit the number of returned results.
-        public let maxResults: Int32?
-        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit.
-        public let afterCommitSpecifier: String
-        /// The name of the repository where you want to get differences.
-        public let repositoryName: String
-        /// The file path in which to check for differences. Limits the results to this path. Can also be used to specify the previous name of a directory or folder. If beforePath and afterPath are not specified, differences will be shown for all paths.
-        public let beforePath: String?
-        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, the full commit ID. Optional. If not specified, all changes prior to the afterCommitSpecifier value will be shown. If you do not use beforeCommitSpecifier in your request, consider limiting the results with maxResults.
-        public let beforeCommitSpecifier: String?
-
-        public init(afterCommitSpecifier: String, afterPath: String? = nil, beforeCommitSpecifier: String? = nil, beforePath: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, repositoryName: String) {
-            self.nextToken = nextToken
-            self.afterPath = afterPath
-            self.maxResults = maxResults
-            self.afterCommitSpecifier = afterCommitSpecifier
-            self.repositoryName = repositoryName
-            self.beforePath = beforePath
-            self.beforeCommitSpecifier = beforeCommitSpecifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case afterPath = "afterPath"
-            case maxResults = "MaxResults"
-            case afterCommitSpecifier = "afterCommitSpecifier"
-            case repositoryName = "repositoryName"
-            case beforePath = "beforePath"
-            case beforeCommitSpecifier = "beforeCommitSpecifier"
-        }
-    }
-
-    public struct UpdateCommentOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "comment", required: false, type: .structure)
-        ]
-        /// Information about the updated comment.
-        public let comment: Comment?
-
-        public init(comment: Comment? = nil) {
-            self.comment = comment
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case comment = "comment"
-        }
-    }
-
-    public struct UpdateCommentInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commentId", required: true, type: .string), 
-            AWSShapeMember(label: "content", required: true, type: .string)
-        ]
-        /// The system-generated ID of the comment you want to update. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest.
-        public let commentId: String
-        /// The updated content with which you want to replace the existing content of the comment.
-        public let content: String
-
-        public init(commentId: String, content: String) {
-            self.commentId = commentId
-            self.content = content
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case commentId = "commentId"
-            case content = "content"
-        }
-    }
-
-    public struct CreatePullRequestOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequest", required: true, type: .structure)
-        ]
-        /// Information about the newly created pull request.
-        public let pullRequest: PullRequest
-
-        public init(pullRequest: PullRequest) {
-            self.pullRequest = pullRequest
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pullRequest = "pullRequest"
-        }
-    }
-
-    public enum OrderEnum: String, CustomStringConvertible, Codable {
-        case ascending = "ascending"
-        case descending = "descending"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdatePullRequestTitleInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "title", required: true, type: .string), 
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string)
-        ]
-        /// The updated title of the pull request. This will replace the existing title.
-        public let title: String
-        /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
-        public let pullRequestId: String
-
-        public init(pullRequestId: String, title: String) {
-            self.title = title
-            self.pullRequestId = pullRequestId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case title = "title"
-            case pullRequestId = "pullRequestId"
-        }
-    }
-
-    public struct DeleteCommentContentInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commentId", required: true, type: .string)
-        ]
-        /// The unique, system-generated ID of the comment. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest.
-        public let commentId: String
-
-        public init(commentId: String) {
-            self.commentId = commentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case commentId = "commentId"
-        }
-    }
-
-    public struct PullRequestEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequestStatusChangedEventMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "pullRequestCreatedEventMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "actorArn", required: false, type: .string), 
-            AWSShapeMember(label: "pullRequestSourceReferenceUpdatedEventMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "pullRequestId", required: false, type: .string), 
-            AWSShapeMember(label: "pullRequestEventType", required: false, type: .enum), 
-            AWSShapeMember(label: "eventDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "pullRequestMergedStateChangedEventMetadata", required: false, type: .structure)
-        ]
-        /// Information about the change in status for the pull request event.
-        public let pullRequestStatusChangedEventMetadata: PullRequestStatusChangedEventMetadata?
-        /// Information about the source and destination branches for the pull request.
-        public let pullRequestCreatedEventMetadata: PullRequestCreatedEventMetadata?
-        /// The Amazon Resource Name (ARN) of the user whose actions resulted in the event. Examples include updating the pull request with additional commits or changing the status of a pull request.
-        public let actorArn: String?
-        /// Information about the updated source branch for the pull request event. 
-        public let pullRequestSourceReferenceUpdatedEventMetadata: PullRequestSourceReferenceUpdatedEventMetadata?
-        /// The system-generated ID of the pull request.
-        public let pullRequestId: String?
-        /// The type of the pull request event, for example a status change event (PULL_REQUEST_STATUS_CHANGED) or update event (PULL_REQUEST_SOURCE_REFERENCE_UPDATED).
-        public let pullRequestEventType: PullRequestEventType?
-        /// The day and time of the pull request event, in timestamp format.
-        public let eventDate: TimeStamp?
-        /// Information about the change in mergability state for the pull request event.
-        public let pullRequestMergedStateChangedEventMetadata: PullRequestMergedStateChangedEventMetadata?
-
-        public init(actorArn: String? = nil, eventDate: TimeStamp? = nil, pullRequestCreatedEventMetadata: PullRequestCreatedEventMetadata? = nil, pullRequestEventType: PullRequestEventType? = nil, pullRequestId: String? = nil, pullRequestMergedStateChangedEventMetadata: PullRequestMergedStateChangedEventMetadata? = nil, pullRequestSourceReferenceUpdatedEventMetadata: PullRequestSourceReferenceUpdatedEventMetadata? = nil, pullRequestStatusChangedEventMetadata: PullRequestStatusChangedEventMetadata? = nil) {
-            self.pullRequestStatusChangedEventMetadata = pullRequestStatusChangedEventMetadata
-            self.pullRequestCreatedEventMetadata = pullRequestCreatedEventMetadata
-            self.actorArn = actorArn
-            self.pullRequestSourceReferenceUpdatedEventMetadata = pullRequestSourceReferenceUpdatedEventMetadata
-            self.pullRequestId = pullRequestId
-            self.pullRequestEventType = pullRequestEventType
-            self.eventDate = eventDate
-            self.pullRequestMergedStateChangedEventMetadata = pullRequestMergedStateChangedEventMetadata
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pullRequestStatusChangedEventMetadata = "pullRequestStatusChangedEventMetadata"
-            case pullRequestCreatedEventMetadata = "pullRequestCreatedEventMetadata"
-            case actorArn = "actorArn"
-            case pullRequestSourceReferenceUpdatedEventMetadata = "pullRequestSourceReferenceUpdatedEventMetadata"
-            case pullRequestId = "pullRequestId"
-            case pullRequestEventType = "pullRequestEventType"
-            case eventDate = "eventDate"
-            case pullRequestMergedStateChangedEventMetadata = "pullRequestMergedStateChangedEventMetadata"
-        }
-    }
-
-    public struct Folder: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "treeId", required: false, type: .string), 
-            AWSShapeMember(label: "absolutePath", required: false, type: .string), 
-            AWSShapeMember(label: "relativePath", required: false, type: .string)
-        ]
-        /// The full SHA-1 pointer of the tree information for the commit that contains the folder.
-        public let treeId: String?
-        /// The fully-qualified path of the folder in the repository.
-        public let absolutePath: String?
-        /// The relative path of the specified folder from the folder where the query originated.
-        public let relativePath: String?
-
-        public init(absolutePath: String? = nil, relativePath: String? = nil, treeId: String? = nil) {
-            self.treeId = treeId
-            self.absolutePath = absolutePath
-            self.relativePath = relativePath
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case treeId = "treeId"
-            case absolutePath = "absolutePath"
-            case relativePath = "relativePath"
-        }
-    }
-
-    public struct PullRequestStatusChangedEventMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequestStatus", required: false, type: .enum)
-        ]
-        /// The changed status of the pull request.
-        public let pullRequestStatus: PullRequestStatusEnum?
-
-        public init(pullRequestStatus: PullRequestStatusEnum? = nil) {
-            self.pullRequestStatus = pullRequestStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pullRequestStatus = "pullRequestStatus"
-        }
-    }
-
-    public struct GetRepositoryTriggersOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "configurationId", required: false, type: .string), 
-            AWSShapeMember(label: "triggers", required: false, type: .list)
-        ]
-        /// The system-generated unique ID for the trigger.
-        public let configurationId: String?
-        /// The JSON block of configuration information for each trigger.
-        public let triggers: [RepositoryTrigger]?
-
-        public init(configurationId: String? = nil, triggers: [RepositoryTrigger]? = nil) {
-            self.configurationId = configurationId
-            self.triggers = triggers
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configurationId = "configurationId"
-            case triggers = "triggers"
-        }
-    }
-
-    public struct CreateRepositoryInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryDescription", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
-        /// A comment or description about the new repository.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a web page could expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a web page. 
-        public let repositoryDescription: String?
-        /// The name of the new repository to be created.  The repository name must be unique across the calling AWS account. In addition, repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. For a full description of the limits on repository names, see Limits in the AWS CodeCommit User Guide. The suffix ".git" is prohibited. 
-        public let repositoryName: String
-
-        public init(repositoryDescription: String? = nil, repositoryName: String) {
-            self.repositoryDescription = repositoryDescription
-            self.repositoryName = repositoryName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repositoryDescription = "repositoryDescription"
-            case repositoryName = "repositoryName"
-        }
-    }
-
-    public enum ChangeTypeEnum: String, CustomStringConvertible, Codable {
-        case a = "A"
-        case m = "M"
-        case d = "D"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct PostCommentReplyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "inReplyTo", required: true, type: .string), 
-            AWSShapeMember(label: "content", required: true, type: .string)
-        ]
-        /// A unique, client-generated idempotency token that when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request will return information about the initial request that used that token.
-        public let clientRequestToken: String?
-        /// The system-generated ID of the comment to which you want to reply. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest.
-        public let inReplyTo: String
-        /// The contents of your reply to a comment.
-        public let content: String
-
-        public init(clientRequestToken: String? = nil, content: String, inReplyTo: String) {
-            self.clientRequestToken = clientRequestToken
-            self.inReplyTo = inReplyTo
-            self.content = content
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clientRequestToken = "clientRequestToken"
-            case inReplyTo = "inReplyTo"
-            case content = "content"
-        }
-    }
-
-    public struct PutRepositoryTriggersInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "triggers", required: true, type: .list)
-        ]
-        /// The name of the repository where you want to create or update the trigger.
-        public let repositoryName: String
-        /// The JSON block of configuration information for each trigger.
-        public let triggers: [RepositoryTrigger]
-
-        public init(repositoryName: String, triggers: [RepositoryTrigger]) {
-            self.repositoryName = repositoryName
-            self.triggers = triggers
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repositoryName = "repositoryName"
-            case triggers = "triggers"
-        }
-    }
-
-    public struct BranchInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commitId", required: false, type: .string), 
-            AWSShapeMember(label: "branchName", required: false, type: .string)
-        ]
-        /// The ID of the last commit made to the branch.
-        public let commitId: String?
-        /// The name of the branch.
-        public let branchName: String?
-
-        public init(branchName: String? = nil, commitId: String? = nil) {
-            self.commitId = commitId
-            self.branchName = branchName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case commitId = "commitId"
-            case branchName = "branchName"
-        }
-    }
-
-    public struct ListPullRequestsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "pullRequestStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "authorArn", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// The name of the repository for which you want to list pull requests.
-        public let repositoryName: String
-        /// Optional. The status of the pull request. If used, this refines the results to the pull requests that match the specified status.
-        public let pullRequestStatus: PullRequestStatusEnum?
-        /// Optional. The Amazon Resource Name (ARN) of the user who created the pull request. If used, this filters the results to pull requests created by that user.
-        public let authorArn: String?
-        /// A non-negative integer used to limit the number of returned results.
-        public let maxResults: Int32?
-        /// An enumeration token that when provided in a request, returns the next batch of the results.
-        public let nextToken: String?
-
-        public init(authorArn: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, pullRequestStatus: PullRequestStatusEnum? = nil, repositoryName: String) {
-            self.repositoryName = repositoryName
-            self.pullRequestStatus = pullRequestStatus
-            self.authorArn = authorArn
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repositoryName = "repositoryName"
-            case pullRequestStatus = "pullRequestStatus"
-            case authorArn = "authorArn"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct GetCommitInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "commitId", required: true, type: .string)
-        ]
-        /// The name of the repository to which the commit was made.
-        public let repositoryName: String
-        /// The commit ID. Commit IDs are the full SHA of the commit.
-        public let commitId: String
-
-        public init(commitId: String, repositoryName: String) {
-            self.repositoryName = repositoryName
-            self.commitId = commitId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repositoryName = "repositoryName"
-            case commitId = "commitId"
-        }
-    }
-
-    public struct ListPullRequestsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "pullRequestIds", required: true, type: .list)
-        ]
-        /// An enumeration token that when provided in a request, returns the next batch of the results.
-        public let nextToken: String?
-        /// The system-generated IDs of the pull requests.
-        public let pullRequestIds: [String]
-
-        public init(nextToken: String? = nil, pullRequestIds: [String]) {
-            self.nextToken = nextToken
-            self.pullRequestIds = pullRequestIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case pullRequestIds = "pullRequestIds"
-        }
-    }
-
-    public struct PullRequestMergedStateChangedEventMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "mergeMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "destinationReference", required: false, type: .string)
-        ]
-        /// Information about the merge state change event.
-        public let mergeMetadata: MergeMetadata?
-        /// The name of the repository where the pull request was created.
-        public let repositoryName: String?
-        /// The name of the branch that the pull request will be merged into.
-        public let destinationReference: String?
-
-        public init(destinationReference: String? = nil, mergeMetadata: MergeMetadata? = nil, repositoryName: String? = nil) {
-            self.mergeMetadata = mergeMetadata
-            self.repositoryName = repositoryName
-            self.destinationReference = destinationReference
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mergeMetadata = "mergeMetadata"
-            case repositoryName = "repositoryName"
-            case destinationReference = "destinationReference"
-        }
-    }
-
-    public struct PostCommentForPullRequestInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "afterCommitId", required: true, type: .string), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "beforeCommitId", required: true, type: .string), 
-            AWSShapeMember(label: "content", required: true, type: .string), 
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string)
-        ]
-        /// The name of the repository where you want to post a comment on a pull request.
-        public let repositoryName: String
-        /// The full commit ID of the commit in the source branch that is the current tip of the branch for the pull request when you post the comment.
-        public let afterCommitId: String
-        /// The location of the change where you want to post your comment. If no location is provided, the comment will be posted as a general comment on the pull request difference between the before commit ID and the after commit ID.
-        public let location: Location?
-        /// A unique, client-generated idempotency token that when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request will return information about the initial request that used that token.
-        public let clientRequestToken: String?
-        /// The full commit ID of the commit in the destination branch that was the tip of the branch at the time the pull request was created.
-        public let beforeCommitId: String
-        /// The content of your comment on the change.
-        public let content: String
-        /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
-        public let pullRequestId: String
-
-        public init(afterCommitId: String, beforeCommitId: String, clientRequestToken: String? = nil, content: String, location: Location? = nil, pullRequestId: String, repositoryName: String) {
-            self.repositoryName = repositoryName
-            self.afterCommitId = afterCommitId
-            self.location = location
-            self.clientRequestToken = clientRequestToken
-            self.beforeCommitId = beforeCommitId
-            self.content = content
-            self.pullRequestId = pullRequestId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repositoryName = "repositoryName"
-            case afterCommitId = "afterCommitId"
-            case location = "location"
-            case clientRequestToken = "clientRequestToken"
-            case beforeCommitId = "beforeCommitId"
-            case content = "content"
-            case pullRequestId = "pullRequestId"
-        }
-    }
-
-    public enum PullRequestEventType: String, CustomStringConvertible, Codable {
-        case pullRequestCreated = "PULL_REQUEST_CREATED"
-        case pullRequestStatusChanged = "PULL_REQUEST_STATUS_CHANGED"
-        case pullRequestSourceReferenceUpdated = "PULL_REQUEST_SOURCE_REFERENCE_UPDATED"
-        case pullRequestMergeStateChanged = "PULL_REQUEST_MERGE_STATE_CHANGED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Location: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filePath", required: false, type: .string), 
-            AWSShapeMember(label: "filePosition", required: false, type: .long), 
-            AWSShapeMember(label: "relativeFileVersion", required: false, type: .enum)
-        ]
-        /// The name of the file being compared, including its extension and subdirectory, if any.
-        public let filePath: String?
-        /// The position of a change within a compared file, in line number format.
-        public let filePosition: Int64?
-        /// In a comparison of commits or a pull request, whether the change is in the 'before' or 'after' of that comparison.
-        public let relativeFileVersion: RelativeFileVersionEnum?
-
-        public init(filePath: String? = nil, filePosition: Int64? = nil, relativeFileVersion: RelativeFileVersionEnum? = nil) {
-            self.filePath = filePath
-            self.filePosition = filePosition
-            self.relativeFileVersion = relativeFileVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case filePath = "filePath"
-            case filePosition = "filePosition"
-            case relativeFileVersion = "relativeFileVersion"
-        }
-    }
-
-    public struct DeleteRepositoryOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryId", required: false, type: .string)
-        ]
-        /// The ID of the repository that was deleted.
-        public let repositoryId: String?
-
-        public init(repositoryId: String? = nil) {
-            self.repositoryId = repositoryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repositoryId = "repositoryId"
-        }
-    }
-
-    public struct GetFileOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commitId", required: true, type: .string), 
-            AWSShapeMember(label: "fileMode", required: true, type: .enum), 
-            AWSShapeMember(label: "filePath", required: true, type: .string), 
-            AWSShapeMember(label: "blobId", required: true, type: .string), 
-            AWSShapeMember(label: "fileSize", required: true, type: .long), 
-            AWSShapeMember(label: "fileContent", required: true, type: .blob)
-        ]
-        /// The full commit ID of the commit that contains the content returned by GetFile.
-        public let commitId: String
-        /// The extrapolated file mode permissions of the blob. Valid values include strings such as EXECUTABLE and not numeric values.  The file mode permissions returned by this API are not the standard file mode permission values, such as 100644, but rather extrapolated values. See below for a full list of supported return values. 
-        public let fileMode: FileModeTypeEnum
-        /// The fully qualified path to the specified file. This returns the name and extension of the file.
-        public let filePath: String
-        /// The blob ID of the object that represents the file content.
-        public let blobId: String
-        /// The size of the contents of the file, in bytes.
-        public let fileSize: Int64
-        /// The base-64 encoded binary data object that represents the content of the file.
-        public let fileContent: Data
-
-        public init(blobId: String, commitId: String, fileContent: Data, fileMode: FileModeTypeEnum, filePath: String, fileSize: Int64) {
-            self.commitId = commitId
-            self.fileMode = fileMode
-            self.filePath = filePath
-            self.blobId = blobId
-            self.fileSize = fileSize
-            self.fileContent = fileContent
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case commitId = "commitId"
-            case fileMode = "fileMode"
-            case filePath = "filePath"
-            case blobId = "blobId"
-            case fileSize = "fileSize"
-            case fileContent = "fileContent"
-        }
-    }
-
-    public struct CreateBranchInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commitId", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "branchName", required: true, type: .string)
-        ]
-        /// The ID of the commit to point the new branch to.
-        public let commitId: String
-        /// The name of the repository in which you want to create the new branch.
-        public let repositoryName: String
-        /// The name of the new branch to create.
-        public let branchName: String
-
-        public init(branchName: String, commitId: String, repositoryName: String) {
-            self.commitId = commitId
-            self.repositoryName = repositoryName
-            self.branchName = branchName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case commitId = "commitId"
-            case repositoryName = "repositoryName"
-            case branchName = "branchName"
-        }
-    }
-
-    public struct SubModule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commitId", required: false, type: .string), 
-            AWSShapeMember(label: "absolutePath", required: false, type: .string), 
-            AWSShapeMember(label: "relativePath", required: false, type: .string)
-        ]
-        /// The commit ID that contains the reference to the submodule.
-        public let commitId: String?
-        /// The fully qualified path to the folder that contains the reference to the submodule.
-        public let absolutePath: String?
-        /// The relative path of the submodule from the folder where the query originated.
-        public let relativePath: String?
-
-        public init(absolutePath: String? = nil, commitId: String? = nil, relativePath: String? = nil) {
-            self.commitId = commitId
-            self.absolutePath = absolutePath
-            self.relativePath = relativePath
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case commitId = "commitId"
-            case absolutePath = "absolutePath"
-            case relativePath = "relativePath"
-        }
-    }
-
-    public struct GetPullRequestOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequest", required: true, type: .structure)
-        ]
-        /// Information about the specified pull request.
-        public let pullRequest: PullRequest
-
-        public init(pullRequest: PullRequest) {
-            self.pullRequest = pullRequest
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pullRequest = "pullRequest"
-        }
-    }
-
-    public struct GetBranchOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branch", required: false, type: .structure)
-        ]
-        /// The name of the branch.
-        public let branch: BranchInfo?
-
-        public init(branch: BranchInfo? = nil) {
-            self.branch = branch
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case branch = "branch"
-        }
-    }
-
-    public struct GetFolderOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "files", required: false, type: .list), 
-            AWSShapeMember(label: "commitId", required: true, type: .string), 
-            AWSShapeMember(label: "treeId", required: false, type: .string), 
-            AWSShapeMember(label: "subModules", required: false, type: .list), 
-            AWSShapeMember(label: "subFolders", required: false, type: .list), 
-            AWSShapeMember(label: "folderPath", required: true, type: .string), 
-            AWSShapeMember(label: "symbolicLinks", required: false, type: .list)
-        ]
-        /// The list of files that exist in the specified folder, if any.
-        public let files: [File]?
-        /// The full commit ID used as a reference for which version of the folder content is returned.
-        public let commitId: String
-        /// The full SHA-1 pointer of the tree information for the commit that contains the folder.
-        public let treeId: String?
-        /// The list of submodules that exist in the specified folder, if any.
-        public let subModules: [SubModule]?
-        /// The list of folders that exist beneath the specified folder, if any.
-        public let subFolders: [Folder]?
-        /// The fully-qualified path of the folder whose contents are returned.
-        public let folderPath: String
-        /// The list of symbolic links to other files and folders that exist in the specified folder, if any.
-        public let symbolicLinks: [SymbolicLink]?
-
-        public init(commitId: String, files: [File]? = nil, folderPath: String, subFolders: [Folder]? = nil, subModules: [SubModule]? = nil, symbolicLinks: [SymbolicLink]? = nil, treeId: String? = nil) {
-            self.files = files
-            self.commitId = commitId
-            self.treeId = treeId
-            self.subModules = subModules
-            self.subFolders = subFolders
-            self.folderPath = folderPath
-            self.symbolicLinks = symbolicLinks
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case files = "files"
-            case commitId = "commitId"
-            case treeId = "treeId"
-            case subModules = "subModules"
-            case subFolders = "subFolders"
-            case folderPath = "folderPath"
-            case symbolicLinks = "symbolicLinks"
-        }
-    }
-
-    public enum RelativeFileVersionEnum: String, CustomStringConvertible, Codable {
-        case before = "BEFORE"
-        case after = "AFTER"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct PullRequestSourceReferenceUpdatedEventMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "beforeCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "mergeBase", required: false, type: .string), 
-            AWSShapeMember(label: "afterCommitId", required: false, type: .string)
-        ]
-        /// The full commit ID of the commit in the destination branch that was the tip of the branch at the time the pull request was updated.
-        public let beforeCommitId: String?
-        /// The name of the repository where the pull request was updated.
-        public let repositoryName: String?
-        /// The commit ID of the most recent commit that the source branch and the destination branch have in common.
-        public let mergeBase: String?
-        /// The full commit ID of the commit in the source branch that was the tip of the branch at the time the pull request was updated.
-        public let afterCommitId: String?
-
-        public init(afterCommitId: String? = nil, beforeCommitId: String? = nil, mergeBase: String? = nil, repositoryName: String? = nil) {
-            self.beforeCommitId = beforeCommitId
-            self.repositoryName = repositoryName
-            self.mergeBase = mergeBase
-            self.afterCommitId = afterCommitId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case beforeCommitId = "beforeCommitId"
-            case repositoryName = "repositoryName"
-            case mergeBase = "mergeBase"
-            case afterCommitId = "afterCommitId"
-        }
-    }
-
-    public struct MergePullRequestByFastForwardInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "sourceCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string)
-        ]
-        /// The name of the repository where the pull request was created.
-        public let repositoryName: String
-        /// The full commit ID of the original or updated commit in the pull request source branch. Pass this value if you want an exception thrown if the current commit ID of the tip of the source branch does not match this commit ID.
-        public let sourceCommitId: String?
-        /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
-        public let pullRequestId: String
-
-        public init(pullRequestId: String, repositoryName: String, sourceCommitId: String? = nil) {
-            self.repositoryName = repositoryName
-            self.sourceCommitId = sourceCommitId
-            self.pullRequestId = pullRequestId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repositoryName = "repositoryName"
-            case sourceCommitId = "sourceCommitId"
-            case pullRequestId = "pullRequestId"
-        }
-    }
-
-    public struct GetFolderInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commitSpecifier", required: false, type: .string), 
-            AWSShapeMember(label: "folderPath", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
-        /// A fully-qualified reference used to identify a commit that contains the version of the folder's content to return. A fully-qualified reference can be a commit ID, branch name, tag, or reference such as HEAD. If no specifier is provided, the folder content will be returned as it exists in the HEAD commit.
-        public let commitSpecifier: String?
-        /// The fully-qualified path to the folder whose contents will be returned, including the folder name. For example, /examples is a fully-qualified path to a folder named examples that was created off of the root directory (/) of a repository. 
-        public let folderPath: String
-        /// The name of the repository.
-        public let repositoryName: String
-
-        public init(commitSpecifier: String? = nil, folderPath: String, repositoryName: String) {
-            self.commitSpecifier = commitSpecifier
-            self.folderPath = folderPath
-            self.repositoryName = repositoryName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case commitSpecifier = "commitSpecifier"
-            case folderPath = "folderPath"
-            case repositoryName = "repositoryName"
-        }
-    }
-
-    public struct MergeMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "mergedBy", required: false, type: .string), 
-            AWSShapeMember(label: "isMerged", required: false, type: .boolean)
-        ]
-        /// The Amazon Resource Name (ARN) of the user who merged the branches.
-        public let mergedBy: String?
-        /// A Boolean value indicating whether the merge has been made.
-        public let isMerged: Bool?
-
-        public init(isMerged: Bool? = nil, mergedBy: String? = nil) {
-            self.mergedBy = mergedBy
-            self.isMerged = isMerged
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mergedBy = "mergedBy"
-            case isMerged = "isMerged"
-        }
-    }
-
     public struct BatchGetRepositoriesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "repositoryNames", required: true, type: .list)
@@ -1218,203 +18,6 @@ extension CodeCommit {
 
         private enum CodingKeys: String, CodingKey {
             case repositoryNames = "repositoryNames"
-        }
-    }
-
-    public enum MergeOptionTypeEnum: String, CustomStringConvertible, Codable {
-        case fastForwardMerge = "FAST_FORWARD_MERGE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FileModeTypeEnum: String, CustomStringConvertible, Codable {
-        case executable = "EXECUTABLE"
-        case normal = "NORMAL"
-        case symlink = "SYMLINK"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetPullRequestInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string)
-        ]
-        /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
-        public let pullRequestId: String
-
-        public init(pullRequestId: String) {
-            self.pullRequestId = pullRequestId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pullRequestId = "pullRequestId"
-        }
-    }
-
-    public struct PullRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequestId", required: false, type: .string), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "pullRequestStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "lastActivityDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "authorArn", required: false, type: .string), 
-            AWSShapeMember(label: "title", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "pullRequestTargets", required: false, type: .list)
-        ]
-        /// The system-generated ID of the pull request. 
-        public let pullRequestId: String?
-        /// A unique, client-generated idempotency token that when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request will return information about the initial request that used that token.
-        public let clientRequestToken: String?
-        /// The date and time the pull request was originally created, in timestamp format.
-        public let creationDate: TimeStamp?
-        /// The status of the pull request. Pull request status can only change from OPEN to CLOSED.
-        public let pullRequestStatus: PullRequestStatusEnum?
-        /// The day and time of the last user or system activity on the pull request, in timestamp format.
-        public let lastActivityDate: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the user who created the pull request.
-        public let authorArn: String?
-        /// The user-defined title of the pull request. This title is displayed in the list of pull requests to other users of the repository.
-        public let title: String?
-        /// The user-defined description of the pull request. This description can be used to clarify what should be reviewed and other details of the request.
-        public let description: String?
-        /// The targets of the pull request, including the source branch and destination branch for the pull request.
-        public let pullRequestTargets: [PullRequestTarget]?
-
-        public init(authorArn: String? = nil, clientRequestToken: String? = nil, creationDate: TimeStamp? = nil, description: String? = nil, lastActivityDate: TimeStamp? = nil, pullRequestId: String? = nil, pullRequestStatus: PullRequestStatusEnum? = nil, pullRequestTargets: [PullRequestTarget]? = nil, title: String? = nil) {
-            self.pullRequestId = pullRequestId
-            self.clientRequestToken = clientRequestToken
-            self.creationDate = creationDate
-            self.pullRequestStatus = pullRequestStatus
-            self.lastActivityDate = lastActivityDate
-            self.authorArn = authorArn
-            self.title = title
-            self.description = description
-            self.pullRequestTargets = pullRequestTargets
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pullRequestId = "pullRequestId"
-            case clientRequestToken = "clientRequestToken"
-            case creationDate = "creationDate"
-            case pullRequestStatus = "pullRequestStatus"
-            case lastActivityDate = "lastActivityDate"
-            case authorArn = "authorArn"
-            case title = "title"
-            case description = "description"
-            case pullRequestTargets = "pullRequestTargets"
-        }
-    }
-
-    public struct RepositoryMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "defaultBranch", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryId", required: false, type: .string), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "repositoryDescription", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "cloneUrlSsh", required: false, type: .string), 
-            AWSShapeMember(label: "accountId", required: false, type: .string), 
-            AWSShapeMember(label: "cloneUrlHttp", required: false, type: .string)
-        ]
-        /// The repository's default branch name.
-        public let defaultBranch: String?
-        /// The repository's name.
-        public let repositoryName: String?
-        /// The ID of the repository.
-        public let repositoryId: String?
-        /// The date and time the repository was last modified, in timestamp format.
-        public let lastModifiedDate: TimeStamp?
-        /// A comment or description about the repository.
-        public let repositoryDescription: String?
-        /// The Amazon Resource Name (ARN) of the repository.
-        public let arn: String?
-        /// The date and time the repository was created, in timestamp format.
-        public let creationDate: TimeStamp?
-        /// The URL to use for cloning the repository over SSH.
-        public let cloneUrlSsh: String?
-        /// The ID of the AWS account associated with the repository.
-        public let accountId: String?
-        /// The URL to use for cloning the repository over HTTPS.
-        public let cloneUrlHttp: String?
-
-        public init(accountId: String? = nil, arn: String? = nil, cloneUrlHttp: String? = nil, cloneUrlSsh: String? = nil, creationDate: TimeStamp? = nil, defaultBranch: String? = nil, lastModifiedDate: TimeStamp? = nil, repositoryDescription: String? = nil, repositoryId: String? = nil, repositoryName: String? = nil) {
-            self.defaultBranch = defaultBranch
-            self.repositoryName = repositoryName
-            self.repositoryId = repositoryId
-            self.lastModifiedDate = lastModifiedDate
-            self.repositoryDescription = repositoryDescription
-            self.arn = arn
-            self.creationDate = creationDate
-            self.cloneUrlSsh = cloneUrlSsh
-            self.accountId = accountId
-            self.cloneUrlHttp = cloneUrlHttp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case defaultBranch = "defaultBranch"
-            case repositoryName = "repositoryName"
-            case repositoryId = "repositoryId"
-            case lastModifiedDate = "lastModifiedDate"
-            case repositoryDescription = "repositoryDescription"
-            case arn = "Arn"
-            case creationDate = "creationDate"
-            case cloneUrlSsh = "cloneUrlSsh"
-            case accountId = "accountId"
-            case cloneUrlHttp = "cloneUrlHttp"
-        }
-    }
-
-    public struct UpdateRepositoryNameInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "newName", required: true, type: .string), 
-            AWSShapeMember(label: "oldName", required: true, type: .string)
-        ]
-        /// The new name for the repository.
-        public let newName: String
-        /// The existing name of the repository.
-        public let oldName: String
-
-        public init(newName: String, oldName: String) {
-            self.newName = newName
-            self.oldName = oldName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case newName = "newName"
-            case oldName = "oldName"
-        }
-    }
-
-    public struct DeleteFileOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "blobId", required: true, type: .string), 
-            AWSShapeMember(label: "treeId", required: true, type: .string), 
-            AWSShapeMember(label: "commitId", required: true, type: .string), 
-            AWSShapeMember(label: "filePath", required: true, type: .string)
-        ]
-        /// The blob ID removed from the tree as part of deleting the file.
-        public let blobId: String
-        /// The full SHA-1 pointer of the tree information for the commit that contains the delete file change.
-        public let treeId: String
-        /// The full commit ID of the commit that contains the change that deletes the file.
-        public let commitId: String
-        /// The fully-qualified path to the file that will be deleted, including the full name and extension of that file.
-        public let filePath: String
-
-        public init(blobId: String, commitId: String, filePath: String, treeId: String) {
-            self.blobId = blobId
-            self.treeId = treeId
-            self.commitId = commitId
-            self.filePath = filePath
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case blobId = "blobId"
-            case treeId = "treeId"
-            case commitId = "commitId"
-            case filePath = "filePath"
         }
     }
 
@@ -1439,127 +42,361 @@ extension CodeCommit {
         }
     }
 
-    public struct GetMergeConflictsInput: AWSShape {
+    public struct BlobMetadata: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destinationCommitSpecifier", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "mergeOption", required: true, type: .enum), 
-            AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string)
+            AWSShapeMember(label: "blobId", required: false, type: .string), 
+            AWSShapeMember(label: "mode", required: false, type: .string), 
+            AWSShapeMember(label: "path", required: false, type: .string)
         ]
-        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
-        public let destinationCommitSpecifier: String
-        /// The name of the repository where the pull request was created.
-        public let repositoryName: String
-        /// The merge option or strategy you want to use to merge the code. The only valid value is FAST_FORWARD_MERGE.
-        public let mergeOption: MergeOptionTypeEnum
-        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
-        public let sourceCommitSpecifier: String
+        /// The full ID of the blob.
+        public let blobId: String?
+        /// The file mode permissions of the blob. File mode permission codes include:    100644 indicates read/write    100755 indicates read/write/execute    160000 indicates a submodule    120000 indicates a symlink  
+        public let mode: String?
+        /// The path to the blob and any associated file name, if any.
+        public let path: String?
 
-        public init(destinationCommitSpecifier: String, mergeOption: MergeOptionTypeEnum, repositoryName: String, sourceCommitSpecifier: String) {
-            self.destinationCommitSpecifier = destinationCommitSpecifier
-            self.repositoryName = repositoryName
-            self.mergeOption = mergeOption
-            self.sourceCommitSpecifier = sourceCommitSpecifier
+        public init(blobId: String? = nil, mode: String? = nil, path: String? = nil) {
+            self.blobId = blobId
+            self.mode = mode
+            self.path = path
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationCommitSpecifier = "destinationCommitSpecifier"
-            case repositoryName = "repositoryName"
-            case mergeOption = "mergeOption"
-            case sourceCommitSpecifier = "sourceCommitSpecifier"
+            case blobId = "blobId"
+            case mode = "mode"
+            case path = "path"
         }
     }
 
-    public struct DeleteRepositoryInput: AWSShape {
+    public struct BranchInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+            AWSShapeMember(label: "branchName", required: false, type: .string), 
+            AWSShapeMember(label: "commitId", required: false, type: .string)
         ]
-        /// The name of the repository to delete.
-        public let repositoryName: String
+        /// The name of the branch.
+        public let branchName: String?
+        /// The ID of the last commit made to the branch.
+        public let commitId: String?
 
-        public init(repositoryName: String) {
-            self.repositoryName = repositoryName
+        public init(branchName: String? = nil, commitId: String? = nil) {
+            self.branchName = branchName
+            self.commitId = commitId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryName = "repositoryName"
+            case branchName = "branchName"
+            case commitId = "commitId"
         }
+    }
+
+    public enum ChangeTypeEnum: String, CustomStringConvertible, Codable {
+        case a = "A"
+        case m = "M"
+        case d = "D"
+        public var description: String { return self.rawValue }
     }
 
     public struct Comment: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "authorArn", required: false, type: .string), 
-            AWSShapeMember(label: "inReplyTo", required: false, type: .string), 
-            AWSShapeMember(label: "deleted", required: false, type: .boolean), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
             AWSShapeMember(label: "commentId", required: false, type: .string), 
-            AWSShapeMember(label: "content", required: false, type: .string)
+            AWSShapeMember(label: "content", required: false, type: .string), 
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "deleted", required: false, type: .boolean), 
+            AWSShapeMember(label: "inReplyTo", required: false, type: .string), 
+            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp)
         ]
         /// The Amazon Resource Name (ARN) of the person who posted the comment.
         public let authorArn: String?
-        /// The ID of the comment for which this comment is a reply, if any.
-        public let inReplyTo: String?
-        /// A Boolean value indicating whether the comment has been deleted.
-        public let deleted: Bool?
-        /// The date and time the comment was created, in timestamp format.
-        public let creationDate: TimeStamp?
-        /// The date and time the comment was most recently modified, in timestamp format.
-        public let lastModifiedDate: TimeStamp?
         /// A unique, client-generated idempotency token that when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request will return information about the initial request that used that token.
         public let clientRequestToken: String?
         /// The system-generated comment ID.
         public let commentId: String?
         /// The content of the comment.
         public let content: String?
+        /// The date and time the comment was created, in timestamp format.
+        public let creationDate: TimeStamp?
+        /// A Boolean value indicating whether the comment has been deleted.
+        public let deleted: Bool?
+        /// The ID of the comment for which this comment is a reply, if any.
+        public let inReplyTo: String?
+        /// The date and time the comment was most recently modified, in timestamp format.
+        public let lastModifiedDate: TimeStamp?
 
         public init(authorArn: String? = nil, clientRequestToken: String? = nil, commentId: String? = nil, content: String? = nil, creationDate: TimeStamp? = nil, deleted: Bool? = nil, inReplyTo: String? = nil, lastModifiedDate: TimeStamp? = nil) {
             self.authorArn = authorArn
-            self.inReplyTo = inReplyTo
-            self.deleted = deleted
-            self.creationDate = creationDate
-            self.lastModifiedDate = lastModifiedDate
             self.clientRequestToken = clientRequestToken
             self.commentId = commentId
             self.content = content
+            self.creationDate = creationDate
+            self.deleted = deleted
+            self.inReplyTo = inReplyTo
+            self.lastModifiedDate = lastModifiedDate
         }
 
         private enum CodingKeys: String, CodingKey {
             case authorArn = "authorArn"
-            case inReplyTo = "inReplyTo"
-            case deleted = "deleted"
-            case creationDate = "creationDate"
-            case lastModifiedDate = "lastModifiedDate"
             case clientRequestToken = "clientRequestToken"
             case commentId = "commentId"
             case content = "content"
+            case creationDate = "creationDate"
+            case deleted = "deleted"
+            case inReplyTo = "inReplyTo"
+            case lastModifiedDate = "lastModifiedDate"
         }
     }
 
-    public struct PutFileOutput: AWSShape {
+    public struct CommentsForComparedCommit: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "treeId", required: true, type: .string), 
-            AWSShapeMember(label: "blobId", required: true, type: .string), 
-            AWSShapeMember(label: "commitId", required: true, type: .string)
+            AWSShapeMember(label: "afterBlobId", required: false, type: .string), 
+            AWSShapeMember(label: "afterCommitId", required: false, type: .string), 
+            AWSShapeMember(label: "beforeBlobId", required: false, type: .string), 
+            AWSShapeMember(label: "beforeCommitId", required: false, type: .string), 
+            AWSShapeMember(label: "comments", required: false, type: .list), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
-        /// The full SHA-1 pointer of the tree information for the commit that contains this file change.
-        public let treeId: String
-        /// The ID of the blob, which is its SHA-1 pointer.
-        public let blobId: String
-        /// The full SHA of the commit that contains this file change.
-        public let commitId: String
+        /// The full blob ID of the commit used to establish the 'after' of the comparison.
+        public let afterBlobId: String?
+        /// The full commit ID of the commit used to establish the 'after' of the comparison.
+        public let afterCommitId: String?
+        /// The full blob ID of the commit used to establish the 'before' of the comparison.
+        public let beforeBlobId: String?
+        /// The full commit ID of the commit used to establish the 'before' of the comparison.
+        public let beforeCommitId: String?
+        /// An array of comment objects. Each comment object contains information about a comment on the comparison between commits.
+        public let comments: [Comment]?
+        /// Location information about the comment on the comparison, including the file name, line number, and whether the version of the file where the comment was made is 'BEFORE' or 'AFTER'.
+        public let location: Location?
+        /// The name of the repository that contains the compared commits.
+        public let repositoryName: String?
 
-        public init(blobId: String, commitId: String, treeId: String) {
-            self.treeId = treeId
-            self.blobId = blobId
-            self.commitId = commitId
+        public init(afterBlobId: String? = nil, afterCommitId: String? = nil, beforeBlobId: String? = nil, beforeCommitId: String? = nil, comments: [Comment]? = nil, location: Location? = nil, repositoryName: String? = nil) {
+            self.afterBlobId = afterBlobId
+            self.afterCommitId = afterCommitId
+            self.beforeBlobId = beforeBlobId
+            self.beforeCommitId = beforeCommitId
+            self.comments = comments
+            self.location = location
+            self.repositoryName = repositoryName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case treeId = "treeId"
-            case blobId = "blobId"
+            case afterBlobId = "afterBlobId"
+            case afterCommitId = "afterCommitId"
+            case beforeBlobId = "beforeBlobId"
+            case beforeCommitId = "beforeCommitId"
+            case comments = "comments"
+            case location = "location"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct CommentsForPullRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "afterBlobId", required: false, type: .string), 
+            AWSShapeMember(label: "afterCommitId", required: false, type: .string), 
+            AWSShapeMember(label: "beforeBlobId", required: false, type: .string), 
+            AWSShapeMember(label: "beforeCommitId", required: false, type: .string), 
+            AWSShapeMember(label: "comments", required: false, type: .list), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "pullRequestId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string)
+        ]
+        /// The full blob ID of the file on which you want to comment on the source commit.
+        public let afterBlobId: String?
+        /// he full commit ID of the commit that was the tip of the source branch at the time the comment was made. 
+        public let afterCommitId: String?
+        /// The full blob ID of the file on which you want to comment on the destination commit.
+        public let beforeBlobId: String?
+        /// The full commit ID of the commit that was the tip of the destination branch when the pull request was created. This commit will be superceded by the after commit in the source branch when and if you merge the source branch into the destination branch.
+        public let beforeCommitId: String?
+        /// An array of comment objects. Each comment object contains information about a comment on the pull request.
+        public let comments: [Comment]?
+        /// Location information about the comment on the pull request, including the file name, line number, and whether the version of the file where the comment was made is 'BEFORE' (destination branch) or 'AFTER' (source branch).
+        public let location: Location?
+        /// The system-generated ID of the pull request.
+        public let pullRequestId: String?
+        /// The name of the repository that contains the pull request.
+        public let repositoryName: String?
+
+        public init(afterBlobId: String? = nil, afterCommitId: String? = nil, beforeBlobId: String? = nil, beforeCommitId: String? = nil, comments: [Comment]? = nil, location: Location? = nil, pullRequestId: String? = nil, repositoryName: String? = nil) {
+            self.afterBlobId = afterBlobId
+            self.afterCommitId = afterCommitId
+            self.beforeBlobId = beforeBlobId
+            self.beforeCommitId = beforeCommitId
+            self.comments = comments
+            self.location = location
+            self.pullRequestId = pullRequestId
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterBlobId = "afterBlobId"
+            case afterCommitId = "afterCommitId"
+            case beforeBlobId = "beforeBlobId"
+            case beforeCommitId = "beforeCommitId"
+            case comments = "comments"
+            case location = "location"
+            case pullRequestId = "pullRequestId"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct Commit: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "additionalData", required: false, type: .string), 
+            AWSShapeMember(label: "author", required: false, type: .structure), 
+            AWSShapeMember(label: "commitId", required: false, type: .string), 
+            AWSShapeMember(label: "committer", required: false, type: .structure), 
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "parents", required: false, type: .list), 
+            AWSShapeMember(label: "treeId", required: false, type: .string)
+        ]
+        /// Any additional data associated with the specified commit.
+        public let additionalData: String?
+        /// Information about the author of the specified commit. Information includes the date in timestamp format with GMT offset, the name of the author, and the email address for the author, as configured in Git.
+        public let author: UserInfo?
+        /// The full SHA of the specified commit. 
+        public let commitId: String?
+        /// Information about the person who committed the specified commit, also known as the committer. Information includes the date in timestamp format with GMT offset, the name of the committer, and the email address for the committer, as configured in Git. For more information about the difference between an author and a committer in Git, see Viewing the Commit History in Pro Git by Scott Chacon and Ben Straub.
+        public let committer: UserInfo?
+        /// The commit message associated with the specified commit.
+        public let message: String?
+        /// A list of parent commits for the specified commit. Each parent commit ID is the full commit ID.
+        public let parents: [String]?
+        /// Tree information for the specified commit.
+        public let treeId: String?
+
+        public init(additionalData: String? = nil, author: UserInfo? = nil, commitId: String? = nil, committer: UserInfo? = nil, message: String? = nil, parents: [String]? = nil, treeId: String? = nil) {
+            self.additionalData = additionalData
+            self.author = author
+            self.commitId = commitId
+            self.committer = committer
+            self.message = message
+            self.parents = parents
+            self.treeId = treeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalData = "additionalData"
+            case author = "author"
             case commitId = "commitId"
+            case committer = "committer"
+            case message = "message"
+            case parents = "parents"
+            case treeId = "treeId"
+        }
+    }
+
+    public struct CreateBranchInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "branchName", required: true, type: .string), 
+            AWSShapeMember(label: "commitId", required: true, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+        ]
+        /// The name of the new branch to create.
+        public let branchName: String
+        /// The ID of the commit to point the new branch to.
+        public let commitId: String
+        /// The name of the repository in which you want to create the new branch.
+        public let repositoryName: String
+
+        public init(branchName: String, commitId: String, repositoryName: String) {
+            self.branchName = branchName
+            self.commitId = commitId
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branchName = "branchName"
+            case commitId = "commitId"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct CreatePullRequestInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "targets", required: true, type: .list), 
+            AWSShapeMember(label: "title", required: true, type: .string)
+        ]
+        /// A unique, client-generated idempotency token that when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request will return information about the initial request that used that token.  The AWS SDKs prepopulate client request tokens. If using an AWS SDK, you do not have to generate an idempotency token, as this will be done for you. 
+        public let clientRequestToken: String?
+        /// A description of the pull request.
+        public let description: String?
+        /// The targets for the pull request, including the source of the code to be reviewed (the source branch), and the destination where the creator of the pull request intends the code to be merged after the pull request is closed (the destination branch).
+        public let targets: [Target]
+        /// The title of the pull request. This title will be used to identify the pull request to other users in the repository.
+        public let title: String
+
+        public init(clientRequestToken: String? = nil, description: String? = nil, targets: [Target], title: String) {
+            self.clientRequestToken = clientRequestToken
+            self.description = description
+            self.targets = targets
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case description = "description"
+            case targets = "targets"
+            case title = "title"
+        }
+    }
+
+    public struct CreatePullRequestOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pullRequest", required: true, type: .structure)
+        ]
+        /// Information about the newly created pull request.
+        public let pullRequest: PullRequest
+
+        public init(pullRequest: PullRequest) {
+            self.pullRequest = pullRequest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pullRequest = "pullRequest"
+        }
+    }
+
+    public struct CreateRepositoryInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryDescription", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+        ]
+        /// A comment or description about the new repository.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a web page could expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a web page. 
+        public let repositoryDescription: String?
+        /// The name of the new repository to be created.  The repository name must be unique across the calling AWS account. In addition, repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. For a full description of the limits on repository names, see Limits in the AWS CodeCommit User Guide. The suffix ".git" is prohibited. 
+        public let repositoryName: String
+
+        public init(repositoryDescription: String? = nil, repositoryName: String) {
+            self.repositoryDescription = repositoryDescription
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryDescription = "repositoryDescription"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct CreateRepositoryOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryMetadata", required: false, type: .structure)
+        ]
+        /// Information about the newly created repository.
+        public let repositoryMetadata: RepositoryMetadata?
+
+        public init(repositoryMetadata: RepositoryMetadata? = nil) {
+            self.repositoryMetadata = repositoryMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryMetadata = "repositoryMetadata"
         }
     }
 
@@ -1584,71 +421,201 @@ extension CodeCommit {
         }
     }
 
-    public struct File: AWSShape {
+    public struct DeleteBranchOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "absolutePath", required: false, type: .string), 
-            AWSShapeMember(label: "relativePath", required: false, type: .string), 
-            AWSShapeMember(label: "fileMode", required: false, type: .enum), 
-            AWSShapeMember(label: "blobId", required: false, type: .string)
+            AWSShapeMember(label: "deletedBranch", required: false, type: .structure)
         ]
-        /// The fully-qualified path to the file in the repository.
-        public let absolutePath: String?
-        /// The relative path of the file from the folder where the query originated.
-        public let relativePath: String?
-        /// The extrapolated file mode permissions for the file. Valid values include EXECUTABLE and NORMAL.
-        public let fileMode: FileModeTypeEnum?
-        /// The blob ID that contains the file information.
-        public let blobId: String?
+        /// Information about the branch deleted by the operation, including the branch name and the commit ID that was the tip of the branch.
+        public let deletedBranch: BranchInfo?
 
-        public init(absolutePath: String? = nil, blobId: String? = nil, fileMode: FileModeTypeEnum? = nil, relativePath: String? = nil) {
-            self.absolutePath = absolutePath
-            self.relativePath = relativePath
-            self.fileMode = fileMode
+        public init(deletedBranch: BranchInfo? = nil) {
+            self.deletedBranch = deletedBranch
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletedBranch = "deletedBranch"
+        }
+    }
+
+    public struct DeleteCommentContentInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "commentId", required: true, type: .string)
+        ]
+        /// The unique, system-generated ID of the comment. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest.
+        public let commentId: String
+
+        public init(commentId: String) {
+            self.commentId = commentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commentId = "commentId"
+        }
+    }
+
+    public struct DeleteCommentContentOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "comment", required: false, type: .structure)
+        ]
+        /// Information about the comment you just deleted.
+        public let comment: Comment?
+
+        public init(comment: Comment? = nil) {
+            self.comment = comment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "comment"
+        }
+    }
+
+    public struct DeleteFileInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "branchName", required: true, type: .string), 
+            AWSShapeMember(label: "commitMessage", required: false, type: .string), 
+            AWSShapeMember(label: "email", required: false, type: .string), 
+            AWSShapeMember(label: "filePath", required: true, type: .string), 
+            AWSShapeMember(label: "keepEmptyFolders", required: false, type: .boolean), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "parentCommitId", required: true, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+        ]
+        /// The name of the branch where the commit will be made deleting the file.
+        public let branchName: String
+        /// The commit message you want to include as part of deleting the file. Commit messages are limited to 256 KB. If no message is specified, a default message will be used.
+        public let commitMessage: String?
+        /// The email address for the commit that deletes the file. If no email address is specified, the email address will be left blank.
+        public let email: String?
+        /// The fully-qualified path to the file that will be deleted, including the full name and extension of that file. For example, /examples/file.md is a fully qualified path to a file named file.md in a folder named examples.
+        public let filePath: String
+        /// Specifies whether to delete the folder or directory that contains the file you want to delete if that file is the only object in the folder or directory. By default, empty folders will be deleted. This includes empty folders that are part of the directory structure. For example, if the path to a file is dir1/dir2/dir3/dir4, and dir2 and dir3 are empty, deleting the last file in dir4 will also delete the empty folders dir4, dir3, and dir2.
+        public let keepEmptyFolders: Bool?
+        /// The name of the author of the commit that deletes the file. If no name is specified, the user's ARN will be used as the author name and committer name.
+        public let name: String?
+        /// The ID of the commit that is the tip of the branch where you want to create the commit that will delete the file. This must be the HEAD commit for the branch. The commit that deletes the file will be created from this commit ID.
+        public let parentCommitId: String
+        /// The name of the repository that contains the file to delete.
+        public let repositoryName: String
+
+        public init(branchName: String, commitMessage: String? = nil, email: String? = nil, filePath: String, keepEmptyFolders: Bool? = nil, name: String? = nil, parentCommitId: String, repositoryName: String) {
+            self.branchName = branchName
+            self.commitMessage = commitMessage
+            self.email = email
+            self.filePath = filePath
+            self.keepEmptyFolders = keepEmptyFolders
+            self.name = name
+            self.parentCommitId = parentCommitId
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branchName = "branchName"
+            case commitMessage = "commitMessage"
+            case email = "email"
+            case filePath = "filePath"
+            case keepEmptyFolders = "keepEmptyFolders"
+            case name = "name"
+            case parentCommitId = "parentCommitId"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct DeleteFileOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "blobId", required: true, type: .string), 
+            AWSShapeMember(label: "commitId", required: true, type: .string), 
+            AWSShapeMember(label: "filePath", required: true, type: .string), 
+            AWSShapeMember(label: "treeId", required: true, type: .string)
+        ]
+        /// The blob ID removed from the tree as part of deleting the file.
+        public let blobId: String
+        /// The full commit ID of the commit that contains the change that deletes the file.
+        public let commitId: String
+        /// The fully-qualified path to the file that will be deleted, including the full name and extension of that file.
+        public let filePath: String
+        /// The full SHA-1 pointer of the tree information for the commit that contains the delete file change.
+        public let treeId: String
+
+        public init(blobId: String, commitId: String, filePath: String, treeId: String) {
             self.blobId = blobId
+            self.commitId = commitId
+            self.filePath = filePath
+            self.treeId = treeId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case absolutePath = "absolutePath"
-            case relativePath = "relativePath"
-            case fileMode = "fileMode"
             case blobId = "blobId"
+            case commitId = "commitId"
+            case filePath = "filePath"
+            case treeId = "treeId"
         }
     }
 
-    public struct ListBranchesOutput: AWSShape {
+    public struct DeleteRepositoryInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branches", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
-        /// The list of branch names.
-        public let branches: [String]?
-        /// An enumeration token that returns the batch of the results.
+        /// The name of the repository to delete.
+        public let repositoryName: String
+
+        public init(repositoryName: String) {
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct DeleteRepositoryOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryId", required: false, type: .string)
+        ]
+        /// The ID of the repository that was deleted.
+        public let repositoryId: String?
+
+        public init(repositoryId: String? = nil) {
+            self.repositoryId = repositoryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryId = "repositoryId"
+        }
+    }
+
+    public struct DescribePullRequestEventsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actorArn", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "pullRequestEventType", required: false, type: .enum), 
+            AWSShapeMember(label: "pullRequestId", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the user whose actions resulted in the event. Examples include updating the pull request with additional commits or changing the status of a pull request.
+        public let actorArn: String?
+        /// A non-negative integer used to limit the number of returned results. The default is 100 events, which is also the maximum number of events that can be returned in a result.
+        public let maxResults: Int32?
+        /// An enumeration token that when provided in a request, returns the next batch of the results.
         public let nextToken: String?
+        /// Optional. The pull request event type about which you want to return information.
+        public let pullRequestEventType: PullRequestEventType?
+        /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
+        public let pullRequestId: String
 
-        public init(branches: [String]? = nil, nextToken: String? = nil) {
-            self.branches = branches
+        public init(actorArn: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, pullRequestEventType: PullRequestEventType? = nil, pullRequestId: String) {
+            self.actorArn = actorArn
+            self.maxResults = maxResults
             self.nextToken = nextToken
+            self.pullRequestEventType = pullRequestEventType
+            self.pullRequestId = pullRequestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branches = "branches"
+            case actorArn = "actorArn"
+            case maxResults = "maxResults"
             case nextToken = "nextToken"
-        }
-    }
-
-    public struct GetRepositoryOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryMetadata", required: false, type: .structure)
-        ]
-        /// Information about the repository.
-        public let repositoryMetadata: RepositoryMetadata?
-
-        public init(repositoryMetadata: RepositoryMetadata? = nil) {
-            self.repositoryMetadata = repositoryMetadata
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repositoryMetadata = "repositoryMetadata"
+            case pullRequestEventType = "pullRequestEventType"
+            case pullRequestId = "pullRequestId"
         }
     }
 
@@ -1673,257 +640,93 @@ extension CodeCommit {
         }
     }
 
-    public struct UpdatePullRequestDescriptionInput: AWSShape {
+    public struct Difference: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: true, type: .string), 
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string)
+            AWSShapeMember(label: "afterBlob", required: false, type: .structure), 
+            AWSShapeMember(label: "beforeBlob", required: false, type: .structure), 
+            AWSShapeMember(label: "changeType", required: false, type: .enum)
         ]
-        /// The updated content of the description for the pull request. This content will replace the existing description.
-        public let description: String
-        /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
-        public let pullRequestId: String
+        /// Information about an afterBlob data type object, including the ID, the file mode permission code, and the path.
+        public let afterBlob: BlobMetadata?
+        /// Information about a beforeBlob data type object, including the ID, the file mode permission code, and the path.
+        public let beforeBlob: BlobMetadata?
+        /// Whether the change type of the difference is an addition (A), deletion (D), or modification (M).
+        public let changeType: ChangeTypeEnum?
 
-        public init(description: String, pullRequestId: String) {
-            self.description = description
-            self.pullRequestId = pullRequestId
+        public init(afterBlob: BlobMetadata? = nil, beforeBlob: BlobMetadata? = nil, changeType: ChangeTypeEnum? = nil) {
+            self.afterBlob = afterBlob
+            self.beforeBlob = beforeBlob
+            self.changeType = changeType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description = "description"
-            case pullRequestId = "pullRequestId"
+            case afterBlob = "afterBlob"
+            case beforeBlob = "beforeBlob"
+            case changeType = "changeType"
         }
     }
 
-    public struct ListRepositoriesOutput: AWSShape {
+    public struct File: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "repositories", required: false, type: .list)
+            AWSShapeMember(label: "absolutePath", required: false, type: .string), 
+            AWSShapeMember(label: "blobId", required: false, type: .string), 
+            AWSShapeMember(label: "fileMode", required: false, type: .enum), 
+            AWSShapeMember(label: "relativePath", required: false, type: .string)
         ]
-        /// An enumeration token that allows the operation to batch the results of the operation. Batch sizes are 1,000 for list repository operations. When the client sends the token back to AWS CodeCommit, another page of 1,000 records is retrieved.
-        public let nextToken: String?
-        /// Lists the repositories called by the list repositories operation.
-        public let repositories: [RepositoryNameIdPair]?
+        /// The fully-qualified path to the file in the repository.
+        public let absolutePath: String?
+        /// The blob ID that contains the file information.
+        public let blobId: String?
+        /// The extrapolated file mode permissions for the file. Valid values include EXECUTABLE and NORMAL.
+        public let fileMode: FileModeTypeEnum?
+        /// The relative path of the file from the folder where the query originated.
+        public let relativePath: String?
 
-        public init(nextToken: String? = nil, repositories: [RepositoryNameIdPair]? = nil) {
-            self.nextToken = nextToken
-            self.repositories = repositories
+        public init(absolutePath: String? = nil, blobId: String? = nil, fileMode: FileModeTypeEnum? = nil, relativePath: String? = nil) {
+            self.absolutePath = absolutePath
+            self.blobId = blobId
+            self.fileMode = fileMode
+            self.relativePath = relativePath
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case repositories = "repositories"
+            case absolutePath = "absolutePath"
+            case blobId = "blobId"
+            case fileMode = "fileMode"
+            case relativePath = "relativePath"
         }
     }
 
-    public struct GetDifferencesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "differences", required: false, type: .list)
-        ]
-        /// An enumeration token that can be used in a request to return the next batch of the results.
-        public let nextToken: String?
-        /// A differences data type object that contains information about the differences, including whether the difference is added, modified, or deleted (A, D, M).
-        public let differences: [Difference]?
-
-        public init(differences: [Difference]? = nil, nextToken: String? = nil) {
-            self.nextToken = nextToken
-            self.differences = differences
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case differences = "differences"
-        }
+    public enum FileModeTypeEnum: String, CustomStringConvertible, Codable {
+        case executable = "EXECUTABLE"
+        case normal = "NORMAL"
+        case symlink = "SYMLINK"
+        public var description: String { return self.rawValue }
     }
 
-    public struct GetCommentOutput: AWSShape {
+    public struct Folder: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "comment", required: false, type: .structure)
+            AWSShapeMember(label: "absolutePath", required: false, type: .string), 
+            AWSShapeMember(label: "relativePath", required: false, type: .string), 
+            AWSShapeMember(label: "treeId", required: false, type: .string)
         ]
-        /// The contents of the comment.
-        public let comment: Comment?
-
-        public init(comment: Comment? = nil) {
-            self.comment = comment
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case comment = "comment"
-        }
-    }
-
-    public struct PostCommentForPullRequestOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "comment", required: false, type: .structure), 
-            AWSShapeMember(label: "pullRequestId", required: false, type: .string), 
-            AWSShapeMember(label: "afterCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "beforeCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "afterBlobId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "beforeBlobId", required: false, type: .string), 
-            AWSShapeMember(label: "location", required: false, type: .structure)
-        ]
-        /// The content of the comment you posted.
-        public let comment: Comment?
-        /// The system-generated ID of the pull request. 
-        public let pullRequestId: String?
-        /// The full commit ID of the commit in the destination branch where the pull request will be merged.
-        public let afterCommitId: String?
-        /// The full commit ID of the commit in the source branch used to create the pull request, or in the case of an updated pull request, the full commit ID of the commit used to update the pull request.
-        public let beforeCommitId: String?
-        /// In the directionality of the pull request, the blob ID of the 'after' blob.
-        public let afterBlobId: String?
-        /// The name of the repository where you posted a comment on a pull request.
-        public let repositoryName: String?
-        /// In the directionality of the pull request, the blob ID of the 'before' blob.
-        public let beforeBlobId: String?
-        /// The location of the change where you posted your comment.
-        public let location: Location?
-
-        public init(afterBlobId: String? = nil, afterCommitId: String? = nil, beforeBlobId: String? = nil, beforeCommitId: String? = nil, comment: Comment? = nil, location: Location? = nil, pullRequestId: String? = nil, repositoryName: String? = nil) {
-            self.comment = comment
-            self.pullRequestId = pullRequestId
-            self.afterCommitId = afterCommitId
-            self.beforeCommitId = beforeCommitId
-            self.afterBlobId = afterBlobId
-            self.repositoryName = repositoryName
-            self.beforeBlobId = beforeBlobId
-            self.location = location
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case comment = "comment"
-            case pullRequestId = "pullRequestId"
-            case afterCommitId = "afterCommitId"
-            case beforeCommitId = "beforeCommitId"
-            case afterBlobId = "afterBlobId"
-            case repositoryName = "repositoryName"
-            case beforeBlobId = "beforeBlobId"
-            case location = "location"
-        }
-    }
-
-    public struct GetBranchInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "branchName", required: false, type: .string)
-        ]
-        /// The name of the repository that contains the branch for which you want to retrieve information.
-        public let repositoryName: String?
-        /// The name of the branch for which you want to retrieve information.
-        public let branchName: String?
-
-        public init(branchName: String? = nil, repositoryName: String? = nil) {
-            self.repositoryName = repositoryName
-            self.branchName = branchName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repositoryName = "repositoryName"
-            case branchName = "branchName"
-        }
-    }
-
-    public struct GetCommentsForComparedCommitOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "commentsForComparedCommitData", required: false, type: .list)
-        ]
-        /// An enumeration token that can be used in a request to return the next batch of the results.
-        public let nextToken: String?
-        /// A list of comment objects on the compared commit.
-        public let commentsForComparedCommitData: [CommentsForComparedCommit]?
-
-        public init(commentsForComparedCommitData: [CommentsForComparedCommit]? = nil, nextToken: String? = nil) {
-            self.nextToken = nextToken
-            self.commentsForComparedCommitData = commentsForComparedCommitData
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case commentsForComparedCommitData = "commentsForComparedCommitData"
-        }
-    }
-
-    public struct Commit: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "treeId", required: false, type: .string), 
-            AWSShapeMember(label: "author", required: false, type: .structure), 
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "committer", required: false, type: .structure), 
-            AWSShapeMember(label: "parents", required: false, type: .list), 
-            AWSShapeMember(label: "commitId", required: false, type: .string), 
-            AWSShapeMember(label: "additionalData", required: false, type: .string)
-        ]
-        /// Tree information for the specified commit.
+        /// The fully-qualified path of the folder in the repository.
+        public let absolutePath: String?
+        /// The relative path of the specified folder from the folder where the query originated.
+        public let relativePath: String?
+        /// The full SHA-1 pointer of the tree information for the commit that contains the folder.
         public let treeId: String?
-        /// Information about the author of the specified commit. Information includes the date in timestamp format with GMT offset, the name of the author, and the email address for the author, as configured in Git.
-        public let author: UserInfo?
-        /// The commit message associated with the specified commit.
-        public let message: String?
-        /// Information about the person who committed the specified commit, also known as the committer. Information includes the date in timestamp format with GMT offset, the name of the committer, and the email address for the committer, as configured in Git. For more information about the difference between an author and a committer in Git, see Viewing the Commit History in Pro Git by Scott Chacon and Ben Straub.
-        public let committer: UserInfo?
-        /// A list of parent commits for the specified commit. Each parent commit ID is the full commit ID.
-        public let parents: [String]?
-        /// The full SHA of the specified commit. 
-        public let commitId: String?
-        /// Any additional data associated with the specified commit.
-        public let additionalData: String?
 
-        public init(additionalData: String? = nil, author: UserInfo? = nil, commitId: String? = nil, committer: UserInfo? = nil, message: String? = nil, parents: [String]? = nil, treeId: String? = nil) {
+        public init(absolutePath: String? = nil, relativePath: String? = nil, treeId: String? = nil) {
+            self.absolutePath = absolutePath
+            self.relativePath = relativePath
             self.treeId = treeId
-            self.author = author
-            self.message = message
-            self.committer = committer
-            self.parents = parents
-            self.commitId = commitId
-            self.additionalData = additionalData
         }
 
         private enum CodingKeys: String, CodingKey {
+            case absolutePath = "absolutePath"
+            case relativePath = "relativePath"
             case treeId = "treeId"
-            case author = "author"
-            case message = "message"
-            case committer = "committer"
-            case parents = "parents"
-            case commitId = "commitId"
-            case additionalData = "additionalData"
-        }
-    }
-
-    public struct GetCommentsForComparedCommitInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "beforeCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "afterCommitId", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
-        /// An enumeration token that when provided in a request, returns the next batch of the results. 
-        public let nextToken: String?
-        /// To establish the directionality of the comparison, the full commit ID of the 'before' commit.
-        public let beforeCommitId: String?
-        /// A non-negative integer used to limit the number of returned results. The default is 100 comments, and is configurable up to 500.
-        public let maxResults: Int32?
-        /// To establish the directionality of the comparison, the full commit ID of the 'after' commit.
-        public let afterCommitId: String
-        /// The name of the repository where you want to compare commits.
-        public let repositoryName: String
-
-        public init(afterCommitId: String, beforeCommitId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, repositoryName: String) {
-            self.nextToken = nextToken
-            self.beforeCommitId = beforeCommitId
-            self.maxResults = maxResults
-            self.afterCommitId = afterCommitId
-            self.repositoryName = repositoryName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case beforeCommitId = "beforeCommitId"
-            case maxResults = "maxResults"
-            case afterCommitId = "afterCommitId"
-            case repositoryName = "repositoryName"
         }
     }
 
@@ -1948,74 +751,80 @@ extension CodeCommit {
         }
     }
 
-    public struct PullRequestCreatedEventMetadata: AWSShape {
+    public struct GetBlobOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destinationCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "mergeBase", required: false, type: .string), 
-            AWSShapeMember(label: "sourceCommitId", required: false, type: .string), 
+            AWSShapeMember(label: "content", required: true, type: .blob)
+        ]
+        /// The content of the blob, usually a file.
+        public let content: Data
+
+        public init(content: Data) {
+            self.content = content
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+        }
+    }
+
+    public struct GetBranchInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "branchName", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
-        /// The commit ID of the tip of the branch specified as the destination branch when the pull request was created.
-        public let destinationCommitId: String?
-        /// The commit ID of the most recent commit that the source branch and the destination branch have in common.
-        public let mergeBase: String?
-        /// The commit ID on the source branch used when the pull request was created.
-        public let sourceCommitId: String?
-        /// The name of the repository where the pull request was created.
+        /// The name of the branch for which you want to retrieve information.
+        public let branchName: String?
+        /// The name of the repository that contains the branch for which you want to retrieve information.
         public let repositoryName: String?
 
-        public init(destinationCommitId: String? = nil, mergeBase: String? = nil, repositoryName: String? = nil, sourceCommitId: String? = nil) {
-            self.destinationCommitId = destinationCommitId
-            self.mergeBase = mergeBase
-            self.sourceCommitId = sourceCommitId
+        public init(branchName: String? = nil, repositoryName: String? = nil) {
+            self.branchName = branchName
             self.repositoryName = repositoryName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationCommitId = "destinationCommitId"
-            case mergeBase = "mergeBase"
-            case sourceCommitId = "sourceCommitId"
+            case branchName = "branchName"
             case repositoryName = "repositoryName"
         }
     }
 
-    public struct PutRepositoryTriggersOutput: AWSShape {
+    public struct GetBranchOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "configurationId", required: false, type: .string)
+            AWSShapeMember(label: "branch", required: false, type: .structure)
         ]
-        /// The system-generated unique ID for the create or update operation.
-        public let configurationId: String?
+        /// The name of the branch.
+        public let branch: BranchInfo?
 
-        public init(configurationId: String? = nil) {
-            self.configurationId = configurationId
+        public init(branch: BranchInfo? = nil) {
+            self.branch = branch
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationId = "configurationId"
+            case branch = "branch"
         }
     }
 
-    public struct GetRepositoryTriggersInput: AWSShape {
+    public struct GetCommentInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+            AWSShapeMember(label: "commentId", required: true, type: .string)
         ]
-        /// The name of the repository for which the trigger is configured.
-        public let repositoryName: String
+        /// The unique, system-generated ID of the comment. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest.
+        public let commentId: String
 
-        public init(repositoryName: String) {
-            self.repositoryName = repositoryName
+        public init(commentId: String) {
+            self.commentId = commentId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryName = "repositoryName"
+            case commentId = "commentId"
         }
     }
 
-    public struct DeleteCommentContentOutput: AWSShape {
+    public struct GetCommentOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "comment", required: false, type: .structure)
         ]
-        /// Information about the comment you just deleted.
+        /// The contents of the comment.
         public let comment: Comment?
 
         public init(comment: Comment? = nil) {
@@ -2027,125 +836,226 @@ extension CodeCommit {
         }
     }
 
-    public struct PostCommentForComparedCommitInput: AWSShape {
+    public struct GetCommentsForComparedCommitInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "afterCommitId", required: true, type: .string), 
-            AWSShapeMember(label: "content", required: true, type: .string), 
             AWSShapeMember(label: "beforeCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string)
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
-        /// The location of the comparison where you want to comment.
-        public let location: Location?
-        /// The name of the repository where you want to post a comment on the comparison between commits.
-        public let repositoryName: String
         /// To establish the directionality of the comparison, the full commit ID of the 'after' commit.
         public let afterCommitId: String
-        /// The content of the comment you want to make.
-        public let content: String
         /// To establish the directionality of the comparison, the full commit ID of the 'before' commit.
         public let beforeCommitId: String?
-        /// A unique, client-generated idempotency token that when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request will return information about the initial request that used that token.
-        public let clientRequestToken: String?
+        /// A non-negative integer used to limit the number of returned results. The default is 100 comments, and is configurable up to 500.
+        public let maxResults: Int32?
+        /// An enumeration token that when provided in a request, returns the next batch of the results. 
+        public let nextToken: String?
+        /// The name of the repository where you want to compare commits.
+        public let repositoryName: String
 
-        public init(afterCommitId: String, beforeCommitId: String? = nil, clientRequestToken: String? = nil, content: String, location: Location? = nil, repositoryName: String) {
-            self.location = location
-            self.repositoryName = repositoryName
+        public init(afterCommitId: String, beforeCommitId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, repositoryName: String) {
             self.afterCommitId = afterCommitId
-            self.content = content
             self.beforeCommitId = beforeCommitId
-            self.clientRequestToken = clientRequestToken
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.repositoryName = repositoryName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case location = "location"
-            case repositoryName = "repositoryName"
             case afterCommitId = "afterCommitId"
-            case content = "content"
             case beforeCommitId = "beforeCommitId"
-            case clientRequestToken = "clientRequestToken"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case repositoryName = "repositoryName"
         }
     }
 
-    public struct CreateRepositoryOutput: AWSShape {
+    public struct GetCommentsForComparedCommitOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryMetadata", required: false, type: .structure)
+            AWSShapeMember(label: "commentsForComparedCommitData", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// Information about the newly created repository.
-        public let repositoryMetadata: RepositoryMetadata?
+        /// A list of comment objects on the compared commit.
+        public let commentsForComparedCommitData: [CommentsForComparedCommit]?
+        /// An enumeration token that can be used in a request to return the next batch of the results.
+        public let nextToken: String?
 
-        public init(repositoryMetadata: RepositoryMetadata? = nil) {
-            self.repositoryMetadata = repositoryMetadata
+        public init(commentsForComparedCommitData: [CommentsForComparedCommit]? = nil, nextToken: String? = nil) {
+            self.commentsForComparedCommitData = commentsForComparedCommitData
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryMetadata = "repositoryMetadata"
+            case commentsForComparedCommitData = "commentsForComparedCommitData"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetCommentsForPullRequestInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "afterCommitId", required: false, type: .string), 
             AWSShapeMember(label: "beforeCommitId", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "afterCommitId", required: false, type: .string)
+            AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
+        /// The full commit ID of the commit in the source branch that was the tip of the branch at the time the comment was made.
+        public let afterCommitId: String?
         /// The full commit ID of the commit in the destination branch that was the tip of the branch at the time the pull request was created.
         public let beforeCommitId: String?
+        /// A non-negative integer used to limit the number of returned results. The default is 100 comments. You can return up to 500 comments with a single request.
+        public let maxResults: Int32?
         /// An enumeration token that when provided in a request, returns the next batch of the results.
         public let nextToken: String?
         /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
         public let pullRequestId: String
-        /// A non-negative integer used to limit the number of returned results. The default is 100 comments. You can return up to 500 comments with a single request.
-        public let maxResults: Int32?
         /// The name of the repository that contains the pull request.
         public let repositoryName: String?
-        /// The full commit ID of the commit in the source branch that was the tip of the branch at the time the comment was made.
-        public let afterCommitId: String?
 
         public init(afterCommitId: String? = nil, beforeCommitId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, pullRequestId: String, repositoryName: String? = nil) {
+            self.afterCommitId = afterCommitId
             self.beforeCommitId = beforeCommitId
+            self.maxResults = maxResults
             self.nextToken = nextToken
             self.pullRequestId = pullRequestId
-            self.maxResults = maxResults
             self.repositoryName = repositoryName
-            self.afterCommitId = afterCommitId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case afterCommitId = "afterCommitId"
             case beforeCommitId = "beforeCommitId"
+            case maxResults = "maxResults"
             case nextToken = "nextToken"
             case pullRequestId = "pullRequestId"
-            case maxResults = "maxResults"
             case repositoryName = "repositoryName"
-            case afterCommitId = "afterCommitId"
         }
     }
 
-    public enum RepositoryTriggerEventEnum: String, CustomStringConvertible, Codable {
-        case all = "all"
-        case updatereference = "updateReference"
-        case createreference = "createReference"
-        case deletereference = "deleteReference"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct PostCommentReplyOutput: AWSShape {
+    public struct GetCommentsForPullRequestOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "comment", required: false, type: .structure)
+            AWSShapeMember(label: "commentsForPullRequestData", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// Information about the reply to a comment.
-        public let comment: Comment?
+        /// An array of comment objects on the pull request.
+        public let commentsForPullRequestData: [CommentsForPullRequest]?
+        /// An enumeration token that can be used in a request to return the next batch of the results.
+        public let nextToken: String?
 
-        public init(comment: Comment? = nil) {
-            self.comment = comment
+        public init(commentsForPullRequestData: [CommentsForPullRequest]? = nil, nextToken: String? = nil) {
+            self.commentsForPullRequestData = commentsForPullRequestData
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comment = "comment"
+            case commentsForPullRequestData = "commentsForPullRequestData"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetCommitInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "commitId", required: true, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+        ]
+        /// The commit ID. Commit IDs are the full SHA of the commit.
+        public let commitId: String
+        /// The name of the repository to which the commit was made.
+        public let repositoryName: String
+
+        public init(commitId: String, repositoryName: String) {
+            self.commitId = commitId
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commitId = "commitId"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct GetCommitOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "commit", required: true, type: .structure)
+        ]
+        /// A commit data type object that contains information about the specified commit.
+        public let commit: Commit
+
+        public init(commit: Commit) {
+            self.commit = commit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commit = "commit"
+        }
+    }
+
+    public struct GetDifferencesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "afterCommitSpecifier", required: true, type: .string), 
+            AWSShapeMember(label: "afterPath", required: false, type: .string), 
+            AWSShapeMember(label: "beforeCommitSpecifier", required: false, type: .string), 
+            AWSShapeMember(label: "beforePath", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+        ]
+        /// A non-negative integer used to limit the number of returned results.
+        public let maxResults: Int32?
+        /// An enumeration token that when provided in a request, returns the next batch of the results.
+        public let nextToken: String?
+        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit.
+        public let afterCommitSpecifier: String
+        /// The file path in which to check differences. Limits the results to this path. Can also be used to specify the changed name of a directory or folder, if it has changed. If not specified, differences will be shown for all paths.
+        public let afterPath: String?
+        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, the full commit ID. Optional. If not specified, all changes prior to the afterCommitSpecifier value will be shown. If you do not use beforeCommitSpecifier in your request, consider limiting the results with maxResults.
+        public let beforeCommitSpecifier: String?
+        /// The file path in which to check for differences. Limits the results to this path. Can also be used to specify the previous name of a directory or folder. If beforePath and afterPath are not specified, differences will be shown for all paths.
+        public let beforePath: String?
+        /// The name of the repository where you want to get differences.
+        public let repositoryName: String
+
+        public init(afterCommitSpecifier: String, afterPath: String? = nil, beforeCommitSpecifier: String? = nil, beforePath: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, repositoryName: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.afterCommitSpecifier = afterCommitSpecifier
+            self.afterPath = afterPath
+            self.beforeCommitSpecifier = beforeCommitSpecifier
+            self.beforePath = beforePath
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case afterCommitSpecifier = "afterCommitSpecifier"
+            case afterPath = "afterPath"
+            case beforeCommitSpecifier = "beforeCommitSpecifier"
+            case beforePath = "beforePath"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct GetDifferencesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "differences", required: false, type: .list)
+        ]
+        /// An enumeration token that can be used in a request to return the next batch of the results.
+        public let nextToken: String?
+        /// A differences data type object that contains information about the differences, including whether the difference is added, modified, or deleted (A, D, M).
+        public let differences: [Difference]?
+
+        public init(differences: [Difference]? = nil, nextToken: String? = nil) {
+            self.nextToken = nextToken
+            self.differences = differences
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case differences = "differences"
         }
     }
 
@@ -2175,55 +1085,1269 @@ extension CodeCommit {
         }
     }
 
-    public struct DeleteFileInput: AWSShape {
+    public struct GetFileOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "keepEmptyFolders", required: false, type: .boolean), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "blobId", required: true, type: .string), 
+            AWSShapeMember(label: "commitId", required: true, type: .string), 
+            AWSShapeMember(label: "fileContent", required: true, type: .blob), 
+            AWSShapeMember(label: "fileMode", required: true, type: .enum), 
             AWSShapeMember(label: "filePath", required: true, type: .string), 
-            AWSShapeMember(label: "parentCommitId", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "commitMessage", required: false, type: .string), 
-            AWSShapeMember(label: "branchName", required: true, type: .string), 
-            AWSShapeMember(label: "email", required: false, type: .string)
+            AWSShapeMember(label: "fileSize", required: true, type: .long)
         ]
-        /// Specifies whether to delete the folder or directory that contains the file you want to delete if that file is the only object in the folder or directory. By default, empty folders will be deleted. This includes empty folders that are part of the directory structure. For example, if the path to a file is dir1/dir2/dir3/dir4, and dir2 and dir3 are empty, deleting the last file in dir4 will also delete the empty folders dir4, dir3, and dir2.
-        public let keepEmptyFolders: Bool?
-        /// The name of the repository that contains the file to delete.
-        public let repositoryName: String
-        /// The fully-qualified path to the file that will be deleted, including the full name and extension of that file. For example, /examples/file.md is a fully qualified path to a file named file.md in a folder named examples.
+        /// The blob ID of the object that represents the file content.
+        public let blobId: String
+        /// The full commit ID of the commit that contains the content returned by GetFile.
+        public let commitId: String
+        /// The base-64 encoded binary data object that represents the content of the file.
+        public let fileContent: Data
+        /// The extrapolated file mode permissions of the blob. Valid values include strings such as EXECUTABLE and not numeric values.  The file mode permissions returned by this API are not the standard file mode permission values, such as 100644, but rather extrapolated values. See below for a full list of supported return values. 
+        public let fileMode: FileModeTypeEnum
+        /// The fully qualified path to the specified file. This returns the name and extension of the file.
         public let filePath: String
-        /// The ID of the commit that is the tip of the branch where you want to create the commit that will delete the file. This must be the HEAD commit for the branch. The commit that deletes the file will be created from this commit ID.
-        public let parentCommitId: String
-        /// The name of the author of the commit that deletes the file. If no name is specified, the user's ARN will be used as the author name and committer name.
-        public let name: String?
-        /// The commit message you want to include as part of deleting the file. Commit messages are limited to 256 KB. If no message is specified, a default message will be used.
-        public let commitMessage: String?
-        /// The name of the branch where the commit will be made deleting the file.
-        public let branchName: String
-        /// The email address for the commit that deletes the file. If no email address is specified, the email address will be left blank.
-        public let email: String?
+        /// The size of the contents of the file, in bytes.
+        public let fileSize: Int64
 
-        public init(branchName: String, commitMessage: String? = nil, email: String? = nil, filePath: String, keepEmptyFolders: Bool? = nil, name: String? = nil, parentCommitId: String, repositoryName: String) {
-            self.keepEmptyFolders = keepEmptyFolders
-            self.repositoryName = repositoryName
+        public init(blobId: String, commitId: String, fileContent: Data, fileMode: FileModeTypeEnum, filePath: String, fileSize: Int64) {
+            self.blobId = blobId
+            self.commitId = commitId
+            self.fileContent = fileContent
+            self.fileMode = fileMode
             self.filePath = filePath
-            self.parentCommitId = parentCommitId
-            self.name = name
-            self.commitMessage = commitMessage
-            self.branchName = branchName
-            self.email = email
+            self.fileSize = fileSize
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keepEmptyFolders = "keepEmptyFolders"
-            case repositoryName = "repositoryName"
+            case blobId = "blobId"
+            case commitId = "commitId"
+            case fileContent = "fileContent"
+            case fileMode = "fileMode"
             case filePath = "filePath"
-            case parentCommitId = "parentCommitId"
-            case name = "name"
-            case commitMessage = "commitMessage"
-            case branchName = "branchName"
-            case email = "email"
+            case fileSize = "fileSize"
         }
+    }
+
+    public struct GetFolderInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "commitSpecifier", required: false, type: .string), 
+            AWSShapeMember(label: "folderPath", required: true, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+        ]
+        /// A fully-qualified reference used to identify a commit that contains the version of the folder's content to return. A fully-qualified reference can be a commit ID, branch name, tag, or reference such as HEAD. If no specifier is provided, the folder content will be returned as it exists in the HEAD commit.
+        public let commitSpecifier: String?
+        /// The fully-qualified path to the folder whose contents will be returned, including the folder name. For example, /examples is a fully-qualified path to a folder named examples that was created off of the root directory (/) of a repository. 
+        public let folderPath: String
+        /// The name of the repository.
+        public let repositoryName: String
+
+        public init(commitSpecifier: String? = nil, folderPath: String, repositoryName: String) {
+            self.commitSpecifier = commitSpecifier
+            self.folderPath = folderPath
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commitSpecifier = "commitSpecifier"
+            case folderPath = "folderPath"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct GetFolderOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "commitId", required: true, type: .string), 
+            AWSShapeMember(label: "files", required: false, type: .list), 
+            AWSShapeMember(label: "folderPath", required: true, type: .string), 
+            AWSShapeMember(label: "subFolders", required: false, type: .list), 
+            AWSShapeMember(label: "subModules", required: false, type: .list), 
+            AWSShapeMember(label: "symbolicLinks", required: false, type: .list), 
+            AWSShapeMember(label: "treeId", required: false, type: .string)
+        ]
+        /// The full commit ID used as a reference for which version of the folder content is returned.
+        public let commitId: String
+        /// The list of files that exist in the specified folder, if any.
+        public let files: [File]?
+        /// The fully-qualified path of the folder whose contents are returned.
+        public let folderPath: String
+        /// The list of folders that exist beneath the specified folder, if any.
+        public let subFolders: [Folder]?
+        /// The list of submodules that exist in the specified folder, if any.
+        public let subModules: [SubModule]?
+        /// The list of symbolic links to other files and folders that exist in the specified folder, if any.
+        public let symbolicLinks: [SymbolicLink]?
+        /// The full SHA-1 pointer of the tree information for the commit that contains the folder.
+        public let treeId: String?
+
+        public init(commitId: String, files: [File]? = nil, folderPath: String, subFolders: [Folder]? = nil, subModules: [SubModule]? = nil, symbolicLinks: [SymbolicLink]? = nil, treeId: String? = nil) {
+            self.commitId = commitId
+            self.files = files
+            self.folderPath = folderPath
+            self.subFolders = subFolders
+            self.subModules = subModules
+            self.symbolicLinks = symbolicLinks
+            self.treeId = treeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commitId = "commitId"
+            case files = "files"
+            case folderPath = "folderPath"
+            case subFolders = "subFolders"
+            case subModules = "subModules"
+            case symbolicLinks = "symbolicLinks"
+            case treeId = "treeId"
+        }
+    }
+
+    public struct GetMergeConflictsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "destinationCommitSpecifier", required: true, type: .string), 
+            AWSShapeMember(label: "mergeOption", required: true, type: .enum), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string)
+        ]
+        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
+        public let destinationCommitSpecifier: String
+        /// The merge option or strategy you want to use to merge the code. The only valid value is FAST_FORWARD_MERGE.
+        public let mergeOption: MergeOptionTypeEnum
+        /// The name of the repository where the pull request was created.
+        public let repositoryName: String
+        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
+        public let sourceCommitSpecifier: String
+
+        public init(destinationCommitSpecifier: String, mergeOption: MergeOptionTypeEnum, repositoryName: String, sourceCommitSpecifier: String) {
+            self.destinationCommitSpecifier = destinationCommitSpecifier
+            self.mergeOption = mergeOption
+            self.repositoryName = repositoryName
+            self.sourceCommitSpecifier = sourceCommitSpecifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationCommitSpecifier = "destinationCommitSpecifier"
+            case mergeOption = "mergeOption"
+            case repositoryName = "repositoryName"
+            case sourceCommitSpecifier = "sourceCommitSpecifier"
+        }
+    }
+
+    public struct GetMergeConflictsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "destinationCommitId", required: true, type: .string), 
+            AWSShapeMember(label: "mergeable", required: true, type: .boolean), 
+            AWSShapeMember(label: "sourceCommitId", required: true, type: .string)
+        ]
+        /// The commit ID of the destination commit specifier that was used in the merge evaluation.
+        public let destinationCommitId: String
+        /// A Boolean value that indicates whether the code is mergable by the specified merge option.
+        public let mergeable: Bool
+        /// The commit ID of the source commit specifier that was used in the merge evaluation.
+        public let sourceCommitId: String
+
+        public init(destinationCommitId: String, mergeable: Bool, sourceCommitId: String) {
+            self.destinationCommitId = destinationCommitId
+            self.mergeable = mergeable
+            self.sourceCommitId = sourceCommitId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationCommitId = "destinationCommitId"
+            case mergeable = "mergeable"
+            case sourceCommitId = "sourceCommitId"
+        }
+    }
+
+    public struct GetPullRequestInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pullRequestId", required: true, type: .string)
+        ]
+        /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
+        public let pullRequestId: String
+
+        public init(pullRequestId: String) {
+            self.pullRequestId = pullRequestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pullRequestId = "pullRequestId"
+        }
+    }
+
+    public struct GetPullRequestOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pullRequest", required: true, type: .structure)
+        ]
+        /// Information about the specified pull request.
+        public let pullRequest: PullRequest
+
+        public init(pullRequest: PullRequest) {
+            self.pullRequest = pullRequest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pullRequest = "pullRequest"
+        }
+    }
+
+    public struct GetRepositoryInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+        ]
+        /// The name of the repository to get information about.
+        public let repositoryName: String
+
+        public init(repositoryName: String) {
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct GetRepositoryOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryMetadata", required: false, type: .structure)
+        ]
+        /// Information about the repository.
+        public let repositoryMetadata: RepositoryMetadata?
+
+        public init(repositoryMetadata: RepositoryMetadata? = nil) {
+            self.repositoryMetadata = repositoryMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryMetadata = "repositoryMetadata"
+        }
+    }
+
+    public struct GetRepositoryTriggersInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+        ]
+        /// The name of the repository for which the trigger is configured.
+        public let repositoryName: String
+
+        public init(repositoryName: String) {
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct GetRepositoryTriggersOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configurationId", required: false, type: .string), 
+            AWSShapeMember(label: "triggers", required: false, type: .list)
+        ]
+        /// The system-generated unique ID for the trigger.
+        public let configurationId: String?
+        /// The JSON block of configuration information for each trigger.
+        public let triggers: [RepositoryTrigger]?
+
+        public init(configurationId: String? = nil, triggers: [RepositoryTrigger]? = nil) {
+            self.configurationId = configurationId
+            self.triggers = triggers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationId = "configurationId"
+            case triggers = "triggers"
+        }
+    }
+
+    public struct ListBranchesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+        ]
+        /// An enumeration token that allows the operation to batch the results.
+        public let nextToken: String?
+        /// The name of the repository that contains the branches.
+        public let repositoryName: String
+
+        public init(nextToken: String? = nil, repositoryName: String) {
+            self.nextToken = nextToken
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct ListBranchesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "branches", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The list of branch names.
+        public let branches: [String]?
+        /// An enumeration token that returns the batch of the results.
+        public let nextToken: String?
+
+        public init(branches: [String]? = nil, nextToken: String? = nil) {
+            self.branches = branches
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branches = "branches"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListPullRequestsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "authorArn", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "pullRequestStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+        ]
+        /// Optional. The Amazon Resource Name (ARN) of the user who created the pull request. If used, this filters the results to pull requests created by that user.
+        public let authorArn: String?
+        /// A non-negative integer used to limit the number of returned results.
+        public let maxResults: Int32?
+        /// An enumeration token that when provided in a request, returns the next batch of the results.
+        public let nextToken: String?
+        /// Optional. The status of the pull request. If used, this refines the results to the pull requests that match the specified status.
+        public let pullRequestStatus: PullRequestStatusEnum?
+        /// The name of the repository for which you want to list pull requests.
+        public let repositoryName: String
+
+        public init(authorArn: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, pullRequestStatus: PullRequestStatusEnum? = nil, repositoryName: String) {
+            self.authorArn = authorArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.pullRequestStatus = pullRequestStatus
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorArn = "authorArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case pullRequestStatus = "pullRequestStatus"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct ListPullRequestsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "pullRequestIds", required: true, type: .list)
+        ]
+        /// An enumeration token that when provided in a request, returns the next batch of the results.
+        public let nextToken: String?
+        /// The system-generated IDs of the pull requests.
+        public let pullRequestIds: [String]
+
+        public init(nextToken: String? = nil, pullRequestIds: [String]) {
+            self.nextToken = nextToken
+            self.pullRequestIds = pullRequestIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case pullRequestIds = "pullRequestIds"
+        }
+    }
+
+    public struct ListRepositoriesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "order", required: false, type: .enum), 
+            AWSShapeMember(label: "sortBy", required: false, type: .enum)
+        ]
+        /// An enumeration token that allows the operation to batch the results of the operation. Batch sizes are 1,000 for list repository operations. When the client sends the token back to AWS CodeCommit, another page of 1,000 records is retrieved.
+        public let nextToken: String?
+        /// The order in which to sort the results of a list repositories operation.
+        public let order: OrderEnum?
+        /// The criteria used to sort the results of a list repositories operation.
+        public let sortBy: SortByEnum?
+
+        public init(nextToken: String? = nil, order: OrderEnum? = nil, sortBy: SortByEnum? = nil) {
+            self.nextToken = nextToken
+            self.order = order
+            self.sortBy = sortBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case order = "order"
+            case sortBy = "sortBy"
+        }
+    }
+
+    public struct ListRepositoriesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "repositories", required: false, type: .list)
+        ]
+        /// An enumeration token that allows the operation to batch the results of the operation. Batch sizes are 1,000 for list repository operations. When the client sends the token back to AWS CodeCommit, another page of 1,000 records is retrieved.
+        public let nextToken: String?
+        /// Lists the repositories called by the list repositories operation.
+        public let repositories: [RepositoryNameIdPair]?
+
+        public init(nextToken: String? = nil, repositories: [RepositoryNameIdPair]? = nil) {
+            self.nextToken = nextToken
+            self.repositories = repositories
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case repositories = "repositories"
+        }
+    }
+
+    public struct Location: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filePath", required: false, type: .string), 
+            AWSShapeMember(label: "filePosition", required: false, type: .long), 
+            AWSShapeMember(label: "relativeFileVersion", required: false, type: .enum)
+        ]
+        /// The name of the file being compared, including its extension and subdirectory, if any.
+        public let filePath: String?
+        /// The position of a change within a compared file, in line number format.
+        public let filePosition: Int64?
+        /// In a comparison of commits or a pull request, whether the change is in the 'before' or 'after' of that comparison.
+        public let relativeFileVersion: RelativeFileVersionEnum?
+
+        public init(filePath: String? = nil, filePosition: Int64? = nil, relativeFileVersion: RelativeFileVersionEnum? = nil) {
+            self.filePath = filePath
+            self.filePosition = filePosition
+            self.relativeFileVersion = relativeFileVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filePath = "filePath"
+            case filePosition = "filePosition"
+            case relativeFileVersion = "relativeFileVersion"
+        }
+    }
+
+    public struct MergeMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "isMerged", required: false, type: .boolean), 
+            AWSShapeMember(label: "mergedBy", required: false, type: .string)
+        ]
+        /// A Boolean value indicating whether the merge has been made.
+        public let isMerged: Bool?
+        /// The Amazon Resource Name (ARN) of the user who merged the branches.
+        public let mergedBy: String?
+
+        public init(isMerged: Bool? = nil, mergedBy: String? = nil) {
+            self.isMerged = isMerged
+            self.mergedBy = mergedBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isMerged = "isMerged"
+            case mergedBy = "mergedBy"
+        }
+    }
+
+    public enum MergeOptionTypeEnum: String, CustomStringConvertible, Codable {
+        case fastForwardMerge = "FAST_FORWARD_MERGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct MergePullRequestByFastForwardInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "sourceCommitId", required: false, type: .string)
+        ]
+        /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
+        public let pullRequestId: String
+        /// The name of the repository where the pull request was created.
+        public let repositoryName: String
+        /// The full commit ID of the original or updated commit in the pull request source branch. Pass this value if you want an exception thrown if the current commit ID of the tip of the source branch does not match this commit ID.
+        public let sourceCommitId: String?
+
+        public init(pullRequestId: String, repositoryName: String, sourceCommitId: String? = nil) {
+            self.pullRequestId = pullRequestId
+            self.repositoryName = repositoryName
+            self.sourceCommitId = sourceCommitId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pullRequestId = "pullRequestId"
+            case repositoryName = "repositoryName"
+            case sourceCommitId = "sourceCommitId"
+        }
+    }
+
+    public struct MergePullRequestByFastForwardOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pullRequest", required: false, type: .structure)
+        ]
+        /// Information about the specified pull request, including information about the merge.
+        public let pullRequest: PullRequest?
+
+        public init(pullRequest: PullRequest? = nil) {
+            self.pullRequest = pullRequest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pullRequest = "pullRequest"
+        }
+    }
+
+    public enum OrderEnum: String, CustomStringConvertible, Codable {
+        case ascending = "ascending"
+        case descending = "descending"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct PostCommentForComparedCommitInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "afterCommitId", required: true, type: .string), 
+            AWSShapeMember(label: "beforeCommitId", required: false, type: .string), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "content", required: true, type: .string), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+        ]
+        /// To establish the directionality of the comparison, the full commit ID of the 'after' commit.
+        public let afterCommitId: String
+        /// To establish the directionality of the comparison, the full commit ID of the 'before' commit.
+        public let beforeCommitId: String?
+        /// A unique, client-generated idempotency token that when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request will return information about the initial request that used that token.
+        public let clientRequestToken: String?
+        /// The content of the comment you want to make.
+        public let content: String
+        /// The location of the comparison where you want to comment.
+        public let location: Location?
+        /// The name of the repository where you want to post a comment on the comparison between commits.
+        public let repositoryName: String
+
+        public init(afterCommitId: String, beforeCommitId: String? = nil, clientRequestToken: String? = nil, content: String, location: Location? = nil, repositoryName: String) {
+            self.afterCommitId = afterCommitId
+            self.beforeCommitId = beforeCommitId
+            self.clientRequestToken = clientRequestToken
+            self.content = content
+            self.location = location
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterCommitId = "afterCommitId"
+            case beforeCommitId = "beforeCommitId"
+            case clientRequestToken = "clientRequestToken"
+            case content = "content"
+            case location = "location"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct PostCommentForComparedCommitOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "afterBlobId", required: false, type: .string), 
+            AWSShapeMember(label: "afterCommitId", required: false, type: .string), 
+            AWSShapeMember(label: "beforeBlobId", required: false, type: .string), 
+            AWSShapeMember(label: "beforeCommitId", required: false, type: .string), 
+            AWSShapeMember(label: "comment", required: false, type: .structure), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string)
+        ]
+        /// In the directionality you established, the blob ID of the 'after' blob.
+        public let afterBlobId: String?
+        /// In the directionality you established, the full commit ID of the 'after' commit.
+        public let afterCommitId: String?
+        /// In the directionality you established, the blob ID of the 'before' blob.
+        public let beforeBlobId: String?
+        /// In the directionality you established, the full commit ID of the 'before' commit.
+        public let beforeCommitId: String?
+        /// The content of the comment you posted.
+        public let comment: Comment?
+        /// The location of the comment in the comparison between the two commits.
+        public let location: Location?
+        /// The name of the repository where you posted a comment on the comparison between commits.
+        public let repositoryName: String?
+
+        public init(afterBlobId: String? = nil, afterCommitId: String? = nil, beforeBlobId: String? = nil, beforeCommitId: String? = nil, comment: Comment? = nil, location: Location? = nil, repositoryName: String? = nil) {
+            self.afterBlobId = afterBlobId
+            self.afterCommitId = afterCommitId
+            self.beforeBlobId = beforeBlobId
+            self.beforeCommitId = beforeCommitId
+            self.comment = comment
+            self.location = location
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterBlobId = "afterBlobId"
+            case afterCommitId = "afterCommitId"
+            case beforeBlobId = "beforeBlobId"
+            case beforeCommitId = "beforeCommitId"
+            case comment = "comment"
+            case location = "location"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct PostCommentForPullRequestInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "afterCommitId", required: true, type: .string), 
+            AWSShapeMember(label: "beforeCommitId", required: true, type: .string), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "content", required: true, type: .string), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+        ]
+        /// The full commit ID of the commit in the source branch that is the current tip of the branch for the pull request when you post the comment.
+        public let afterCommitId: String
+        /// The full commit ID of the commit in the destination branch that was the tip of the branch at the time the pull request was created.
+        public let beforeCommitId: String
+        /// A unique, client-generated idempotency token that when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request will return information about the initial request that used that token.
+        public let clientRequestToken: String?
+        /// The content of your comment on the change.
+        public let content: String
+        /// The location of the change where you want to post your comment. If no location is provided, the comment will be posted as a general comment on the pull request difference between the before commit ID and the after commit ID.
+        public let location: Location?
+        /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
+        public let pullRequestId: String
+        /// The name of the repository where you want to post a comment on a pull request.
+        public let repositoryName: String
+
+        public init(afterCommitId: String, beforeCommitId: String, clientRequestToken: String? = nil, content: String, location: Location? = nil, pullRequestId: String, repositoryName: String) {
+            self.afterCommitId = afterCommitId
+            self.beforeCommitId = beforeCommitId
+            self.clientRequestToken = clientRequestToken
+            self.content = content
+            self.location = location
+            self.pullRequestId = pullRequestId
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterCommitId = "afterCommitId"
+            case beforeCommitId = "beforeCommitId"
+            case clientRequestToken = "clientRequestToken"
+            case content = "content"
+            case location = "location"
+            case pullRequestId = "pullRequestId"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct PostCommentForPullRequestOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "afterBlobId", required: false, type: .string), 
+            AWSShapeMember(label: "afterCommitId", required: false, type: .string), 
+            AWSShapeMember(label: "beforeBlobId", required: false, type: .string), 
+            AWSShapeMember(label: "beforeCommitId", required: false, type: .string), 
+            AWSShapeMember(label: "comment", required: false, type: .structure), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "pullRequestId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string)
+        ]
+        /// In the directionality of the pull request, the blob ID of the 'after' blob.
+        public let afterBlobId: String?
+        /// The full commit ID of the commit in the destination branch where the pull request will be merged.
+        public let afterCommitId: String?
+        /// In the directionality of the pull request, the blob ID of the 'before' blob.
+        public let beforeBlobId: String?
+        /// The full commit ID of the commit in the source branch used to create the pull request, or in the case of an updated pull request, the full commit ID of the commit used to update the pull request.
+        public let beforeCommitId: String?
+        /// The content of the comment you posted.
+        public let comment: Comment?
+        /// The location of the change where you posted your comment.
+        public let location: Location?
+        /// The system-generated ID of the pull request. 
+        public let pullRequestId: String?
+        /// The name of the repository where you posted a comment on a pull request.
+        public let repositoryName: String?
+
+        public init(afterBlobId: String? = nil, afterCommitId: String? = nil, beforeBlobId: String? = nil, beforeCommitId: String? = nil, comment: Comment? = nil, location: Location? = nil, pullRequestId: String? = nil, repositoryName: String? = nil) {
+            self.afterBlobId = afterBlobId
+            self.afterCommitId = afterCommitId
+            self.beforeBlobId = beforeBlobId
+            self.beforeCommitId = beforeCommitId
+            self.comment = comment
+            self.location = location
+            self.pullRequestId = pullRequestId
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterBlobId = "afterBlobId"
+            case afterCommitId = "afterCommitId"
+            case beforeBlobId = "beforeBlobId"
+            case beforeCommitId = "beforeCommitId"
+            case comment = "comment"
+            case location = "location"
+            case pullRequestId = "pullRequestId"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct PostCommentReplyInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "content", required: true, type: .string), 
+            AWSShapeMember(label: "inReplyTo", required: true, type: .string)
+        ]
+        /// A unique, client-generated idempotency token that when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request will return information about the initial request that used that token.
+        public let clientRequestToken: String?
+        /// The contents of your reply to a comment.
+        public let content: String
+        /// The system-generated ID of the comment to which you want to reply. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest.
+        public let inReplyTo: String
+
+        public init(clientRequestToken: String? = nil, content: String, inReplyTo: String) {
+            self.clientRequestToken = clientRequestToken
+            self.content = content
+            self.inReplyTo = inReplyTo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case content = "content"
+            case inReplyTo = "inReplyTo"
+        }
+    }
+
+    public struct PostCommentReplyOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "comment", required: false, type: .structure)
+        ]
+        /// Information about the reply to a comment.
+        public let comment: Comment?
+
+        public init(comment: Comment? = nil) {
+            self.comment = comment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "comment"
+        }
+    }
+
+    public struct PullRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "authorArn", required: false, type: .string), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "lastActivityDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "pullRequestId", required: false, type: .string), 
+            AWSShapeMember(label: "pullRequestStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "pullRequestTargets", required: false, type: .list), 
+            AWSShapeMember(label: "title", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the user who created the pull request.
+        public let authorArn: String?
+        /// A unique, client-generated idempotency token that when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request will return information about the initial request that used that token.
+        public let clientRequestToken: String?
+        /// The date and time the pull request was originally created, in timestamp format.
+        public let creationDate: TimeStamp?
+        /// The user-defined description of the pull request. This description can be used to clarify what should be reviewed and other details of the request.
+        public let description: String?
+        /// The day and time of the last user or system activity on the pull request, in timestamp format.
+        public let lastActivityDate: TimeStamp?
+        /// The system-generated ID of the pull request. 
+        public let pullRequestId: String?
+        /// The status of the pull request. Pull request status can only change from OPEN to CLOSED.
+        public let pullRequestStatus: PullRequestStatusEnum?
+        /// The targets of the pull request, including the source branch and destination branch for the pull request.
+        public let pullRequestTargets: [PullRequestTarget]?
+        /// The user-defined title of the pull request. This title is displayed in the list of pull requests to other users of the repository.
+        public let title: String?
+
+        public init(authorArn: String? = nil, clientRequestToken: String? = nil, creationDate: TimeStamp? = nil, description: String? = nil, lastActivityDate: TimeStamp? = nil, pullRequestId: String? = nil, pullRequestStatus: PullRequestStatusEnum? = nil, pullRequestTargets: [PullRequestTarget]? = nil, title: String? = nil) {
+            self.authorArn = authorArn
+            self.clientRequestToken = clientRequestToken
+            self.creationDate = creationDate
+            self.description = description
+            self.lastActivityDate = lastActivityDate
+            self.pullRequestId = pullRequestId
+            self.pullRequestStatus = pullRequestStatus
+            self.pullRequestTargets = pullRequestTargets
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorArn = "authorArn"
+            case clientRequestToken = "clientRequestToken"
+            case creationDate = "creationDate"
+            case description = "description"
+            case lastActivityDate = "lastActivityDate"
+            case pullRequestId = "pullRequestId"
+            case pullRequestStatus = "pullRequestStatus"
+            case pullRequestTargets = "pullRequestTargets"
+            case title = "title"
+        }
+    }
+
+    public struct PullRequestCreatedEventMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "destinationCommitId", required: false, type: .string), 
+            AWSShapeMember(label: "mergeBase", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
+            AWSShapeMember(label: "sourceCommitId", required: false, type: .string)
+        ]
+        /// The commit ID of the tip of the branch specified as the destination branch when the pull request was created.
+        public let destinationCommitId: String?
+        /// The commit ID of the most recent commit that the source branch and the destination branch have in common.
+        public let mergeBase: String?
+        /// The name of the repository where the pull request was created.
+        public let repositoryName: String?
+        /// The commit ID on the source branch used when the pull request was created.
+        public let sourceCommitId: String?
+
+        public init(destinationCommitId: String? = nil, mergeBase: String? = nil, repositoryName: String? = nil, sourceCommitId: String? = nil) {
+            self.destinationCommitId = destinationCommitId
+            self.mergeBase = mergeBase
+            self.repositoryName = repositoryName
+            self.sourceCommitId = sourceCommitId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationCommitId = "destinationCommitId"
+            case mergeBase = "mergeBase"
+            case repositoryName = "repositoryName"
+            case sourceCommitId = "sourceCommitId"
+        }
+    }
+
+    public struct PullRequestEvent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actorArn", required: false, type: .string), 
+            AWSShapeMember(label: "eventDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "pullRequestCreatedEventMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "pullRequestEventType", required: false, type: .enum), 
+            AWSShapeMember(label: "pullRequestId", required: false, type: .string), 
+            AWSShapeMember(label: "pullRequestMergedStateChangedEventMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "pullRequestSourceReferenceUpdatedEventMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "pullRequestStatusChangedEventMetadata", required: false, type: .structure)
+        ]
+        /// The Amazon Resource Name (ARN) of the user whose actions resulted in the event. Examples include updating the pull request with additional commits or changing the status of a pull request.
+        public let actorArn: String?
+        /// The day and time of the pull request event, in timestamp format.
+        public let eventDate: TimeStamp?
+        /// Information about the source and destination branches for the pull request.
+        public let pullRequestCreatedEventMetadata: PullRequestCreatedEventMetadata?
+        /// The type of the pull request event, for example a status change event (PULL_REQUEST_STATUS_CHANGED) or update event (PULL_REQUEST_SOURCE_REFERENCE_UPDATED).
+        public let pullRequestEventType: PullRequestEventType?
+        /// The system-generated ID of the pull request.
+        public let pullRequestId: String?
+        /// Information about the change in mergability state for the pull request event.
+        public let pullRequestMergedStateChangedEventMetadata: PullRequestMergedStateChangedEventMetadata?
+        /// Information about the updated source branch for the pull request event. 
+        public let pullRequestSourceReferenceUpdatedEventMetadata: PullRequestSourceReferenceUpdatedEventMetadata?
+        /// Information about the change in status for the pull request event.
+        public let pullRequestStatusChangedEventMetadata: PullRequestStatusChangedEventMetadata?
+
+        public init(actorArn: String? = nil, eventDate: TimeStamp? = nil, pullRequestCreatedEventMetadata: PullRequestCreatedEventMetadata? = nil, pullRequestEventType: PullRequestEventType? = nil, pullRequestId: String? = nil, pullRequestMergedStateChangedEventMetadata: PullRequestMergedStateChangedEventMetadata? = nil, pullRequestSourceReferenceUpdatedEventMetadata: PullRequestSourceReferenceUpdatedEventMetadata? = nil, pullRequestStatusChangedEventMetadata: PullRequestStatusChangedEventMetadata? = nil) {
+            self.actorArn = actorArn
+            self.eventDate = eventDate
+            self.pullRequestCreatedEventMetadata = pullRequestCreatedEventMetadata
+            self.pullRequestEventType = pullRequestEventType
+            self.pullRequestId = pullRequestId
+            self.pullRequestMergedStateChangedEventMetadata = pullRequestMergedStateChangedEventMetadata
+            self.pullRequestSourceReferenceUpdatedEventMetadata = pullRequestSourceReferenceUpdatedEventMetadata
+            self.pullRequestStatusChangedEventMetadata = pullRequestStatusChangedEventMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actorArn = "actorArn"
+            case eventDate = "eventDate"
+            case pullRequestCreatedEventMetadata = "pullRequestCreatedEventMetadata"
+            case pullRequestEventType = "pullRequestEventType"
+            case pullRequestId = "pullRequestId"
+            case pullRequestMergedStateChangedEventMetadata = "pullRequestMergedStateChangedEventMetadata"
+            case pullRequestSourceReferenceUpdatedEventMetadata = "pullRequestSourceReferenceUpdatedEventMetadata"
+            case pullRequestStatusChangedEventMetadata = "pullRequestStatusChangedEventMetadata"
+        }
+    }
+
+    public enum PullRequestEventType: String, CustomStringConvertible, Codable {
+        case pullRequestCreated = "PULL_REQUEST_CREATED"
+        case pullRequestStatusChanged = "PULL_REQUEST_STATUS_CHANGED"
+        case pullRequestSourceReferenceUpdated = "PULL_REQUEST_SOURCE_REFERENCE_UPDATED"
+        case pullRequestMergeStateChanged = "PULL_REQUEST_MERGE_STATE_CHANGED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct PullRequestMergedStateChangedEventMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "destinationReference", required: false, type: .string), 
+            AWSShapeMember(label: "mergeMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string)
+        ]
+        /// The name of the branch that the pull request will be merged into.
+        public let destinationReference: String?
+        /// Information about the merge state change event.
+        public let mergeMetadata: MergeMetadata?
+        /// The name of the repository where the pull request was created.
+        public let repositoryName: String?
+
+        public init(destinationReference: String? = nil, mergeMetadata: MergeMetadata? = nil, repositoryName: String? = nil) {
+            self.destinationReference = destinationReference
+            self.mergeMetadata = mergeMetadata
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationReference = "destinationReference"
+            case mergeMetadata = "mergeMetadata"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct PullRequestSourceReferenceUpdatedEventMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "afterCommitId", required: false, type: .string), 
+            AWSShapeMember(label: "beforeCommitId", required: false, type: .string), 
+            AWSShapeMember(label: "mergeBase", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string)
+        ]
+        /// The full commit ID of the commit in the source branch that was the tip of the branch at the time the pull request was updated.
+        public let afterCommitId: String?
+        /// The full commit ID of the commit in the destination branch that was the tip of the branch at the time the pull request was updated.
+        public let beforeCommitId: String?
+        /// The commit ID of the most recent commit that the source branch and the destination branch have in common.
+        public let mergeBase: String?
+        /// The name of the repository where the pull request was updated.
+        public let repositoryName: String?
+
+        public init(afterCommitId: String? = nil, beforeCommitId: String? = nil, mergeBase: String? = nil, repositoryName: String? = nil) {
+            self.afterCommitId = afterCommitId
+            self.beforeCommitId = beforeCommitId
+            self.mergeBase = mergeBase
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterCommitId = "afterCommitId"
+            case beforeCommitId = "beforeCommitId"
+            case mergeBase = "mergeBase"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct PullRequestStatusChangedEventMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pullRequestStatus", required: false, type: .enum)
+        ]
+        /// The changed status of the pull request.
+        public let pullRequestStatus: PullRequestStatusEnum?
+
+        public init(pullRequestStatus: PullRequestStatusEnum? = nil) {
+            self.pullRequestStatus = pullRequestStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pullRequestStatus = "pullRequestStatus"
+        }
+    }
+
+    public enum PullRequestStatusEnum: String, CustomStringConvertible, Codable {
+        case open = "OPEN"
+        case closed = "CLOSED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct PullRequestTarget: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "destinationCommit", required: false, type: .string), 
+            AWSShapeMember(label: "destinationReference", required: false, type: .string), 
+            AWSShapeMember(label: "mergeBase", required: false, type: .string), 
+            AWSShapeMember(label: "mergeMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
+            AWSShapeMember(label: "sourceCommit", required: false, type: .string), 
+            AWSShapeMember(label: "sourceReference", required: false, type: .string)
+        ]
+        /// The full commit ID that is the tip of the destination branch. This is the commit where the pull request was or will be merged.
+        public let destinationCommit: String?
+        /// The branch of the repository where the pull request changes will be merged into. Also known as the destination branch. 
+        public let destinationReference: String?
+        /// The commit ID of the most recent commit that the source branch and the destination branch have in common.
+        public let mergeBase: String?
+        /// Returns metadata about the state of the merge, including whether the merge has been made.
+        public let mergeMetadata: MergeMetadata?
+        /// The name of the repository that contains the pull request source and destination branches.
+        public let repositoryName: String?
+        /// The full commit ID of the tip of the source branch used to create the pull request. If the pull request branch is updated by a push while the pull request is open, the commit ID will change to reflect the new tip of the branch.
+        public let sourceCommit: String?
+        /// The branch of the repository that contains the changes for the pull request. Also known as the source branch.
+        public let sourceReference: String?
+
+        public init(destinationCommit: String? = nil, destinationReference: String? = nil, mergeBase: String? = nil, mergeMetadata: MergeMetadata? = nil, repositoryName: String? = nil, sourceCommit: String? = nil, sourceReference: String? = nil) {
+            self.destinationCommit = destinationCommit
+            self.destinationReference = destinationReference
+            self.mergeBase = mergeBase
+            self.mergeMetadata = mergeMetadata
+            self.repositoryName = repositoryName
+            self.sourceCommit = sourceCommit
+            self.sourceReference = sourceReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationCommit = "destinationCommit"
+            case destinationReference = "destinationReference"
+            case mergeBase = "mergeBase"
+            case mergeMetadata = "mergeMetadata"
+            case repositoryName = "repositoryName"
+            case sourceCommit = "sourceCommit"
+            case sourceReference = "sourceReference"
+        }
+    }
+
+    public struct PutFileInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "branchName", required: true, type: .string), 
+            AWSShapeMember(label: "commitMessage", required: false, type: .string), 
+            AWSShapeMember(label: "email", required: false, type: .string), 
+            AWSShapeMember(label: "fileContent", required: true, type: .blob), 
+            AWSShapeMember(label: "fileMode", required: false, type: .enum), 
+            AWSShapeMember(label: "filePath", required: true, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "parentCommitId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+        ]
+        /// The name of the branch where you want to add or update the file. If this is an empty repository, this branch will be created.
+        public let branchName: String
+        /// A message about why this file was added or updated. While optional, adding a message is strongly encouraged in order to provide a more useful commit history for your repository.
+        public let commitMessage: String?
+        /// An email address for the person adding or updating the file.
+        public let email: String?
+        /// The content of the file, in binary object format. 
+        public let fileContent: Data
+        /// The file mode permissions of the blob. Valid file mode permissions are listed below.
+        public let fileMode: FileModeTypeEnum?
+        /// The name of the file you want to add or update, including the relative path to the file in the repository.  If the path does not currently exist in the repository, the path will be created as part of adding the file. 
+        public let filePath: String
+        /// The name of the person adding or updating the file. While optional, adding a name is strongly encouraged in order to provide a more useful commit history for your repository.
+        public let name: String?
+        /// The full commit ID of the head commit in the branch where you want to add or update the file. If this is an empty repository, no commit ID is required. If this is not an empty repository, a commit ID is required.  The commit ID must match the ID of the head commit at the time of the operation, or an error will occur, and the file will not be added or updated.
+        public let parentCommitId: String?
+        /// The name of the repository where you want to add or update the file.
+        public let repositoryName: String
+
+        public init(branchName: String, commitMessage: String? = nil, email: String? = nil, fileContent: Data, fileMode: FileModeTypeEnum? = nil, filePath: String, name: String? = nil, parentCommitId: String? = nil, repositoryName: String) {
+            self.branchName = branchName
+            self.commitMessage = commitMessage
+            self.email = email
+            self.fileContent = fileContent
+            self.fileMode = fileMode
+            self.filePath = filePath
+            self.name = name
+            self.parentCommitId = parentCommitId
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branchName = "branchName"
+            case commitMessage = "commitMessage"
+            case email = "email"
+            case fileContent = "fileContent"
+            case fileMode = "fileMode"
+            case filePath = "filePath"
+            case name = "name"
+            case parentCommitId = "parentCommitId"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct PutFileOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "blobId", required: true, type: .string), 
+            AWSShapeMember(label: "commitId", required: true, type: .string), 
+            AWSShapeMember(label: "treeId", required: true, type: .string)
+        ]
+        /// The ID of the blob, which is its SHA-1 pointer.
+        public let blobId: String
+        /// The full SHA of the commit that contains this file change.
+        public let commitId: String
+        /// The full SHA-1 pointer of the tree information for the commit that contains this file change.
+        public let treeId: String
+
+        public init(blobId: String, commitId: String, treeId: String) {
+            self.blobId = blobId
+            self.commitId = commitId
+            self.treeId = treeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blobId = "blobId"
+            case commitId = "commitId"
+            case treeId = "treeId"
+        }
+    }
+
+    public struct PutRepositoryTriggersInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "triggers", required: true, type: .list)
+        ]
+        /// The name of the repository where you want to create or update the trigger.
+        public let repositoryName: String
+        /// The JSON block of configuration information for each trigger.
+        public let triggers: [RepositoryTrigger]
+
+        public init(repositoryName: String, triggers: [RepositoryTrigger]) {
+            self.repositoryName = repositoryName
+            self.triggers = triggers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryName = "repositoryName"
+            case triggers = "triggers"
+        }
+    }
+
+    public struct PutRepositoryTriggersOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configurationId", required: false, type: .string)
+        ]
+        /// The system-generated unique ID for the create or update operation.
+        public let configurationId: String?
+
+        public init(configurationId: String? = nil) {
+            self.configurationId = configurationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationId = "configurationId"
+        }
+    }
+
+    public enum RelativeFileVersionEnum: String, CustomStringConvertible, Codable {
+        case before = "BEFORE"
+        case after = "AFTER"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RepositoryMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "accountId", required: false, type: .string), 
+            AWSShapeMember(label: "cloneUrlHttp", required: false, type: .string), 
+            AWSShapeMember(label: "cloneUrlSsh", required: false, type: .string), 
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "defaultBranch", required: false, type: .string), 
+            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "repositoryDescription", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the repository.
+        public let arn: String?
+        /// The ID of the AWS account associated with the repository.
+        public let accountId: String?
+        /// The URL to use for cloning the repository over HTTPS.
+        public let cloneUrlHttp: String?
+        /// The URL to use for cloning the repository over SSH.
+        public let cloneUrlSsh: String?
+        /// The date and time the repository was created, in timestamp format.
+        public let creationDate: TimeStamp?
+        /// The repository's default branch name.
+        public let defaultBranch: String?
+        /// The date and time the repository was last modified, in timestamp format.
+        public let lastModifiedDate: TimeStamp?
+        /// A comment or description about the repository.
+        public let repositoryDescription: String?
+        /// The ID of the repository.
+        public let repositoryId: String?
+        /// The repository's name.
+        public let repositoryName: String?
+
+        public init(accountId: String? = nil, arn: String? = nil, cloneUrlHttp: String? = nil, cloneUrlSsh: String? = nil, creationDate: TimeStamp? = nil, defaultBranch: String? = nil, lastModifiedDate: TimeStamp? = nil, repositoryDescription: String? = nil, repositoryId: String? = nil, repositoryName: String? = nil) {
+            self.arn = arn
+            self.accountId = accountId
+            self.cloneUrlHttp = cloneUrlHttp
+            self.cloneUrlSsh = cloneUrlSsh
+            self.creationDate = creationDate
+            self.defaultBranch = defaultBranch
+            self.lastModifiedDate = lastModifiedDate
+            self.repositoryDescription = repositoryDescription
+            self.repositoryId = repositoryId
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case accountId = "accountId"
+            case cloneUrlHttp = "cloneUrlHttp"
+            case cloneUrlSsh = "cloneUrlSsh"
+            case creationDate = "creationDate"
+            case defaultBranch = "defaultBranch"
+            case lastModifiedDate = "lastModifiedDate"
+            case repositoryDescription = "repositoryDescription"
+            case repositoryId = "repositoryId"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct RepositoryNameIdPair: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string)
+        ]
+        /// The ID associated with the repository.
+        public let repositoryId: String?
+        /// The name associated with the repository.
+        public let repositoryName: String?
+
+        public init(repositoryId: String? = nil, repositoryName: String? = nil) {
+            self.repositoryId = repositoryId
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryId = "repositoryId"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct RepositoryTrigger: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "branches", required: false, type: .list), 
+            AWSShapeMember(label: "customData", required: false, type: .string), 
+            AWSShapeMember(label: "destinationArn", required: true, type: .string), 
+            AWSShapeMember(label: "events", required: true, type: .list), 
+            AWSShapeMember(label: "name", required: true, type: .string)
+        ]
+        /// The branches that will be included in the trigger configuration. If you specify an empty array, the trigger will apply to all branches.  While no content is required in the array, you must include the array itself. 
+        public let branches: [String]?
+        /// Any custom data associated with the trigger that will be included in the information sent to the target of the trigger.
+        public let customData: String?
+        /// The ARN of the resource that is the target for a trigger. For example, the ARN of a topic in Amazon Simple Notification Service (SNS).
+        public let destinationArn: String
+        /// The repository events that will cause the trigger to run actions in another service, such as sending a notification through Amazon Simple Notification Service (SNS).   The valid value "all" cannot be used with any other values. 
+        public let events: [RepositoryTriggerEventEnum]
+        /// The name of the trigger.
+        public let name: String
+
+        public init(branches: [String]? = nil, customData: String? = nil, destinationArn: String, events: [RepositoryTriggerEventEnum], name: String) {
+            self.branches = branches
+            self.customData = customData
+            self.destinationArn = destinationArn
+            self.events = events
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branches = "branches"
+            case customData = "customData"
+            case destinationArn = "destinationArn"
+            case events = "events"
+            case name = "name"
+        }
+    }
+
+    public enum RepositoryTriggerEventEnum: String, CustomStringConvertible, Codable {
+        case all = "all"
+        case updatereference = "updateReference"
+        case createreference = "createReference"
+        case deletereference = "deleteReference"
+        public var description: String { return self.rawValue }
     }
 
     public struct RepositoryTriggerExecutionFailure: AWSShape {
@@ -2247,453 +2371,92 @@ extension CodeCommit {
         }
     }
 
-    public struct GetCommitOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commit", required: true, type: .structure)
-        ]
-        /// A commit data type object that contains information about the specified commit.
-        public let commit: Commit
-
-        public init(commit: Commit) {
-            self.commit = commit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case commit = "commit"
-        }
+    public enum SortByEnum: String, CustomStringConvertible, Codable {
+        case repositoryname = "repositoryName"
+        case lastmodifieddate = "lastModifiedDate"
+        public var description: String { return self.rawValue }
     }
 
-    public struct GetBlobOutput: AWSShape {
+    public struct SubModule: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "content", required: true, type: .blob)
+            AWSShapeMember(label: "absolutePath", required: false, type: .string), 
+            AWSShapeMember(label: "commitId", required: false, type: .string), 
+            AWSShapeMember(label: "relativePath", required: false, type: .string)
         ]
-        /// The content of the blob, usually a file.
-        public let content: Data
+        /// The fully qualified path to the folder that contains the reference to the submodule.
+        public let absolutePath: String?
+        /// The commit ID that contains the reference to the submodule.
+        public let commitId: String?
+        /// The relative path of the submodule from the folder where the query originated.
+        public let relativePath: String?
 
-        public init(content: Data) {
-            self.content = content
+        public init(absolutePath: String? = nil, commitId: String? = nil, relativePath: String? = nil) {
+            self.absolutePath = absolutePath
+            self.commitId = commitId
+            self.relativePath = relativePath
         }
 
         private enum CodingKeys: String, CodingKey {
-            case content = "content"
-        }
-    }
-
-    public struct Difference: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "beforeBlob", required: false, type: .structure), 
-            AWSShapeMember(label: "afterBlob", required: false, type: .structure), 
-            AWSShapeMember(label: "changeType", required: false, type: .enum)
-        ]
-        /// Information about a beforeBlob data type object, including the ID, the file mode permission code, and the path.
-        public let beforeBlob: BlobMetadata?
-        /// Information about an afterBlob data type object, including the ID, the file mode permission code, and the path.
-        public let afterBlob: BlobMetadata?
-        /// Whether the change type of the difference is an addition (A), deletion (D), or modification (M).
-        public let changeType: ChangeTypeEnum?
-
-        public init(afterBlob: BlobMetadata? = nil, beforeBlob: BlobMetadata? = nil, changeType: ChangeTypeEnum? = nil) {
-            self.beforeBlob = beforeBlob
-            self.afterBlob = afterBlob
-            self.changeType = changeType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case beforeBlob = "beforeBlob"
-            case afterBlob = "afterBlob"
-            case changeType = "changeType"
-        }
-    }
-
-    public struct DeleteBranchOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deletedBranch", required: false, type: .structure)
-        ]
-        /// Information about the branch deleted by the operation, including the branch name and the commit ID that was the tip of the branch.
-        public let deletedBranch: BranchInfo?
-
-        public init(deletedBranch: BranchInfo? = nil) {
-            self.deletedBranch = deletedBranch
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deletedBranch = "deletedBranch"
-        }
-    }
-
-    public struct ListBranchesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// The name of the repository that contains the branches.
-        public let repositoryName: String
-        /// An enumeration token that allows the operation to batch the results.
-        public let nextToken: String?
-
-        public init(nextToken: String? = nil, repositoryName: String) {
-            self.repositoryName = repositoryName
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repositoryName = "repositoryName"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct Target: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "sourceReference", required: true, type: .string), 
-            AWSShapeMember(label: "destinationReference", required: false, type: .string)
-        ]
-        /// The name of the repository that contains the pull request.
-        public let repositoryName: String
-        /// The branch of the repository that contains the changes for the pull request. Also known as the source branch.
-        public let sourceReference: String
-        /// The branch of the repository where the pull request changes will be merged into. Also known as the destination branch.
-        public let destinationReference: String?
-
-        public init(destinationReference: String? = nil, repositoryName: String, sourceReference: String) {
-            self.repositoryName = repositoryName
-            self.sourceReference = sourceReference
-            self.destinationReference = destinationReference
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repositoryName = "repositoryName"
-            case sourceReference = "sourceReference"
-            case destinationReference = "destinationReference"
-        }
-    }
-
-    public struct CommentsForComparedCommit: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "beforeCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "beforeBlobId", required: false, type: .string), 
-            AWSShapeMember(label: "afterCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "comments", required: false, type: .list), 
-            AWSShapeMember(label: "afterBlobId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
-        /// The full commit ID of the commit used to establish the 'before' of the comparison.
-        public let beforeCommitId: String?
-        /// The full blob ID of the commit used to establish the 'before' of the comparison.
-        public let beforeBlobId: String?
-        /// The full commit ID of the commit used to establish the 'after' of the comparison.
-        public let afterCommitId: String?
-        /// Location information about the comment on the comparison, including the file name, line number, and whether the version of the file where the comment was made is 'BEFORE' or 'AFTER'.
-        public let location: Location?
-        /// An array of comment objects. Each comment object contains information about a comment on the comparison between commits.
-        public let comments: [Comment]?
-        /// The full blob ID of the commit used to establish the 'after' of the comparison.
-        public let afterBlobId: String?
-        /// The name of the repository that contains the compared commits.
-        public let repositoryName: String?
-
-        public init(afterBlobId: String? = nil, afterCommitId: String? = nil, beforeBlobId: String? = nil, beforeCommitId: String? = nil, comments: [Comment]? = nil, location: Location? = nil, repositoryName: String? = nil) {
-            self.beforeCommitId = beforeCommitId
-            self.beforeBlobId = beforeBlobId
-            self.afterCommitId = afterCommitId
-            self.location = location
-            self.comments = comments
-            self.afterBlobId = afterBlobId
-            self.repositoryName = repositoryName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case beforeCommitId = "beforeCommitId"
-            case beforeBlobId = "beforeBlobId"
-            case afterCommitId = "afterCommitId"
-            case location = "location"
-            case comments = "comments"
-            case afterBlobId = "afterBlobId"
-            case repositoryName = "repositoryName"
+            case absolutePath = "absolutePath"
+            case commitId = "commitId"
+            case relativePath = "relativePath"
         }
     }
 
     public struct SymbolicLink: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "relativePath", required: false, type: .string), 
+            AWSShapeMember(label: "absolutePath", required: false, type: .string), 
             AWSShapeMember(label: "blobId", required: false, type: .string), 
             AWSShapeMember(label: "fileMode", required: false, type: .enum), 
-            AWSShapeMember(label: "absolutePath", required: false, type: .string)
+            AWSShapeMember(label: "relativePath", required: false, type: .string)
         ]
-        /// The relative path of the symbolic link from the folder where the query originated.
-        public let relativePath: String?
+        /// The fully-qualified path to the folder that contains the symbolic link.
+        public let absolutePath: String?
         /// The blob ID that contains the information about the symbolic link.
         public let blobId: String?
         /// The file mode permissions of the blob that cotains information about the symbolic link.
         public let fileMode: FileModeTypeEnum?
-        /// The fully-qualified path to the folder that contains the symbolic link.
-        public let absolutePath: String?
+        /// The relative path of the symbolic link from the folder where the query originated.
+        public let relativePath: String?
 
         public init(absolutePath: String? = nil, blobId: String? = nil, fileMode: FileModeTypeEnum? = nil, relativePath: String? = nil) {
-            self.relativePath = relativePath
+            self.absolutePath = absolutePath
             self.blobId = blobId
             self.fileMode = fileMode
-            self.absolutePath = absolutePath
+            self.relativePath = relativePath
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relativePath = "relativePath"
+            case absolutePath = "absolutePath"
             case blobId = "blobId"
             case fileMode = "fileMode"
-            case absolutePath = "absolutePath"
+            case relativePath = "relativePath"
         }
     }
 
-    public struct PostCommentForComparedCommitOutput: AWSShape {
+    public struct Target: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "afterCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "beforeBlobId", required: false, type: .string), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "beforeCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "comment", required: false, type: .structure), 
-            AWSShapeMember(label: "afterBlobId", required: false, type: .string)
-        ]
-        /// The name of the repository where you posted a comment on the comparison between commits.
-        public let repositoryName: String?
-        /// In the directionality you established, the full commit ID of the 'after' commit.
-        public let afterCommitId: String?
-        /// In the directionality you established, the blob ID of the 'before' blob.
-        public let beforeBlobId: String?
-        /// The location of the comment in the comparison between the two commits.
-        public let location: Location?
-        /// In the directionality you established, the full commit ID of the 'before' commit.
-        public let beforeCommitId: String?
-        /// The content of the comment you posted.
-        public let comment: Comment?
-        /// In the directionality you established, the blob ID of the 'after' blob.
-        public let afterBlobId: String?
-
-        public init(afterBlobId: String? = nil, afterCommitId: String? = nil, beforeBlobId: String? = nil, beforeCommitId: String? = nil, comment: Comment? = nil, location: Location? = nil, repositoryName: String? = nil) {
-            self.repositoryName = repositoryName
-            self.afterCommitId = afterCommitId
-            self.beforeBlobId = beforeBlobId
-            self.location = location
-            self.beforeCommitId = beforeCommitId
-            self.comment = comment
-            self.afterBlobId = afterBlobId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repositoryName = "repositoryName"
-            case afterCommitId = "afterCommitId"
-            case beforeBlobId = "beforeBlobId"
-            case location = "location"
-            case beforeCommitId = "beforeCommitId"
-            case comment = "comment"
-            case afterBlobId = "afterBlobId"
-        }
-    }
-
-    public struct MergePullRequestByFastForwardOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequest", required: false, type: .structure)
-        ]
-        /// Information about the specified pull request, including information about the merge.
-        public let pullRequest: PullRequest?
-
-        public init(pullRequest: PullRequest? = nil) {
-            self.pullRequest = pullRequest
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pullRequest = "pullRequest"
-        }
-    }
-
-    public struct GetCommentInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commentId", required: true, type: .string)
-        ]
-        /// The unique, system-generated ID of the comment. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest.
-        public let commentId: String
-
-        public init(commentId: String) {
-            self.commentId = commentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case commentId = "commentId"
-        }
-    }
-
-    public struct CreatePullRequestInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "title", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "targets", required: true, type: .list), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string)
-        ]
-        /// The title of the pull request. This title will be used to identify the pull request to other users in the repository.
-        public let title: String
-        /// A description of the pull request.
-        public let description: String?
-        /// The targets for the pull request, including the source of the code to be reviewed (the source branch), and the destination where the creator of the pull request intends the code to be merged after the pull request is closed (the destination branch).
-        public let targets: [Target]
-        /// A unique, client-generated idempotency token that when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request will return information about the initial request that used that token.  The AWS SDKs prepopulate client request tokens. If using an AWS SDK, you do not have to generate an idempotency token, as this will be done for you. 
-        public let clientRequestToken: String?
-
-        public init(clientRequestToken: String? = nil, description: String? = nil, targets: [Target], title: String) {
-            self.title = title
-            self.description = description
-            self.targets = targets
-            self.clientRequestToken = clientRequestToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case title = "title"
-            case description = "description"
-            case targets = "targets"
-            case clientRequestToken = "clientRequestToken"
-        }
-    }
-
-    public enum PullRequestStatusEnum: String, CustomStringConvertible, Codable {
-        case open = "OPEN"
-        case closed = "CLOSED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetCommentsForPullRequestOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "commentsForPullRequestData", required: false, type: .list)
-        ]
-        /// An enumeration token that can be used in a request to return the next batch of the results.
-        public let nextToken: String?
-        /// An array of comment objects on the pull request.
-        public let commentsForPullRequestData: [CommentsForPullRequest]?
-
-        public init(commentsForPullRequestData: [CommentsForPullRequest]? = nil, nextToken: String? = nil) {
-            self.nextToken = nextToken
-            self.commentsForPullRequestData = commentsForPullRequestData
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case commentsForPullRequestData = "commentsForPullRequestData"
-        }
-    }
-
-    public struct ListRepositoriesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "order", required: false, type: .enum), 
-            AWSShapeMember(label: "sortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// The order in which to sort the results of a list repositories operation.
-        public let order: OrderEnum?
-        /// The criteria used to sort the results of a list repositories operation.
-        public let sortBy: SortByEnum?
-        /// An enumeration token that allows the operation to batch the results of the operation. Batch sizes are 1,000 for list repository operations. When the client sends the token back to AWS CodeCommit, another page of 1,000 records is retrieved.
-        public let nextToken: String?
-
-        public init(nextToken: String? = nil, order: OrderEnum? = nil, sortBy: SortByEnum? = nil) {
-            self.order = order
-            self.sortBy = sortBy
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case order = "order"
-            case sortBy = "sortBy"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct RepositoryNameIdPair: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryId", required: false, type: .string)
-        ]
-        /// The name associated with the repository.
-        public let repositoryName: String?
-        /// The ID associated with the repository.
-        public let repositoryId: String?
-
-        public init(repositoryId: String? = nil, repositoryName: String? = nil) {
-            self.repositoryName = repositoryName
-            self.repositoryId = repositoryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repositoryName = "repositoryName"
-            case repositoryId = "repositoryId"
-        }
-    }
-
-    public struct UpdateRepositoryDescriptionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "destinationReference", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryDescription", required: false, type: .string)
+            AWSShapeMember(label: "sourceReference", required: true, type: .string)
         ]
-        /// The name of the repository to set or change the comment or description for.
+        /// The branch of the repository where the pull request changes will be merged into. Also known as the destination branch.
+        public let destinationReference: String?
+        /// The name of the repository that contains the pull request.
         public let repositoryName: String
-        /// The new comment or description for the specified repository. Repository descriptions are limited to 1,000 characters.
-        public let repositoryDescription: String?
+        /// The branch of the repository that contains the changes for the pull request. Also known as the source branch.
+        public let sourceReference: String
 
-        public init(repositoryDescription: String? = nil, repositoryName: String) {
+        public init(destinationReference: String? = nil, repositoryName: String, sourceReference: String) {
+            self.destinationReference = destinationReference
             self.repositoryName = repositoryName
-            self.repositoryDescription = repositoryDescription
+            self.sourceReference = sourceReference
         }
 
         private enum CodingKeys: String, CodingKey {
+            case destinationReference = "destinationReference"
             case repositoryName = "repositoryName"
-            case repositoryDescription = "repositoryDescription"
-        }
-    }
-
-    public struct UpdatePullRequestDescriptionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequest", required: true, type: .structure)
-        ]
-        /// Information about the updated pull request.
-        public let pullRequest: PullRequest
-
-        public init(pullRequest: PullRequest) {
-            self.pullRequest = pullRequest
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pullRequest = "pullRequest"
-        }
-    }
-
-    public struct UpdatePullRequestStatusOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequest", required: true, type: .structure)
-        ]
-        /// Information about the pull request.
-        public let pullRequest: PullRequest
-
-        public init(pullRequest: PullRequest) {
-            self.pullRequest = pullRequest
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pullRequest = "pullRequest"
-        }
-    }
-
-    public struct UpdatePullRequestTitleOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequest", required: true, type: .structure)
-        ]
-        /// Information about the updated pull request.
-        public let pullRequest: PullRequest
-
-        public init(pullRequest: PullRequest) {
-            self.pullRequest = pullRequest
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pullRequest = "pullRequest"
+            case sourceReference = "sourceReference"
         }
     }
 
@@ -2718,6 +2481,64 @@ extension CodeCommit {
         }
     }
 
+    public struct TestRepositoryTriggersOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failedExecutions", required: false, type: .list), 
+            AWSShapeMember(label: "successfulExecutions", required: false, type: .list)
+        ]
+        /// The list of triggers that were not able to be tested. This list provides the names of the triggers that could not be tested, separated by commas.
+        public let failedExecutions: [RepositoryTriggerExecutionFailure]?
+        /// The list of triggers that were successfully tested. This list provides the names of the triggers that were successfully tested, separated by commas.
+        public let successfulExecutions: [String]?
+
+        public init(failedExecutions: [RepositoryTriggerExecutionFailure]? = nil, successfulExecutions: [String]? = nil) {
+            self.failedExecutions = failedExecutions
+            self.successfulExecutions = successfulExecutions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedExecutions = "failedExecutions"
+            case successfulExecutions = "successfulExecutions"
+        }
+    }
+
+    public struct UpdateCommentInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "commentId", required: true, type: .string), 
+            AWSShapeMember(label: "content", required: true, type: .string)
+        ]
+        /// The system-generated ID of the comment you want to update. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest.
+        public let commentId: String
+        /// The updated content with which you want to replace the existing content of the comment.
+        public let content: String
+
+        public init(commentId: String, content: String) {
+            self.commentId = commentId
+            self.content = content
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commentId = "commentId"
+            case content = "content"
+        }
+    }
+
+    public struct UpdateCommentOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "comment", required: false, type: .structure)
+        ]
+        /// Information about the updated comment.
+        public let comment: Comment?
+
+        public init(comment: Comment? = nil) {
+            self.comment = comment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "comment"
+        }
+    }
+
     public struct UpdateDefaultBranchInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "defaultBranchName", required: true, type: .string), 
@@ -2736,6 +2557,185 @@ extension CodeCommit {
         private enum CodingKeys: String, CodingKey {
             case defaultBranchName = "defaultBranchName"
             case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct UpdatePullRequestDescriptionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: true, type: .string), 
+            AWSShapeMember(label: "pullRequestId", required: true, type: .string)
+        ]
+        /// The updated content of the description for the pull request. This content will replace the existing description.
+        public let description: String
+        /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
+        public let pullRequestId: String
+
+        public init(description: String, pullRequestId: String) {
+            self.description = description
+            self.pullRequestId = pullRequestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case pullRequestId = "pullRequestId"
+        }
+    }
+
+    public struct UpdatePullRequestDescriptionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pullRequest", required: true, type: .structure)
+        ]
+        /// Information about the updated pull request.
+        public let pullRequest: PullRequest
+
+        public init(pullRequest: PullRequest) {
+            self.pullRequest = pullRequest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pullRequest = "pullRequest"
+        }
+    }
+
+    public struct UpdatePullRequestStatusInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
+            AWSShapeMember(label: "pullRequestStatus", required: true, type: .enum)
+        ]
+        /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
+        public let pullRequestId: String
+        /// The status of the pull request. The only valid operations are to update the status from OPEN to OPEN, OPEN to CLOSED or from from CLOSED to CLOSED.
+        public let pullRequestStatus: PullRequestStatusEnum
+
+        public init(pullRequestId: String, pullRequestStatus: PullRequestStatusEnum) {
+            self.pullRequestId = pullRequestId
+            self.pullRequestStatus = pullRequestStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pullRequestId = "pullRequestId"
+            case pullRequestStatus = "pullRequestStatus"
+        }
+    }
+
+    public struct UpdatePullRequestStatusOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pullRequest", required: true, type: .structure)
+        ]
+        /// Information about the pull request.
+        public let pullRequest: PullRequest
+
+        public init(pullRequest: PullRequest) {
+            self.pullRequest = pullRequest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pullRequest = "pullRequest"
+        }
+    }
+
+    public struct UpdatePullRequestTitleInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
+            AWSShapeMember(label: "title", required: true, type: .string)
+        ]
+        /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
+        public let pullRequestId: String
+        /// The updated title of the pull request. This will replace the existing title.
+        public let title: String
+
+        public init(pullRequestId: String, title: String) {
+            self.pullRequestId = pullRequestId
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pullRequestId = "pullRequestId"
+            case title = "title"
+        }
+    }
+
+    public struct UpdatePullRequestTitleOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pullRequest", required: true, type: .structure)
+        ]
+        /// Information about the updated pull request.
+        public let pullRequest: PullRequest
+
+        public init(pullRequest: PullRequest) {
+            self.pullRequest = pullRequest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pullRequest = "pullRequest"
+        }
+    }
+
+    public struct UpdateRepositoryDescriptionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryDescription", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+        ]
+        /// The new comment or description for the specified repository. Repository descriptions are limited to 1,000 characters.
+        public let repositoryDescription: String?
+        /// The name of the repository to set or change the comment or description for.
+        public let repositoryName: String
+
+        public init(repositoryDescription: String? = nil, repositoryName: String) {
+            self.repositoryDescription = repositoryDescription
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryDescription = "repositoryDescription"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct UpdateRepositoryNameInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "newName", required: true, type: .string), 
+            AWSShapeMember(label: "oldName", required: true, type: .string)
+        ]
+        /// The new name for the repository.
+        public let newName: String
+        /// The existing name of the repository.
+        public let oldName: String
+
+        public init(newName: String, oldName: String) {
+            self.newName = newName
+            self.oldName = oldName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case newName = "newName"
+            case oldName = "oldName"
+        }
+    }
+
+    public struct UserInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "date", required: false, type: .string), 
+            AWSShapeMember(label: "email", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string)
+        ]
+        /// The date when the specified commit was commited, in timestamp format with GMT offset.
+        public let date: String?
+        /// The email address associated with the user who made the commit, if any.
+        public let email: String?
+        /// The name of the user who made the specified commit.
+        public let name: String?
+
+        public init(date: String? = nil, email: String? = nil, name: String? = nil) {
+            self.date = date
+            self.email = email
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case date = "date"
+            case email = "email"
+            case name = "name"
         }
     }
 

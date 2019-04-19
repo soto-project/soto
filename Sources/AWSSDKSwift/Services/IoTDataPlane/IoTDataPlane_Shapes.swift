@@ -21,7 +21,41 @@ extension IoTDataPlane {
         }
     }
 
-    public struct UpdateThingShadowResponse: AWSShape {
+    public struct DeleteThingShadowResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "payload"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "payload", required: true, type: .blob)
+        ]
+        /// The state information, in JSON format.
+        public let payload: Data
+
+        public init(payload: Data) {
+            self.payload = payload
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case payload = "payload"
+        }
+    }
+
+    public struct GetThingShadowRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        ]
+        /// The name of the thing.
+        public let thingName: String
+
+        public init(thingName: String) {
+            self.thingName = thingName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingName = "thingName"
+        }
+    }
+
+    public struct GetThingShadowResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "payload"
         public static var _members: [AWSShapeMember] = [
@@ -43,27 +77,27 @@ extension IoTDataPlane {
         /// The key for the payload
         public static let payloadPath: String? = "payload"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "topic", location: .uri(locationName: "topic"), required: true, type: .string), 
             AWSShapeMember(label: "payload", required: false, type: .blob), 
-            AWSShapeMember(label: "qos", location: .querystring(locationName: "qos"), required: false, type: .integer)
+            AWSShapeMember(label: "qos", location: .querystring(locationName: "qos"), required: false, type: .integer), 
+            AWSShapeMember(label: "topic", location: .uri(locationName: "topic"), required: true, type: .string)
         ]
-        /// The name of the MQTT topic.
-        public let topic: String
         /// The state information, in JSON format.
         public let payload: Data?
         /// The Quality of Service (QoS) level.
         public let qos: Int32?
+        /// The name of the MQTT topic.
+        public let topic: String
 
         public init(payload: Data? = nil, qos: Int32? = nil, topic: String) {
-            self.topic = topic
             self.payload = payload
             self.qos = qos
+            self.topic = topic
         }
 
         private enum CodingKeys: String, CodingKey {
-            case topic = "topic"
             case payload = "payload"
             case qos = "qos"
+            case topic = "topic"
         }
     }
 
@@ -90,25 +124,7 @@ extension IoTDataPlane {
         }
     }
 
-    public struct DeleteThingShadowResponse: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "payload"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "payload", required: true, type: .blob)
-        ]
-        /// The state information, in JSON format.
-        public let payload: Data
-
-        public init(payload: Data) {
-            self.payload = payload
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case payload = "payload"
-        }
-    }
-
-    public struct GetThingShadowResponse: AWSShape {
+    public struct UpdateThingShadowResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "payload"
         public static var _members: [AWSShapeMember] = [
@@ -123,22 +139,6 @@ extension IoTDataPlane {
 
         private enum CodingKeys: String, CodingKey {
             case payload = "payload"
-        }
-    }
-
-    public struct GetThingShadowRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
-        ]
-        /// The name of the thing.
-        public let thingName: String
-
-        public init(thingName: String) {
-            self.thingName = thingName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case thingName = "thingName"
         }
     }
 

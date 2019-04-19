@@ -5,9 +5,9 @@ import AWSSDKSwiftCore
 /// Error enum for SageMakerRuntime
 public enum SageMakerRuntimeErrorType: AWSErrorType {
     case internalFailure(message: String?)
+    case modelError(message: String?)
     case serviceUnavailable(message: String?)
     case validationError(message: String?)
-    case modelError(message: String?)
 }
 
 extension SageMakerRuntimeErrorType {
@@ -19,12 +19,12 @@ extension SageMakerRuntimeErrorType {
         switch errorCode {
         case "InternalFailure":
             self = .internalFailure(message: message)
+        case "ModelError":
+            self = .modelError(message: message)
         case "ServiceUnavailable":
             self = .serviceUnavailable(message: message)
         case "ValidationError":
             self = .validationError(message: message)
-        case "ModelError":
-            self = .modelError(message: message)
         default:
             return nil
         }

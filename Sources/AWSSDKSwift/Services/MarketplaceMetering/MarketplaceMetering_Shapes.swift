@@ -5,128 +5,6 @@ import AWSSDKSwiftCore
 
 extension MarketplaceMetering {
 
-    public struct UsageRecord: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Dimension", required: true, type: .string), 
-            AWSShapeMember(label: "Timestamp", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
-            AWSShapeMember(label: "CustomerIdentifier", required: true, type: .string)
-        ]
-        /// During the process of registering a product on AWS Marketplace, up to eight dimensions are specified. These represent different units of value in your application.
-        public let dimension: String
-        /// Timestamp of the hour, recorded in UTC. The seconds and milliseconds portions of the timestamp will be ignored. Your application can meter usage for up to one hour in the past.
-        public let timestamp: TimeStamp
-        /// The quantity of usage consumed by the customer for the given dimension and time.
-        public let quantity: Int32
-        /// The CustomerIdentifier is obtained through the ResolveCustomer operation and represents an individual buyer in your application.
-        public let customerIdentifier: String
-
-        public init(customerIdentifier: String, dimension: String, quantity: Int32, timestamp: TimeStamp) {
-            self.dimension = dimension
-            self.timestamp = timestamp
-            self.quantity = quantity
-            self.customerIdentifier = customerIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dimension = "Dimension"
-            case timestamp = "Timestamp"
-            case quantity = "Quantity"
-            case customerIdentifier = "CustomerIdentifier"
-        }
-    }
-
-    public struct UsageRecordResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UsageRecord", required: false, type: .structure), 
-            AWSShapeMember(label: "MeteringRecordId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
-        /// The UsageRecord that was part of the BatchMeterUsage request.
-        public let usageRecord: UsageRecord?
-        /// The MeteringRecordId is a unique identifier for this metering event.
-        public let meteringRecordId: String?
-        /// The UsageRecordResult Status indicates the status of an individual UsageRecord processed by BatchMeterUsage.    Success- The UsageRecord was accepted and honored by BatchMeterUsage.    CustomerNotSubscribed- The CustomerIdentifier specified is not subscribed to your product. The UsageRecord was not honored. Future UsageRecords for this customer will fail until the customer subscribes to your product.    DuplicateRecord- Indicates that the UsageRecord was invalid and not honored. A previously metered UsageRecord had the same customer, dimension, and time, but a different quantity.  
-        public let status: UsageRecordResultStatus?
-
-        public init(meteringRecordId: String? = nil, status: UsageRecordResultStatus? = nil, usageRecord: UsageRecord? = nil) {
-            self.usageRecord = usageRecord
-            self.meteringRecordId = meteringRecordId
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case usageRecord = "UsageRecord"
-            case meteringRecordId = "MeteringRecordId"
-            case status = "Status"
-        }
-    }
-
-    public struct ResolveCustomerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegistrationToken", required: true, type: .string)
-        ]
-        /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier and product code.
-        public let registrationToken: String
-
-        public init(registrationToken: String) {
-            self.registrationToken = registrationToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case registrationToken = "RegistrationToken"
-        }
-    }
-
-    public struct ResolveCustomerResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProductCode", required: false, type: .string), 
-            AWSShapeMember(label: "CustomerIdentifier", required: false, type: .string)
-        ]
-        /// The product code is returned to confirm that the buyer is registering for your product. Subsequent BatchMeterUsage calls should be made using this product code.
-        public let productCode: String?
-        /// The CustomerIdentifier is used to identify an individual customer in your application. Calls to BatchMeterUsage require CustomerIdentifiers for each UsageRecord.
-        public let customerIdentifier: String?
-
-        public init(customerIdentifier: String? = nil, productCode: String? = nil) {
-            self.productCode = productCode
-            self.customerIdentifier = customerIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case productCode = "ProductCode"
-            case customerIdentifier = "CustomerIdentifier"
-        }
-    }
-
-    public struct RegisterUsageResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PublicKeyRotationTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Signature", required: false, type: .string)
-        ]
-        /// (Optional) Only included when public key version has expired
-        public let publicKeyRotationTimestamp: TimeStamp?
-        /// JWT Token
-        public let signature: String?
-
-        public init(publicKeyRotationTimestamp: TimeStamp? = nil, signature: String? = nil) {
-            self.publicKeyRotationTimestamp = publicKeyRotationTimestamp
-            self.signature = signature
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case publicKeyRotationTimestamp = "PublicKeyRotationTimestamp"
-            case signature = "Signature"
-        }
-    }
-
-    public enum UsageRecordResultStatus: String, CustomStringConvertible, Codable {
-        case success = "Success"
-        case customernotsubscribed = "CustomerNotSubscribed"
-        case duplicaterecord = "DuplicateRecord"
-        public var description: String { return self.rawValue }
-    }
-
     public struct BatchMeterUsageRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProductCode", required: true, type: .string), 
@@ -145,58 +23,6 @@ extension MarketplaceMetering {
         private enum CodingKeys: String, CodingKey {
             case productCode = "ProductCode"
             case usageRecords = "UsageRecords"
-        }
-    }
-
-    public struct MeterUsageResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MeteringRecordId", required: false, type: .string)
-        ]
-        /// Metering record id.
-        public let meteringRecordId: String?
-
-        public init(meteringRecordId: String? = nil) {
-            self.meteringRecordId = meteringRecordId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case meteringRecordId = "MeteringRecordId"
-        }
-    }
-
-    public struct MeterUsageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UsageQuantity", required: true, type: .integer), 
-            AWSShapeMember(label: "DryRun", required: true, type: .boolean), 
-            AWSShapeMember(label: "Timestamp", required: true, type: .timestamp), 
-            AWSShapeMember(label: "UsageDimension", required: true, type: .string), 
-            AWSShapeMember(label: "ProductCode", required: true, type: .string)
-        ]
-        /// Consumption value for the hour.
-        public let usageQuantity: Int32
-        /// Checks whether you have the permissions required for the action, but does not make the request. If you have the permissions, the request returns DryRunOperation; otherwise, it returns UnauthorizedException.
-        public let dryRun: Bool
-        /// Timestamp of the hour, recorded in UTC. The seconds and milliseconds portions of the timestamp will be ignored.
-        public let timestamp: TimeStamp
-        /// It will be one of the fcp dimension name provided during the publishing of the product.
-        public let usageDimension: String
-        /// Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
-        public let productCode: String
-
-        public init(dryRun: Bool, productCode: String, timestamp: TimeStamp, usageDimension: String, usageQuantity: Int32) {
-            self.usageQuantity = usageQuantity
-            self.dryRun = dryRun
-            self.timestamp = timestamp
-            self.usageDimension = usageDimension
-            self.productCode = productCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case usageQuantity = "UsageQuantity"
-            case dryRun = "DryRun"
-            case timestamp = "Timestamp"
-            case usageDimension = "UsageDimension"
-            case productCode = "ProductCode"
         }
     }
 
@@ -221,30 +47,204 @@ extension MarketplaceMetering {
         }
     }
 
+    public struct MeterUsageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DryRun", required: true, type: .boolean), 
+            AWSShapeMember(label: "ProductCode", required: true, type: .string), 
+            AWSShapeMember(label: "Timestamp", required: true, type: .timestamp), 
+            AWSShapeMember(label: "UsageDimension", required: true, type: .string), 
+            AWSShapeMember(label: "UsageQuantity", required: true, type: .integer)
+        ]
+        /// Checks whether you have the permissions required for the action, but does not make the request. If you have the permissions, the request returns DryRunOperation; otherwise, it returns UnauthorizedException.
+        public let dryRun: Bool
+        /// Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
+        public let productCode: String
+        /// Timestamp of the hour, recorded in UTC. The seconds and milliseconds portions of the timestamp will be ignored.
+        public let timestamp: TimeStamp
+        /// It will be one of the fcp dimension name provided during the publishing of the product.
+        public let usageDimension: String
+        /// Consumption value for the hour.
+        public let usageQuantity: Int32
+
+        public init(dryRun: Bool, productCode: String, timestamp: TimeStamp, usageDimension: String, usageQuantity: Int32) {
+            self.dryRun = dryRun
+            self.productCode = productCode
+            self.timestamp = timestamp
+            self.usageDimension = usageDimension
+            self.usageQuantity = usageQuantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case productCode = "ProductCode"
+            case timestamp = "Timestamp"
+            case usageDimension = "UsageDimension"
+            case usageQuantity = "UsageQuantity"
+        }
+    }
+
+    public struct MeterUsageResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MeteringRecordId", required: false, type: .string)
+        ]
+        /// Metering record id.
+        public let meteringRecordId: String?
+
+        public init(meteringRecordId: String? = nil) {
+            self.meteringRecordId = meteringRecordId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case meteringRecordId = "MeteringRecordId"
+        }
+    }
+
     public struct RegisterUsageRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PublicKeyVersion", required: true, type: .integer), 
             AWSShapeMember(label: "Nonce", required: false, type: .string), 
-            AWSShapeMember(label: "ProductCode", required: true, type: .string)
+            AWSShapeMember(label: "ProductCode", required: true, type: .string), 
+            AWSShapeMember(label: "PublicKeyVersion", required: true, type: .integer)
         ]
-        /// Public Key Version provided by AWS Marketplace
-        public let publicKeyVersion: Int32
         /// (Optional) To scope down the registration to a specific running software instance and guard against replay attacks.
         public let nonce: String?
         /// Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
         public let productCode: String
+        /// Public Key Version provided by AWS Marketplace
+        public let publicKeyVersion: Int32
 
         public init(nonce: String? = nil, productCode: String, publicKeyVersion: Int32) {
-            self.publicKeyVersion = publicKeyVersion
             self.nonce = nonce
+            self.productCode = productCode
+            self.publicKeyVersion = publicKeyVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nonce = "Nonce"
+            case productCode = "ProductCode"
+            case publicKeyVersion = "PublicKeyVersion"
+        }
+    }
+
+    public struct RegisterUsageResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PublicKeyRotationTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Signature", required: false, type: .string)
+        ]
+        /// (Optional) Only included when public key version has expired
+        public let publicKeyRotationTimestamp: TimeStamp?
+        /// JWT Token
+        public let signature: String?
+
+        public init(publicKeyRotationTimestamp: TimeStamp? = nil, signature: String? = nil) {
+            self.publicKeyRotationTimestamp = publicKeyRotationTimestamp
+            self.signature = signature
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case publicKeyRotationTimestamp = "PublicKeyRotationTimestamp"
+            case signature = "Signature"
+        }
+    }
+
+    public struct ResolveCustomerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RegistrationToken", required: true, type: .string)
+        ]
+        /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier and product code.
+        public let registrationToken: String
+
+        public init(registrationToken: String) {
+            self.registrationToken = registrationToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registrationToken = "RegistrationToken"
+        }
+    }
+
+    public struct ResolveCustomerResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomerIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "ProductCode", required: false, type: .string)
+        ]
+        /// The CustomerIdentifier is used to identify an individual customer in your application. Calls to BatchMeterUsage require CustomerIdentifiers for each UsageRecord.
+        public let customerIdentifier: String?
+        /// The product code is returned to confirm that the buyer is registering for your product. Subsequent BatchMeterUsage calls should be made using this product code.
+        public let productCode: String?
+
+        public init(customerIdentifier: String? = nil, productCode: String? = nil) {
+            self.customerIdentifier = customerIdentifier
             self.productCode = productCode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case publicKeyVersion = "PublicKeyVersion"
-            case nonce = "Nonce"
+            case customerIdentifier = "CustomerIdentifier"
             case productCode = "ProductCode"
         }
+    }
+
+    public struct UsageRecord: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomerIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "Dimension", required: true, type: .string), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
+            AWSShapeMember(label: "Timestamp", required: true, type: .timestamp)
+        ]
+        /// The CustomerIdentifier is obtained through the ResolveCustomer operation and represents an individual buyer in your application.
+        public let customerIdentifier: String
+        /// During the process of registering a product on AWS Marketplace, up to eight dimensions are specified. These represent different units of value in your application.
+        public let dimension: String
+        /// The quantity of usage consumed by the customer for the given dimension and time.
+        public let quantity: Int32
+        /// Timestamp of the hour, recorded in UTC. The seconds and milliseconds portions of the timestamp will be ignored. Your application can meter usage for up to one hour in the past.
+        public let timestamp: TimeStamp
+
+        public init(customerIdentifier: String, dimension: String, quantity: Int32, timestamp: TimeStamp) {
+            self.customerIdentifier = customerIdentifier
+            self.dimension = dimension
+            self.quantity = quantity
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerIdentifier = "CustomerIdentifier"
+            case dimension = "Dimension"
+            case quantity = "Quantity"
+            case timestamp = "Timestamp"
+        }
+    }
+
+    public struct UsageRecordResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MeteringRecordId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "UsageRecord", required: false, type: .structure)
+        ]
+        /// The MeteringRecordId is a unique identifier for this metering event.
+        public let meteringRecordId: String?
+        /// The UsageRecordResult Status indicates the status of an individual UsageRecord processed by BatchMeterUsage.    Success- The UsageRecord was accepted and honored by BatchMeterUsage.    CustomerNotSubscribed- The CustomerIdentifier specified is not subscribed to your product. The UsageRecord was not honored. Future UsageRecords for this customer will fail until the customer subscribes to your product.    DuplicateRecord- Indicates that the UsageRecord was invalid and not honored. A previously metered UsageRecord had the same customer, dimension, and time, but a different quantity.  
+        public let status: UsageRecordResultStatus?
+        /// The UsageRecord that was part of the BatchMeterUsage request.
+        public let usageRecord: UsageRecord?
+
+        public init(meteringRecordId: String? = nil, status: UsageRecordResultStatus? = nil, usageRecord: UsageRecord? = nil) {
+            self.meteringRecordId = meteringRecordId
+            self.status = status
+            self.usageRecord = usageRecord
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case meteringRecordId = "MeteringRecordId"
+            case status = "Status"
+            case usageRecord = "UsageRecord"
+        }
+    }
+
+    public enum UsageRecordResultStatus: String, CustomStringConvertible, Codable {
+        case success = "Success"
+        case customernotsubscribed = "CustomerNotSubscribed"
+        case duplicaterecord = "DuplicateRecord"
+        public var description: String { return self.rawValue }
     }
 
 }

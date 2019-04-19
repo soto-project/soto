@@ -29,9 +29,9 @@ public struct EKS {
         return try client.send(operation: "CreateCluster", path: "/clusters", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the Amazon EKS clusters in your AWS account in the specified Region.
-    public func listClusters(_ input: ListClustersRequest) throws -> ListClustersResponse {
-        return try client.send(operation: "ListClusters", path: "/clusters", httpMethod: "GET", input: input)
+    ///  Deletes the Amazon EKS cluster control plane.   If you have active services in your cluster that are associated with a load balancer, you must delete those services before deleting the cluster so that the load balancers are deleted properly. Otherwise, you can have orphaned resources in your VPC that prevent you from being able to delete the VPC. For more information, see Deleting a Cluster in the Amazon EKS User Guide. 
+    public func deleteCluster(_ input: DeleteClusterRequest) throws -> DeleteClusterResponse {
+        return try client.send(operation: "DeleteCluster", path: "/clusters/{name}", httpMethod: "DELETE", input: input)
     }
 
     ///  Returns descriptive information about an Amazon EKS cluster. The API server endpoint and certificate authority data returned by this operation are required for kubelet and kubectl to communicate with your Kubernetes API server. For more information, see Create a kubeconfig for Amazon EKS.  The API server endpoint and certificate authority data are not available until the cluster reaches the ACTIVE state. 
@@ -39,9 +39,9 @@ public struct EKS {
         return try client.send(operation: "DescribeCluster", path: "/clusters/{name}", httpMethod: "GET", input: input)
     }
 
-    ///  Deletes the Amazon EKS cluster control plane.   If you have active services in your cluster that are associated with a load balancer, you must delete those services before deleting the cluster so that the load balancers are deleted properly. Otherwise, you can have orphaned resources in your VPC that prevent you from being able to delete the VPC. For more information, see Deleting a Cluster in the Amazon EKS User Guide. 
-    public func deleteCluster(_ input: DeleteClusterRequest) throws -> DeleteClusterResponse {
-        return try client.send(operation: "DeleteCluster", path: "/clusters/{name}", httpMethod: "DELETE", input: input)
+    ///  Lists the Amazon EKS clusters in your AWS account in the specified Region.
+    public func listClusters(_ input: ListClustersRequest) throws -> ListClustersResponse {
+        return try client.send(operation: "ListClusters", path: "/clusters", httpMethod: "GET", input: input)
     }
 
 

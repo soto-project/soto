@@ -4,11 +4,11 @@ import AWSSDKSwiftCore
 
 /// Error enum for LexModelBuildingService
 public enum LexModelBuildingServiceErrorType: AWSErrorType {
-    case notFoundException(message: String?)
-    case conflictException(message: String?)
-    case limitExceededException(message: String?)
-    case internalFailureException(message: String?)
     case badRequestException(message: String?)
+    case conflictException(message: String?)
+    case internalFailureException(message: String?)
+    case limitExceededException(message: String?)
+    case notFoundException(message: String?)
     case preconditionFailedException(message: String?)
     case resourceInUseException(message: String?)
 }
@@ -20,16 +20,16 @@ extension LexModelBuildingServiceErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "ConflictException":
-            self = .conflictException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "InternalFailureException":
-            self = .internalFailureException(message: message)
         case "BadRequestException":
             self = .badRequestException(message: message)
+        case "ConflictException":
+            self = .conflictException(message: message)
+        case "InternalFailureException":
+            self = .internalFailureException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
+        case "NotFoundException":
+            self = .notFoundException(message: message)
         case "PreconditionFailedException":
             self = .preconditionFailedException(message: message)
         case "ResourceInUseException":

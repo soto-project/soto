@@ -31,14 +31,14 @@ public struct DynamoDBStreams {
         return try client.send(operation: "DescribeStream", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a shard iterator. A shard iterator provides information about how to retrieve the stream records from within a shard. Use the shard iterator in a subsequent GetRecords request to read the stream records from the shard.  A shard iterator expires 15 minutes after it is returned to the requester. 
-    public func getShardIterator(_ input: GetShardIteratorInput) throws -> GetShardIteratorOutput {
-        return try client.send(operation: "GetShardIterator", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Retrieves the stream records from a given shard. Specify a shard iterator using the ShardIterator parameter. The shard iterator specifies the position in the shard from which you want to start reading stream records sequentially. If there are no stream records available in the portion of the shard that the iterator points to, GetRecords returns an empty list. Note that it might take multiple calls to get to a portion of the shard that contains stream records.   GetRecords can retrieve a maximum of 1 MB of data or 1000 stream records, whichever comes first. 
     public func getRecords(_ input: GetRecordsInput) throws -> GetRecordsOutput {
         return try client.send(operation: "GetRecords", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a shard iterator. A shard iterator provides information about how to retrieve the stream records from within a shard. Use the shard iterator in a subsequent GetRecords request to read the stream records from the shard.  A shard iterator expires 15 minutes after it is returned to the requester. 
+    public func getShardIterator(_ input: GetShardIteratorInput) throws -> GetShardIteratorOutput {
+        return try client.send(operation: "GetShardIterator", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns an array of stream ARNs associated with the current account and endpoint. If the TableName parameter is present, then ListStreams will return only the streams ARNs for that table.  You can call ListStreams at a maximum rate of 5 times per second. 

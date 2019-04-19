@@ -5,13 +5,13 @@ import AWSSDKSwiftCore
 /// Error enum for Kafka
 public enum KafkaErrorType: AWSErrorType {
     case badRequestException(message: String?)
-    case internalServerErrorException(message: String?)
-    case unauthorizedException(message: String?)
+    case conflictException(message: String?)
     case forbiddenException(message: String?)
+    case internalServerErrorException(message: String?)
+    case notFoundException(message: String?)
     case serviceUnavailableException(message: String?)
     case tooManyRequestsException(message: String?)
-    case conflictException(message: String?)
-    case notFoundException(message: String?)
+    case unauthorizedException(message: String?)
 }
 
 extension KafkaErrorType {
@@ -23,20 +23,20 @@ extension KafkaErrorType {
         switch errorCode {
         case "BadRequestException":
             self = .badRequestException(message: message)
-        case "InternalServerErrorException":
-            self = .internalServerErrorException(message: message)
-        case "UnauthorizedException":
-            self = .unauthorizedException(message: message)
+        case "ConflictException":
+            self = .conflictException(message: message)
         case "ForbiddenException":
             self = .forbiddenException(message: message)
+        case "InternalServerErrorException":
+            self = .internalServerErrorException(message: message)
+        case "NotFoundException":
+            self = .notFoundException(message: message)
         case "ServiceUnavailableException":
             self = .serviceUnavailableException(message: message)
         case "TooManyRequestsException":
             self = .tooManyRequestsException(message: message)
-        case "ConflictException":
-            self = .conflictException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
+        case "UnauthorizedException":
+            self = .unauthorizedException(message: message)
         default:
             return nil
         }

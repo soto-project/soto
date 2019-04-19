@@ -236,9 +236,16 @@ extension AWSService {
         code += "\(indt(3))apiVersion: \"\(version)\",\n"
         code += "\(indt(3))endpoint: endpoint,\n"
 
-        let endpoints = serviceEndpoints
+        let endpoints = serviceEndpoints.sorted { $0.key < $1.key }
         if endpoints.count > 0 {
-            code += "\(indt(3))serviceEndpoints: \(endpoints),\n"
+            code += "\(indt(3))serviceEndpoints: ["
+                for (i, endpoint) in endpoints.enumerated() {
+                    code += "\"\(endpoint.key)\": \"\(endpoint.value)\""
+                    if i < endpoints.count - 1 {
+                        code += ", "
+                    }
+                }
+            code += "],\n"
         }
 
         if let partitionEndpoint = partitionEndpoint {

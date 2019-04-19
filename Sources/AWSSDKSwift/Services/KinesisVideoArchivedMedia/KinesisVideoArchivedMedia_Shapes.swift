@@ -5,278 +5,45 @@ import AWSSDKSwiftCore
 
 extension KinesisVideoArchivedMedia {
 
-    public struct HLSTimestampRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StartTimestamp", required: false, type: .timestamp)
-        ]
-        /// The end of the time stamp range for the requested media. This value must be within 3 hours of the specified StartTimestamp, and it must be later than the StartTimestamp value. If FragmentSelectorType for the request is SERVER_TIMESTAMP, this value must be in the past. If the HLSTimestampRange value is specified, the EndTimestamp value is required.  This value is inclusive. The EndTimestamp is compared to the (starting) time stamp of the fragment. Fragments that start before the EndTimestamp value and continue past it are included in the session. 
-        public let endTimestamp: TimeStamp?
-        /// The start of the time stamp range for the requested media. If the HLSTimestampRange value is specified, the StartTimestamp value is required.  This value is inclusive. Fragments that start before the StartTimestamp and continue past it are included in the session. If FragmentSelectorType is SERVER_TIMESTAMP, the StartTimestamp must be later than the stream head. 
-        public let startTimestamp: TimeStamp?
-
-        public init(endTimestamp: TimeStamp? = nil, startTimestamp: TimeStamp? = nil) {
-            self.endTimestamp = endTimestamp
-            self.startTimestamp = startTimestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endTimestamp = "EndTimestamp"
-            case startTimestamp = "StartTimestamp"
-        }
-    }
-
-    public struct ListFragmentsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .long), 
-            AWSShapeMember(label: "StreamName", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "FragmentSelector", required: false, type: .structure)
-        ]
-        /// The total number of fragments to return. If the total number of fragments available is more than the value specified in max-results, then a ListFragmentsOutput$NextToken is provided in the output that you can use to resume pagination.
-        public let maxResults: Int64?
-        /// The name of the stream from which to retrieve a fragment list.
-        public let streamName: String
-        /// A token to specify where to start paginating. This is the ListFragmentsOutput$NextToken from a previously truncated response.
-        public let nextToken: String?
-        /// Describes the time stamp range and time stamp origin for the range of fragments to return.
-        public let fragmentSelector: FragmentSelector?
-
-        public init(fragmentSelector: FragmentSelector? = nil, maxResults: Int64? = nil, nextToken: String? = nil, streamName: String) {
-            self.maxResults = maxResults
-            self.streamName = streamName
-            self.nextToken = nextToken
-            self.fragmentSelector = fragmentSelector
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case streamName = "StreamName"
-            case nextToken = "NextToken"
-            case fragmentSelector = "FragmentSelector"
-        }
-    }
-
-    public struct TimestampRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StartTimestamp", required: true, type: .timestamp), 
-            AWSShapeMember(label: "EndTimestamp", required: true, type: .timestamp)
-        ]
-        /// The starting time stamp in the range of time stamps for which to return fragments.
-        public let startTimestamp: TimeStamp
-        /// The ending time stamp in the range of time stamps for which to return fragments.
-        public let endTimestamp: TimeStamp
-
-        public init(endTimestamp: TimeStamp, startTimestamp: TimeStamp) {
-            self.startTimestamp = startTimestamp
-            self.endTimestamp = endTimestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case startTimestamp = "StartTimestamp"
-            case endTimestamp = "EndTimestamp"
-        }
-    }
-
-    public struct Fragment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FragmentNumber", required: false, type: .string), 
-            AWSShapeMember(label: "FragmentSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "FragmentLengthInMilliseconds", required: false, type: .long), 
-            AWSShapeMember(label: "ServerTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ProducerTimestamp", required: false, type: .timestamp)
-        ]
-        /// The index value of the fragment.
-        public let fragmentNumber: String?
-        /// The total fragment size, including information about the fragment and contained media data.
-        public let fragmentSizeInBytes: Int64?
-        /// The playback duration or other time value associated with the fragment.
-        public let fragmentLengthInMilliseconds: Int64?
-        /// The time stamp from the AWS server corresponding to the fragment.
-        public let serverTimestamp: TimeStamp?
-        /// The time stamp from the producer corresponding to the fragment.
-        public let producerTimestamp: TimeStamp?
-
-        public init(fragmentLengthInMilliseconds: Int64? = nil, fragmentNumber: String? = nil, fragmentSizeInBytes: Int64? = nil, producerTimestamp: TimeStamp? = nil, serverTimestamp: TimeStamp? = nil) {
-            self.fragmentNumber = fragmentNumber
-            self.fragmentSizeInBytes = fragmentSizeInBytes
-            self.fragmentLengthInMilliseconds = fragmentLengthInMilliseconds
-            self.serverTimestamp = serverTimestamp
-            self.producerTimestamp = producerTimestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fragmentNumber = "FragmentNumber"
-            case fragmentSizeInBytes = "FragmentSizeInBytes"
-            case fragmentLengthInMilliseconds = "FragmentLengthInMilliseconds"
-            case serverTimestamp = "ServerTimestamp"
-            case producerTimestamp = "ProducerTimestamp"
-        }
-    }
-
-    public enum PlaybackMode: String, CustomStringConvertible, Codable {
-        case live = "LIVE"
-        case onDemand = "ON_DEMAND"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListFragmentsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Fragments", required: false, type: .list)
-        ]
-        /// If the returned list is truncated, the operation returns this token to use to retrieve the next page of results. This value is null when there are no more results to return.
-        public let nextToken: String?
-        /// A list of fragment numbers that correspond to the time stamp range provided.
-        public let fragments: [Fragment]?
-
-        public init(fragments: [Fragment]? = nil, nextToken: String? = nil) {
-            self.nextToken = nextToken
-            self.fragments = fragments
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case fragments = "Fragments"
-        }
-    }
-
     public enum DiscontinuityMode: String, CustomStringConvertible, Codable {
         case always = "ALWAYS"
         case never = "NEVER"
         public var description: String { return self.rawValue }
     }
 
-    public enum HLSFragmentSelectorType: String, CustomStringConvertible, Codable {
-        case producerTimestamp = "PRODUCER_TIMESTAMP"
-        case serverTimestamp = "SERVER_TIMESTAMP"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetHLSStreamingSessionURLOutput: AWSShape {
+    public struct Fragment: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HLSStreamingSessionURL", required: false, type: .string)
+            AWSShapeMember(label: "FragmentLengthInMilliseconds", required: false, type: .long), 
+            AWSShapeMember(label: "FragmentNumber", required: false, type: .string), 
+            AWSShapeMember(label: "FragmentSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "ProducerTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ServerTimestamp", required: false, type: .timestamp)
         ]
-        /// The URL (containing the session token) that a media player can use to retrieve the HLS master playlist.
-        public let hLSStreamingSessionURL: String?
+        /// The playback duration or other time value associated with the fragment.
+        public let fragmentLengthInMilliseconds: Int64?
+        /// The index value of the fragment.
+        public let fragmentNumber: String?
+        /// The total fragment size, including information about the fragment and contained media data.
+        public let fragmentSizeInBytes: Int64?
+        /// The time stamp from the producer corresponding to the fragment.
+        public let producerTimestamp: TimeStamp?
+        /// The time stamp from the AWS server corresponding to the fragment.
+        public let serverTimestamp: TimeStamp?
 
-        public init(hLSStreamingSessionURL: String? = nil) {
-            self.hLSStreamingSessionURL = hLSStreamingSessionURL
+        public init(fragmentLengthInMilliseconds: Int64? = nil, fragmentNumber: String? = nil, fragmentSizeInBytes: Int64? = nil, producerTimestamp: TimeStamp? = nil, serverTimestamp: TimeStamp? = nil) {
+            self.fragmentLengthInMilliseconds = fragmentLengthInMilliseconds
+            self.fragmentNumber = fragmentNumber
+            self.fragmentSizeInBytes = fragmentSizeInBytes
+            self.producerTimestamp = producerTimestamp
+            self.serverTimestamp = serverTimestamp
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hLSStreamingSessionURL = "HLSStreamingSessionURL"
-        }
-    }
-
-    public struct GetMediaForFragmentListOutput: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "Payload"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Payload", required: false, type: .blob), 
-            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string)
-        ]
-        /// The payload that Kinesis Video Streams returns is a sequence of chunks from the specified stream. For information about the chunks, see PutMedia. The chunks that Kinesis Video Streams returns in the GetMediaForFragmentList call also include the following additional Matroska (MKV) tags:    AWS_KINESISVIDEO_FRAGMENT_NUMBER - Fragment number returned in the chunk.   AWS_KINESISVIDEO_SERVER_SIDE_TIMESTAMP - Server-side time stamp of the fragment.   AWS_KINESISVIDEO_PRODUCER_SIDE_TIMESTAMP - Producer-side time stamp of the fragment.   The following tags will be included if an exception occurs:   AWS_KINESISVIDEO_FRAGMENT_NUMBER - The number of the fragment that threw the exception   AWS_KINESISVIDEO_EXCEPTION_ERROR_CODE - The integer code of the exception   AWS_KINESISVIDEO_EXCEPTION_MESSAGE - A text description of the exception  
-        public let payload: Data?
-        /// The content type of the requested media.
-        public let contentType: String?
-
-        public init(contentType: String? = nil, payload: Data? = nil) {
-            self.payload = payload
-            self.contentType = contentType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case payload = "Payload"
-            case contentType = "Content-Type"
-        }
-    }
-
-    public struct GetMediaForFragmentListInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamName", required: true, type: .string), 
-            AWSShapeMember(label: "Fragments", required: true, type: .list)
-        ]
-        /// The name of the stream from which to retrieve fragment media.
-        public let streamName: String
-        /// A list of the numbers of fragments for which to retrieve media. You retrieve these values with ListFragments.
-        public let fragments: [String]
-
-        public init(fragments: [String], streamName: String) {
-            self.streamName = streamName
-            self.fragments = fragments
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamName = "StreamName"
-            case fragments = "Fragments"
-        }
-    }
-
-    public struct HLSFragmentSelector: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FragmentSelectorType", required: false, type: .enum), 
-            AWSShapeMember(label: "TimestampRange", required: false, type: .structure)
-        ]
-        /// The source of the time stamps for the requested media. When FragmentSelectorType is set to PRODUCER_TIMESTAMP and GetHLSStreamingSessionURLInput$PlaybackMode is ON_DEMAND, the first fragment ingested with a producer time stamp within the specified FragmentSelector$TimestampRange is included in the media playlist. In addition, the fragments with producer time stamps within the TimestampRange ingested immediately following the first fragment (up to the GetHLSStreamingSessionURLInput$MaxMediaPlaylistFragmentResults value) are included.  Fragments that have duplicate producer time stamps are deduplicated. This means that if producers are producing a stream of fragments with producer time stamps that are approximately equal to the true clock time, the HLS media playlists will contain all of the fragments within the requested time stamp range. If some fragments are ingested within the same time range and very different points in time, only the oldest ingested collection of fragments are returned. When FragmentSelectorType is set to PRODUCER_TIMESTAMP and GetHLSStreamingSessionURLInput$PlaybackMode is LIVE, the producer time stamps are used in the MP4 fragments and for deduplication. But the most recently ingested fragments based on server time stamps are included in the HLS media playlist. This means that even if fragments ingested in the past have producer time stamps with values now, they are not included in the HLS media playlist. The default is SERVER_TIMESTAMP.
-        public let fragmentSelectorType: HLSFragmentSelectorType?
-        /// The start and end of the time stamp range for the requested media. This value should not be present if PlaybackType is LIVE.
-        public let timestampRange: HLSTimestampRange?
-
-        public init(fragmentSelectorType: HLSFragmentSelectorType? = nil, timestampRange: HLSTimestampRange? = nil) {
-            self.fragmentSelectorType = fragmentSelectorType
-            self.timestampRange = timestampRange
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fragmentSelectorType = "FragmentSelectorType"
-            case timestampRange = "TimestampRange"
-        }
-    }
-
-    public struct GetHLSStreamingSessionURLInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlaybackMode", required: false, type: .enum), 
-            AWSShapeMember(label: "MaxMediaPlaylistFragmentResults", required: false, type: .long), 
-            AWSShapeMember(label: "StreamName", required: false, type: .string), 
-            AWSShapeMember(label: "StreamARN", required: false, type: .string), 
-            AWSShapeMember(label: "HLSFragmentSelector", required: false, type: .structure), 
-            AWSShapeMember(label: "Expires", required: false, type: .integer), 
-            AWSShapeMember(label: "DiscontinuityMode", required: false, type: .enum)
-        ]
-        /// Whether to retrieve live or archived, on-demand data. Features of the two types of session include the following:     LIVE : For sessions of this type, the HLS media playlist is continually updated with the latest fragments as they become available. We recommend that the media player retrieve a new playlist on a one-second interval. When this type of session is played in a media player, the user interface typically displays a "live" notification, with no scrubber control for choosing the position in the playback window to display.  In LIVE mode, the newest available fragments are included in an HLS media playlist, even if there is a gap between fragments (that is, if a fragment is missing). A gap like this might cause a media player to halt or cause a jump in playback. In this mode, fragments are not added to the HLS media playlist if they are older than the newest fragment in the playlist. If the missing fragment becomes available after a subsequent fragment is added to the playlist, the older fragment is not added, and the gap is not filled.      ON_DEMAND : For sessions of this type, the HLS media playlist contains all the fragments for the session, up to the number that is specified in MaxMediaPlaylistFragmentResults. The playlist must be retrieved only once for each session. When this type of session is played in a media player, the user interface typically displays a scrubber control for choosing the position in the playback window to display.   In both playback modes, if FragmentSelectorType is PRODUCER_TIMESTAMP, and if there are multiple fragments with the same start time stamp, the fragment that has the larger fragment number (that is, the newer fragment) is included in the HLS media playlist. The other fragments are not included. Fragments that have different time stamps but have overlapping durations are still included in the HLS media playlist. This can lead to unexpected behavior in the media player. The default is LIVE.
-        public let playbackMode: PlaybackMode?
-        /// The maximum number of fragments that are returned in the HLS media playlists. When the PlaybackMode is LIVE, the most recent fragments are returned up to this value. When the PlaybackMode is ON_DEMAND, the oldest fragments are returned, up to this maximum number. When there are a higher number of fragments available in a live HLS media playlist, video players often buffer content before starting playback. Increasing the buffer size increases the playback latency, but it decreases the likelihood that rebuffering will occur during playback. We recommend that a live HLS media playlist have a minimum of 3 fragments and a maximum of 10 fragments. The default is 5 fragments if PlaybackMode is LIVE, and 1,000 if PlaybackMode is ON_DEMAND.  The maximum value of 1,000 fragments corresponds to more than 16 minutes of video on streams with 1-second fragments, and more than 2 1/2 hours of video on streams with 10-second fragments.
-        public let maxMediaPlaylistFragmentResults: Int64?
-        /// The name of the stream for which to retrieve the HLS master playlist URL. You must specify either the StreamName or the StreamARN.
-        public let streamName: String?
-        /// The Amazon Resource Name (ARN) of the stream for which to retrieve the HLS master playlist URL. You must specify either the StreamName or the StreamARN.
-        public let streamARN: String?
-        /// The time range of the requested fragment, and the source of the time stamps. This parameter is required if PlaybackMode is ON_DEMAND. This parameter is optional if PlaybackMode is LIVE. If PlaybackMode is LIVE, the FragmentSelectorType can be set, but the TimestampRange should not be set. If PlaybackMode is ON_DEMAND, both FragmentSelectorType and TimestampRange must be set.
-        public let hLSFragmentSelector: HLSFragmentSelector?
-        /// The time in seconds until the requested session expires. This value can be between 300 (5 minutes) and 43200 (12 hours). When a session expires, no new calls to GetHLSMasterPlaylist, GetHLSMediaPlaylist, GetMP4InitFragment, or GetMP4MediaFragment can be made for that session. The default is 300 (5 minutes).
-        public let expires: Int32?
-        /// Specifies when flags marking discontinuities between fragments will be added to the media playlists. The default is ALWAYS when HLSFragmentSelector is SERVER_TIMESTAMP, and NEVER when it is PRODUCER_TIMESTAMP. Media players typically build a timeline of media content to play, based on the time stamps of each fragment. This means that if there is any overlap between fragments (as is typical if HLSFragmentSelector is SERVER_TIMESTAMP), the media player timeline has small gaps between fragments in some places, and overwrites frames in other places. When there are discontinuity flags between fragments, the media player is expected to reset the timeline, resulting in the fragment being played immediately after the previous fragment. We recommend that you always have discontinuity flags between fragments if the fragment time stamps are not accurate or if fragments might be missing. You should not place discontinuity flags between fragments for the player timeline to accurately map to the producer time stamps.
-        public let discontinuityMode: DiscontinuityMode?
-
-        public init(discontinuityMode: DiscontinuityMode? = nil, expires: Int32? = nil, hLSFragmentSelector: HLSFragmentSelector? = nil, maxMediaPlaylistFragmentResults: Int64? = nil, playbackMode: PlaybackMode? = nil, streamARN: String? = nil, streamName: String? = nil) {
-            self.playbackMode = playbackMode
-            self.maxMediaPlaylistFragmentResults = maxMediaPlaylistFragmentResults
-            self.streamName = streamName
-            self.streamARN = streamARN
-            self.hLSFragmentSelector = hLSFragmentSelector
-            self.expires = expires
-            self.discontinuityMode = discontinuityMode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case playbackMode = "PlaybackMode"
-            case maxMediaPlaylistFragmentResults = "MaxMediaPlaylistFragmentResults"
-            case streamName = "StreamName"
-            case streamARN = "StreamARN"
-            case hLSFragmentSelector = "HLSFragmentSelector"
-            case expires = "Expires"
-            case discontinuityMode = "DiscontinuityMode"
+            case fragmentLengthInMilliseconds = "FragmentLengthInMilliseconds"
+            case fragmentNumber = "FragmentNumber"
+            case fragmentSizeInBytes = "FragmentSizeInBytes"
+            case producerTimestamp = "ProducerTimestamp"
+            case serverTimestamp = "ServerTimestamp"
         }
     }
 
@@ -305,6 +72,239 @@ extension KinesisVideoArchivedMedia {
         case producerTimestamp = "PRODUCER_TIMESTAMP"
         case serverTimestamp = "SERVER_TIMESTAMP"
         public var description: String { return self.rawValue }
+    }
+
+    public struct GetHLSStreamingSessionURLInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DiscontinuityMode", required: false, type: .enum), 
+            AWSShapeMember(label: "Expires", required: false, type: .integer), 
+            AWSShapeMember(label: "HLSFragmentSelector", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxMediaPlaylistFragmentResults", required: false, type: .long), 
+            AWSShapeMember(label: "PlaybackMode", required: false, type: .enum), 
+            AWSShapeMember(label: "StreamARN", required: false, type: .string), 
+            AWSShapeMember(label: "StreamName", required: false, type: .string)
+        ]
+        /// Specifies when flags marking discontinuities between fragments will be added to the media playlists. The default is ALWAYS when HLSFragmentSelector is SERVER_TIMESTAMP, and NEVER when it is PRODUCER_TIMESTAMP. Media players typically build a timeline of media content to play, based on the time stamps of each fragment. This means that if there is any overlap between fragments (as is typical if HLSFragmentSelector is SERVER_TIMESTAMP), the media player timeline has small gaps between fragments in some places, and overwrites frames in other places. When there are discontinuity flags between fragments, the media player is expected to reset the timeline, resulting in the fragment being played immediately after the previous fragment. We recommend that you always have discontinuity flags between fragments if the fragment time stamps are not accurate or if fragments might be missing. You should not place discontinuity flags between fragments for the player timeline to accurately map to the producer time stamps.
+        public let discontinuityMode: DiscontinuityMode?
+        /// The time in seconds until the requested session expires. This value can be between 300 (5 minutes) and 43200 (12 hours). When a session expires, no new calls to GetHLSMasterPlaylist, GetHLSMediaPlaylist, GetMP4InitFragment, or GetMP4MediaFragment can be made for that session. The default is 300 (5 minutes).
+        public let expires: Int32?
+        /// The time range of the requested fragment, and the source of the time stamps. This parameter is required if PlaybackMode is ON_DEMAND. This parameter is optional if PlaybackMode is LIVE. If PlaybackMode is LIVE, the FragmentSelectorType can be set, but the TimestampRange should not be set. If PlaybackMode is ON_DEMAND, both FragmentSelectorType and TimestampRange must be set.
+        public let hLSFragmentSelector: HLSFragmentSelector?
+        /// The maximum number of fragments that are returned in the HLS media playlists. When the PlaybackMode is LIVE, the most recent fragments are returned up to this value. When the PlaybackMode is ON_DEMAND, the oldest fragments are returned, up to this maximum number. When there are a higher number of fragments available in a live HLS media playlist, video players often buffer content before starting playback. Increasing the buffer size increases the playback latency, but it decreases the likelihood that rebuffering will occur during playback. We recommend that a live HLS media playlist have a minimum of 3 fragments and a maximum of 10 fragments. The default is 5 fragments if PlaybackMode is LIVE, and 1,000 if PlaybackMode is ON_DEMAND.  The maximum value of 1,000 fragments corresponds to more than 16 minutes of video on streams with 1-second fragments, and more than 2 1/2 hours of video on streams with 10-second fragments.
+        public let maxMediaPlaylistFragmentResults: Int64?
+        /// Whether to retrieve live or archived, on-demand data. Features of the two types of session include the following:     LIVE : For sessions of this type, the HLS media playlist is continually updated with the latest fragments as they become available. We recommend that the media player retrieve a new playlist on a one-second interval. When this type of session is played in a media player, the user interface typically displays a "live" notification, with no scrubber control for choosing the position in the playback window to display.  In LIVE mode, the newest available fragments are included in an HLS media playlist, even if there is a gap between fragments (that is, if a fragment is missing). A gap like this might cause a media player to halt or cause a jump in playback. In this mode, fragments are not added to the HLS media playlist if they are older than the newest fragment in the playlist. If the missing fragment becomes available after a subsequent fragment is added to the playlist, the older fragment is not added, and the gap is not filled.      ON_DEMAND : For sessions of this type, the HLS media playlist contains all the fragments for the session, up to the number that is specified in MaxMediaPlaylistFragmentResults. The playlist must be retrieved only once for each session. When this type of session is played in a media player, the user interface typically displays a scrubber control for choosing the position in the playback window to display.   In both playback modes, if FragmentSelectorType is PRODUCER_TIMESTAMP, and if there are multiple fragments with the same start time stamp, the fragment that has the larger fragment number (that is, the newer fragment) is included in the HLS media playlist. The other fragments are not included. Fragments that have different time stamps but have overlapping durations are still included in the HLS media playlist. This can lead to unexpected behavior in the media player. The default is LIVE.
+        public let playbackMode: PlaybackMode?
+        /// The Amazon Resource Name (ARN) of the stream for which to retrieve the HLS master playlist URL. You must specify either the StreamName or the StreamARN.
+        public let streamARN: String?
+        /// The name of the stream for which to retrieve the HLS master playlist URL. You must specify either the StreamName or the StreamARN.
+        public let streamName: String?
+
+        public init(discontinuityMode: DiscontinuityMode? = nil, expires: Int32? = nil, hLSFragmentSelector: HLSFragmentSelector? = nil, maxMediaPlaylistFragmentResults: Int64? = nil, playbackMode: PlaybackMode? = nil, streamARN: String? = nil, streamName: String? = nil) {
+            self.discontinuityMode = discontinuityMode
+            self.expires = expires
+            self.hLSFragmentSelector = hLSFragmentSelector
+            self.maxMediaPlaylistFragmentResults = maxMediaPlaylistFragmentResults
+            self.playbackMode = playbackMode
+            self.streamARN = streamARN
+            self.streamName = streamName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case discontinuityMode = "DiscontinuityMode"
+            case expires = "Expires"
+            case hLSFragmentSelector = "HLSFragmentSelector"
+            case maxMediaPlaylistFragmentResults = "MaxMediaPlaylistFragmentResults"
+            case playbackMode = "PlaybackMode"
+            case streamARN = "StreamARN"
+            case streamName = "StreamName"
+        }
+    }
+
+    public struct GetHLSStreamingSessionURLOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HLSStreamingSessionURL", required: false, type: .string)
+        ]
+        /// The URL (containing the session token) that a media player can use to retrieve the HLS master playlist.
+        public let hLSStreamingSessionURL: String?
+
+        public init(hLSStreamingSessionURL: String? = nil) {
+            self.hLSStreamingSessionURL = hLSStreamingSessionURL
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hLSStreamingSessionURL = "HLSStreamingSessionURL"
+        }
+    }
+
+    public struct GetMediaForFragmentListInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Fragments", required: true, type: .list), 
+            AWSShapeMember(label: "StreamName", required: true, type: .string)
+        ]
+        /// A list of the numbers of fragments for which to retrieve media. You retrieve these values with ListFragments.
+        public let fragments: [String]
+        /// The name of the stream from which to retrieve fragment media.
+        public let streamName: String
+
+        public init(fragments: [String], streamName: String) {
+            self.fragments = fragments
+            self.streamName = streamName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fragments = "Fragments"
+            case streamName = "StreamName"
+        }
+    }
+
+    public struct GetMediaForFragmentListOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "Payload"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
+            AWSShapeMember(label: "Payload", required: false, type: .blob)
+        ]
+        /// The content type of the requested media.
+        public let contentType: String?
+        /// The payload that Kinesis Video Streams returns is a sequence of chunks from the specified stream. For information about the chunks, see PutMedia. The chunks that Kinesis Video Streams returns in the GetMediaForFragmentList call also include the following additional Matroska (MKV) tags:    AWS_KINESISVIDEO_FRAGMENT_NUMBER - Fragment number returned in the chunk.   AWS_KINESISVIDEO_SERVER_SIDE_TIMESTAMP - Server-side time stamp of the fragment.   AWS_KINESISVIDEO_PRODUCER_SIDE_TIMESTAMP - Producer-side time stamp of the fragment.   The following tags will be included if an exception occurs:   AWS_KINESISVIDEO_FRAGMENT_NUMBER - The number of the fragment that threw the exception   AWS_KINESISVIDEO_EXCEPTION_ERROR_CODE - The integer code of the exception   AWS_KINESISVIDEO_EXCEPTION_MESSAGE - A text description of the exception  
+        public let payload: Data?
+
+        public init(contentType: String? = nil, payload: Data? = nil) {
+            self.contentType = contentType
+            self.payload = payload
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentType = "Content-Type"
+            case payload = "Payload"
+        }
+    }
+
+    public struct HLSFragmentSelector: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FragmentSelectorType", required: false, type: .enum), 
+            AWSShapeMember(label: "TimestampRange", required: false, type: .structure)
+        ]
+        /// The source of the time stamps for the requested media. When FragmentSelectorType is set to PRODUCER_TIMESTAMP and GetHLSStreamingSessionURLInput$PlaybackMode is ON_DEMAND, the first fragment ingested with a producer time stamp within the specified FragmentSelector$TimestampRange is included in the media playlist. In addition, the fragments with producer time stamps within the TimestampRange ingested immediately following the first fragment (up to the GetHLSStreamingSessionURLInput$MaxMediaPlaylistFragmentResults value) are included.  Fragments that have duplicate producer time stamps are deduplicated. This means that if producers are producing a stream of fragments with producer time stamps that are approximately equal to the true clock time, the HLS media playlists will contain all of the fragments within the requested time stamp range. If some fragments are ingested within the same time range and very different points in time, only the oldest ingested collection of fragments are returned. When FragmentSelectorType is set to PRODUCER_TIMESTAMP and GetHLSStreamingSessionURLInput$PlaybackMode is LIVE, the producer time stamps are used in the MP4 fragments and for deduplication. But the most recently ingested fragments based on server time stamps are included in the HLS media playlist. This means that even if fragments ingested in the past have producer time stamps with values now, they are not included in the HLS media playlist. The default is SERVER_TIMESTAMP.
+        public let fragmentSelectorType: HLSFragmentSelectorType?
+        /// The start and end of the time stamp range for the requested media. This value should not be present if PlaybackType is LIVE.
+        public let timestampRange: HLSTimestampRange?
+
+        public init(fragmentSelectorType: HLSFragmentSelectorType? = nil, timestampRange: HLSTimestampRange? = nil) {
+            self.fragmentSelectorType = fragmentSelectorType
+            self.timestampRange = timestampRange
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fragmentSelectorType = "FragmentSelectorType"
+            case timestampRange = "TimestampRange"
+        }
+    }
+
+    public enum HLSFragmentSelectorType: String, CustomStringConvertible, Codable {
+        case producerTimestamp = "PRODUCER_TIMESTAMP"
+        case serverTimestamp = "SERVER_TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct HLSTimestampRange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StartTimestamp", required: false, type: .timestamp)
+        ]
+        /// The end of the time stamp range for the requested media. This value must be within 3 hours of the specified StartTimestamp, and it must be later than the StartTimestamp value. If FragmentSelectorType for the request is SERVER_TIMESTAMP, this value must be in the past. If the HLSTimestampRange value is specified, the EndTimestamp value is required.  This value is inclusive. The EndTimestamp is compared to the (starting) time stamp of the fragment. Fragments that start before the EndTimestamp value and continue past it are included in the session. 
+        public let endTimestamp: TimeStamp?
+        /// The start of the time stamp range for the requested media. If the HLSTimestampRange value is specified, the StartTimestamp value is required.  This value is inclusive. Fragments that start before the StartTimestamp and continue past it are included in the session. If FragmentSelectorType is SERVER_TIMESTAMP, the StartTimestamp must be later than the stream head. 
+        public let startTimestamp: TimeStamp?
+
+        public init(endTimestamp: TimeStamp? = nil, startTimestamp: TimeStamp? = nil) {
+            self.endTimestamp = endTimestamp
+            self.startTimestamp = startTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTimestamp = "EndTimestamp"
+            case startTimestamp = "StartTimestamp"
+        }
+    }
+
+    public struct ListFragmentsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FragmentSelector", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .long), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StreamName", required: true, type: .string)
+        ]
+        /// Describes the time stamp range and time stamp origin for the range of fragments to return.
+        public let fragmentSelector: FragmentSelector?
+        /// The total number of fragments to return. If the total number of fragments available is more than the value specified in max-results, then a ListFragmentsOutput$NextToken is provided in the output that you can use to resume pagination.
+        public let maxResults: Int64?
+        /// A token to specify where to start paginating. This is the ListFragmentsOutput$NextToken from a previously truncated response.
+        public let nextToken: String?
+        /// The name of the stream from which to retrieve a fragment list.
+        public let streamName: String
+
+        public init(fragmentSelector: FragmentSelector? = nil, maxResults: Int64? = nil, nextToken: String? = nil, streamName: String) {
+            self.fragmentSelector = fragmentSelector
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.streamName = streamName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fragmentSelector = "FragmentSelector"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case streamName = "StreamName"
+        }
+    }
+
+    public struct ListFragmentsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Fragments", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of fragment numbers that correspond to the time stamp range provided.
+        public let fragments: [Fragment]?
+        /// If the returned list is truncated, the operation returns this token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        public init(fragments: [Fragment]? = nil, nextToken: String? = nil) {
+            self.fragments = fragments
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fragments = "Fragments"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public enum PlaybackMode: String, CustomStringConvertible, Codable {
+        case live = "LIVE"
+        case onDemand = "ON_DEMAND"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct TimestampRange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndTimestamp", required: true, type: .timestamp), 
+            AWSShapeMember(label: "StartTimestamp", required: true, type: .timestamp)
+        ]
+        /// The ending time stamp in the range of time stamps for which to return fragments.
+        public let endTimestamp: TimeStamp
+        /// The starting time stamp in the range of time stamps for which to return fragments.
+        public let startTimestamp: TimeStamp
+
+        public init(endTimestamp: TimeStamp, startTimestamp: TimeStamp) {
+            self.endTimestamp = endTimestamp
+            self.startTimestamp = startTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTimestamp = "EndTimestamp"
+            case startTimestamp = "StartTimestamp"
+        }
     }
 
 }

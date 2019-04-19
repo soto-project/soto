@@ -23,11 +23,6 @@ public struct MediaTailor {
         )
     }
 
-    ///  Returns a list of the configurations defined in AWS Elemental MediaTailor. You can specify a max number of configurations to return at a time. The default max is 50. Results are returned in pagefuls. If AWS Elemental MediaTailor has more configurations than the specified max, it provides parameters in the response that you can use to retrieve the next pageful. 
-    public func listPlaybackConfigurations(_ input: ListPlaybackConfigurationsRequest) throws -> ListPlaybackConfigurationsResponse {
-        return try client.send(operation: "ListPlaybackConfigurations", path: "/playbackConfigurations", httpMethod: "GET", input: input)
-    }
-
     ///  Deletes the configuration for the specified name. 
     public func deletePlaybackConfiguration(_ input: DeletePlaybackConfigurationRequest) throws {
         _ = try client.send(operation: "DeletePlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: "DELETE", input: input)
@@ -36,6 +31,11 @@ public struct MediaTailor {
     ///  Returns the configuration for the specified name. 
     public func getPlaybackConfiguration(_ input: GetPlaybackConfigurationRequest) throws -> GetPlaybackConfigurationResponse {
         return try client.send(operation: "GetPlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns a list of the configurations defined in AWS Elemental MediaTailor. You can specify a max number of configurations to return at a time. The default max is 50. Results are returned in pagefuls. If AWS Elemental MediaTailor has more configurations than the specified max, it provides parameters in the response that you can use to retrieve the next pageful. 
+    public func listPlaybackConfigurations(_ input: ListPlaybackConfigurationsRequest) throws -> ListPlaybackConfigurationsResponse {
+        return try client.send(operation: "ListPlaybackConfigurations", path: "/playbackConfigurations", httpMethod: "GET", input: input)
     }
 
     ///  Adds a new configuration to AWS Elemental MediaTailor.

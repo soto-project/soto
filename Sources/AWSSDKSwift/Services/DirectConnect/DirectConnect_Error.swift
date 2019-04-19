@@ -4,8 +4,8 @@ import AWSSDKSwiftCore
 
 /// Error enum for DirectConnect
 public enum DirectConnectErrorType: AWSErrorType {
-    case directConnectServerException(message: String?)
     case directConnectClientException(message: String?)
+    case directConnectServerException(message: String?)
     case duplicateTagKeysException(message: String?)
     case tooManyTagsException(message: String?)
 }
@@ -17,10 +17,10 @@ extension DirectConnectErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "DirectConnectServerException":
-            self = .directConnectServerException(message: message)
         case "DirectConnectClientException":
             self = .directConnectClientException(message: message)
+        case "DirectConnectServerException":
+            self = .directConnectServerException(message: message)
         case "DuplicateTagKeysException":
             self = .duplicateTagKeysException(message: message)
         case "TooManyTagsException":

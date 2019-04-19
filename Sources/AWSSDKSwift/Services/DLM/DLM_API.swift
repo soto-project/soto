@@ -24,19 +24,9 @@ public struct DLM {
         )
     }
 
-    ///  Gets summary information about all or the specified data lifecycle policies. To get complete information about a policy, use GetLifecyclePolicy.
-    public func getLifecyclePolicies(_ input: GetLifecyclePoliciesRequest) throws -> GetLifecyclePoliciesResponse {
-        return try client.send(operation: "GetLifecyclePolicies", path: "/policies", httpMethod: "GET", input: input)
-    }
-
-    ///  Updates the specified lifecycle policy.
-    public func updateLifecyclePolicy(_ input: UpdateLifecyclePolicyRequest) throws -> UpdateLifecyclePolicyResponse {
-        return try client.send(operation: "UpdateLifecyclePolicy", path: "/policies/{policyId}", httpMethod: "PATCH", input: input)
-    }
-
-    ///  Gets detailed information about the specified lifecycle policy.
-    public func getLifecyclePolicy(_ input: GetLifecyclePolicyRequest) throws -> GetLifecyclePolicyResponse {
-        return try client.send(operation: "GetLifecyclePolicy", path: "/policies/{policyId}/", httpMethod: "GET", input: input)
+    ///  Creates a policy to manage the lifecycle of the specified AWS resources. You can create up to 100 lifecycle policies.
+    public func createLifecyclePolicy(_ input: CreateLifecyclePolicyRequest) throws -> CreateLifecyclePolicyResponse {
+        return try client.send(operation: "CreateLifecyclePolicy", path: "/policies", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified lifecycle policy and halts the automated operations that the policy specified.
@@ -44,9 +34,19 @@ public struct DLM {
         return try client.send(operation: "DeleteLifecyclePolicy", path: "/policies/{policyId}/", httpMethod: "DELETE", input: input)
     }
 
-    ///  Creates a policy to manage the lifecycle of the specified AWS resources. You can create up to 100 lifecycle policies.
-    public func createLifecyclePolicy(_ input: CreateLifecyclePolicyRequest) throws -> CreateLifecyclePolicyResponse {
-        return try client.send(operation: "CreateLifecyclePolicy", path: "/policies", httpMethod: "POST", input: input)
+    ///  Gets summary information about all or the specified data lifecycle policies. To get complete information about a policy, use GetLifecyclePolicy.
+    public func getLifecyclePolicies(_ input: GetLifecyclePoliciesRequest) throws -> GetLifecyclePoliciesResponse {
+        return try client.send(operation: "GetLifecyclePolicies", path: "/policies", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets detailed information about the specified lifecycle policy.
+    public func getLifecyclePolicy(_ input: GetLifecyclePolicyRequest) throws -> GetLifecyclePolicyResponse {
+        return try client.send(operation: "GetLifecyclePolicy", path: "/policies/{policyId}/", httpMethod: "GET", input: input)
+    }
+
+    ///  Updates the specified lifecycle policy.
+    public func updateLifecyclePolicy(_ input: UpdateLifecyclePolicyRequest) throws -> UpdateLifecyclePolicyResponse {
+        return try client.send(operation: "UpdateLifecyclePolicy", path: "/policies/{policyId}", httpMethod: "PATCH", input: input)
     }
 
 

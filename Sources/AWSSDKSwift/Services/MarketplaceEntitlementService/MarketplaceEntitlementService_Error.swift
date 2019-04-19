@@ -4,9 +4,9 @@ import AWSSDKSwiftCore
 
 /// Error enum for MarketplaceEntitlementService
 public enum MarketplaceEntitlementServiceErrorType: AWSErrorType {
+    case internalServiceErrorException(message: String?)
     case invalidParameterException(message: String?)
     case throttlingException(message: String?)
-    case internalServiceErrorException(message: String?)
 }
 
 extension MarketplaceEntitlementServiceErrorType {
@@ -16,12 +16,12 @@ extension MarketplaceEntitlementServiceErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "InternalServiceErrorException":
+            self = .internalServiceErrorException(message: message)
         case "InvalidParameterException":
             self = .invalidParameterException(message: message)
         case "ThrottlingException":
             self = .throttlingException(message: message)
-        case "InternalServiceErrorException":
-            self = .internalServiceErrorException(message: message)
         default:
             return nil
         }

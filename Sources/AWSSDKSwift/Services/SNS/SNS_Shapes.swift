@@ -5,51 +5,50 @@ import AWSSDKSwiftCore
 
 extension SNS {
 
-    public struct ListPlatformApplicationsInput: AWSShape {
+    public struct AddPermissionInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "AWSAccountId", required: true, type: .list), 
+            AWSShapeMember(label: "ActionName", required: true, type: .list), 
+            AWSShapeMember(label: "Label", required: true, type: .string), 
+            AWSShapeMember(label: "TopicArn", required: true, type: .string)
         ]
-        /// NextToken string is used when calling ListPlatformApplications action to retrieve additional records that are available after the first page results.
-        public let nextToken: String?
+        /// The AWS account IDs of the users (principals) who will be given access to the specified actions. The users must have AWS accounts, but do not need to be signed up for this service.
+        public let aWSAccountId: [String]
+        /// The action you want to allow for the specified principal(s). Valid values: any Amazon SNS action name.
+        public let actionName: [String]
+        /// A unique identifier for the new policy statement.
+        public let label: String
+        /// The ARN of the topic whose access control policy you wish to modify.
+        public let topicArn: String
 
-        public init(nextToken: String? = nil) {
-            self.nextToken = nextToken
+        public init(aWSAccountId: [String], actionName: [String], label: String, topicArn: String) {
+            self.aWSAccountId = aWSAccountId
+            self.actionName = actionName
+            self.label = label
+            self.topicArn = topicArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
+            case aWSAccountId = "AWSAccountId"
+            case actionName = "ActionName"
+            case label = "Label"
+            case topicArn = "TopicArn"
         }
     }
 
-    public struct CreateEndpointResponse: AWSShape {
+    public struct CheckIfPhoneNumberIsOptedOutInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointArn", required: false, type: .string)
+            AWSShapeMember(label: "phoneNumber", required: true, type: .string)
         ]
-        /// EndpointArn returned from CreateEndpoint action.
-        public let endpointArn: String?
+        /// The phone number for which you want to check the opt out status.
+        public let phoneNumber: String
 
-        public init(endpointArn: String? = nil) {
-            self.endpointArn = endpointArn
+        public init(phoneNumber: String) {
+            self.phoneNumber = phoneNumber
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpointArn = "EndpointArn"
-        }
-    }
-
-    public struct GetSubscriptionAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .map)
-        ]
-        /// A map of the subscription's attributes. Attributes in this map include the following:    ConfirmationWasAuthenticated – true if the subscription confirmation request was authenticated.    DeliveryPolicy – The JSON serialization of the subscription's delivery policy.    EffectiveDeliveryPolicy – The JSON serialization of the effective delivery policy that takes into account the topic delivery policy and account system defaults.    FilterPolicy – The filter policy JSON that is assigned to the subscription.    Owner – The AWS account ID of the subscription's owner.    PendingConfirmation – true if the subscription hasn't been confirmed. To confirm a pending subscription, call the ConfirmSubscription action with a confirmation token.    RawMessageDelivery – true if raw message delivery is enabled for the subscription. Raw messages are free of JSON formatting and can be sent to HTTP/S and Amazon SQS endpoints.    SubscriptionArn – The subscription's ARN.    TopicArn – The topic ARN that the subscription is associated with.  
-        public let attributes: [String: String]?
-
-        public init(attributes: [String: String]? = nil) {
-            self.attributes = attributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributes = "Attributes"
+            case phoneNumber = "phoneNumber"
         }
     }
 
@@ -71,313 +70,85 @@ extension SNS {
 
     public struct ConfirmSubscriptionInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TopicArn", required: true, type: .string), 
             AWSShapeMember(label: "AuthenticateOnUnsubscribe", required: false, type: .string), 
-            AWSShapeMember(label: "Token", required: true, type: .string)
+            AWSShapeMember(label: "Token", required: true, type: .string), 
+            AWSShapeMember(label: "TopicArn", required: true, type: .string)
         ]
-        /// The ARN of the topic for which you wish to confirm a subscription.
-        public let topicArn: String
         /// Disallows unauthenticated unsubscribes of the subscription. If the value of this parameter is true and the request has an AWS signature, then only the topic owner and the subscription owner can unsubscribe the endpoint. The unsubscribe action requires AWS authentication. 
         public let authenticateOnUnsubscribe: String?
         /// Short-lived token sent to an endpoint during the Subscribe action.
         public let token: String
+        /// The ARN of the topic for which you wish to confirm a subscription.
+        public let topicArn: String
 
         public init(authenticateOnUnsubscribe: String? = nil, token: String, topicArn: String) {
-            self.topicArn = topicArn
             self.authenticateOnUnsubscribe = authenticateOnUnsubscribe
             self.token = token
+            self.topicArn = topicArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case topicArn = "TopicArn"
             case authenticateOnUnsubscribe = "AuthenticateOnUnsubscribe"
             case token = "Token"
+            case topicArn = "TopicArn"
         }
     }
 
-    public struct ListPhoneNumbersOptedOutResponse: AWSShape {
+    public struct ConfirmSubscriptionResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "phoneNumbers", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
+            AWSShapeMember(label: "SubscriptionArn", required: false, type: .string)
         ]
-        /// A list of phone numbers that are opted out of receiving SMS messages. The list is paginated, and each page can contain up to 100 phone numbers.
-        public let phoneNumbers: [String]?
-        /// A NextToken string is returned when you call the ListPhoneNumbersOptedOut action if additional records are available after the first page of results.
-        public let nextToken: String?
-
-        public init(nextToken: String? = nil, phoneNumbers: [String]? = nil) {
-            self.phoneNumbers = phoneNumbers
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case phoneNumbers = "phoneNumbers"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct Subscription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Owner", required: false, type: .string), 
-            AWSShapeMember(label: "SubscriptionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Protocol", required: false, type: .string), 
-            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
-            AWSShapeMember(label: "TopicArn", required: false, type: .string)
-        ]
-        /// The subscription's owner.
-        public let owner: String?
-        /// The subscription's ARN.
+        /// The ARN of the created subscription.
         public let subscriptionArn: String?
-        /// The subscription's protocol.
-        public let `protocol`: String?
-        /// The subscription's endpoint (format depends on the protocol).
-        public let endpoint: String?
-        /// The ARN of the subscription's topic.
-        public let topicArn: String?
 
-        public init(endpoint: String? = nil, owner: String? = nil, protocol: String? = nil, subscriptionArn: String? = nil, topicArn: String? = nil) {
-            self.owner = owner
+        public init(subscriptionArn: String? = nil) {
             self.subscriptionArn = subscriptionArn
-            self.`protocol` = `protocol`
-            self.endpoint = endpoint
-            self.topicArn = topicArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case owner = "Owner"
             case subscriptionArn = "SubscriptionArn"
-            case `protocol` = "Protocol"
-            case endpoint = "Endpoint"
-            case topicArn = "TopicArn"
         }
     }
 
-    public struct SetSubscriptionAttributesInput: AWSShape {
+    public struct CreateEndpointResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
-            AWSShapeMember(label: "SubscriptionArn", required: true, type: .string), 
-            AWSShapeMember(label: "AttributeValue", required: false, type: .string)
+            AWSShapeMember(label: "EndpointArn", required: false, type: .string)
         ]
-        /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the SetTopicAttributes action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    FilterPolicy – The simple JSON object that lets your subscriber receive only a subset of messages, rather than receiving every message published to the topic.    RawMessageDelivery – When set to true, enables raw message delivery to Amazon SQS or HTTP/S endpoints. This eliminates the need for the endpoints to process JSON formatting, which is otherwise created for Amazon SNS metadata.  
-        public let attributeName: String
-        /// The ARN of the subscription to modify.
-        public let subscriptionArn: String
-        /// The new value for the attribute in JSON format.
-        public let attributeValue: String?
+        /// EndpointArn returned from CreateEndpoint action.
+        public let endpointArn: String?
 
-        public init(attributeName: String, attributeValue: String? = nil, subscriptionArn: String) {
-            self.attributeName = attributeName
-            self.subscriptionArn = subscriptionArn
-            self.attributeValue = attributeValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributeName = "AttributeName"
-            case subscriptionArn = "SubscriptionArn"
-            case attributeValue = "AttributeValue"
-        }
-    }
-
-    public struct SetTopicAttributesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TopicArn", required: true, type: .string), 
-            AWSShapeMember(label: "AttributeValue", required: false, type: .string), 
-            AWSShapeMember(label: "AttributeName", required: true, type: .string)
-        ]
-        /// The ARN of the topic to modify.
-        public let topicArn: String
-        /// The new value for the attribute.
-        public let attributeValue: String?
-        /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the SetTopicAttributes action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    DisplayName – The display name to use for a topic with SMS subscriptions.    Policy – The policy that defines who can access your topic. By default, only the topic owner can publish or subscribe to the topic.  
-        public let attributeName: String
-
-        public init(attributeName: String, attributeValue: String? = nil, topicArn: String) {
-            self.topicArn = topicArn
-            self.attributeValue = attributeValue
-            self.attributeName = attributeName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case topicArn = "TopicArn"
-            case attributeValue = "AttributeValue"
-            case attributeName = "AttributeName"
-        }
-    }
-
-    public struct SetSMSAttributesResponse: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct PublishResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MessageId", required: false, type: .string)
-        ]
-        /// Unique identifier assigned to the published message. Length Constraint: Maximum 100 characters
-        public let messageId: String?
-
-        public init(messageId: String? = nil) {
-            self.messageId = messageId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case messageId = "MessageId"
-        }
-    }
-
-    public struct ListSubscriptionsByTopicResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Subscriptions", required: false, type: .list)
-        ]
-        /// Token to pass along to the next ListSubscriptionsByTopic request. This element is returned if there are more subscriptions to retrieve.
-        public let nextToken: String?
-        /// A list of subscriptions.
-        public let subscriptions: [Subscription]?
-
-        public init(nextToken: String? = nil, subscriptions: [Subscription]? = nil) {
-            self.nextToken = nextToken
-            self.subscriptions = subscriptions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case subscriptions = "Subscriptions"
-        }
-    }
-
-    public struct DeletePlatformApplicationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlatformApplicationArn", required: true, type: .string)
-        ]
-        /// PlatformApplicationArn of platform application object to delete.
-        public let platformApplicationArn: String
-
-        public init(platformApplicationArn: String) {
-            self.platformApplicationArn = platformApplicationArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case platformApplicationArn = "PlatformApplicationArn"
-        }
-    }
-
-    public struct ListSubscriptionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Subscriptions", required: false, type: .list)
-        ]
-        /// Token to pass along to the next ListSubscriptions request. This element is returned if there are more subscriptions to retrieve.
-        public let nextToken: String?
-        /// A list of subscriptions.
-        public let subscriptions: [Subscription]?
-
-        public init(nextToken: String? = nil, subscriptions: [Subscription]? = nil) {
-            self.nextToken = nextToken
-            self.subscriptions = subscriptions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case subscriptions = "Subscriptions"
-        }
-    }
-
-    public struct SubscribeInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReturnSubscriptionArn", required: false, type: .boolean), 
-            AWSShapeMember(label: "Protocol", required: true, type: .string), 
-            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
-            AWSShapeMember(label: "Attributes", required: false, type: .map), 
-            AWSShapeMember(label: "TopicArn", required: true, type: .string)
-        ]
-        /// Sets whether the response from the Subscribe request includes the subscription ARN, even if the subscription is not yet confirmed. If you set this parameter to false, the response includes the ARN for confirmed subscriptions, but it includes an ARN value of "pending subscription" for subscriptions that are not yet confirmed. A subscription becomes confirmed when the subscriber calls the ConfirmSubscription action with a confirmation token. If you set this parameter to true, the response includes the ARN in all cases, even if the subscription is not yet confirmed. The default value is false.
-        public let returnSubscriptionArn: Bool?
-        /// The protocol you want to use. Supported protocols include:    http – delivery of JSON-encoded message via HTTP POST    https – delivery of JSON-encoded message via HTTPS POST    email – delivery of message via SMTP    email-json – delivery of JSON-encoded message via SMTP    sms – delivery of message via SMS    sqs – delivery of JSON-encoded message to an Amazon SQS queue    application – delivery of JSON-encoded message to an EndpointArn for a mobile app and device.    lambda – delivery of JSON-encoded message to an AWS Lambda function.  
-        public let `protocol`: String
-        /// The endpoint that you want to receive notifications. Endpoints vary by protocol:   For the http protocol, the endpoint is an URL beginning with "http://"   For the https protocol, the endpoint is a URL beginning with "https://"   For the email protocol, the endpoint is an email address   For the email-json protocol, the endpoint is an email address   For the sms protocol, the endpoint is a phone number of an SMS-enabled device   For the sqs protocol, the endpoint is the ARN of an Amazon SQS queue   For the application protocol, the endpoint is the EndpointArn of a mobile app and device.   For the lambda protocol, the endpoint is the ARN of an AWS Lambda function.  
-        public let endpoint: String?
-        /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the SetTopicAttributes action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    FilterPolicy – The simple JSON object that lets your subscriber receive only a subset of messages, rather than receiving every message published to the topic.    RawMessageDelivery – When set to true, enables raw message delivery to Amazon SQS or HTTP/S endpoints. This eliminates the need for the endpoints to process JSON formatting, which is otherwise created for Amazon SNS metadata.  
-        public let attributes: [String: String]?
-        /// The ARN of the topic you want to subscribe to.
-        public let topicArn: String
-
-        public init(attributes: [String: String]? = nil, endpoint: String? = nil, protocol: String, returnSubscriptionArn: Bool? = nil, topicArn: String) {
-            self.returnSubscriptionArn = returnSubscriptionArn
-            self.`protocol` = `protocol`
-            self.endpoint = endpoint
-            self.attributes = attributes
-            self.topicArn = topicArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case returnSubscriptionArn = "ReturnSubscriptionArn"
-            case `protocol` = "Protocol"
-            case endpoint = "Endpoint"
-            case attributes = "Attributes"
-            case topicArn = "TopicArn"
-        }
-    }
-
-    public struct OptInPhoneNumberResponse: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct DeleteTopicInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TopicArn", required: true, type: .string)
-        ]
-        /// The ARN of the topic you want to delete.
-        public let topicArn: String
-
-        public init(topicArn: String) {
-            self.topicArn = topicArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case topicArn = "TopicArn"
-        }
-    }
-
-    public struct SetEndpointAttributesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
-            AWSShapeMember(label: "Attributes", required: true, type: .map)
-        ]
-        /// EndpointArn used for SetEndpointAttributes action.
-        public let endpointArn: String
-        /// A map of the endpoint attributes. Attributes in this map include the following:    CustomUserData – arbitrary user data to associate with the endpoint. Amazon SNS does not use this data. The data must be in UTF-8 format and less than 2KB.    Enabled – flag that enables/disables delivery to the endpoint. Amazon SNS will set this to false when a notification service indicates to Amazon SNS that the endpoint is invalid. Users can set it back to true, typically after updating Token.    Token – device token, also referred to as a registration id, for an app and mobile device. This is returned from the notification service when an app and mobile device are registered with the notification service.  
-        public let attributes: [String: String]
-
-        public init(attributes: [String: String], endpointArn: String) {
+        public init(endpointArn: String? = nil) {
             self.endpointArn = endpointArn
-            self.attributes = attributes
         }
 
         private enum CodingKeys: String, CodingKey {
             case endpointArn = "EndpointArn"
-            case attributes = "Attributes"
         }
     }
 
-    public struct CreateTopicResponse: AWSShape {
+    public struct CreatePlatformApplicationInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TopicArn", required: false, type: .string)
+            AWSShapeMember(label: "Attributes", required: true, type: .map), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Platform", required: true, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) assigned to the created topic.
-        public let topicArn: String?
+        /// For a list of attributes, see SetPlatformApplicationAttributes 
+        public let attributes: [String: String]
+        /// Application names must be made up of only uppercase and lowercase ASCII letters, numbers, underscores, hyphens, and periods, and must be between 1 and 256 characters long.
+        public let name: String
+        /// The following platforms are supported: ADM (Amazon Device Messaging), APNS (Apple Push Notification Service), APNS_SANDBOX, and GCM (Google Cloud Messaging).
+        public let platform: String
 
-        public init(topicArn: String? = nil) {
-            self.topicArn = topicArn
+        public init(attributes: [String: String], name: String, platform: String) {
+            self.attributes = attributes
+            self.name = name
+            self.platform = platform
         }
 
         private enum CodingKeys: String, CodingKey {
-            case topicArn = "TopicArn"
+            case attributes = "Attributes"
+            case name = "Name"
+            case platform = "Platform"
         }
     }
 
@@ -397,6 +168,74 @@ extension SNS {
         }
     }
 
+    public struct CreatePlatformEndpointInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "CustomUserData", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformApplicationArn", required: true, type: .string), 
+            AWSShapeMember(label: "Token", required: true, type: .string)
+        ]
+        /// For a list of attributes, see SetEndpointAttributes.
+        public let attributes: [String: String]?
+        /// Arbitrary user data to associate with the endpoint. Amazon SNS does not use this data. The data must be in UTF-8 format and less than 2KB.
+        public let customUserData: String?
+        /// PlatformApplicationArn returned from CreatePlatformApplication is used to create a an endpoint.
+        public let platformApplicationArn: String
+        /// Unique identifier created by the notification service for an app on a device. The specific name for Token will vary, depending on which notification service is being used. For example, when using APNS as the notification service, you need the device token. Alternatively, when using GCM or ADM, the device token equivalent is called the registration ID.
+        public let token: String
+
+        public init(attributes: [String: String]? = nil, customUserData: String? = nil, platformApplicationArn: String, token: String) {
+            self.attributes = attributes
+            self.customUserData = customUserData
+            self.platformApplicationArn = platformApplicationArn
+            self.token = token
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case customUserData = "CustomUserData"
+            case platformApplicationArn = "PlatformApplicationArn"
+            case token = "Token"
+        }
+    }
+
+    public struct CreateTopicInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the CreateTopic action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    DisplayName – The display name to use for a topic with SMS subscriptions.    Policy – The policy that defines who can access your topic. By default, only the topic owner can publish or subscribe to the topic.  
+        public let attributes: [String: String]?
+        /// The name of the topic you want to create. Constraints: Topic names must be made up of only uppercase and lowercase ASCII letters, numbers, underscores, and hyphens, and must be between 1 and 256 characters long.
+        public let name: String
+
+        public init(attributes: [String: String]? = nil, name: String) {
+            self.attributes = attributes
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateTopicResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicArn", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) assigned to the created topic.
+        public let topicArn: String?
+
+        public init(topicArn: String? = nil) {
+            self.topicArn = topicArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case topicArn = "TopicArn"
+        }
+    }
+
     public struct DeleteEndpointInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndpointArn", required: true, type: .string)
@@ -413,129 +252,35 @@ extension SNS {
         }
     }
 
-    public struct ListPhoneNumbersOptedOutInput: AWSShape {
+    public struct DeletePlatformApplicationInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
+            AWSShapeMember(label: "PlatformApplicationArn", required: true, type: .string)
         ]
-        /// A NextToken string is used when you call the ListPhoneNumbersOptedOut action to retrieve additional records that are available after the first page of results.
-        public let nextToken: String?
+        /// PlatformApplicationArn of platform application object to delete.
+        public let platformApplicationArn: String
 
-        public init(nextToken: String? = nil) {
-            self.nextToken = nextToken
+        public init(platformApplicationArn: String) {
+            self.platformApplicationArn = platformApplicationArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
+            case platformApplicationArn = "PlatformApplicationArn"
         }
     }
 
-    public struct GetPlatformApplicationAttributesResponse: AWSShape {
+    public struct DeleteTopicInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .map)
+            AWSShapeMember(label: "TopicArn", required: true, type: .string)
         ]
-        /// Attributes include the following:    EventEndpointCreated – Topic ARN to which EndpointCreated event notifications should be sent.    EventEndpointDeleted – Topic ARN to which EndpointDeleted event notifications should be sent.    EventEndpointUpdated – Topic ARN to which EndpointUpdate event notifications should be sent.    EventDeliveryFailure – Topic ARN to which DeliveryFailure event notifications should be sent upon Direct Publish delivery failure (permanent) to one of the application's endpoints.  
-        public let attributes: [String: String]?
+        /// The ARN of the topic you want to delete.
+        public let topicArn: String
 
-        public init(attributes: [String: String]? = nil) {
-            self.attributes = attributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributes = "Attributes"
-        }
-    }
-
-    public struct SubscribeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubscriptionArn", required: false, type: .string)
-        ]
-        /// The ARN of the subscription if it is confirmed, or the string "pending confirmation" if the subscription requires confirmation. However, if the API request parameter ReturnSubscriptionArn is true, then the value is always the subscription ARN, even if the subscription requires confirmation.
-        public let subscriptionArn: String?
-
-        public init(subscriptionArn: String? = nil) {
-            self.subscriptionArn = subscriptionArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subscriptionArn = "SubscriptionArn"
-        }
-    }
-
-    public struct PublishInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "MessageAttributes", required: false, type: .map), 
-            AWSShapeMember(label: "Message", required: true, type: .string), 
-            AWSShapeMember(label: "PhoneNumber", required: false, type: .string), 
-            AWSShapeMember(label: "Subject", required: false, type: .string), 
-            AWSShapeMember(label: "TargetArn", required: false, type: .string), 
-            AWSShapeMember(label: "MessageStructure", required: false, type: .string)
-        ]
-        /// The topic you want to publish to. If you don't specify a value for the TopicArn parameter, you must specify a value for the PhoneNumber or TargetArn parameters.
-        public let topicArn: String?
-        /// Message attributes for Publish action.
-        public let messageAttributes: [String: MessageAttributeValue]?
-        /// The message you want to send.  The Message parameter is always a string. If you set MessageStructure to json, you must string-encode the Message parameter.  If you are publishing to a topic and you want to send the same message to all transport protocols, include the text of the message as a String value. If you want to send different messages for each transport protocol, set the value of the MessageStructure parameter to json and use a JSON object for the Message parameter.   Constraints:   With the exception of SMS, messages must be UTF-8 encoded strings and at most 256 KB in size (262,144 bytes, not 262,144 characters).   For SMS, each message can contain up to 140 characters. This character limit depends on the encoding schema. For example, an SMS message can contain 160 GSM characters, 140 ASCII characters, or 70 UCS-2 characters. If you publish a message that exceeds this size limit, Amazon SNS sends the message as multiple messages, each fitting within the size limit. Messages aren't truncated mid-word but are cut off at whole-word boundaries. The total size limit for a single SMS Publish action is 1,600 characters.   JSON-specific constraints:   Keys in the JSON object that correspond to supported transport protocols must have simple JSON string values.   The values will be parsed (unescaped) before they are used in outgoing messages.   Outbound notifications are JSON encoded (meaning that the characters will be reescaped for sending).   Values have a minimum length of 0 (the empty string, "", is allowed).   Values have a maximum length bounded by the overall message size (so, including multiple protocols may limit message sizes).   Non-string values will cause the key to be ignored.   Keys that do not correspond to supported transport protocols are ignored.   Duplicate keys are not allowed.   Failure to parse or validate any key or value in the message will cause the Publish call to return an error (no partial delivery).  
-        public let message: String
-        /// The phone number to which you want to deliver an SMS message. Use E.164 format. If you don't specify a value for the PhoneNumber parameter, you must specify a value for the TargetArn or TopicArn parameters.
-        public let phoneNumber: String?
-        /// Optional parameter to be used as the "Subject" line when the message is delivered to email endpoints. This field will also be included, if present, in the standard JSON messages delivered to other endpoints. Constraints: Subjects must be ASCII text that begins with a letter, number, or punctuation mark; must not include line breaks or control characters; and must be less than 100 characters long.
-        public let subject: String?
-        /// Either TopicArn or EndpointArn, but not both. If you don't specify a value for the TargetArn parameter, you must specify a value for the PhoneNumber or TopicArn parameters.
-        public let targetArn: String?
-        /// Set MessageStructure to json if you want to send a different message for each protocol. For example, using one publish action, you can send a short message to your SMS subscribers and a longer message to your email subscribers. If you set MessageStructure to json, the value of the Message parameter must:    be a syntactically valid JSON object; and   contain at least a top-level JSON key of "default" with a value that is a string.   You can define other top-level keys that define the message you want to send to a specific transport protocol (e.g., "http"). For information about sending different messages for each protocol using the AWS Management Console, go to Create Different Messages for Each Protocol in the Amazon Simple Notification Service Getting Started Guide.  Valid value: json 
-        public let messageStructure: String?
-
-        public init(message: String, messageAttributes: [String: MessageAttributeValue]? = nil, messageStructure: String? = nil, phoneNumber: String? = nil, subject: String? = nil, targetArn: String? = nil, topicArn: String? = nil) {
+        public init(topicArn: String) {
             self.topicArn = topicArn
-            self.messageAttributes = messageAttributes
-            self.message = message
-            self.phoneNumber = phoneNumber
-            self.subject = subject
-            self.targetArn = targetArn
-            self.messageStructure = messageStructure
         }
 
         private enum CodingKeys: String, CodingKey {
             case topicArn = "TopicArn"
-            case messageAttributes = "MessageAttributes"
-            case message = "Message"
-            case phoneNumber = "PhoneNumber"
-            case subject = "Subject"
-            case targetArn = "TargetArn"
-            case messageStructure = "MessageStructure"
-        }
-    }
-
-    public struct GetTopicAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .map)
-        ]
-        /// A map of the topic's attributes. Attributes in this map include the following:    TopicArn – the topic's ARN    Owner – the AWS account ID of the topic's owner    Policy – the JSON serialization of the topic's access control policy    DisplayName – the human-readable name used in the "From" field for notifications to email and email-json endpoints    SubscriptionsPending – the number of subscriptions pending confirmation on this topic    SubscriptionsConfirmed – the number of confirmed subscriptions on this topic    SubscriptionsDeleted – the number of deleted subscriptions on this topic    DeliveryPolicy – the JSON serialization of the topic's delivery policy    EffectiveDeliveryPolicy – the JSON serialization of the effective delivery policy that takes into account system defaults  
-        public let attributes: [String: String]?
-
-        public init(attributes: [String: String]? = nil) {
-            self.attributes = attributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributes = "Attributes"
-        }
-    }
-
-    public struct GetSubscriptionAttributesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubscriptionArn", required: true, type: .string)
-        ]
-        /// The ARN of the subscription whose properties you want to get.
-        public let subscriptionArn: String
-
-        public init(subscriptionArn: String) {
-            self.subscriptionArn = subscriptionArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subscriptionArn = "SubscriptionArn"
         }
     }
 
@@ -560,370 +305,6 @@ extension SNS {
         }
     }
 
-    public struct GetPlatformApplicationAttributesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlatformApplicationArn", required: true, type: .string)
-        ]
-        /// PlatformApplicationArn for GetPlatformApplicationAttributesInput.
-        public let platformApplicationArn: String
-
-        public init(platformApplicationArn: String) {
-            self.platformApplicationArn = platformApplicationArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case platformApplicationArn = "PlatformApplicationArn"
-        }
-    }
-
-    public struct ListSubscriptionsByTopicInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TopicArn", required: true, type: .string)
-        ]
-        /// Token returned by the previous ListSubscriptionsByTopic request.
-        public let nextToken: String?
-        /// The ARN of the topic for which you wish to find subscriptions.
-        public let topicArn: String
-
-        public init(nextToken: String? = nil, topicArn: String) {
-            self.nextToken = nextToken
-            self.topicArn = topicArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case topicArn = "TopicArn"
-        }
-    }
-
-    public struct GetSMSAttributesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: false, type: .list)
-        ]
-        /// A list of the individual attribute names, such as MonthlySpendLimit, for which you want values. For all attribute names, see SetSMSAttributes. If you don't use this parameter, Amazon SNS returns all SMS attributes.
-        public let attributes: [String]?
-
-        public init(attributes: [String]? = nil) {
-            self.attributes = attributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributes = "attributes"
-        }
-    }
-
-    public struct ConfirmSubscriptionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubscriptionArn", required: false, type: .string)
-        ]
-        /// The ARN of the created subscription.
-        public let subscriptionArn: String?
-
-        public init(subscriptionArn: String? = nil) {
-            self.subscriptionArn = subscriptionArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subscriptionArn = "SubscriptionArn"
-        }
-    }
-
-    public struct ListSubscriptionsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Token returned by the previous ListSubscriptions request.
-        public let nextToken: String?
-
-        public init(nextToken: String? = nil) {
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetSMSAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: false, type: .map)
-        ]
-        /// The SMS attribute names and their values.
-        public let attributes: [String: String]?
-
-        public init(attributes: [String: String]? = nil) {
-            self.attributes = attributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributes = "attributes"
-        }
-    }
-
-    public struct GetTopicAttributesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TopicArn", required: true, type: .string)
-        ]
-        /// The ARN of the topic whose properties you want to get.
-        public let topicArn: String
-
-        public init(topicArn: String) {
-            self.topicArn = topicArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case topicArn = "TopicArn"
-        }
-    }
-
-    public struct ListEndpointsByPlatformApplicationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlatformApplicationArn", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// PlatformApplicationArn for ListEndpointsByPlatformApplicationInput action.
-        public let platformApplicationArn: String
-        /// NextToken string is used when calling ListEndpointsByPlatformApplication action to retrieve additional records that are available after the first page results.
-        public let nextToken: String?
-
-        public init(nextToken: String? = nil, platformApplicationArn: String) {
-            self.platformApplicationArn = platformApplicationArn
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case platformApplicationArn = "PlatformApplicationArn"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListEndpointsByPlatformApplicationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Endpoints", required: false, type: .list)
-        ]
-        /// NextToken string is returned when calling ListEndpointsByPlatformApplication action if additional records are available after the first page results.
-        public let nextToken: String?
-        /// Endpoints returned for ListEndpointsByPlatformApplication action.
-        public let endpoints: [Endpoint]?
-
-        public init(endpoints: [Endpoint]? = nil, nextToken: String? = nil) {
-            self.nextToken = nextToken
-            self.endpoints = endpoints
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case endpoints = "Endpoints"
-        }
-    }
-
-    public struct CreatePlatformApplicationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Attributes", required: true, type: .map), 
-            AWSShapeMember(label: "Platform", required: true, type: .string)
-        ]
-        /// Application names must be made up of only uppercase and lowercase ASCII letters, numbers, underscores, hyphens, and periods, and must be between 1 and 256 characters long.
-        public let name: String
-        /// For a list of attributes, see SetPlatformApplicationAttributes 
-        public let attributes: [String: String]
-        /// The following platforms are supported: ADM (Amazon Device Messaging), APNS (Apple Push Notification Service), APNS_SANDBOX, and GCM (Google Cloud Messaging).
-        public let platform: String
-
-        public init(attributes: [String: String], name: String, platform: String) {
-            self.name = name
-            self.attributes = attributes
-            self.platform = platform
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case attributes = "Attributes"
-            case platform = "Platform"
-        }
-    }
-
-    public struct ListTopicsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Topics", required: false, type: .list)
-        ]
-        /// Token to pass along to the next ListTopics request. This element is returned if there are additional topics to retrieve.
-        public let nextToken: String?
-        /// A list of topic ARNs.
-        public let topics: [Topic]?
-
-        public init(nextToken: String? = nil, topics: [Topic]? = nil) {
-            self.nextToken = nextToken
-            self.topics = topics
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case topics = "Topics"
-        }
-    }
-
-    public struct CreatePlatformEndpointInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlatformApplicationArn", required: true, type: .string), 
-            AWSShapeMember(label: "Attributes", required: false, type: .map), 
-            AWSShapeMember(label: "CustomUserData", required: false, type: .string), 
-            AWSShapeMember(label: "Token", required: true, type: .string)
-        ]
-        /// PlatformApplicationArn returned from CreatePlatformApplication is used to create a an endpoint.
-        public let platformApplicationArn: String
-        /// For a list of attributes, see SetEndpointAttributes.
-        public let attributes: [String: String]?
-        /// Arbitrary user data to associate with the endpoint. Amazon SNS does not use this data. The data must be in UTF-8 format and less than 2KB.
-        public let customUserData: String?
-        /// Unique identifier created by the notification service for an app on a device. The specific name for Token will vary, depending on which notification service is being used. For example, when using APNS as the notification service, you need the device token. Alternatively, when using GCM or ADM, the device token equivalent is called the registration ID.
-        public let token: String
-
-        public init(attributes: [String: String]? = nil, customUserData: String? = nil, platformApplicationArn: String, token: String) {
-            self.platformApplicationArn = platformApplicationArn
-            self.attributes = attributes
-            self.customUserData = customUserData
-            self.token = token
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case platformApplicationArn = "PlatformApplicationArn"
-            case attributes = "Attributes"
-            case customUserData = "CustomUserData"
-            case token = "Token"
-        }
-    }
-
-    public struct OptInPhoneNumberInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "phoneNumber", required: true, type: .string)
-        ]
-        /// The phone number to opt in.
-        public let phoneNumber: String
-
-        public init(phoneNumber: String) {
-            self.phoneNumber = phoneNumber
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case phoneNumber = "phoneNumber"
-        }
-    }
-
-    public struct PlatformApplication: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlatformApplicationArn", required: false, type: .string), 
-            AWSShapeMember(label: "Attributes", required: false, type: .map)
-        ]
-        /// PlatformApplicationArn for platform application object.
-        public let platformApplicationArn: String?
-        /// Attributes for platform application object.
-        public let attributes: [String: String]?
-
-        public init(attributes: [String: String]? = nil, platformApplicationArn: String? = nil) {
-            self.platformApplicationArn = platformApplicationArn
-            self.attributes = attributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case platformApplicationArn = "PlatformApplicationArn"
-            case attributes = "Attributes"
-        }
-    }
-
-    public struct CreateTopicInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Attributes", required: false, type: .map)
-        ]
-        /// The name of the topic you want to create. Constraints: Topic names must be made up of only uppercase and lowercase ASCII letters, numbers, underscores, and hyphens, and must be between 1 and 256 characters long.
-        public let name: String
-        /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the CreateTopic action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    DisplayName – The display name to use for a topic with SMS subscriptions.    Policy – The policy that defines who can access your topic. By default, only the topic owner can publish or subscribe to the topic.  
-        public let attributes: [String: String]?
-
-        public init(attributes: [String: String]? = nil, name: String) {
-            self.name = name
-            self.attributes = attributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case attributes = "Attributes"
-        }
-    }
-
-    public struct CheckIfPhoneNumberIsOptedOutInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "phoneNumber", required: true, type: .string)
-        ]
-        /// The phone number for which you want to check the opt out status.
-        public let phoneNumber: String
-
-        public init(phoneNumber: String) {
-            self.phoneNumber = phoneNumber
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case phoneNumber = "phoneNumber"
-        }
-    }
-
-    public struct SetSMSAttributesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: true, type: .map)
-        ]
-        /// The default settings for sending SMS messages from your account. You can set values for the following attribute names:  MonthlySpendLimit – The maximum amount in USD that you are willing to spend each month to send SMS messages. When Amazon SNS determines that sending an SMS message would incur a cost that exceeds this limit, it stops sending SMS messages within minutes.  Amazon SNS stops sending SMS messages within minutes of the limit being crossed. During that interval, if you continue to send SMS messages, you will incur costs that exceed your limit.  By default, the spend limit is set to the maximum allowed by Amazon SNS. If you want to raise the limit, submit an SNS Limit Increase case. For New limit value, enter your desired monthly spend limit. In the Use Case Description field, explain that you are requesting an SMS monthly spend limit increase.  DeliveryStatusIAMRole – The ARN of the IAM role that allows Amazon SNS to write logs about SMS deliveries in CloudWatch Logs. For each SMS message that you send, Amazon SNS writes a log that includes the message price, the success or failure status, the reason for failure (if the message failed), the message dwell time, and other information.  DeliveryStatusSuccessSamplingRate – The percentage of successful SMS deliveries for which Amazon SNS will write logs in CloudWatch Logs. The value can be an integer from 0 - 100. For example, to write logs only for failed deliveries, set this value to 0. To write logs for 10% of your successful deliveries, set it to 10.  DefaultSenderID – A string, such as your business brand, that is displayed as the sender on the receiving device. Support for sender IDs varies by country. The sender ID can be 1 - 11 alphanumeric characters, and it must contain at least one letter.  DefaultSMSType – The type of SMS message that you will send by default. You can assign the following values:    Promotional – (Default) Noncritical messages, such as marketing messages. Amazon SNS optimizes the message delivery to incur the lowest cost.    Transactional – Critical messages that support customer transactions, such as one-time passcodes for multi-factor authentication. Amazon SNS optimizes the message delivery to achieve the highest reliability.    UsageReportS3Bucket – The name of the Amazon S3 bucket to receive daily SMS usage reports from Amazon SNS. Each day, Amazon SNS will deliver a usage report as a CSV file to the bucket. The report includes the following information for each SMS message that was successfully delivered by your account:   Time that the message was published (in UTC)   Message ID   Destination phone number   Message type   Delivery status   Message price (in USD)   Part number (a message is split into multiple parts if it is too long for a single message)   Total number of parts   To receive the report, the bucket must have a policy that allows the Amazon SNS service principle to perform the s3:PutObject and s3:GetBucketLocation actions. For an example bucket policy and usage report, see Monitoring SMS Activity in the Amazon SNS Developer Guide.
-        public let attributes: [String: String]
-
-        public init(attributes: [String: String]) {
-            self.attributes = attributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributes = "attributes"
-        }
-    }
-
-    public struct Topic: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TopicArn", required: false, type: .string)
-        ]
-        /// The topic's ARN.
-        public let topicArn: String?
-
-        public init(topicArn: String? = nil) {
-            self.topicArn = topicArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case topicArn = "TopicArn"
-        }
-    }
-
-    public struct RemovePermissionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Label", required: true, type: .string), 
-            AWSShapeMember(label: "TopicArn", required: true, type: .string)
-        ]
-        /// The unique label of the statement you want to remove.
-        public let label: String
-        /// The ARN of the topic whose access control policy you wish to modify.
-        public let topicArn: String
-
-        public init(label: String, topicArn: String) {
-            self.label = label
-            self.topicArn = topicArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case label = "Label"
-            case topicArn = "TopicArn"
-        }
-    }
-
     public struct GetEndpointAttributesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndpointArn", required: true, type: .string)
@@ -937,53 +318,6 @@ extension SNS {
 
         private enum CodingKeys: String, CodingKey {
             case endpointArn = "EndpointArn"
-        }
-    }
-
-    public struct UnsubscribeInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubscriptionArn", required: true, type: .string)
-        ]
-        /// The ARN of the subscription to be deleted.
-        public let subscriptionArn: String
-
-        public init(subscriptionArn: String) {
-            self.subscriptionArn = subscriptionArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subscriptionArn = "SubscriptionArn"
-        }
-    }
-
-    public struct AddPermissionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActionName", required: true, type: .list), 
-            AWSShapeMember(label: "Label", required: true, type: .string), 
-            AWSShapeMember(label: "AWSAccountId", required: true, type: .list), 
-            AWSShapeMember(label: "TopicArn", required: true, type: .string)
-        ]
-        /// The action you want to allow for the specified principal(s). Valid values: any Amazon SNS action name.
-        public let actionName: [String]
-        /// A unique identifier for the new policy statement.
-        public let label: String
-        /// The AWS account IDs of the users (principals) who will be given access to the specified actions. The users must have AWS accounts, but do not need to be signed up for this service.
-        public let aWSAccountId: [String]
-        /// The ARN of the topic whose access control policy you wish to modify.
-        public let topicArn: String
-
-        public init(aWSAccountId: [String], actionName: [String], label: String, topicArn: String) {
-            self.actionName = actionName
-            self.label = label
-            self.aWSAccountId = aWSAccountId
-            self.topicArn = topicArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case actionName = "ActionName"
-            case label = "Label"
-            case aWSAccountId = "AWSAccountId"
-            case topicArn = "TopicArn"
         }
     }
 
@@ -1003,11 +337,218 @@ extension SNS {
         }
     }
 
-    public struct ListTopicsInput: AWSShape {
+    public struct GetPlatformApplicationAttributesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlatformApplicationArn", required: true, type: .string)
+        ]
+        /// PlatformApplicationArn for GetPlatformApplicationAttributesInput.
+        public let platformApplicationArn: String
+
+        public init(platformApplicationArn: String) {
+            self.platformApplicationArn = platformApplicationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case platformApplicationArn = "PlatformApplicationArn"
+        }
+    }
+
+    public struct GetPlatformApplicationAttributesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .map)
+        ]
+        /// Attributes include the following:    EventEndpointCreated – Topic ARN to which EndpointCreated event notifications should be sent.    EventEndpointDeleted – Topic ARN to which EndpointDeleted event notifications should be sent.    EventEndpointUpdated – Topic ARN to which EndpointUpdate event notifications should be sent.    EventDeliveryFailure – Topic ARN to which DeliveryFailure event notifications should be sent upon Direct Publish delivery failure (permanent) to one of the application's endpoints.  
+        public let attributes: [String: String]?
+
+        public init(attributes: [String: String]? = nil) {
+            self.attributes = attributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+        }
+    }
+
+    public struct GetSMSAttributesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attributes", required: false, type: .list)
+        ]
+        /// A list of the individual attribute names, such as MonthlySpendLimit, for which you want values. For all attribute names, see SetSMSAttributes. If you don't use this parameter, Amazon SNS returns all SMS attributes.
+        public let attributes: [String]?
+
+        public init(attributes: [String]? = nil) {
+            self.attributes = attributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+        }
+    }
+
+    public struct GetSMSAttributesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attributes", required: false, type: .map)
+        ]
+        /// The SMS attribute names and their values.
+        public let attributes: [String: String]?
+
+        public init(attributes: [String: String]? = nil) {
+            self.attributes = attributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+        }
+    }
+
+    public struct GetSubscriptionAttributesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubscriptionArn", required: true, type: .string)
+        ]
+        /// The ARN of the subscription whose properties you want to get.
+        public let subscriptionArn: String
+
+        public init(subscriptionArn: String) {
+            self.subscriptionArn = subscriptionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionArn = "SubscriptionArn"
+        }
+    }
+
+    public struct GetSubscriptionAttributesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .map)
+        ]
+        /// A map of the subscription's attributes. Attributes in this map include the following:    ConfirmationWasAuthenticated – true if the subscription confirmation request was authenticated.    DeliveryPolicy – The JSON serialization of the subscription's delivery policy.    EffectiveDeliveryPolicy – The JSON serialization of the effective delivery policy that takes into account the topic delivery policy and account system defaults.    FilterPolicy – The filter policy JSON that is assigned to the subscription.    Owner – The AWS account ID of the subscription's owner.    PendingConfirmation – true if the subscription hasn't been confirmed. To confirm a pending subscription, call the ConfirmSubscription action with a confirmation token.    RawMessageDelivery – true if raw message delivery is enabled for the subscription. Raw messages are free of JSON formatting and can be sent to HTTP/S and Amazon SQS endpoints.    SubscriptionArn – The subscription's ARN.    TopicArn – The topic ARN that the subscription is associated with.  
+        public let attributes: [String: String]?
+
+        public init(attributes: [String: String]? = nil) {
+            self.attributes = attributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+        }
+    }
+
+    public struct GetTopicAttributesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicArn", required: true, type: .string)
+        ]
+        /// The ARN of the topic whose properties you want to get.
+        public let topicArn: String
+
+        public init(topicArn: String) {
+            self.topicArn = topicArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case topicArn = "TopicArn"
+        }
+    }
+
+    public struct GetTopicAttributesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .map)
+        ]
+        /// A map of the topic's attributes. Attributes in this map include the following:    TopicArn – the topic's ARN    Owner – the AWS account ID of the topic's owner    Policy – the JSON serialization of the topic's access control policy    DisplayName – the human-readable name used in the "From" field for notifications to email and email-json endpoints    SubscriptionsPending – the number of subscriptions pending confirmation on this topic    SubscriptionsConfirmed – the number of confirmed subscriptions on this topic    SubscriptionsDeleted – the number of deleted subscriptions on this topic    DeliveryPolicy – the JSON serialization of the topic's delivery policy    EffectiveDeliveryPolicy – the JSON serialization of the effective delivery policy that takes into account system defaults  
+        public let attributes: [String: String]?
+
+        public init(attributes: [String: String]? = nil) {
+            self.attributes = attributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+        }
+    }
+
+    public struct ListEndpointsByPlatformApplicationInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformApplicationArn", required: true, type: .string)
+        ]
+        /// NextToken string is used when calling ListEndpointsByPlatformApplication action to retrieve additional records that are available after the first page results.
+        public let nextToken: String?
+        /// PlatformApplicationArn for ListEndpointsByPlatformApplicationInput action.
+        public let platformApplicationArn: String
+
+        public init(nextToken: String? = nil, platformApplicationArn: String) {
+            self.nextToken = nextToken
+            self.platformApplicationArn = platformApplicationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case platformApplicationArn = "PlatformApplicationArn"
+        }
+    }
+
+    public struct ListEndpointsByPlatformApplicationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Endpoints", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Endpoints returned for ListEndpointsByPlatformApplication action.
+        public let endpoints: [Endpoint]?
+        /// NextToken string is returned when calling ListEndpointsByPlatformApplication action if additional records are available after the first page results.
+        public let nextToken: String?
+
+        public init(endpoints: [Endpoint]? = nil, nextToken: String? = nil) {
+            self.endpoints = endpoints
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoints = "Endpoints"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListPhoneNumbersOptedOutInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// A NextToken string is used when you call the ListPhoneNumbersOptedOut action to retrieve additional records that are available after the first page of results.
+        public let nextToken: String?
+
+        public init(nextToken: String? = nil) {
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListPhoneNumbersOptedOutResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "phoneNumbers", required: false, type: .list)
+        ]
+        /// A NextToken string is returned when you call the ListPhoneNumbersOptedOut action if additional records are available after the first page of results.
+        public let nextToken: String?
+        /// A list of phone numbers that are opted out of receiving SMS messages. The list is paginated, and each page can contain up to 100 phone numbers.
+        public let phoneNumbers: [String]?
+
+        public init(nextToken: String? = nil, phoneNumbers: [String]? = nil) {
+            self.nextToken = nextToken
+            self.phoneNumbers = phoneNumbers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case phoneNumbers = "phoneNumbers"
+        }
+    }
+
+    public struct ListPlatformApplicationsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// Token returned by the previous ListTopics request.
+        /// NextToken string is used when calling ListPlatformApplications action to retrieve additional records that are available after the first page results.
         public let nextToken: String?
 
         public init(nextToken: String? = nil) {
@@ -1016,32 +557,6 @@ extension SNS {
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
-        }
-    }
-
-    public struct MessageAttributeValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StringValue", required: false, type: .string), 
-            AWSShapeMember(label: "DataType", required: true, type: .string), 
-            AWSShapeMember(label: "BinaryValue", required: false, type: .blob)
-        ]
-        /// Strings are Unicode with UTF8 binary encoding. For a list of code values, see http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters.
-        public let stringValue: String?
-        /// Amazon SNS supports the following logical data types: String, String.Array, Number, and Binary. For more information, see Message Attribute Data Types.
-        public let dataType: String
-        /// Binary type attributes can store any binary data, for example, compressed data, encrypted data, or images.
-        public let binaryValue: Data?
-
-        public init(binaryValue: Data? = nil, dataType: String, stringValue: String? = nil) {
-            self.stringValue = stringValue
-            self.dataType = dataType
-            self.binaryValue = binaryValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stringValue = "StringValue"
-            case dataType = "DataType"
-            case binaryValue = "BinaryValue"
         }
     }
 
@@ -1066,6 +581,296 @@ extension SNS {
         }
     }
 
+    public struct ListSubscriptionsByTopicInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TopicArn", required: true, type: .string)
+        ]
+        /// Token returned by the previous ListSubscriptionsByTopic request.
+        public let nextToken: String?
+        /// The ARN of the topic for which you wish to find subscriptions.
+        public let topicArn: String
+
+        public init(nextToken: String? = nil, topicArn: String) {
+            self.nextToken = nextToken
+            self.topicArn = topicArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case topicArn = "TopicArn"
+        }
+    }
+
+    public struct ListSubscriptionsByTopicResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Subscriptions", required: false, type: .list)
+        ]
+        /// Token to pass along to the next ListSubscriptionsByTopic request. This element is returned if there are more subscriptions to retrieve.
+        public let nextToken: String?
+        /// A list of subscriptions.
+        public let subscriptions: [Subscription]?
+
+        public init(nextToken: String? = nil, subscriptions: [Subscription]? = nil) {
+            self.nextToken = nextToken
+            self.subscriptions = subscriptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case subscriptions = "Subscriptions"
+        }
+    }
+
+    public struct ListSubscriptionsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Token returned by the previous ListSubscriptions request.
+        public let nextToken: String?
+
+        public init(nextToken: String? = nil) {
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListSubscriptionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Subscriptions", required: false, type: .list)
+        ]
+        /// Token to pass along to the next ListSubscriptions request. This element is returned if there are more subscriptions to retrieve.
+        public let nextToken: String?
+        /// A list of subscriptions.
+        public let subscriptions: [Subscription]?
+
+        public init(nextToken: String? = nil, subscriptions: [Subscription]? = nil) {
+            self.nextToken = nextToken
+            self.subscriptions = subscriptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case subscriptions = "Subscriptions"
+        }
+    }
+
+    public struct ListTopicsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Token returned by the previous ListTopics request.
+        public let nextToken: String?
+
+        public init(nextToken: String? = nil) {
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListTopicsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Topics", required: false, type: .list)
+        ]
+        /// Token to pass along to the next ListTopics request. This element is returned if there are additional topics to retrieve.
+        public let nextToken: String?
+        /// A list of topic ARNs.
+        public let topics: [Topic]?
+
+        public init(nextToken: String? = nil, topics: [Topic]? = nil) {
+            self.nextToken = nextToken
+            self.topics = topics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case topics = "Topics"
+        }
+    }
+
+    public struct MessageAttributeValue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BinaryValue", required: false, type: .blob), 
+            AWSShapeMember(label: "DataType", required: true, type: .string), 
+            AWSShapeMember(label: "StringValue", required: false, type: .string)
+        ]
+        /// Binary type attributes can store any binary data, for example, compressed data, encrypted data, or images.
+        public let binaryValue: Data?
+        /// Amazon SNS supports the following logical data types: String, String.Array, Number, and Binary. For more information, see Message Attribute Data Types.
+        public let dataType: String
+        /// Strings are Unicode with UTF8 binary encoding. For a list of code values, see http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters.
+        public let stringValue: String?
+
+        public init(binaryValue: Data? = nil, dataType: String, stringValue: String? = nil) {
+            self.binaryValue = binaryValue
+            self.dataType = dataType
+            self.stringValue = stringValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case binaryValue = "BinaryValue"
+            case dataType = "DataType"
+            case stringValue = "StringValue"
+        }
+    }
+
+    public struct OptInPhoneNumberInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "phoneNumber", required: true, type: .string)
+        ]
+        /// The phone number to opt in.
+        public let phoneNumber: String
+
+        public init(phoneNumber: String) {
+            self.phoneNumber = phoneNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case phoneNumber = "phoneNumber"
+        }
+    }
+
+    public struct OptInPhoneNumberResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct PlatformApplication: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "PlatformApplicationArn", required: false, type: .string)
+        ]
+        /// Attributes for platform application object.
+        public let attributes: [String: String]?
+        /// PlatformApplicationArn for platform application object.
+        public let platformApplicationArn: String?
+
+        public init(attributes: [String: String]? = nil, platformApplicationArn: String? = nil) {
+            self.attributes = attributes
+            self.platformApplicationArn = platformApplicationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case platformApplicationArn = "PlatformApplicationArn"
+        }
+    }
+
+    public struct PublishInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", required: true, type: .string), 
+            AWSShapeMember(label: "MessageAttributes", required: false, type: .map), 
+            AWSShapeMember(label: "MessageStructure", required: false, type: .string), 
+            AWSShapeMember(label: "PhoneNumber", required: false, type: .string), 
+            AWSShapeMember(label: "Subject", required: false, type: .string), 
+            AWSShapeMember(label: "TargetArn", required: false, type: .string), 
+            AWSShapeMember(label: "TopicArn", required: false, type: .string)
+        ]
+        /// The message you want to send.  The Message parameter is always a string. If you set MessageStructure to json, you must string-encode the Message parameter.  If you are publishing to a topic and you want to send the same message to all transport protocols, include the text of the message as a String value. If you want to send different messages for each transport protocol, set the value of the MessageStructure parameter to json and use a JSON object for the Message parameter.   Constraints:   With the exception of SMS, messages must be UTF-8 encoded strings and at most 256 KB in size (262,144 bytes, not 262,144 characters).   For SMS, each message can contain up to 140 characters. This character limit depends on the encoding schema. For example, an SMS message can contain 160 GSM characters, 140 ASCII characters, or 70 UCS-2 characters. If you publish a message that exceeds this size limit, Amazon SNS sends the message as multiple messages, each fitting within the size limit. Messages aren't truncated mid-word but are cut off at whole-word boundaries. The total size limit for a single SMS Publish action is 1,600 characters.   JSON-specific constraints:   Keys in the JSON object that correspond to supported transport protocols must have simple JSON string values.   The values will be parsed (unescaped) before they are used in outgoing messages.   Outbound notifications are JSON encoded (meaning that the characters will be reescaped for sending).   Values have a minimum length of 0 (the empty string, "", is allowed).   Values have a maximum length bounded by the overall message size (so, including multiple protocols may limit message sizes).   Non-string values will cause the key to be ignored.   Keys that do not correspond to supported transport protocols are ignored.   Duplicate keys are not allowed.   Failure to parse or validate any key or value in the message will cause the Publish call to return an error (no partial delivery).  
+        public let message: String
+        /// Message attributes for Publish action.
+        public let messageAttributes: [String: MessageAttributeValue]?
+        /// Set MessageStructure to json if you want to send a different message for each protocol. For example, using one publish action, you can send a short message to your SMS subscribers and a longer message to your email subscribers. If you set MessageStructure to json, the value of the Message parameter must:    be a syntactically valid JSON object; and   contain at least a top-level JSON key of "default" with a value that is a string.   You can define other top-level keys that define the message you want to send to a specific transport protocol (e.g., "http"). For information about sending different messages for each protocol using the AWS Management Console, go to Create Different Messages for Each Protocol in the Amazon Simple Notification Service Getting Started Guide.  Valid value: json 
+        public let messageStructure: String?
+        /// The phone number to which you want to deliver an SMS message. Use E.164 format. If you don't specify a value for the PhoneNumber parameter, you must specify a value for the TargetArn or TopicArn parameters.
+        public let phoneNumber: String?
+        /// Optional parameter to be used as the "Subject" line when the message is delivered to email endpoints. This field will also be included, if present, in the standard JSON messages delivered to other endpoints. Constraints: Subjects must be ASCII text that begins with a letter, number, or punctuation mark; must not include line breaks or control characters; and must be less than 100 characters long.
+        public let subject: String?
+        /// Either TopicArn or EndpointArn, but not both. If you don't specify a value for the TargetArn parameter, you must specify a value for the PhoneNumber or TopicArn parameters.
+        public let targetArn: String?
+        /// The topic you want to publish to. If you don't specify a value for the TopicArn parameter, you must specify a value for the PhoneNumber or TargetArn parameters.
+        public let topicArn: String?
+
+        public init(message: String, messageAttributes: [String: MessageAttributeValue]? = nil, messageStructure: String? = nil, phoneNumber: String? = nil, subject: String? = nil, targetArn: String? = nil, topicArn: String? = nil) {
+            self.message = message
+            self.messageAttributes = messageAttributes
+            self.messageStructure = messageStructure
+            self.phoneNumber = phoneNumber
+            self.subject = subject
+            self.targetArn = targetArn
+            self.topicArn = topicArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case messageAttributes = "MessageAttributes"
+            case messageStructure = "MessageStructure"
+            case phoneNumber = "PhoneNumber"
+            case subject = "Subject"
+            case targetArn = "TargetArn"
+            case topicArn = "TopicArn"
+        }
+    }
+
+    public struct PublishResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageId", required: false, type: .string)
+        ]
+        /// Unique identifier assigned to the published message. Length Constraint: Maximum 100 characters
+        public let messageId: String?
+
+        public init(messageId: String? = nil) {
+            self.messageId = messageId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageId = "MessageId"
+        }
+    }
+
+    public struct RemovePermissionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Label", required: true, type: .string), 
+            AWSShapeMember(label: "TopicArn", required: true, type: .string)
+        ]
+        /// The unique label of the statement you want to remove.
+        public let label: String
+        /// The ARN of the topic whose access control policy you wish to modify.
+        public let topicArn: String
+
+        public init(label: String, topicArn: String) {
+            self.label = label
+            self.topicArn = topicArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case label = "Label"
+            case topicArn = "TopicArn"
+        }
+    }
+
+    public struct SetEndpointAttributesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: true, type: .map), 
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
+        ]
+        /// A map of the endpoint attributes. Attributes in this map include the following:    CustomUserData – arbitrary user data to associate with the endpoint. Amazon SNS does not use this data. The data must be in UTF-8 format and less than 2KB.    Enabled – flag that enables/disables delivery to the endpoint. Amazon SNS will set this to false when a notification service indicates to Amazon SNS that the endpoint is invalid. Users can set it back to true, typically after updating Token.    Token – device token, also referred to as a registration id, for an app and mobile device. This is returned from the notification service when an app and mobile device are registered with the notification service.  
+        public let attributes: [String: String]
+        /// EndpointArn used for SetEndpointAttributes action.
+        public let endpointArn: String
+
+        public init(attributes: [String: String], endpointArn: String) {
+            self.attributes = attributes
+            self.endpointArn = endpointArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case endpointArn = "EndpointArn"
+        }
+    }
+
     public struct SetPlatformApplicationAttributesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attributes", required: true, type: .map), 
@@ -1084,6 +889,201 @@ extension SNS {
         private enum CodingKeys: String, CodingKey {
             case attributes = "Attributes"
             case platformApplicationArn = "PlatformApplicationArn"
+        }
+    }
+
+    public struct SetSMSAttributesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attributes", required: true, type: .map)
+        ]
+        /// The default settings for sending SMS messages from your account. You can set values for the following attribute names:  MonthlySpendLimit – The maximum amount in USD that you are willing to spend each month to send SMS messages. When Amazon SNS determines that sending an SMS message would incur a cost that exceeds this limit, it stops sending SMS messages within minutes.  Amazon SNS stops sending SMS messages within minutes of the limit being crossed. During that interval, if you continue to send SMS messages, you will incur costs that exceed your limit.  By default, the spend limit is set to the maximum allowed by Amazon SNS. If you want to raise the limit, submit an SNS Limit Increase case. For New limit value, enter your desired monthly spend limit. In the Use Case Description field, explain that you are requesting an SMS monthly spend limit increase.  DeliveryStatusIAMRole – The ARN of the IAM role that allows Amazon SNS to write logs about SMS deliveries in CloudWatch Logs. For each SMS message that you send, Amazon SNS writes a log that includes the message price, the success or failure status, the reason for failure (if the message failed), the message dwell time, and other information.  DeliveryStatusSuccessSamplingRate – The percentage of successful SMS deliveries for which Amazon SNS will write logs in CloudWatch Logs. The value can be an integer from 0 - 100. For example, to write logs only for failed deliveries, set this value to 0. To write logs for 10% of your successful deliveries, set it to 10.  DefaultSenderID – A string, such as your business brand, that is displayed as the sender on the receiving device. Support for sender IDs varies by country. The sender ID can be 1 - 11 alphanumeric characters, and it must contain at least one letter.  DefaultSMSType – The type of SMS message that you will send by default. You can assign the following values:    Promotional – (Default) Noncritical messages, such as marketing messages. Amazon SNS optimizes the message delivery to incur the lowest cost.    Transactional – Critical messages that support customer transactions, such as one-time passcodes for multi-factor authentication. Amazon SNS optimizes the message delivery to achieve the highest reliability.    UsageReportS3Bucket – The name of the Amazon S3 bucket to receive daily SMS usage reports from Amazon SNS. Each day, Amazon SNS will deliver a usage report as a CSV file to the bucket. The report includes the following information for each SMS message that was successfully delivered by your account:   Time that the message was published (in UTC)   Message ID   Destination phone number   Message type   Delivery status   Message price (in USD)   Part number (a message is split into multiple parts if it is too long for a single message)   Total number of parts   To receive the report, the bucket must have a policy that allows the Amazon SNS service principle to perform the s3:PutObject and s3:GetBucketLocation actions. For an example bucket policy and usage report, see Monitoring SMS Activity in the Amazon SNS Developer Guide.
+        public let attributes: [String: String]
+
+        public init(attributes: [String: String]) {
+            self.attributes = attributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+        }
+    }
+
+    public struct SetSMSAttributesResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct SetSubscriptionAttributesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
+            AWSShapeMember(label: "AttributeValue", required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionArn", required: true, type: .string)
+        ]
+        /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the SetTopicAttributes action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    FilterPolicy – The simple JSON object that lets your subscriber receive only a subset of messages, rather than receiving every message published to the topic.    RawMessageDelivery – When set to true, enables raw message delivery to Amazon SQS or HTTP/S endpoints. This eliminates the need for the endpoints to process JSON formatting, which is otherwise created for Amazon SNS metadata.  
+        public let attributeName: String
+        /// The new value for the attribute in JSON format.
+        public let attributeValue: String?
+        /// The ARN of the subscription to modify.
+        public let subscriptionArn: String
+
+        public init(attributeName: String, attributeValue: String? = nil, subscriptionArn: String) {
+            self.attributeName = attributeName
+            self.attributeValue = attributeValue
+            self.subscriptionArn = subscriptionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case attributeValue = "AttributeValue"
+            case subscriptionArn = "SubscriptionArn"
+        }
+    }
+
+    public struct SetTopicAttributesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
+            AWSShapeMember(label: "AttributeValue", required: false, type: .string), 
+            AWSShapeMember(label: "TopicArn", required: true, type: .string)
+        ]
+        /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the SetTopicAttributes action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    DisplayName – The display name to use for a topic with SMS subscriptions.    Policy – The policy that defines who can access your topic. By default, only the topic owner can publish or subscribe to the topic.  
+        public let attributeName: String
+        /// The new value for the attribute.
+        public let attributeValue: String?
+        /// The ARN of the topic to modify.
+        public let topicArn: String
+
+        public init(attributeName: String, attributeValue: String? = nil, topicArn: String) {
+            self.attributeName = attributeName
+            self.attributeValue = attributeValue
+            self.topicArn = topicArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case attributeValue = "AttributeValue"
+            case topicArn = "TopicArn"
+        }
+    }
+
+    public struct SubscribeInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
+            AWSShapeMember(label: "Protocol", required: true, type: .string), 
+            AWSShapeMember(label: "ReturnSubscriptionArn", required: false, type: .boolean), 
+            AWSShapeMember(label: "TopicArn", required: true, type: .string)
+        ]
+        /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the SetTopicAttributes action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    FilterPolicy – The simple JSON object that lets your subscriber receive only a subset of messages, rather than receiving every message published to the topic.    RawMessageDelivery – When set to true, enables raw message delivery to Amazon SQS or HTTP/S endpoints. This eliminates the need for the endpoints to process JSON formatting, which is otherwise created for Amazon SNS metadata.  
+        public let attributes: [String: String]?
+        /// The endpoint that you want to receive notifications. Endpoints vary by protocol:   For the http protocol, the endpoint is an URL beginning with "http://"   For the https protocol, the endpoint is a URL beginning with "https://"   For the email protocol, the endpoint is an email address   For the email-json protocol, the endpoint is an email address   For the sms protocol, the endpoint is a phone number of an SMS-enabled device   For the sqs protocol, the endpoint is the ARN of an Amazon SQS queue   For the application protocol, the endpoint is the EndpointArn of a mobile app and device.   For the lambda protocol, the endpoint is the ARN of an AWS Lambda function.  
+        public let endpoint: String?
+        /// The protocol you want to use. Supported protocols include:    http – delivery of JSON-encoded message via HTTP POST    https – delivery of JSON-encoded message via HTTPS POST    email – delivery of message via SMTP    email-json – delivery of JSON-encoded message via SMTP    sms – delivery of message via SMS    sqs – delivery of JSON-encoded message to an Amazon SQS queue    application – delivery of JSON-encoded message to an EndpointArn for a mobile app and device.    lambda – delivery of JSON-encoded message to an AWS Lambda function.  
+        public let `protocol`: String
+        /// Sets whether the response from the Subscribe request includes the subscription ARN, even if the subscription is not yet confirmed. If you set this parameter to false, the response includes the ARN for confirmed subscriptions, but it includes an ARN value of "pending subscription" for subscriptions that are not yet confirmed. A subscription becomes confirmed when the subscriber calls the ConfirmSubscription action with a confirmation token. If you set this parameter to true, the response includes the ARN in all cases, even if the subscription is not yet confirmed. The default value is false.
+        public let returnSubscriptionArn: Bool?
+        /// The ARN of the topic you want to subscribe to.
+        public let topicArn: String
+
+        public init(attributes: [String: String]? = nil, endpoint: String? = nil, protocol: String, returnSubscriptionArn: Bool? = nil, topicArn: String) {
+            self.attributes = attributes
+            self.endpoint = endpoint
+            self.`protocol` = `protocol`
+            self.returnSubscriptionArn = returnSubscriptionArn
+            self.topicArn = topicArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case endpoint = "Endpoint"
+            case `protocol` = "Protocol"
+            case returnSubscriptionArn = "ReturnSubscriptionArn"
+            case topicArn = "TopicArn"
+        }
+    }
+
+    public struct SubscribeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubscriptionArn", required: false, type: .string)
+        ]
+        /// The ARN of the subscription if it is confirmed, or the string "pending confirmation" if the subscription requires confirmation. However, if the API request parameter ReturnSubscriptionArn is true, then the value is always the subscription ARN, even if the subscription requires confirmation.
+        public let subscriptionArn: String?
+
+        public init(subscriptionArn: String? = nil) {
+            self.subscriptionArn = subscriptionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionArn = "SubscriptionArn"
+        }
+    }
+
+    public struct Subscription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
+            AWSShapeMember(label: "Owner", required: false, type: .string), 
+            AWSShapeMember(label: "Protocol", required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionArn", required: false, type: .string), 
+            AWSShapeMember(label: "TopicArn", required: false, type: .string)
+        ]
+        /// The subscription's endpoint (format depends on the protocol).
+        public let endpoint: String?
+        /// The subscription's owner.
+        public let owner: String?
+        /// The subscription's protocol.
+        public let `protocol`: String?
+        /// The subscription's ARN.
+        public let subscriptionArn: String?
+        /// The ARN of the subscription's topic.
+        public let topicArn: String?
+
+        public init(endpoint: String? = nil, owner: String? = nil, protocol: String? = nil, subscriptionArn: String? = nil, topicArn: String? = nil) {
+            self.endpoint = endpoint
+            self.owner = owner
+            self.`protocol` = `protocol`
+            self.subscriptionArn = subscriptionArn
+            self.topicArn = topicArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoint = "Endpoint"
+            case owner = "Owner"
+            case `protocol` = "Protocol"
+            case subscriptionArn = "SubscriptionArn"
+            case topicArn = "TopicArn"
+        }
+    }
+
+    public struct Topic: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicArn", required: false, type: .string)
+        ]
+        /// The topic's ARN.
+        public let topicArn: String?
+
+        public init(topicArn: String? = nil) {
+            self.topicArn = topicArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case topicArn = "TopicArn"
+        }
+    }
+
+    public struct UnsubscribeInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubscriptionArn", required: true, type: .string)
+        ]
+        /// The ARN of the subscription to be deleted.
+        public let subscriptionArn: String
+
+        public init(subscriptionArn: String) {
+            self.subscriptionArn = subscriptionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionArn = "SubscriptionArn"
         }
     }
 

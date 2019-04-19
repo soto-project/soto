@@ -5,29 +5,362 @@ import AWSSDKSwiftCore
 
 extension FSx {
 
+    public enum ActiveDirectoryErrorType: String, CustomStringConvertible, Codable {
+        case domainNotFound = "DOMAIN_NOT_FOUND"
+        case incompatibleDomainMode = "INCOMPATIBLE_DOMAIN_MODE"
+        case wrongVpc = "WRONG_VPC"
+        case invalidDomainStage = "INVALID_DOMAIN_STAGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Backup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BackupId", required: true, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "FailureDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "FileSystem", required: true, type: .structure), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "Lifecycle", required: true, type: .enum), 
+            AWSShapeMember(label: "ProgressPercent", required: false, type: .integer), 
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
+        ]
+        /// The ID of the backup.
+        public let backupId: String
+        /// The time when a particular backup was created.
+        public let creationTime: TimeStamp
+        /// Details explaining any failures that occur when creating a backup.
+        public let failureDetails: BackupFailureDetails?
+        /// Metadata of the file system associated with the backup. This metadata is persisted even if the file system is deleted.
+        public let fileSystem: FileSystem
+        /// The ID of the AWS Key Management Service (AWS KMS) key used to encrypt this backup's data.
+        public let kmsKeyId: String?
+        /// The lifecycle status of the backup.
+        public let lifecycle: BackupLifecycle
+        public let progressPercent: Int32?
+        /// The Amazon Resource Name (ARN) for the backup resource.
+        public let resourceARN: String?
+        /// Tags associated with a particular file system.
+        public let tags: [Tag]?
+        /// The type of the backup.
+        public let `type`: BackupType
+
+        public init(backupId: String, creationTime: TimeStamp, failureDetails: BackupFailureDetails? = nil, fileSystem: FileSystem, kmsKeyId: String? = nil, lifecycle: BackupLifecycle, progressPercent: Int32? = nil, resourceARN: String? = nil, tags: [Tag]? = nil, type: BackupType) {
+            self.backupId = backupId
+            self.creationTime = creationTime
+            self.failureDetails = failureDetails
+            self.fileSystem = fileSystem
+            self.kmsKeyId = kmsKeyId
+            self.lifecycle = lifecycle
+            self.progressPercent = progressPercent
+            self.resourceARN = resourceARN
+            self.tags = tags
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupId = "BackupId"
+            case creationTime = "CreationTime"
+            case failureDetails = "FailureDetails"
+            case fileSystem = "FileSystem"
+            case kmsKeyId = "KmsKeyId"
+            case lifecycle = "Lifecycle"
+            case progressPercent = "ProgressPercent"
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+            case `type` = "Type"
+        }
+    }
+
+    public struct BackupFailureDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", required: false, type: .string)
+        ]
+        /// A message describing the backup creation failure.
+        public let message: String?
+
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
+    }
+
+    public enum BackupLifecycle: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case creating = "CREATING"
+        case deleted = "DELETED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BackupType: String, CustomStringConvertible, Codable {
+        case automatic = "AUTOMATIC"
+        case userInitiated = "USER_INITIATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateBackupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
+        public let clientRequestToken: String?
+        /// The ID of the file system to back up.
+        public let fileSystemId: String
+        /// The tags to apply to the backup at backup creation. The key value of the Name tag appears in the console as the backup name.
+        public let tags: [Tag]?
+
+        public init(clientRequestToken: String? = nil, fileSystemId: String, tags: [Tag]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.fileSystemId = fileSystemId
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case fileSystemId = "FileSystemId"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateBackupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Backup", required: false, type: .structure)
+        ]
+        /// A description of the backup.
+        public let backup: Backup?
+
+        public init(backup: Backup? = nil) {
+            self.backup = backup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backup = "Backup"
+        }
+    }
+
+    public struct CreateFileSystemFromBackupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BackupId", required: true, type: .string), 
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "WindowsConfiguration", required: false, type: .structure)
+        ]
+        public let backupId: String
+        /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
+        public let clientRequestToken: String?
+        /// A list of IDs for the security groups that apply to the specified network interfaces created for file system access. These security groups apply to all network interfaces. This value isn't returned in later describe requests.
+        public let securityGroupIds: [String]?
+        /// A list of IDs for the subnets that the file system will be accessible from. Currently, you can specify only one subnet. The file server is also launched in that subnet's Availability Zone.
+        public let subnetIds: [String]
+        /// The tags to be applied to the file system at file system creation. The key value of the Name tag appears in the console as the file system name.
+        public let tags: [Tag]?
+        /// The configuration for this Microsoft Windows file system.
+        public let windowsConfiguration: CreateFileSystemWindowsConfiguration?
+
+        public init(backupId: String, clientRequestToken: String? = nil, securityGroupIds: [String]? = nil, subnetIds: [String], tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
+            self.backupId = backupId
+            self.clientRequestToken = clientRequestToken
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.tags = tags
+            self.windowsConfiguration = windowsConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupId = "BackupId"
+            case clientRequestToken = "ClientRequestToken"
+            case securityGroupIds = "SecurityGroupIds"
+            case subnetIds = "SubnetIds"
+            case tags = "Tags"
+            case windowsConfiguration = "WindowsConfiguration"
+        }
+    }
+
+    public struct CreateFileSystemFromBackupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileSystem", required: false, type: .structure)
+        ]
+        /// A description of the file system.
+        public let fileSystem: FileSystem?
+
+        public init(fileSystem: FileSystem? = nil) {
+            self.fileSystem = fileSystem
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystem = "FileSystem"
+        }
+    }
+
     public struct CreateFileSystemLustreConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImportedFileChunkSize", required: false, type: .integer), 
             AWSShapeMember(label: "ImportPath", required: false, type: .string), 
+            AWSShapeMember(label: "ImportedFileChunkSize", required: false, type: .integer), 
             AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string)
         ]
-        /// (Optional) For files imported from a data repository, this value determines the stripe count and maximum amount of data per file (in MiB) stored on a single physical disk. The maximum number of disks that a single file can be striped across is limited by the total number of disks that make up the file system. The chunk size default is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500 GiB). Amazon S3 objects have a maximum size of 5 TB.
-        public let importedFileChunkSize: Int32?
         /// (Optional) The path to the Amazon S3 bucket (and optional prefix) that you're using as the data repository for your FSx for Lustre file system, for example s3://import-bucket/optional-prefix. If you specify a prefix after the Amazon S3 bucket name, only object keys with that prefix are loaded into the file system.
         public let importPath: String?
+        /// (Optional) For files imported from a data repository, this value determines the stripe count and maximum amount of data per file (in MiB) stored on a single physical disk. The maximum number of disks that a single file can be striped across is limited by the total number of disks that make up the file system. The chunk size default is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500 GiB). Amazon S3 objects have a maximum size of 5 TB.
+        public let importedFileChunkSize: Int32?
         /// The preferred time to perform weekly maintenance, in the UTC time zone.
         public let weeklyMaintenanceStartTime: String?
 
         public init(importPath: String? = nil, importedFileChunkSize: Int32? = nil, weeklyMaintenanceStartTime: String? = nil) {
-            self.importedFileChunkSize = importedFileChunkSize
             self.importPath = importPath
+            self.importedFileChunkSize = importedFileChunkSize
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
 
         private enum CodingKeys: String, CodingKey {
-            case importedFileChunkSize = "ImportedFileChunkSize"
             case importPath = "ImportPath"
+            case importedFileChunkSize = "ImportedFileChunkSize"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
+        }
+    }
+
+    public struct CreateFileSystemRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "FileSystemType", required: true, type: .enum), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "LustreConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "StorageCapacity", required: true, type: .integer), 
+            AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "WindowsConfiguration", required: false, type: .structure)
+        ]
+        /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
+        public let clientRequestToken: String?
+        /// The type of file system.
+        public let fileSystemType: FileSystemType
+        public let kmsKeyId: String?
+        public let lustreConfiguration: CreateFileSystemLustreConfiguration?
+        /// A list of IDs for the security groups that apply to the specified network interfaces created for file system access. These security groups will apply to all network interfaces. This list isn't returned in later describe requests.
+        public let securityGroupIds: [String]?
+        /// The storage capacity of the file system. For Windows file systems, the storage capacity has a minimum of 300 GiB, and a maximum of 65,536 GiB. For Lustre file systems, the storage capacity has a minimum of 3,600 GiB. Storage capacity is provisioned in increments of 3,600 GiB.
+        public let storageCapacity: Int32
+        /// A list of IDs for the subnets that the file system will be accessible from. File systems support only one subnet. The file server is also launched in that subnet's Availability Zone.
+        public let subnetIds: [String]
+        /// The tags to be applied to the file system at file system creation. The key value of the Name tag appears in the console as the file system name.
+        public let tags: [Tag]?
+        /// The configuration for this Microsoft Windows file system.
+        public let windowsConfiguration: CreateFileSystemWindowsConfiguration?
+
+        public init(clientRequestToken: String? = nil, fileSystemType: FileSystemType, kmsKeyId: String? = nil, lustreConfiguration: CreateFileSystemLustreConfiguration? = nil, securityGroupIds: [String]? = nil, storageCapacity: Int32, subnetIds: [String], tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.fileSystemType = fileSystemType
+            self.kmsKeyId = kmsKeyId
+            self.lustreConfiguration = lustreConfiguration
+            self.securityGroupIds = securityGroupIds
+            self.storageCapacity = storageCapacity
+            self.subnetIds = subnetIds
+            self.tags = tags
+            self.windowsConfiguration = windowsConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case fileSystemType = "FileSystemType"
+            case kmsKeyId = "KmsKeyId"
+            case lustreConfiguration = "LustreConfiguration"
+            case securityGroupIds = "SecurityGroupIds"
+            case storageCapacity = "StorageCapacity"
+            case subnetIds = "SubnetIds"
+            case tags = "Tags"
+            case windowsConfiguration = "WindowsConfiguration"
+        }
+    }
+
+    public struct CreateFileSystemResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileSystem", required: false, type: .structure)
+        ]
+        /// A description of the file system.
+        public let fileSystem: FileSystem?
+
+        public init(fileSystem: FileSystem? = nil) {
+            self.fileSystem = fileSystem
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystem = "FileSystem"
+        }
+    }
+
+    public struct CreateFileSystemWindowsConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActiveDirectoryId", required: false, type: .string), 
+            AWSShapeMember(label: "AutomaticBackupRetentionDays", required: false, type: .integer), 
+            AWSShapeMember(label: "CopyTagsToBackups", required: false, type: .boolean), 
+            AWSShapeMember(label: "DailyAutomaticBackupStartTime", required: false, type: .string), 
+            AWSShapeMember(label: "ThroughputCapacity", required: true, type: .integer), 
+            AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string)
+        ]
+        /// The ID for an existing Microsoft Active Directory instance that the file system should join when it's created.
+        public let activeDirectoryId: String?
+        /// The number of days to retain automatic backups. The default is to retain backups for 7 days. Setting this value to 0 disables the creation of automatic backups. The maximum retention period for backups is 35 days.
+        public let automaticBackupRetentionDays: Int32?
+        /// A boolean flag indicating whether tags on the file system should be copied to backups. This value defaults to false. If it's set to true, all tags on the file system are copied to all automatic backups and any user-initiated backups where the user doesn't specify any tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups.
+        public let copyTagsToBackups: Bool?
+        /// The preferred time to take daily automatic backups, in the UTC time zone.
+        public let dailyAutomaticBackupStartTime: String?
+        /// The throughput of an Amazon FSx file system, measured in megabytes per second.
+        public let throughputCapacity: Int32
+        /// The preferred start time to perform weekly maintenance, in the UTC time zone.
+        public let weeklyMaintenanceStartTime: String?
+
+        public init(activeDirectoryId: String? = nil, automaticBackupRetentionDays: Int32? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, throughputCapacity: Int32, weeklyMaintenanceStartTime: String? = nil) {
+            self.activeDirectoryId = activeDirectoryId
+            self.automaticBackupRetentionDays = automaticBackupRetentionDays
+            self.copyTagsToBackups = copyTagsToBackups
+            self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
+            self.throughputCapacity = throughputCapacity
+            self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeDirectoryId = "ActiveDirectoryId"
+            case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
+            case copyTagsToBackups = "CopyTagsToBackups"
+            case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
+            case throughputCapacity = "ThroughputCapacity"
+            case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
+        }
+    }
+
+    public struct DataRepositoryConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExportPath", required: false, type: .string), 
+            AWSShapeMember(label: "ImportPath", required: false, type: .string), 
+            AWSShapeMember(label: "ImportedFileChunkSize", required: false, type: .integer)
+        ]
+        /// The Amazon S3 commit path to use for storing new and changed Lustre file system files as part of the archive operation from the file system to Amazon S3. The value is s3://import-bucket/FSxLustre[creationtimestamp]. The timestamp is presented in UTC format, for example s3://import-bucket/FSxLustre20181105T222312Z. Files are archived to a different prefix in the Amazon S3 bucket, preventing input data from being overwritten.
+        public let exportPath: String?
+        /// The import path to the Amazon S3 bucket (and optional prefix) that you're using as the data repository for your FSx for Lustre file system, for example s3://import-bucket/optional-prefix. If a prefix is specified after the Amazon S3 bucket name, only object keys with that prefix are loaded into the file system.
+        public let importPath: String?
+        /// For files imported from a data repository, this value determines the stripe count and maximum amount of data per file (in MiB) stored on a single physical disk. The maximum number of disks that a single file can be striped across is limited by the total number of disks that make up the file system. The default chunk size is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500 GiB). Amazon S3 objects have a maximum size of 5 TB.
+        public let importedFileChunkSize: Int32?
+
+        public init(exportPath: String? = nil, importPath: String? = nil, importedFileChunkSize: Int32? = nil) {
+            self.exportPath = exportPath
+            self.importPath = importPath
+            self.importedFileChunkSize = importedFileChunkSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportPath = "ExportPath"
+            case importPath = "ImportPath"
+            case importedFileChunkSize = "ImportedFileChunkSize"
         }
     }
 
@@ -52,267 +385,75 @@ extension FSx {
         }
     }
 
-    public struct UpdateFileSystemResponse: AWSShape {
+    public struct DeleteBackupResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileSystem", required: false, type: .structure)
+            AWSShapeMember(label: "BackupId", required: false, type: .string), 
+            AWSShapeMember(label: "Lifecycle", required: false, type: .enum)
         ]
-        /// A description of the file system.
-        public let fileSystem: FileSystem?
+        /// The ID of the backup deleted.
+        public let backupId: String?
+        /// The lifecycle of the backup. Should be DELETED.
+        public let lifecycle: BackupLifecycle?
 
-        public init(fileSystem: FileSystem? = nil) {
-            self.fileSystem = fileSystem
+        public init(backupId: String? = nil, lifecycle: BackupLifecycle? = nil) {
+            self.backupId = backupId
+            self.lifecycle = lifecycle
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileSystem = "FileSystem"
+            case backupId = "BackupId"
+            case lifecycle = "Lifecycle"
         }
     }
 
-    public enum FileSystemType: String, CustomStringConvertible, Codable {
-        case windows = "WINDOWS"
-        case lustre = "LUSTRE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeBackupsRequest: AWSShape {
+    public struct DeleteFileSystemRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "BackupIds", required: false, type: .list)
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
+            AWSShapeMember(label: "WindowsConfiguration", required: false, type: .structure)
         ]
-        /// (Optional) Maximum number of backups to return in the response (integer). This parameter value must be greater than 0. The number of items that Amazon FSx returns is the minimum of the MaxResults parameter specified in the request and the service's internal maximum number of items per page.
-        public let maxResults: Int32?
-        /// (Optional) Opaque pagination token returned from a previous DescribeBackups operation (String). If a token present, the action continues the list from where the returning call left off.
-        public let nextToken: String?
-        /// (Optional) Filters structure. Supported names are file-system-id and backup-type.
-        public let filters: [Filter]?
-        /// (Optional) IDs of the backups you want to retrieve (String). This overrides any filters. If any IDs are not found, BackupNotFound will be thrown.
-        public let backupIds: [String]?
+        /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent deletion. This is automatically filled on your behalf when using the AWS CLI or SDK.
+        public let clientRequestToken: String?
+        /// The ID of the file system you want to delete.
+        public let fileSystemId: String
+        public let windowsConfiguration: DeleteFileSystemWindowsConfiguration?
 
-        public init(backupIds: [String]? = nil, filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.filters = filters
-            self.backupIds = backupIds
+        public init(clientRequestToken: String? = nil, fileSystemId: String, windowsConfiguration: DeleteFileSystemWindowsConfiguration? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.fileSystemId = fileSystemId
+            self.windowsConfiguration = windowsConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case filters = "Filters"
-            case backupIds = "BackupIds"
-        }
-    }
-
-    public struct UntagResourceResponse: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct LustreFileSystemConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string), 
-            AWSShapeMember(label: "DataRepositoryConfiguration", required: false, type: .structure)
-        ]
-        /// The UTC time that you want to begin your weekly maintenance window.
-        public let weeklyMaintenanceStartTime: String?
-        public let dataRepositoryConfiguration: DataRepositoryConfiguration?
-
-        public init(dataRepositoryConfiguration: DataRepositoryConfiguration? = nil, weeklyMaintenanceStartTime: String? = nil) {
-            self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
-            self.dataRepositoryConfiguration = dataRepositoryConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
-            case dataRepositoryConfiguration = "DataRepositoryConfiguration"
-        }
-    }
-
-    public struct DescribeBackupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Backups", required: false, type: .list)
-        ]
-        /// This is present if there are more backups than returned in the response (String). You can use the NextToken value in the later request to fetch the backups. 
-        public let nextToken: String?
-        /// Any array of backups.
-        public let backups: [Backup]?
-
-        public init(backups: [Backup]? = nil, nextToken: String? = nil) {
-            self.nextToken = nextToken
-            self.backups = backups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case backups = "Backups"
-        }
-    }
-
-    public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagKeys", required: true, type: .list), 
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
-        ]
-        /// A list of keys of tags on the resource to untag. In case the tag key doesn't exist, the call will still succeed to be idempotent.
-        public let tagKeys: [String]
-        /// The ARN of the Amazon FSx resource to untag.
-        public let resourceARN: String
-
-        public init(resourceARN: String, tagKeys: [String]) {
-            self.tagKeys = tagKeys
-            self.resourceARN = resourceARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagKeys = "TagKeys"
-            case resourceARN = "ResourceARN"
-        }
-    }
-
-    public struct DescribeFileSystemsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "FileSystemIds", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// (Optional) Opaque pagination token returned from a previous DescribeFileSystems operation (String). If a token present, the action continues the list from where the returning call left off.
-        public let nextToken: String?
-        /// (Optional) IDs of the file systems whose descriptions you want to retrieve (String).
-        public let fileSystemIds: [String]?
-        /// (Optional) Maximum number of file systems to return in the response (integer). This parameter value must be greater than 0. The number of items that Amazon FSx returns is the minimum of the MaxResults parameter specified in the request and the service's internal maximum number of items per page.
-        public let maxResults: Int32?
-
-        public init(fileSystemIds: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.nextToken = nextToken
-            self.fileSystemIds = fileSystemIds
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case fileSystemIds = "FileSystemIds"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct UpdateFileSystemWindowsConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutomaticBackupRetentionDays", required: false, type: .integer), 
-            AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string), 
-            AWSShapeMember(label: "DailyAutomaticBackupStartTime", required: false, type: .string)
-        ]
-        /// The number of days to retain automatic backups. Setting this to 0 disables automatic backups. You can retain automatic backups for a maximum of 35 days.
-        public let automaticBackupRetentionDays: Int32?
-        /// The preferred time to perform weekly maintenance, in the UTC time zone.
-        public let weeklyMaintenanceStartTime: String?
-        /// The preferred time to take daily automatic backups, in the UTC time zone.
-        public let dailyAutomaticBackupStartTime: String?
-
-        public init(automaticBackupRetentionDays: Int32? = nil, dailyAutomaticBackupStartTime: String? = nil, weeklyMaintenanceStartTime: String? = nil) {
-            self.automaticBackupRetentionDays = automaticBackupRetentionDays
-            self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
-            self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
-            case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
-            case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
-        }
-    }
-
-    public struct FileSystemFailureDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string)
-        ]
-        /// Message describing the failures that occurred during file system creation.
-        public let message: String?
-
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
+            case clientRequestToken = "ClientRequestToken"
+            case fileSystemId = "FileSystemId"
+            case windowsConfiguration = "WindowsConfiguration"
         }
     }
 
     public struct DeleteFileSystemResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileSystemId", required: false, type: .string), 
-            AWSShapeMember(label: "WindowsResponse", required: false, type: .structure), 
-            AWSShapeMember(label: "Lifecycle", required: false, type: .enum)
+            AWSShapeMember(label: "Lifecycle", required: false, type: .enum), 
+            AWSShapeMember(label: "WindowsResponse", required: false, type: .structure)
         ]
         /// The ID of the file system being deleted.
         public let fileSystemId: String?
-        public let windowsResponse: DeleteFileSystemWindowsResponse?
         /// The file system lifecycle for the deletion request. Should be DELETING.
         public let lifecycle: FileSystemLifecycle?
+        public let windowsResponse: DeleteFileSystemWindowsResponse?
 
         public init(fileSystemId: String? = nil, lifecycle: FileSystemLifecycle? = nil, windowsResponse: DeleteFileSystemWindowsResponse? = nil) {
             self.fileSystemId = fileSystemId
-            self.windowsResponse = windowsResponse
             self.lifecycle = lifecycle
+            self.windowsResponse = windowsResponse
         }
 
         private enum CodingKeys: String, CodingKey {
             case fileSystemId = "FileSystemId"
-            case windowsResponse = "WindowsResponse"
             case lifecycle = "Lifecycle"
+            case windowsResponse = "WindowsResponse"
         }
-    }
-
-    public enum ServiceLimit: String, CustomStringConvertible, Codable {
-        case fileSystemCount = "FILE_SYSTEM_COUNT"
-        case totalThroughputCapacity = "TOTAL_THROUGHPUT_CAPACITY"
-        case totalStorage = "TOTAL_STORAGE"
-        case totalUserInitiatedBackups = "TOTAL_USER_INITIATED_BACKUPS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateFileSystemFromBackupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileSystem", required: false, type: .structure)
-        ]
-        /// A description of the file system.
-        public let fileSystem: FileSystem?
-
-        public init(fileSystem: FileSystem? = nil) {
-            self.fileSystem = fileSystem
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fileSystem = "FileSystem"
-        }
-    }
-
-    public struct UpdateFileSystemLustreConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string)
-        ]
-        /// The preferred time to perform weekly maintenance, in the UTC time zone.
-        public let weeklyMaintenanceStartTime: String?
-
-        public init(weeklyMaintenanceStartTime: String? = nil) {
-            self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
-        }
-    }
-
-    public enum FileSystemLifecycle: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case creating = "CREATING"
-        case failed = "FAILED"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeleteFileSystemWindowsConfiguration: AWSShape {
@@ -336,13 +477,6 @@ extension FSx {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
-
-        public init() {
-        }
-
-    }
-
     public struct DeleteFileSystemWindowsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FinalBackupId", required: false, type: .string), 
@@ -364,390 +498,255 @@ extension FSx {
         }
     }
 
-    public enum BackupLifecycle: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case creating = "CREATING"
-        case deleted = "DELETED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteFileSystemRequest: AWSShape {
+    public struct DescribeBackupsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "WindowsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "FileSystemId", required: true, type: .string)
+            AWSShapeMember(label: "BackupIds", required: false, type: .list), 
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent deletion. This is automatically filled on your behalf when using the AWS CLI or SDK.
-        public let clientRequestToken: String?
-        public let windowsConfiguration: DeleteFileSystemWindowsConfiguration?
-        /// The ID of the file system you want to delete.
-        public let fileSystemId: String
+        /// (Optional) IDs of the backups you want to retrieve (String). This overrides any filters. If any IDs are not found, BackupNotFound will be thrown.
+        public let backupIds: [String]?
+        /// (Optional) Filters structure. Supported names are file-system-id and backup-type.
+        public let filters: [Filter]?
+        /// (Optional) Maximum number of backups to return in the response (integer). This parameter value must be greater than 0. The number of items that Amazon FSx returns is the minimum of the MaxResults parameter specified in the request and the service's internal maximum number of items per page.
+        public let maxResults: Int32?
+        /// (Optional) Opaque pagination token returned from a previous DescribeBackups operation (String). If a token present, the action continues the list from where the returning call left off.
+        public let nextToken: String?
 
-        public init(clientRequestToken: String? = nil, fileSystemId: String, windowsConfiguration: DeleteFileSystemWindowsConfiguration? = nil) {
-            self.clientRequestToken = clientRequestToken
-            self.windowsConfiguration = windowsConfiguration
-            self.fileSystemId = fileSystemId
+        public init(backupIds: [String]? = nil, filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.backupIds = backupIds
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken = "ClientRequestToken"
-            case windowsConfiguration = "WindowsConfiguration"
-            case fileSystemId = "FileSystemId"
+            case backupIds = "BackupIds"
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
         }
     }
 
-    public struct Backup: AWSShape {
+    public struct DescribeBackupsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: true, type: .enum), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "FailureDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "ProgressPercent", required: false, type: .integer), 
-            AWSShapeMember(label: "Lifecycle", required: true, type: .enum), 
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeMember(label: "FileSystem", required: true, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "BackupId", required: true, type: .string)
+            AWSShapeMember(label: "Backups", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The type of the backup.
-        public let `type`: BackupType
-        /// The ID of the AWS Key Management Service (AWS KMS) key used to encrypt this backup's data.
-        public let kmsKeyId: String?
-        /// Details explaining any failures that occur when creating a backup.
-        public let failureDetails: BackupFailureDetails?
-        public let progressPercent: Int32?
-        /// The lifecycle status of the backup.
-        public let lifecycle: BackupLifecycle
-        /// The Amazon Resource Name (ARN) for the backup resource.
-        public let resourceARN: String?
-        /// Metadata of the file system associated with the backup. This metadata is persisted even if the file system is deleted.
-        public let fileSystem: FileSystem
-        /// Tags associated with a particular file system.
-        public let tags: [Tag]?
-        /// The time when a particular backup was created.
-        public let creationTime: TimeStamp
-        /// The ID of the backup.
-        public let backupId: String
+        /// Any array of backups.
+        public let backups: [Backup]?
+        /// This is present if there are more backups than returned in the response (String). You can use the NextToken value in the later request to fetch the backups. 
+        public let nextToken: String?
 
-        public init(backupId: String, creationTime: TimeStamp, failureDetails: BackupFailureDetails? = nil, fileSystem: FileSystem, kmsKeyId: String? = nil, lifecycle: BackupLifecycle, progressPercent: Int32? = nil, resourceARN: String? = nil, tags: [Tag]? = nil, type: BackupType) {
-            self.`type` = `type`
-            self.kmsKeyId = kmsKeyId
-            self.failureDetails = failureDetails
-            self.progressPercent = progressPercent
-            self.lifecycle = lifecycle
-            self.resourceARN = resourceARN
-            self.fileSystem = fileSystem
-            self.tags = tags
-            self.creationTime = creationTime
-            self.backupId = backupId
+        public init(backups: [Backup]? = nil, nextToken: String? = nil) {
+            self.backups = backups
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case kmsKeyId = "KmsKeyId"
-            case failureDetails = "FailureDetails"
-            case progressPercent = "ProgressPercent"
-            case lifecycle = "Lifecycle"
-            case resourceARN = "ResourceARN"
-            case fileSystem = "FileSystem"
-            case tags = "Tags"
-            case creationTime = "CreationTime"
-            case backupId = "BackupId"
+            case backups = "Backups"
+            case nextToken = "NextToken"
         }
     }
 
-    public struct CreateFileSystemFromBackupRequest: AWSShape {
+    public struct DescribeFileSystemsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WindowsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "BackupId", required: true, type: .string)
+            AWSShapeMember(label: "FileSystemIds", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The configuration for this Microsoft Windows file system.
-        public let windowsConfiguration: CreateFileSystemWindowsConfiguration?
-        /// A list of IDs for the security groups that apply to the specified network interfaces created for file system access. These security groups apply to all network interfaces. This value isn't returned in later describe requests.
-        public let securityGroupIds: [String]?
-        /// The tags to be applied to the file system at file system creation. The key value of the Name tag appears in the console as the file system name.
-        public let tags: [Tag]?
-        /// A list of IDs for the subnets that the file system will be accessible from. Currently, you can specify only one subnet. The file server is also launched in that subnet's Availability Zone.
-        public let subnetIds: [String]
-        /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
-        public let clientRequestToken: String?
-        public let backupId: String
+        /// (Optional) IDs of the file systems whose descriptions you want to retrieve (String).
+        public let fileSystemIds: [String]?
+        /// (Optional) Maximum number of file systems to return in the response (integer). This parameter value must be greater than 0. The number of items that Amazon FSx returns is the minimum of the MaxResults parameter specified in the request and the service's internal maximum number of items per page.
+        public let maxResults: Int32?
+        /// (Optional) Opaque pagination token returned from a previous DescribeFileSystems operation (String). If a token present, the action continues the list from where the returning call left off.
+        public let nextToken: String?
 
-        public init(backupId: String, clientRequestToken: String? = nil, securityGroupIds: [String]? = nil, subnetIds: [String], tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
-            self.windowsConfiguration = windowsConfiguration
-            self.securityGroupIds = securityGroupIds
-            self.tags = tags
-            self.subnetIds = subnetIds
-            self.clientRequestToken = clientRequestToken
-            self.backupId = backupId
+        public init(fileSystemIds: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.fileSystemIds = fileSystemIds
+            self.maxResults = maxResults
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case windowsConfiguration = "WindowsConfiguration"
-            case securityGroupIds = "SecurityGroupIds"
-            case tags = "Tags"
-            case subnetIds = "SubnetIds"
-            case clientRequestToken = "ClientRequestToken"
-            case backupId = "BackupId"
+            case fileSystemIds = "FileSystemIds"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
         }
     }
 
-    public struct CreateBackupRequest: AWSShape {
+    public struct DescribeFileSystemsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string)
+            AWSShapeMember(label: "FileSystems", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The ID of the file system to back up.
-        public let fileSystemId: String
-        /// The tags to apply to the backup at backup creation. The key value of the Name tag appears in the console as the backup name.
-        public let tags: [Tag]?
-        /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
-        public let clientRequestToken: String?
+        /// An array of file system descriptions.
+        public let fileSystems: [FileSystem]?
+        /// Present if there are more file systems than returned in the response (String). You can use the NextToken value in the later request to fetch the descriptions. 
+        public let nextToken: String?
 
-        public init(clientRequestToken: String? = nil, fileSystemId: String, tags: [Tag]? = nil) {
-            self.fileSystemId = fileSystemId
-            self.tags = tags
-            self.clientRequestToken = clientRequestToken
+        public init(fileSystems: [FileSystem]? = nil, nextToken: String? = nil) {
+            self.fileSystems = fileSystems
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileSystemId = "FileSystemId"
-            case tags = "Tags"
-            case clientRequestToken = "ClientRequestToken"
-        }
-    }
-
-    public struct UpdateFileSystemRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LustreConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "WindowsConfiguration", required: false, type: .structure)
-        ]
-        public let lustreConfiguration: UpdateFileSystemLustreConfiguration?
-        public let fileSystemId: String
-        /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent updates. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
-        public let clientRequestToken: String?
-        /// The configuration for this Microsoft Windows file system. The only supported options are for backup and maintenance.
-        public let windowsConfiguration: UpdateFileSystemWindowsConfiguration?
-
-        public init(clientRequestToken: String? = nil, fileSystemId: String, lustreConfiguration: UpdateFileSystemLustreConfiguration? = nil, windowsConfiguration: UpdateFileSystemWindowsConfiguration? = nil) {
-            self.lustreConfiguration = lustreConfiguration
-            self.fileSystemId = fileSystemId
-            self.clientRequestToken = clientRequestToken
-            self.windowsConfiguration = windowsConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lustreConfiguration = "LustreConfiguration"
-            case fileSystemId = "FileSystemId"
-            case clientRequestToken = "ClientRequestToken"
-            case windowsConfiguration = "WindowsConfiguration"
-        }
-    }
-
-    public struct DataRepositoryConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExportPath", required: false, type: .string), 
-            AWSShapeMember(label: "ImportedFileChunkSize", required: false, type: .integer), 
-            AWSShapeMember(label: "ImportPath", required: false, type: .string)
-        ]
-        /// The Amazon S3 commit path to use for storing new and changed Lustre file system files as part of the archive operation from the file system to Amazon S3. The value is s3://import-bucket/FSxLustre[creationtimestamp]. The timestamp is presented in UTC format, for example s3://import-bucket/FSxLustre20181105T222312Z. Files are archived to a different prefix in the Amazon S3 bucket, preventing input data from being overwritten.
-        public let exportPath: String?
-        /// For files imported from a data repository, this value determines the stripe count and maximum amount of data per file (in MiB) stored on a single physical disk. The maximum number of disks that a single file can be striped across is limited by the total number of disks that make up the file system. The default chunk size is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500 GiB). Amazon S3 objects have a maximum size of 5 TB.
-        public let importedFileChunkSize: Int32?
-        /// The import path to the Amazon S3 bucket (and optional prefix) that you're using as the data repository for your FSx for Lustre file system, for example s3://import-bucket/optional-prefix. If a prefix is specified after the Amazon S3 bucket name, only object keys with that prefix are loaded into the file system.
-        public let importPath: String?
-
-        public init(exportPath: String? = nil, importPath: String? = nil, importedFileChunkSize: Int32? = nil) {
-            self.exportPath = exportPath
-            self.importedFileChunkSize = importedFileChunkSize
-            self.importPath = importPath
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case exportPath = "ExportPath"
-            case importedFileChunkSize = "ImportedFileChunkSize"
-            case importPath = "ImportPath"
+            case fileSystems = "FileSystems"
+            case nextToken = "NextToken"
         }
     }
 
     public struct FileSystem: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StorageCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "FileSystemId", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "DNSName", required: false, type: .string), 
+            AWSShapeMember(label: "FailureDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "FileSystemId", required: false, type: .string), 
+            AWSShapeMember(label: "FileSystemType", required: false, type: .enum), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "Lifecycle", required: false, type: .enum), 
-            AWSShapeMember(label: "OwnerId", required: false, type: .string), 
             AWSShapeMember(label: "LustreConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "NetworkInterfaceIds", required: false, type: .list), 
+            AWSShapeMember(label: "OwnerId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
+            AWSShapeMember(label: "StorageCapacity", required: false, type: .integer), 
             AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "VpcId", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "FailureDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "WindowsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "FileSystemType", required: false, type: .enum), 
-            AWSShapeMember(label: "NetworkInterfaceIds", required: false, type: .list)
+            AWSShapeMember(label: "WindowsConfiguration", required: false, type: .structure)
         ]
-        /// The storage capacity of the file system in gigabytes.
-        public let storageCapacity: Int32?
-        /// The eight-digit ID of the file system that was automatically assigned by Amazon FSx.
-        public let fileSystemId: String?
+        /// The time that the file system was created, in seconds (since 1970-01-01T00:00:00Z), also known as Unix time.
+        public let creationTime: TimeStamp?
         /// The DNS name for the file system.
         public let dNSName: String?
+        public let failureDetails: FileSystemFailureDetails?
+        /// The eight-digit ID of the file system that was automatically assigned by Amazon FSx.
+        public let fileSystemId: String?
+        /// Type of file system. Currently the only supported type is WINDOWS.
+        public let fileSystemType: FileSystemType?
+        /// The ID of the AWS Key Management Service (AWS KMS) key used to encrypt the file system's data for an Amazon FSx for Windows File Server file system.
+        public let kmsKeyId: String?
         /// The lifecycle status of the file system.
         public let lifecycle: FileSystemLifecycle?
+        public let lustreConfiguration: LustreFileSystemConfiguration?
+        /// The IDs of the elastic network interface from which a specific file system is accessible. The elastic network interface is automatically created in the same VPC that the Amazon FSx file system was created in. For more information, see Elastic Network Interfaces in the Amazon EC2 User Guide.  For an Amazon FSx for Windows File Server file system, you can have one network interface Id. For an Amazon FSx for Lustre file system, you can have more than one.
+        public let networkInterfaceIds: [String]?
         /// The AWS account that created the file system. If the file system was created by an IAM user, the AWS account to which the IAM user belongs is the owner.
         public let ownerId: String?
-        public let lustreConfiguration: LustreFileSystemConfiguration?
+        /// The resource ARN of the file system.
+        public let resourceARN: String?
+        /// The storage capacity of the file system in gigabytes.
+        public let storageCapacity: Int32?
         /// The IDs of the subnets to contain the endpoint for the file system. One and only one is supported. The file system is launched in the Availability Zone associated with this subnet.
         public let subnetIds: [String]?
         /// The tags to associate with the file system. For more information, see Tagging Your Amazon EC2 Resources in the Amazon EC2 User Guide.
         public let tags: [Tag]?
         /// The ID of the primary VPC for the file system.
         public let vpcId: String?
-        /// The resource ARN of the file system.
-        public let resourceARN: String?
-        /// The ID of the AWS Key Management Service (AWS KMS) key used to encrypt the file system's data for an Amazon FSx for Windows File Server file system.
-        public let kmsKeyId: String?
-        public let failureDetails: FileSystemFailureDetails?
-        /// The time that the file system was created, in seconds (since 1970-01-01T00:00:00Z), also known as Unix time.
-        public let creationTime: TimeStamp?
         /// The configuration for this Microsoft Windows file system.
         public let windowsConfiguration: WindowsFileSystemConfiguration?
-        /// Type of file system. Currently the only supported type is WINDOWS.
-        public let fileSystemType: FileSystemType?
-        /// The IDs of the elastic network interface from which a specific file system is accessible. The elastic network interface is automatically created in the same VPC that the Amazon FSx file system was created in. For more information, see Elastic Network Interfaces in the Amazon EC2 User Guide.  For an Amazon FSx for Windows File Server file system, you can have one network interface Id. For an Amazon FSx for Lustre file system, you can have more than one.
-        public let networkInterfaceIds: [String]?
 
         public init(creationTime: TimeStamp? = nil, dNSName: String? = nil, failureDetails: FileSystemFailureDetails? = nil, fileSystemId: String? = nil, fileSystemType: FileSystemType? = nil, kmsKeyId: String? = nil, lifecycle: FileSystemLifecycle? = nil, lustreConfiguration: LustreFileSystemConfiguration? = nil, networkInterfaceIds: [String]? = nil, ownerId: String? = nil, resourceARN: String? = nil, storageCapacity: Int32? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcId: String? = nil, windowsConfiguration: WindowsFileSystemConfiguration? = nil) {
-            self.storageCapacity = storageCapacity
-            self.fileSystemId = fileSystemId
+            self.creationTime = creationTime
             self.dNSName = dNSName
+            self.failureDetails = failureDetails
+            self.fileSystemId = fileSystemId
+            self.fileSystemType = fileSystemType
+            self.kmsKeyId = kmsKeyId
             self.lifecycle = lifecycle
-            self.ownerId = ownerId
             self.lustreConfiguration = lustreConfiguration
+            self.networkInterfaceIds = networkInterfaceIds
+            self.ownerId = ownerId
+            self.resourceARN = resourceARN
+            self.storageCapacity = storageCapacity
             self.subnetIds = subnetIds
             self.tags = tags
             self.vpcId = vpcId
-            self.resourceARN = resourceARN
-            self.kmsKeyId = kmsKeyId
-            self.failureDetails = failureDetails
-            self.creationTime = creationTime
             self.windowsConfiguration = windowsConfiguration
-            self.fileSystemType = fileSystemType
-            self.networkInterfaceIds = networkInterfaceIds
         }
 
         private enum CodingKeys: String, CodingKey {
-            case storageCapacity = "StorageCapacity"
-            case fileSystemId = "FileSystemId"
+            case creationTime = "CreationTime"
             case dNSName = "DNSName"
+            case failureDetails = "FailureDetails"
+            case fileSystemId = "FileSystemId"
+            case fileSystemType = "FileSystemType"
+            case kmsKeyId = "KmsKeyId"
             case lifecycle = "Lifecycle"
-            case ownerId = "OwnerId"
             case lustreConfiguration = "LustreConfiguration"
+            case networkInterfaceIds = "NetworkInterfaceIds"
+            case ownerId = "OwnerId"
+            case resourceARN = "ResourceARN"
+            case storageCapacity = "StorageCapacity"
             case subnetIds = "SubnetIds"
             case tags = "Tags"
             case vpcId = "VpcId"
-            case resourceARN = "ResourceARN"
-            case kmsKeyId = "KmsKeyId"
-            case failureDetails = "FailureDetails"
-            case creationTime = "CreationTime"
             case windowsConfiguration = "WindowsConfiguration"
-            case fileSystemType = "FileSystemType"
-            case networkInterfaceIds = "NetworkInterfaceIds"
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct FileSystemFailureDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: false, type: .string)
+            AWSShapeMember(label: "Message", required: false, type: .string)
         ]
-        /// A value that specifies the TagValue, the value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For example, you can have a key-value pair in a tag set of finances : April and also of payroll : April.
-        public let value: String?
-        /// A value that specifies the TagKey, the name of the tag. Tag keys must be unique for the resource to which they are attached.
-        public let key: String?
+        /// Message describing the failures that occurred during file system creation.
+        public let message: String?
 
-        public init(key: String? = nil, value: String? = nil) {
-            self.value = value
-            self.key = key
+        public init(message: String? = nil) {
+            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case key = "Key"
+            case message = "Message"
         }
     }
 
-    public struct CreateFileSystemWindowsConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActiveDirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "AutomaticBackupRetentionDays", required: false, type: .integer), 
-            AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string), 
-            AWSShapeMember(label: "ThroughputCapacity", required: true, type: .integer), 
-            AWSShapeMember(label: "DailyAutomaticBackupStartTime", required: false, type: .string), 
-            AWSShapeMember(label: "CopyTagsToBackups", required: false, type: .boolean)
-        ]
-        /// The ID for an existing Microsoft Active Directory instance that the file system should join when it's created.
-        public let activeDirectoryId: String?
-        /// The number of days to retain automatic backups. The default is to retain backups for 7 days. Setting this value to 0 disables the creation of automatic backups. The maximum retention period for backups is 35 days.
-        public let automaticBackupRetentionDays: Int32?
-        /// The preferred start time to perform weekly maintenance, in the UTC time zone.
-        public let weeklyMaintenanceStartTime: String?
-        /// The throughput of an Amazon FSx file system, measured in megabytes per second.
-        public let throughputCapacity: Int32
-        /// The preferred time to take daily automatic backups, in the UTC time zone.
-        public let dailyAutomaticBackupStartTime: String?
-        /// A boolean flag indicating whether tags on the file system should be copied to backups. This value defaults to false. If it's set to true, all tags on the file system are copied to all automatic backups and any user-initiated backups where the user doesn't specify any tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups.
-        public let copyTagsToBackups: Bool?
+    public enum FileSystemLifecycle: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case creating = "CREATING"
+        case failed = "FAILED"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(activeDirectoryId: String? = nil, automaticBackupRetentionDays: Int32? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, throughputCapacity: Int32, weeklyMaintenanceStartTime: String? = nil) {
-            self.activeDirectoryId = activeDirectoryId
-            self.automaticBackupRetentionDays = automaticBackupRetentionDays
-            self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
-            self.throughputCapacity = throughputCapacity
-            self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
-            self.copyTagsToBackups = copyTagsToBackups
+    public enum FileSystemMaintenanceOperation: String, CustomStringConvertible, Codable {
+        case patching = "PATCHING"
+        case backingUp = "BACKING_UP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FileSystemType: String, CustomStringConvertible, Codable {
+        case windows = "WINDOWS"
+        case lustre = "LUSTRE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Filter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .enum), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
+        ]
+        /// The name for this filter.
+        public let name: FilterName?
+        /// The values of the filter. These are all the values for any of the applied filters.
+        public let values: [String]?
+
+        public init(name: FilterName? = nil, values: [String]? = nil) {
+            self.name = name
+            self.values = values
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeDirectoryId = "ActiveDirectoryId"
-            case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
-            case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
-            case throughputCapacity = "ThroughputCapacity"
-            case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
-            case copyTagsToBackups = "CopyTagsToBackups"
+            case name = "Name"
+            case values = "Values"
         }
     }
 
-    public struct DeleteBackupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupId", required: false, type: .string), 
-            AWSShapeMember(label: "Lifecycle", required: false, type: .enum)
-        ]
-        /// The ID of the backup deleted.
-        public let backupId: String?
-        /// The lifecycle of the backup. Should be DELETED.
-        public let lifecycle: BackupLifecycle?
-
-        public init(backupId: String? = nil, lifecycle: BackupLifecycle? = nil) {
-            self.backupId = backupId
-            self.lifecycle = lifecycle
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case backupId = "BackupId"
-            case lifecycle = "Lifecycle"
-        }
+    public enum FilterName: String, CustomStringConvertible, Codable {
+        case fileSystemId = "file-system-id"
+        case backupType = "backup-type"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
@@ -776,130 +775,74 @@ extension FSx {
         }
     }
 
-    public struct CreateBackupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Backup", required: false, type: .structure)
-        ]
-        /// A description of the backup.
-        public let backup: Backup?
-
-        public init(backup: Backup? = nil) {
-            self.backup = backup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case backup = "Backup"
-        }
-    }
-
-    public struct DescribeFileSystemsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "FileSystems", required: false, type: .list)
-        ]
-        /// Present if there are more file systems than returned in the response (String). You can use the NextToken value in the later request to fetch the descriptions. 
-        public let nextToken: String?
-        /// An array of file system descriptions.
-        public let fileSystems: [FileSystem]?
-
-        public init(fileSystems: [FileSystem]? = nil, nextToken: String? = nil) {
-            self.nextToken = nextToken
-            self.fileSystems = fileSystems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case fileSystems = "FileSystems"
-        }
-    }
-
-    public struct CreateFileSystemRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StorageCapacity", required: true, type: .integer), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "LustreConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "FileSystemType", required: true, type: .enum), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "WindowsConfiguration", required: false, type: .structure)
-        ]
-        /// The storage capacity of the file system. For Windows file systems, the storage capacity has a minimum of 300 GiB, and a maximum of 65,536 GiB. For Lustre file systems, the storage capacity has a minimum of 3,600 GiB. Storage capacity is provisioned in increments of 3,600 GiB.
-        public let storageCapacity: Int32
-        /// The tags to be applied to the file system at file system creation. The key value of the Name tag appears in the console as the file system name.
-        public let tags: [Tag]?
-        public let lustreConfiguration: CreateFileSystemLustreConfiguration?
-        /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
-        public let clientRequestToken: String?
-        /// A list of IDs for the subnets that the file system will be accessible from. File systems support only one subnet. The file server is also launched in that subnet's Availability Zone.
-        public let subnetIds: [String]
-        /// A list of IDs for the security groups that apply to the specified network interfaces created for file system access. These security groups will apply to all network interfaces. This list isn't returned in later describe requests.
-        public let securityGroupIds: [String]?
-        /// The type of file system.
-        public let fileSystemType: FileSystemType
-        public let kmsKeyId: String?
-        /// The configuration for this Microsoft Windows file system.
-        public let windowsConfiguration: CreateFileSystemWindowsConfiguration?
-
-        public init(clientRequestToken: String? = nil, fileSystemType: FileSystemType, kmsKeyId: String? = nil, lustreConfiguration: CreateFileSystemLustreConfiguration? = nil, securityGroupIds: [String]? = nil, storageCapacity: Int32, subnetIds: [String], tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
-            self.storageCapacity = storageCapacity
-            self.tags = tags
-            self.lustreConfiguration = lustreConfiguration
-            self.clientRequestToken = clientRequestToken
-            self.subnetIds = subnetIds
-            self.securityGroupIds = securityGroupIds
-            self.fileSystemType = fileSystemType
-            self.kmsKeyId = kmsKeyId
-            self.windowsConfiguration = windowsConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case storageCapacity = "StorageCapacity"
-            case tags = "Tags"
-            case lustreConfiguration = "LustreConfiguration"
-            case clientRequestToken = "ClientRequestToken"
-            case subnetIds = "SubnetIds"
-            case securityGroupIds = "SecurityGroupIds"
-            case fileSystemType = "FileSystemType"
-            case kmsKeyId = "KmsKeyId"
-            case windowsConfiguration = "WindowsConfiguration"
-        }
-    }
-
-    public enum FilterName: String, CustomStringConvertible, Codable {
-        case fileSystemId = "file-system-id"
-        case backupType = "backup-type"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ListTagsForResourceResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
-        /// A list of tags on the resource.
-        public let tags: [Tag]?
         /// This is present if there are more tags than returned in the response (String). You can use the NextToken value in the later request to fetch the tags. 
         public let nextToken: String?
+        /// A list of tags on the resource.
+        public let tags: [Tag]?
 
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
-            self.tags = tags
             self.nextToken = nextToken
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
             case nextToken = "NextToken"
+            case tags = "Tags"
         }
     }
 
-    public enum ActiveDirectoryErrorType: String, CustomStringConvertible, Codable {
-        case domainNotFound = "DOMAIN_NOT_FOUND"
-        case incompatibleDomainMode = "INCOMPATIBLE_DOMAIN_MODE"
-        case wrongVpc = "WRONG_VPC"
-        case invalidDomainStage = "INVALID_DOMAIN_STAGE"
+    public struct LustreFileSystemConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataRepositoryConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string)
+        ]
+        public let dataRepositoryConfiguration: DataRepositoryConfiguration?
+        /// The UTC time that you want to begin your weekly maintenance window.
+        public let weeklyMaintenanceStartTime: String?
+
+        public init(dataRepositoryConfiguration: DataRepositoryConfiguration? = nil, weeklyMaintenanceStartTime: String? = nil) {
+            self.dataRepositoryConfiguration = dataRepositoryConfiguration
+            self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataRepositoryConfiguration = "DataRepositoryConfiguration"
+            case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
+        }
+    }
+
+    public enum ServiceLimit: String, CustomStringConvertible, Codable {
+        case fileSystemCount = "FILE_SYSTEM_COUNT"
+        case totalThroughputCapacity = "TOTAL_THROUGHPUT_CAPACITY"
+        case totalStorage = "TOTAL_STORAGE"
+        case totalUserInitiatedBackups = "TOTAL_USER_INITIATED_BACKUPS"
         public var description: String { return self.rawValue }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// A value that specifies the TagKey, the name of the tag. Tag keys must be unique for the resource to which they are attached.
+        public let key: String?
+        /// A value that specifies the TagValue, the value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For example, you can have a key-value pair in a tag set of finances : April and also of payroll : April.
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
     }
 
     public struct TagResourceRequest: AWSShape {
@@ -923,75 +866,87 @@ extension FSx {
         }
     }
 
-    public enum FileSystemMaintenanceOperation: String, CustomStringConvertible, Codable {
-        case patching = "PATCHING"
-        case backingUp = "BACKING_UP"
-        public var description: String { return self.rawValue }
+    public struct TagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
-    public struct WindowsFileSystemConfiguration: AWSShape {
+    public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaintenanceOperationsInProgress", required: false, type: .list), 
-            AWSShapeMember(label: "CopyTagsToBackups", required: false, type: .boolean), 
-            AWSShapeMember(label: "ThroughputCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "ActiveDirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string), 
-            AWSShapeMember(label: "DailyAutomaticBackupStartTime", required: false, type: .string), 
-            AWSShapeMember(label: "AutomaticBackupRetentionDays", required: false, type: .integer)
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
-        /// The list of maintenance operations in progress for this file system.
-        public let maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]?
-        /// A boolean flag indicating whether tags on the file system should be copied to backups. This value defaults to false. If it's set to true, all tags on the file system are copied to all automatic backups and any user-initiated backups where the user doesn't specify any tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups.
-        public let copyTagsToBackups: Bool?
-        /// The throughput of an Amazon FSx file system, measured in megabytes per second.
-        public let throughputCapacity: Int32?
-        /// The ID for an existing Microsoft Active Directory instance that the file system should join when it's created.
-        public let activeDirectoryId: String?
+        /// The ARN of the Amazon FSx resource to untag.
+        public let resourceARN: String
+        /// A list of keys of tags on the resource to untag. In case the tag key doesn't exist, the call will still succeed to be idempotent.
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateFileSystemLustreConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string)
+        ]
         /// The preferred time to perform weekly maintenance, in the UTC time zone.
         public let weeklyMaintenanceStartTime: String?
-        /// The preferred time to take daily automatic backups, in the UTC time zone.
-        public let dailyAutomaticBackupStartTime: String?
-        /// The number of days to retain automatic backups. Setting this to 0 disables automatic backups. You can retain automatic backups for a maximum of 35 days.
-        public let automaticBackupRetentionDays: Int32?
 
-        public init(activeDirectoryId: String? = nil, automaticBackupRetentionDays: Int32? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]? = nil, throughputCapacity: Int32? = nil, weeklyMaintenanceStartTime: String? = nil) {
-            self.maintenanceOperationsInProgress = maintenanceOperationsInProgress
-            self.copyTagsToBackups = copyTagsToBackups
-            self.throughputCapacity = throughputCapacity
-            self.activeDirectoryId = activeDirectoryId
+        public init(weeklyMaintenanceStartTime: String? = nil) {
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
-            self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
-            self.automaticBackupRetentionDays = automaticBackupRetentionDays
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maintenanceOperationsInProgress = "MaintenanceOperationsInProgress"
-            case copyTagsToBackups = "CopyTagsToBackups"
-            case throughputCapacity = "ThroughputCapacity"
-            case activeDirectoryId = "ActiveDirectoryId"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
-            case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
-            case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
         }
     }
 
-    public struct BackupFailureDetails: AWSShape {
+    public struct UpdateFileSystemRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string)
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
+            AWSShapeMember(label: "LustreConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "WindowsConfiguration", required: false, type: .structure)
         ]
-        /// A message describing the backup creation failure.
-        public let message: String?
+        /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent updates. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
+        public let clientRequestToken: String?
+        public let fileSystemId: String
+        public let lustreConfiguration: UpdateFileSystemLustreConfiguration?
+        /// The configuration for this Microsoft Windows file system. The only supported options are for backup and maintenance.
+        public let windowsConfiguration: UpdateFileSystemWindowsConfiguration?
 
-        public init(message: String? = nil) {
-            self.message = message
+        public init(clientRequestToken: String? = nil, fileSystemId: String, lustreConfiguration: UpdateFileSystemLustreConfiguration? = nil, windowsConfiguration: UpdateFileSystemWindowsConfiguration? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.fileSystemId = fileSystemId
+            self.lustreConfiguration = lustreConfiguration
+            self.windowsConfiguration = windowsConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
+            case clientRequestToken = "ClientRequestToken"
+            case fileSystemId = "FileSystemId"
+            case lustreConfiguration = "LustreConfiguration"
+            case windowsConfiguration = "WindowsConfiguration"
         }
     }
 
-    public struct CreateFileSystemResponse: AWSShape {
+    public struct UpdateFileSystemResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileSystem", required: false, type: .structure)
         ]
@@ -1007,31 +962,76 @@ extension FSx {
         }
     }
 
-    public struct Filter: AWSShape {
+    public struct UpdateFileSystemWindowsConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .enum)
+            AWSShapeMember(label: "AutomaticBackupRetentionDays", required: false, type: .integer), 
+            AWSShapeMember(label: "DailyAutomaticBackupStartTime", required: false, type: .string), 
+            AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string)
         ]
-        /// The values of the filter. These are all the values for any of the applied filters.
-        public let values: [String]?
-        /// The name for this filter.
-        public let name: FilterName?
+        /// The number of days to retain automatic backups. Setting this to 0 disables automatic backups. You can retain automatic backups for a maximum of 35 days.
+        public let automaticBackupRetentionDays: Int32?
+        /// The preferred time to take daily automatic backups, in the UTC time zone.
+        public let dailyAutomaticBackupStartTime: String?
+        /// The preferred time to perform weekly maintenance, in the UTC time zone.
+        public let weeklyMaintenanceStartTime: String?
 
-        public init(name: FilterName? = nil, values: [String]? = nil) {
-            self.values = values
-            self.name = name
+        public init(automaticBackupRetentionDays: Int32? = nil, dailyAutomaticBackupStartTime: String? = nil, weeklyMaintenanceStartTime: String? = nil) {
+            self.automaticBackupRetentionDays = automaticBackupRetentionDays
+            self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
+            self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
 
         private enum CodingKeys: String, CodingKey {
-            case values = "Values"
-            case name = "Name"
+            case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
+            case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
+            case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
         }
     }
 
-    public enum BackupType: String, CustomStringConvertible, Codable {
-        case automatic = "AUTOMATIC"
-        case userInitiated = "USER_INITIATED"
-        public var description: String { return self.rawValue }
+    public struct WindowsFileSystemConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActiveDirectoryId", required: false, type: .string), 
+            AWSShapeMember(label: "AutomaticBackupRetentionDays", required: false, type: .integer), 
+            AWSShapeMember(label: "CopyTagsToBackups", required: false, type: .boolean), 
+            AWSShapeMember(label: "DailyAutomaticBackupStartTime", required: false, type: .string), 
+            AWSShapeMember(label: "MaintenanceOperationsInProgress", required: false, type: .list), 
+            AWSShapeMember(label: "ThroughputCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string)
+        ]
+        /// The ID for an existing Microsoft Active Directory instance that the file system should join when it's created.
+        public let activeDirectoryId: String?
+        /// The number of days to retain automatic backups. Setting this to 0 disables automatic backups. You can retain automatic backups for a maximum of 35 days.
+        public let automaticBackupRetentionDays: Int32?
+        /// A boolean flag indicating whether tags on the file system should be copied to backups. This value defaults to false. If it's set to true, all tags on the file system are copied to all automatic backups and any user-initiated backups where the user doesn't specify any tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups.
+        public let copyTagsToBackups: Bool?
+        /// The preferred time to take daily automatic backups, in the UTC time zone.
+        public let dailyAutomaticBackupStartTime: String?
+        /// The list of maintenance operations in progress for this file system.
+        public let maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]?
+        /// The throughput of an Amazon FSx file system, measured in megabytes per second.
+        public let throughputCapacity: Int32?
+        /// The preferred time to perform weekly maintenance, in the UTC time zone.
+        public let weeklyMaintenanceStartTime: String?
+
+        public init(activeDirectoryId: String? = nil, automaticBackupRetentionDays: Int32? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]? = nil, throughputCapacity: Int32? = nil, weeklyMaintenanceStartTime: String? = nil) {
+            self.activeDirectoryId = activeDirectoryId
+            self.automaticBackupRetentionDays = automaticBackupRetentionDays
+            self.copyTagsToBackups = copyTagsToBackups
+            self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
+            self.maintenanceOperationsInProgress = maintenanceOperationsInProgress
+            self.throughputCapacity = throughputCapacity
+            self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeDirectoryId = "ActiveDirectoryId"
+            case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
+            case copyTagsToBackups = "CopyTagsToBackups"
+            case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
+            case maintenanceOperationsInProgress = "MaintenanceOperationsInProgress"
+            case throughputCapacity = "ThroughputCapacity"
+            case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
+        }
     }
 
 }

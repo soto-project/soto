@@ -5,16 +5,380 @@ import AWSSDKSwiftCore
 
 extension DatabaseMigrationService {
 
-    public enum SourceType: String, CustomStringConvertible, Codable {
-        case replicationInstance = "replication-instance"
+    public struct AccountQuota: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountQuotaName", required: false, type: .string), 
+            AWSShapeMember(label: "Max", required: false, type: .long), 
+            AWSShapeMember(label: "Used", required: false, type: .long)
+        ]
+        /// The name of the AWS DMS quota for this AWS account.
+        public let accountQuotaName: String?
+        /// The maximum allowed value for the quota.
+        public let max: Int64?
+        /// The amount currently used toward the quota maximum.
+        public let used: Int64?
+
+        public init(accountQuotaName: String? = nil, max: Int64? = nil, used: Int64? = nil) {
+            self.accountQuotaName = accountQuotaName
+            self.max = max
+            self.used = used
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountQuotaName = "AccountQuotaName"
+            case max = "Max"
+            case used = "Used"
+        }
+    }
+
+    public struct AddTagsToResourceMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the AWS DMS resource the tag is to be added to. AWS DMS resources include a replication instance, endpoint, and a replication task.
+        public let resourceArn: String
+        /// The tag to be assigned to the DMS resource.
+        public let tags: [Tag]
+
+        public init(resourceArn: String, tags: [Tag]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct AddTagsToResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public enum AuthMechanismValue: String, CustomStringConvertible, Codable {
+        case `default` = "default"
+        case mongodbCr = "mongodb_cr"
+        case scramSha1 = "scram_sha_1"
         public var description: String { return self.rawValue }
     }
 
-    public struct ModifyEventSubscriptionResponse: AWSShape {
+    public enum AuthTypeValue: String, CustomStringConvertible, Codable {
+        case no = "no"
+        case password = "password"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AvailabilityZone: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The name of the availability zone.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct Certificate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateCreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CertificateIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateOwner", required: false, type: .string), 
+            AWSShapeMember(label: "CertificatePem", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateWallet", required: false, type: .blob), 
+            AWSShapeMember(label: "KeyLength", required: false, type: .integer), 
+            AWSShapeMember(label: "SigningAlgorithm", required: false, type: .string), 
+            AWSShapeMember(label: "ValidFromDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ValidToDate", required: false, type: .timestamp)
+        ]
+        /// The Amazon Resource Name (ARN) for the certificate.
+        public let certificateArn: String?
+        /// The date that the certificate was created.
+        public let certificateCreationDate: TimeStamp?
+        /// The customer-assigned name of the certificate. Valid characters are A-z and 0-9.
+        public let certificateIdentifier: String?
+        /// The owner of the certificate.
+        public let certificateOwner: String?
+        /// The contents of the .pem X.509 certificate file for the certificate.
+        public let certificatePem: String?
+        /// The location of the imported Oracle Wallet certificate for use with SSL.
+        public let certificateWallet: Data?
+        /// The key length of the cryptographic algorithm being used.
+        public let keyLength: Int32?
+        /// The signing algorithm for the certificate.
+        public let signingAlgorithm: String?
+        /// The beginning date that the certificate is valid.
+        public let validFromDate: TimeStamp?
+        /// The final date that the certificate is valid.
+        public let validToDate: TimeStamp?
+
+        public init(certificateArn: String? = nil, certificateCreationDate: TimeStamp? = nil, certificateIdentifier: String? = nil, certificateOwner: String? = nil, certificatePem: String? = nil, certificateWallet: Data? = nil, keyLength: Int32? = nil, signingAlgorithm: String? = nil, validFromDate: TimeStamp? = nil, validToDate: TimeStamp? = nil) {
+            self.certificateArn = certificateArn
+            self.certificateCreationDate = certificateCreationDate
+            self.certificateIdentifier = certificateIdentifier
+            self.certificateOwner = certificateOwner
+            self.certificatePem = certificatePem
+            self.certificateWallet = certificateWallet
+            self.keyLength = keyLength
+            self.signingAlgorithm = signingAlgorithm
+            self.validFromDate = validFromDate
+            self.validToDate = validToDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case certificateCreationDate = "CertificateCreationDate"
+            case certificateIdentifier = "CertificateIdentifier"
+            case certificateOwner = "CertificateOwner"
+            case certificatePem = "CertificatePem"
+            case certificateWallet = "CertificateWallet"
+            case keyLength = "KeyLength"
+            case signingAlgorithm = "SigningAlgorithm"
+            case validFromDate = "ValidFromDate"
+            case validToDate = "ValidToDate"
+        }
+    }
+
+    public enum CompressionTypeValue: String, CustomStringConvertible, Codable {
+        case none = "none"
+        case gzip = "gzip"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Connection: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointArn", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "LastFailureMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+        public let endpointArn: String?
+        /// The identifier of the endpoint. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
+        public let endpointIdentifier: String?
+        /// The error message when the connection last failed.
+        public let lastFailureMessage: String?
+        /// The Amazon Resource Name (ARN) of the replication instance.
+        public let replicationInstanceArn: String?
+        /// The replication instance identifier. This parameter is stored as a lowercase string.
+        public let replicationInstanceIdentifier: String?
+        /// The connection status.
+        public let status: String?
+
+        public init(endpointArn: String? = nil, endpointIdentifier: String? = nil, lastFailureMessage: String? = nil, replicationInstanceArn: String? = nil, replicationInstanceIdentifier: String? = nil, status: String? = nil) {
+            self.endpointArn = endpointArn
+            self.endpointIdentifier = endpointIdentifier
+            self.lastFailureMessage = lastFailureMessage
+            self.replicationInstanceArn = replicationInstanceArn
+            self.replicationInstanceIdentifier = replicationInstanceIdentifier
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointArn = "EndpointArn"
+            case endpointIdentifier = "EndpointIdentifier"
+            case lastFailureMessage = "LastFailureMessage"
+            case replicationInstanceArn = "ReplicationInstanceArn"
+            case replicationInstanceIdentifier = "ReplicationInstanceIdentifier"
+            case status = "Status"
+        }
+    }
+
+    public struct CreateEndpointMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
+            AWSShapeMember(label: "DmsTransferSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "DynamoDbSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "ElasticsearchSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "EndpointIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "EndpointType", required: true, type: .enum), 
+            AWSShapeMember(label: "EngineName", required: true, type: .string), 
+            AWSShapeMember(label: "ExternalTableDefinition", required: false, type: .string), 
+            AWSShapeMember(label: "ExtraConnectionAttributes", required: false, type: .string), 
+            AWSShapeMember(label: "KinesisSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "MongoDbSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "Password", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "S3Settings", required: false, type: .structure), 
+            AWSShapeMember(label: "ServerName", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "SslMode", required: false, type: .enum), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Username", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) for the certificate.
+        public let certificateArn: String?
+        /// The name of the endpoint database.
+        public let databaseName: String?
+        /// The settings in JSON format for the DMS transfer type of source endpoint.  Possible attributes include the following:    serviceAccessRoleArn - The IAM role that has permission to access the Amazon S3 bucket.    bucketName - The name of the S3 bucket to use.    compressionType - An optional parameter to use GZIP to compress the target files. To use GZIP, set this value to NONE (the default). To keep the files uncompressed, don't use this value.    Shorthand syntax for these attributes is as follows: ServiceAccessRoleArn=string,BucketName=string,CompressionType=string  JSON syntax for these attributes is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string", "CompressionType": "none"|"gzip" }  
+        public let dmsTransferSettings: DmsTransferSettings?
+        /// Settings in JSON format for the target Amazon DynamoDB endpoint. For more information about the available settings, see Using Object Mapping to Migrate Data to DynamoDB in the AWS Database Migration Service User Guide. 
+        public let dynamoDbSettings: DynamoDbSettings?
+        /// Settings in JSON format for the target Elasticsearch endpoint. For more information about the available settings, see Extra Connection Attributes When Using Elasticsearch as a Target for AWS DMS in the AWS Database Migration User Guide. 
+        public let elasticsearchSettings: ElasticsearchSettings?
+        /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
+        public let endpointIdentifier: String
+        /// The type of endpoint.
+        public let endpointType: ReplicationEndpointTypeValue
+        /// The type of engine for the endpoint. Valid values, depending on the EndPointType value, include mysql, oracle, postgres, mariadb, aurora, aurora-postgresql, redshift, s3, db2, azuredb, sybase, dynamodb, mongodb, and sqlserver.
+        public let engineName: String
+        /// The external table definition. 
+        public let externalTableDefinition: String?
+        /// Additional attributes associated with the connection.
+        public let extraConnectionAttributes: String?
+        /// Settings in JSON format for the target Amazon Kinesis Data Streams endpoint. For more information about the available settings, see Using Object Mapping to Migrate Data to a Kinesis Data Stream in the AWS Database Migration User Guide. 
+        public let kinesisSettings: KinesisSettings?
+        /// The AWS KMS key identifier to use to encrypt the connection parameters. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
+        public let kmsKeyId: String?
+        /// Settings in JSON format for the source MongoDB endpoint. For more information about the available settings, see the configuration properties section in  Using MongoDB as a Target for AWS Database Migration Service in the AWS Database Migration Service User Guide. 
+        public let mongoDbSettings: MongoDbSettings?
+        /// The password to be used to log in to the endpoint database.
+        public let password: String?
+        /// The port used by the endpoint database.
+        public let port: Int32?
+        /// Settings in JSON format for the target Amazon S3 endpoint. For more information about the available settings, see Extra Connection Attributes When Using Amazon S3 as a Target for AWS DMS in the AWS Database Migration Service User Guide. 
+        public let s3Settings: S3Settings?
+        /// The name of the server where the endpoint database resides.
+        public let serverName: String?
+        ///  The Amazon Resource Name (ARN) for the service access role that you want to use to create the endpoint. 
+        public let serviceAccessRoleArn: String?
+        /// The Secure Sockets Layer (SSL) mode to use for the SSL connection. The SSL mode can be one of four values: none, require, verify-ca, verify-full. The default value is none.
+        public let sslMode: DmsSslModeValue?
+        /// Tags to be added to the endpoint.
+        public let tags: [Tag]?
+        /// The user name to be used to log in to the endpoint database.
+        public let username: String?
+
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointIdentifier: String, endpointType: ReplicationEndpointTypeValue, engineName: String, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, mongoDbSettings: MongoDbSettings? = nil, password: String? = nil, port: Int32? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, tags: [Tag]? = nil, username: String? = nil) {
+            self.certificateArn = certificateArn
+            self.databaseName = databaseName
+            self.dmsTransferSettings = dmsTransferSettings
+            self.dynamoDbSettings = dynamoDbSettings
+            self.elasticsearchSettings = elasticsearchSettings
+            self.endpointIdentifier = endpointIdentifier
+            self.endpointType = endpointType
+            self.engineName = engineName
+            self.externalTableDefinition = externalTableDefinition
+            self.extraConnectionAttributes = extraConnectionAttributes
+            self.kinesisSettings = kinesisSettings
+            self.kmsKeyId = kmsKeyId
+            self.mongoDbSettings = mongoDbSettings
+            self.password = password
+            self.port = port
+            self.s3Settings = s3Settings
+            self.serverName = serverName
+            self.serviceAccessRoleArn = serviceAccessRoleArn
+            self.sslMode = sslMode
+            self.tags = tags
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case databaseName = "DatabaseName"
+            case dmsTransferSettings = "DmsTransferSettings"
+            case dynamoDbSettings = "DynamoDbSettings"
+            case elasticsearchSettings = "ElasticsearchSettings"
+            case endpointIdentifier = "EndpointIdentifier"
+            case endpointType = "EndpointType"
+            case engineName = "EngineName"
+            case externalTableDefinition = "ExternalTableDefinition"
+            case extraConnectionAttributes = "ExtraConnectionAttributes"
+            case kinesisSettings = "KinesisSettings"
+            case kmsKeyId = "KmsKeyId"
+            case mongoDbSettings = "MongoDbSettings"
+            case password = "Password"
+            case port = "Port"
+            case s3Settings = "S3Settings"
+            case serverName = "ServerName"
+            case serviceAccessRoleArn = "ServiceAccessRoleArn"
+            case sslMode = "SslMode"
+            case tags = "Tags"
+            case username = "Username"
+        }
+    }
+
+    public struct CreateEndpointResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Endpoint", required: false, type: .structure)
+        ]
+        /// The endpoint that was created.
+        public let endpoint: Endpoint?
+
+        public init(endpoint: Endpoint? = nil) {
+            self.endpoint = endpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoint = "Endpoint"
+        }
+    }
+
+    public struct CreateEventSubscriptionMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "EventCategories", required: false, type: .list), 
+            AWSShapeMember(label: "SnsTopicArn", required: true, type: .string), 
+            AWSShapeMember(label: "SourceIds", required: false, type: .list), 
+            AWSShapeMember(label: "SourceType", required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        ///  A Boolean value; set to true to activate the subscription, or set to false to create the subscription but not activate it. 
+        public let enabled: Bool?
+        ///  A list of event categories for a source type that you want to subscribe to. You can see a list of the categories for a given source type by calling the DescribeEventCategories action or in the topic Working with Events and Notifications in the AWS Database Migration Service User Guide. 
+        public let eventCategories: [String]?
+        ///  The Amazon Resource Name (ARN) of the Amazon SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it. 
+        public let snsTopicArn: String
+        ///  The list of identifiers of the event sources for which events will be returned. If not specified, then all sources are included in the response. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it cannot end with a hyphen or contain two consecutive hyphens. 
+        public let sourceIds: [String]?
+        ///  The type of AWS DMS resource that generates the events. For example, if you want to be notified of events generated by a replication instance, you set this parameter to replication-instance. If this value is not specified, all events are returned.  Valid values: replication-instance | migration-task
+        public let sourceType: String?
+        /// The name of the AWS DMS event notification subscription.  Constraints: The name must be less than 255 characters. 
+        public let subscriptionName: String
+        /// A tag to be attached to the event subscription.
+        public let tags: [Tag]?
+
+        public init(enabled: Bool? = nil, eventCategories: [String]? = nil, snsTopicArn: String, sourceIds: [String]? = nil, sourceType: String? = nil, subscriptionName: String, tags: [Tag]? = nil) {
+            self.enabled = enabled
+            self.eventCategories = eventCategories
+            self.snsTopicArn = snsTopicArn
+            self.sourceIds = sourceIds
+            self.sourceType = sourceType
+            self.subscriptionName = subscriptionName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case eventCategories = "EventCategories"
+            case snsTopicArn = "SnsTopicArn"
+            case sourceIds = "SourceIds"
+            case sourceType = "SourceType"
+            case subscriptionName = "SubscriptionName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateEventSubscriptionResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
         ]
-        /// The modified event subscription.
+        /// The event subscription that was created.
         public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
@@ -23,6 +387,248 @@ extension DatabaseMigrationService {
 
         private enum CodingKeys: String, CodingKey {
             case eventSubscription = "EventSubscription"
+        }
+    }
+
+    public struct CreateReplicationInstanceMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "DnsNameServers", required: false, type: .string), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
+            AWSShapeMember(label: "ReplicationInstanceClass", required: true, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list)
+        ]
+        /// The amount of storage (in gigabytes) to be initially allocated for the replication instance.
+        public let allocatedStorage: Int32?
+        /// Indicates that minor engine upgrades will be applied automatically to the replication instance during the maintenance window. Default: true 
+        public let autoMinorVersionUpgrade: Bool?
+        /// The EC2 Availability Zone that the replication instance will be created in. Default: A random, system-chosen Availability Zone in the endpoint's region.  Example: us-east-1d 
+        public let availabilityZone: String?
+        /// A list of DNS name servers supported for the replication instance.
+        public let dnsNameServers: String?
+        /// The engine version number of the replication instance.
+        public let engineVersion: String?
+        /// The AWS KMS key identifier that is used to encrypt the content on the replication instance. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
+        public let kmsKeyId: String?
+        ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
+        public let multiAZ: Bool?
+        /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
+        public let preferredMaintenanceWindow: String?
+        ///  Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true. 
+        public let publiclyAccessible: Bool?
+        /// The compute and memory capacity of the replication instance as specified by the replication instance class.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
+        public let replicationInstanceClass: String
+        /// The replication instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: myrepinstance 
+        public let replicationInstanceIdentifier: String
+        /// A subnet group to associate with the replication instance.
+        public let replicationSubnetGroupIdentifier: String?
+        /// Tags to be associated with the replication instance.
+        public let tags: [Tag]?
+        ///  Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance. 
+        public let vpcSecurityGroupIds: [String]?
+
+        public init(allocatedStorage: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceClass: String, replicationInstanceIdentifier: String, replicationSubnetGroupIdentifier: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+            self.allocatedStorage = allocatedStorage
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.availabilityZone = availabilityZone
+            self.dnsNameServers = dnsNameServers
+            self.engineVersion = engineVersion
+            self.kmsKeyId = kmsKeyId
+            self.multiAZ = multiAZ
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.publiclyAccessible = publiclyAccessible
+            self.replicationInstanceClass = replicationInstanceClass
+            self.replicationInstanceIdentifier = replicationInstanceIdentifier
+            self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
+            self.tags = tags
+            self.vpcSecurityGroupIds = vpcSecurityGroupIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocatedStorage = "AllocatedStorage"
+            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+            case availabilityZone = "AvailabilityZone"
+            case dnsNameServers = "DnsNameServers"
+            case engineVersion = "EngineVersion"
+            case kmsKeyId = "KmsKeyId"
+            case multiAZ = "MultiAZ"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case publiclyAccessible = "PubliclyAccessible"
+            case replicationInstanceClass = "ReplicationInstanceClass"
+            case replicationInstanceIdentifier = "ReplicationInstanceIdentifier"
+            case replicationSubnetGroupIdentifier = "ReplicationSubnetGroupIdentifier"
+            case tags = "Tags"
+            case vpcSecurityGroupIds = "VpcSecurityGroupIds"
+        }
+    }
+
+    public struct CreateReplicationInstanceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationInstance", required: false, type: .structure)
+        ]
+        /// The replication instance that was created.
+        public let replicationInstance: ReplicationInstance?
+
+        public init(replicationInstance: ReplicationInstance? = nil) {
+            self.replicationInstance = replicationInstance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationInstance = "ReplicationInstance"
+        }
+    }
+
+    public struct CreateReplicationSubnetGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationSubnetGroupDescription", required: true, type: .string), 
+            AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// The description for the subnet group.
+        public let replicationSubnetGroupDescription: String
+        /// The name for the replication subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters, periods, spaces, underscores, or hyphens. Must not be "default". Example: mySubnetgroup 
+        public let replicationSubnetGroupIdentifier: String
+        /// The EC2 subnet IDs for the subnet group.
+        public let subnetIds: [String]
+        /// The tag to be assigned to the subnet group.
+        public let tags: [Tag]?
+
+        public init(replicationSubnetGroupDescription: String, replicationSubnetGroupIdentifier: String, subnetIds: [String], tags: [Tag]? = nil) {
+            self.replicationSubnetGroupDescription = replicationSubnetGroupDescription
+            self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
+            self.subnetIds = subnetIds
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationSubnetGroupDescription = "ReplicationSubnetGroupDescription"
+            case replicationSubnetGroupIdentifier = "ReplicationSubnetGroupIdentifier"
+            case subnetIds = "SubnetIds"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateReplicationSubnetGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationSubnetGroup", required: false, type: .structure)
+        ]
+        /// The replication subnet group that was created.
+        public let replicationSubnetGroup: ReplicationSubnetGroup?
+
+        public init(replicationSubnetGroup: ReplicationSubnetGroup? = nil) {
+            self.replicationSubnetGroup = replicationSubnetGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationSubnetGroup = "ReplicationSubnetGroup"
+        }
+    }
+
+    public struct CreateReplicationTaskMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CdcStartPosition", required: false, type: .string), 
+            AWSShapeMember(label: "CdcStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CdcStopPosition", required: false, type: .string), 
+            AWSShapeMember(label: "MigrationType", required: true, type: .enum), 
+            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskSettings", required: false, type: .string), 
+            AWSShapeMember(label: "SourceEndpointArn", required: true, type: .string), 
+            AWSShapeMember(label: "TableMappings", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "TargetEndpointArn", required: true, type: .string)
+        ]
+        /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
+        public let cdcStartPosition: String?
+        /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
+        public let cdcStartTime: TimeStamp?
+        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
+        public let cdcStopPosition: String?
+        /// The migration type.
+        public let migrationType: MigrationTypeValue
+        /// The Amazon Resource Name (ARN) of the replication instance.
+        public let replicationInstanceArn: String
+        /// The replication task identifier. Constraints:   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
+        public let replicationTaskIdentifier: String
+        /// Settings for the task, such as target metadata settings. For a complete list of task settings, see Task Settings for AWS Database Migration Service Tasks in the AWS Database Migration User Guide. 
+        public let replicationTaskSettings: String?
+        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+        public let sourceEndpointArn: String
+        /// When using the AWS CLI or boto3, provide the path of the JSON file that contains the table mappings. Precede the path with "file://". When working with the DMS API, provide the JSON as the parameter value. For example, --table-mappings file://mappingfile.json
+        public let tableMappings: String
+        /// Tags to be added to the replication instance.
+        public let tags: [Tag]?
+        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+        public let targetEndpointArn: String
+
+        public init(cdcStartPosition: String? = nil, cdcStartTime: TimeStamp? = nil, cdcStopPosition: String? = nil, migrationType: MigrationTypeValue, replicationInstanceArn: String, replicationTaskIdentifier: String, replicationTaskSettings: String? = nil, sourceEndpointArn: String, tableMappings: String, tags: [Tag]? = nil, targetEndpointArn: String) {
+            self.cdcStartPosition = cdcStartPosition
+            self.cdcStartTime = cdcStartTime
+            self.cdcStopPosition = cdcStopPosition
+            self.migrationType = migrationType
+            self.replicationInstanceArn = replicationInstanceArn
+            self.replicationTaskIdentifier = replicationTaskIdentifier
+            self.replicationTaskSettings = replicationTaskSettings
+            self.sourceEndpointArn = sourceEndpointArn
+            self.tableMappings = tableMappings
+            self.tags = tags
+            self.targetEndpointArn = targetEndpointArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cdcStartPosition = "CdcStartPosition"
+            case cdcStartTime = "CdcStartTime"
+            case cdcStopPosition = "CdcStopPosition"
+            case migrationType = "MigrationType"
+            case replicationInstanceArn = "ReplicationInstanceArn"
+            case replicationTaskIdentifier = "ReplicationTaskIdentifier"
+            case replicationTaskSettings = "ReplicationTaskSettings"
+            case sourceEndpointArn = "SourceEndpointArn"
+            case tableMappings = "TableMappings"
+            case tags = "Tags"
+            case targetEndpointArn = "TargetEndpointArn"
+        }
+    }
+
+    public struct CreateReplicationTaskResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
+        ]
+        /// The replication task that was created.
+        public let replicationTask: ReplicationTask?
+
+        public init(replicationTask: ReplicationTask? = nil) {
+            self.replicationTask = replicationTask
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationTask = "ReplicationTask"
+        }
+    }
+
+    public struct DeleteCertificateMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the deleted certificate.
+        public let certificateArn: String
+
+        public init(certificateArn: String) {
+            self.certificateArn = certificateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
         }
     }
 
@@ -42,82 +648,123 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ReplicationTaskAssessmentResult: AWSShape {
+    public struct DeleteEndpointMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssessmentStatus", required: false, type: .string), 
-            AWSShapeMember(label: "AssessmentResults", required: false, type: .string), 
-            AWSShapeMember(label: "AssessmentResultsFile", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationTaskIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "S3ObjectUrl", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationTaskLastAssessmentDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string)
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
         ]
-        ///  The status of the task assessment. 
-        public let assessmentStatus: String?
-        ///  The task assessment results in JSON format. 
-        public let assessmentResults: String?
-        ///  The file containing the results of the task assessment. 
-        public let assessmentResultsFile: String?
-        ///  The replication task identifier of the task on which the task assessment was run. 
-        public let replicationTaskIdentifier: String?
-        ///  The URL of the S3 object containing the task assessment results. 
-        public let s3ObjectUrl: String?
-        /// The date the task assessment was completed. 
-        public let replicationTaskLastAssessmentDate: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the replication task. 
-        public let replicationTaskArn: String?
+        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+        public let endpointArn: String
 
-        public init(assessmentResults: String? = nil, assessmentResultsFile: String? = nil, assessmentStatus: String? = nil, replicationTaskArn: String? = nil, replicationTaskIdentifier: String? = nil, replicationTaskLastAssessmentDate: TimeStamp? = nil, s3ObjectUrl: String? = nil) {
-            self.assessmentStatus = assessmentStatus
-            self.assessmentResults = assessmentResults
-            self.assessmentResultsFile = assessmentResultsFile
-            self.replicationTaskIdentifier = replicationTaskIdentifier
-            self.s3ObjectUrl = s3ObjectUrl
-            self.replicationTaskLastAssessmentDate = replicationTaskLastAssessmentDate
-            self.replicationTaskArn = replicationTaskArn
+        public init(endpointArn: String) {
+            self.endpointArn = endpointArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentStatus = "AssessmentStatus"
-            case assessmentResults = "AssessmentResults"
-            case assessmentResultsFile = "AssessmentResultsFile"
-            case replicationTaskIdentifier = "ReplicationTaskIdentifier"
-            case s3ObjectUrl = "S3ObjectUrl"
-            case replicationTaskLastAssessmentDate = "ReplicationTaskLastAssessmentDate"
-            case replicationTaskArn = "ReplicationTaskArn"
+            case endpointArn = "EndpointArn"
         }
     }
 
-    public enum ReloadOptionValue: String, CustomStringConvertible, Codable {
-        case dataReload = "data-reload"
-        case validateOnly = "validate-only"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct KinesisSettings: AWSShape {
+    public struct DeleteEndpointResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamArn", required: false, type: .string), 
-            AWSShapeMember(label: "MessageFormat", required: false, type: .enum), 
-            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string)
+            AWSShapeMember(label: "Endpoint", required: false, type: .structure)
         ]
-        /// The Amazon Resource Name (ARN) for the Amazon Kinesis Data Streams endpoint.
-        public let streamArn: String?
-        /// The output format for the records created on the endpoint. The message format is JSON.
-        public let messageFormat: MessageFormatValue?
-        /// The Amazon Resource Name (ARN) for the IAM role that DMS uses to write to the Amazon Kinesis data stream.
-        public let serviceAccessRoleArn: String?
+        /// The endpoint that was deleted.
+        public let endpoint: Endpoint?
 
-        public init(messageFormat: MessageFormatValue? = nil, serviceAccessRoleArn: String? = nil, streamArn: String? = nil) {
-            self.streamArn = streamArn
-            self.messageFormat = messageFormat
-            self.serviceAccessRoleArn = serviceAccessRoleArn
+        public init(endpoint: Endpoint? = nil) {
+            self.endpoint = endpoint
         }
 
         private enum CodingKeys: String, CodingKey {
-            case streamArn = "StreamArn"
-            case messageFormat = "MessageFormat"
-            case serviceAccessRoleArn = "ServiceAccessRoleArn"
+            case endpoint = "Endpoint"
         }
+    }
+
+    public struct DeleteEventSubscriptionMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
+        ]
+        /// The name of the DMS event notification subscription to be deleted.
+        public let subscriptionName: String
+
+        public init(subscriptionName: String) {
+            self.subscriptionName = subscriptionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionName = "SubscriptionName"
+        }
+    }
+
+    public struct DeleteEventSubscriptionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
+        ]
+        /// The event subscription that was deleted.
+        public let eventSubscription: EventSubscription?
+
+        public init(eventSubscription: EventSubscription? = nil) {
+            self.eventSubscription = eventSubscription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventSubscription = "EventSubscription"
+        }
+    }
+
+    public struct DeleteReplicationInstanceMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the replication instance to be deleted.
+        public let replicationInstanceArn: String
+
+        public init(replicationInstanceArn: String) {
+            self.replicationInstanceArn = replicationInstanceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationInstanceArn = "ReplicationInstanceArn"
+        }
+    }
+
+    public struct DeleteReplicationInstanceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationInstance", required: false, type: .structure)
+        ]
+        /// The replication instance that was deleted.
+        public let replicationInstance: ReplicationInstance?
+
+        public init(replicationInstance: ReplicationInstance? = nil) {
+            self.replicationInstance = replicationInstance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationInstance = "ReplicationInstance"
+        }
+    }
+
+    public struct DeleteReplicationSubnetGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string)
+        ]
+        /// The subnet group name of the replication instance.
+        public let replicationSubnetGroupIdentifier: String
+
+        public init(replicationSubnetGroupIdentifier: String) {
+            self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationSubnetGroupIdentifier = "ReplicationSubnetGroupIdentifier"
+        }
+    }
+
+    public struct DeleteReplicationSubnetGroupResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct DeleteReplicationTaskMessage: AWSShape {
@@ -136,59 +783,183 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct EventSubscription: AWSShape {
+    public struct DeleteReplicationTaskResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceIdsList", required: false, type: .list), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string), 
-            AWSShapeMember(label: "SubscriptionCreationTime", required: false, type: .string), 
-            AWSShapeMember(label: "CustomerAwsId", required: false, type: .string), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "EventCategoriesList", required: false, type: .list), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "CustSubscriptionId", required: false, type: .string)
+            AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
         ]
-        /// A list of source Ids for the event subscription.
-        public let sourceIdsList: [String]?
-        ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | replication-server | security-group | migration-task
-        public let sourceType: String?
-        /// The time the RDS event notification subscription was created.
-        public let subscriptionCreationTime: String?
-        /// The AWS customer account associated with the AWS DMS event notification subscription.
-        public let customerAwsId: String?
-        /// Boolean value that indicates if the event subscription is enabled.
-        public let enabled: Bool?
-        /// A lists of event categories.
-        public let eventCategoriesList: [String]?
-        /// The status of the AWS DMS event notification subscription. Constraints: Can be one of the following: creating | modifying | deleting | active | no-permission | topic-not-exist The status "no-permission" indicates that AWS DMS no longer has permission to post to the SNS topic. The status "topic-not-exist" indicates that the topic was deleted after the subscription was created.
-        public let status: String?
-        /// The topic ARN of the AWS DMS event notification subscription.
-        public let snsTopicArn: String?
-        /// The AWS DMS event notification subscription Id.
-        public let custSubscriptionId: String?
+        /// The deleted replication task.
+        public let replicationTask: ReplicationTask?
 
-        public init(custSubscriptionId: String? = nil, customerAwsId: String? = nil, enabled: Bool? = nil, eventCategoriesList: [String]? = nil, snsTopicArn: String? = nil, sourceIdsList: [String]? = nil, sourceType: String? = nil, status: String? = nil, subscriptionCreationTime: String? = nil) {
-            self.sourceIdsList = sourceIdsList
-            self.sourceType = sourceType
-            self.subscriptionCreationTime = subscriptionCreationTime
-            self.customerAwsId = customerAwsId
-            self.enabled = enabled
-            self.eventCategoriesList = eventCategoriesList
-            self.status = status
-            self.snsTopicArn = snsTopicArn
-            self.custSubscriptionId = custSubscriptionId
+        public init(replicationTask: ReplicationTask? = nil) {
+            self.replicationTask = replicationTask
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceIdsList = "SourceIdsList"
-            case sourceType = "SourceType"
-            case subscriptionCreationTime = "SubscriptionCreationTime"
-            case customerAwsId = "CustomerAwsId"
-            case enabled = "Enabled"
-            case eventCategoriesList = "EventCategoriesList"
-            case status = "Status"
-            case snsTopicArn = "SnsTopicArn"
-            case custSubscriptionId = "CustSubscriptionId"
+            case replicationTask = "ReplicationTask"
+        }
+    }
+
+    public struct DescribeAccountAttributesMessage: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DescribeAccountAttributesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountQuotas", required: false, type: .list)
+        ]
+        /// Account quota information.
+        public let accountQuotas: [AccountQuota]?
+
+        public init(accountQuotas: [AccountQuota]? = nil) {
+            self.accountQuotas = accountQuotas
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountQuotas = "AccountQuotas"
+        }
+    }
+
+    public struct DescribeCertificatesMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+        ]
+        /// Filters applied to the certificate described in the form of key-value pairs.
+        public let filters: [Filter]?
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 10
+        public let maxRecords: Int32?
+
+        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+            self.filters = filters
+            self.marker = marker
+            self.maxRecords = maxRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+        }
+    }
+
+    public struct DescribeCertificatesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificates", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// The Secure Sockets Layer (SSL) certificates associated with the replication instance.
+        public let certificates: [Certificate]?
+        /// The pagination token.
+        public let marker: String?
+
+        public init(certificates: [Certificate]? = nil, marker: String? = nil) {
+            self.certificates = certificates
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificates = "Certificates"
+            case marker = "Marker"
+        }
+    }
+
+    public struct DescribeConnectionsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+        ]
+        /// The filters applied to the connection. Valid filter names: endpoint-arn | replication-instance-arn
+        public let filters: [Filter]?
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int32?
+
+        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+            self.filters = filters
+            self.marker = marker
+            self.maxRecords = maxRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+        }
+    }
+
+    public struct DescribeConnectionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Connections", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// A description of the connections.
+        public let connections: [Connection]?
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+
+        public init(connections: [Connection]? = nil, marker: String? = nil) {
+            self.connections = connections
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connections = "Connections"
+            case marker = "Marker"
+        }
+    }
+
+    public struct DescribeEndpointTypesMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+        ]
+        /// Filters applied to the describe action. Valid filter names: engine-name | endpoint-type
+        public let filters: [Filter]?
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int32?
+
+        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+            self.filters = filters
+            self.marker = marker
+            self.maxRecords = maxRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+        }
+    }
+
+    public struct DescribeEndpointTypesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "SupportedEndpointTypes", required: false, type: .list)
+        ]
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        /// The type of endpoints that are supported.
+        public let supportedEndpointTypes: [SupportedEndpointType]?
+
+        public init(marker: String? = nil, supportedEndpointTypes: [SupportedEndpointType]? = nil) {
+            self.marker = marker
+            self.supportedEndpointTypes = supportedEndpointTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case supportedEndpointTypes = "SupportedEndpointTypes"
         }
     }
 
@@ -218,954 +989,169 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ReplicationPendingModifiedValues: AWSShape {
+    public struct DescribeEndpointsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string)
-        ]
-        /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
-        public let replicationInstanceClass: String?
-        ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
-        public let multiAZ: Bool?
-        /// The amount of storage (in gigabytes) that is allocated for the replication instance.
-        public let allocatedStorage: Int32?
-        /// The engine version number of the replication instance.
-        public let engineVersion: String?
-
-        public init(allocatedStorage: Int32? = nil, engineVersion: String? = nil, multiAZ: Bool? = nil, replicationInstanceClass: String? = nil) {
-            self.replicationInstanceClass = replicationInstanceClass
-            self.multiAZ = multiAZ
-            self.allocatedStorage = allocatedStorage
-            self.engineVersion = engineVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationInstanceClass = "ReplicationInstanceClass"
-            case multiAZ = "MultiAZ"
-            case allocatedStorage = "AllocatedStorage"
-            case engineVersion = "EngineVersion"
-        }
-    }
-
-    public struct ImportCertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificate", required: false, type: .structure)
-        ]
-        /// The certificate to be uploaded.
-        public let certificate: Certificate?
-
-        public init(certificate: Certificate? = nil) {
-            self.certificate = certificate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificate = "Certificate"
-        }
-    }
-
-    public struct DmsTransferSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketName", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string)
-        ]
-        ///  The name of the S3 bucket to use. 
-        public let bucketName: String?
-        ///  The IAM role that has permission to access the Amazon S3 bucket. 
-        public let serviceAccessRoleArn: String?
-
-        public init(bucketName: String? = nil, serviceAccessRoleArn: String? = nil) {
-            self.bucketName = bucketName
-            self.serviceAccessRoleArn = serviceAccessRoleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucketName = "BucketName"
-            case serviceAccessRoleArn = "ServiceAccessRoleArn"
-        }
-    }
-
-    public struct DescribeReplicationSubnetGroupsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
-        ]
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-        /// Filters applied to the describe action.
-        public let filters: [Filter]?
-        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
-
-        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
-            self.marker = marker
-            self.filters = filters
-            self.maxRecords = maxRecords
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case filters = "Filters"
-            case maxRecords = "MaxRecords"
-        }
-    }
-
-    public struct DescribeRefreshSchemasStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RefreshSchemasStatus", required: false, type: .structure)
-        ]
-        /// The status of the schema.
-        public let refreshSchemasStatus: RefreshSchemasStatus?
-
-        public init(refreshSchemasStatus: RefreshSchemasStatus? = nil) {
-            self.refreshSchemasStatus = refreshSchemasStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case refreshSchemasStatus = "RefreshSchemasStatus"
-        }
-    }
-
-    public struct DeleteReplicationInstanceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationInstance", required: false, type: .structure)
-        ]
-        /// The replication instance that was deleted.
-        public let replicationInstance: ReplicationInstance?
-
-        public init(replicationInstance: ReplicationInstance? = nil) {
-            self.replicationInstance = replicationInstance
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationInstance = "ReplicationInstance"
-        }
-    }
-
-    public struct Event: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventCategories", required: false, type: .list), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "Date", required: false, type: .timestamp)
-        ]
-        /// The event categories available for the specified source type.
-        public let eventCategories: [String]?
-        /// The event message.
-        public let message: String?
-        ///  The identifier of the event source. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it cannot end with a hyphen or contain two consecutive hyphens.  Constraints:replication instance, endpoint, migration task
-        public let sourceIdentifier: String?
-        ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | endpoint | migration-task
-        public let sourceType: SourceType?
-        /// The date of the event.
-        public let date: TimeStamp?
-
-        public init(date: TimeStamp? = nil, eventCategories: [String]? = nil, message: String? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil) {
-            self.eventCategories = eventCategories
-            self.message = message
-            self.sourceIdentifier = sourceIdentifier
-            self.sourceType = sourceType
-            self.date = date
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventCategories = "EventCategories"
-            case message = "Message"
-            case sourceIdentifier = "SourceIdentifier"
-            case sourceType = "SourceType"
-            case date = "Date"
-        }
-    }
-
-    public struct ImportCertificateMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateWallet", required: false, type: .blob), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "CertificateIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "CertificatePem", required: false, type: .string)
-        ]
-        /// The location of the imported Oracle Wallet certificate for use with SSL.
-        public let certificateWallet: Data?
-        /// The tags associated with the certificate.
-        public let tags: [Tag]?
-        /// The customer-assigned name of the certificate. Valid characters are A-z and 0-9.
-        public let certificateIdentifier: String
-        /// The contents of the .pem X.509 certificate file for the certificate.
-        public let certificatePem: String?
-
-        public init(certificateIdentifier: String, certificatePem: String? = nil, certificateWallet: Data? = nil, tags: [Tag]? = nil) {
-            self.certificateWallet = certificateWallet
-            self.tags = tags
-            self.certificateIdentifier = certificateIdentifier
-            self.certificatePem = certificatePem
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateWallet = "CertificateWallet"
-            case tags = "Tags"
-            case certificateIdentifier = "CertificateIdentifier"
-            case certificatePem = "CertificatePem"
-        }
-    }
-
-    public struct DescribeTableStatisticsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string)
-        ]
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-        /// Filters applied to the describe table statistics action. Valid filter names: schema-name | table-name | table-state A combination of filters creates an AND condition where each record matches all specified filters.
-        public let filters: [Filter]?
-        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 500.
-        public let maxRecords: Int32?
-        /// The Amazon Resource Name (ARN) of the replication task.
-        public let replicationTaskArn: String
-
-        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, replicationTaskArn: String) {
-            self.marker = marker
-            self.filters = filters
-            self.maxRecords = maxRecords
-            self.replicationTaskArn = replicationTaskArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case filters = "Filters"
-            case maxRecords = "MaxRecords"
-            case replicationTaskArn = "ReplicationTaskArn"
-        }
-    }
-
-    public struct DescribeReplicationInstancesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationInstances", required: false, type: .list), 
+            AWSShapeMember(label: "Endpoints", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
-        /// The replication instances described.
-        public let replicationInstances: [ReplicationInstance]?
+        /// Endpoint description.
+        public let endpoints: [Endpoint]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
 
-        public init(marker: String? = nil, replicationInstances: [ReplicationInstance]? = nil) {
-            self.replicationInstances = replicationInstances
+        public init(endpoints: [Endpoint]? = nil, marker: String? = nil) {
+            self.endpoints = endpoints
             self.marker = marker
         }
 
         private enum CodingKeys: String, CodingKey {
-            case replicationInstances = "ReplicationInstances"
+            case endpoints = "Endpoints"
             case marker = "Marker"
         }
     }
 
-    public struct VpcSecurityGroupMembership: AWSShape {
+    public struct DescribeEventCategoriesMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "VpcSecurityGroupId", required: false, type: .string)
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "SourceType", required: false, type: .string)
         ]
-        /// The status of the VPC security group.
-        public let status: String?
-        /// The VPC security group Id.
-        public let vpcSecurityGroupId: String?
-
-        public init(status: String? = nil, vpcSecurityGroupId: String? = nil) {
-            self.status = status
-            self.vpcSecurityGroupId = vpcSecurityGroupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case vpcSecurityGroupId = "VpcSecurityGroupId"
-        }
-    }
-
-    public struct StartReplicationTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
-        ]
-        /// The replication task started.
-        public let replicationTask: ReplicationTask?
-
-        public init(replicationTask: ReplicationTask? = nil) {
-            self.replicationTask = replicationTask
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationTask = "ReplicationTask"
-        }
-    }
-
-    public enum MessageFormatValue: String, CustomStringConvertible, Codable {
-        case json = "json"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeOrderableReplicationInstancesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "OrderableReplicationInstances", required: false, type: .list)
-        ]
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-        /// The order-able replication instances available.
-        public let orderableReplicationInstances: [OrderableReplicationInstance]?
-
-        public init(marker: String? = nil, orderableReplicationInstances: [OrderableReplicationInstance]? = nil) {
-            self.marker = marker
-            self.orderableReplicationInstances = orderableReplicationInstances
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case orderableReplicationInstances = "OrderableReplicationInstances"
-        }
-    }
-
-    public struct DescribeReplicationTaskAssessmentResultsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationTaskAssessmentResults", required: false, type: .list), 
-            AWSShapeMember(label: "BucketName", required: false, type: .string)
-        ]
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-        ///  The task assessment report. 
-        public let replicationTaskAssessmentResults: [ReplicationTaskAssessmentResult]?
-        /// - The Amazon S3 bucket where the task assessment report is located. 
-        public let bucketName: String?
-
-        public init(bucketName: String? = nil, marker: String? = nil, replicationTaskAssessmentResults: [ReplicationTaskAssessmentResult]? = nil) {
-            self.marker = marker
-            self.replicationTaskAssessmentResults = replicationTaskAssessmentResults
-            self.bucketName = bucketName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case replicationTaskAssessmentResults = "ReplicationTaskAssessmentResults"
-            case bucketName = "BucketName"
-        }
-    }
-
-    public struct DescribeConnectionsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .list)
-        ]
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
-        /// The filters applied to the connection. Valid filter names: endpoint-arn | replication-instance-arn
+        /// Filters applied to the action.
         public let filters: [Filter]?
+        ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | migration-task
+        public let sourceType: String?
 
-        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
-            self.marker = marker
-            self.maxRecords = maxRecords
+        public init(filters: [Filter]? = nil, sourceType: String? = nil) {
             self.filters = filters
+            self.sourceType = sourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxRecords = "MaxRecords"
             case filters = "Filters"
+            case sourceType = "SourceType"
         }
     }
 
-    public struct DescribeReplicationTaskAssessmentResultsMessage: AWSShape {
+    public struct DescribeEventCategoriesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventCategoryGroupList", required: false, type: .list)
+        ]
+        /// A list of event categories.
+        public let eventCategoryGroupList: [EventCategoryGroup]?
+
+        public init(eventCategoryGroupList: [EventCategoryGroup]? = nil) {
+            self.eventCategoryGroupList = eventCategoryGroupList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventCategoryGroupList = "EventCategoryGroupList"
+        }
+    }
+
+    public struct DescribeEventSubscriptionsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string)
+            AWSShapeMember(label: "SubscriptionName", required: false, type: .string)
         ]
+        /// Filters applied to the action.
+        public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        /// - The Amazon Resource Name (ARN) string that uniquely identifies the task. When this input parameter is specified the API will return only one result and ignore the values of the max-records and marker parameters. 
-        public let replicationTaskArn: String?
+        /// The name of the AWS DMS event subscription to be described.
+        public let subscriptionName: String?
 
-        public init(marker: String? = nil, maxRecords: Int32? = nil, replicationTaskArn: String? = nil) {
+        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, subscriptionName: String? = nil) {
+            self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
-            self.replicationTaskArn = replicationTaskArn
+            self.subscriptionName = subscriptionName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
             case marker = "Marker"
             case maxRecords = "MaxRecords"
-            case replicationTaskArn = "ReplicationTaskArn"
+            case subscriptionName = "SubscriptionName"
         }
     }
 
-    public struct RebootReplicationInstanceResponse: AWSShape {
+    public struct DescribeEventSubscriptionsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationInstance", required: false, type: .structure)
+            AWSShapeMember(label: "EventSubscriptionsList", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
-        /// The replication instance that is being rebooted. 
-        public let replicationInstance: ReplicationInstance?
-
-        public init(replicationInstance: ReplicationInstance? = nil) {
-            self.replicationInstance = replicationInstance
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationInstance = "ReplicationInstance"
-        }
-    }
-
-    public struct DeleteEndpointMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public let endpointArn: String
-
-        public init(endpointArn: String) {
-            self.endpointArn = endpointArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endpointArn = "EndpointArn"
-        }
-    }
-
-    public struct StartReplicationTaskAssessmentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
-        ]
-        ///  The assessed replication task. 
-        public let replicationTask: ReplicationTask?
-
-        public init(replicationTask: ReplicationTask? = nil) {
-            self.replicationTask = replicationTask
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationTask = "ReplicationTask"
-        }
-    }
-
-    public struct RefreshSchemasStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointArn", required: false, type: .string), 
-            AWSShapeMember(label: "LastFailureMessage", required: false, type: .string), 
-            AWSShapeMember(label: "LastRefreshDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public let endpointArn: String?
-        /// The last failure message for the schema.
-        public let lastFailureMessage: String?
-        /// The date the schema was last refreshed.
-        public let lastRefreshDate: TimeStamp?
-        /// The status of the schema.
-        public let status: RefreshSchemasStatusTypeValue?
-        /// The Amazon Resource Name (ARN) of the replication instance.
-        public let replicationInstanceArn: String?
-
-        public init(endpointArn: String? = nil, lastFailureMessage: String? = nil, lastRefreshDate: TimeStamp? = nil, replicationInstanceArn: String? = nil, status: RefreshSchemasStatusTypeValue? = nil) {
-            self.endpointArn = endpointArn
-            self.lastFailureMessage = lastFailureMessage
-            self.lastRefreshDate = lastRefreshDate
-            self.status = status
-            self.replicationInstanceArn = replicationInstanceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endpointArn = "EndpointArn"
-            case lastFailureMessage = "LastFailureMessage"
-            case lastRefreshDate = "LastRefreshDate"
-            case status = "Status"
-            case replicationInstanceArn = "ReplicationInstanceArn"
-        }
-    }
-
-    public enum CompressionTypeValue: String, CustomStringConvertible, Codable {
-        case none = "none"
-        case gzip = "gzip"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteEndpointResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Endpoint", required: false, type: .structure)
-        ]
-        /// The endpoint that was deleted.
-        public let endpoint: Endpoint?
-
-        public init(endpoint: Endpoint? = nil) {
-            self.endpoint = endpoint
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endpoint = "Endpoint"
-        }
-    }
-
-    public struct StopReplicationTaskMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name(ARN) of the replication task to be stopped.
-        public let replicationTaskArn: String
-
-        public init(replicationTaskArn: String) {
-            self.replicationTaskArn = replicationTaskArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationTaskArn = "ReplicationTaskArn"
-        }
-    }
-
-    public struct DescribeConnectionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Connections", required: false, type: .list)
-        ]
+        /// A list of event subscriptions.
+        public let eventSubscriptionsList: [EventSubscription]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
-        /// A description of the connections.
-        public let connections: [Connection]?
 
-        public init(connections: [Connection]? = nil, marker: String? = nil) {
+        public init(eventSubscriptionsList: [EventSubscription]? = nil, marker: String? = nil) {
+            self.eventSubscriptionsList = eventSubscriptionsList
             self.marker = marker
-            self.connections = connections
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eventSubscriptionsList = "EventSubscriptionsList"
             case marker = "Marker"
-            case connections = "Connections"
         }
     }
 
-    public struct Subnet: AWSShape {
+    public struct DescribeEventsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetStatus", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetAvailabilityZone", required: false, type: .structure)
-        ]
-        /// The subnet identifier.
-        public let subnetIdentifier: String?
-        /// The status of the subnet.
-        public let subnetStatus: String?
-        /// The Availability Zone of the subnet.
-        public let subnetAvailabilityZone: AvailabilityZone?
-
-        public init(subnetAvailabilityZone: AvailabilityZone? = nil, subnetIdentifier: String? = nil, subnetStatus: String? = nil) {
-            self.subnetIdentifier = subnetIdentifier
-            self.subnetStatus = subnetStatus
-            self.subnetAvailabilityZone = subnetAvailabilityZone
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subnetIdentifier = "SubnetIdentifier"
-            case subnetStatus = "SubnetStatus"
-            case subnetAvailabilityZone = "SubnetAvailabilityZone"
-        }
-    }
-
-    public struct ModifyReplicationInstanceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationInstance", required: false, type: .structure)
-        ]
-        /// The modified replication instance.
-        public let replicationInstance: ReplicationInstance?
-
-        public init(replicationInstance: ReplicationInstance? = nil) {
-            self.replicationInstance = replicationInstance
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationInstance = "ReplicationInstance"
-        }
-    }
-
-    public struct ModifyEndpointMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
-            AWSShapeMember(label: "Password", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "S3Settings", required: false, type: .structure), 
-            AWSShapeMember(label: "DmsTransferSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "EndpointIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "ServerName", required: false, type: .string), 
-            AWSShapeMember(label: "SslMode", required: false, type: .enum), 
-            AWSShapeMember(label: "Username", required: false, type: .string), 
-            AWSShapeMember(label: "ExtraConnectionAttributes", required: false, type: .string), 
-            AWSShapeMember(label: "ExternalTableDefinition", required: false, type: .string), 
-            AWSShapeMember(label: "KinesisSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "DynamoDbSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "MongoDbSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "EngineName", required: false, type: .string), 
-            AWSShapeMember(label: "EndpointType", required: false, type: .enum), 
-            AWSShapeMember(label: "ElasticsearchSettings", required: false, type: .structure)
-        ]
-        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public let endpointArn: String
-        /// The password to be used to login to the endpoint database.
-        public let password: String?
-        ///  The Amazon Resource Name (ARN) for the service access role you want to use to modify the endpoint. 
-        public let serviceAccessRoleArn: String?
-        /// The name of the endpoint database.
-        public let databaseName: String?
-        /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
-        public let certificateArn: String?
-        /// Settings in JSON format for the target Amazon S3 endpoint. For more information about the available settings, see Extra Connection Attributes When Using Amazon S3 as a Target for AWS DMS in the AWS Database Migration Service User Guide. 
-        public let s3Settings: S3Settings?
-        /// The settings in JSON format for the DMS transfer type of source endpoint.  Attributes include the following:   serviceAccessRoleArn - The IAM role that has permission to access the Amazon S3 bucket.   BucketName - The name of the S3 bucket to use.   compressionType - An optional parameter to use GZIP to compress the target files. Set to NONE (the default) or do not use to leave the files uncompressed.   Shorthand syntax: ServiceAccessRoleArn=string ,BucketName=string,CompressionType=string JSON syntax:  { "ServiceAccessRoleArn": "string", "BucketName": "string", "CompressionType": "none"|"gzip" } 
-        public let dmsTransferSettings: DmsTransferSettings?
-        /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
-        public let endpointIdentifier: String?
-        /// The port used by the endpoint database.
-        public let port: Int32?
-        /// The name of the server where the endpoint database resides.
-        public let serverName: String?
-        /// The SSL mode to be used. SSL mode can be one of four values: none, require, verify-ca, verify-full.  The default value is none.
-        public let sslMode: DmsSslModeValue?
-        /// The user name to be used to login to the endpoint database.
-        public let username: String?
-        /// Additional attributes associated with the connection. To reset this parameter, pass the empty string ("") as an argument.
-        public let extraConnectionAttributes: String?
-        /// The external table definition.
-        public let externalTableDefinition: String?
-        /// Settings in JSON format for the target Amazon Kinesis Data Streams endpoint. For more information about the available settings, see Using Object Mapping to Migrate Data to a Kinesis Data Stream in the AWS Database Migration User Guide. 
-        public let kinesisSettings: KinesisSettings?
-        /// Settings in JSON format for the target Amazon DynamoDB endpoint. For more information about the available settings, see Using Object Mapping to Migrate Data to DynamoDB in the AWS Database Migration Service User Guide. 
-        public let dynamoDbSettings: DynamoDbSettings?
-        /// Settings in JSON format for the source MongoDB endpoint. For more information about the available settings, see the configuration properties section in  Using MongoDB as a Target for AWS Database Migration Service in the AWS Database Migration Service User Guide. 
-        public let mongoDbSettings: MongoDbSettings?
-        /// The type of engine for the endpoint. Valid values, depending on the EndPointType, include mysql, oracle, postgres, mariadb, aurora, aurora-postgresql, redshift, s3, db2, azuredb, sybase, sybase, dynamodb, mongodb, and sqlserver.
-        public let engineName: String?
-        /// The type of endpoint.
-        public let endpointType: ReplicationEndpointTypeValue?
-        /// Settings in JSON format for the target Elasticsearch endpoint. For more information about the available settings, see Extra Connection Attributes When Using Elasticsearch as a Target for AWS DMS in the AWS Database Migration User Guide. 
-        public let elasticsearchSettings: ElasticsearchSettings?
-
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineName: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kinesisSettings: KinesisSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, password: String? = nil, port: Int32? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, username: String? = nil) {
-            self.endpointArn = endpointArn
-            self.password = password
-            self.serviceAccessRoleArn = serviceAccessRoleArn
-            self.databaseName = databaseName
-            self.certificateArn = certificateArn
-            self.s3Settings = s3Settings
-            self.dmsTransferSettings = dmsTransferSettings
-            self.endpointIdentifier = endpointIdentifier
-            self.port = port
-            self.serverName = serverName
-            self.sslMode = sslMode
-            self.username = username
-            self.extraConnectionAttributes = extraConnectionAttributes
-            self.externalTableDefinition = externalTableDefinition
-            self.kinesisSettings = kinesisSettings
-            self.dynamoDbSettings = dynamoDbSettings
-            self.mongoDbSettings = mongoDbSettings
-            self.engineName = engineName
-            self.endpointType = endpointType
-            self.elasticsearchSettings = elasticsearchSettings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endpointArn = "EndpointArn"
-            case password = "Password"
-            case serviceAccessRoleArn = "ServiceAccessRoleArn"
-            case databaseName = "DatabaseName"
-            case certificateArn = "CertificateArn"
-            case s3Settings = "S3Settings"
-            case dmsTransferSettings = "DmsTransferSettings"
-            case endpointIdentifier = "EndpointIdentifier"
-            case port = "Port"
-            case serverName = "ServerName"
-            case sslMode = "SslMode"
-            case username = "Username"
-            case extraConnectionAttributes = "ExtraConnectionAttributes"
-            case externalTableDefinition = "ExternalTableDefinition"
-            case kinesisSettings = "KinesisSettings"
-            case dynamoDbSettings = "DynamoDbSettings"
-            case mongoDbSettings = "MongoDbSettings"
-            case engineName = "EngineName"
-            case endpointType = "EndpointType"
-            case elasticsearchSettings = "ElasticsearchSettings"
-        }
-    }
-
-    public struct TestConnectionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public let endpointArn: String
-        /// The Amazon Resource Name (ARN) of the replication instance.
-        public let replicationInstanceArn: String
-
-        public init(endpointArn: String, replicationInstanceArn: String) {
-            self.endpointArn = endpointArn
-            self.replicationInstanceArn = replicationInstanceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endpointArn = "EndpointArn"
-            case replicationInstanceArn = "ReplicationInstanceArn"
-        }
-    }
-
-    public struct CreateEventSubscriptionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Duration", required: false, type: .integer), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "EventCategories", required: false, type: .list), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SourceIds", required: false, type: .list), 
-            AWSShapeMember(label: "SubscriptionName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "SnsTopicArn", required: true, type: .string), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string)
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
         ]
-        ///  A list of event categories for a source type that you want to subscribe to. You can see a list of the categories for a given source type by calling the DescribeEventCategories action or in the topic Working with Events and Notifications in the AWS Database Migration Service User Guide. 
+        /// The duration of the events to be listed.
+        public let duration: Int32?
+        /// The end time for the events to be listed.
+        public let endTime: TimeStamp?
+        /// A list of event categories for a source type that you want to subscribe to.
         public let eventCategories: [String]?
-        ///  A Boolean value; set to true to activate the subscription, or set to false to create the subscription but not activate it. 
-        public let enabled: Bool?
-        ///  The list of identifiers of the event sources for which events will be returned. If not specified, then all sources are included in the response. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it cannot end with a hyphen or contain two consecutive hyphens. 
-        public let sourceIds: [String]?
-        /// The name of the AWS DMS event notification subscription.  Constraints: The name must be less than 255 characters. 
-        public let subscriptionName: String
-        /// A tag to be attached to the event subscription.
-        public let tags: [Tag]?
-        ///  The Amazon Resource Name (ARN) of the Amazon SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it. 
-        public let snsTopicArn: String
-        ///  The type of AWS DMS resource that generates the events. For example, if you want to be notified of events generated by a replication instance, you set this parameter to replication-instance. If this value is not specified, all events are returned.  Valid values: replication-instance | migration-task
-        public let sourceType: String?
+        /// Filters applied to the action.
+        public let filters: [Filter]?
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int32?
+        ///  The identifier of the event source. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens. It cannot end with a hyphen or contain two consecutive hyphens. 
+        public let sourceIdentifier: String?
+        /// The type of AWS DMS resource that generates events. Valid values: replication-instance | migration-task
+        public let sourceType: SourceType?
+        /// The start time for the events to be listed.
+        public let startTime: TimeStamp?
 
-        public init(enabled: Bool? = nil, eventCategories: [String]? = nil, snsTopicArn: String, sourceIds: [String]? = nil, sourceType: String? = nil, subscriptionName: String, tags: [Tag]? = nil) {
+        public init(duration: Int32? = nil, endTime: TimeStamp? = nil, eventCategories: [String]? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
+            self.duration = duration
+            self.endTime = endTime
             self.eventCategories = eventCategories
-            self.enabled = enabled
-            self.sourceIds = sourceIds
-            self.subscriptionName = subscriptionName
-            self.tags = tags
-            self.snsTopicArn = snsTopicArn
+            self.filters = filters
+            self.marker = marker
+            self.maxRecords = maxRecords
+            self.sourceIdentifier = sourceIdentifier
             self.sourceType = sourceType
+            self.startTime = startTime
         }
 
         private enum CodingKeys: String, CodingKey {
+            case duration = "Duration"
+            case endTime = "EndTime"
             case eventCategories = "EventCategories"
-            case enabled = "Enabled"
-            case sourceIds = "SourceIds"
-            case subscriptionName = "SubscriptionName"
-            case tags = "Tags"
-            case snsTopicArn = "SnsTopicArn"
+            case filters = "Filters"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case sourceIdentifier = "SourceIdentifier"
             case sourceType = "SourceType"
-        }
-    }
-
-    public struct ModifyEventSubscriptionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SubscriptionName", required: true, type: .string), 
-            AWSShapeMember(label: "EventCategories", required: false, type: .list), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string)
-        ]
-        ///  The Amazon Resource Name (ARN) of the Amazon SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
-        public let snsTopicArn: String?
-        ///  A Boolean value; set to true to activate the subscription. 
-        public let enabled: Bool?
-        /// The name of the AWS DMS event notification subscription to be modified.
-        public let subscriptionName: String
-        ///  A list of event categories for a source type that you want to subscribe to. Use the DescribeEventCategories action to see a list of event categories. 
-        public let eventCategories: [String]?
-        ///  The type of AWS DMS resource that generates the events you want to subscribe to.  Valid values: replication-instance | migration-task
-        public let sourceType: String?
-
-        public init(enabled: Bool? = nil, eventCategories: [String]? = nil, snsTopicArn: String? = nil, sourceType: String? = nil, subscriptionName: String) {
-            self.snsTopicArn = snsTopicArn
-            self.enabled = enabled
-            self.subscriptionName = subscriptionName
-            self.eventCategories = eventCategories
-            self.sourceType = sourceType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case snsTopicArn = "SnsTopicArn"
-            case enabled = "Enabled"
-            case subscriptionName = "SubscriptionName"
-            case eventCategories = "EventCategories"
-            case sourceType = "SourceType"
-        }
-    }
-
-    public struct AccountQuota: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountQuotaName", required: false, type: .string), 
-            AWSShapeMember(label: "Used", required: false, type: .long), 
-            AWSShapeMember(label: "Max", required: false, type: .long)
-        ]
-        /// The name of the AWS DMS quota for this AWS account.
-        public let accountQuotaName: String?
-        /// The amount currently used toward the quota maximum.
-        public let used: Int64?
-        /// The maximum allowed value for the quota.
-        public let max: Int64?
-
-        public init(accountQuotaName: String? = nil, max: Int64? = nil, used: Int64? = nil) {
-            self.accountQuotaName = accountQuotaName
-            self.used = used
-            self.max = max
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountQuotaName = "AccountQuotaName"
-            case used = "Used"
-            case max = "Max"
-        }
-    }
-
-    public enum AuthMechanismValue: String, CustomStringConvertible, Codable {
-        case `default` = "default"
-        case mongodbCr = "mongodb_cr"
-        case scramSha1 = "scram_sha_1"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct StartReplicationTaskAssessmentMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string)
-        ]
-        ///  The Amazon Resource Name (ARN) of the replication task. 
-        public let replicationTaskArn: String
-
-        public init(replicationTaskArn: String) {
-            self.replicationTaskArn = replicationTaskArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationTaskArn = "ReplicationTaskArn"
-        }
-    }
-
-    public struct EventCategoryGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventCategories", required: false, type: .list), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string)
-        ]
-        ///  A list of event categories for a SourceType that you want to subscribe to. 
-        public let eventCategories: [String]?
-        ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | replication-server | security-group | migration-task
-        public let sourceType: String?
-
-        public init(eventCategories: [String]? = nil, sourceType: String? = nil) {
-            self.eventCategories = eventCategories
-            self.sourceType = sourceType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventCategories = "EventCategories"
-            case sourceType = "SourceType"
-        }
-    }
-
-    public struct ReplicationTask: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StopReason", required: false, type: .string), 
-            AWSShapeMember(label: "CdcStopPosition", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationTaskSettings", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationTaskCreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CdcStartPosition", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "TableMappings", required: false, type: .string), 
-            AWSShapeMember(label: "LastFailureMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationTaskStartDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ReplicationTaskStats", required: false, type: .structure), 
-            AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "MigrationType", required: false, type: .enum), 
-            AWSShapeMember(label: "SourceEndpointArn", required: false, type: .string), 
-            AWSShapeMember(label: "TargetEndpointArn", required: false, type: .string), 
-            AWSShapeMember(label: "RecoveryCheckpoint", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationTaskIdentifier", required: false, type: .string)
-        ]
-        /// The reason the replication task was stopped.
-        public let stopReason: String?
-        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
-        public let cdcStopPosition: String?
-        /// The settings for the replication task.
-        public let replicationTaskSettings: String?
-        /// The date the replication task was created.
-        public let replicationTaskCreationDate: TimeStamp?
-        /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
-        public let cdcStartPosition: String?
-        /// The status of the replication task.
-        public let status: String?
-        /// Table mappings specified in the task.
-        public let tableMappings: String?
-        /// The last error (failure) message generated for the replication instance.
-        public let lastFailureMessage: String?
-        /// The date the replication task is scheduled to start.
-        public let replicationTaskStartDate: TimeStamp?
-        /// The statistics for the task, including elapsed time, tables loaded, and table errors.
-        public let replicationTaskStats: ReplicationTaskStats?
-        /// The Amazon Resource Name (ARN) of the replication instance.
-        public let replicationInstanceArn: String?
-        /// The type of migration.
-        public let migrationType: MigrationTypeValue?
-        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public let sourceEndpointArn: String?
-        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public let targetEndpointArn: String?
-        /// Indicates the last checkpoint that occurred during a change data capture (CDC) operation. You can provide this value to the CdcStartPosition parameter to start a CDC operation that begins at that checkpoint.
-        public let recoveryCheckpoint: String?
-        /// The Amazon Resource Name (ARN) of the replication task.
-        public let replicationTaskArn: String?
-        /// The user-assigned replication task identifier or name. Constraints:   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
-        public let replicationTaskIdentifier: String?
-
-        public init(cdcStartPosition: String? = nil, cdcStopPosition: String? = nil, lastFailureMessage: String? = nil, migrationType: MigrationTypeValue? = nil, recoveryCheckpoint: String? = nil, replicationInstanceArn: String? = nil, replicationTaskArn: String? = nil, replicationTaskCreationDate: TimeStamp? = nil, replicationTaskIdentifier: String? = nil, replicationTaskSettings: String? = nil, replicationTaskStartDate: TimeStamp? = nil, replicationTaskStats: ReplicationTaskStats? = nil, sourceEndpointArn: String? = nil, status: String? = nil, stopReason: String? = nil, tableMappings: String? = nil, targetEndpointArn: String? = nil) {
-            self.stopReason = stopReason
-            self.cdcStopPosition = cdcStopPosition
-            self.replicationTaskSettings = replicationTaskSettings
-            self.replicationTaskCreationDate = replicationTaskCreationDate
-            self.cdcStartPosition = cdcStartPosition
-            self.status = status
-            self.tableMappings = tableMappings
-            self.lastFailureMessage = lastFailureMessage
-            self.replicationTaskStartDate = replicationTaskStartDate
-            self.replicationTaskStats = replicationTaskStats
-            self.replicationInstanceArn = replicationInstanceArn
-            self.migrationType = migrationType
-            self.sourceEndpointArn = sourceEndpointArn
-            self.targetEndpointArn = targetEndpointArn
-            self.recoveryCheckpoint = recoveryCheckpoint
-            self.replicationTaskArn = replicationTaskArn
-            self.replicationTaskIdentifier = replicationTaskIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stopReason = "StopReason"
-            case cdcStopPosition = "CdcStopPosition"
-            case replicationTaskSettings = "ReplicationTaskSettings"
-            case replicationTaskCreationDate = "ReplicationTaskCreationDate"
-            case cdcStartPosition = "CdcStartPosition"
-            case status = "Status"
-            case tableMappings = "TableMappings"
-            case lastFailureMessage = "LastFailureMessage"
-            case replicationTaskStartDate = "ReplicationTaskStartDate"
-            case replicationTaskStats = "ReplicationTaskStats"
-            case replicationInstanceArn = "ReplicationInstanceArn"
-            case migrationType = "MigrationType"
-            case sourceEndpointArn = "SourceEndpointArn"
-            case targetEndpointArn = "TargetEndpointArn"
-            case recoveryCheckpoint = "RecoveryCheckpoint"
-            case replicationTaskArn = "ReplicationTaskArn"
-            case replicationTaskIdentifier = "ReplicationTaskIdentifier"
+            case startTime = "StartTime"
         }
     }
 
@@ -1190,495 +1176,6 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeRefreshSchemasStatusMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public let endpointArn: String
-
-        public init(endpointArn: String) {
-            self.endpointArn = endpointArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endpointArn = "EndpointArn"
-        }
-    }
-
-    public enum ReplicationEndpointTypeValue: String, CustomStringConvertible, Codable {
-        case source = "source"
-        case target = "target"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RemoveTagsFromResourceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
-        /// &gt;The Amazon Resource Name (ARN) of the AWS DMS resource the tag is to be removed from.
-        public let resourceArn: String
-        /// The tag key (name) of the tag to be removed.
-        public let tagKeys: [String]
-
-        public init(resourceArn: String, tagKeys: [String]) {
-            self.resourceArn = resourceArn
-            self.tagKeys = tagKeys
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
-            case tagKeys = "TagKeys"
-        }
-    }
-
-    public struct S3Settings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExternalTableDefinition", required: false, type: .string), 
-            AWSShapeMember(label: "CompressionType", required: false, type: .enum), 
-            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "CsvRowDelimiter", required: false, type: .string), 
-            AWSShapeMember(label: "CsvDelimiter", required: false, type: .string), 
-            AWSShapeMember(label: "BucketFolder", required: false, type: .string), 
-            AWSShapeMember(label: "BucketName", required: false, type: .string)
-        ]
-        ///  The external table definition. 
-        public let externalTableDefinition: String?
-        ///  An optional parameter to use GZIP to compress the target files. Set to GZIP to compress the target files. Set to NONE (the default) or do not use to leave the files uncompressed. 
-        public let compressionType: CompressionTypeValue?
-        ///  The Amazon Resource Name (ARN) used by the service access IAM role. 
-        public let serviceAccessRoleArn: String?
-        ///  The delimiter used to separate rows in the source files. The default is a carriage return (\n). 
-        public let csvRowDelimiter: String?
-        ///  The delimiter used to separate columns in the source files. The default is a comma. 
-        public let csvDelimiter: String?
-        ///  An optional parameter to set a folder name in the S3 bucket. If provided, tables are created in the path &lt;bucketFolder&gt;/&lt;schema_name&gt;/&lt;table_name&gt;/. If this parameter is not specified, then the path used is &lt;schema_name&gt;/&lt;table_name&gt;/. 
-        public let bucketFolder: String?
-        ///  The name of the S3 bucket. 
-        public let bucketName: String?
-
-        public init(bucketFolder: String? = nil, bucketName: String? = nil, compressionType: CompressionTypeValue? = nil, csvDelimiter: String? = nil, csvRowDelimiter: String? = nil, externalTableDefinition: String? = nil, serviceAccessRoleArn: String? = nil) {
-            self.externalTableDefinition = externalTableDefinition
-            self.compressionType = compressionType
-            self.serviceAccessRoleArn = serviceAccessRoleArn
-            self.csvRowDelimiter = csvRowDelimiter
-            self.csvDelimiter = csvDelimiter
-            self.bucketFolder = bucketFolder
-            self.bucketName = bucketName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case externalTableDefinition = "ExternalTableDefinition"
-            case compressionType = "CompressionType"
-            case serviceAccessRoleArn = "ServiceAccessRoleArn"
-            case csvRowDelimiter = "CsvRowDelimiter"
-            case csvDelimiter = "CsvDelimiter"
-            case bucketFolder = "BucketFolder"
-            case bucketName = "BucketName"
-        }
-    }
-
-    public struct ReloadTablesMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string), 
-            AWSShapeMember(label: "TablesToReload", required: true, type: .list), 
-            AWSShapeMember(label: "ReloadOption", required: false, type: .enum)
-        ]
-        /// The Amazon Resource Name (ARN) of the replication task. 
-        public let replicationTaskArn: String
-        /// The name and schema of the table to be reloaded. 
-        public let tablesToReload: [TableToReload]
-        /// Options for reload. Specify data-reload to reload the data and re-validate it if validation is enabled. Specify validate-only to re-validate the table. This option applies only when validation is enabled for the task.  Valid values: data-reload, validate-only Default value is data-reload.
-        public let reloadOption: ReloadOptionValue?
-
-        public init(reloadOption: ReloadOptionValue? = nil, replicationTaskArn: String, tablesToReload: [TableToReload]) {
-            self.replicationTaskArn = replicationTaskArn
-            self.tablesToReload = tablesToReload
-            self.reloadOption = reloadOption
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationTaskArn = "ReplicationTaskArn"
-            case tablesToReload = "TablesToReload"
-            case reloadOption = "ReloadOption"
-        }
-    }
-
-    public struct DescribeEventCategoriesMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceType", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list)
-        ]
-        ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | migration-task
-        public let sourceType: String?
-        /// Filters applied to the action.
-        public let filters: [Filter]?
-
-        public init(filters: [Filter]? = nil, sourceType: String? = nil) {
-            self.sourceType = sourceType
-            self.filters = filters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceType = "SourceType"
-            case filters = "Filters"
-        }
-    }
-
-    public struct StopReplicationTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
-        ]
-        /// The replication task stopped.
-        public let replicationTask: ReplicationTask?
-
-        public init(replicationTask: ReplicationTask? = nil) {
-            self.replicationTask = replicationTask
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationTask = "ReplicationTask"
-        }
-    }
-
-    public struct ReplicationInstance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FreeUntil", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "InstanceCreateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "PendingModifiedValues", required: false, type: .structure), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "DnsNameServers", required: false, type: .string), 
-            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
-            AWSShapeMember(label: "ReplicationInstancePrivateIpAddresses", required: false, type: .list), 
-            AWSShapeMember(label: "ReplicationInstancePublicIpAddress", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstancePublicIpAddresses", required: false, type: .list), 
-            AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationSubnetGroup", required: false, type: .structure), 
-            AWSShapeMember(label: "SecondaryAvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "VpcSecurityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceStatus", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstancePrivateIpAddress", required: false, type: .string)
-        ]
-        ///  The expiration date of the free replication instance that is part of the Free DMS program. 
-        public let freeUntil: TimeStamp?
-        /// The replication instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: myrepinstance 
-        public let replicationInstanceIdentifier: String?
-        ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
-        public let multiAZ: Bool?
-        /// The time the replication instance was created.
-        public let instanceCreateTime: TimeStamp?
-        /// The pending modification values.
-        public let pendingModifiedValues: ReplicationPendingModifiedValues?
-        /// The AWS KMS key identifier that is used to encrypt the content on the replication instance. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
-        public let kmsKeyId: String?
-        /// The DNS name servers for the replication instance.
-        public let dnsNameServers: String?
-        ///  Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true. 
-        public let publiclyAccessible: Bool?
-        /// The private IP address of the replication instance.
-        public let replicationInstancePrivateIpAddresses: [String]?
-        /// The public IP address of the replication instance.
-        public let replicationInstancePublicIpAddress: String?
-        /// The maintenance window times for the replication instance.
-        public let preferredMaintenanceWindow: String?
-        /// The public IP address of the replication instance.
-        public let replicationInstancePublicIpAddresses: [String]?
-        /// The Amazon Resource Name (ARN) of the replication instance.
-        public let replicationInstanceArn: String?
-        /// The subnet group for the replication instance.
-        public let replicationSubnetGroup: ReplicationSubnetGroup?
-        /// The availability zone of the standby replication instance in a Multi-AZ deployment.
-        public let secondaryAvailabilityZone: String?
-        /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
-        public let replicationInstanceClass: String?
-        /// The amount of storage (in gigabytes) that is allocated for the replication instance.
-        public let allocatedStorage: Int32?
-        /// Boolean value indicating if minor version upgrades will be automatically applied to the instance.
-        public let autoMinorVersionUpgrade: Bool?
-        /// The VPC security group for the instance.
-        public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
-        /// The engine version number of the replication instance.
-        public let engineVersion: String?
-        /// The Availability Zone for the instance.
-        public let availabilityZone: String?
-        /// The status of the replication instance.
-        public let replicationInstanceStatus: String?
-        /// The private IP address of the replication instance.
-        public let replicationInstancePrivateIpAddress: String?
-
-        public init(allocatedStorage: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, freeUntil: TimeStamp? = nil, instanceCreateTime: TimeStamp? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceArn: String? = nil, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, replicationInstancePrivateIpAddress: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, replicationInstancePublicIpAddress: String? = nil, replicationInstancePublicIpAddresses: [String]? = nil, replicationInstanceStatus: String? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, secondaryAvailabilityZone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
-            self.freeUntil = freeUntil
-            self.replicationInstanceIdentifier = replicationInstanceIdentifier
-            self.multiAZ = multiAZ
-            self.instanceCreateTime = instanceCreateTime
-            self.pendingModifiedValues = pendingModifiedValues
-            self.kmsKeyId = kmsKeyId
-            self.dnsNameServers = dnsNameServers
-            self.publiclyAccessible = publiclyAccessible
-            self.replicationInstancePrivateIpAddresses = replicationInstancePrivateIpAddresses
-            self.replicationInstancePublicIpAddress = replicationInstancePublicIpAddress
-            self.preferredMaintenanceWindow = preferredMaintenanceWindow
-            self.replicationInstancePublicIpAddresses = replicationInstancePublicIpAddresses
-            self.replicationInstanceArn = replicationInstanceArn
-            self.replicationSubnetGroup = replicationSubnetGroup
-            self.secondaryAvailabilityZone = secondaryAvailabilityZone
-            self.replicationInstanceClass = replicationInstanceClass
-            self.allocatedStorage = allocatedStorage
-            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
-            self.vpcSecurityGroups = vpcSecurityGroups
-            self.engineVersion = engineVersion
-            self.availabilityZone = availabilityZone
-            self.replicationInstanceStatus = replicationInstanceStatus
-            self.replicationInstancePrivateIpAddress = replicationInstancePrivateIpAddress
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case freeUntil = "FreeUntil"
-            case replicationInstanceIdentifier = "ReplicationInstanceIdentifier"
-            case multiAZ = "MultiAZ"
-            case instanceCreateTime = "InstanceCreateTime"
-            case pendingModifiedValues = "PendingModifiedValues"
-            case kmsKeyId = "KmsKeyId"
-            case dnsNameServers = "DnsNameServers"
-            case publiclyAccessible = "PubliclyAccessible"
-            case replicationInstancePrivateIpAddresses = "ReplicationInstancePrivateIpAddresses"
-            case replicationInstancePublicIpAddress = "ReplicationInstancePublicIpAddress"
-            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
-            case replicationInstancePublicIpAddresses = "ReplicationInstancePublicIpAddresses"
-            case replicationInstanceArn = "ReplicationInstanceArn"
-            case replicationSubnetGroup = "ReplicationSubnetGroup"
-            case secondaryAvailabilityZone = "SecondaryAvailabilityZone"
-            case replicationInstanceClass = "ReplicationInstanceClass"
-            case allocatedStorage = "AllocatedStorage"
-            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
-            case vpcSecurityGroups = "VpcSecurityGroups"
-            case engineVersion = "EngineVersion"
-            case availabilityZone = "AvailabilityZone"
-            case replicationInstanceStatus = "ReplicationInstanceStatus"
-            case replicationInstancePrivateIpAddress = "ReplicationInstancePrivateIpAddress"
-        }
-    }
-
-    public struct DeleteReplicationInstanceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the replication instance to be deleted.
-        public let replicationInstanceArn: String
-
-        public init(replicationInstanceArn: String) {
-            self.replicationInstanceArn = replicationInstanceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationInstanceArn = "ReplicationInstanceArn"
-        }
-    }
-
-    public struct DescribeAccountAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountQuotas", required: false, type: .list)
-        ]
-        /// Account quota information.
-        public let accountQuotas: [AccountQuota]?
-
-        public init(accountQuotas: [AccountQuota]? = nil) {
-            self.accountQuotas = accountQuotas
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountQuotas = "AccountQuotas"
-        }
-    }
-
-    public struct DeleteEventSubscriptionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
-        ]
-        /// The event subscription that was deleted.
-        public let eventSubscription: EventSubscription?
-
-        public init(eventSubscription: EventSubscription? = nil) {
-            self.eventSubscription = eventSubscription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventSubscription = "EventSubscription"
-        }
-    }
-
-    public struct ListTagsForResourceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) string that uniquely identifies the AWS DMS resource.
-        public let resourceArn: String
-
-        public init(resourceArn: String) {
-            self.resourceArn = resourceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
-        }
-    }
-
-    public struct DescribeReplicationInstanceTaskLogsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationInstanceTaskLogs", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string)
-        ]
-        /// An array of replication task log metadata. Each member of the array contains the replication task name, ARN, and task log size (in bytes). 
-        public let replicationInstanceTaskLogs: [ReplicationInstanceTaskLog]?
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
-        public let marker: String?
-        /// The Amazon Resource Name (ARN) of the replication instance.
-        public let replicationInstanceArn: String?
-
-        public init(marker: String? = nil, replicationInstanceArn: String? = nil, replicationInstanceTaskLogs: [ReplicationInstanceTaskLog]? = nil) {
-            self.replicationInstanceTaskLogs = replicationInstanceTaskLogs
-            self.marker = marker
-            self.replicationInstanceArn = replicationInstanceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationInstanceTaskLogs = "ReplicationInstanceTaskLogs"
-            case marker = "Marker"
-            case replicationInstanceArn = "ReplicationInstanceArn"
-        }
-    }
-
-    public enum MigrationTypeValue: String, CustomStringConvertible, Codable {
-        case fullLoad = "full-load"
-        case cdc = "cdc"
-        case fullLoadAndCdc = "full-load-and-cdc"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct StartReplicationTaskMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CdcStopPosition", required: false, type: .string), 
-            AWSShapeMember(label: "CdcStartPosition", required: false, type: .string), 
-            AWSShapeMember(label: "StartReplicationTaskType", required: true, type: .enum), 
-            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string), 
-            AWSShapeMember(label: "CdcStartTime", required: false, type: .timestamp)
-        ]
-        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
-        public let cdcStopPosition: String?
-        /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
-        public let cdcStartPosition: String?
-        /// The type of replication task.
-        public let startReplicationTaskType: StartReplicationTaskTypeValue
-        /// The Amazon Resource Name (ARN) of the replication task to be started.
-        public let replicationTaskArn: String
-        /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
-        public let cdcStartTime: TimeStamp?
-
-        public init(cdcStartPosition: String? = nil, cdcStartTime: TimeStamp? = nil, cdcStopPosition: String? = nil, replicationTaskArn: String, startReplicationTaskType: StartReplicationTaskTypeValue) {
-            self.cdcStopPosition = cdcStopPosition
-            self.cdcStartPosition = cdcStartPosition
-            self.startReplicationTaskType = startReplicationTaskType
-            self.replicationTaskArn = replicationTaskArn
-            self.cdcStartTime = cdcStartTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cdcStopPosition = "CdcStopPosition"
-            case cdcStartPosition = "CdcStartPosition"
-            case startReplicationTaskType = "StartReplicationTaskType"
-            case replicationTaskArn = "ReplicationTaskArn"
-            case cdcStartTime = "CdcStartTime"
-        }
-    }
-
-    public struct ReloadTablesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the replication task. 
-        public let replicationTaskArn: String?
-
-        public init(replicationTaskArn: String? = nil) {
-            self.replicationTaskArn = replicationTaskArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationTaskArn = "ReplicationTaskArn"
-        }
-    }
-
-    public struct Connection: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "LastFailureMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "EndpointArn", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string)
-        ]
-        /// The identifier of the endpoint. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
-        public let endpointIdentifier: String?
-        /// The connection status.
-        public let status: String?
-        /// The error message when the connection last failed.
-        public let lastFailureMessage: String?
-        /// The replication instance identifier. This parameter is stored as a lowercase string.
-        public let replicationInstanceIdentifier: String?
-        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public let endpointArn: String?
-        /// The Amazon Resource Name (ARN) of the replication instance.
-        public let replicationInstanceArn: String?
-
-        public init(endpointArn: String? = nil, endpointIdentifier: String? = nil, lastFailureMessage: String? = nil, replicationInstanceArn: String? = nil, replicationInstanceIdentifier: String? = nil, status: String? = nil) {
-            self.endpointIdentifier = endpointIdentifier
-            self.status = status
-            self.lastFailureMessage = lastFailureMessage
-            self.replicationInstanceIdentifier = replicationInstanceIdentifier
-            self.endpointArn = endpointArn
-            self.replicationInstanceArn = replicationInstanceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endpointIdentifier = "EndpointIdentifier"
-            case status = "Status"
-            case lastFailureMessage = "LastFailureMessage"
-            case replicationInstanceIdentifier = "ReplicationInstanceIdentifier"
-            case endpointArn = "EndpointArn"
-            case replicationInstanceArn = "ReplicationInstanceArn"
-        }
-    }
-
-    public struct DescribeEndpointsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Endpoints", required: false, type: .list)
-        ]
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-        /// Endpoint description.
-        public let endpoints: [Endpoint]?
-
-        public init(endpoints: [Endpoint]? = nil, marker: String? = nil) {
-            self.marker = marker
-            self.endpoints = endpoints
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case endpoints = "Endpoints"
-        }
-    }
-
     public struct DescribeOrderableReplicationInstancesMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
@@ -1700,425 +1197,48 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct CreateEndpointResponse: AWSShape {
+    public struct DescribeOrderableReplicationInstancesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Endpoint", required: false, type: .structure)
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "OrderableReplicationInstances", required: false, type: .list)
         ]
-        /// The endpoint that was created.
-        public let endpoint: Endpoint?
-
-        public init(endpoint: Endpoint? = nil) {
-            self.endpoint = endpoint
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endpoint = "Endpoint"
-        }
-    }
-
-    public enum NestingLevelValue: String, CustomStringConvertible, Codable {
-        case none = "none"
-        case one = "one"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeAccountAttributesMessage: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct RemoveTagsFromResourceResponse: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct DeleteEventSubscriptionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
-        ]
-        /// The name of the DMS event notification subscription to be deleted.
-        public let subscriptionName: String
-
-        public init(subscriptionName: String) {
-            self.subscriptionName = subscriptionName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subscriptionName = "SubscriptionName"
-        }
-    }
-
-    public struct ModifyReplicationTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
-        ]
-        /// The replication task that was modified.
-        public let replicationTask: ReplicationTask?
-
-        public init(replicationTask: ReplicationTask? = nil) {
-            self.replicationTask = replicationTask
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationTask = "ReplicationTask"
-        }
-    }
-
-    public struct DescribeEndpointTypesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SupportedEndpointTypes", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
-        /// The type of endpoints that are supported.
-        public let supportedEndpointTypes: [SupportedEndpointType]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
+        /// The order-able replication instances available.
+        public let orderableReplicationInstances: [OrderableReplicationInstance]?
 
-        public init(marker: String? = nil, supportedEndpointTypes: [SupportedEndpointType]? = nil) {
-            self.supportedEndpointTypes = supportedEndpointTypes
+        public init(marker: String? = nil, orderableReplicationInstances: [OrderableReplicationInstance]? = nil) {
             self.marker = marker
+            self.orderableReplicationInstances = orderableReplicationInstances
         }
 
         private enum CodingKeys: String, CodingKey {
-            case supportedEndpointTypes = "SupportedEndpointTypes"
             case marker = "Marker"
+            case orderableReplicationInstances = "OrderableReplicationInstances"
         }
     }
 
-    public struct CreateReplicationInstanceMessage: AWSShape {
+    public struct DescribeRefreshSchemasStatusMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceClass", required: true, type: .string), 
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "DnsNameServers", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list)
-        ]
-        /// The engine version number of the replication instance.
-        public let engineVersion: String?
-        /// The compute and memory capacity of the replication instance as specified by the replication instance class.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
-        public let replicationInstanceClass: String
-        /// The amount of storage (in gigabytes) to be initially allocated for the replication instance.
-        public let allocatedStorage: Int32?
-        /// A list of DNS name servers supported for the replication instance.
-        public let dnsNameServers: String?
-        /// Tags to be associated with the replication instance.
-        public let tags: [Tag]?
-        ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
-        public let multiAZ: Bool?
-        ///  Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true. 
-        public let publiclyAccessible: Bool?
-        /// The AWS KMS key identifier that is used to encrypt the content on the replication instance. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
-        public let kmsKeyId: String?
-        /// Indicates that minor engine upgrades will be applied automatically to the replication instance during the maintenance window. Default: true 
-        public let autoMinorVersionUpgrade: Bool?
-        /// A subnet group to associate with the replication instance.
-        public let replicationSubnetGroupIdentifier: String?
-        /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
-        public let preferredMaintenanceWindow: String?
-        /// The replication instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: myrepinstance 
-        public let replicationInstanceIdentifier: String
-        /// The EC2 Availability Zone that the replication instance will be created in. Default: A random, system-chosen Availability Zone in the endpoint's region.  Example: us-east-1d 
-        public let availabilityZone: String?
-        ///  Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance. 
-        public let vpcSecurityGroupIds: [String]?
-
-        public init(allocatedStorage: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceClass: String, replicationInstanceIdentifier: String, replicationSubnetGroupIdentifier: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
-            self.engineVersion = engineVersion
-            self.replicationInstanceClass = replicationInstanceClass
-            self.allocatedStorage = allocatedStorage
-            self.dnsNameServers = dnsNameServers
-            self.tags = tags
-            self.multiAZ = multiAZ
-            self.publiclyAccessible = publiclyAccessible
-            self.kmsKeyId = kmsKeyId
-            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
-            self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
-            self.preferredMaintenanceWindow = preferredMaintenanceWindow
-            self.replicationInstanceIdentifier = replicationInstanceIdentifier
-            self.availabilityZone = availabilityZone
-            self.vpcSecurityGroupIds = vpcSecurityGroupIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case engineVersion = "EngineVersion"
-            case replicationInstanceClass = "ReplicationInstanceClass"
-            case allocatedStorage = "AllocatedStorage"
-            case dnsNameServers = "DnsNameServers"
-            case tags = "Tags"
-            case multiAZ = "MultiAZ"
-            case publiclyAccessible = "PubliclyAccessible"
-            case kmsKeyId = "KmsKeyId"
-            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
-            case replicationSubnetGroupIdentifier = "ReplicationSubnetGroupIdentifier"
-            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
-            case replicationInstanceIdentifier = "ReplicationInstanceIdentifier"
-            case availabilityZone = "AvailabilityZone"
-            case vpcSecurityGroupIds = "VpcSecurityGroupIds"
-        }
-    }
-
-    public struct RefreshSchemasMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string)
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
-        /// The Amazon Resource Name (ARN) of the replication instance.
-        public let replicationInstanceArn: String
 
-        public init(endpointArn: String, replicationInstanceArn: String) {
+        public init(endpointArn: String) {
             self.endpointArn = endpointArn
-            self.replicationInstanceArn = replicationInstanceArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case endpointArn = "EndpointArn"
-            case replicationInstanceArn = "ReplicationInstanceArn"
         }
     }
 
-    public struct CreateReplicationTaskMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MigrationType", required: true, type: .enum), 
-            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string), 
-            AWSShapeMember(label: "ReplicationTaskIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "CdcStartPosition", required: false, type: .string), 
-            AWSShapeMember(label: "SourceEndpointArn", required: true, type: .string), 
-            AWSShapeMember(label: "TableMappings", required: true, type: .string), 
-            AWSShapeMember(label: "CdcStopPosition", required: false, type: .string), 
-            AWSShapeMember(label: "TargetEndpointArn", required: true, type: .string), 
-            AWSShapeMember(label: "CdcStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "ReplicationTaskSettings", required: false, type: .string)
-        ]
-        /// The migration type.
-        public let migrationType: MigrationTypeValue
-        /// The Amazon Resource Name (ARN) of the replication instance.
-        public let replicationInstanceArn: String
-        /// The replication task identifier. Constraints:   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
-        public let replicationTaskIdentifier: String
-        /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
-        public let cdcStartPosition: String?
-        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public let sourceEndpointArn: String
-        /// When using the AWS CLI or boto3, provide the path of the JSON file that contains the table mappings. Precede the path with "file://". When working with the DMS API, provide the JSON as the parameter value. For example, --table-mappings file://mappingfile.json
-        public let tableMappings: String
-        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
-        public let cdcStopPosition: String?
-        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public let targetEndpointArn: String
-        /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
-        public let cdcStartTime: TimeStamp?
-        /// Tags to be added to the replication instance.
-        public let tags: [Tag]?
-        /// Settings for the task, such as target metadata settings. For a complete list of task settings, see Task Settings for AWS Database Migration Service Tasks in the AWS Database Migration User Guide. 
-        public let replicationTaskSettings: String?
-
-        public init(cdcStartPosition: String? = nil, cdcStartTime: TimeStamp? = nil, cdcStopPosition: String? = nil, migrationType: MigrationTypeValue, replicationInstanceArn: String, replicationTaskIdentifier: String, replicationTaskSettings: String? = nil, sourceEndpointArn: String, tableMappings: String, tags: [Tag]? = nil, targetEndpointArn: String) {
-            self.migrationType = migrationType
-            self.replicationInstanceArn = replicationInstanceArn
-            self.replicationTaskIdentifier = replicationTaskIdentifier
-            self.cdcStartPosition = cdcStartPosition
-            self.sourceEndpointArn = sourceEndpointArn
-            self.tableMappings = tableMappings
-            self.cdcStopPosition = cdcStopPosition
-            self.targetEndpointArn = targetEndpointArn
-            self.cdcStartTime = cdcStartTime
-            self.tags = tags
-            self.replicationTaskSettings = replicationTaskSettings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case migrationType = "MigrationType"
-            case replicationInstanceArn = "ReplicationInstanceArn"
-            case replicationTaskIdentifier = "ReplicationTaskIdentifier"
-            case cdcStartPosition = "CdcStartPosition"
-            case sourceEndpointArn = "SourceEndpointArn"
-            case tableMappings = "TableMappings"
-            case cdcStopPosition = "CdcStopPosition"
-            case targetEndpointArn = "TargetEndpointArn"
-            case cdcStartTime = "CdcStartTime"
-            case tags = "Tags"
-            case replicationTaskSettings = "ReplicationTaskSettings"
-        }
-    }
-
-    public struct SupportedEndpointType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineDisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "SupportsCDC", required: false, type: .boolean), 
-            AWSShapeMember(label: "EndpointType", required: false, type: .enum), 
-            AWSShapeMember(label: "EngineName", required: false, type: .string)
-        ]
-        /// The expanded name for the engine name. For example, if the EngineName parameter is "aurora," this value would be "Amazon Aurora MySQL."
-        public let engineDisplayName: String?
-        /// Indicates if Change Data Capture (CDC) is supported.
-        public let supportsCDC: Bool?
-        /// The type of endpoint.
-        public let endpointType: ReplicationEndpointTypeValue?
-        /// The database engine name. Valid values, depending on the EndPointType, include mysql, oracle, postgres, mariadb, aurora, aurora-postgresql, redshift, s3, db2, azuredb, sybase, sybase, dynamodb, mongodb, and sqlserver.
-        public let engineName: String?
-
-        public init(endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, supportsCDC: Bool? = nil) {
-            self.engineDisplayName = engineDisplayName
-            self.supportsCDC = supportsCDC
-            self.endpointType = endpointType
-            self.engineName = engineName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case engineDisplayName = "EngineDisplayName"
-            case supportsCDC = "SupportsCDC"
-            case endpointType = "EndpointType"
-            case engineName = "EngineName"
-        }
-    }
-
-    public struct DeleteReplicationSubnetGroupResponse: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct RebootReplicationInstanceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string), 
-            AWSShapeMember(label: "ForceFailover", required: false, type: .boolean)
-        ]
-        /// The Amazon Resource Name (ARN) of the replication instance.
-        public let replicationInstanceArn: String
-        /// If this parameter is true, the reboot is conducted through a Multi-AZ failover. (If the instance isn't configured for Multi-AZ, then you can't specify true.)
-        public let forceFailover: Bool?
-
-        public init(forceFailover: Bool? = nil, replicationInstanceArn: String) {
-            self.replicationInstanceArn = replicationInstanceArn
-            self.forceFailover = forceFailover
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationInstanceArn = "ReplicationInstanceArn"
-            case forceFailover = "ForceFailover"
-        }
-    }
-
-    public struct DescribeReplicationTasksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationTasks", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
-        /// A description of the replication tasks.
-        public let replicationTasks: [ReplicationTask]?
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-
-        public init(marker: String? = nil, replicationTasks: [ReplicationTask]? = nil) {
-            self.replicationTasks = replicationTasks
-            self.marker = marker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationTasks = "ReplicationTasks"
-            case marker = "Marker"
-        }
-    }
-
-    public struct DescribeCertificatesMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list)
-        ]
-        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 10
-        public let maxRecords: Int32?
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-        /// Filters applied to the certificate described in the form of key-value pairs.
-        public let filters: [Filter]?
-
-        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
-            self.maxRecords = maxRecords
-            self.marker = marker
-            self.filters = filters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxRecords = "MaxRecords"
-            case marker = "Marker"
-            case filters = "Filters"
-        }
-    }
-
-    public struct ModifyReplicationTaskMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string), 
-            AWSShapeMember(label: "CdcStartPosition", required: false, type: .string), 
-            AWSShapeMember(label: "CdcStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ReplicationTaskSettings", required: false, type: .string), 
-            AWSShapeMember(label: "CdcStopPosition", required: false, type: .string), 
-            AWSShapeMember(label: "TableMappings", required: false, type: .string), 
-            AWSShapeMember(label: "MigrationType", required: false, type: .enum), 
-            AWSShapeMember(label: "ReplicationTaskIdentifier", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the replication task.
-        public let replicationTaskArn: String
-        /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
-        public let cdcStartPosition: String?
-        /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
-        public let cdcStartTime: TimeStamp?
-        /// JSON file that contains settings for the task, such as target metadata settings.
-        public let replicationTaskSettings: String?
-        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
-        public let cdcStopPosition: String?
-        /// When using the AWS CLI or boto3, provide the path of the JSON file that contains the table mappings. Precede the path with "file://". When working with the DMS API, provide the JSON as the parameter value. For example, --table-mappings file://mappingfile.json
-        public let tableMappings: String?
-        /// The migration type. Valid values: full-load | cdc | full-load-and-cdc
-        public let migrationType: MigrationTypeValue?
-        /// The replication task identifier. Constraints:   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
-        public let replicationTaskIdentifier: String?
-
-        public init(cdcStartPosition: String? = nil, cdcStartTime: TimeStamp? = nil, cdcStopPosition: String? = nil, migrationType: MigrationTypeValue? = nil, replicationTaskArn: String, replicationTaskIdentifier: String? = nil, replicationTaskSettings: String? = nil, tableMappings: String? = nil) {
-            self.replicationTaskArn = replicationTaskArn
-            self.cdcStartPosition = cdcStartPosition
-            self.cdcStartTime = cdcStartTime
-            self.replicationTaskSettings = replicationTaskSettings
-            self.cdcStopPosition = cdcStopPosition
-            self.tableMappings = tableMappings
-            self.migrationType = migrationType
-            self.replicationTaskIdentifier = replicationTaskIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationTaskArn = "ReplicationTaskArn"
-            case cdcStartPosition = "CdcStartPosition"
-            case cdcStartTime = "CdcStartTime"
-            case replicationTaskSettings = "ReplicationTaskSettings"
-            case cdcStopPosition = "CdcStopPosition"
-            case tableMappings = "TableMappings"
-            case migrationType = "MigrationType"
-            case replicationTaskIdentifier = "ReplicationTaskIdentifier"
-        }
-    }
-
-    public struct RefreshSchemasResponse: AWSShape {
+    public struct DescribeRefreshSchemasStatusResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RefreshSchemasStatus", required: false, type: .structure)
         ]
-        /// The status of the refreshed schema.
+        /// The status of the schema.
         public let refreshSchemasStatus: RefreshSchemasStatus?
 
         public init(refreshSchemasStatus: RefreshSchemasStatus? = nil) {
@@ -2130,894 +1250,55 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DeleteReplicationSubnetGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string)
-        ]
-        /// The subnet group name of the replication instance.
-        public let replicationSubnetGroupIdentifier: String
-
-        public init(replicationSubnetGroupIdentifier: String) {
-            self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationSubnetGroupIdentifier = "ReplicationSubnetGroupIdentifier"
-        }
-    }
-
-    public enum DmsSslModeValue: String, CustomStringConvertible, Codable {
-        case none = "none"
-        case require = "require"
-        case verifyCa = "verify-ca"
-        case verifyFull = "verify-full"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateReplicationTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
-        ]
-        /// The replication task that was created.
-        public let replicationTask: ReplicationTask?
-
-        public init(replicationTask: ReplicationTask? = nil) {
-            self.replicationTask = replicationTask
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationTask = "ReplicationTask"
-        }
-    }
-
-    public struct Filter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: true, type: .list), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The filter value.
-        public let values: [String]
-        /// The name of the filter.
-        public let name: String
-
-        public init(name: String, values: [String]) {
-            self.values = values
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case values = "Values"
-            case name = "Name"
-        }
-    }
-
-    public struct TableStatistics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FullLoadCondtnlChkFailedRows", required: false, type: .long), 
-            AWSShapeMember(label: "FullLoadErrorRows", required: false, type: .long), 
-            AWSShapeMember(label: "TableName", required: false, type: .string), 
-            AWSShapeMember(label: "Updates", required: false, type: .long), 
-            AWSShapeMember(label: "Deletes", required: false, type: .long), 
-            AWSShapeMember(label: "FullLoadRows", required: false, type: .long), 
-            AWSShapeMember(label: "SchemaName", required: false, type: .string), 
-            AWSShapeMember(label: "ValidationStateDetails", required: false, type: .string), 
-            AWSShapeMember(label: "Inserts", required: false, type: .long), 
-            AWSShapeMember(label: "LastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Ddls", required: false, type: .long), 
-            AWSShapeMember(label: "TableState", required: false, type: .string), 
-            AWSShapeMember(label: "ValidationSuspendedRecords", required: false, type: .long), 
-            AWSShapeMember(label: "ValidationFailedRecords", required: false, type: .long), 
-            AWSShapeMember(label: "ValidationPendingRecords", required: false, type: .long), 
-            AWSShapeMember(label: "ValidationState", required: false, type: .string)
-        ]
-        /// The number of rows that failed conditional checks during the Full Load operation (valid only for DynamoDB as a target migrations).
-        public let fullLoadCondtnlChkFailedRows: Int64?
-        /// The number of rows that failed to load during the Full Load operation (valid only for DynamoDB as a target migrations).
-        public let fullLoadErrorRows: Int64?
-        /// The name of the table.
-        public let tableName: String?
-        /// The number of update actions performed on a table.
-        public let updates: Int64?
-        /// The number of delete actions performed on a table.
-        public let deletes: Int64?
-        /// The number of rows added during the Full Load operation.
-        public let fullLoadRows: Int64?
-        /// The schema name.
-        public let schemaName: String?
-        /// Additional details about the state of validation.
-        public let validationStateDetails: String?
-        /// The number of insert actions performed on a table.
-        public let inserts: Int64?
-        /// The last time the table was updated.
-        public let lastUpdateTime: TimeStamp?
-        /// The Data Definition Language (DDL) used to build and modify the structure of your tables.
-        public let ddls: Int64?
-        /// The state of the tables described. Valid states: Table does not exist | Before load | Full load | Table completed | Table cancelled | Table error | Table all | Table updates | Table is being reloaded
-        public let tableState: String?
-        /// The number of records that could not be validated.
-        public let validationSuspendedRecords: Int64?
-        /// The number of records that failed validation.
-        public let validationFailedRecords: Int64?
-        /// The number of records that have yet to be validated.
-        public let validationPendingRecords: Int64?
-        /// The validation state of the table. The parameter can have the following values   Not enabled—Validation is not enabled for the table in the migration task.   Pending records—Some records in the table are waiting for validation.   Mismatched records—Some records in the table do not match between the source and target.   Suspended records—Some records in the table could not be validated.   No primary key—The table could not be validated because it had no primary key.   Table error—The table was not validated because it was in an error state and some data was not migrated.   Validated—All rows in the table were validated. If the table is updated, the status can change from Validated.   Error—The table could not be validated because of an unexpected error.  
-        public let validationState: String?
-
-        public init(ddls: Int64? = nil, deletes: Int64? = nil, fullLoadCondtnlChkFailedRows: Int64? = nil, fullLoadErrorRows: Int64? = nil, fullLoadRows: Int64? = nil, inserts: Int64? = nil, lastUpdateTime: TimeStamp? = nil, schemaName: String? = nil, tableName: String? = nil, tableState: String? = nil, updates: Int64? = nil, validationFailedRecords: Int64? = nil, validationPendingRecords: Int64? = nil, validationState: String? = nil, validationStateDetails: String? = nil, validationSuspendedRecords: Int64? = nil) {
-            self.fullLoadCondtnlChkFailedRows = fullLoadCondtnlChkFailedRows
-            self.fullLoadErrorRows = fullLoadErrorRows
-            self.tableName = tableName
-            self.updates = updates
-            self.deletes = deletes
-            self.fullLoadRows = fullLoadRows
-            self.schemaName = schemaName
-            self.validationStateDetails = validationStateDetails
-            self.inserts = inserts
-            self.lastUpdateTime = lastUpdateTime
-            self.ddls = ddls
-            self.tableState = tableState
-            self.validationSuspendedRecords = validationSuspendedRecords
-            self.validationFailedRecords = validationFailedRecords
-            self.validationPendingRecords = validationPendingRecords
-            self.validationState = validationState
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fullLoadCondtnlChkFailedRows = "FullLoadCondtnlChkFailedRows"
-            case fullLoadErrorRows = "FullLoadErrorRows"
-            case tableName = "TableName"
-            case updates = "Updates"
-            case deletes = "Deletes"
-            case fullLoadRows = "FullLoadRows"
-            case schemaName = "SchemaName"
-            case validationStateDetails = "ValidationStateDetails"
-            case inserts = "Inserts"
-            case lastUpdateTime = "LastUpdateTime"
-            case ddls = "Ddls"
-            case tableState = "TableState"
-            case validationSuspendedRecords = "ValidationSuspendedRecords"
-            case validationFailedRecords = "ValidationFailedRecords"
-            case validationPendingRecords = "ValidationPendingRecords"
-            case validationState = "ValidationState"
-        }
-    }
-
-    public struct DescribeSchemasResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Schemas", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
-        /// The described schema.
-        public let schemas: [String]?
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-
-        public init(marker: String? = nil, schemas: [String]? = nil) {
-            self.schemas = schemas
-            self.marker = marker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemas = "Schemas"
-            case marker = "Marker"
-        }
-    }
-
-    public struct DescribeSchemasMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
-        ]
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
-        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public let endpointArn: String
-
-        public init(endpointArn: String, marker: String? = nil, maxRecords: Int32? = nil) {
-            self.marker = marker
-            self.maxRecords = maxRecords
-            self.endpointArn = endpointArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxRecords = "MaxRecords"
-            case endpointArn = "EndpointArn"
-        }
-    }
-
-    public struct DescribeCertificatesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificates", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
-        /// The Secure Sockets Layer (SSL) certificates associated with the replication instance.
-        public let certificates: [Certificate]?
-        /// The pagination token.
-        public let marker: String?
-
-        public init(certificates: [Certificate]? = nil, marker: String? = nil) {
-            self.certificates = certificates
-            self.marker = marker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificates = "Certificates"
-            case marker = "Marker"
-        }
-    }
-
-    public struct Endpoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ElasticsearchSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "EndpointIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "ExtraConnectionAttributes", required: false, type: .string), 
-            AWSShapeMember(label: "S3Settings", required: false, type: .structure), 
-            AWSShapeMember(label: "DmsTransferSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "EndpointType", required: false, type: .enum), 
-            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "Username", required: false, type: .string), 
-            AWSShapeMember(label: "EndpointArn", required: false, type: .string), 
-            AWSShapeMember(label: "MongoDbSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "EngineDisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "ServerName", required: false, type: .string), 
-            AWSShapeMember(label: "SslMode", required: false, type: .enum), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "ExternalTableDefinition", required: false, type: .string), 
-            AWSShapeMember(label: "DynamoDbSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "ExternalId", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "EngineName", required: false, type: .string), 
-            AWSShapeMember(label: "KinesisSettings", required: false, type: .structure)
-        ]
-        /// The settings for the Elasticsearch source endpoint. For more information, see the ElasticsearchSettings structure.
-        public let elasticsearchSettings: ElasticsearchSettings?
-        /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
-        public let endpointIdentifier: String?
-        /// Additional connection attributes used to connect to the endpoint.
-        public let extraConnectionAttributes: String?
-        /// The settings for the S3 target endpoint. For more information, see the S3Settings structure.
-        public let s3Settings: S3Settings?
-        /// The settings in JSON format for the DMS transfer type of source endpoint.  Possible attributes include the following:    serviceAccessRoleArn - The IAM role that has permission to access the Amazon S3 bucket.    bucketName - The name of the S3 bucket to use.    compressionType - An optional parameter to use GZIP to compress the target files. To use GZIP, set this value to NONE (the default). To keep the files uncompressed, don't use this value.    Shorthand syntax for these attributes is as follows: ServiceAccessRoleArn=string,BucketName=string,CompressionType=string  JSON syntax for these attributes is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string", "CompressionType": "none"|"gzip" }  
-        public let dmsTransferSettings: DmsTransferSettings?
-        /// The type of endpoint.
-        public let endpointType: ReplicationEndpointTypeValue?
-        /// The Amazon Resource Name (ARN) used by the service access IAM role.
-        public let serviceAccessRoleArn: String?
-        /// The user name used to connect to the endpoint.
-        public let username: String?
-        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public let endpointArn: String?
-        /// The settings for the MongoDB source endpoint. For more information, see the MongoDbSettings structure.
-        public let mongoDbSettings: MongoDbSettings?
-        /// The AWS KMS key identifier that is used to encrypt the content on the replication instance. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
-        public let kmsKeyId: String?
-        /// The status of the endpoint.
-        public let status: String?
-        /// The expanded name for the engine name. For example, if the EngineName parameter is "aurora," this value would be "Amazon Aurora MySQL."
-        public let engineDisplayName: String?
-        /// The name of the server at the endpoint.
-        public let serverName: String?
-        /// The SSL mode used to connect to the endpoint. SSL mode can be one of four values: none, require, verify-ca, verify-full.  The default value is none.
-        public let sslMode: DmsSslModeValue?
-        /// The name of the database at the endpoint.
-        public let databaseName: String?
-        /// The external table definition.
-        public let externalTableDefinition: String?
-        /// The settings for the target DynamoDB database. For more information, see the DynamoDBSettings structure.
-        public let dynamoDbSettings: DynamoDbSettings?
-        /// The port value used to access the endpoint.
-        public let port: Int32?
-        ///  Value returned by a call to CreateEndpoint that can be used for cross-account validation. Use it on a subsequent call to CreateEndpoint to create the endpoint with a cross-account. 
-        public let externalId: String?
-        /// The Amazon Resource Name (ARN) used for SSL connection to the endpoint.
-        public let certificateArn: String?
-        /// The database engine name. Valid values, depending on the EndPointType, include mysql, oracle, postgres, mariadb, aurora, aurora-postgresql, redshift, s3, db2, azuredb, sybase, sybase, dynamodb, mongodb, and sqlserver.
-        public let engineName: String?
-        /// The settings for the Amazon Kinesis source endpoint. For more information, see the KinesisSettings structure.
-        public let kinesisSettings: KinesisSettings?
-
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String? = nil, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, externalId: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, mongoDbSettings: MongoDbSettings? = nil, port: Int32? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, status: String? = nil, username: String? = nil) {
-            self.elasticsearchSettings = elasticsearchSettings
-            self.endpointIdentifier = endpointIdentifier
-            self.extraConnectionAttributes = extraConnectionAttributes
-            self.s3Settings = s3Settings
-            self.dmsTransferSettings = dmsTransferSettings
-            self.endpointType = endpointType
-            self.serviceAccessRoleArn = serviceAccessRoleArn
-            self.username = username
-            self.endpointArn = endpointArn
-            self.mongoDbSettings = mongoDbSettings
-            self.kmsKeyId = kmsKeyId
-            self.status = status
-            self.engineDisplayName = engineDisplayName
-            self.serverName = serverName
-            self.sslMode = sslMode
-            self.databaseName = databaseName
-            self.externalTableDefinition = externalTableDefinition
-            self.dynamoDbSettings = dynamoDbSettings
-            self.port = port
-            self.externalId = externalId
-            self.certificateArn = certificateArn
-            self.engineName = engineName
-            self.kinesisSettings = kinesisSettings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case elasticsearchSettings = "ElasticsearchSettings"
-            case endpointIdentifier = "EndpointIdentifier"
-            case extraConnectionAttributes = "ExtraConnectionAttributes"
-            case s3Settings = "S3Settings"
-            case dmsTransferSettings = "DmsTransferSettings"
-            case endpointType = "EndpointType"
-            case serviceAccessRoleArn = "ServiceAccessRoleArn"
-            case username = "Username"
-            case endpointArn = "EndpointArn"
-            case mongoDbSettings = "MongoDbSettings"
-            case kmsKeyId = "KmsKeyId"
-            case status = "Status"
-            case engineDisplayName = "EngineDisplayName"
-            case serverName = "ServerName"
-            case sslMode = "SslMode"
-            case databaseName = "DatabaseName"
-            case externalTableDefinition = "ExternalTableDefinition"
-            case dynamoDbSettings = "DynamoDbSettings"
-            case port = "Port"
-            case externalId = "ExternalId"
-            case certificateArn = "CertificateArn"
-            case engineName = "EngineName"
-            case kinesisSettings = "KinesisSettings"
-        }
-    }
-
-    public struct DescribeEventCategoriesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventCategoryGroupList", required: false, type: .list)
-        ]
-        /// A list of event categories.
-        public let eventCategoryGroupList: [EventCategoryGroup]?
-
-        public init(eventCategoryGroupList: [EventCategoryGroup]? = nil) {
-            self.eventCategoryGroupList = eventCategoryGroupList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventCategoryGroupList = "EventCategoryGroupList"
-        }
-    }
-
-    public struct DescribeEventsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "EventCategories", required: false, type: .list), 
-            AWSShapeMember(label: "Duration", required: false, type: .integer), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SourceIdentifier", required: false, type: .string)
-        ]
-        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-        /// The type of AWS DMS resource that generates events. Valid values: replication-instance | migration-task
-        public let sourceType: SourceType?
-        /// A list of event categories for a source type that you want to subscribe to.
-        public let eventCategories: [String]?
-        /// The duration of the events to be listed.
-        public let duration: Int32?
-        /// The end time for the events to be listed.
-        public let endTime: TimeStamp?
-        /// Filters applied to the action.
-        public let filters: [Filter]?
-        /// The start time for the events to be listed.
-        public let startTime: TimeStamp?
-        ///  The identifier of the event source. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens. It cannot end with a hyphen or contain two consecutive hyphens. 
-        public let sourceIdentifier: String?
-
-        public init(duration: Int32? = nil, endTime: TimeStamp? = nil, eventCategories: [String]? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
-            self.maxRecords = maxRecords
-            self.marker = marker
-            self.sourceType = sourceType
-            self.eventCategories = eventCategories
-            self.duration = duration
-            self.endTime = endTime
-            self.filters = filters
-            self.startTime = startTime
-            self.sourceIdentifier = sourceIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxRecords = "MaxRecords"
-            case marker = "Marker"
-            case sourceType = "SourceType"
-            case eventCategories = "EventCategories"
-            case duration = "Duration"
-            case endTime = "EndTime"
-            case filters = "Filters"
-            case startTime = "StartTime"
-            case sourceIdentifier = "SourceIdentifier"
-        }
-    }
-
-    public struct ModifyReplicationSubnetGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "ReplicationSubnetGroupDescription", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: true, type: .list)
-        ]
-        /// The name of the replication instance subnet group.
-        public let replicationSubnetGroupIdentifier: String
-        /// The description of the replication instance subnet group.
-        public let replicationSubnetGroupDescription: String?
-        /// A list of subnet IDs.
-        public let subnetIds: [String]
-
-        public init(replicationSubnetGroupDescription: String? = nil, replicationSubnetGroupIdentifier: String, subnetIds: [String]) {
-            self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
-            self.replicationSubnetGroupDescription = replicationSubnetGroupDescription
-            self.subnetIds = subnetIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationSubnetGroupIdentifier = "ReplicationSubnetGroupIdentifier"
-            case replicationSubnetGroupDescription = "ReplicationSubnetGroupDescription"
-            case subnetIds = "SubnetIds"
-        }
-    }
-
-    public struct ModifyEndpointResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Endpoint", required: false, type: .structure)
-        ]
-        /// The modified endpoint.
-        public let endpoint: Endpoint?
-
-        public init(endpoint: Endpoint? = nil) {
-            self.endpoint = endpoint
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endpoint = "Endpoint"
-        }
-    }
-
-    public struct ReplicationTaskStats: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TablesErrored", required: false, type: .integer), 
-            AWSShapeMember(label: "ElapsedTimeMillis", required: false, type: .long), 
-            AWSShapeMember(label: "TablesQueued", required: false, type: .integer), 
-            AWSShapeMember(label: "TablesLoaded", required: false, type: .integer), 
-            AWSShapeMember(label: "FullLoadProgressPercent", required: false, type: .integer), 
-            AWSShapeMember(label: "TablesLoading", required: false, type: .integer)
-        ]
-        /// The number of errors that have occurred during this task.
-        public let tablesErrored: Int32?
-        /// The elapsed time of the task, in milliseconds.
-        public let elapsedTimeMillis: Int64?
-        /// The number of tables queued for this task.
-        public let tablesQueued: Int32?
-        /// The number of tables loaded for this task.
-        public let tablesLoaded: Int32?
-        /// The percent complete for the full load migration task.
-        public let fullLoadProgressPercent: Int32?
-        /// The number of tables currently loading for this task.
-        public let tablesLoading: Int32?
-
-        public init(elapsedTimeMillis: Int64? = nil, fullLoadProgressPercent: Int32? = nil, tablesErrored: Int32? = nil, tablesLoaded: Int32? = nil, tablesLoading: Int32? = nil, tablesQueued: Int32? = nil) {
-            self.tablesErrored = tablesErrored
-            self.elapsedTimeMillis = elapsedTimeMillis
-            self.tablesQueued = tablesQueued
-            self.tablesLoaded = tablesLoaded
-            self.fullLoadProgressPercent = fullLoadProgressPercent
-            self.tablesLoading = tablesLoading
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tablesErrored = "TablesErrored"
-            case elapsedTimeMillis = "ElapsedTimeMillis"
-            case tablesQueued = "TablesQueued"
-            case tablesLoaded = "TablesLoaded"
-            case fullLoadProgressPercent = "FullLoadProgressPercent"
-            case tablesLoading = "TablesLoading"
-        }
-    }
-
-    public struct ModifyReplicationInstanceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "AllowMajorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "ReplicationInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list)
-        ]
-        /// Indicates whether the changes should be applied immediately or during the next maintenance window.
-        public let applyImmediately: Bool?
-        /// The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter does not result in an outage, except in the following situation, and the change is asynchronously applied as soon as possible. If moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure pending changes are applied. Default: Uses existing setting Format: ddd:hh24:mi-ddd:hh24:mi Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes
-        public let preferredMaintenanceWindow: String?
-        /// Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible. Constraints: This parameter must be set to true when specifying a value for the EngineVersion parameter that is a different major version than the replication instance's current version.
-        public let allowMajorVersionUpgrade: Bool?
-        /// The replication instance identifier. This parameter is stored as a lowercase string.
-        public let replicationInstanceIdentifier: String?
-        /// The amount of storage (in gigabytes) to be allocated for the replication instance.
-        public let allocatedStorage: Int32?
-        /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
-        public let replicationInstanceClass: String?
-        ///  Indicates that minor version upgrades will be applied automatically to the replication instance during the maintenance window. Changing this parameter does not result in an outage except in the following case and the change is asynchronously applied as soon as possible. An outage will result if this parameter is set to true during the maintenance window, and a newer minor version is available, and AWS DMS has enabled auto patching for that engine version. 
-        public let autoMinorVersionUpgrade: Bool?
-        /// The engine version number of the replication instance.
-        public let engineVersion: String?
-        /// The Amazon Resource Name (ARN) of the replication instance.
-        public let replicationInstanceArn: String
-        ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
-        public let multiAZ: Bool?
-        ///  Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance. 
-        public let vpcSecurityGroupIds: [String]?
-
-        public init(allocatedStorage: Int32? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, engineVersion: String? = nil, multiAZ: Bool? = nil, preferredMaintenanceWindow: String? = nil, replicationInstanceArn: String, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
-            self.applyImmediately = applyImmediately
-            self.preferredMaintenanceWindow = preferredMaintenanceWindow
-            self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
-            self.replicationInstanceIdentifier = replicationInstanceIdentifier
-            self.allocatedStorage = allocatedStorage
-            self.replicationInstanceClass = replicationInstanceClass
-            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
-            self.engineVersion = engineVersion
-            self.replicationInstanceArn = replicationInstanceArn
-            self.multiAZ = multiAZ
-            self.vpcSecurityGroupIds = vpcSecurityGroupIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applyImmediately = "ApplyImmediately"
-            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
-            case allowMajorVersionUpgrade = "AllowMajorVersionUpgrade"
-            case replicationInstanceIdentifier = "ReplicationInstanceIdentifier"
-            case allocatedStorage = "AllocatedStorage"
-            case replicationInstanceClass = "ReplicationInstanceClass"
-            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
-            case engineVersion = "EngineVersion"
-            case replicationInstanceArn = "ReplicationInstanceArn"
-            case multiAZ = "MultiAZ"
-            case vpcSecurityGroupIds = "VpcSecurityGroupIds"
-        }
-    }
-
-    public enum RefreshSchemasStatusTypeValue: String, CustomStringConvertible, Codable {
-        case successful = "successful"
-        case failed = "failed"
-        case refreshing = "refreshing"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: false, type: .string)
-        ]
-        /// A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and cannot be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-        public let value: String?
-        /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and cannot be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-        public let key: String?
-
-        public init(key: String? = nil, value: String? = nil) {
-            self.value = value
-            self.key = key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case key = "Key"
-        }
-    }
-
-    public struct AvailabilityZone: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The name of the availability zone.
-        public let name: String?
-
-        public init(name: String? = nil) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public struct ModifyReplicationSubnetGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationSubnetGroup", required: false, type: .structure)
-        ]
-        /// The modified replication subnet group.
-        public let replicationSubnetGroup: ReplicationSubnetGroup?
-
-        public init(replicationSubnetGroup: ReplicationSubnetGroup? = nil) {
-            self.replicationSubnetGroup = replicationSubnetGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationSubnetGroup = "ReplicationSubnetGroup"
-        }
-    }
-
-    public struct CreateReplicationSubnetGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationSubnetGroup", required: false, type: .structure)
-        ]
-        /// The replication subnet group that was created.
-        public let replicationSubnetGroup: ReplicationSubnetGroup?
-
-        public init(replicationSubnetGroup: ReplicationSubnetGroup? = nil) {
-            self.replicationSubnetGroup = replicationSubnetGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationSubnetGroup = "ReplicationSubnetGroup"
-        }
-    }
-
-    public enum AuthTypeValue: String, CustomStringConvertible, Codable {
-        case no = "no"
-        case password = "password"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteReplicationTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
-        ]
-        /// The deleted replication task.
-        public let replicationTask: ReplicationTask?
-
-        public init(replicationTask: ReplicationTask? = nil) {
-            self.replicationTask = replicationTask
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationTask = "ReplicationTask"
-        }
-    }
-
     public struct DescribeReplicationInstanceTaskLogsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the replication instance.
-        public let replicationInstanceArn: String
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
+        /// The Amazon Resource Name (ARN) of the replication instance.
+        public let replicationInstanceArn: String
 
         public init(marker: String? = nil, maxRecords: Int32? = nil, replicationInstanceArn: String) {
-            self.replicationInstanceArn = replicationInstanceArn
             self.marker = marker
             self.maxRecords = maxRecords
+            self.replicationInstanceArn = replicationInstanceArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case replicationInstanceArn = "ReplicationInstanceArn"
             case marker = "Marker"
             case maxRecords = "MaxRecords"
+            case replicationInstanceArn = "ReplicationInstanceArn"
         }
     }
 
-    public struct TestConnectionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Connection", required: false, type: .structure)
-        ]
-        /// The connection tested.
-        public let connection: Connection?
-
-        public init(connection: Connection? = nil) {
-            self.connection = connection
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connection = "Connection"
-        }
-    }
-
-    public struct ReplicationInstanceTaskLog: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationTaskName", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceTaskLogSize", required: false, type: .long)
-        ]
-        /// The Amazon Resource Name (ARN) of the replication task.
-        public let replicationTaskArn: String?
-        /// The name of the replication task.
-        public let replicationTaskName: String?
-        /// The size, in bytes, of the replication task log.
-        public let replicationInstanceTaskLogSize: Int64?
-
-        public init(replicationInstanceTaskLogSize: Int64? = nil, replicationTaskArn: String? = nil, replicationTaskName: String? = nil) {
-            self.replicationTaskArn = replicationTaskArn
-            self.replicationTaskName = replicationTaskName
-            self.replicationInstanceTaskLogSize = replicationInstanceTaskLogSize
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationTaskArn = "ReplicationTaskArn"
-            case replicationTaskName = "ReplicationTaskName"
-            case replicationInstanceTaskLogSize = "ReplicationInstanceTaskLogSize"
-        }
-    }
-
-    public struct DescribeReplicationTasksMessage: AWSShape {
+    public struct DescribeReplicationInstanceTaskLogsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .list)
+            AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceTaskLogs", required: false, type: .list)
         ]
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
-        /// Filters applied to the describe action. Valid filter names: replication-task-arn | replication-task-id | migration-type | endpoint-arn | replication-instance-arn
-        public let filters: [Filter]?
+        /// The Amazon Resource Name (ARN) of the replication instance.
+        public let replicationInstanceArn: String?
+        /// An array of replication task log metadata. Each member of the array contains the replication task name, ARN, and task log size (in bytes). 
+        public let replicationInstanceTaskLogs: [ReplicationInstanceTaskLog]?
 
-        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(marker: String? = nil, replicationInstanceArn: String? = nil, replicationInstanceTaskLogs: [ReplicationInstanceTaskLog]? = nil) {
             self.marker = marker
-            self.maxRecords = maxRecords
-            self.filters = filters
+            self.replicationInstanceArn = replicationInstanceArn
+            self.replicationInstanceTaskLogs = replicationInstanceTaskLogs
         }
 
         private enum CodingKeys: String, CodingKey {
             case marker = "Marker"
-            case maxRecords = "MaxRecords"
-            case filters = "Filters"
-        }
-    }
-
-    public struct CreateReplicationInstanceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationInstance", required: false, type: .structure)
-        ]
-        /// The replication instance that was created.
-        public let replicationInstance: ReplicationInstance?
-
-        public init(replicationInstance: ReplicationInstance? = nil) {
-            self.replicationInstance = replicationInstance
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationInstance = "ReplicationInstance"
-        }
-    }
-
-    public struct CreateReplicationSubnetGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
-            AWSShapeMember(label: "ReplicationSubnetGroupDescription", required: true, type: .string), 
-            AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
-        /// The EC2 subnet IDs for the subnet group.
-        public let subnetIds: [String]
-        /// The description for the subnet group.
-        public let replicationSubnetGroupDescription: String
-        /// The name for the replication subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters, periods, spaces, underscores, or hyphens. Must not be "default". Example: mySubnetgroup 
-        public let replicationSubnetGroupIdentifier: String
-        /// The tag to be assigned to the subnet group.
-        public let tags: [Tag]?
-
-        public init(replicationSubnetGroupDescription: String, replicationSubnetGroupIdentifier: String, subnetIds: [String], tags: [Tag]? = nil) {
-            self.subnetIds = subnetIds
-            self.replicationSubnetGroupDescription = replicationSubnetGroupDescription
-            self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subnetIds = "SubnetIds"
-            case replicationSubnetGroupDescription = "ReplicationSubnetGroupDescription"
-            case replicationSubnetGroupIdentifier = "ReplicationSubnetGroupIdentifier"
-            case tags = "Tags"
-        }
-    }
-
-    public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagList", required: false, type: .list)
-        ]
-        /// A list of tags for the resource.
-        public let tagList: [Tag]?
-
-        public init(tagList: [Tag]? = nil) {
-            self.tagList = tagList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagList = "TagList"
-        }
-    }
-
-    public struct DeleteCertificateMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the deleted certificate.
-        public let certificateArn: String
-
-        public init(certificateArn: String) {
-            self.certificateArn = certificateArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateArn = "CertificateArn"
-        }
-    }
-
-    public struct AddTagsToResourceResponse: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct OrderableReplicationInstance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MinAllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "IncludedAllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "DefaultAllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "MaxAllocatedStorage", required: false, type: .integer)
-        ]
-        /// The minimum amount of storage (in gigabytes) that can be allocated for the replication instance.
-        public let minAllocatedStorage: Int32?
-        /// The amount of storage (in gigabytes) that is allocated for the replication instance.
-        public let includedAllocatedStorage: Int32?
-        /// The default amount of storage (in gigabytes) that is allocated for the replication instance.
-        public let defaultAllocatedStorage: Int32?
-        /// The type of storage used by the replication instance.
-        public let storageType: String?
-        /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
-        public let replicationInstanceClass: String?
-        /// The version of the replication engine.
-        public let engineVersion: String?
-        /// The minimum amount of storage (in gigabytes) that can be allocated for the replication instance.
-        public let maxAllocatedStorage: Int32?
-
-        public init(defaultAllocatedStorage: Int32? = nil, engineVersion: String? = nil, includedAllocatedStorage: Int32? = nil, maxAllocatedStorage: Int32? = nil, minAllocatedStorage: Int32? = nil, replicationInstanceClass: String? = nil, storageType: String? = nil) {
-            self.minAllocatedStorage = minAllocatedStorage
-            self.includedAllocatedStorage = includedAllocatedStorage
-            self.defaultAllocatedStorage = defaultAllocatedStorage
-            self.storageType = storageType
-            self.replicationInstanceClass = replicationInstanceClass
-            self.engineVersion = engineVersion
-            self.maxAllocatedStorage = maxAllocatedStorage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case minAllocatedStorage = "MinAllocatedStorage"
-            case includedAllocatedStorage = "IncludedAllocatedStorage"
-            case defaultAllocatedStorage = "DefaultAllocatedStorage"
-            case storageType = "StorageType"
-            case replicationInstanceClass = "ReplicationInstanceClass"
-            case engineVersion = "EngineVersion"
-            case maxAllocatedStorage = "MaxAllocatedStorage"
+            case replicationInstanceArn = "ReplicationInstanceArn"
+            case replicationInstanceTaskLogs = "ReplicationInstanceTaskLogs"
         }
     }
 
@@ -3047,199 +1328,248 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ReplicationSubnetGroup: AWSShape {
+    public struct DescribeReplicationInstancesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationSubnetGroupDescription", required: false, type: .string), 
-            AWSShapeMember(label: "Subnets", required: false, type: .list), 
-            AWSShapeMember(label: "SubnetGroupStatus", required: false, type: .string), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: false, type: .string)
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstances", required: false, type: .list)
         ]
-        /// The description of the replication subnet group.
-        public let replicationSubnetGroupDescription: String?
-        /// The subnets that are in the subnet group.
-        public let subnets: [Subnet]?
-        /// The status of the subnet group.
-        public let subnetGroupStatus: String?
-        /// The ID of the VPC.
-        public let vpcId: String?
-        /// The identifier of the replication instance subnet group.
-        public let replicationSubnetGroupIdentifier: String?
-
-        public init(replicationSubnetGroupDescription: String? = nil, replicationSubnetGroupIdentifier: String? = nil, subnetGroupStatus: String? = nil, subnets: [Subnet]? = nil, vpcId: String? = nil) {
-            self.replicationSubnetGroupDescription = replicationSubnetGroupDescription
-            self.subnets = subnets
-            self.subnetGroupStatus = subnetGroupStatus
-            self.vpcId = vpcId
-            self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationSubnetGroupDescription = "ReplicationSubnetGroupDescription"
-            case subnets = "Subnets"
-            case subnetGroupStatus = "SubnetGroupStatus"
-            case vpcId = "VpcId"
-            case replicationSubnetGroupIdentifier = "ReplicationSubnetGroupIdentifier"
-        }
-    }
-
-    public struct ElasticsearchSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceAccessRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "ErrorRetryDuration", required: false, type: .integer), 
-            AWSShapeMember(label: "EndpointUri", required: true, type: .string), 
-            AWSShapeMember(label: "FullLoadErrorPercentage", required: false, type: .integer)
-        ]
-        /// The Amazon Resource Name (ARN) used by service to access the IAM role.
-        public let serviceAccessRoleArn: String
-        /// The maximum number of seconds that DMS retries failed API requests to the Elasticsearch cluster.
-        public let errorRetryDuration: Int32?
-        /// The endpoint for the ElasticSearch cluster.
-        public let endpointUri: String
-        /// The maximum percentage of records that can fail to be written before a full load operation stops. 
-        public let fullLoadErrorPercentage: Int32?
-
-        public init(endpointUri: String, errorRetryDuration: Int32? = nil, fullLoadErrorPercentage: Int32? = nil, serviceAccessRoleArn: String) {
-            self.serviceAccessRoleArn = serviceAccessRoleArn
-            self.errorRetryDuration = errorRetryDuration
-            self.endpointUri = endpointUri
-            self.fullLoadErrorPercentage = fullLoadErrorPercentage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serviceAccessRoleArn = "ServiceAccessRoleArn"
-            case errorRetryDuration = "ErrorRetryDuration"
-            case endpointUri = "EndpointUri"
-            case fullLoadErrorPercentage = "FullLoadErrorPercentage"
-        }
-    }
-
-    public struct Certificate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificatePem", required: false, type: .string), 
-            AWSShapeMember(label: "KeyLength", required: false, type: .integer), 
-            AWSShapeMember(label: "CertificateWallet", required: false, type: .blob), 
-            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateOwner", required: false, type: .string), 
-            AWSShapeMember(label: "ValidToDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ValidFromDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CertificateIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateCreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SigningAlgorithm", required: false, type: .string)
-        ]
-        /// The contents of the .pem X.509 certificate file for the certificate.
-        public let certificatePem: String?
-        /// The key length of the cryptographic algorithm being used.
-        public let keyLength: Int32?
-        /// The location of the imported Oracle Wallet certificate for use with SSL.
-        public let certificateWallet: Data?
-        /// The Amazon Resource Name (ARN) for the certificate.
-        public let certificateArn: String?
-        /// The owner of the certificate.
-        public let certificateOwner: String?
-        /// The final date that the certificate is valid.
-        public let validToDate: TimeStamp?
-        /// The beginning date that the certificate is valid.
-        public let validFromDate: TimeStamp?
-        /// The customer-assigned name of the certificate. Valid characters are A-z and 0-9.
-        public let certificateIdentifier: String?
-        /// The date that the certificate was created.
-        public let certificateCreationDate: TimeStamp?
-        /// The signing algorithm for the certificate.
-        public let signingAlgorithm: String?
-
-        public init(certificateArn: String? = nil, certificateCreationDate: TimeStamp? = nil, certificateIdentifier: String? = nil, certificateOwner: String? = nil, certificatePem: String? = nil, certificateWallet: Data? = nil, keyLength: Int32? = nil, signingAlgorithm: String? = nil, validFromDate: TimeStamp? = nil, validToDate: TimeStamp? = nil) {
-            self.certificatePem = certificatePem
-            self.keyLength = keyLength
-            self.certificateWallet = certificateWallet
-            self.certificateArn = certificateArn
-            self.certificateOwner = certificateOwner
-            self.validToDate = validToDate
-            self.validFromDate = validFromDate
-            self.certificateIdentifier = certificateIdentifier
-            self.certificateCreationDate = certificateCreationDate
-            self.signingAlgorithm = signingAlgorithm
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificatePem = "CertificatePem"
-            case keyLength = "KeyLength"
-            case certificateWallet = "CertificateWallet"
-            case certificateArn = "CertificateArn"
-            case certificateOwner = "CertificateOwner"
-            case validToDate = "ValidToDate"
-            case validFromDate = "ValidFromDate"
-            case certificateIdentifier = "CertificateIdentifier"
-            case certificateCreationDate = "CertificateCreationDate"
-            case signingAlgorithm = "SigningAlgorithm"
-        }
-    }
-
-    public struct DescribeEventSubscriptionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscriptionsList", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
-        /// A list of event subscriptions.
-        public let eventSubscriptionsList: [EventSubscription]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
+        /// The replication instances described.
+        public let replicationInstances: [ReplicationInstance]?
 
-        public init(eventSubscriptionsList: [EventSubscription]? = nil, marker: String? = nil) {
-            self.eventSubscriptionsList = eventSubscriptionsList
+        public init(marker: String? = nil, replicationInstances: [ReplicationInstance]? = nil) {
             self.marker = marker
+            self.replicationInstances = replicationInstances
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventSubscriptionsList = "EventSubscriptionsList"
             case marker = "Marker"
+            case replicationInstances = "ReplicationInstances"
         }
     }
 
-    public struct TableToReload: AWSShape {
+    public struct DescribeReplicationSubnetGroupsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaName", required: false, type: .string), 
-            AWSShapeMember(label: "TableName", required: false, type: .string)
-        ]
-        /// The schema name of the table to be reloaded.
-        public let schemaName: String?
-        /// The table name of the table to be reloaded.
-        public let tableName: String?
-
-        public init(schemaName: String? = nil, tableName: String? = nil) {
-            self.schemaName = schemaName
-            self.tableName = tableName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemaName = "SchemaName"
-            case tableName = "TableName"
-        }
-    }
-
-    public struct DescribeEndpointTypesMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list)
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+        /// Filters applied to the describe action.
+        public let filters: [Filter]?
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-        /// Filters applied to the describe action. Valid filter names: engine-name | endpoint-type
-        public let filters: [Filter]?
 
         public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
-            self.maxRecords = maxRecords
-            self.marker = marker
             self.filters = filters
+            self.marker = marker
+            self.maxRecords = maxRecords
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxRecords = "MaxRecords"
-            case marker = "Marker"
             case filters = "Filters"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+        }
+    }
+
+    public struct DescribeReplicationSubnetGroupsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationSubnetGroups", required: false, type: .list)
+        ]
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        /// A description of the replication subnet groups.
+        public let replicationSubnetGroups: [ReplicationSubnetGroup]?
+
+        public init(marker: String? = nil, replicationSubnetGroups: [ReplicationSubnetGroup]? = nil) {
+            self.marker = marker
+            self.replicationSubnetGroups = replicationSubnetGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case replicationSubnetGroups = "ReplicationSubnetGroups"
+        }
+    }
+
+    public struct DescribeReplicationTaskAssessmentResultsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string)
+        ]
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int32?
+        /// - The Amazon Resource Name (ARN) string that uniquely identifies the task. When this input parameter is specified the API will return only one result and ignore the values of the max-records and marker parameters. 
+        public let replicationTaskArn: String?
+
+        public init(marker: String? = nil, maxRecords: Int32? = nil, replicationTaskArn: String? = nil) {
+            self.marker = marker
+            self.maxRecords = maxRecords
+            self.replicationTaskArn = replicationTaskArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case replicationTaskArn = "ReplicationTaskArn"
+        }
+    }
+
+    public struct DescribeReplicationTaskAssessmentResultsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskAssessmentResults", required: false, type: .list)
+        ]
+        /// - The Amazon S3 bucket where the task assessment report is located. 
+        public let bucketName: String?
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        ///  The task assessment report. 
+        public let replicationTaskAssessmentResults: [ReplicationTaskAssessmentResult]?
+
+        public init(bucketName: String? = nil, marker: String? = nil, replicationTaskAssessmentResults: [ReplicationTaskAssessmentResult]? = nil) {
+            self.bucketName = bucketName
+            self.marker = marker
+            self.replicationTaskAssessmentResults = replicationTaskAssessmentResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "BucketName"
+            case marker = "Marker"
+            case replicationTaskAssessmentResults = "ReplicationTaskAssessmentResults"
+        }
+    }
+
+    public struct DescribeReplicationTasksMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+        ]
+        /// Filters applied to the describe action. Valid filter names: replication-task-arn | replication-task-id | migration-type | endpoint-arn | replication-instance-arn
+        public let filters: [Filter]?
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int32?
+
+        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+            self.filters = filters
+            self.marker = marker
+            self.maxRecords = maxRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+        }
+    }
+
+    public struct DescribeReplicationTasksResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationTasks", required: false, type: .list)
+        ]
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        /// A description of the replication tasks.
+        public let replicationTasks: [ReplicationTask]?
+
+        public init(marker: String? = nil, replicationTasks: [ReplicationTask]? = nil) {
+            self.marker = marker
+            self.replicationTasks = replicationTasks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case replicationTasks = "ReplicationTasks"
+        }
+    }
+
+    public struct DescribeSchemasMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+        ]
+        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+        public let endpointArn: String
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int32?
+
+        public init(endpointArn: String, marker: String? = nil, maxRecords: Int32? = nil) {
+            self.endpointArn = endpointArn
+            self.marker = marker
+            self.maxRecords = maxRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointArn = "EndpointArn"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+        }
+    }
+
+    public struct DescribeSchemasResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Schemas", required: false, type: .list)
+        ]
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        /// The described schema.
+        public let schemas: [String]?
+
+        public init(marker: String? = nil, schemas: [String]? = nil) {
+            self.marker = marker
+            self.schemas = schemas
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case schemas = "Schemas"
+        }
+    }
+
+    public struct DescribeTableStatisticsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string)
+        ]
+        /// Filters applied to the describe table statistics action. Valid filter names: schema-name | table-name | table-state A combination of filters creates an AND condition where each record matches all specified filters.
+        public let filters: [Filter]?
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 500.
+        public let maxRecords: Int32?
+        /// The Amazon Resource Name (ARN) of the replication task.
+        public let replicationTaskArn: String
+
+        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, replicationTaskArn: String) {
+            self.filters = filters
+            self.marker = marker
+            self.maxRecords = maxRecords
+            self.replicationTaskArn = replicationTaskArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case replicationTaskArn = "ReplicationTaskArn"
         }
     }
 
@@ -3269,34 +1599,32 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeEventSubscriptionsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubscriptionName", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
-        /// The name of the AWS DMS event subscription to be described.
-        public let subscriptionName: String?
-        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
-        /// Filters applied to the action.
-        public let filters: [Filter]?
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
+    public enum DmsSslModeValue: String, CustomStringConvertible, Codable {
+        case none = "none"
+        case require = "require"
+        case verifyCa = "verify-ca"
+        case verifyFull = "verify-full"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, subscriptionName: String? = nil) {
-            self.subscriptionName = subscriptionName
-            self.maxRecords = maxRecords
-            self.filters = filters
-            self.marker = marker
+    public struct DmsTransferSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string)
+        ]
+        ///  The name of the S3 bucket to use. 
+        public let bucketName: String?
+        ///  The IAM role that has permission to access the Amazon S3 bucket. 
+        public let serviceAccessRoleArn: String?
+
+        public init(bucketName: String? = nil, serviceAccessRoleArn: String? = nil) {
+            self.bucketName = bucketName
+            self.serviceAccessRoleArn = serviceAccessRoleArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subscriptionName = "SubscriptionName"
-            case maxRecords = "MaxRecords"
-            case filters = "Filters"
-            case marker = "Marker"
+            case bucketName = "BucketName"
+            case serviceAccessRoleArn = "ServiceAccessRoleArn"
         }
     }
 
@@ -3316,82 +1644,582 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct MongoDbSettings: AWSShape {
+    public struct ElasticsearchSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DocsToInvestigate", required: false, type: .string), 
-            AWSShapeMember(label: "AuthSource", required: false, type: .string), 
-            AWSShapeMember(label: "ExtractDocId", required: false, type: .string), 
-            AWSShapeMember(label: "Password", required: false, type: .string), 
-            AWSShapeMember(label: "NestingLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "ServerName", required: false, type: .string), 
-            AWSShapeMember(label: "AuthMechanism", required: false, type: .enum), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "AuthType", required: false, type: .enum), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "Username", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string)
+            AWSShapeMember(label: "EndpointUri", required: true, type: .string), 
+            AWSShapeMember(label: "ErrorRetryDuration", required: false, type: .integer), 
+            AWSShapeMember(label: "FullLoadErrorPercentage", required: false, type: .integer), 
+            AWSShapeMember(label: "ServiceAccessRoleArn", required: true, type: .string)
         ]
-        ///  Indicates the number of documents to preview to determine the document organization. Use this attribute when NestingLevel is set to ONE.  Must be a positive value greater than 0. Default value is 1000.
-        public let docsToInvestigate: String?
-        ///  The MongoDB database name. This attribute is not used when authType=NO.  The default is admin.
-        public let authSource: String?
-        ///  Specifies the document ID. Use this attribute when NestingLevel is set to NONE.  Default value is false. 
-        public let extractDocId: String?
-        ///  The password for the user account you use to access the MongoDB source endpoint. 
-        public let password: String?
-        ///  Specifies either document or table mode.  Valid values: NONE, ONE Default value is NONE. Specify NONE to use document mode. Specify ONE to use table mode.
-        public let nestingLevel: NestingLevelValue?
-        ///  The name of the server on the MongoDB source endpoint. 
-        public let serverName: String?
-        ///  The authentication mechanism you use to access the MongoDB source endpoint. Valid values: DEFAULT, MONGODB_CR, SCRAM_SHA_1  DEFAULT – For MongoDB version 2.x, use MONGODB_CR. For MongoDB version 3.x, use SCRAM_SHA_1. This attribute is not used when authType=No.
-        public let authMechanism: AuthMechanismValue?
-        ///  The port value for the MongoDB source endpoint. 
-        public let port: Int32?
-        ///  The authentication type you use to access the MongoDB source endpoint. Valid values: NO, PASSWORD  When NO is selected, user name and password parameters are not used and can be empty. 
-        public let authType: AuthTypeValue?
-        /// The AWS KMS key identifier that is used to encrypt the content on the replication instance. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
-        public let kmsKeyId: String?
-        /// The user name you use to access the MongoDB source endpoint. 
-        public let username: String?
-        ///  The database name on the MongoDB source endpoint. 
-        public let databaseName: String?
+        /// The endpoint for the ElasticSearch cluster.
+        public let endpointUri: String
+        /// The maximum number of seconds that DMS retries failed API requests to the Elasticsearch cluster.
+        public let errorRetryDuration: Int32?
+        /// The maximum percentage of records that can fail to be written before a full load operation stops. 
+        public let fullLoadErrorPercentage: Int32?
+        /// The Amazon Resource Name (ARN) used by service to access the IAM role.
+        public let serviceAccessRoleArn: String
 
-        public init(authMechanism: AuthMechanismValue? = nil, authSource: String? = nil, authType: AuthTypeValue? = nil, databaseName: String? = nil, docsToInvestigate: String? = nil, extractDocId: String? = nil, kmsKeyId: String? = nil, nestingLevel: NestingLevelValue? = nil, password: String? = nil, port: Int32? = nil, serverName: String? = nil, username: String? = nil) {
-            self.docsToInvestigate = docsToInvestigate
-            self.authSource = authSource
-            self.extractDocId = extractDocId
-            self.password = password
-            self.nestingLevel = nestingLevel
-            self.serverName = serverName
-            self.authMechanism = authMechanism
-            self.port = port
-            self.authType = authType
-            self.kmsKeyId = kmsKeyId
-            self.username = username
-            self.databaseName = databaseName
+        public init(endpointUri: String, errorRetryDuration: Int32? = nil, fullLoadErrorPercentage: Int32? = nil, serviceAccessRoleArn: String) {
+            self.endpointUri = endpointUri
+            self.errorRetryDuration = errorRetryDuration
+            self.fullLoadErrorPercentage = fullLoadErrorPercentage
+            self.serviceAccessRoleArn = serviceAccessRoleArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case docsToInvestigate = "DocsToInvestigate"
-            case authSource = "AuthSource"
-            case extractDocId = "ExtractDocId"
-            case password = "Password"
-            case nestingLevel = "NestingLevel"
-            case serverName = "ServerName"
-            case authMechanism = "AuthMechanism"
-            case port = "Port"
-            case authType = "AuthType"
-            case kmsKeyId = "KmsKeyId"
-            case username = "Username"
-            case databaseName = "DatabaseName"
+            case endpointUri = "EndpointUri"
+            case errorRetryDuration = "ErrorRetryDuration"
+            case fullLoadErrorPercentage = "FullLoadErrorPercentage"
+            case serviceAccessRoleArn = "ServiceAccessRoleArn"
         }
     }
 
-    public struct CreateEventSubscriptionResponse: AWSShape {
+    public struct Endpoint: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
+            AWSShapeMember(label: "DmsTransferSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "DynamoDbSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "ElasticsearchSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "EndpointArn", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointType", required: false, type: .enum), 
+            AWSShapeMember(label: "EngineDisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "EngineName", required: false, type: .string), 
+            AWSShapeMember(label: "ExternalId", required: false, type: .string), 
+            AWSShapeMember(label: "ExternalTableDefinition", required: false, type: .string), 
+            AWSShapeMember(label: "ExtraConnectionAttributes", required: false, type: .string), 
+            AWSShapeMember(label: "KinesisSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "MongoDbSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "S3Settings", required: false, type: .structure), 
+            AWSShapeMember(label: "ServerName", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "SslMode", required: false, type: .enum), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "Username", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) used for SSL connection to the endpoint.
+        public let certificateArn: String?
+        /// The name of the database at the endpoint.
+        public let databaseName: String?
+        /// The settings in JSON format for the DMS transfer type of source endpoint.  Possible attributes include the following:    serviceAccessRoleArn - The IAM role that has permission to access the Amazon S3 bucket.    bucketName - The name of the S3 bucket to use.    compressionType - An optional parameter to use GZIP to compress the target files. To use GZIP, set this value to NONE (the default). To keep the files uncompressed, don't use this value.    Shorthand syntax for these attributes is as follows: ServiceAccessRoleArn=string,BucketName=string,CompressionType=string  JSON syntax for these attributes is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string", "CompressionType": "none"|"gzip" }  
+        public let dmsTransferSettings: DmsTransferSettings?
+        /// The settings for the target DynamoDB database. For more information, see the DynamoDBSettings structure.
+        public let dynamoDbSettings: DynamoDbSettings?
+        /// The settings for the Elasticsearch source endpoint. For more information, see the ElasticsearchSettings structure.
+        public let elasticsearchSettings: ElasticsearchSettings?
+        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+        public let endpointArn: String?
+        /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
+        public let endpointIdentifier: String?
+        /// The type of endpoint.
+        public let endpointType: ReplicationEndpointTypeValue?
+        /// The expanded name for the engine name. For example, if the EngineName parameter is "aurora," this value would be "Amazon Aurora MySQL."
+        public let engineDisplayName: String?
+        /// The database engine name. Valid values, depending on the EndPointType, include mysql, oracle, postgres, mariadb, aurora, aurora-postgresql, redshift, s3, db2, azuredb, sybase, sybase, dynamodb, mongodb, and sqlserver.
+        public let engineName: String?
+        ///  Value returned by a call to CreateEndpoint that can be used for cross-account validation. Use it on a subsequent call to CreateEndpoint to create the endpoint with a cross-account. 
+        public let externalId: String?
+        /// The external table definition.
+        public let externalTableDefinition: String?
+        /// Additional connection attributes used to connect to the endpoint.
+        public let extraConnectionAttributes: String?
+        /// The settings for the Amazon Kinesis source endpoint. For more information, see the KinesisSettings structure.
+        public let kinesisSettings: KinesisSettings?
+        /// The AWS KMS key identifier that is used to encrypt the content on the replication instance. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
+        public let kmsKeyId: String?
+        /// The settings for the MongoDB source endpoint. For more information, see the MongoDbSettings structure.
+        public let mongoDbSettings: MongoDbSettings?
+        /// The port value used to access the endpoint.
+        public let port: Int32?
+        /// The settings for the S3 target endpoint. For more information, see the S3Settings structure.
+        public let s3Settings: S3Settings?
+        /// The name of the server at the endpoint.
+        public let serverName: String?
+        /// The Amazon Resource Name (ARN) used by the service access IAM role.
+        public let serviceAccessRoleArn: String?
+        /// The SSL mode used to connect to the endpoint. SSL mode can be one of four values: none, require, verify-ca, verify-full.  The default value is none.
+        public let sslMode: DmsSslModeValue?
+        /// The status of the endpoint.
+        public let status: String?
+        /// The user name used to connect to the endpoint.
+        public let username: String?
+
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String? = nil, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, externalId: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, mongoDbSettings: MongoDbSettings? = nil, port: Int32? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, status: String? = nil, username: String? = nil) {
+            self.certificateArn = certificateArn
+            self.databaseName = databaseName
+            self.dmsTransferSettings = dmsTransferSettings
+            self.dynamoDbSettings = dynamoDbSettings
+            self.elasticsearchSettings = elasticsearchSettings
+            self.endpointArn = endpointArn
+            self.endpointIdentifier = endpointIdentifier
+            self.endpointType = endpointType
+            self.engineDisplayName = engineDisplayName
+            self.engineName = engineName
+            self.externalId = externalId
+            self.externalTableDefinition = externalTableDefinition
+            self.extraConnectionAttributes = extraConnectionAttributes
+            self.kinesisSettings = kinesisSettings
+            self.kmsKeyId = kmsKeyId
+            self.mongoDbSettings = mongoDbSettings
+            self.port = port
+            self.s3Settings = s3Settings
+            self.serverName = serverName
+            self.serviceAccessRoleArn = serviceAccessRoleArn
+            self.sslMode = sslMode
+            self.status = status
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case databaseName = "DatabaseName"
+            case dmsTransferSettings = "DmsTransferSettings"
+            case dynamoDbSettings = "DynamoDbSettings"
+            case elasticsearchSettings = "ElasticsearchSettings"
+            case endpointArn = "EndpointArn"
+            case endpointIdentifier = "EndpointIdentifier"
+            case endpointType = "EndpointType"
+            case engineDisplayName = "EngineDisplayName"
+            case engineName = "EngineName"
+            case externalId = "ExternalId"
+            case externalTableDefinition = "ExternalTableDefinition"
+            case extraConnectionAttributes = "ExtraConnectionAttributes"
+            case kinesisSettings = "KinesisSettings"
+            case kmsKeyId = "KmsKeyId"
+            case mongoDbSettings = "MongoDbSettings"
+            case port = "Port"
+            case s3Settings = "S3Settings"
+            case serverName = "ServerName"
+            case serviceAccessRoleArn = "ServiceAccessRoleArn"
+            case sslMode = "SslMode"
+            case status = "Status"
+            case username = "Username"
+        }
+    }
+
+    public struct Event: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Date", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EventCategories", required: false, type: .list), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "SourceType", required: false, type: .enum)
+        ]
+        /// The date of the event.
+        public let date: TimeStamp?
+        /// The event categories available for the specified source type.
+        public let eventCategories: [String]?
+        /// The event message.
+        public let message: String?
+        ///  The identifier of the event source. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it cannot end with a hyphen or contain two consecutive hyphens.  Constraints:replication instance, endpoint, migration task
+        public let sourceIdentifier: String?
+        ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | endpoint | migration-task
+        public let sourceType: SourceType?
+
+        public init(date: TimeStamp? = nil, eventCategories: [String]? = nil, message: String? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil) {
+            self.date = date
+            self.eventCategories = eventCategories
+            self.message = message
+            self.sourceIdentifier = sourceIdentifier
+            self.sourceType = sourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case date = "Date"
+            case eventCategories = "EventCategories"
+            case message = "Message"
+            case sourceIdentifier = "SourceIdentifier"
+            case sourceType = "SourceType"
+        }
+    }
+
+    public struct EventCategoryGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventCategories", required: false, type: .list), 
+            AWSShapeMember(label: "SourceType", required: false, type: .string)
+        ]
+        ///  A list of event categories for a SourceType that you want to subscribe to. 
+        public let eventCategories: [String]?
+        ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | replication-server | security-group | migration-task
+        public let sourceType: String?
+
+        public init(eventCategories: [String]? = nil, sourceType: String? = nil) {
+            self.eventCategories = eventCategories
+            self.sourceType = sourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventCategories = "EventCategories"
+            case sourceType = "SourceType"
+        }
+    }
+
+    public struct EventSubscription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustSubscriptionId", required: false, type: .string), 
+            AWSShapeMember(label: "CustomerAwsId", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "EventCategoriesList", required: false, type: .list), 
+            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "SourceIdsList", required: false, type: .list), 
+            AWSShapeMember(label: "SourceType", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionCreationTime", required: false, type: .string)
+        ]
+        /// The AWS DMS event notification subscription Id.
+        public let custSubscriptionId: String?
+        /// The AWS customer account associated with the AWS DMS event notification subscription.
+        public let customerAwsId: String?
+        /// Boolean value that indicates if the event subscription is enabled.
+        public let enabled: Bool?
+        /// A lists of event categories.
+        public let eventCategoriesList: [String]?
+        /// The topic ARN of the AWS DMS event notification subscription.
+        public let snsTopicArn: String?
+        /// A list of source Ids for the event subscription.
+        public let sourceIdsList: [String]?
+        ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | replication-server | security-group | migration-task
+        public let sourceType: String?
+        /// The status of the AWS DMS event notification subscription. Constraints: Can be one of the following: creating | modifying | deleting | active | no-permission | topic-not-exist The status "no-permission" indicates that AWS DMS no longer has permission to post to the SNS topic. The status "topic-not-exist" indicates that the topic was deleted after the subscription was created.
+        public let status: String?
+        /// The time the RDS event notification subscription was created.
+        public let subscriptionCreationTime: String?
+
+        public init(custSubscriptionId: String? = nil, customerAwsId: String? = nil, enabled: Bool? = nil, eventCategoriesList: [String]? = nil, snsTopicArn: String? = nil, sourceIdsList: [String]? = nil, sourceType: String? = nil, status: String? = nil, subscriptionCreationTime: String? = nil) {
+            self.custSubscriptionId = custSubscriptionId
+            self.customerAwsId = customerAwsId
+            self.enabled = enabled
+            self.eventCategoriesList = eventCategoriesList
+            self.snsTopicArn = snsTopicArn
+            self.sourceIdsList = sourceIdsList
+            self.sourceType = sourceType
+            self.status = status
+            self.subscriptionCreationTime = subscriptionCreationTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case custSubscriptionId = "CustSubscriptionId"
+            case customerAwsId = "CustomerAwsId"
+            case enabled = "Enabled"
+            case eventCategoriesList = "EventCategoriesList"
+            case snsTopicArn = "SnsTopicArn"
+            case sourceIdsList = "SourceIdsList"
+            case sourceType = "SourceType"
+            case status = "Status"
+            case subscriptionCreationTime = "SubscriptionCreationTime"
+        }
+    }
+
+    public struct Filter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Values", required: true, type: .list)
+        ]
+        /// The name of the filter.
+        public let name: String
+        /// The filter value.
+        public let values: [String]
+
+        public init(name: String, values: [String]) {
+            self.name = name
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct ImportCertificateMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "CertificatePem", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateWallet", required: false, type: .blob), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// The customer-assigned name of the certificate. Valid characters are A-z and 0-9.
+        public let certificateIdentifier: String
+        /// The contents of the .pem X.509 certificate file for the certificate.
+        public let certificatePem: String?
+        /// The location of the imported Oracle Wallet certificate for use with SSL.
+        public let certificateWallet: Data?
+        /// The tags associated with the certificate.
+        public let tags: [Tag]?
+
+        public init(certificateIdentifier: String, certificatePem: String? = nil, certificateWallet: Data? = nil, tags: [Tag]? = nil) {
+            self.certificateIdentifier = certificateIdentifier
+            self.certificatePem = certificatePem
+            self.certificateWallet = certificateWallet
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateIdentifier = "CertificateIdentifier"
+            case certificatePem = "CertificatePem"
+            case certificateWallet = "CertificateWallet"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ImportCertificateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificate", required: false, type: .structure)
+        ]
+        /// The certificate to be uploaded.
+        public let certificate: Certificate?
+
+        public init(certificate: Certificate? = nil) {
+            self.certificate = certificate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
+        }
+    }
+
+    public struct KinesisSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageFormat", required: false, type: .enum), 
+            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "StreamArn", required: false, type: .string)
+        ]
+        /// The output format for the records created on the endpoint. The message format is JSON.
+        public let messageFormat: MessageFormatValue?
+        /// The Amazon Resource Name (ARN) for the IAM role that DMS uses to write to the Amazon Kinesis data stream.
+        public let serviceAccessRoleArn: String?
+        /// The Amazon Resource Name (ARN) for the Amazon Kinesis Data Streams endpoint.
+        public let streamArn: String?
+
+        public init(messageFormat: MessageFormatValue? = nil, serviceAccessRoleArn: String? = nil, streamArn: String? = nil) {
+            self.messageFormat = messageFormat
+            self.serviceAccessRoleArn = serviceAccessRoleArn
+            self.streamArn = streamArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageFormat = "MessageFormat"
+            case serviceAccessRoleArn = "ServiceAccessRoleArn"
+            case streamArn = "StreamArn"
+        }
+    }
+
+    public struct ListTagsForResourceMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) string that uniquely identifies the AWS DMS resource.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagList", required: false, type: .list)
+        ]
+        /// A list of tags for the resource.
+        public let tagList: [Tag]?
+
+        public init(tagList: [Tag]? = nil) {
+            self.tagList = tagList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagList = "TagList"
+        }
+    }
+
+    public enum MessageFormatValue: String, CustomStringConvertible, Codable {
+        case json = "json"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MigrationTypeValue: String, CustomStringConvertible, Codable {
+        case fullLoad = "full-load"
+        case cdc = "cdc"
+        case fullLoadAndCdc = "full-load-and-cdc"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ModifyEndpointMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
+            AWSShapeMember(label: "DmsTransferSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "DynamoDbSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "ElasticsearchSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
+            AWSShapeMember(label: "EndpointIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointType", required: false, type: .enum), 
+            AWSShapeMember(label: "EngineName", required: false, type: .string), 
+            AWSShapeMember(label: "ExternalTableDefinition", required: false, type: .string), 
+            AWSShapeMember(label: "ExtraConnectionAttributes", required: false, type: .string), 
+            AWSShapeMember(label: "KinesisSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "MongoDbSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "Password", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "S3Settings", required: false, type: .structure), 
+            AWSShapeMember(label: "ServerName", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "SslMode", required: false, type: .enum), 
+            AWSShapeMember(label: "Username", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+        public let certificateArn: String?
+        /// The name of the endpoint database.
+        public let databaseName: String?
+        /// The settings in JSON format for the DMS transfer type of source endpoint.  Attributes include the following:   serviceAccessRoleArn - The IAM role that has permission to access the Amazon S3 bucket.   BucketName - The name of the S3 bucket to use.   compressionType - An optional parameter to use GZIP to compress the target files. Set to NONE (the default) or do not use to leave the files uncompressed.   Shorthand syntax: ServiceAccessRoleArn=string ,BucketName=string,CompressionType=string JSON syntax:  { "ServiceAccessRoleArn": "string", "BucketName": "string", "CompressionType": "none"|"gzip" } 
+        public let dmsTransferSettings: DmsTransferSettings?
+        /// Settings in JSON format for the target Amazon DynamoDB endpoint. For more information about the available settings, see Using Object Mapping to Migrate Data to DynamoDB in the AWS Database Migration Service User Guide. 
+        public let dynamoDbSettings: DynamoDbSettings?
+        /// Settings in JSON format for the target Elasticsearch endpoint. For more information about the available settings, see Extra Connection Attributes When Using Elasticsearch as a Target for AWS DMS in the AWS Database Migration User Guide. 
+        public let elasticsearchSettings: ElasticsearchSettings?
+        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+        public let endpointArn: String
+        /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
+        public let endpointIdentifier: String?
+        /// The type of endpoint.
+        public let endpointType: ReplicationEndpointTypeValue?
+        /// The type of engine for the endpoint. Valid values, depending on the EndPointType, include mysql, oracle, postgres, mariadb, aurora, aurora-postgresql, redshift, s3, db2, azuredb, sybase, sybase, dynamodb, mongodb, and sqlserver.
+        public let engineName: String?
+        /// The external table definition.
+        public let externalTableDefinition: String?
+        /// Additional attributes associated with the connection. To reset this parameter, pass the empty string ("") as an argument.
+        public let extraConnectionAttributes: String?
+        /// Settings in JSON format for the target Amazon Kinesis Data Streams endpoint. For more information about the available settings, see Using Object Mapping to Migrate Data to a Kinesis Data Stream in the AWS Database Migration User Guide. 
+        public let kinesisSettings: KinesisSettings?
+        /// Settings in JSON format for the source MongoDB endpoint. For more information about the available settings, see the configuration properties section in  Using MongoDB as a Target for AWS Database Migration Service in the AWS Database Migration Service User Guide. 
+        public let mongoDbSettings: MongoDbSettings?
+        /// The password to be used to login to the endpoint database.
+        public let password: String?
+        /// The port used by the endpoint database.
+        public let port: Int32?
+        /// Settings in JSON format for the target Amazon S3 endpoint. For more information about the available settings, see Extra Connection Attributes When Using Amazon S3 as a Target for AWS DMS in the AWS Database Migration Service User Guide. 
+        public let s3Settings: S3Settings?
+        /// The name of the server where the endpoint database resides.
+        public let serverName: String?
+        ///  The Amazon Resource Name (ARN) for the service access role you want to use to modify the endpoint. 
+        public let serviceAccessRoleArn: String?
+        /// The SSL mode to be used. SSL mode can be one of four values: none, require, verify-ca, verify-full.  The default value is none.
+        public let sslMode: DmsSslModeValue?
+        /// The user name to be used to login to the endpoint database.
+        public let username: String?
+
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineName: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kinesisSettings: KinesisSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, password: String? = nil, port: Int32? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, username: String? = nil) {
+            self.certificateArn = certificateArn
+            self.databaseName = databaseName
+            self.dmsTransferSettings = dmsTransferSettings
+            self.dynamoDbSettings = dynamoDbSettings
+            self.elasticsearchSettings = elasticsearchSettings
+            self.endpointArn = endpointArn
+            self.endpointIdentifier = endpointIdentifier
+            self.endpointType = endpointType
+            self.engineName = engineName
+            self.externalTableDefinition = externalTableDefinition
+            self.extraConnectionAttributes = extraConnectionAttributes
+            self.kinesisSettings = kinesisSettings
+            self.mongoDbSettings = mongoDbSettings
+            self.password = password
+            self.port = port
+            self.s3Settings = s3Settings
+            self.serverName = serverName
+            self.serviceAccessRoleArn = serviceAccessRoleArn
+            self.sslMode = sslMode
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case databaseName = "DatabaseName"
+            case dmsTransferSettings = "DmsTransferSettings"
+            case dynamoDbSettings = "DynamoDbSettings"
+            case elasticsearchSettings = "ElasticsearchSettings"
+            case endpointArn = "EndpointArn"
+            case endpointIdentifier = "EndpointIdentifier"
+            case endpointType = "EndpointType"
+            case engineName = "EngineName"
+            case externalTableDefinition = "ExternalTableDefinition"
+            case extraConnectionAttributes = "ExtraConnectionAttributes"
+            case kinesisSettings = "KinesisSettings"
+            case mongoDbSettings = "MongoDbSettings"
+            case password = "Password"
+            case port = "Port"
+            case s3Settings = "S3Settings"
+            case serverName = "ServerName"
+            case serviceAccessRoleArn = "ServiceAccessRoleArn"
+            case sslMode = "SslMode"
+            case username = "Username"
+        }
+    }
+
+    public struct ModifyEndpointResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Endpoint", required: false, type: .structure)
+        ]
+        /// The modified endpoint.
+        public let endpoint: Endpoint?
+
+        public init(endpoint: Endpoint? = nil) {
+            self.endpoint = endpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoint = "Endpoint"
+        }
+    }
+
+    public struct ModifyEventSubscriptionMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "EventCategories", required: false, type: .list), 
+            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "SourceType", required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
+        ]
+        ///  A Boolean value; set to true to activate the subscription. 
+        public let enabled: Bool?
+        ///  A list of event categories for a source type that you want to subscribe to. Use the DescribeEventCategories action to see a list of event categories. 
+        public let eventCategories: [String]?
+        ///  The Amazon Resource Name (ARN) of the Amazon SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
+        public let snsTopicArn: String?
+        ///  The type of AWS DMS resource that generates the events you want to subscribe to.  Valid values: replication-instance | migration-task
+        public let sourceType: String?
+        /// The name of the AWS DMS event notification subscription to be modified.
+        public let subscriptionName: String
+
+        public init(enabled: Bool? = nil, eventCategories: [String]? = nil, snsTopicArn: String? = nil, sourceType: String? = nil, subscriptionName: String) {
+            self.enabled = enabled
+            self.eventCategories = eventCategories
+            self.snsTopicArn = snsTopicArn
+            self.sourceType = sourceType
+            self.subscriptionName = subscriptionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case eventCategories = "EventCategories"
+            case snsTopicArn = "SnsTopicArn"
+            case sourceType = "SourceType"
+            case subscriptionName = "SubscriptionName"
+        }
+    }
+
+    public struct ModifyEventSubscriptionResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
         ]
-        /// The event subscription that was created.
+        /// The modified event subscription.
         public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
@@ -3403,119 +2231,1053 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct CreateEndpointMessage: AWSShape {
+    public struct ModifyReplicationInstanceMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "DynamoDbSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "MongoDbSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "Password", required: false, type: .string), 
-            AWSShapeMember(label: "DmsTransferSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "ServerName", required: false, type: .string), 
-            AWSShapeMember(label: "ExternalTableDefinition", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "ElasticsearchSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "EngineName", required: true, type: .string), 
-            AWSShapeMember(label: "S3Settings", required: false, type: .structure), 
-            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "Username", required: false, type: .string), 
-            AWSShapeMember(label: "SslMode", required: false, type: .enum), 
-            AWSShapeMember(label: "ExtraConnectionAttributes", required: false, type: .string), 
-            AWSShapeMember(label: "EndpointType", required: true, type: .enum), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "EndpointIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "KinesisSettings", required: false, type: .structure)
+            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
+            AWSShapeMember(label: "AllowMajorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceClass", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list)
         ]
-        /// Tags to be added to the endpoint.
-        public let tags: [Tag]?
-        /// Settings in JSON format for the target Amazon DynamoDB endpoint. For more information about the available settings, see Using Object Mapping to Migrate Data to DynamoDB in the AWS Database Migration Service User Guide. 
-        public let dynamoDbSettings: DynamoDbSettings?
-        /// Settings in JSON format for the source MongoDB endpoint. For more information about the available settings, see the configuration properties section in  Using MongoDB as a Target for AWS Database Migration Service in the AWS Database Migration Service User Guide. 
-        public let mongoDbSettings: MongoDbSettings?
-        /// The password to be used to log in to the endpoint database.
-        public let password: String?
-        /// The settings in JSON format for the DMS transfer type of source endpoint.  Possible attributes include the following:    serviceAccessRoleArn - The IAM role that has permission to access the Amazon S3 bucket.    bucketName - The name of the S3 bucket to use.    compressionType - An optional parameter to use GZIP to compress the target files. To use GZIP, set this value to NONE (the default). To keep the files uncompressed, don't use this value.    Shorthand syntax for these attributes is as follows: ServiceAccessRoleArn=string,BucketName=string,CompressionType=string  JSON syntax for these attributes is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string", "CompressionType": "none"|"gzip" }  
-        public let dmsTransferSettings: DmsTransferSettings?
-        /// The name of the endpoint database.
-        public let databaseName: String?
-        /// The name of the server where the endpoint database resides.
-        public let serverName: String?
-        /// The external table definition. 
-        public let externalTableDefinition: String?
-        /// The AWS KMS key identifier to use to encrypt the connection parameters. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
-        public let kmsKeyId: String?
-        /// Settings in JSON format for the target Elasticsearch endpoint. For more information about the available settings, see Extra Connection Attributes When Using Elasticsearch as a Target for AWS DMS in the AWS Database Migration User Guide. 
-        public let elasticsearchSettings: ElasticsearchSettings?
-        /// The type of engine for the endpoint. Valid values, depending on the EndPointType value, include mysql, oracle, postgres, mariadb, aurora, aurora-postgresql, redshift, s3, db2, azuredb, sybase, dynamodb, mongodb, and sqlserver.
-        public let engineName: String
-        /// Settings in JSON format for the target Amazon S3 endpoint. For more information about the available settings, see Extra Connection Attributes When Using Amazon S3 as a Target for AWS DMS in the AWS Database Migration Service User Guide. 
-        public let s3Settings: S3Settings?
-        ///  The Amazon Resource Name (ARN) for the service access role that you want to use to create the endpoint. 
-        public let serviceAccessRoleArn: String?
-        /// The user name to be used to log in to the endpoint database.
-        public let username: String?
-        /// The Secure Sockets Layer (SSL) mode to use for the SSL connection. The SSL mode can be one of four values: none, require, verify-ca, verify-full. The default value is none.
-        public let sslMode: DmsSslModeValue?
-        /// Additional attributes associated with the connection.
-        public let extraConnectionAttributes: String?
-        /// The type of endpoint.
-        public let endpointType: ReplicationEndpointTypeValue
-        /// The port used by the endpoint database.
-        public let port: Int32?
-        /// The Amazon Resource Name (ARN) for the certificate.
-        public let certificateArn: String?
-        /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
-        public let endpointIdentifier: String
-        /// Settings in JSON format for the target Amazon Kinesis Data Streams endpoint. For more information about the available settings, see Using Object Mapping to Migrate Data to a Kinesis Data Stream in the AWS Database Migration User Guide. 
-        public let kinesisSettings: KinesisSettings?
+        /// The amount of storage (in gigabytes) to be allocated for the replication instance.
+        public let allocatedStorage: Int32?
+        /// Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible. Constraints: This parameter must be set to true when specifying a value for the EngineVersion parameter that is a different major version than the replication instance's current version.
+        public let allowMajorVersionUpgrade: Bool?
+        /// Indicates whether the changes should be applied immediately or during the next maintenance window.
+        public let applyImmediately: Bool?
+        ///  Indicates that minor version upgrades will be applied automatically to the replication instance during the maintenance window. Changing this parameter does not result in an outage except in the following case and the change is asynchronously applied as soon as possible. An outage will result if this parameter is set to true during the maintenance window, and a newer minor version is available, and AWS DMS has enabled auto patching for that engine version. 
+        public let autoMinorVersionUpgrade: Bool?
+        /// The engine version number of the replication instance.
+        public let engineVersion: String?
+        ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
+        public let multiAZ: Bool?
+        /// The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter does not result in an outage, except in the following situation, and the change is asynchronously applied as soon as possible. If moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure pending changes are applied. Default: Uses existing setting Format: ddd:hh24:mi-ddd:hh24:mi Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes
+        public let preferredMaintenanceWindow: String?
+        /// The Amazon Resource Name (ARN) of the replication instance.
+        public let replicationInstanceArn: String
+        /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
+        public let replicationInstanceClass: String?
+        /// The replication instance identifier. This parameter is stored as a lowercase string.
+        public let replicationInstanceIdentifier: String?
+        ///  Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance. 
+        public let vpcSecurityGroupIds: [String]?
 
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointIdentifier: String, endpointType: ReplicationEndpointTypeValue, engineName: String, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, mongoDbSettings: MongoDbSettings? = nil, password: String? = nil, port: Int32? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, tags: [Tag]? = nil, username: String? = nil) {
-            self.tags = tags
-            self.dynamoDbSettings = dynamoDbSettings
-            self.mongoDbSettings = mongoDbSettings
-            self.password = password
-            self.dmsTransferSettings = dmsTransferSettings
-            self.databaseName = databaseName
-            self.serverName = serverName
-            self.externalTableDefinition = externalTableDefinition
-            self.kmsKeyId = kmsKeyId
-            self.elasticsearchSettings = elasticsearchSettings
-            self.engineName = engineName
-            self.s3Settings = s3Settings
-            self.serviceAccessRoleArn = serviceAccessRoleArn
-            self.username = username
-            self.sslMode = sslMode
-            self.extraConnectionAttributes = extraConnectionAttributes
-            self.endpointType = endpointType
-            self.port = port
-            self.certificateArn = certificateArn
-            self.endpointIdentifier = endpointIdentifier
-            self.kinesisSettings = kinesisSettings
+        public init(allocatedStorage: Int32? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, engineVersion: String? = nil, multiAZ: Bool? = nil, preferredMaintenanceWindow: String? = nil, replicationInstanceArn: String, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+            self.allocatedStorage = allocatedStorage
+            self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
+            self.applyImmediately = applyImmediately
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.engineVersion = engineVersion
+            self.multiAZ = multiAZ
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.replicationInstanceArn = replicationInstanceArn
+            self.replicationInstanceClass = replicationInstanceClass
+            self.replicationInstanceIdentifier = replicationInstanceIdentifier
+            self.vpcSecurityGroupIds = vpcSecurityGroupIds
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case dynamoDbSettings = "DynamoDbSettings"
-            case mongoDbSettings = "MongoDbSettings"
-            case password = "Password"
-            case dmsTransferSettings = "DmsTransferSettings"
+            case allocatedStorage = "AllocatedStorage"
+            case allowMajorVersionUpgrade = "AllowMajorVersionUpgrade"
+            case applyImmediately = "ApplyImmediately"
+            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+            case engineVersion = "EngineVersion"
+            case multiAZ = "MultiAZ"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case replicationInstanceArn = "ReplicationInstanceArn"
+            case replicationInstanceClass = "ReplicationInstanceClass"
+            case replicationInstanceIdentifier = "ReplicationInstanceIdentifier"
+            case vpcSecurityGroupIds = "VpcSecurityGroupIds"
+        }
+    }
+
+    public struct ModifyReplicationInstanceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationInstance", required: false, type: .structure)
+        ]
+        /// The modified replication instance.
+        public let replicationInstance: ReplicationInstance?
+
+        public init(replicationInstance: ReplicationInstance? = nil) {
+            self.replicationInstance = replicationInstance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationInstance = "ReplicationInstance"
+        }
+    }
+
+    public struct ModifyReplicationSubnetGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationSubnetGroupDescription", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "SubnetIds", required: true, type: .list)
+        ]
+        /// The description of the replication instance subnet group.
+        public let replicationSubnetGroupDescription: String?
+        /// The name of the replication instance subnet group.
+        public let replicationSubnetGroupIdentifier: String
+        /// A list of subnet IDs.
+        public let subnetIds: [String]
+
+        public init(replicationSubnetGroupDescription: String? = nil, replicationSubnetGroupIdentifier: String, subnetIds: [String]) {
+            self.replicationSubnetGroupDescription = replicationSubnetGroupDescription
+            self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
+            self.subnetIds = subnetIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationSubnetGroupDescription = "ReplicationSubnetGroupDescription"
+            case replicationSubnetGroupIdentifier = "ReplicationSubnetGroupIdentifier"
+            case subnetIds = "SubnetIds"
+        }
+    }
+
+    public struct ModifyReplicationSubnetGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationSubnetGroup", required: false, type: .structure)
+        ]
+        /// The modified replication subnet group.
+        public let replicationSubnetGroup: ReplicationSubnetGroup?
+
+        public init(replicationSubnetGroup: ReplicationSubnetGroup? = nil) {
+            self.replicationSubnetGroup = replicationSubnetGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationSubnetGroup = "ReplicationSubnetGroup"
+        }
+    }
+
+    public struct ModifyReplicationTaskMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CdcStartPosition", required: false, type: .string), 
+            AWSShapeMember(label: "CdcStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CdcStopPosition", required: false, type: .string), 
+            AWSShapeMember(label: "MigrationType", required: false, type: .enum), 
+            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskSettings", required: false, type: .string), 
+            AWSShapeMember(label: "TableMappings", required: false, type: .string)
+        ]
+        /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
+        public let cdcStartPosition: String?
+        /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
+        public let cdcStartTime: TimeStamp?
+        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
+        public let cdcStopPosition: String?
+        /// The migration type. Valid values: full-load | cdc | full-load-and-cdc
+        public let migrationType: MigrationTypeValue?
+        /// The Amazon Resource Name (ARN) of the replication task.
+        public let replicationTaskArn: String
+        /// The replication task identifier. Constraints:   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
+        public let replicationTaskIdentifier: String?
+        /// JSON file that contains settings for the task, such as target metadata settings.
+        public let replicationTaskSettings: String?
+        /// When using the AWS CLI or boto3, provide the path of the JSON file that contains the table mappings. Precede the path with "file://". When working with the DMS API, provide the JSON as the parameter value. For example, --table-mappings file://mappingfile.json
+        public let tableMappings: String?
+
+        public init(cdcStartPosition: String? = nil, cdcStartTime: TimeStamp? = nil, cdcStopPosition: String? = nil, migrationType: MigrationTypeValue? = nil, replicationTaskArn: String, replicationTaskIdentifier: String? = nil, replicationTaskSettings: String? = nil, tableMappings: String? = nil) {
+            self.cdcStartPosition = cdcStartPosition
+            self.cdcStartTime = cdcStartTime
+            self.cdcStopPosition = cdcStopPosition
+            self.migrationType = migrationType
+            self.replicationTaskArn = replicationTaskArn
+            self.replicationTaskIdentifier = replicationTaskIdentifier
+            self.replicationTaskSettings = replicationTaskSettings
+            self.tableMappings = tableMappings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cdcStartPosition = "CdcStartPosition"
+            case cdcStartTime = "CdcStartTime"
+            case cdcStopPosition = "CdcStopPosition"
+            case migrationType = "MigrationType"
+            case replicationTaskArn = "ReplicationTaskArn"
+            case replicationTaskIdentifier = "ReplicationTaskIdentifier"
+            case replicationTaskSettings = "ReplicationTaskSettings"
+            case tableMappings = "TableMappings"
+        }
+    }
+
+    public struct ModifyReplicationTaskResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
+        ]
+        /// The replication task that was modified.
+        public let replicationTask: ReplicationTask?
+
+        public init(replicationTask: ReplicationTask? = nil) {
+            self.replicationTask = replicationTask
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationTask = "ReplicationTask"
+        }
+    }
+
+    public struct MongoDbSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthMechanism", required: false, type: .enum), 
+            AWSShapeMember(label: "AuthSource", required: false, type: .string), 
+            AWSShapeMember(label: "AuthType", required: false, type: .enum), 
+            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
+            AWSShapeMember(label: "DocsToInvestigate", required: false, type: .string), 
+            AWSShapeMember(label: "ExtractDocId", required: false, type: .string), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "NestingLevel", required: false, type: .enum), 
+            AWSShapeMember(label: "Password", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "ServerName", required: false, type: .string), 
+            AWSShapeMember(label: "Username", required: false, type: .string)
+        ]
+        ///  The authentication mechanism you use to access the MongoDB source endpoint. Valid values: DEFAULT, MONGODB_CR, SCRAM_SHA_1  DEFAULT – For MongoDB version 2.x, use MONGODB_CR. For MongoDB version 3.x, use SCRAM_SHA_1. This attribute is not used when authType=No.
+        public let authMechanism: AuthMechanismValue?
+        ///  The MongoDB database name. This attribute is not used when authType=NO.  The default is admin.
+        public let authSource: String?
+        ///  The authentication type you use to access the MongoDB source endpoint. Valid values: NO, PASSWORD  When NO is selected, user name and password parameters are not used and can be empty. 
+        public let authType: AuthTypeValue?
+        ///  The database name on the MongoDB source endpoint. 
+        public let databaseName: String?
+        ///  Indicates the number of documents to preview to determine the document organization. Use this attribute when NestingLevel is set to ONE.  Must be a positive value greater than 0. Default value is 1000.
+        public let docsToInvestigate: String?
+        ///  Specifies the document ID. Use this attribute when NestingLevel is set to NONE.  Default value is false. 
+        public let extractDocId: String?
+        /// The AWS KMS key identifier that is used to encrypt the content on the replication instance. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
+        public let kmsKeyId: String?
+        ///  Specifies either document or table mode.  Valid values: NONE, ONE Default value is NONE. Specify NONE to use document mode. Specify ONE to use table mode.
+        public let nestingLevel: NestingLevelValue?
+        ///  The password for the user account you use to access the MongoDB source endpoint. 
+        public let password: String?
+        ///  The port value for the MongoDB source endpoint. 
+        public let port: Int32?
+        ///  The name of the server on the MongoDB source endpoint. 
+        public let serverName: String?
+        /// The user name you use to access the MongoDB source endpoint. 
+        public let username: String?
+
+        public init(authMechanism: AuthMechanismValue? = nil, authSource: String? = nil, authType: AuthTypeValue? = nil, databaseName: String? = nil, docsToInvestigate: String? = nil, extractDocId: String? = nil, kmsKeyId: String? = nil, nestingLevel: NestingLevelValue? = nil, password: String? = nil, port: Int32? = nil, serverName: String? = nil, username: String? = nil) {
+            self.authMechanism = authMechanism
+            self.authSource = authSource
+            self.authType = authType
+            self.databaseName = databaseName
+            self.docsToInvestigate = docsToInvestigate
+            self.extractDocId = extractDocId
+            self.kmsKeyId = kmsKeyId
+            self.nestingLevel = nestingLevel
+            self.password = password
+            self.port = port
+            self.serverName = serverName
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authMechanism = "AuthMechanism"
+            case authSource = "AuthSource"
+            case authType = "AuthType"
             case databaseName = "DatabaseName"
-            case serverName = "ServerName"
-            case externalTableDefinition = "ExternalTableDefinition"
+            case docsToInvestigate = "DocsToInvestigate"
+            case extractDocId = "ExtractDocId"
             case kmsKeyId = "KmsKeyId"
-            case elasticsearchSettings = "ElasticsearchSettings"
-            case engineName = "EngineName"
-            case s3Settings = "S3Settings"
-            case serviceAccessRoleArn = "ServiceAccessRoleArn"
-            case username = "Username"
-            case sslMode = "SslMode"
-            case extraConnectionAttributes = "ExtraConnectionAttributes"
-            case endpointType = "EndpointType"
+            case nestingLevel = "NestingLevel"
+            case password = "Password"
             case port = "Port"
-            case certificateArn = "CertificateArn"
-            case endpointIdentifier = "EndpointIdentifier"
-            case kinesisSettings = "KinesisSettings"
+            case serverName = "ServerName"
+            case username = "Username"
+        }
+    }
+
+    public enum NestingLevelValue: String, CustomStringConvertible, Codable {
+        case none = "none"
+        case one = "one"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct OrderableReplicationInstance: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultAllocatedStorage", required: false, type: .integer), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "IncludedAllocatedStorage", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxAllocatedStorage", required: false, type: .integer), 
+            AWSShapeMember(label: "MinAllocatedStorage", required: false, type: .integer), 
+            AWSShapeMember(label: "ReplicationInstanceClass", required: false, type: .string), 
+            AWSShapeMember(label: "StorageType", required: false, type: .string)
+        ]
+        /// The default amount of storage (in gigabytes) that is allocated for the replication instance.
+        public let defaultAllocatedStorage: Int32?
+        /// The version of the replication engine.
+        public let engineVersion: String?
+        /// The amount of storage (in gigabytes) that is allocated for the replication instance.
+        public let includedAllocatedStorage: Int32?
+        /// The minimum amount of storage (in gigabytes) that can be allocated for the replication instance.
+        public let maxAllocatedStorage: Int32?
+        /// The minimum amount of storage (in gigabytes) that can be allocated for the replication instance.
+        public let minAllocatedStorage: Int32?
+        /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
+        public let replicationInstanceClass: String?
+        /// The type of storage used by the replication instance.
+        public let storageType: String?
+
+        public init(defaultAllocatedStorage: Int32? = nil, engineVersion: String? = nil, includedAllocatedStorage: Int32? = nil, maxAllocatedStorage: Int32? = nil, minAllocatedStorage: Int32? = nil, replicationInstanceClass: String? = nil, storageType: String? = nil) {
+            self.defaultAllocatedStorage = defaultAllocatedStorage
+            self.engineVersion = engineVersion
+            self.includedAllocatedStorage = includedAllocatedStorage
+            self.maxAllocatedStorage = maxAllocatedStorage
+            self.minAllocatedStorage = minAllocatedStorage
+            self.replicationInstanceClass = replicationInstanceClass
+            self.storageType = storageType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultAllocatedStorage = "DefaultAllocatedStorage"
+            case engineVersion = "EngineVersion"
+            case includedAllocatedStorage = "IncludedAllocatedStorage"
+            case maxAllocatedStorage = "MaxAllocatedStorage"
+            case minAllocatedStorage = "MinAllocatedStorage"
+            case replicationInstanceClass = "ReplicationInstanceClass"
+            case storageType = "StorageType"
+        }
+    }
+
+    public struct RebootReplicationInstanceMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ForceFailover", required: false, type: .boolean), 
+            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string)
+        ]
+        /// If this parameter is true, the reboot is conducted through a Multi-AZ failover. (If the instance isn't configured for Multi-AZ, then you can't specify true.)
+        public let forceFailover: Bool?
+        /// The Amazon Resource Name (ARN) of the replication instance.
+        public let replicationInstanceArn: String
+
+        public init(forceFailover: Bool? = nil, replicationInstanceArn: String) {
+            self.forceFailover = forceFailover
+            self.replicationInstanceArn = replicationInstanceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forceFailover = "ForceFailover"
+            case replicationInstanceArn = "ReplicationInstanceArn"
+        }
+    }
+
+    public struct RebootReplicationInstanceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationInstance", required: false, type: .structure)
+        ]
+        /// The replication instance that is being rebooted. 
+        public let replicationInstance: ReplicationInstance?
+
+        public init(replicationInstance: ReplicationInstance? = nil) {
+            self.replicationInstance = replicationInstance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationInstance = "ReplicationInstance"
+        }
+    }
+
+    public struct RefreshSchemasMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+        public let endpointArn: String
+        /// The Amazon Resource Name (ARN) of the replication instance.
+        public let replicationInstanceArn: String
+
+        public init(endpointArn: String, replicationInstanceArn: String) {
+            self.endpointArn = endpointArn
+            self.replicationInstanceArn = replicationInstanceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointArn = "EndpointArn"
+            case replicationInstanceArn = "ReplicationInstanceArn"
+        }
+    }
+
+    public struct RefreshSchemasResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RefreshSchemasStatus", required: false, type: .structure)
+        ]
+        /// The status of the refreshed schema.
+        public let refreshSchemasStatus: RefreshSchemasStatus?
+
+        public init(refreshSchemasStatus: RefreshSchemasStatus? = nil) {
+            self.refreshSchemasStatus = refreshSchemasStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case refreshSchemasStatus = "RefreshSchemasStatus"
+        }
+    }
+
+    public struct RefreshSchemasStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointArn", required: false, type: .string), 
+            AWSShapeMember(label: "LastFailureMessage", required: false, type: .string), 
+            AWSShapeMember(label: "LastRefreshDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+        public let endpointArn: String?
+        /// The last failure message for the schema.
+        public let lastFailureMessage: String?
+        /// The date the schema was last refreshed.
+        public let lastRefreshDate: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the replication instance.
+        public let replicationInstanceArn: String?
+        /// The status of the schema.
+        public let status: RefreshSchemasStatusTypeValue?
+
+        public init(endpointArn: String? = nil, lastFailureMessage: String? = nil, lastRefreshDate: TimeStamp? = nil, replicationInstanceArn: String? = nil, status: RefreshSchemasStatusTypeValue? = nil) {
+            self.endpointArn = endpointArn
+            self.lastFailureMessage = lastFailureMessage
+            self.lastRefreshDate = lastRefreshDate
+            self.replicationInstanceArn = replicationInstanceArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointArn = "EndpointArn"
+            case lastFailureMessage = "LastFailureMessage"
+            case lastRefreshDate = "LastRefreshDate"
+            case replicationInstanceArn = "ReplicationInstanceArn"
+            case status = "Status"
+        }
+    }
+
+    public enum RefreshSchemasStatusTypeValue: String, CustomStringConvertible, Codable {
+        case successful = "successful"
+        case failed = "failed"
+        case refreshing = "refreshing"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReloadOptionValue: String, CustomStringConvertible, Codable {
+        case dataReload = "data-reload"
+        case validateOnly = "validate-only"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ReloadTablesMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReloadOption", required: false, type: .enum), 
+            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string), 
+            AWSShapeMember(label: "TablesToReload", required: true, type: .list)
+        ]
+        /// Options for reload. Specify data-reload to reload the data and re-validate it if validation is enabled. Specify validate-only to re-validate the table. This option applies only when validation is enabled for the task.  Valid values: data-reload, validate-only Default value is data-reload.
+        public let reloadOption: ReloadOptionValue?
+        /// The Amazon Resource Name (ARN) of the replication task. 
+        public let replicationTaskArn: String
+        /// The name and schema of the table to be reloaded. 
+        public let tablesToReload: [TableToReload]
+
+        public init(reloadOption: ReloadOptionValue? = nil, replicationTaskArn: String, tablesToReload: [TableToReload]) {
+            self.reloadOption = reloadOption
+            self.replicationTaskArn = replicationTaskArn
+            self.tablesToReload = tablesToReload
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reloadOption = "ReloadOption"
+            case replicationTaskArn = "ReplicationTaskArn"
+            case tablesToReload = "TablesToReload"
+        }
+    }
+
+    public struct ReloadTablesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the replication task. 
+        public let replicationTaskArn: String?
+
+        public init(replicationTaskArn: String? = nil) {
+            self.replicationTaskArn = replicationTaskArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationTaskArn = "ReplicationTaskArn"
+        }
+    }
+
+    public struct RemoveTagsFromResourceMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+        ]
+        /// &gt;The Amazon Resource Name (ARN) of the AWS DMS resource the tag is to be removed from.
+        public let resourceArn: String
+        /// The tag key (name) of the tag to be removed.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct RemoveTagsFromResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public enum ReplicationEndpointTypeValue: String, CustomStringConvertible, Codable {
+        case source = "source"
+        case target = "target"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ReplicationInstance: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "DnsNameServers", required: false, type: .string), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "FreeUntil", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InstanceCreateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
+            AWSShapeMember(label: "PendingModifiedValues", required: false, type: .structure), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
+            AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceClass", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstancePrivateIpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstancePrivateIpAddresses", required: false, type: .list), 
+            AWSShapeMember(label: "ReplicationInstancePublicIpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstancePublicIpAddresses", required: false, type: .list), 
+            AWSShapeMember(label: "ReplicationInstanceStatus", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationSubnetGroup", required: false, type: .structure), 
+            AWSShapeMember(label: "SecondaryAvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "VpcSecurityGroups", required: false, type: .list)
+        ]
+        /// The amount of storage (in gigabytes) that is allocated for the replication instance.
+        public let allocatedStorage: Int32?
+        /// Boolean value indicating if minor version upgrades will be automatically applied to the instance.
+        public let autoMinorVersionUpgrade: Bool?
+        /// The Availability Zone for the instance.
+        public let availabilityZone: String?
+        /// The DNS name servers for the replication instance.
+        public let dnsNameServers: String?
+        /// The engine version number of the replication instance.
+        public let engineVersion: String?
+        ///  The expiration date of the free replication instance that is part of the Free DMS program. 
+        public let freeUntil: TimeStamp?
+        /// The time the replication instance was created.
+        public let instanceCreateTime: TimeStamp?
+        /// The AWS KMS key identifier that is used to encrypt the content on the replication instance. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
+        public let kmsKeyId: String?
+        ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
+        public let multiAZ: Bool?
+        /// The pending modification values.
+        public let pendingModifiedValues: ReplicationPendingModifiedValues?
+        /// The maintenance window times for the replication instance.
+        public let preferredMaintenanceWindow: String?
+        ///  Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true. 
+        public let publiclyAccessible: Bool?
+        /// The Amazon Resource Name (ARN) of the replication instance.
+        public let replicationInstanceArn: String?
+        /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
+        public let replicationInstanceClass: String?
+        /// The replication instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: myrepinstance 
+        public let replicationInstanceIdentifier: String?
+        /// The private IP address of the replication instance.
+        public let replicationInstancePrivateIpAddress: String?
+        /// The private IP address of the replication instance.
+        public let replicationInstancePrivateIpAddresses: [String]?
+        /// The public IP address of the replication instance.
+        public let replicationInstancePublicIpAddress: String?
+        /// The public IP address of the replication instance.
+        public let replicationInstancePublicIpAddresses: [String]?
+        /// The status of the replication instance.
+        public let replicationInstanceStatus: String?
+        /// The subnet group for the replication instance.
+        public let replicationSubnetGroup: ReplicationSubnetGroup?
+        /// The availability zone of the standby replication instance in a Multi-AZ deployment.
+        public let secondaryAvailabilityZone: String?
+        /// The VPC security group for the instance.
+        public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
+
+        public init(allocatedStorage: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, freeUntil: TimeStamp? = nil, instanceCreateTime: TimeStamp? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceArn: String? = nil, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, replicationInstancePrivateIpAddress: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, replicationInstancePublicIpAddress: String? = nil, replicationInstancePublicIpAddresses: [String]? = nil, replicationInstanceStatus: String? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, secondaryAvailabilityZone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+            self.allocatedStorage = allocatedStorage
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.availabilityZone = availabilityZone
+            self.dnsNameServers = dnsNameServers
+            self.engineVersion = engineVersion
+            self.freeUntil = freeUntil
+            self.instanceCreateTime = instanceCreateTime
+            self.kmsKeyId = kmsKeyId
+            self.multiAZ = multiAZ
+            self.pendingModifiedValues = pendingModifiedValues
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.publiclyAccessible = publiclyAccessible
+            self.replicationInstanceArn = replicationInstanceArn
+            self.replicationInstanceClass = replicationInstanceClass
+            self.replicationInstanceIdentifier = replicationInstanceIdentifier
+            self.replicationInstancePrivateIpAddress = replicationInstancePrivateIpAddress
+            self.replicationInstancePrivateIpAddresses = replicationInstancePrivateIpAddresses
+            self.replicationInstancePublicIpAddress = replicationInstancePublicIpAddress
+            self.replicationInstancePublicIpAddresses = replicationInstancePublicIpAddresses
+            self.replicationInstanceStatus = replicationInstanceStatus
+            self.replicationSubnetGroup = replicationSubnetGroup
+            self.secondaryAvailabilityZone = secondaryAvailabilityZone
+            self.vpcSecurityGroups = vpcSecurityGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocatedStorage = "AllocatedStorage"
+            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+            case availabilityZone = "AvailabilityZone"
+            case dnsNameServers = "DnsNameServers"
+            case engineVersion = "EngineVersion"
+            case freeUntil = "FreeUntil"
+            case instanceCreateTime = "InstanceCreateTime"
+            case kmsKeyId = "KmsKeyId"
+            case multiAZ = "MultiAZ"
+            case pendingModifiedValues = "PendingModifiedValues"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case publiclyAccessible = "PubliclyAccessible"
+            case replicationInstanceArn = "ReplicationInstanceArn"
+            case replicationInstanceClass = "ReplicationInstanceClass"
+            case replicationInstanceIdentifier = "ReplicationInstanceIdentifier"
+            case replicationInstancePrivateIpAddress = "ReplicationInstancePrivateIpAddress"
+            case replicationInstancePrivateIpAddresses = "ReplicationInstancePrivateIpAddresses"
+            case replicationInstancePublicIpAddress = "ReplicationInstancePublicIpAddress"
+            case replicationInstancePublicIpAddresses = "ReplicationInstancePublicIpAddresses"
+            case replicationInstanceStatus = "ReplicationInstanceStatus"
+            case replicationSubnetGroup = "ReplicationSubnetGroup"
+            case secondaryAvailabilityZone = "SecondaryAvailabilityZone"
+            case vpcSecurityGroups = "VpcSecurityGroups"
+        }
+    }
+
+    public struct ReplicationInstanceTaskLog: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationInstanceTaskLogSize", required: false, type: .long), 
+            AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskName", required: false, type: .string)
+        ]
+        /// The size, in bytes, of the replication task log.
+        public let replicationInstanceTaskLogSize: Int64?
+        /// The Amazon Resource Name (ARN) of the replication task.
+        public let replicationTaskArn: String?
+        /// The name of the replication task.
+        public let replicationTaskName: String?
+
+        public init(replicationInstanceTaskLogSize: Int64? = nil, replicationTaskArn: String? = nil, replicationTaskName: String? = nil) {
+            self.replicationInstanceTaskLogSize = replicationInstanceTaskLogSize
+            self.replicationTaskArn = replicationTaskArn
+            self.replicationTaskName = replicationTaskName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationInstanceTaskLogSize = "ReplicationInstanceTaskLogSize"
+            case replicationTaskArn = "ReplicationTaskArn"
+            case replicationTaskName = "ReplicationTaskName"
+        }
+    }
+
+    public struct ReplicationPendingModifiedValues: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
+            AWSShapeMember(label: "ReplicationInstanceClass", required: false, type: .string)
+        ]
+        /// The amount of storage (in gigabytes) that is allocated for the replication instance.
+        public let allocatedStorage: Int32?
+        /// The engine version number of the replication instance.
+        public let engineVersion: String?
+        ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
+        public let multiAZ: Bool?
+        /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
+        public let replicationInstanceClass: String?
+
+        public init(allocatedStorage: Int32? = nil, engineVersion: String? = nil, multiAZ: Bool? = nil, replicationInstanceClass: String? = nil) {
+            self.allocatedStorage = allocatedStorage
+            self.engineVersion = engineVersion
+            self.multiAZ = multiAZ
+            self.replicationInstanceClass = replicationInstanceClass
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocatedStorage = "AllocatedStorage"
+            case engineVersion = "EngineVersion"
+            case multiAZ = "MultiAZ"
+            case replicationInstanceClass = "ReplicationInstanceClass"
+        }
+    }
+
+    public struct ReplicationSubnetGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationSubnetGroupDescription", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetGroupStatus", required: false, type: .string), 
+            AWSShapeMember(label: "Subnets", required: false, type: .list), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string)
+        ]
+        /// The description of the replication subnet group.
+        public let replicationSubnetGroupDescription: String?
+        /// The identifier of the replication instance subnet group.
+        public let replicationSubnetGroupIdentifier: String?
+        /// The status of the subnet group.
+        public let subnetGroupStatus: String?
+        /// The subnets that are in the subnet group.
+        public let subnets: [Subnet]?
+        /// The ID of the VPC.
+        public let vpcId: String?
+
+        public init(replicationSubnetGroupDescription: String? = nil, replicationSubnetGroupIdentifier: String? = nil, subnetGroupStatus: String? = nil, subnets: [Subnet]? = nil, vpcId: String? = nil) {
+            self.replicationSubnetGroupDescription = replicationSubnetGroupDescription
+            self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
+            self.subnetGroupStatus = subnetGroupStatus
+            self.subnets = subnets
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationSubnetGroupDescription = "ReplicationSubnetGroupDescription"
+            case replicationSubnetGroupIdentifier = "ReplicationSubnetGroupIdentifier"
+            case subnetGroupStatus = "SubnetGroupStatus"
+            case subnets = "Subnets"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct ReplicationTask: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CdcStartPosition", required: false, type: .string), 
+            AWSShapeMember(label: "CdcStopPosition", required: false, type: .string), 
+            AWSShapeMember(label: "LastFailureMessage", required: false, type: .string), 
+            AWSShapeMember(label: "MigrationType", required: false, type: .enum), 
+            AWSShapeMember(label: "RecoveryCheckpoint", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskCreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ReplicationTaskIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskSettings", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskStartDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ReplicationTaskStats", required: false, type: .structure), 
+            AWSShapeMember(label: "SourceEndpointArn", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "StopReason", required: false, type: .string), 
+            AWSShapeMember(label: "TableMappings", required: false, type: .string), 
+            AWSShapeMember(label: "TargetEndpointArn", required: false, type: .string)
+        ]
+        /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
+        public let cdcStartPosition: String?
+        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
+        public let cdcStopPosition: String?
+        /// The last error (failure) message generated for the replication instance.
+        public let lastFailureMessage: String?
+        /// The type of migration.
+        public let migrationType: MigrationTypeValue?
+        /// Indicates the last checkpoint that occurred during a change data capture (CDC) operation. You can provide this value to the CdcStartPosition parameter to start a CDC operation that begins at that checkpoint.
+        public let recoveryCheckpoint: String?
+        /// The Amazon Resource Name (ARN) of the replication instance.
+        public let replicationInstanceArn: String?
+        /// The Amazon Resource Name (ARN) of the replication task.
+        public let replicationTaskArn: String?
+        /// The date the replication task was created.
+        public let replicationTaskCreationDate: TimeStamp?
+        /// The user-assigned replication task identifier or name. Constraints:   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
+        public let replicationTaskIdentifier: String?
+        /// The settings for the replication task.
+        public let replicationTaskSettings: String?
+        /// The date the replication task is scheduled to start.
+        public let replicationTaskStartDate: TimeStamp?
+        /// The statistics for the task, including elapsed time, tables loaded, and table errors.
+        public let replicationTaskStats: ReplicationTaskStats?
+        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+        public let sourceEndpointArn: String?
+        /// The status of the replication task.
+        public let status: String?
+        /// The reason the replication task was stopped.
+        public let stopReason: String?
+        /// Table mappings specified in the task.
+        public let tableMappings: String?
+        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+        public let targetEndpointArn: String?
+
+        public init(cdcStartPosition: String? = nil, cdcStopPosition: String? = nil, lastFailureMessage: String? = nil, migrationType: MigrationTypeValue? = nil, recoveryCheckpoint: String? = nil, replicationInstanceArn: String? = nil, replicationTaskArn: String? = nil, replicationTaskCreationDate: TimeStamp? = nil, replicationTaskIdentifier: String? = nil, replicationTaskSettings: String? = nil, replicationTaskStartDate: TimeStamp? = nil, replicationTaskStats: ReplicationTaskStats? = nil, sourceEndpointArn: String? = nil, status: String? = nil, stopReason: String? = nil, tableMappings: String? = nil, targetEndpointArn: String? = nil) {
+            self.cdcStartPosition = cdcStartPosition
+            self.cdcStopPosition = cdcStopPosition
+            self.lastFailureMessage = lastFailureMessage
+            self.migrationType = migrationType
+            self.recoveryCheckpoint = recoveryCheckpoint
+            self.replicationInstanceArn = replicationInstanceArn
+            self.replicationTaskArn = replicationTaskArn
+            self.replicationTaskCreationDate = replicationTaskCreationDate
+            self.replicationTaskIdentifier = replicationTaskIdentifier
+            self.replicationTaskSettings = replicationTaskSettings
+            self.replicationTaskStartDate = replicationTaskStartDate
+            self.replicationTaskStats = replicationTaskStats
+            self.sourceEndpointArn = sourceEndpointArn
+            self.status = status
+            self.stopReason = stopReason
+            self.tableMappings = tableMappings
+            self.targetEndpointArn = targetEndpointArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cdcStartPosition = "CdcStartPosition"
+            case cdcStopPosition = "CdcStopPosition"
+            case lastFailureMessage = "LastFailureMessage"
+            case migrationType = "MigrationType"
+            case recoveryCheckpoint = "RecoveryCheckpoint"
+            case replicationInstanceArn = "ReplicationInstanceArn"
+            case replicationTaskArn = "ReplicationTaskArn"
+            case replicationTaskCreationDate = "ReplicationTaskCreationDate"
+            case replicationTaskIdentifier = "ReplicationTaskIdentifier"
+            case replicationTaskSettings = "ReplicationTaskSettings"
+            case replicationTaskStartDate = "ReplicationTaskStartDate"
+            case replicationTaskStats = "ReplicationTaskStats"
+            case sourceEndpointArn = "SourceEndpointArn"
+            case status = "Status"
+            case stopReason = "StopReason"
+            case tableMappings = "TableMappings"
+            case targetEndpointArn = "TargetEndpointArn"
+        }
+    }
+
+    public struct ReplicationTaskAssessmentResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssessmentResults", required: false, type: .string), 
+            AWSShapeMember(label: "AssessmentResultsFile", required: false, type: .string), 
+            AWSShapeMember(label: "AssessmentStatus", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskLastAssessmentDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "S3ObjectUrl", required: false, type: .string)
+        ]
+        ///  The task assessment results in JSON format. 
+        public let assessmentResults: String?
+        ///  The file containing the results of the task assessment. 
+        public let assessmentResultsFile: String?
+        ///  The status of the task assessment. 
+        public let assessmentStatus: String?
+        /// The Amazon Resource Name (ARN) of the replication task. 
+        public let replicationTaskArn: String?
+        ///  The replication task identifier of the task on which the task assessment was run. 
+        public let replicationTaskIdentifier: String?
+        /// The date the task assessment was completed. 
+        public let replicationTaskLastAssessmentDate: TimeStamp?
+        ///  The URL of the S3 object containing the task assessment results. 
+        public let s3ObjectUrl: String?
+
+        public init(assessmentResults: String? = nil, assessmentResultsFile: String? = nil, assessmentStatus: String? = nil, replicationTaskArn: String? = nil, replicationTaskIdentifier: String? = nil, replicationTaskLastAssessmentDate: TimeStamp? = nil, s3ObjectUrl: String? = nil) {
+            self.assessmentResults = assessmentResults
+            self.assessmentResultsFile = assessmentResultsFile
+            self.assessmentStatus = assessmentStatus
+            self.replicationTaskArn = replicationTaskArn
+            self.replicationTaskIdentifier = replicationTaskIdentifier
+            self.replicationTaskLastAssessmentDate = replicationTaskLastAssessmentDate
+            self.s3ObjectUrl = s3ObjectUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentResults = "AssessmentResults"
+            case assessmentResultsFile = "AssessmentResultsFile"
+            case assessmentStatus = "AssessmentStatus"
+            case replicationTaskArn = "ReplicationTaskArn"
+            case replicationTaskIdentifier = "ReplicationTaskIdentifier"
+            case replicationTaskLastAssessmentDate = "ReplicationTaskLastAssessmentDate"
+            case s3ObjectUrl = "S3ObjectUrl"
+        }
+    }
+
+    public struct ReplicationTaskStats: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ElapsedTimeMillis", required: false, type: .long), 
+            AWSShapeMember(label: "FullLoadProgressPercent", required: false, type: .integer), 
+            AWSShapeMember(label: "TablesErrored", required: false, type: .integer), 
+            AWSShapeMember(label: "TablesLoaded", required: false, type: .integer), 
+            AWSShapeMember(label: "TablesLoading", required: false, type: .integer), 
+            AWSShapeMember(label: "TablesQueued", required: false, type: .integer)
+        ]
+        /// The elapsed time of the task, in milliseconds.
+        public let elapsedTimeMillis: Int64?
+        /// The percent complete for the full load migration task.
+        public let fullLoadProgressPercent: Int32?
+        /// The number of errors that have occurred during this task.
+        public let tablesErrored: Int32?
+        /// The number of tables loaded for this task.
+        public let tablesLoaded: Int32?
+        /// The number of tables currently loading for this task.
+        public let tablesLoading: Int32?
+        /// The number of tables queued for this task.
+        public let tablesQueued: Int32?
+
+        public init(elapsedTimeMillis: Int64? = nil, fullLoadProgressPercent: Int32? = nil, tablesErrored: Int32? = nil, tablesLoaded: Int32? = nil, tablesLoading: Int32? = nil, tablesQueued: Int32? = nil) {
+            self.elapsedTimeMillis = elapsedTimeMillis
+            self.fullLoadProgressPercent = fullLoadProgressPercent
+            self.tablesErrored = tablesErrored
+            self.tablesLoaded = tablesLoaded
+            self.tablesLoading = tablesLoading
+            self.tablesQueued = tablesQueued
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case elapsedTimeMillis = "ElapsedTimeMillis"
+            case fullLoadProgressPercent = "FullLoadProgressPercent"
+            case tablesErrored = "TablesErrored"
+            case tablesLoaded = "TablesLoaded"
+            case tablesLoading = "TablesLoading"
+            case tablesQueued = "TablesQueued"
+        }
+    }
+
+    public struct S3Settings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BucketFolder", required: false, type: .string), 
+            AWSShapeMember(label: "BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "CompressionType", required: false, type: .enum), 
+            AWSShapeMember(label: "CsvDelimiter", required: false, type: .string), 
+            AWSShapeMember(label: "CsvRowDelimiter", required: false, type: .string), 
+            AWSShapeMember(label: "ExternalTableDefinition", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string)
+        ]
+        ///  An optional parameter to set a folder name in the S3 bucket. If provided, tables are created in the path &lt;bucketFolder&gt;/&lt;schema_name&gt;/&lt;table_name&gt;/. If this parameter is not specified, then the path used is &lt;schema_name&gt;/&lt;table_name&gt;/. 
+        public let bucketFolder: String?
+        ///  The name of the S3 bucket. 
+        public let bucketName: String?
+        ///  An optional parameter to use GZIP to compress the target files. Set to GZIP to compress the target files. Set to NONE (the default) or do not use to leave the files uncompressed. 
+        public let compressionType: CompressionTypeValue?
+        ///  The delimiter used to separate columns in the source files. The default is a comma. 
+        public let csvDelimiter: String?
+        ///  The delimiter used to separate rows in the source files. The default is a carriage return (\n). 
+        public let csvRowDelimiter: String?
+        ///  The external table definition. 
+        public let externalTableDefinition: String?
+        ///  The Amazon Resource Name (ARN) used by the service access IAM role. 
+        public let serviceAccessRoleArn: String?
+
+        public init(bucketFolder: String? = nil, bucketName: String? = nil, compressionType: CompressionTypeValue? = nil, csvDelimiter: String? = nil, csvRowDelimiter: String? = nil, externalTableDefinition: String? = nil, serviceAccessRoleArn: String? = nil) {
+            self.bucketFolder = bucketFolder
+            self.bucketName = bucketName
+            self.compressionType = compressionType
+            self.csvDelimiter = csvDelimiter
+            self.csvRowDelimiter = csvRowDelimiter
+            self.externalTableDefinition = externalTableDefinition
+            self.serviceAccessRoleArn = serviceAccessRoleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketFolder = "BucketFolder"
+            case bucketName = "BucketName"
+            case compressionType = "CompressionType"
+            case csvDelimiter = "CsvDelimiter"
+            case csvRowDelimiter = "CsvRowDelimiter"
+            case externalTableDefinition = "ExternalTableDefinition"
+            case serviceAccessRoleArn = "ServiceAccessRoleArn"
+        }
+    }
+
+    public enum SourceType: String, CustomStringConvertible, Codable {
+        case replicationInstance = "replication-instance"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct StartReplicationTaskAssessmentMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string)
+        ]
+        ///  The Amazon Resource Name (ARN) of the replication task. 
+        public let replicationTaskArn: String
+
+        public init(replicationTaskArn: String) {
+            self.replicationTaskArn = replicationTaskArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationTaskArn = "ReplicationTaskArn"
+        }
+    }
+
+    public struct StartReplicationTaskAssessmentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
+        ]
+        ///  The assessed replication task. 
+        public let replicationTask: ReplicationTask?
+
+        public init(replicationTask: ReplicationTask? = nil) {
+            self.replicationTask = replicationTask
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationTask = "ReplicationTask"
+        }
+    }
+
+    public struct StartReplicationTaskMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CdcStartPosition", required: false, type: .string), 
+            AWSShapeMember(label: "CdcStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CdcStopPosition", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string), 
+            AWSShapeMember(label: "StartReplicationTaskType", required: true, type: .enum)
+        ]
+        /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
+        public let cdcStartPosition: String?
+        /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
+        public let cdcStartTime: TimeStamp?
+        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
+        public let cdcStopPosition: String?
+        /// The Amazon Resource Name (ARN) of the replication task to be started.
+        public let replicationTaskArn: String
+        /// The type of replication task.
+        public let startReplicationTaskType: StartReplicationTaskTypeValue
+
+        public init(cdcStartPosition: String? = nil, cdcStartTime: TimeStamp? = nil, cdcStopPosition: String? = nil, replicationTaskArn: String, startReplicationTaskType: StartReplicationTaskTypeValue) {
+            self.cdcStartPosition = cdcStartPosition
+            self.cdcStartTime = cdcStartTime
+            self.cdcStopPosition = cdcStopPosition
+            self.replicationTaskArn = replicationTaskArn
+            self.startReplicationTaskType = startReplicationTaskType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cdcStartPosition = "CdcStartPosition"
+            case cdcStartTime = "CdcStartTime"
+            case cdcStopPosition = "CdcStopPosition"
+            case replicationTaskArn = "ReplicationTaskArn"
+            case startReplicationTaskType = "StartReplicationTaskType"
+        }
+    }
+
+    public struct StartReplicationTaskResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
+        ]
+        /// The replication task started.
+        public let replicationTask: ReplicationTask?
+
+        public init(replicationTask: ReplicationTask? = nil) {
+            self.replicationTask = replicationTask
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationTask = "ReplicationTask"
         }
     }
 
@@ -3526,45 +3288,283 @@ extension DatabaseMigrationService {
         public var description: String { return self.rawValue }
     }
 
-    public struct DescribeReplicationSubnetGroupsResponse: AWSShape {
+    public struct StopReplicationTaskMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationSubnetGroups", required: false, type: .list)
+            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string)
         ]
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-        /// A description of the replication subnet groups.
-        public let replicationSubnetGroups: [ReplicationSubnetGroup]?
+        /// The Amazon Resource Name(ARN) of the replication task to be stopped.
+        public let replicationTaskArn: String
 
-        public init(marker: String? = nil, replicationSubnetGroups: [ReplicationSubnetGroup]? = nil) {
-            self.marker = marker
-            self.replicationSubnetGroups = replicationSubnetGroups
+        public init(replicationTaskArn: String) {
+            self.replicationTaskArn = replicationTaskArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case replicationSubnetGroups = "ReplicationSubnetGroups"
+            case replicationTaskArn = "ReplicationTaskArn"
         }
     }
 
-    public struct AddTagsToResourceMessage: AWSShape {
+    public struct StopReplicationTaskResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
+            AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
         ]
-        /// The Amazon Resource Name (ARN) of the AWS DMS resource the tag is to be added to. AWS DMS resources include a replication instance, endpoint, and a replication task.
-        public let resourceArn: String
-        /// The tag to be assigned to the DMS resource.
-        public let tags: [Tag]
+        /// The replication task stopped.
+        public let replicationTask: ReplicationTask?
 
-        public init(resourceArn: String, tags: [Tag]) {
-            self.resourceArn = resourceArn
-            self.tags = tags
+        public init(replicationTask: ReplicationTask? = nil) {
+            self.replicationTask = replicationTask
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
-            case tags = "Tags"
+            case replicationTask = "ReplicationTask"
+        }
+    }
+
+    public struct Subnet: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetAvailabilityZone", required: false, type: .structure), 
+            AWSShapeMember(label: "SubnetIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetStatus", required: false, type: .string)
+        ]
+        /// The Availability Zone of the subnet.
+        public let subnetAvailabilityZone: AvailabilityZone?
+        /// The subnet identifier.
+        public let subnetIdentifier: String?
+        /// The status of the subnet.
+        public let subnetStatus: String?
+
+        public init(subnetAvailabilityZone: AvailabilityZone? = nil, subnetIdentifier: String? = nil, subnetStatus: String? = nil) {
+            self.subnetAvailabilityZone = subnetAvailabilityZone
+            self.subnetIdentifier = subnetIdentifier
+            self.subnetStatus = subnetStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetAvailabilityZone = "SubnetAvailabilityZone"
+            case subnetIdentifier = "SubnetIdentifier"
+            case subnetStatus = "SubnetStatus"
+        }
+    }
+
+    public struct SupportedEndpointType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointType", required: false, type: .enum), 
+            AWSShapeMember(label: "EngineDisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "EngineName", required: false, type: .string), 
+            AWSShapeMember(label: "SupportsCDC", required: false, type: .boolean)
+        ]
+        /// The type of endpoint.
+        public let endpointType: ReplicationEndpointTypeValue?
+        /// The expanded name for the engine name. For example, if the EngineName parameter is "aurora," this value would be "Amazon Aurora MySQL."
+        public let engineDisplayName: String?
+        /// The database engine name. Valid values, depending on the EndPointType, include mysql, oracle, postgres, mariadb, aurora, aurora-postgresql, redshift, s3, db2, azuredb, sybase, sybase, dynamodb, mongodb, and sqlserver.
+        public let engineName: String?
+        /// Indicates if Change Data Capture (CDC) is supported.
+        public let supportsCDC: Bool?
+
+        public init(endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, supportsCDC: Bool? = nil) {
+            self.endpointType = endpointType
+            self.engineDisplayName = engineDisplayName
+            self.engineName = engineName
+            self.supportsCDC = supportsCDC
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointType = "EndpointType"
+            case engineDisplayName = "EngineDisplayName"
+            case engineName = "EngineName"
+            case supportsCDC = "SupportsCDC"
+        }
+    }
+
+    public struct TableStatistics: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Ddls", required: false, type: .long), 
+            AWSShapeMember(label: "Deletes", required: false, type: .long), 
+            AWSShapeMember(label: "FullLoadCondtnlChkFailedRows", required: false, type: .long), 
+            AWSShapeMember(label: "FullLoadErrorRows", required: false, type: .long), 
+            AWSShapeMember(label: "FullLoadRows", required: false, type: .long), 
+            AWSShapeMember(label: "Inserts", required: false, type: .long), 
+            AWSShapeMember(label: "LastUpdateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SchemaName", required: false, type: .string), 
+            AWSShapeMember(label: "TableName", required: false, type: .string), 
+            AWSShapeMember(label: "TableState", required: false, type: .string), 
+            AWSShapeMember(label: "Updates", required: false, type: .long), 
+            AWSShapeMember(label: "ValidationFailedRecords", required: false, type: .long), 
+            AWSShapeMember(label: "ValidationPendingRecords", required: false, type: .long), 
+            AWSShapeMember(label: "ValidationState", required: false, type: .string), 
+            AWSShapeMember(label: "ValidationStateDetails", required: false, type: .string), 
+            AWSShapeMember(label: "ValidationSuspendedRecords", required: false, type: .long)
+        ]
+        /// The Data Definition Language (DDL) used to build and modify the structure of your tables.
+        public let ddls: Int64?
+        /// The number of delete actions performed on a table.
+        public let deletes: Int64?
+        /// The number of rows that failed conditional checks during the Full Load operation (valid only for DynamoDB as a target migrations).
+        public let fullLoadCondtnlChkFailedRows: Int64?
+        /// The number of rows that failed to load during the Full Load operation (valid only for DynamoDB as a target migrations).
+        public let fullLoadErrorRows: Int64?
+        /// The number of rows added during the Full Load operation.
+        public let fullLoadRows: Int64?
+        /// The number of insert actions performed on a table.
+        public let inserts: Int64?
+        /// The last time the table was updated.
+        public let lastUpdateTime: TimeStamp?
+        /// The schema name.
+        public let schemaName: String?
+        /// The name of the table.
+        public let tableName: String?
+        /// The state of the tables described. Valid states: Table does not exist | Before load | Full load | Table completed | Table cancelled | Table error | Table all | Table updates | Table is being reloaded
+        public let tableState: String?
+        /// The number of update actions performed on a table.
+        public let updates: Int64?
+        /// The number of records that failed validation.
+        public let validationFailedRecords: Int64?
+        /// The number of records that have yet to be validated.
+        public let validationPendingRecords: Int64?
+        /// The validation state of the table. The parameter can have the following values   Not enabled—Validation is not enabled for the table in the migration task.   Pending records—Some records in the table are waiting for validation.   Mismatched records—Some records in the table do not match between the source and target.   Suspended records—Some records in the table could not be validated.   No primary key—The table could not be validated because it had no primary key.   Table error—The table was not validated because it was in an error state and some data was not migrated.   Validated—All rows in the table were validated. If the table is updated, the status can change from Validated.   Error—The table could not be validated because of an unexpected error.  
+        public let validationState: String?
+        /// Additional details about the state of validation.
+        public let validationStateDetails: String?
+        /// The number of records that could not be validated.
+        public let validationSuspendedRecords: Int64?
+
+        public init(ddls: Int64? = nil, deletes: Int64? = nil, fullLoadCondtnlChkFailedRows: Int64? = nil, fullLoadErrorRows: Int64? = nil, fullLoadRows: Int64? = nil, inserts: Int64? = nil, lastUpdateTime: TimeStamp? = nil, schemaName: String? = nil, tableName: String? = nil, tableState: String? = nil, updates: Int64? = nil, validationFailedRecords: Int64? = nil, validationPendingRecords: Int64? = nil, validationState: String? = nil, validationStateDetails: String? = nil, validationSuspendedRecords: Int64? = nil) {
+            self.ddls = ddls
+            self.deletes = deletes
+            self.fullLoadCondtnlChkFailedRows = fullLoadCondtnlChkFailedRows
+            self.fullLoadErrorRows = fullLoadErrorRows
+            self.fullLoadRows = fullLoadRows
+            self.inserts = inserts
+            self.lastUpdateTime = lastUpdateTime
+            self.schemaName = schemaName
+            self.tableName = tableName
+            self.tableState = tableState
+            self.updates = updates
+            self.validationFailedRecords = validationFailedRecords
+            self.validationPendingRecords = validationPendingRecords
+            self.validationState = validationState
+            self.validationStateDetails = validationStateDetails
+            self.validationSuspendedRecords = validationSuspendedRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ddls = "Ddls"
+            case deletes = "Deletes"
+            case fullLoadCondtnlChkFailedRows = "FullLoadCondtnlChkFailedRows"
+            case fullLoadErrorRows = "FullLoadErrorRows"
+            case fullLoadRows = "FullLoadRows"
+            case inserts = "Inserts"
+            case lastUpdateTime = "LastUpdateTime"
+            case schemaName = "SchemaName"
+            case tableName = "TableName"
+            case tableState = "TableState"
+            case updates = "Updates"
+            case validationFailedRecords = "ValidationFailedRecords"
+            case validationPendingRecords = "ValidationPendingRecords"
+            case validationState = "ValidationState"
+            case validationStateDetails = "ValidationStateDetails"
+            case validationSuspendedRecords = "ValidationSuspendedRecords"
+        }
+    }
+
+    public struct TableToReload: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaName", required: false, type: .string), 
+            AWSShapeMember(label: "TableName", required: false, type: .string)
+        ]
+        /// The schema name of the table to be reloaded.
+        public let schemaName: String?
+        /// The table name of the table to be reloaded.
+        public let tableName: String?
+
+        public init(schemaName: String? = nil, tableName: String? = nil) {
+            self.schemaName = schemaName
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaName = "SchemaName"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and cannot be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+        public let key: String?
+        /// A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and cannot be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TestConnectionMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+        public let endpointArn: String
+        /// The Amazon Resource Name (ARN) of the replication instance.
+        public let replicationInstanceArn: String
+
+        public init(endpointArn: String, replicationInstanceArn: String) {
+            self.endpointArn = endpointArn
+            self.replicationInstanceArn = replicationInstanceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointArn = "EndpointArn"
+            case replicationInstanceArn = "ReplicationInstanceArn"
+        }
+    }
+
+    public struct TestConnectionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Connection", required: false, type: .structure)
+        ]
+        /// The connection tested.
+        public let connection: Connection?
+
+        public init(connection: Connection? = nil) {
+            self.connection = connection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connection = "Connection"
+        }
+    }
+
+    public struct VpcSecurityGroupMembership: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "VpcSecurityGroupId", required: false, type: .string)
+        ]
+        /// The status of the VPC security group.
+        public let status: String?
+        /// The VPC security group Id.
+        public let vpcSecurityGroupId: String?
+
+        public init(status: String? = nil, vpcSecurityGroupId: String? = nil) {
+            self.status = status
+            self.vpcSecurityGroupId = vpcSecurityGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case vpcSecurityGroupId = "VpcSecurityGroupId"
         }
     }
 

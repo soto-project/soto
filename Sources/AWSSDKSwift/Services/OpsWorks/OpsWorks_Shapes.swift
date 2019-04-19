@@ -5,3076 +5,172 @@ import AWSSDKSwiftCore
 
 extension OpsWorks {
 
-    public enum LayerAttributesKeys: String, CustomStringConvertible, Codable {
-        case ecsclusterarn = "EcsClusterArn"
-        case enablehaproxystats = "EnableHaproxyStats"
-        case haproxystatsurl = "HaproxyStatsUrl"
-        case haproxystatsuser = "HaproxyStatsUser"
-        case haproxystatspassword = "HaproxyStatsPassword"
-        case haproxyhealthcheckurl = "HaproxyHealthCheckUrl"
-        case haproxyhealthcheckmethod = "HaproxyHealthCheckMethod"
-        case mysqlrootpassword = "MysqlRootPassword"
-        case mysqlrootpasswordubiquitous = "MysqlRootPasswordUbiquitous"
-        case gangliaurl = "GangliaUrl"
-        case gangliauser = "GangliaUser"
-        case gangliapassword = "GangliaPassword"
-        case memcachedmemory = "MemcachedMemory"
-        case nodejsversion = "NodejsVersion"
-        case rubyversion = "RubyVersion"
-        case rubygemsversion = "RubygemsVersion"
-        case managebundler = "ManageBundler"
-        case bundlerversion = "BundlerVersion"
-        case railsstack = "RailsStack"
-        case passengerversion = "PassengerVersion"
-        case jvm = "Jvm"
-        case jvmversion = "JvmVersion"
-        case jvmoptions = "JvmOptions"
-        case javaappserver = "JavaAppServer"
-        case javaappserverversion = "JavaAppServerVersion"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct VolumeConfiguration: AWSShape {
+    public struct AgentVersion: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NumberOfDisks", required: true, type: .integer), 
-            AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "RaidLevel", required: false, type: .integer), 
-            AWSShapeMember(label: "Size", required: true, type: .integer), 
-            AWSShapeMember(label: "MountPoint", required: true, type: .string), 
-            AWSShapeMember(label: "VolumeType", required: false, type: .string), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer)
-        ]
-        /// The number of disks in the volume.
-        public let numberOfDisks: Int32
-        /// Specifies whether an Amazon EBS volume is encrypted. For more information, see Amazon EBS Encryption.
-        public let encrypted: Bool?
-        /// The volume RAID level.
-        public let raidLevel: Int32?
-        /// The volume size.
-        public let size: Int32
-        /// The volume mount point. For example "/dev/sdh".
-        public let mountPoint: String
-        /// The volume type. For more information, see  Amazon EBS Volume Types.    standard - Magnetic. Magnetic volumes must have a minimum size of 1 GiB and a maximum size of 1024 GiB.    io1 - Provisioned IOPS (SSD). PIOPS volumes must have a minimum size of 4 GiB and a maximum size of 16384 GiB.    gp2 - General Purpose (SSD). General purpose volumes must have a minimum size of 1 GiB and a maximum size of 16384 GiB.    st1 - Throughput Optimized hard disk drive (HDD). Throughput optimized HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.    sc1 - Cold HDD. Cold HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.  
-        public let volumeType: String?
-        /// For PIOPS volumes, the IOPS per disk.
-        public let iops: Int32?
-
-        public init(encrypted: Bool? = nil, iops: Int32? = nil, mountPoint: String, numberOfDisks: Int32, raidLevel: Int32? = nil, size: Int32, volumeType: String? = nil) {
-            self.numberOfDisks = numberOfDisks
-            self.encrypted = encrypted
-            self.raidLevel = raidLevel
-            self.size = size
-            self.mountPoint = mountPoint
-            self.volumeType = volumeType
-            self.iops = iops
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case numberOfDisks = "NumberOfDisks"
-            case encrypted = "Encrypted"
-            case raidLevel = "RaidLevel"
-            case size = "Size"
-            case mountPoint = "MountPoint"
-            case volumeType = "VolumeType"
-            case iops = "Iops"
-        }
-    }
-
-    public struct RegisterElasticIpRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackId", required: true, type: .string), 
-            AWSShapeMember(label: "ElasticIp", required: true, type: .string)
-        ]
-        /// The stack ID.
-        public let stackId: String
-        /// The Elastic IP address.
-        public let elasticIp: String
-
-        public init(elasticIp: String, stackId: String) {
-            self.stackId = stackId
-            self.elasticIp = elasticIp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stackId = "StackId"
-            case elasticIp = "ElasticIp"
-        }
-    }
-
-    public struct DeleteStackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackId", required: true, type: .string)
-        ]
-        /// The stack ID.
-        public let stackId: String
-
-        public init(stackId: String) {
-            self.stackId = stackId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stackId = "StackId"
-        }
-    }
-
-    public struct UpdateStackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomJson", required: false, type: .string), 
-            AWSShapeMember(label: "CustomCookbooksSource", required: false, type: .structure), 
-            AWSShapeMember(label: "DefaultSshKeyName", required: false, type: .string), 
-            AWSShapeMember(label: "UseCustomCookbooks", required: false, type: .boolean), 
-            AWSShapeMember(label: "StackId", required: true, type: .string), 
             AWSShapeMember(label: "ConfigurationManager", required: false, type: .structure), 
-            AWSShapeMember(label: "DefaultSubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultInstanceProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultOs", required: false, type: .string), 
-            AWSShapeMember(label: "HostnameTheme", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "AgentVersion", required: false, type: .string), 
-            AWSShapeMember(label: "ChefConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "Attributes", required: false, type: .map), 
-            AWSShapeMember(label: "DefaultRootDeviceType", required: false, type: .enum), 
-            AWSShapeMember(label: "UseOpsworksSecurityGroups", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultAvailabilityZone", required: false, type: .string)
+            AWSShapeMember(label: "Version", required: false, type: .string)
         ]
-        /// A string that contains user-defined, custom JSON. It can be used to override the corresponding default stack configuration JSON values or to pass data to recipes. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information about custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
-        public let customJson: String?
-        public let customCookbooksSource: Source?
-        /// A default Amazon EC2 key-pair name. The default value is none. If you specify a key-pair name, AWS OpsWorks Stacks installs the public key on the instance and you can use the private key with an SSH client to log in to the instance. For more information, see  Using SSH to Communicate with an Instance and  Managing SSH Access. You can override this setting by specifying a different key pair, or no key pair, when you  create an instance. 
-        public let defaultSshKeyName: String?
-        /// Whether the stack uses custom cookbooks.
-        public let useCustomCookbooks: Bool?
-        /// The stack ID.
-        public let stackId: String
-        /// The configuration manager. When you update a stack, we recommend that you use the configuration manager to specify the Chef version: 12, 11.10, or 11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently 12.
+        /// The configuration manager.
         public let configurationManager: StackConfigurationManager?
-        /// The stack's default VPC subnet ID. This parameter is required if you specify a value for the VpcId parameter. All instances are launched into this subnet unless you specify otherwise when you create the instance. If you also specify a value for DefaultAvailabilityZone, the subnet must be in that zone. For information on default values and when this parameter is required, see the VpcId parameter description. 
-        public let defaultSubnetId: String?
-        /// The ARN of an IAM profile that is the default profile for all of the stack's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
-        public let defaultInstanceProfileArn: String?
-        /// The stack's operating system, which must be set to one of the following:   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information about how to use custom AMIs with OpsWorks, see Using Custom AMIs.   The default option is the stack's current operating system. For more information about supported operating systems, see AWS OpsWorks Stacks Operating Systems.
-        public let defaultOs: String?
-        /// The stack's new host name theme, with spaces replaced by underscores. The theme is used to generate host names for the stack's instances. By default, HostnameTheme is set to Layer_Dependent, which creates host names by appending integers to the layer's short name. The other themes are:    Baked_Goods     Clouds     Europe_Cities     Fruits     Greek_Deities     Legendary_creatures_from_Japan     Planets_and_Moons     Roman_Deities     Scottish_Islands     US_Cities     Wild_Cats    To obtain a generated host name, call GetHostNameSuggestion, which returns a host name based on the current theme.
-        public let hostnameTheme: String?
-        /// Do not use this parameter. You cannot update a stack's service role.
-        public let serviceRoleArn: String?
-        /// The default AWS OpsWorks Stacks agent version. You have the following options:   Auto-update - Set this parameter to LATEST. AWS OpsWorks Stacks automatically installs new agent versions on the stack's instances as soon as they are available.   Fixed version - Set this parameter to your preferred agent version. To update the agent version, you must edit the stack configuration and specify a new version. AWS OpsWorks Stacks then automatically installs that version on the stack's instances.   The default setting is LATEST. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.  You can also specify an agent version when you create or update an instance, which overrides the stack's default setting. 
-        public let agentVersion: String?
-        /// A ChefConfiguration object that specifies whether to enable Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more information, see Create a New Stack.
-        public let chefConfiguration: ChefConfiguration?
-        /// One or more user-defined key-value pairs to be added to the stack attributes.
-        public let attributes: [StackAttributesKeys: String]?
-        /// The default root device type. This value is used by default for all instances in the stack, but you can override it when you create an instance. For more information, see Storage for the Root Device.
-        public let defaultRootDeviceType: RootDeviceType?
-        /// Whether to associate the AWS OpsWorks Stacks built-in security groups with the stack's layers. AWS OpsWorks Stacks provides a standard set of built-in security groups, one for each layer, which are associated with layers by default. UseOpsworksSecurityGroups allows you to provide your own custom security groups instead of using the built-in groups. UseOpsworksSecurityGroups has the following settings:    True - AWS OpsWorks Stacks automatically associates the appropriate built-in security group with each layer (default setting). You can associate additional security groups with a layer after you create it, but you cannot delete the built-in security group.   False - AWS OpsWorks Stacks does not associate built-in security groups with layers. You must create appropriate EC2 security groups and associate a security group with each layer that you create. However, you can still manually associate a built-in security group with a layer on. Custom security groups are required only for those layers that need custom settings.   For more information, see Create a New Stack.
-        public let useOpsworksSecurityGroups: Bool?
-        /// The stack's new name.
-        public let name: String?
-        /// The stack's default Availability Zone, which must be in the stack's region. For more information, see Regions and Endpoints. If you also specify a value for DefaultSubnetId, the subnet must be in the same zone. For more information, see CreateStack. 
-        public let defaultAvailabilityZone: String?
+        /// The agent version.
+        public let version: String?
 
-        public init(agentVersion: String? = nil, attributes: [StackAttributesKeys: String]? = nil, chefConfiguration: ChefConfiguration? = nil, configurationManager: StackConfigurationManager? = nil, customCookbooksSource: Source? = nil, customJson: String? = nil, defaultAvailabilityZone: String? = nil, defaultInstanceProfileArn: String? = nil, defaultOs: String? = nil, defaultRootDeviceType: RootDeviceType? = nil, defaultSshKeyName: String? = nil, defaultSubnetId: String? = nil, hostnameTheme: String? = nil, name: String? = nil, serviceRoleArn: String? = nil, stackId: String, useCustomCookbooks: Bool? = nil, useOpsworksSecurityGroups: Bool? = nil) {
-            self.customJson = customJson
-            self.customCookbooksSource = customCookbooksSource
-            self.defaultSshKeyName = defaultSshKeyName
-            self.useCustomCookbooks = useCustomCookbooks
-            self.stackId = stackId
+        public init(configurationManager: StackConfigurationManager? = nil, version: String? = nil) {
             self.configurationManager = configurationManager
-            self.defaultSubnetId = defaultSubnetId
-            self.defaultInstanceProfileArn = defaultInstanceProfileArn
-            self.defaultOs = defaultOs
-            self.hostnameTheme = hostnameTheme
-            self.serviceRoleArn = serviceRoleArn
-            self.agentVersion = agentVersion
-            self.chefConfiguration = chefConfiguration
-            self.attributes = attributes
-            self.defaultRootDeviceType = defaultRootDeviceType
-            self.useOpsworksSecurityGroups = useOpsworksSecurityGroups
-            self.name = name
-            self.defaultAvailabilityZone = defaultAvailabilityZone
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customJson = "CustomJson"
-            case customCookbooksSource = "CustomCookbooksSource"
-            case defaultSshKeyName = "DefaultSshKeyName"
-            case useCustomCookbooks = "UseCustomCookbooks"
-            case stackId = "StackId"
             case configurationManager = "ConfigurationManager"
-            case defaultSubnetId = "DefaultSubnetId"
-            case defaultInstanceProfileArn = "DefaultInstanceProfileArn"
-            case defaultOs = "DefaultOs"
-            case hostnameTheme = "HostnameTheme"
-            case serviceRoleArn = "ServiceRoleArn"
-            case agentVersion = "AgentVersion"
-            case chefConfiguration = "ChefConfiguration"
-            case attributes = "Attributes"
-            case defaultRootDeviceType = "DefaultRootDeviceType"
-            case useOpsworksSecurityGroups = "UseOpsworksSecurityGroups"
-            case name = "Name"
-            case defaultAvailabilityZone = "DefaultAvailabilityZone"
-        }
-    }
-
-    public struct StartStackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackId", required: true, type: .string)
-        ]
-        /// The stack ID.
-        public let stackId: String
-
-        public init(stackId: String) {
-            self.stackId = stackId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stackId = "StackId"
-        }
-    }
-
-    public struct OperatingSystem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReportedVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .string), 
-            AWSShapeMember(label: "Supported", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigurationManagers", required: false, type: .list), 
-            AWSShapeMember(label: "ReportedName", required: false, type: .string)
-        ]
-        /// The version of the operating system, including the release and edition, if applicable.
-        public let reportedVersion: String?
-        /// The ID of a supported operating system, such as Amazon Linux 2017.09.
-        public let id: String?
-        /// The type of a supported operating system, either Linux or Windows.
-        public let `type`: String?
-        /// Indicates that an operating system is not supported for new instances.
-        public let supported: Bool?
-        /// The name of the operating system, such as Amazon Linux 2017.09.
-        public let name: String?
-        /// Supported configuration manager name and versions for an AWS OpsWorks Stacks operating system.
-        public let configurationManagers: [OperatingSystemConfigurationManager]?
-        /// A short name for the operating system manufacturer.
-        public let reportedName: String?
-
-        public init(configurationManagers: [OperatingSystemConfigurationManager]? = nil, id: String? = nil, name: String? = nil, reportedName: String? = nil, reportedVersion: String? = nil, supported: Bool? = nil, type: String? = nil) {
-            self.reportedVersion = reportedVersion
-            self.id = id
-            self.`type` = `type`
-            self.supported = supported
-            self.name = name
-            self.configurationManagers = configurationManagers
-            self.reportedName = reportedName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reportedVersion = "ReportedVersion"
-            case id = "Id"
-            case `type` = "Type"
-            case supported = "Supported"
-            case name = "Name"
-            case configurationManagers = "ConfigurationManagers"
-            case reportedName = "ReportedName"
-        }
-    }
-
-    public struct DescribeStackProvisioningParametersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackId", required: true, type: .string)
-        ]
-        /// The stack ID.
-        public let stackId: String
-
-        public init(stackId: String) {
-            self.stackId = stackId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stackId = "StackId"
-        }
-    }
-
-    public enum VolumeType: String, CustomStringConvertible, Codable {
-        case gp2 = "gp2"
-        case io1 = "io1"
-        case standard = "standard"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct EnvironmentVariable: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Secure", required: false, type: .boolean), 
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
-        /// (Optional) Whether the variable's value will be returned by the DescribeApps action. To conceal an environment variable's value, set Secure to true. DescribeApps then returns *****FILTERED***** instead of the actual value. The default value for Secure is false. 
-        public let secure: Bool?
-        /// (Required) The environment variable's name, which can consist of up to 64 characters and must be specified. The name can contain upper- and lowercase letters, numbers, and underscores (_), but it must start with a letter or underscore.
-        public let key: String
-        /// (Optional) The environment variable's value, which can be left empty. If you specify a value, it can contain up to 256 characters, which must all be printable.
-        public let value: String
-
-        public init(key: String, secure: Bool? = nil, value: String) {
-            self.secure = secure
-            self.key = key
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case secure = "Secure"
-            case key = "Key"
-            case value = "Value"
-        }
-    }
-
-    public struct CreateAppRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Shortname", required: false, type: .string), 
-            AWSShapeMember(label: "EnableSsl", required: false, type: .boolean), 
-            AWSShapeMember(label: "Attributes", required: false, type: .map), 
-            AWSShapeMember(label: "Domains", required: false, type: .list), 
-            AWSShapeMember(label: "Environment", required: false, type: .list), 
-            AWSShapeMember(label: "SslConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "AppSource", required: false, type: .structure), 
-            AWSShapeMember(label: "StackId", required: true, type: .string), 
-            AWSShapeMember(label: "DataSources", required: false, type: .list), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
-        /// The app's short name.
-        public let shortname: String?
-        /// Whether to enable SSL for the app.
-        public let enableSsl: Bool?
-        /// One or more user-defined key/value pairs to be added to the stack attributes.
-        public let attributes: [AppAttributesKeys: String]?
-        /// The app virtual host settings, with multiple domains separated by commas. For example: 'www.example.com, example.com' 
-        public let domains: [String]?
-        /// An array of EnvironmentVariable objects that specify environment variables to be associated with the app. After you deploy the app, these variables are defined on the associated app server instance. For more information, see  Environment Variables. There is no specific limit on the number of environment variables. However, the size of the associated data structure - which includes the variables' names, values, and protected flag values - cannot exceed 10 KB (10240 Bytes). This limit should accommodate most if not all use cases. Exceeding it will cause an exception with the message, "Environment: is too large (maximum is 10KB)."  This parameter is supported only by Chef 11.10 stacks. If you have specified one or more environment variables, you cannot modify the stack's Chef version. 
-        public let environment: [EnvironmentVariable]?
-        /// An SslConfiguration object with the SSL configuration.
-        public let sslConfiguration: SslConfiguration?
-        /// A description of the app.
-        public let description: String?
-        /// The app name.
-        public let name: String
-        /// A Source object that specifies the app repository.
-        public let appSource: Source?
-        /// The stack ID.
-        public let stackId: String
-        /// The app's data source.
-        public let dataSources: [DataSource]?
-        /// The app type. Each supported type is associated with a particular layer. For example, PHP applications are associated with a PHP layer. AWS OpsWorks Stacks deploys an application to those instances that are members of the corresponding layer. If your app isn't one of the standard types, or you prefer to implement your own Deploy recipes, specify other.
-        public let `type`: AppType
-
-        public init(appSource: Source? = nil, attributes: [AppAttributesKeys: String]? = nil, dataSources: [DataSource]? = nil, description: String? = nil, domains: [String]? = nil, enableSsl: Bool? = nil, environment: [EnvironmentVariable]? = nil, name: String, shortname: String? = nil, sslConfiguration: SslConfiguration? = nil, stackId: String, type: AppType) {
-            self.shortname = shortname
-            self.enableSsl = enableSsl
-            self.attributes = attributes
-            self.domains = domains
-            self.environment = environment
-            self.sslConfiguration = sslConfiguration
-            self.description = description
-            self.name = name
-            self.appSource = appSource
-            self.stackId = stackId
-            self.dataSources = dataSources
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case shortname = "Shortname"
-            case enableSsl = "EnableSsl"
-            case attributes = "Attributes"
-            case domains = "Domains"
-            case environment = "Environment"
-            case sslConfiguration = "SslConfiguration"
-            case description = "Description"
-            case name = "Name"
-            case appSource = "AppSource"
-            case stackId = "StackId"
-            case dataSources = "DataSources"
-            case `type` = "Type"
-        }
-    }
-
-    public struct EbsBlockDevice: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeleteOnTermination", required: false, type: .boolean), 
-            AWSShapeMember(label: "VolumeType", required: false, type: .enum), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer), 
-            AWSShapeMember(label: "VolumeSize", required: false, type: .integer), 
-            AWSShapeMember(label: "SnapshotId", required: false, type: .string)
-        ]
-        /// Whether the volume is deleted on instance termination.
-        public let deleteOnTermination: Bool?
-        /// The volume type. gp2 for General Purpose (SSD) volumes, io1 for Provisioned IOPS (SSD) volumes, st1 for Throughput Optimized hard disk drives (HDD), sc1 for Cold HDD,and standard for Magnetic volumes. If you specify the io1 volume type, you must also specify a value for the Iops attribute. The maximum ratio of provisioned IOPS to requested volume size (in GiB) is 50:1. AWS uses the default volume size (in GiB) specified in the AMI attributes to set IOPS to 50 x (volume size).
-        public let volumeType: VolumeType?
-        /// The number of I/O operations per second (IOPS) that the volume supports. For more information, see EbsBlockDevice.
-        public let iops: Int32?
-        /// The volume size, in GiB. For more information, see EbsBlockDevice.
-        public let volumeSize: Int32?
-        /// The snapshot ID.
-        public let snapshotId: String?
-
-        public init(deleteOnTermination: Bool? = nil, iops: Int32? = nil, snapshotId: String? = nil, volumeSize: Int32? = nil, volumeType: VolumeType? = nil) {
-            self.deleteOnTermination = deleteOnTermination
-            self.volumeType = volumeType
-            self.iops = iops
-            self.volumeSize = volumeSize
-            self.snapshotId = snapshotId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deleteOnTermination = "DeleteOnTermination"
-            case volumeType = "VolumeType"
-            case iops = "Iops"
-            case volumeSize = "VolumeSize"
-            case snapshotId = "SnapshotId"
-        }
-    }
-
-    public struct WeeklyAutoScalingSchedule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Monday", required: false, type: .map), 
-            AWSShapeMember(label: "Tuesday", required: false, type: .map), 
-            AWSShapeMember(label: "Saturday", required: false, type: .map), 
-            AWSShapeMember(label: "Friday", required: false, type: .map), 
-            AWSShapeMember(label: "Sunday", required: false, type: .map), 
-            AWSShapeMember(label: "Thursday", required: false, type: .map), 
-            AWSShapeMember(label: "Wednesday", required: false, type: .map)
-        ]
-        /// The schedule for Monday.
-        public let monday: [String: String]?
-        /// The schedule for Tuesday.
-        public let tuesday: [String: String]?
-        /// The schedule for Saturday.
-        public let saturday: [String: String]?
-        /// The schedule for Friday.
-        public let friday: [String: String]?
-        /// The schedule for Sunday.
-        public let sunday: [String: String]?
-        /// The schedule for Thursday.
-        public let thursday: [String: String]?
-        /// The schedule for Wednesday.
-        public let wednesday: [String: String]?
-
-        public init(friday: [String: String]? = nil, monday: [String: String]? = nil, saturday: [String: String]? = nil, sunday: [String: String]? = nil, thursday: [String: String]? = nil, tuesday: [String: String]? = nil, wednesday: [String: String]? = nil) {
-            self.monday = monday
-            self.tuesday = tuesday
-            self.saturday = saturday
-            self.friday = friday
-            self.sunday = sunday
-            self.thursday = thursday
-            self.wednesday = wednesday
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case monday = "Monday"
-            case tuesday = "Tuesday"
-            case saturday = "Saturday"
-            case friday = "Friday"
-            case sunday = "Sunday"
-            case thursday = "Thursday"
-            case wednesday = "Wednesday"
-        }
-    }
-
-    public struct Source: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "SshKey", required: false, type: .string), 
-            AWSShapeMember(label: "Url", required: false, type: .string), 
-            AWSShapeMember(label: "Password", required: false, type: .string), 
-            AWSShapeMember(label: "Username", required: false, type: .string), 
-            AWSShapeMember(label: "Revision", required: false, type: .string)
-        ]
-        /// The repository type.
-        public let `type`: SourceType?
-        /// In requests, the repository's SSH key. In responses, AWS OpsWorks Stacks returns *****FILTERED***** instead of the actual value.
-        public let sshKey: String?
-        /// The source URL. The following is an example of an Amazon S3 source URL: https://s3.amazonaws.com/opsworks-demo-bucket/opsworks_cookbook_demo.tar.gz.
-        public let url: String?
-        /// When included in a request, the parameter depends on the repository type.   For Amazon S3 bundles, set Password to the appropriate IAM secret access key.   For HTTP bundles and Subversion repositories, set Password to the password.   For more information on how to safely handle IAM credentials, see http://docs.aws.amazon.com/general/latest/gr/aws-access-keys-best-practices.html. In responses, AWS OpsWorks Stacks returns *****FILTERED***** instead of the actual value.
-        public let password: String?
-        /// This parameter depends on the repository type.   For Amazon S3 bundles, set Username to the appropriate IAM access key ID.   For HTTP bundles, Git repositories, and Subversion repositories, set Username to the user name.  
-        public let username: String?
-        /// The application's version. AWS OpsWorks Stacks enables you to easily deploy new versions of an application. One of the simplest approaches is to have branches or revisions in your repository that represent different versions that can potentially be deployed.
-        public let revision: String?
-
-        public init(password: String? = nil, revision: String? = nil, sshKey: String? = nil, type: SourceType? = nil, url: String? = nil, username: String? = nil) {
-            self.`type` = `type`
-            self.sshKey = sshKey
-            self.url = url
-            self.password = password
-            self.username = username
-            self.revision = revision
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case sshKey = "SshKey"
-            case url = "Url"
-            case password = "Password"
-            case username = "Username"
-            case revision = "Revision"
+            case version = "Version"
         }
     }
 
     public struct App: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSources", required: false, type: .list), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "StackId", required: false, type: .string), 
-            AWSShapeMember(label: "Shortname", required: false, type: .string), 
-            AWSShapeMember(label: "SslConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
-            AWSShapeMember(label: "EnableSsl", required: false, type: .boolean), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Environment", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "AppId", required: false, type: .string), 
             AWSShapeMember(label: "AppSource", required: false, type: .structure), 
             AWSShapeMember(label: "Attributes", required: false, type: .map), 
-            AWSShapeMember(label: "Domains", required: false, type: .list)
+            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
+            AWSShapeMember(label: "DataSources", required: false, type: .list), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Domains", required: false, type: .list), 
+            AWSShapeMember(label: "EnableSsl", required: false, type: .boolean), 
+            AWSShapeMember(label: "Environment", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Shortname", required: false, type: .string), 
+            AWSShapeMember(label: "SslConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
-        /// The app's data sources.
-        public let dataSources: [DataSource]?
-        /// The app type.
-        public let `type`: AppType?
-        /// The app stack ID.
-        public let stackId: String?
-        /// The app's short name.
-        public let shortname: String?
-        /// An SslConfiguration object with the SSL configuration.
-        public let sslConfiguration: SslConfiguration?
-        /// When the app was created.
-        public let createdAt: String?
-        /// Whether to enable SSL for the app.
-        public let enableSsl: Bool?
-        /// A description of the app.
-        public let description: String?
-        /// An array of EnvironmentVariable objects that specify environment variables to be associated with the app. After you deploy the app, these variables are defined on the associated app server instances. For more information, see  Environment Variables.   There is no specific limit on the number of environment variables. However, the size of the associated data structure - which includes the variable names, values, and protected flag values - cannot exceed 10 KB (10240 Bytes). This limit should accommodate most if not all use cases, but if you do exceed it, you will cause an exception (API) with an "Environment: is too large (maximum is 10KB)" message. 
-        public let environment: [EnvironmentVariable]?
-        /// The app name.
-        public let name: String?
         /// The app ID.
         public let appId: String?
         /// A Source object that describes the app repository.
         public let appSource: Source?
         /// The stack attributes.
         public let attributes: [AppAttributesKeys: String]?
-        /// The app vhost settings with multiple domains separated by commas. For example: 'www.example.com, example.com' 
-        public let domains: [String]?
-
-        public init(appId: String? = nil, appSource: Source? = nil, attributes: [AppAttributesKeys: String]? = nil, createdAt: String? = nil, dataSources: [DataSource]? = nil, description: String? = nil, domains: [String]? = nil, enableSsl: Bool? = nil, environment: [EnvironmentVariable]? = nil, name: String? = nil, shortname: String? = nil, sslConfiguration: SslConfiguration? = nil, stackId: String? = nil, type: AppType? = nil) {
-            self.dataSources = dataSources
-            self.`type` = `type`
-            self.stackId = stackId
-            self.shortname = shortname
-            self.sslConfiguration = sslConfiguration
-            self.createdAt = createdAt
-            self.enableSsl = enableSsl
-            self.description = description
-            self.environment = environment
-            self.name = name
-            self.appId = appId
-            self.appSource = appSource
-            self.attributes = attributes
-            self.domains = domains
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dataSources = "DataSources"
-            case `type` = "Type"
-            case stackId = "StackId"
-            case shortname = "Shortname"
-            case sslConfiguration = "SslConfiguration"
-            case createdAt = "CreatedAt"
-            case enableSsl = "EnableSsl"
-            case description = "Description"
-            case environment = "Environment"
-            case name = "Name"
-            case appId = "AppId"
-            case appSource = "AppSource"
-            case attributes = "Attributes"
-            case domains = "Domains"
-        }
-    }
-
-    public struct DescribePermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackId", required: false, type: .string), 
-            AWSShapeMember(label: "IamUserArn", required: false, type: .string)
-        ]
-        /// The stack ID.
-        public let stackId: String?
-        /// The user's IAM ARN. This can also be a federated user's ARN. For more information about IAM ARNs, see Using Identifiers.
-        public let iamUserArn: String?
-
-        public init(iamUserArn: String? = nil, stackId: String? = nil) {
-            self.stackId = stackId
-            self.iamUserArn = iamUserArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stackId = "StackId"
-            case iamUserArn = "IamUserArn"
-        }
-    }
-
-    public struct UpdateInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AgentVersion", required: false, type: .string), 
-            AWSShapeMember(label: "AutoScalingType", required: false, type: .enum), 
-            AWSShapeMember(label: "Hostname", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
-            AWSShapeMember(label: "SshKeyName", required: false, type: .string), 
-            AWSShapeMember(label: "Os", required: false, type: .string), 
-            AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
-            AWSShapeMember(label: "LayerIds", required: false, type: .list), 
-            AWSShapeMember(label: "AmiId", required: false, type: .string), 
-            AWSShapeMember(label: "InstallUpdatesOnBoot", required: false, type: .boolean), 
-            AWSShapeMember(label: "Architecture", required: false, type: .enum), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .string)
-        ]
-        /// The default AWS OpsWorks Stacks agent version. You have the following options:    INHERIT - Use the stack's default agent version setting.    version_number - Use the specified agent version. This value overrides the stack's default setting. To update the agent version, you must edit the instance configuration and specify a new version. AWS OpsWorks Stacks then automatically installs that version on the instance.   The default setting is INHERIT. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.
-        public let agentVersion: String?
-        /// For load-based or time-based instances, the type. Windows stacks can use only time-based instances.
-        public let autoScalingType: AutoScalingType?
-        /// The instance host name.
-        public let hostname: String?
-        /// The instance ID.
-        public let instanceId: String
-        /// The instance's Amazon EC2 key name.
-        public let sshKeyName: String?
-        /// The instance's operating system, which must be set to one of the following. You cannot update an instance that is using a custom AMI.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   For more information about supported operating systems, see AWS OpsWorks Stacks Operating Systems. The default option is the current Amazon Linux version. If you set this parameter to Custom, you must use the AmiId parameter to specify the custom AMI that you want to use. For more information about supported operating systems, see Operating Systems. For more information about how to use custom AMIs with OpsWorks, see Using Custom AMIs.  You can specify a different Linux operating system for the updated stack, but you cannot change from Linux to Windows or Windows to Linux. 
-        public let os: String?
-        /// This property cannot be updated.
-        public let ebsOptimized: Bool?
-        /// The instance's layer IDs.
-        public let layerIds: [String]?
-        /// The ID of the AMI that was used to create the instance. The value of this parameter must be the same AMI ID that the instance is already using. You cannot apply a new AMI to an instance by running UpdateInstance. UpdateInstance does not work on instances that are using custom AMIs. 
-        public let amiId: String?
-        /// Whether to install operating system and package updates when the instance boots. The default value is true. To control when updates are installed, set this value to false. You must then update your instances manually by using CreateDeployment to run the update_dependencies stack command or by manually running yum (Amazon Linux) or apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true, to ensure that your instances have the latest security updates. 
-        public let installUpdatesOnBoot: Bool?
-        /// The instance architecture. Instance types do not necessarily support both architectures. For a list of the architectures that are supported by the different instance types, see Instance Families and Types.
-        public let architecture: Architecture?
-        /// The instance type, such as t2.micro. For a list of supported instance types, open the stack in the console, choose Instances, and choose + Instance. The Size list contains the currently supported types. For more information, see Instance Families and Types. The parameter values that you use to specify the various types are in the API Name column of the Available Instance Types table.
-        public let instanceType: String?
-
-        public init(agentVersion: String? = nil, amiId: String? = nil, architecture: Architecture? = nil, autoScalingType: AutoScalingType? = nil, ebsOptimized: Bool? = nil, hostname: String? = nil, installUpdatesOnBoot: Bool? = nil, instanceId: String, instanceType: String? = nil, layerIds: [String]? = nil, os: String? = nil, sshKeyName: String? = nil) {
-            self.agentVersion = agentVersion
-            self.autoScalingType = autoScalingType
-            self.hostname = hostname
-            self.instanceId = instanceId
-            self.sshKeyName = sshKeyName
-            self.os = os
-            self.ebsOptimized = ebsOptimized
-            self.layerIds = layerIds
-            self.amiId = amiId
-            self.installUpdatesOnBoot = installUpdatesOnBoot
-            self.architecture = architecture
-            self.instanceType = instanceType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case agentVersion = "AgentVersion"
-            case autoScalingType = "AutoScalingType"
-            case hostname = "Hostname"
-            case instanceId = "InstanceId"
-            case sshKeyName = "SshKeyName"
-            case os = "Os"
-            case ebsOptimized = "EbsOptimized"
-            case layerIds = "LayerIds"
-            case amiId = "AmiId"
-            case installUpdatesOnBoot = "InstallUpdatesOnBoot"
-            case architecture = "Architecture"
-            case instanceType = "InstanceType"
-        }
-    }
-
-    public struct ShutdownEventConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DelayUntilElbConnectionsDrained", required: false, type: .boolean), 
-            AWSShapeMember(label: "ExecutionTimeout", required: false, type: .integer)
-        ]
-        /// Whether to enable Elastic Load Balancing connection draining. For more information, see Connection Draining 
-        public let delayUntilElbConnectionsDrained: Bool?
-        /// The time, in seconds, that AWS OpsWorks Stacks will wait after triggering a Shutdown event before shutting down an instance.
-        public let executionTimeout: Int32?
-
-        public init(delayUntilElbConnectionsDrained: Bool? = nil, executionTimeout: Int32? = nil) {
-            self.delayUntilElbConnectionsDrained = delayUntilElbConnectionsDrained
-            self.executionTimeout = executionTimeout
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case delayUntilElbConnectionsDrained = "DelayUntilElbConnectionsDrained"
-            case executionTimeout = "ExecutionTimeout"
-        }
-    }
-
-    public struct DescribeUserProfilesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserProfiles", required: false, type: .list)
-        ]
-        /// A Users object that describes the specified users.
-        public let userProfiles: [UserProfile]?
-
-        public init(userProfiles: [UserProfile]? = nil) {
-            self.userProfiles = userProfiles
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userProfiles = "UserProfiles"
-        }
-    }
-
-    public struct ListTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The stack or layer's Amazon Resource Number (ARN).
-        public let resourceArn: String
-        /// Do not use. A validation exception occurs if you add a NextToken parameter to a ListTagsRequest call. 
-        public let nextToken: String?
-        /// Do not use. A validation exception occurs if you add a MaxResults parameter to a ListTagsRequest call. 
-        public let maxResults: Int32?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
-            self.resourceArn = resourceArn
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct CreateStackResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackId", required: false, type: .string)
-        ]
-        /// The stack ID, which is an opaque string that you use to identify the stack when performing actions such as DescribeStacks.
-        public let stackId: String?
-
-        public init(stackId: String? = nil) {
-            self.stackId = stackId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stackId = "StackId"
-        }
-    }
-
-    public struct DescribeStackSummaryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackId", required: true, type: .string)
-        ]
-        /// The stack ID.
-        public let stackId: String
-
-        public init(stackId: String) {
-            self.stackId = stackId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stackId = "StackId"
-        }
-    }
-
-    public struct DescribeStacksResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Stacks", required: false, type: .list)
-        ]
-        /// An array of Stack objects that describe the stacks.
-        public let stacks: [Stack]?
-
-        public init(stacks: [Stack]? = nil) {
-            self.stacks = stacks
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stacks = "Stacks"
-        }
-    }
-
-    public struct RegisterVolumeResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VolumeId", required: false, type: .string)
-        ]
-        /// The volume ID.
-        public let volumeId: String?
-
-        public init(volumeId: String? = nil) {
-            self.volumeId = volumeId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case volumeId = "VolumeId"
-        }
-    }
-
-    public struct Recipes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Shutdown", required: false, type: .list), 
-            AWSShapeMember(label: "Undeploy", required: false, type: .list), 
-            AWSShapeMember(label: "Setup", required: false, type: .list), 
-            AWSShapeMember(label: "Deploy", required: false, type: .list), 
-            AWSShapeMember(label: "Configure", required: false, type: .list)
-        ]
-        /// An array of custom recipe names to be run following a shutdown event.
-        public let shutdown: [String]?
-        /// An array of custom recipe names to be run following a undeploy event.
-        public let undeploy: [String]?
-        /// An array of custom recipe names to be run following a setup event.
-        public let setup: [String]?
-        /// An array of custom recipe names to be run following a deploy event.
-        public let deploy: [String]?
-        /// An array of custom recipe names to be run following a configure event.
-        public let configure: [String]?
-
-        public init(configure: [String]? = nil, deploy: [String]? = nil, setup: [String]? = nil, shutdown: [String]? = nil, undeploy: [String]? = nil) {
-            self.shutdown = shutdown
-            self.undeploy = undeploy
-            self.setup = setup
-            self.deploy = deploy
-            self.configure = configure
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case shutdown = "Shutdown"
-            case undeploy = "Undeploy"
-            case setup = "Setup"
-            case deploy = "Deploy"
-            case configure = "Configure"
-        }
-    }
-
-    public struct RegisterVolumeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ec2VolumeId", required: false, type: .string), 
-            AWSShapeMember(label: "StackId", required: true, type: .string)
-        ]
-        /// The Amazon EBS volume ID.
-        public let ec2VolumeId: String?
-        /// The stack ID.
-        public let stackId: String
-
-        public init(ec2VolumeId: String? = nil, stackId: String) {
-            self.ec2VolumeId = ec2VolumeId
-            self.stackId = stackId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ec2VolumeId = "Ec2VolumeId"
-            case stackId = "StackId"
-        }
-    }
-
-    public enum StackAttributesKeys: String, CustomStringConvertible, Codable {
-        case color = "Color"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeAgentVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationManager", required: false, type: .structure), 
-            AWSShapeMember(label: "StackId", required: false, type: .string)
-        ]
-        /// The configuration manager.
-        public let configurationManager: StackConfigurationManager?
-        /// The stack ID.
-        public let stackId: String?
-
-        public init(configurationManager: StackConfigurationManager? = nil, stackId: String? = nil) {
-            self.configurationManager = configurationManager
-            self.stackId = stackId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configurationManager = "ConfigurationManager"
-            case stackId = "StackId"
-        }
-    }
-
-    public struct SetLoadBasedAutoScalingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LayerId", required: true, type: .string), 
-            AWSShapeMember(label: "DownScaling", required: false, type: .structure), 
-            AWSShapeMember(label: "UpScaling", required: false, type: .structure), 
-            AWSShapeMember(label: "Enable", required: false, type: .boolean)
-        ]
-        /// The layer ID.
-        public let layerId: String
-        /// An AutoScalingThresholds object with the downscaling threshold configuration. If the load falls below these thresholds for a specified amount of time, AWS OpsWorks Stacks stops a specified number of instances.
-        public let downScaling: AutoScalingThresholds?
-        /// An AutoScalingThresholds object with the upscaling threshold configuration. If the load exceeds these thresholds for a specified amount of time, AWS OpsWorks Stacks starts a specified number of instances.
-        public let upScaling: AutoScalingThresholds?
-        /// Enables load-based auto scaling for the layer.
-        public let enable: Bool?
-
-        public init(downScaling: AutoScalingThresholds? = nil, enable: Bool? = nil, layerId: String, upScaling: AutoScalingThresholds? = nil) {
-            self.layerId = layerId
-            self.downScaling = downScaling
-            self.upScaling = upScaling
-            self.enable = enable
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case layerId = "LayerId"
-            case downScaling = "DownScaling"
-            case upScaling = "UpScaling"
-            case enable = "Enable"
-        }
-    }
-
-    public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagKeys", required: true, type: .list), 
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
-        /// A list of the keys of tags to be removed from a stack or layer.
-        public let tagKeys: [String]
-        /// The stack or layer's Amazon Resource Number (ARN).
-        public let resourceArn: String
-
-        public init(resourceArn: String, tagKeys: [String]) {
-            self.tagKeys = tagKeys
-            self.resourceArn = resourceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagKeys = "TagKeys"
-            case resourceArn = "ResourceArn"
-        }
-    }
-
-    public struct CreateUserProfileResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IamUserArn", required: false, type: .string)
-        ]
-        /// The user's IAM ARN.
-        public let iamUserArn: String?
-
-        public init(iamUserArn: String? = nil) {
-            self.iamUserArn = iamUserArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case iamUserArn = "IamUserArn"
-        }
-    }
-
-    public struct CloneStackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Region", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultInstanceProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "CloneAppIds", required: false, type: .list), 
-            AWSShapeMember(label: "ConfigurationManager", required: false, type: .structure), 
-            AWSShapeMember(label: "AgentVersion", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultRootDeviceType", required: false, type: .enum), 
-            AWSShapeMember(label: "SourceStackId", required: true, type: .string), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string), 
-            AWSShapeMember(label: "Attributes", required: false, type: .map), 
-            AWSShapeMember(label: "ClonePermissions", required: false, type: .boolean), 
-            AWSShapeMember(label: "DefaultSshKeyName", required: false, type: .string), 
-            AWSShapeMember(label: "CustomJson", required: false, type: .string), 
-            AWSShapeMember(label: "HostnameTheme", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "UseOpsworksSecurityGroups", required: false, type: .boolean), 
-            AWSShapeMember(label: "UseCustomCookbooks", required: false, type: .boolean), 
-            AWSShapeMember(label: "CustomCookbooksSource", required: false, type: .structure), 
-            AWSShapeMember(label: "DefaultAvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "ChefConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "DefaultOs", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultSubnetId", required: false, type: .string)
-        ]
-        /// The cloned stack AWS region, such as "ap-northeast-2". For more information about AWS regions, see Regions and Endpoints.
-        public let region: String?
-        /// The Amazon Resource Name (ARN) of an IAM profile that is the default profile for all of the stack's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
-        public let defaultInstanceProfileArn: String?
-        /// A list of source stack app IDs to be included in the cloned stack.
-        public let cloneAppIds: [String]?
-        /// The configuration manager. When you clone a stack we recommend that you use the configuration manager to specify the Chef version: 12, 11.10, or 11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently 12.
-        public let configurationManager: StackConfigurationManager?
-        /// The default AWS OpsWorks Stacks agent version. You have the following options:   Auto-update - Set this parameter to LATEST. AWS OpsWorks Stacks automatically installs new agent versions on the stack's instances as soon as they are available.   Fixed version - Set this parameter to your preferred agent version. To update the agent version, you must edit the stack configuration and specify a new version. AWS OpsWorks Stacks then automatically installs that version on the stack's instances.   The default setting is LATEST. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.  You can also specify an agent version when you create or update an instance, which overrides the stack's default setting. 
-        public let agentVersion: String?
-        /// The default root device type. This value is used by default for all instances in the cloned stack, but you can override it when you create an instance. For more information, see Storage for the Root Device.
-        public let defaultRootDeviceType: RootDeviceType?
-        /// The source stack ID.
-        public let sourceStackId: String
-        /// The ID of the VPC that the cloned stack is to be launched into. It must be in the specified region. All instances are launched into this VPC, and you cannot change the ID later.   If your account supports EC2 Classic, the default value is no VPC.   If your account does not support EC2 Classic, the default value is the default VPC for the specified region.   If the VPC ID corresponds to a default VPC and you have specified either the DefaultAvailabilityZone or the DefaultSubnetId parameter only, AWS OpsWorks Stacks infers the value of the other parameter. If you specify neither parameter, AWS OpsWorks Stacks sets these parameters to the first valid Availability Zone for the specified region and the corresponding default VPC subnet ID, respectively.  If you specify a nondefault VPC ID, note the following:   It must belong to a VPC in your account that is in the specified region.   You must specify a value for DefaultSubnetId.   For more information about how to use AWS OpsWorks Stacks with a VPC, see Running a Stack in a VPC. For more information about default VPC and EC2 Classic, see Supported Platforms. 
-        public let vpcId: String?
-        /// A list of stack attributes and values as key/value pairs to be added to the cloned stack.
-        public let attributes: [StackAttributesKeys: String]?
-        /// Whether to clone the source stack's permissions.
-        public let clonePermissions: Bool?
-        /// A default Amazon EC2 key pair name. The default value is none. If you specify a key pair name, AWS OpsWorks installs the public key on the instance and you can use the private key with an SSH client to log in to the instance. For more information, see  Using SSH to Communicate with an Instance and  Managing SSH Access. You can override this setting by specifying a different key pair, or no key pair, when you  create an instance. 
-        public let defaultSshKeyName: String?
-        /// A string that contains user-defined, custom JSON. It is used to override the corresponding default stack configuration JSON values. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information about custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes 
-        public let customJson: String?
-        /// The stack's host name theme, with spaces are replaced by underscores. The theme is used to generate host names for the stack's instances. By default, HostnameTheme is set to Layer_Dependent, which creates host names by appending integers to the layer's short name. The other themes are:    Baked_Goods     Clouds     Europe_Cities     Fruits     Greek_Deities     Legendary_creatures_from_Japan     Planets_and_Moons     Roman_Deities     Scottish_Islands     US_Cities     Wild_Cats    To obtain a generated host name, call GetHostNameSuggestion, which returns a host name based on the current theme.
-        public let hostnameTheme: String?
-        /// The cloned stack name.
-        public let name: String?
-        /// Whether to associate the AWS OpsWorks Stacks built-in security groups with the stack's layers. AWS OpsWorks Stacks provides a standard set of built-in security groups, one for each layer, which are associated with layers by default. With UseOpsworksSecurityGroups you can instead provide your own custom security groups. UseOpsworksSecurityGroups has the following settings:    True - AWS OpsWorks Stacks automatically associates the appropriate built-in security group with each layer (default setting). You can associate additional security groups with a layer after you create it but you cannot delete the built-in security group.   False - AWS OpsWorks Stacks does not associate built-in security groups with layers. You must create appropriate Amazon Elastic Compute Cloud (Amazon EC2) security groups and associate a security group with each layer that you create. However, you can still manually associate a built-in security group with a layer on creation; custom security groups are required only for those layers that need custom settings.   For more information, see Create a New Stack.
-        public let useOpsworksSecurityGroups: Bool?
-        /// Whether to use custom cookbooks.
-        public let useCustomCookbooks: Bool?
-        public let customCookbooksSource: Source?
-        /// The cloned stack's default Availability Zone, which must be in the specified region. For more information, see Regions and Endpoints. If you also specify a value for DefaultSubnetId, the subnet must be in the same zone. For more information, see the VpcId parameter description. 
-        public let defaultAvailabilityZone: String?
-        /// The stack AWS Identity and Access Management (IAM) role, which allows AWS OpsWorks Stacks to work with AWS resources on your behalf. You must set this parameter to the Amazon Resource Name (ARN) for an existing IAM role. If you create a stack by using the AWS OpsWorks Stacks console, it creates the role for you. You can obtain an existing stack's IAM ARN programmatically by calling DescribePermissions. For more information about IAM ARNs, see Using Identifiers.  You must set this parameter to a valid service role ARN or the action will fail; there is no default value. You can specify the source stack's service role ARN, if you prefer, but you must do so explicitly. 
-        public let serviceRoleArn: String
-        /// A ChefConfiguration object that specifies whether to enable Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more information, see Create a New Stack.
-        public let chefConfiguration: ChefConfiguration?
-        /// The stack's operating system, which must be set to one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7     Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information about how to use custom AMIs with OpsWorks, see Using Custom AMIs.   The default option is the parent stack's operating system. For more information about supported operating systems, see AWS OpsWorks Stacks Operating Systems.  You can specify a different Linux operating system for the cloned stack, but you cannot change from Linux to Windows or Windows to Linux. 
-        public let defaultOs: String?
-        /// The stack's default VPC subnet ID. This parameter is required if you specify a value for the VpcId parameter. All instances are launched into this subnet unless you specify otherwise when you create the instance. If you also specify a value for DefaultAvailabilityZone, the subnet must be in that zone. For information on default values and when this parameter is required, see the VpcId parameter description. 
-        public let defaultSubnetId: String?
-
-        public init(agentVersion: String? = nil, attributes: [StackAttributesKeys: String]? = nil, chefConfiguration: ChefConfiguration? = nil, cloneAppIds: [String]? = nil, clonePermissions: Bool? = nil, configurationManager: StackConfigurationManager? = nil, customCookbooksSource: Source? = nil, customJson: String? = nil, defaultAvailabilityZone: String? = nil, defaultInstanceProfileArn: String? = nil, defaultOs: String? = nil, defaultRootDeviceType: RootDeviceType? = nil, defaultSshKeyName: String? = nil, defaultSubnetId: String? = nil, hostnameTheme: String? = nil, name: String? = nil, region: String? = nil, serviceRoleArn: String, sourceStackId: String, useCustomCookbooks: Bool? = nil, useOpsworksSecurityGroups: Bool? = nil, vpcId: String? = nil) {
-            self.region = region
-            self.defaultInstanceProfileArn = defaultInstanceProfileArn
-            self.cloneAppIds = cloneAppIds
-            self.configurationManager = configurationManager
-            self.agentVersion = agentVersion
-            self.defaultRootDeviceType = defaultRootDeviceType
-            self.sourceStackId = sourceStackId
-            self.vpcId = vpcId
-            self.attributes = attributes
-            self.clonePermissions = clonePermissions
-            self.defaultSshKeyName = defaultSshKeyName
-            self.customJson = customJson
-            self.hostnameTheme = hostnameTheme
-            self.name = name
-            self.useOpsworksSecurityGroups = useOpsworksSecurityGroups
-            self.useCustomCookbooks = useCustomCookbooks
-            self.customCookbooksSource = customCookbooksSource
-            self.defaultAvailabilityZone = defaultAvailabilityZone
-            self.serviceRoleArn = serviceRoleArn
-            self.chefConfiguration = chefConfiguration
-            self.defaultOs = defaultOs
-            self.defaultSubnetId = defaultSubnetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case region = "Region"
-            case defaultInstanceProfileArn = "DefaultInstanceProfileArn"
-            case cloneAppIds = "CloneAppIds"
-            case configurationManager = "ConfigurationManager"
-            case agentVersion = "AgentVersion"
-            case defaultRootDeviceType = "DefaultRootDeviceType"
-            case sourceStackId = "SourceStackId"
-            case vpcId = "VpcId"
-            case attributes = "Attributes"
-            case clonePermissions = "ClonePermissions"
-            case defaultSshKeyName = "DefaultSshKeyName"
-            case customJson = "CustomJson"
-            case hostnameTheme = "HostnameTheme"
-            case name = "Name"
-            case useOpsworksSecurityGroups = "UseOpsworksSecurityGroups"
-            case useCustomCookbooks = "UseCustomCookbooks"
-            case customCookbooksSource = "CustomCookbooksSource"
-            case defaultAvailabilityZone = "DefaultAvailabilityZone"
-            case serviceRoleArn = "ServiceRoleArn"
-            case chefConfiguration = "ChefConfiguration"
-            case defaultOs = "DefaultOs"
-            case defaultSubnetId = "DefaultSubnetId"
-        }
-    }
-
-    public struct DescribeLoadBasedAutoScalingResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBasedAutoScalingConfigurations", required: false, type: .list)
-        ]
-        /// An array of LoadBasedAutoScalingConfiguration objects that describe each layer's configuration.
-        public let loadBasedAutoScalingConfigurations: [LoadBasedAutoScalingConfiguration]?
-
-        public init(loadBasedAutoScalingConfigurations: [LoadBasedAutoScalingConfiguration]? = nil) {
-            self.loadBasedAutoScalingConfigurations = loadBasedAutoScalingConfigurations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loadBasedAutoScalingConfigurations = "LoadBasedAutoScalingConfigurations"
-        }
-    }
-
-    public struct DescribeDeploymentsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Deployments", required: false, type: .list)
-        ]
-        /// An array of Deployment objects that describe the deployments.
-        public let deployments: [Deployment]?
-
-        public init(deployments: [Deployment]? = nil) {
-            self.deployments = deployments
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deployments = "Deployments"
-        }
-    }
-
-    public struct DescribePermissionsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Permissions", required: false, type: .list)
-        ]
-        /// An array of Permission objects that describe the stack permissions.   If the request object contains only a stack ID, the array contains a Permission object with permissions for each of the stack IAM ARNs.   If the request object contains only an IAM ARN, the array contains a Permission object with permissions for each of the user's stack IDs.   If the request contains a stack ID and an IAM ARN, the array contains a single Permission object with permissions for the specified stack and IAM ARN.  
-        public let permissions: [Permission]?
-
-        public init(permissions: [Permission]? = nil) {
-            self.permissions = permissions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case permissions = "Permissions"
-        }
-    }
-
-    public struct UpdateRdsDbInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DbPassword", required: false, type: .string), 
-            AWSShapeMember(label: "DbUser", required: false, type: .string), 
-            AWSShapeMember(label: "RdsDbInstanceArn", required: true, type: .string)
-        ]
-        /// The database password.
-        public let dbPassword: String?
-        /// The master user name.
-        public let dbUser: String?
-        /// The Amazon RDS instance's ARN.
-        public let rdsDbInstanceArn: String
-
-        public init(dbPassword: String? = nil, dbUser: String? = nil, rdsDbInstanceArn: String) {
-            self.dbPassword = dbPassword
-            self.dbUser = dbUser
-            self.rdsDbInstanceArn = rdsDbInstanceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dbPassword = "DbPassword"
-            case dbUser = "DbUser"
-            case rdsDbInstanceArn = "RdsDbInstanceArn"
-        }
-    }
-
-    public struct RdsDbInstance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DbUser", required: false, type: .string), 
-            AWSShapeMember(label: "DbPassword", required: false, type: .string), 
-            AWSShapeMember(label: "StackId", required: false, type: .string), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "Address", required: false, type: .string), 
-            AWSShapeMember(label: "Region", required: false, type: .string), 
-            AWSShapeMember(label: "MissingOnRds", required: false, type: .boolean), 
-            AWSShapeMember(label: "RdsDbInstanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "DbInstanceIdentifier", required: false, type: .string)
-        ]
-        /// The master user name.
-        public let dbUser: String?
-        /// AWS OpsWorks Stacks returns *****FILTERED***** instead of the actual value.
-        public let dbPassword: String?
-        /// The ID of the stack with which the instance is registered.
-        public let stackId: String?
-        /// The instance's database engine.
-        public let engine: String?
-        /// The instance's address.
-        public let address: String?
-        /// The instance's AWS region.
-        public let region: String?
-        /// Set to true if AWS OpsWorks Stacks is unable to discover the Amazon RDS instance. AWS OpsWorks Stacks attempts to discover the instance only once. If this value is set to true, you must deregister the instance, and then register it again.
-        public let missingOnRds: Bool?
-        /// The instance's ARN.
-        public let rdsDbInstanceArn: String?
-        /// The DB instance identifier.
-        public let dbInstanceIdentifier: String?
-
-        public init(address: String? = nil, dbInstanceIdentifier: String? = nil, dbPassword: String? = nil, dbUser: String? = nil, engine: String? = nil, missingOnRds: Bool? = nil, rdsDbInstanceArn: String? = nil, region: String? = nil, stackId: String? = nil) {
-            self.dbUser = dbUser
-            self.dbPassword = dbPassword
-            self.stackId = stackId
-            self.engine = engine
-            self.address = address
-            self.region = region
-            self.missingOnRds = missingOnRds
-            self.rdsDbInstanceArn = rdsDbInstanceArn
-            self.dbInstanceIdentifier = dbInstanceIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dbUser = "DbUser"
-            case dbPassword = "DbPassword"
-            case stackId = "StackId"
-            case engine = "Engine"
-            case address = "Address"
-            case region = "Region"
-            case missingOnRds = "MissingOnRds"
-            case rdsDbInstanceArn = "RdsDbInstanceArn"
-            case dbInstanceIdentifier = "DbInstanceIdentifier"
-        }
-    }
-
-    public struct DescribeAppsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackId", required: false, type: .string), 
-            AWSShapeMember(label: "AppIds", required: false, type: .list)
-        ]
-        /// The app stack ID. If you use this parameter, DescribeApps returns a description of the apps in the specified stack.
-        public let stackId: String?
-        /// An array of app IDs for the apps to be described. If you use this parameter, DescribeApps returns a description of the specified apps. Otherwise, it returns a description of every app.
-        public let appIds: [String]?
-
-        public init(appIds: [String]? = nil, stackId: String? = nil) {
-            self.stackId = stackId
-            self.appIds = appIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stackId = "StackId"
-            case appIds = "AppIds"
-        }
-    }
-
-    public struct CreateDeploymentResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeploymentId", required: false, type: .string)
-        ]
-        /// The deployment ID, which can be used with other requests to identify the deployment.
-        public let deploymentId: String?
-
-        public init(deploymentId: String? = nil) {
-            self.deploymentId = deploymentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentId = "DeploymentId"
-        }
-    }
-
-    public struct DeregisterVolumeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VolumeId", required: true, type: .string)
-        ]
-        /// The AWS OpsWorks Stacks volume ID, which is the GUID that AWS OpsWorks Stacks assigned to the instance when you registered the volume with the stack, not the Amazon EC2 volume ID.
-        public let volumeId: String
-
-        public init(volumeId: String) {
-            self.volumeId = volumeId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case volumeId = "VolumeId"
-        }
-    }
-
-    public struct DescribeRdsDbInstancesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RdsDbInstances", required: false, type: .list)
-        ]
-        /// An a array of RdsDbInstance objects that describe the instances.
-        public let rdsDbInstances: [RdsDbInstance]?
-
-        public init(rdsDbInstances: [RdsDbInstance]? = nil) {
-            self.rdsDbInstances = rdsDbInstances
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rdsDbInstances = "RdsDbInstances"
-        }
-    }
-
-    public enum RootDeviceType: String, CustomStringConvertible, Codable {
-        case ebs = "ebs"
-        case instanceStore = "instance-store"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeInstancesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackId", required: false, type: .string), 
-            AWSShapeMember(label: "LayerId", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceIds", required: false, type: .list)
-        ]
-        /// A stack ID. If you use this parameter, DescribeInstances returns descriptions of the instances associated with the specified stack.
-        public let stackId: String?
-        /// A layer ID. If you use this parameter, DescribeInstances returns descriptions of the instances associated with the specified layer.
-        public let layerId: String?
-        /// An array of instance IDs to be described. If you use this parameter, DescribeInstances returns a description of the specified instances. Otherwise, it returns a description of every instance.
-        public let instanceIds: [String]?
-
-        public init(instanceIds: [String]? = nil, layerId: String? = nil, stackId: String? = nil) {
-            self.stackId = stackId
-            self.layerId = layerId
-            self.instanceIds = instanceIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stackId = "StackId"
-            case layerId = "LayerId"
-            case instanceIds = "InstanceIds"
-        }
-    }
-
-    public struct CloudWatchLogsLogStream: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileFingerprintLines", required: false, type: .string), 
-            AWSShapeMember(label: "Encoding", required: false, type: .enum), 
-            AWSShapeMember(label: "BatchCount", required: false, type: .integer), 
-            AWSShapeMember(label: "BatchSize", required: false, type: .integer), 
-            AWSShapeMember(label: "TimeZone", required: false, type: .enum), 
-            AWSShapeMember(label: "InitialPosition", required: false, type: .enum), 
-            AWSShapeMember(label: "MultiLineStartPattern", required: false, type: .string), 
-            AWSShapeMember(label: "DatetimeFormat", required: false, type: .string), 
-            AWSShapeMember(label: "LogGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "BufferDuration", required: false, type: .integer), 
-            AWSShapeMember(label: "File", required: false, type: .string)
-        ]
-        /// Specifies the range of lines for identifying a file. The valid values are one number, or two dash-delimited numbers, such as '1', '2-5'. The default value is '1', meaning the first line is used to calculate the fingerprint. Fingerprint lines are not sent to CloudWatch Logs unless all specified lines are available.
-        public let fileFingerprintLines: String?
-        /// Specifies the encoding of the log file so that the file can be read correctly. The default is utf_8. Encodings supported by Python codecs.decode() can be used here.
-        public let encoding: CloudWatchLogsEncoding?
-        /// Specifies the max number of log events in a batch, up to 10000. The default value is 1000.
-        public let batchCount: Int32?
-        /// Specifies the maximum size of log events in a batch, in bytes, up to 1048576 bytes. The default value is 32768 bytes. This size is calculated as the sum of all event messages in UTF-8, plus 26 bytes for each log event.
-        public let batchSize: Int32?
-        /// Specifies the time zone of log event time stamps.
-        public let timeZone: CloudWatchLogsTimeZone?
-        /// Specifies where to start to read data (start_of_file or end_of_file). The default is start_of_file. This setting is only used if there is no state persisted for that log stream.
-        public let initialPosition: CloudWatchLogsInitialPosition?
-        /// Specifies the pattern for identifying the start of a log message.
-        public let multiLineStartPattern: String?
-        /// Specifies how the time stamp is extracted from logs. For more information, see the CloudWatch Logs Agent Reference.
-        public let datetimeFormat: String?
-        /// Specifies the destination log group. A log group is created automatically if it doesn't already exist. Log group names can be between 1 and 512 characters long. Allowed characters include a-z, A-Z, 0-9, '_' (underscore), '-' (hyphen), '/' (forward slash), and '.' (period).
-        public let logGroupName: String?
-        /// Specifies the time duration for the batching of log events. The minimum value is 5000ms and default value is 5000ms.
-        public let bufferDuration: Int32?
-        /// Specifies log files that you want to push to CloudWatch Logs.  File can point to a specific file or multiple files (by using wild card characters such as /var/log/system.log*). Only the latest file is pushed to CloudWatch Logs, based on file modification time. We recommend that you use wild card characters to specify a series of files of the same type, such as access_log.2014-06-01-01, access_log.2014-06-01-02, and so on by using a pattern like access_log.*. Don't use a wildcard to match multiple file types, such as access_log_80 and access_log_443. To specify multiple, different file types, add another log stream entry to the configuration file, so that each log file type is stored in a different log group. Zipped files are not supported.
-        public let file: String?
-
-        public init(batchCount: Int32? = nil, batchSize: Int32? = nil, bufferDuration: Int32? = nil, datetimeFormat: String? = nil, encoding: CloudWatchLogsEncoding? = nil, file: String? = nil, fileFingerprintLines: String? = nil, initialPosition: CloudWatchLogsInitialPosition? = nil, logGroupName: String? = nil, multiLineStartPattern: String? = nil, timeZone: CloudWatchLogsTimeZone? = nil) {
-            self.fileFingerprintLines = fileFingerprintLines
-            self.encoding = encoding
-            self.batchCount = batchCount
-            self.batchSize = batchSize
-            self.timeZone = timeZone
-            self.initialPosition = initialPosition
-            self.multiLineStartPattern = multiLineStartPattern
-            self.datetimeFormat = datetimeFormat
-            self.logGroupName = logGroupName
-            self.bufferDuration = bufferDuration
-            self.file = file
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fileFingerprintLines = "FileFingerprintLines"
-            case encoding = "Encoding"
-            case batchCount = "BatchCount"
-            case batchSize = "BatchSize"
-            case timeZone = "TimeZone"
-            case initialPosition = "InitialPosition"
-            case multiLineStartPattern = "MultiLineStartPattern"
-            case datetimeFormat = "DatetimeFormat"
-            case logGroupName = "LogGroupName"
-            case bufferDuration = "BufferDuration"
-            case file = "File"
-        }
-    }
-
-    public struct DeleteLayerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LayerId", required: true, type: .string)
-        ]
-        /// The layer ID.
-        public let layerId: String
-
-        public init(layerId: String) {
-            self.layerId = layerId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case layerId = "LayerId"
-        }
-    }
-
-    public struct UpdateAppRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Environment", required: false, type: .list), 
-            AWSShapeMember(label: "SslConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "AppId", required: true, type: .string), 
-            AWSShapeMember(label: "Domains", required: false, type: .list), 
-            AWSShapeMember(label: "AppSource", required: false, type: .structure), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "DataSources", required: false, type: .list), 
-            AWSShapeMember(label: "EnableSsl", required: false, type: .boolean), 
-            AWSShapeMember(label: "Attributes", required: false, type: .map), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// The app name.
-        public let name: String?
-        /// An array of EnvironmentVariable objects that specify environment variables to be associated with the app. After you deploy the app, these variables are defined on the associated app server instances.For more information, see  Environment Variables. There is no specific limit on the number of environment variables. However, the size of the associated data structure - which includes the variables' names, values, and protected flag values - cannot exceed 10 KB (10240 Bytes). This limit should accommodate most if not all use cases. Exceeding it will cause an exception with the message, "Environment: is too large (maximum is 10KB)."  This parameter is supported only by Chef 11.10 stacks. If you have specified one or more environment variables, you cannot modify the stack's Chef version. 
-        public let environment: [EnvironmentVariable]?
-        /// An SslConfiguration object with the SSL configuration.
-        public let sslConfiguration: SslConfiguration?
-        /// The app ID.
-        public let appId: String
-        /// The app's virtual host settings, with multiple domains separated by commas. For example: 'www.example.com, example.com' 
-        public let domains: [String]?
-        /// A Source object that specifies the app repository.
-        public let appSource: Source?
-        /// The app type.
-        public let `type`: AppType?
+        /// When the app was created.
+        public let createdAt: String?
         /// The app's data sources.
         public let dataSources: [DataSource]?
-        /// Whether SSL is enabled for the app.
-        public let enableSsl: Bool?
-        /// One or more user-defined key/value pairs to be added to the stack attributes.
-        public let attributes: [AppAttributesKeys: String]?
         /// A description of the app.
         public let description: String?
-
-        public init(appId: String, appSource: Source? = nil, attributes: [AppAttributesKeys: String]? = nil, dataSources: [DataSource]? = nil, description: String? = nil, domains: [String]? = nil, enableSsl: Bool? = nil, environment: [EnvironmentVariable]? = nil, name: String? = nil, sslConfiguration: SslConfiguration? = nil, type: AppType? = nil) {
-            self.name = name
-            self.environment = environment
-            self.sslConfiguration = sslConfiguration
-            self.appId = appId
-            self.domains = domains
-            self.appSource = appSource
-            self.`type` = `type`
-            self.dataSources = dataSources
-            self.enableSsl = enableSsl
-            self.attributes = attributes
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case environment = "Environment"
-            case sslConfiguration = "SslConfiguration"
-            case appId = "AppId"
-            case domains = "Domains"
-            case appSource = "AppSource"
-            case `type` = "Type"
-            case dataSources = "DataSources"
-            case enableSsl = "EnableSsl"
-            case attributes = "Attributes"
-            case description = "Description"
-        }
-    }
-
-    public struct DescribeStacksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackIds", required: false, type: .list)
-        ]
-        /// An array of stack IDs that specify the stacks to be described. If you omit this parameter, DescribeStacks returns a description of every stack.
-        public let stackIds: [String]?
-
-        public init(stackIds: [String]? = nil) {
-            self.stackIds = stackIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stackIds = "StackIds"
-        }
-    }
-
-    public struct Stack: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultSshKeyName", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigurationManager", required: false, type: .structure), 
-            AWSShapeMember(label: "UseOpsworksSecurityGroups", required: false, type: .boolean), 
-            AWSShapeMember(label: "DefaultOs", required: false, type: .string), 
-            AWSShapeMember(label: "UseCustomCookbooks", required: false, type: .boolean), 
-            AWSShapeMember(label: "CustomJson", required: false, type: .string), 
-            AWSShapeMember(label: "HostnameTheme", required: false, type: .string), 
-            AWSShapeMember(label: "StackId", required: false, type: .string), 
-            AWSShapeMember(label: "ChefConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "DefaultSubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "Region", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
-            AWSShapeMember(label: "Attributes", required: false, type: .map), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "CustomCookbooksSource", required: false, type: .structure), 
-            AWSShapeMember(label: "DefaultRootDeviceType", required: false, type: .enum), 
-            AWSShapeMember(label: "DefaultAvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultInstanceProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "AgentVersion", required: false, type: .string)
-        ]
-        /// The stack's ARN.
-        public let arn: String?
-        /// A default Amazon EC2 key pair for the stack's instances. You can override this value when you create or update an instance.
-        public let defaultSshKeyName: String?
-        /// The configuration manager.
-        public let configurationManager: StackConfigurationManager?
-        /// Whether the stack automatically associates the AWS OpsWorks Stacks built-in security groups with the stack's layers.
-        public let useOpsworksSecurityGroups: Bool?
-        /// The stack's default operating system.
-        public let defaultOs: String?
-        /// Whether the stack uses custom cookbooks.
-        public let useCustomCookbooks: Bool?
-        /// A JSON object that contains user-defined attributes to be added to the stack configuration and deployment attributes. You can use custom JSON to override the corresponding default stack configuration attribute values or to pass data to recipes. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information on custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
-        public let customJson: String?
-        /// The stack host name theme, with spaces replaced by underscores.
-        public let hostnameTheme: String?
-        /// The stack ID.
-        public let stackId: String?
-        /// A ChefConfiguration object that specifies whether to enable Berkshelf and the Berkshelf version. For more information, see Create a New Stack.
-        public let chefConfiguration: ChefConfiguration?
-        /// The default subnet ID; applicable only if the stack is running in a VPC.
-        public let defaultSubnetId: String?
-        /// The stack AWS region, such as "ap-northeast-2". For more information about AWS regions, see Regions and Endpoints.
-        public let region: String?
-        /// The date when the stack was created.
-        public let createdAt: String?
-        /// The stack's attributes.
-        public let attributes: [StackAttributesKeys: String]?
-        /// The VPC ID; applicable only if the stack is running in a VPC.
-        public let vpcId: String?
-        /// The stack AWS Identity and Access Management (IAM) role.
-        public let serviceRoleArn: String?
-        public let customCookbooksSource: Source?
-        /// The default root device type. This value is used by default for all instances in the stack, but you can override it when you create an instance. For more information, see Storage for the Root Device.
-        public let defaultRootDeviceType: RootDeviceType?
-        /// The stack's default Availability Zone. For more information, see Regions and Endpoints.
-        public let defaultAvailabilityZone: String?
-        /// The ARN of an IAM profile that is the default profile for all of the stack's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
-        public let defaultInstanceProfileArn: String?
-        /// The stack name.
+        /// The app vhost settings with multiple domains separated by commas. For example: 'www.example.com, example.com' 
+        public let domains: [String]?
+        /// Whether to enable SSL for the app.
+        public let enableSsl: Bool?
+        /// An array of EnvironmentVariable objects that specify environment variables to be associated with the app. After you deploy the app, these variables are defined on the associated app server instances. For more information, see  Environment Variables.   There is no specific limit on the number of environment variables. However, the size of the associated data structure - which includes the variable names, values, and protected flag values - cannot exceed 10 KB (10240 Bytes). This limit should accommodate most if not all use cases, but if you do exceed it, you will cause an exception (API) with an "Environment: is too large (maximum is 10KB)" message. 
+        public let environment: [EnvironmentVariable]?
+        /// The app name.
         public let name: String?
-        /// The agent version. This parameter is set to LATEST for auto-update. or a version number for a fixed agent version.
-        public let agentVersion: String?
-
-        public init(agentVersion: String? = nil, arn: String? = nil, attributes: [StackAttributesKeys: String]? = nil, chefConfiguration: ChefConfiguration? = nil, configurationManager: StackConfigurationManager? = nil, createdAt: String? = nil, customCookbooksSource: Source? = nil, customJson: String? = nil, defaultAvailabilityZone: String? = nil, defaultInstanceProfileArn: String? = nil, defaultOs: String? = nil, defaultRootDeviceType: RootDeviceType? = nil, defaultSshKeyName: String? = nil, defaultSubnetId: String? = nil, hostnameTheme: String? = nil, name: String? = nil, region: String? = nil, serviceRoleArn: String? = nil, stackId: String? = nil, useCustomCookbooks: Bool? = nil, useOpsworksSecurityGroups: Bool? = nil, vpcId: String? = nil) {
-            self.arn = arn
-            self.defaultSshKeyName = defaultSshKeyName
-            self.configurationManager = configurationManager
-            self.useOpsworksSecurityGroups = useOpsworksSecurityGroups
-            self.defaultOs = defaultOs
-            self.useCustomCookbooks = useCustomCookbooks
-            self.customJson = customJson
-            self.hostnameTheme = hostnameTheme
-            self.stackId = stackId
-            self.chefConfiguration = chefConfiguration
-            self.defaultSubnetId = defaultSubnetId
-            self.region = region
-            self.createdAt = createdAt
-            self.attributes = attributes
-            self.vpcId = vpcId
-            self.serviceRoleArn = serviceRoleArn
-            self.customCookbooksSource = customCookbooksSource
-            self.defaultRootDeviceType = defaultRootDeviceType
-            self.defaultAvailabilityZone = defaultAvailabilityZone
-            self.defaultInstanceProfileArn = defaultInstanceProfileArn
-            self.name = name
-            self.agentVersion = agentVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case defaultSshKeyName = "DefaultSshKeyName"
-            case configurationManager = "ConfigurationManager"
-            case useOpsworksSecurityGroups = "UseOpsworksSecurityGroups"
-            case defaultOs = "DefaultOs"
-            case useCustomCookbooks = "UseCustomCookbooks"
-            case customJson = "CustomJson"
-            case hostnameTheme = "HostnameTheme"
-            case stackId = "StackId"
-            case chefConfiguration = "ChefConfiguration"
-            case defaultSubnetId = "DefaultSubnetId"
-            case region = "Region"
-            case createdAt = "CreatedAt"
-            case attributes = "Attributes"
-            case vpcId = "VpcId"
-            case serviceRoleArn = "ServiceRoleArn"
-            case customCookbooksSource = "CustomCookbooksSource"
-            case defaultRootDeviceType = "DefaultRootDeviceType"
-            case defaultAvailabilityZone = "DefaultAvailabilityZone"
-            case defaultInstanceProfileArn = "DefaultInstanceProfileArn"
-            case name = "Name"
-            case agentVersion = "AgentVersion"
-        }
-    }
-
-    public struct StopInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
-            AWSShapeMember(label: "Force", required: false, type: .boolean)
-        ]
-        /// The instance ID.
-        public let instanceId: String
-        /// Specifies whether to force an instance to stop.
-        public let force: Bool?
-
-        public init(force: Bool? = nil, instanceId: String) {
-            self.instanceId = instanceId
-            self.force = force
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
-            case force = "Force"
-        }
-    }
-
-    public enum CloudWatchLogsInitialPosition: String, CustomStringConvertible, Codable {
-        case startOfFile = "start_of_file"
-        case endOfFile = "end_of_file"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Instance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AmiId", required: false, type: .string), 
-            AWSShapeMember(label: "AutoScalingType", required: false, type: .enum), 
-            AWSShapeMember(label: "SshHostDsaKeyFingerprint", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "AgentVersion", required: false, type: .string), 
-            AWSShapeMember(label: "ReportedOs", required: false, type: .structure), 
-            AWSShapeMember(label: "PublicIp", required: false, type: .string), 
-            AWSShapeMember(label: "Ec2InstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
-            AWSShapeMember(label: "RootDeviceType", required: false, type: .enum), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "EcsClusterArn", required: false, type: .string), 
-            AWSShapeMember(label: "LastServiceErrorId", required: false, type: .string), 
-            AWSShapeMember(label: "RegisteredBy", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "EcsContainerInstanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "InstallUpdatesOnBoot", required: false, type: .boolean), 
-            AWSShapeMember(label: "ElasticIp", required: false, type: .string), 
-            AWSShapeMember(label: "BlockDeviceMappings", required: false, type: .list), 
-            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "SshHostRsaKeyFingerprint", required: false, type: .string), 
-            AWSShapeMember(label: "PrivateIp", required: false, type: .string), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "PublicDns", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "Architecture", required: false, type: .enum), 
-            AWSShapeMember(label: "LayerIds", required: false, type: .list), 
-            AWSShapeMember(label: "Platform", required: false, type: .string), 
-            AWSShapeMember(label: "Os", required: false, type: .string), 
-            AWSShapeMember(label: "Tenancy", required: false, type: .string), 
-            AWSShapeMember(label: "RootDeviceVolumeId", required: false, type: .string), 
-            AWSShapeMember(label: "StackId", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Hostname", required: false, type: .string), 
-            AWSShapeMember(label: "PrivateDns", required: false, type: .string), 
-            AWSShapeMember(label: "SshKeyName", required: false, type: .string), 
-            AWSShapeMember(label: "InfrastructureClass", required: false, type: .string), 
-            AWSShapeMember(label: "VirtualizationType", required: false, type: .enum), 
-            AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
-            AWSShapeMember(label: "ReportedAgentVersion", required: false, type: .string)
-        ]
-        /// A custom AMI ID to be used to create the instance. For more information, see Instances 
-        public let amiId: String?
-        /// For load-based or time-based instances, the type.
-        public let autoScalingType: AutoScalingType?
-        /// The SSH key's Deep Security Agent (DSA) fingerprint.
-        public let sshHostDsaKeyFingerprint: String?
-        /// The instance status:    booting     connection_lost     online     pending     rebooting     requested     running_setup     setup_failed     shutting_down     start_failed     stop_failed     stopped     stopping     terminated     terminating   
-        public let status: String?
-        /// The agent version. This parameter is set to INHERIT if the instance inherits the default stack setting or to a a version number for a fixed agent version.
-        public let agentVersion: String?
-        /// For registered instances, the reported operating system.
-        public let reportedOs: ReportedOs?
-        /// The instance public IP address.
-        public let publicIp: String?
-        /// The ID of the associated Amazon EC2 instance.
-        public let ec2InstanceId: String?
-        /// The time that the instance was created.
-        public let createdAt: String?
-        /// The instance's root device type. For more information, see Storage for the Root Device.
-        public let rootDeviceType: RootDeviceType?
-        /// An array containing the instance security group IDs.
-        public let securityGroupIds: [String]?
-        /// For container instances, the Amazon ECS cluster's ARN.
-        public let ecsClusterArn: String?
-        /// The ID of the last service error. For more information, call DescribeServiceErrors.
-        public let lastServiceErrorId: String?
-        /// For registered instances, who performed the registration.
-        public let registeredBy: String?
-        /// The instance's subnet ID; applicable only if the stack is running in a VPC.
-        public let subnetId: String?
-        /// The instance type, such as t2.micro.
-        public let instanceType: String?
-        /// For container instances, the instance's ARN.
-        public let ecsContainerInstanceArn: String?
-        /// Whether to install operating system and package updates when the instance boots. The default value is true. If this value is set to false, you must then update your instances manually by using CreateDeployment to run the update_dependencies stack command or by manually running yum (Amazon Linux) or apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true, to ensure that your instances have the latest security updates. 
-        public let installUpdatesOnBoot: Bool?
-        /// The instance Elastic IP address .
-        public let elasticIp: String?
-        /// An array of BlockDeviceMapping objects that specify the instance's block device mappings.
-        public let blockDeviceMappings: [BlockDeviceMapping]?
-        /// The instance ID.
-        public let instanceId: String?
-        /// The SSH key's RSA fingerprint.
-        public let sshHostRsaKeyFingerprint: String?
-        /// The instance's private IP address.
-        public let privateIp: String?
-        /// The instance Availability Zone. For more information, see Regions and Endpoints.
-        public let availabilityZone: String?
-        /// The instance public DNS name.
-        public let publicDns: String?
-        /// The ARN of the instance's IAM profile. For more information about IAM ARNs, see Using Identifiers.
-        public let instanceProfileArn: String?
-        /// The instance architecture: "i386" or "x86_64".
-        public let architecture: Architecture?
-        /// An array containing the instance layer IDs.
-        public let layerIds: [String]?
-        /// The instance's platform.
-        public let platform: String?
-        /// The instance's operating system.
-        public let os: String?
-        /// The instance's tenancy option, such as dedicated or host.
-        public let tenancy: String?
-        /// The root device volume ID.
-        public let rootDeviceVolumeId: String?
-        /// The stack ID.
-        public let stackId: String?
-        /// The instance's Amazon Resource Number (ARN).
-        public let arn: String?
-        /// The instance host name.
-        public let hostname: String?
-        /// The instance's private DNS name.
-        public let privateDns: String?
-        /// The instance's Amazon EC2 key-pair name.
-        public let sshKeyName: String?
-        /// For registered instances, the infrastructure class: ec2 or on-premises.
-        public let infrastructureClass: String?
-        /// The instance's virtualization type: paravirtual or hvm.
-        public let virtualizationType: VirtualizationType?
-        /// Whether this is an Amazon EBS-optimized instance.
-        public let ebsOptimized: Bool?
-        /// The instance's reported AWS OpsWorks Stacks agent version.
-        public let reportedAgentVersion: String?
-
-        public init(agentVersion: String? = nil, amiId: String? = nil, architecture: Architecture? = nil, arn: String? = nil, autoScalingType: AutoScalingType? = nil, availabilityZone: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, createdAt: String? = nil, ebsOptimized: Bool? = nil, ec2InstanceId: String? = nil, ecsClusterArn: String? = nil, ecsContainerInstanceArn: String? = nil, elasticIp: String? = nil, hostname: String? = nil, infrastructureClass: String? = nil, installUpdatesOnBoot: Bool? = nil, instanceId: String? = nil, instanceProfileArn: String? = nil, instanceType: String? = nil, lastServiceErrorId: String? = nil, layerIds: [String]? = nil, os: String? = nil, platform: String? = nil, privateDns: String? = nil, privateIp: String? = nil, publicDns: String? = nil, publicIp: String? = nil, registeredBy: String? = nil, reportedAgentVersion: String? = nil, reportedOs: ReportedOs? = nil, rootDeviceType: RootDeviceType? = nil, rootDeviceVolumeId: String? = nil, securityGroupIds: [String]? = nil, sshHostDsaKeyFingerprint: String? = nil, sshHostRsaKeyFingerprint: String? = nil, sshKeyName: String? = nil, stackId: String? = nil, status: String? = nil, subnetId: String? = nil, tenancy: String? = nil, virtualizationType: VirtualizationType? = nil) {
-            self.amiId = amiId
-            self.autoScalingType = autoScalingType
-            self.sshHostDsaKeyFingerprint = sshHostDsaKeyFingerprint
-            self.status = status
-            self.agentVersion = agentVersion
-            self.reportedOs = reportedOs
-            self.publicIp = publicIp
-            self.ec2InstanceId = ec2InstanceId
-            self.createdAt = createdAt
-            self.rootDeviceType = rootDeviceType
-            self.securityGroupIds = securityGroupIds
-            self.ecsClusterArn = ecsClusterArn
-            self.lastServiceErrorId = lastServiceErrorId
-            self.registeredBy = registeredBy
-            self.subnetId = subnetId
-            self.instanceType = instanceType
-            self.ecsContainerInstanceArn = ecsContainerInstanceArn
-            self.installUpdatesOnBoot = installUpdatesOnBoot
-            self.elasticIp = elasticIp
-            self.blockDeviceMappings = blockDeviceMappings
-            self.instanceId = instanceId
-            self.sshHostRsaKeyFingerprint = sshHostRsaKeyFingerprint
-            self.privateIp = privateIp
-            self.availabilityZone = availabilityZone
-            self.publicDns = publicDns
-            self.instanceProfileArn = instanceProfileArn
-            self.architecture = architecture
-            self.layerIds = layerIds
-            self.platform = platform
-            self.os = os
-            self.tenancy = tenancy
-            self.rootDeviceVolumeId = rootDeviceVolumeId
-            self.stackId = stackId
-            self.arn = arn
-            self.hostname = hostname
-            self.privateDns = privateDns
-            self.sshKeyName = sshKeyName
-            self.infrastructureClass = infrastructureClass
-            self.virtualizationType = virtualizationType
-            self.ebsOptimized = ebsOptimized
-            self.reportedAgentVersion = reportedAgentVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case amiId = "AmiId"
-            case autoScalingType = "AutoScalingType"
-            case sshHostDsaKeyFingerprint = "SshHostDsaKeyFingerprint"
-            case status = "Status"
-            case agentVersion = "AgentVersion"
-            case reportedOs = "ReportedOs"
-            case publicIp = "PublicIp"
-            case ec2InstanceId = "Ec2InstanceId"
-            case createdAt = "CreatedAt"
-            case rootDeviceType = "RootDeviceType"
-            case securityGroupIds = "SecurityGroupIds"
-            case ecsClusterArn = "EcsClusterArn"
-            case lastServiceErrorId = "LastServiceErrorId"
-            case registeredBy = "RegisteredBy"
-            case subnetId = "SubnetId"
-            case instanceType = "InstanceType"
-            case ecsContainerInstanceArn = "EcsContainerInstanceArn"
-            case installUpdatesOnBoot = "InstallUpdatesOnBoot"
-            case elasticIp = "ElasticIp"
-            case blockDeviceMappings = "BlockDeviceMappings"
-            case instanceId = "InstanceId"
-            case sshHostRsaKeyFingerprint = "SshHostRsaKeyFingerprint"
-            case privateIp = "PrivateIp"
-            case availabilityZone = "AvailabilityZone"
-            case publicDns = "PublicDns"
-            case instanceProfileArn = "InstanceProfileArn"
-            case architecture = "Architecture"
-            case layerIds = "LayerIds"
-            case platform = "Platform"
-            case os = "Os"
-            case tenancy = "Tenancy"
-            case rootDeviceVolumeId = "RootDeviceVolumeId"
-            case stackId = "StackId"
-            case arn = "Arn"
-            case hostname = "Hostname"
-            case privateDns = "PrivateDns"
-            case sshKeyName = "SshKeyName"
-            case infrastructureClass = "InfrastructureClass"
-            case virtualizationType = "VirtualizationType"
-            case ebsOptimized = "EbsOptimized"
-            case reportedAgentVersion = "ReportedAgentVersion"
-        }
-    }
-
-    public struct DescribeUserProfilesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IamUserArns", required: false, type: .list)
-        ]
-        /// An array of IAM or federated user ARNs that identify the users to be described.
-        public let iamUserArns: [String]?
-
-        public init(iamUserArns: [String]? = nil) {
-            self.iamUserArns = iamUserArns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case iamUserArns = "IamUserArns"
-        }
-    }
-
-    public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: true, type: .map), 
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
-        /// A map that contains tag keys and tag values that are attached to a stack or layer.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 40 tags is allowed for any resource.  
-        public let tags: [String: String]
-        /// The stack or layer's Amazon Resource Number (ARN).
-        public let resourceArn: String
-
-        public init(resourceArn: String, tags: [String: String]) {
-            self.tags = tags
-            self.resourceArn = resourceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case resourceArn = "ResourceArn"
-        }
-    }
-
-    public struct AutoScalingThresholds: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IgnoreMetricsTime", required: false, type: .integer), 
-            AWSShapeMember(label: "InstanceCount", required: false, type: .integer), 
-            AWSShapeMember(label: "CpuThreshold", required: false, type: .double), 
-            AWSShapeMember(label: "LoadThreshold", required: false, type: .double), 
-            AWSShapeMember(label: "Alarms", required: false, type: .list), 
-            AWSShapeMember(label: "MemoryThreshold", required: false, type: .double), 
-            AWSShapeMember(label: "ThresholdsWaitTime", required: false, type: .integer)
-        ]
-        /// The amount of time (in minutes) after a scaling event occurs that AWS OpsWorks Stacks should ignore metrics and suppress additional scaling events. For example, AWS OpsWorks Stacks adds new instances following an upscaling event but the instances won't start reducing the load until they have been booted and configured. There is no point in raising additional scaling events during that operation, which typically takes several minutes. IgnoreMetricsTime allows you to direct AWS OpsWorks Stacks to suppress scaling events long enough to get the new instances online.
-        public let ignoreMetricsTime: Int32?
-        /// The number of instances to add or remove when the load exceeds a threshold.
-        public let instanceCount: Int32?
-        /// The CPU utilization threshold, as a percent of the available CPU. A value of -1 disables the threshold.
-        public let cpuThreshold: Double?
-        /// The load threshold. A value of -1 disables the threshold. For more information about how load is computed, see Load (computing).
-        public let loadThreshold: Double?
-        /// Custom Cloudwatch auto scaling alarms, to be used as thresholds. This parameter takes a list of up to five alarm names, which are case sensitive and must be in the same region as the stack.  To use custom alarms, you must update your service role to allow cloudwatch:DescribeAlarms. You can either have AWS OpsWorks Stacks update the role for you when you first use this feature or you can edit the role manually. For more information, see Allowing AWS OpsWorks Stacks to Act on Your Behalf. 
-        public let alarms: [String]?
-        /// The memory utilization threshold, as a percent of the available memory. A value of -1 disables the threshold.
-        public let memoryThreshold: Double?
-        /// The amount of time, in minutes, that the load must exceed a threshold before more instances are added or removed.
-        public let thresholdsWaitTime: Int32?
-
-        public init(alarms: [String]? = nil, cpuThreshold: Double? = nil, ignoreMetricsTime: Int32? = nil, instanceCount: Int32? = nil, loadThreshold: Double? = nil, memoryThreshold: Double? = nil, thresholdsWaitTime: Int32? = nil) {
-            self.ignoreMetricsTime = ignoreMetricsTime
-            self.instanceCount = instanceCount
-            self.cpuThreshold = cpuThreshold
-            self.loadThreshold = loadThreshold
-            self.alarms = alarms
-            self.memoryThreshold = memoryThreshold
-            self.thresholdsWaitTime = thresholdsWaitTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ignoreMetricsTime = "IgnoreMetricsTime"
-            case instanceCount = "InstanceCount"
-            case cpuThreshold = "CpuThreshold"
-            case loadThreshold = "LoadThreshold"
-            case alarms = "Alarms"
-            case memoryThreshold = "MemoryThreshold"
-            case thresholdsWaitTime = "ThresholdsWaitTime"
-        }
-    }
-
-    public enum SourceType: String, CustomStringConvertible, Codable {
-        case git = "git"
-        case svn = "svn"
-        case archive = "archive"
-        case s3 = "s3"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CloudWatchLogsConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LogStreams", required: false, type: .list), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
-        ]
-        /// A list of configuration options for CloudWatch Logs.
-        public let logStreams: [CloudWatchLogsLogStream]?
-        /// Whether CloudWatch Logs is enabled for a layer.
-        public let enabled: Bool?
-
-        public init(enabled: Bool? = nil, logStreams: [CloudWatchLogsLogStream]? = nil) {
-            self.logStreams = logStreams
-            self.enabled = enabled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case logStreams = "LogStreams"
-            case enabled = "Enabled"
-        }
-    }
-
-    public struct LifecycleEventConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Shutdown", required: false, type: .structure)
-        ]
-        /// A ShutdownEventConfiguration object that specifies the Shutdown event configuration.
-        public let shutdown: ShutdownEventConfiguration?
-
-        public init(shutdown: ShutdownEventConfiguration? = nil) {
-            self.shutdown = shutdown
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case shutdown = "Shutdown"
-        }
-    }
-
-    public struct SslConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PrivateKey", required: true, type: .string), 
-            AWSShapeMember(label: "Chain", required: false, type: .string), 
-            AWSShapeMember(label: "Certificate", required: true, type: .string)
-        ]
-        /// The private key; the contents of the certificate's domain.kex file.
-        public let privateKey: String
-        /// Optional. Can be used to specify an intermediate certificate authority key or client authentication.
-        public let chain: String?
-        /// The contents of the certificate's domain.crt file.
-        public let certificate: String
-
-        public init(certificate: String, chain: String? = nil, privateKey: String) {
-            self.privateKey = privateKey
-            self.chain = chain
-            self.certificate = certificate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case privateKey = "PrivateKey"
-            case chain = "Chain"
-            case certificate = "Certificate"
-        }
-    }
-
-    public struct AttachElasticLoadBalancerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ElasticLoadBalancerName", required: true, type: .string), 
-            AWSShapeMember(label: "LayerId", required: true, type: .string)
-        ]
-        /// The Elastic Load Balancing instance's name.
-        public let elasticLoadBalancerName: String
-        /// The ID of the layer to which the Elastic Load Balancing instance is to be attached.
-        public let layerId: String
-
-        public init(elasticLoadBalancerName: String, layerId: String) {
-            self.elasticLoadBalancerName = elasticLoadBalancerName
-            self.layerId = layerId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case elasticLoadBalancerName = "ElasticLoadBalancerName"
-            case layerId = "LayerId"
-        }
-    }
-
-    public struct DescribeTimeBasedAutoScalingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceIds", required: true, type: .list)
-        ]
-        /// An array of instance IDs.
-        public let instanceIds: [String]
-
-        public init(instanceIds: [String]) {
-            self.instanceIds = instanceIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceIds = "InstanceIds"
-        }
-    }
-
-    public struct UpdateLayerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoAssignPublicIps", required: false, type: .boolean), 
-            AWSShapeMember(label: "Attributes", required: false, type: .map), 
-            AWSShapeMember(label: "CustomInstanceProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "InstallUpdatesOnBoot", required: false, type: .boolean), 
-            AWSShapeMember(label: "Packages", required: false, type: .list), 
-            AWSShapeMember(label: "Shortname", required: false, type: .string), 
-            AWSShapeMember(label: "LayerId", required: true, type: .string), 
-            AWSShapeMember(label: "UseEbsOptimizedInstances", required: false, type: .boolean), 
-            AWSShapeMember(label: "CloudWatchLogsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "CustomJson", required: false, type: .string), 
-            AWSShapeMember(label: "AutoAssignElasticIps", required: false, type: .boolean), 
-            AWSShapeMember(label: "VolumeConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "CustomSecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "EnableAutoHealing", required: false, type: .boolean), 
-            AWSShapeMember(label: "LifecycleEventConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "CustomRecipes", required: false, type: .structure)
-        ]
-        /// For stacks that are running in a VPC, whether to automatically assign a public IP address to the layer's instances. For more information, see How to Edit a Layer.
-        public let autoAssignPublicIps: Bool?
-        /// One or more user-defined key/value pairs to be added to the stack attributes.
-        public let attributes: [LayerAttributesKeys: String]?
-        /// The ARN of an IAM profile to be used for all of the layer's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
-        public let customInstanceProfileArn: String?
-        /// Whether to install operating system and package updates when the instance boots. The default value is true. To control when updates are installed, set this value to false. You must then update your instances manually by using CreateDeployment to run the update_dependencies stack command or manually running yum (Amazon Linux) or apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true, to ensure that your instances have the latest security updates. 
-        public let installUpdatesOnBoot: Bool?
-        /// An array of Package objects that describe the layer's packages.
-        public let packages: [String]?
-        /// For custom layers only, use this parameter to specify the layer's short name, which is used internally by AWS OpsWorks Stacks and by Chef. The short name is also used as the name for the directory where your app files are installed. It can have a maximum of 200 characters and must be in the following format: /\A[a-z0-9\-\_\.]+\Z/. The built-in layers' short names are defined by AWS OpsWorks Stacks. For more information, see the Layer Reference 
+        /// The app's short name.
         public let shortname: String?
-        /// The layer ID.
-        public let layerId: String
-        /// Whether to use Amazon EBS-optimized instances.
-        public let useEbsOptimizedInstances: Bool?
-        /// Specifies CloudWatch Logs configuration options for the layer. For more information, see CloudWatchLogsLogStream.
-        public let cloudWatchLogsConfiguration: CloudWatchLogsConfiguration?
-        /// A JSON-formatted string containing custom stack configuration and deployment attributes to be installed on the layer's instances. For more information, see  Using Custom JSON. 
-        public let customJson: String?
-        /// Whether to automatically assign an Elastic IP address to the layer's instances. For more information, see How to Edit a Layer.
-        public let autoAssignElasticIps: Bool?
-        /// A VolumeConfigurations object that describes the layer's Amazon EBS volumes.
-        public let volumeConfigurations: [VolumeConfiguration]?
-        /// The layer name, which is used by the console.
-        public let name: String?
-        /// An array containing the layer's custom security group IDs.
-        public let customSecurityGroupIds: [String]?
-        /// Whether to disable auto healing for the layer.
-        public let enableAutoHealing: Bool?
-        public let lifecycleEventConfiguration: LifecycleEventConfiguration?
-        /// A LayerCustomRecipes object that specifies the layer's custom recipes.
-        public let customRecipes: Recipes?
-
-        public init(attributes: [LayerAttributesKeys: String]? = nil, autoAssignElasticIps: Bool? = nil, autoAssignPublicIps: Bool? = nil, cloudWatchLogsConfiguration: CloudWatchLogsConfiguration? = nil, customInstanceProfileArn: String? = nil, customJson: String? = nil, customRecipes: Recipes? = nil, customSecurityGroupIds: [String]? = nil, enableAutoHealing: Bool? = nil, installUpdatesOnBoot: Bool? = nil, layerId: String, lifecycleEventConfiguration: LifecycleEventConfiguration? = nil, name: String? = nil, packages: [String]? = nil, shortname: String? = nil, useEbsOptimizedInstances: Bool? = nil, volumeConfigurations: [VolumeConfiguration]? = nil) {
-            self.autoAssignPublicIps = autoAssignPublicIps
-            self.attributes = attributes
-            self.customInstanceProfileArn = customInstanceProfileArn
-            self.installUpdatesOnBoot = installUpdatesOnBoot
-            self.packages = packages
-            self.shortname = shortname
-            self.layerId = layerId
-            self.useEbsOptimizedInstances = useEbsOptimizedInstances
-            self.cloudWatchLogsConfiguration = cloudWatchLogsConfiguration
-            self.customJson = customJson
-            self.autoAssignElasticIps = autoAssignElasticIps
-            self.volumeConfigurations = volumeConfigurations
-            self.name = name
-            self.customSecurityGroupIds = customSecurityGroupIds
-            self.enableAutoHealing = enableAutoHealing
-            self.lifecycleEventConfiguration = lifecycleEventConfiguration
-            self.customRecipes = customRecipes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case autoAssignPublicIps = "AutoAssignPublicIps"
-            case attributes = "Attributes"
-            case customInstanceProfileArn = "CustomInstanceProfileArn"
-            case installUpdatesOnBoot = "InstallUpdatesOnBoot"
-            case packages = "Packages"
-            case shortname = "Shortname"
-            case layerId = "LayerId"
-            case useEbsOptimizedInstances = "UseEbsOptimizedInstances"
-            case cloudWatchLogsConfiguration = "CloudWatchLogsConfiguration"
-            case customJson = "CustomJson"
-            case autoAssignElasticIps = "AutoAssignElasticIps"
-            case volumeConfigurations = "VolumeConfigurations"
-            case name = "Name"
-            case customSecurityGroupIds = "CustomSecurityGroupIds"
-            case enableAutoHealing = "EnableAutoHealing"
-            case lifecycleEventConfiguration = "LifecycleEventConfiguration"
-            case customRecipes = "CustomRecipes"
-        }
-    }
-
-    public struct DescribeRaidArraysResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RaidArrays", required: false, type: .list)
-        ]
-        /// A RaidArrays object that describes the specified RAID arrays.
-        public let raidArrays: [RaidArray]?
-
-        public init(raidArrays: [RaidArray]? = nil) {
-            self.raidArrays = raidArrays
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case raidArrays = "RaidArrays"
-        }
-    }
-
-    public struct DescribeElasticLoadBalancersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LayerIds", required: false, type: .list), 
-            AWSShapeMember(label: "StackId", required: false, type: .string)
-        ]
-        /// A list of layer IDs. The action describes the Elastic Load Balancing instances for the specified layers.
-        public let layerIds: [String]?
-        /// A stack ID. The action describes the stack's Elastic Load Balancing instances.
+        /// An SslConfiguration object with the SSL configuration.
+        public let sslConfiguration: SslConfiguration?
+        /// The app stack ID.
         public let stackId: String?
+        /// The app type.
+        public let `type`: AppType?
 
-        public init(layerIds: [String]? = nil, stackId: String? = nil) {
-            self.layerIds = layerIds
-            self.stackId = stackId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case layerIds = "LayerIds"
-            case stackId = "StackId"
-        }
-    }
-
-    public struct CloneStackResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackId", required: false, type: .string)
-        ]
-        /// The cloned stack ID.
-        public let stackId: String?
-
-        public init(stackId: String? = nil) {
-            self.stackId = stackId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stackId = "StackId"
-        }
-    }
-
-    public struct DeregisterEcsClusterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EcsClusterArn", required: true, type: .string)
-        ]
-        /// The cluster's Amazon Resource Number (ARN).
-        public let ecsClusterArn: String
-
-        public init(ecsClusterArn: String) {
-            self.ecsClusterArn = ecsClusterArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ecsClusterArn = "EcsClusterArn"
-        }
-    }
-
-    public struct DescribeRdsDbInstancesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackId", required: true, type: .string), 
-            AWSShapeMember(label: "RdsDbInstanceArns", required: false, type: .list)
-        ]
-        /// The ID of the stack with which the instances are registered. The operation returns descriptions of all registered Amazon RDS instances.
-        public let stackId: String
-        /// An array containing the ARNs of the instances to be described.
-        public let rdsDbInstanceArns: [String]?
-
-        public init(rdsDbInstanceArns: [String]? = nil, stackId: String) {
-            self.stackId = stackId
-            self.rdsDbInstanceArns = rdsDbInstanceArns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stackId = "StackId"
-            case rdsDbInstanceArns = "RdsDbInstanceArns"
-        }
-    }
-
-    public struct DeleteAppRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AppId", required: true, type: .string)
-        ]
-        /// The app ID.
-        public let appId: String
-
-        public init(appId: String) {
+        public init(appId: String? = nil, appSource: Source? = nil, attributes: [AppAttributesKeys: String]? = nil, createdAt: String? = nil, dataSources: [DataSource]? = nil, description: String? = nil, domains: [String]? = nil, enableSsl: Bool? = nil, environment: [EnvironmentVariable]? = nil, name: String? = nil, shortname: String? = nil, sslConfiguration: SslConfiguration? = nil, stackId: String? = nil, type: AppType? = nil) {
             self.appId = appId
+            self.appSource = appSource
+            self.attributes = attributes
+            self.createdAt = createdAt
+            self.dataSources = dataSources
+            self.description = description
+            self.domains = domains
+            self.enableSsl = enableSsl
+            self.environment = environment
+            self.name = name
+            self.shortname = shortname
+            self.sslConfiguration = sslConfiguration
+            self.stackId = stackId
+            self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
             case appId = "AppId"
+            case appSource = "AppSource"
+            case attributes = "Attributes"
+            case createdAt = "CreatedAt"
+            case dataSources = "DataSources"
+            case description = "Description"
+            case domains = "Domains"
+            case enableSsl = "EnableSsl"
+            case environment = "Environment"
+            case name = "Name"
+            case shortname = "Shortname"
+            case sslConfiguration = "SslConfiguration"
+            case stackId = "StackId"
+            case `type` = "Type"
         }
+    }
+
+    public enum AppAttributesKeys: String, CustomStringConvertible, Codable {
+        case documentroot = "DocumentRoot"
+        case railsenv = "RailsEnv"
+        case autobundleondeploy = "AutoBundleOnDeploy"
+        case awsflowrubysettings = "AwsFlowRubySettings"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AppType: String, CustomStringConvertible, Codable {
+        case awsFlowRuby = "aws-flow-ruby"
+        case java = "java"
+        case rails = "rails"
+        case php = "php"
+        case nodejs = "nodejs"
+        case `static` = "static"
+        case other = "other"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Architecture: String, CustomStringConvertible, Codable {
+        case x8664 = "x86_64"
+        case i386 = "i386"
+        public var description: String { return self.rawValue }
     }
 
     public struct AssignInstanceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LayerIds", required: true, type: .list), 
-            AWSShapeMember(label: "InstanceId", required: true, type: .string)
+            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
+            AWSShapeMember(label: "LayerIds", required: true, type: .list)
         ]
-        /// The layer ID, which must correspond to a custom layer. You cannot assign a registered instance to a built-in layer.
-        public let layerIds: [String]
         /// The instance ID.
         public let instanceId: String
+        /// The layer ID, which must correspond to a custom layer. You cannot assign a registered instance to a built-in layer.
+        public let layerIds: [String]
 
         public init(instanceId: String, layerIds: [String]) {
+            self.instanceId = instanceId
             self.layerIds = layerIds
-            self.instanceId = instanceId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
             case layerIds = "LayerIds"
-            case instanceId = "InstanceId"
-        }
-    }
-
-    public struct DescribeServiceErrorsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackId", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceErrorIds", required: false, type: .list)
-        ]
-        /// The stack ID. If you use this parameter, DescribeServiceErrors returns descriptions of the errors associated with the specified stack.
-        public let stackId: String?
-        /// The instance ID. If you use this parameter, DescribeServiceErrors returns descriptions of the errors associated with the specified instance.
-        public let instanceId: String?
-        /// An array of service error IDs. If you use this parameter, DescribeServiceErrors returns descriptions of the specified errors. Otherwise, it returns a description of every error.
-        public let serviceErrorIds: [String]?
-
-        public init(instanceId: String? = nil, serviceErrorIds: [String]? = nil, stackId: String? = nil) {
-            self.stackId = stackId
-            self.instanceId = instanceId
-            self.serviceErrorIds = serviceErrorIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stackId = "StackId"
-            case instanceId = "InstanceId"
-            case serviceErrorIds = "ServiceErrorIds"
-        }
-    }
-
-    public struct RegisterInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RsaPublicKeyFingerprint", required: false, type: .string), 
-            AWSShapeMember(label: "RsaPublicKey", required: false, type: .string), 
-            AWSShapeMember(label: "StackId", required: true, type: .string), 
-            AWSShapeMember(label: "PublicIp", required: false, type: .string), 
-            AWSShapeMember(label: "PrivateIp", required: false, type: .string), 
-            AWSShapeMember(label: "Hostname", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceIdentity", required: false, type: .structure)
-        ]
-        /// The instances public RSA key fingerprint.
-        public let rsaPublicKeyFingerprint: String?
-        /// The instances public RSA key. This key is used to encrypt communication between the instance and the service.
-        public let rsaPublicKey: String?
-        /// The ID of the stack that the instance is to be registered with.
-        public let stackId: String
-        /// The instance's public IP address.
-        public let publicIp: String?
-        /// The instance's private IP address.
-        public let privateIp: String?
-        /// The instance's hostname.
-        public let hostname: String?
-        /// An InstanceIdentity object that contains the instance's identity.
-        public let instanceIdentity: InstanceIdentity?
-
-        public init(hostname: String? = nil, instanceIdentity: InstanceIdentity? = nil, privateIp: String? = nil, publicIp: String? = nil, rsaPublicKey: String? = nil, rsaPublicKeyFingerprint: String? = nil, stackId: String) {
-            self.rsaPublicKeyFingerprint = rsaPublicKeyFingerprint
-            self.rsaPublicKey = rsaPublicKey
-            self.stackId = stackId
-            self.publicIp = publicIp
-            self.privateIp = privateIp
-            self.hostname = hostname
-            self.instanceIdentity = instanceIdentity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rsaPublicKeyFingerprint = "RsaPublicKeyFingerprint"
-            case rsaPublicKey = "RsaPublicKey"
-            case stackId = "StackId"
-            case publicIp = "PublicIp"
-            case privateIp = "PrivateIp"
-            case hostname = "Hostname"
-            case instanceIdentity = "InstanceIdentity"
-        }
-    }
-
-    public struct CreateUserProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowSelfManagement", required: false, type: .boolean), 
-            AWSShapeMember(label: "IamUserArn", required: true, type: .string), 
-            AWSShapeMember(label: "SshUsername", required: false, type: .string), 
-            AWSShapeMember(label: "SshPublicKey", required: false, type: .string)
-        ]
-        /// Whether users can specify their own SSH public key through the My Settings page. For more information, see Setting an IAM User's Public SSH Key.
-        public let allowSelfManagement: Bool?
-        /// The user's IAM ARN; this can also be a federated user's ARN.
-        public let iamUserArn: String
-        /// The user's SSH user name. The allowable characters are [a-z], [A-Z], [0-9], '-', and '_'. If the specified name includes other punctuation marks, AWS OpsWorks Stacks removes them. For example, my.name will be changed to myname. If you do not specify an SSH user name, AWS OpsWorks Stacks generates one from the IAM user name. 
-        public let sshUsername: String?
-        /// The user's public SSH key.
-        public let sshPublicKey: String?
-
-        public init(allowSelfManagement: Bool? = nil, iamUserArn: String, sshPublicKey: String? = nil, sshUsername: String? = nil) {
-            self.allowSelfManagement = allowSelfManagement
-            self.iamUserArn = iamUserArn
-            self.sshUsername = sshUsername
-            self.sshPublicKey = sshPublicKey
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case allowSelfManagement = "AllowSelfManagement"
-            case iamUserArn = "IamUserArn"
-            case sshUsername = "SshUsername"
-            case sshPublicKey = "SshPublicKey"
-        }
-    }
-
-    public struct UserProfile: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "IamUserArn", required: false, type: .string), 
-            AWSShapeMember(label: "SshUsername", required: false, type: .string), 
-            AWSShapeMember(label: "AllowSelfManagement", required: false, type: .boolean), 
-            AWSShapeMember(label: "SshPublicKey", required: false, type: .string)
-        ]
-        /// The user's name.
-        public let name: String?
-        /// The user's IAM ARN.
-        public let iamUserArn: String?
-        /// The user's SSH user name.
-        public let sshUsername: String?
-        /// Whether users can specify their own SSH public key through the My Settings page. For more information, see Managing User Permissions.
-        public let allowSelfManagement: Bool?
-        /// The user's SSH public key.
-        public let sshPublicKey: String?
-
-        public init(allowSelfManagement: Bool? = nil, iamUserArn: String? = nil, name: String? = nil, sshPublicKey: String? = nil, sshUsername: String? = nil) {
-            self.name = name
-            self.iamUserArn = iamUserArn
-            self.sshUsername = sshUsername
-            self.allowSelfManagement = allowSelfManagement
-            self.sshPublicKey = sshPublicKey
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case iamUserArn = "IamUserArn"
-            case sshUsername = "SshUsername"
-            case allowSelfManagement = "AllowSelfManagement"
-            case sshPublicKey = "SshPublicKey"
         }
     }
 
     public struct AssignVolumeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VolumeId", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceId", required: false, type: .string)
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeId", required: true, type: .string)
         ]
+        /// The instance ID.
+        public let instanceId: String?
         /// The volume ID.
         public let volumeId: String
-        /// The instance ID.
-        public let instanceId: String?
 
         public init(instanceId: String? = nil, volumeId: String) {
-            self.volumeId = volumeId
             self.instanceId = instanceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case volumeId = "VolumeId"
-            case instanceId = "InstanceId"
-        }
-    }
-
-    public struct GetHostnameSuggestionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Hostname", required: false, type: .string), 
-            AWSShapeMember(label: "LayerId", required: false, type: .string)
-        ]
-        /// The generated host name.
-        public let hostname: String?
-        /// The layer ID.
-        public let layerId: String?
-
-        public init(hostname: String? = nil, layerId: String? = nil) {
-            self.hostname = hostname
-            self.layerId = layerId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hostname = "Hostname"
-            case layerId = "LayerId"
-        }
-    }
-
-    public struct SelfUserProfile: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IamUserArn", required: false, type: .string), 
-            AWSShapeMember(label: "SshPublicKey", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "SshUsername", required: false, type: .string)
-        ]
-        /// The user's IAM ARN.
-        public let iamUserArn: String?
-        /// The user's SSH public key.
-        public let sshPublicKey: String?
-        /// The user's name.
-        public let name: String?
-        /// The user's SSH user name.
-        public let sshUsername: String?
-
-        public init(iamUserArn: String? = nil, name: String? = nil, sshPublicKey: String? = nil, sshUsername: String? = nil) {
-            self.iamUserArn = iamUserArn
-            self.sshPublicKey = sshPublicKey
-            self.name = name
-            self.sshUsername = sshUsername
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case iamUserArn = "IamUserArn"
-            case sshPublicKey = "SshPublicKey"
-            case name = "Name"
-            case sshUsername = "SshUsername"
-        }
-    }
-
-    public struct DescribeOperatingSystemsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OperatingSystems", required: false, type: .list)
-        ]
-        /// Contains information in response to a DescribeOperatingSystems request.
-        public let operatingSystems: [OperatingSystem]?
-
-        public init(operatingSystems: [OperatingSystem]? = nil) {
-            self.operatingSystems = operatingSystems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operatingSystems = "OperatingSystems"
-        }
-    }
-
-    public struct DescribeTimeBasedAutoScalingResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TimeBasedAutoScalingConfigurations", required: false, type: .list)
-        ]
-        /// An array of TimeBasedAutoScalingConfiguration objects that describe the configuration for the specified instances.
-        public let timeBasedAutoScalingConfigurations: [TimeBasedAutoScalingConfiguration]?
-
-        public init(timeBasedAutoScalingConfigurations: [TimeBasedAutoScalingConfiguration]? = nil) {
-            self.timeBasedAutoScalingConfigurations = timeBasedAutoScalingConfigurations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case timeBasedAutoScalingConfigurations = "TimeBasedAutoScalingConfigurations"
-        }
-    }
-
-    public struct RegisterElasticIpResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ElasticIp", required: false, type: .string)
-        ]
-        /// The Elastic IP address.
-        public let elasticIp: String?
-
-        public init(elasticIp: String? = nil) {
-            self.elasticIp = elasticIp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case elasticIp = "ElasticIp"
-        }
-    }
-
-    public struct DescribeStackSummaryResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackSummary", required: false, type: .structure)
-        ]
-        /// A StackSummary object that contains the results.
-        public let stackSummary: StackSummary?
-
-        public init(stackSummary: StackSummary? = nil) {
-            self.stackSummary = stackSummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stackSummary = "StackSummary"
-        }
-    }
-
-    public struct CreateStackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Region", required: true, type: .string), 
-            AWSShapeMember(label: "ConfigurationManager", required: false, type: .structure), 
-            AWSShapeMember(label: "DefaultSubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "UseCustomCookbooks", required: false, type: .boolean), 
-            AWSShapeMember(label: "DefaultAvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "AgentVersion", required: false, type: .string), 
-            AWSShapeMember(label: "CustomCookbooksSource", required: false, type: .structure), 
-            AWSShapeMember(label: "HostnameTheme", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "DefaultOs", required: false, type: .string), 
-            AWSShapeMember(label: "ChefConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "DefaultRootDeviceType", required: false, type: .enum), 
-            AWSShapeMember(label: "ServiceRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "Attributes", required: false, type: .map), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultSshKeyName", required: false, type: .string), 
-            AWSShapeMember(label: "CustomJson", required: false, type: .string), 
-            AWSShapeMember(label: "UseOpsworksSecurityGroups", required: false, type: .boolean), 
-            AWSShapeMember(label: "DefaultInstanceProfileArn", required: true, type: .string)
-        ]
-        /// The stack's AWS region, such as ap-south-1. For more information about Amazon regions, see Regions and Endpoints.  In the AWS CLI, this API maps to the --stack-region parameter. If the --stack-region parameter and the AWS CLI common parameter --region are set to the same value, the stack uses a regional endpoint. If the --stack-region parameter is not set, but the AWS CLI --region parameter is, this also results in a stack with a regional endpoint. However, if the --region parameter is set to us-east-1, and the --stack-region parameter is set to one of the following, then the stack uses a legacy or classic region: us-west-1, us-west-2, sa-east-1, eu-central-1, eu-west-1, ap-northeast-1, ap-southeast-1, ap-southeast-2. In this case, the actual API endpoint of the stack is in us-east-1. Only the preceding regions are supported as classic regions in the us-east-1 API endpoint. Because it is a best practice to choose the regional endpoint that is closest to where you manage AWS, we recommend that you use regional endpoints for new stacks. The AWS CLI common --region parameter always specifies a regional API endpoint; it cannot be used to specify a classic AWS OpsWorks Stacks region. 
-        public let region: String
-        /// The configuration manager. When you create a stack we recommend that you use the configuration manager to specify the Chef version: 12, 11.10, or 11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently 12.
-        public let configurationManager: StackConfigurationManager?
-        /// The stack's default VPC subnet ID. This parameter is required if you specify a value for the VpcId parameter. All instances are launched into this subnet unless you specify otherwise when you create the instance. If you also specify a value for DefaultAvailabilityZone, the subnet must be in that zone. For information on default values and when this parameter is required, see the VpcId parameter description. 
-        public let defaultSubnetId: String?
-        /// Whether the stack uses custom cookbooks.
-        public let useCustomCookbooks: Bool?
-        /// The stack's default Availability Zone, which must be in the specified region. For more information, see Regions and Endpoints. If you also specify a value for DefaultSubnetId, the subnet must be in the same zone. For more information, see the VpcId parameter description. 
-        public let defaultAvailabilityZone: String?
-        /// The default AWS OpsWorks Stacks agent version. You have the following options:   Auto-update - Set this parameter to LATEST. AWS OpsWorks Stacks automatically installs new agent versions on the stack's instances as soon as they are available.   Fixed version - Set this parameter to your preferred agent version. To update the agent version, you must edit the stack configuration and specify a new version. AWS OpsWorks Stacks then automatically installs that version on the stack's instances.   The default setting is the most recent release of the agent. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.  You can also specify an agent version when you create or update an instance, which overrides the stack's default setting. 
-        public let agentVersion: String?
-        public let customCookbooksSource: Source?
-        /// The stack's host name theme, with spaces replaced by underscores. The theme is used to generate host names for the stack's instances. By default, HostnameTheme is set to Layer_Dependent, which creates host names by appending integers to the layer's short name. The other themes are:    Baked_Goods     Clouds     Europe_Cities     Fruits     Greek_Deities     Legendary_creatures_from_Japan     Planets_and_Moons     Roman_Deities     Scottish_Islands     US_Cities     Wild_Cats    To obtain a generated host name, call GetHostNameSuggestion, which returns a host name based on the current theme.
-        public let hostnameTheme: String?
-        /// The stack name.
-        public let name: String
-        /// The stack's default operating system, which is installed on every instance unless you specify a different operating system when you create the instance. You can specify one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information, see  Using Custom AMIs.   The default option is the current Amazon Linux version. For more information about supported operating systems, see AWS OpsWorks Stacks Operating Systems.
-        public let defaultOs: String?
-        /// A ChefConfiguration object that specifies whether to enable Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more information, see Create a New Stack.
-        public let chefConfiguration: ChefConfiguration?
-        /// The default root device type. This value is the default for all instances in the stack, but you can override it when you create an instance. The default option is instance-store. For more information, see Storage for the Root Device.
-        public let defaultRootDeviceType: RootDeviceType?
-        /// The stack's AWS Identity and Access Management (IAM) role, which allows AWS OpsWorks Stacks to work with AWS resources on your behalf. You must set this parameter to the Amazon Resource Name (ARN) for an existing IAM role. For more information about IAM ARNs, see Using Identifiers.
-        public let serviceRoleArn: String
-        /// One or more user-defined key-value pairs to be added to the stack attributes.
-        public let attributes: [StackAttributesKeys: String]?
-        /// The ID of the VPC that the stack is to be launched into. The VPC must be in the stack's region. All instances are launched into this VPC. You cannot change the ID later.   If your account supports EC2-Classic, the default value is no VPC.   If your account does not support EC2-Classic, the default value is the default VPC for the specified region.   If the VPC ID corresponds to a default VPC and you have specified either the DefaultAvailabilityZone or the DefaultSubnetId parameter only, AWS OpsWorks Stacks infers the value of the other parameter. If you specify neither parameter, AWS OpsWorks Stacks sets these parameters to the first valid Availability Zone for the specified region and the corresponding default VPC subnet ID, respectively. If you specify a nondefault VPC ID, note the following:   It must belong to a VPC in your account that is in the specified region.   You must specify a value for DefaultSubnetId.   For more information about how to use AWS OpsWorks Stacks with a VPC, see Running a Stack in a VPC. For more information about default VPC and EC2-Classic, see Supported Platforms. 
-        public let vpcId: String?
-        /// A default Amazon EC2 key pair name. The default value is none. If you specify a key pair name, AWS OpsWorks installs the public key on the instance and you can use the private key with an SSH client to log in to the instance. For more information, see  Using SSH to Communicate with an Instance and  Managing SSH Access. You can override this setting by specifying a different key pair, or no key pair, when you  create an instance. 
-        public let defaultSshKeyName: String?
-        /// A string that contains user-defined, custom JSON. It can be used to override the corresponding default stack configuration attribute values or to pass data to recipes. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information about custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
-        public let customJson: String?
-        /// Whether to associate the AWS OpsWorks Stacks built-in security groups with the stack's layers. AWS OpsWorks Stacks provides a standard set of built-in security groups, one for each layer, which are associated with layers by default. With UseOpsworksSecurityGroups you can instead provide your own custom security groups. UseOpsworksSecurityGroups has the following settings:    True - AWS OpsWorks Stacks automatically associates the appropriate built-in security group with each layer (default setting). You can associate additional security groups with a layer after you create it, but you cannot delete the built-in security group.   False - AWS OpsWorks Stacks does not associate built-in security groups with layers. You must create appropriate EC2 security groups and associate a security group with each layer that you create. However, you can still manually associate a built-in security group with a layer on creation; custom security groups are required only for those layers that need custom settings.   For more information, see Create a New Stack.
-        public let useOpsworksSecurityGroups: Bool?
-        /// The Amazon Resource Name (ARN) of an IAM profile that is the default profile for all of the stack's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
-        public let defaultInstanceProfileArn: String
-
-        public init(agentVersion: String? = nil, attributes: [StackAttributesKeys: String]? = nil, chefConfiguration: ChefConfiguration? = nil, configurationManager: StackConfigurationManager? = nil, customCookbooksSource: Source? = nil, customJson: String? = nil, defaultAvailabilityZone: String? = nil, defaultInstanceProfileArn: String, defaultOs: String? = nil, defaultRootDeviceType: RootDeviceType? = nil, defaultSshKeyName: String? = nil, defaultSubnetId: String? = nil, hostnameTheme: String? = nil, name: String, region: String, serviceRoleArn: String, useCustomCookbooks: Bool? = nil, useOpsworksSecurityGroups: Bool? = nil, vpcId: String? = nil) {
-            self.region = region
-            self.configurationManager = configurationManager
-            self.defaultSubnetId = defaultSubnetId
-            self.useCustomCookbooks = useCustomCookbooks
-            self.defaultAvailabilityZone = defaultAvailabilityZone
-            self.agentVersion = agentVersion
-            self.customCookbooksSource = customCookbooksSource
-            self.hostnameTheme = hostnameTheme
-            self.name = name
-            self.defaultOs = defaultOs
-            self.chefConfiguration = chefConfiguration
-            self.defaultRootDeviceType = defaultRootDeviceType
-            self.serviceRoleArn = serviceRoleArn
-            self.attributes = attributes
-            self.vpcId = vpcId
-            self.defaultSshKeyName = defaultSshKeyName
-            self.customJson = customJson
-            self.useOpsworksSecurityGroups = useOpsworksSecurityGroups
-            self.defaultInstanceProfileArn = defaultInstanceProfileArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case region = "Region"
-            case configurationManager = "ConfigurationManager"
-            case defaultSubnetId = "DefaultSubnetId"
-            case useCustomCookbooks = "UseCustomCookbooks"
-            case defaultAvailabilityZone = "DefaultAvailabilityZone"
-            case agentVersion = "AgentVersion"
-            case customCookbooksSource = "CustomCookbooksSource"
-            case hostnameTheme = "HostnameTheme"
-            case name = "Name"
-            case defaultOs = "DefaultOs"
-            case chefConfiguration = "ChefConfiguration"
-            case defaultRootDeviceType = "DefaultRootDeviceType"
-            case serviceRoleArn = "ServiceRoleArn"
-            case attributes = "Attributes"
-            case vpcId = "VpcId"
-            case defaultSshKeyName = "DefaultSshKeyName"
-            case customJson = "CustomJson"
-            case useOpsworksSecurityGroups = "UseOpsworksSecurityGroups"
-            case defaultInstanceProfileArn = "DefaultInstanceProfileArn"
-        }
-    }
-
-    public struct InstanceIdentity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Document", required: false, type: .string), 
-            AWSShapeMember(label: "Signature", required: false, type: .string)
-        ]
-        /// A JSON document that contains the metadata.
-        public let document: String?
-        /// A signature that can be used to verify the document's accuracy and authenticity.
-        public let signature: String?
-
-        public init(document: String? = nil, signature: String? = nil) {
-            self.document = document
-            self.signature = signature
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case document = "Document"
-            case signature = "Signature"
-        }
-    }
-
-    public struct RegisterEcsClusterResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EcsClusterArn", required: false, type: .string)
-        ]
-        /// The cluster's ARN.
-        public let ecsClusterArn: String?
-
-        public init(ecsClusterArn: String? = nil) {
-            self.ecsClusterArn = ecsClusterArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ecsClusterArn = "EcsClusterArn"
-        }
-    }
-
-    public struct StackSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AppsCount", required: false, type: .integer), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "LayersCount", required: false, type: .integer), 
-            AWSShapeMember(label: "StackId", required: false, type: .string), 
-            AWSShapeMember(label: "InstancesCount", required: false, type: .structure)
-        ]
-        /// The number of apps.
-        public let appsCount: Int32?
-        /// The stack name.
-        public let name: String?
-        /// The stack's ARN.
-        public let arn: String?
-        /// The number of layers.
-        public let layersCount: Int32?
-        /// The stack ID.
-        public let stackId: String?
-        /// An InstancesCount object with the number of instances in each status.
-        public let instancesCount: InstancesCount?
-
-        public init(appsCount: Int32? = nil, arn: String? = nil, instancesCount: InstancesCount? = nil, layersCount: Int32? = nil, name: String? = nil, stackId: String? = nil) {
-            self.appsCount = appsCount
-            self.name = name
-            self.arn = arn
-            self.layersCount = layersCount
-            self.stackId = stackId
-            self.instancesCount = instancesCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case appsCount = "AppsCount"
-            case name = "Name"
-            case arn = "Arn"
-            case layersCount = "LayersCount"
-            case stackId = "StackId"
-            case instancesCount = "InstancesCount"
-        }
-    }
-
-    public struct Permission: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Level", required: false, type: .string), 
-            AWSShapeMember(label: "AllowSudo", required: false, type: .boolean), 
-            AWSShapeMember(label: "StackId", required: false, type: .string), 
-            AWSShapeMember(label: "AllowSsh", required: false, type: .boolean), 
-            AWSShapeMember(label: "IamUserArn", required: false, type: .string)
-        ]
-        /// The user's permission level, which must be the following:    deny     show     deploy     manage     iam_only    For more information on the permissions associated with these levels, see Managing User Permissions 
-        public let level: String?
-        /// Whether the user can use sudo.
-        public let allowSudo: Bool?
-        /// A stack ID.
-        public let stackId: String?
-        /// Whether the user can use SSH.
-        public let allowSsh: Bool?
-        /// The Amazon Resource Name (ARN) for an AWS Identity and Access Management (IAM) role. For more information about IAM ARNs, see Using Identifiers.
-        public let iamUserArn: String?
-
-        public init(allowSsh: Bool? = nil, allowSudo: Bool? = nil, iamUserArn: String? = nil, level: String? = nil, stackId: String? = nil) {
-            self.level = level
-            self.allowSudo = allowSudo
-            self.stackId = stackId
-            self.allowSsh = allowSsh
-            self.iamUserArn = iamUserArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case level = "Level"
-            case allowSudo = "AllowSudo"
-            case stackId = "StackId"
-            case allowSsh = "AllowSsh"
-            case iamUserArn = "IamUserArn"
-        }
-    }
-
-    public enum AutoScalingType: String, CustomStringConvertible, Codable {
-        case load = "load"
-        case timer = "timer"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeElasticIpsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ElasticIps", required: false, type: .list)
-        ]
-        /// An ElasticIps object that describes the specified Elastic IP addresses.
-        public let elasticIps: [ElasticIp]?
-
-        public init(elasticIps: [ElasticIp]? = nil) {
-            self.elasticIps = elasticIps
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case elasticIps = "ElasticIps"
-        }
-    }
-
-    public struct DescribeEcsClustersResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EcsClusters", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list of EcsCluster objects containing the cluster descriptions.
-        public let ecsClusters: [EcsCluster]?
-        /// If a paginated request does not return all of the remaining results, this parameter is set to a token that you can assign to the request object's NextToken parameter to retrieve the next set of results. If the previous paginated request returned all of the remaining results, this parameter is set to null.
-        public let nextToken: String?
-
-        public init(ecsClusters: [EcsCluster]? = nil, nextToken: String? = nil) {
-            self.ecsClusters = ecsClusters
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ecsClusters = "EcsClusters"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public enum CloudWatchLogsTimeZone: String, CustomStringConvertible, Codable {
-        case local = "LOCAL"
-        case utc = "UTC"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GrantAccessRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
-            AWSShapeMember(label: "ValidForInMinutes", required: false, type: .integer)
-        ]
-        /// The instance's AWS OpsWorks Stacks ID.
-        public let instanceId: String
-        /// The length of time (in minutes) that the grant is valid. When the grant expires at the end of this period, the user will no longer be able to use the credentials to log in. If the user is logged in at the time, he or she automatically will be logged out.
-        public let validForInMinutes: Int32?
-
-        public init(instanceId: String, validForInMinutes: Int32? = nil) {
-            self.instanceId = instanceId
-            self.validForInMinutes = validForInMinutes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
-            case validForInMinutes = "ValidForInMinutes"
-        }
-    }
-
-    public struct DetachElasticLoadBalancerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ElasticLoadBalancerName", required: true, type: .string), 
-            AWSShapeMember(label: "LayerId", required: true, type: .string)
-        ]
-        /// The Elastic Load Balancing instance's name.
-        public let elasticLoadBalancerName: String
-        /// The ID of the layer that the Elastic Load Balancing instance is attached to.
-        public let layerId: String
-
-        public init(elasticLoadBalancerName: String, layerId: String) {
-            self.elasticLoadBalancerName = elasticLoadBalancerName
-            self.layerId = layerId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case elasticLoadBalancerName = "ElasticLoadBalancerName"
-            case layerId = "LayerId"
-        }
-    }
-
-    public struct DeploymentCommand: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .enum), 
-            AWSShapeMember(label: "Args", required: false, type: .map)
-        ]
-        /// Specifies the operation. You can specify only one command. For stacks, the following commands are available:    execute_recipes: Execute one or more recipes. To specify the recipes, set an Args parameter named recipes to the list of recipes to be executed. For example, to execute phpapp::appsetup, set Args to {"recipes":["phpapp::appsetup"]}.    install_dependencies: Install the stack's dependencies.    update_custom_cookbooks: Update the stack's custom cookbooks.    update_dependencies: Update the stack's dependencies.    The update_dependencies and install_dependencies commands are supported only for Linux instances. You can run the commands successfully on Windows instances, but they do nothing.  For apps, the following commands are available:    deploy: Deploy an app. Ruby on Rails apps have an optional Args parameter named migrate. Set Args to {"migrate":["true"]} to migrate the database. The default setting is {"migrate":["false"]}.    rollback Roll the app back to the previous version. When you update an app, AWS OpsWorks Stacks stores the previous version, up to a maximum of five versions. You can use this command to roll an app back as many as four versions.    start: Start the app's web or application server.    stop: Stop the app's web or application server.    restart: Restart the app's web or application server.    undeploy: Undeploy the app.  
-        public let name: DeploymentCommandName
-        /// The arguments of those commands that take arguments. It should be set to a JSON object with the following format:  {"arg_name1" : ["value1", "value2", ...], "arg_name2" : ["value1", "value2", ...], ...}  The update_dependencies command takes two arguments:    upgrade_os_to - Specifies the desired Amazon Linux version for instances whose OS you want to upgrade, such as Amazon Linux 2016.09. You must also set the allow_reboot argument to true.    allow_reboot - Specifies whether to allow AWS OpsWorks Stacks to reboot the instances if necessary, after installing the updates. This argument can be set to either true or false. The default value is false.   For example, to upgrade an instance to Amazon Linux 2016.09, set Args to the following.   { "upgrade_os_to":["Amazon Linux 2016.09"], "allow_reboot":["true"] }  
-        public let args: [String: [String]]?
-
-        public init(args: [String: [String]]? = nil, name: DeploymentCommandName) {
-            self.name = name
-            self.args = args
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case args = "Args"
-        }
-    }
-
-    public struct Volume: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer), 
-            AWSShapeMember(label: "Size", required: false, type: .integer), 
-            AWSShapeMember(label: "MountPoint", required: false, type: .string), 
-            AWSShapeMember(label: "Region", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Device", required: false, type: .string), 
-            AWSShapeMember(label: "RaidArrayId", required: false, type: .string), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "Ec2VolumeId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeType", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeId", required: false, type: .string)
-        ]
-        /// Specifies whether an Amazon EBS volume is encrypted. For more information, see Amazon EBS Encryption.
-        public let encrypted: Bool?
-        /// For PIOPS volumes, the IOPS per disk.
-        public let iops: Int32?
-        /// The volume size.
-        public let size: Int32?
-        /// The volume mount point. For example, "/mnt/disk1".
-        public let mountPoint: String?
-        /// The AWS region. For more information about AWS regions, see Regions and Endpoints.
-        public let region: String?
-        /// The volume name.
-        public let name: String?
-        /// The device name.
-        public let device: String?
-        /// The RAID array ID.
-        public let raidArrayId: String?
-        /// The volume Availability Zone. For more information, see Regions and Endpoints.
-        public let availabilityZone: String?
-        /// The instance ID.
-        public let instanceId: String?
-        /// The Amazon EC2 volume ID.
-        public let ec2VolumeId: String?
-        /// The value returned by DescribeVolumes.
-        public let status: String?
-        /// The volume type. For more information, see  Amazon EBS Volume Types.    standard - Magnetic. Magnetic volumes must have a minimum size of 1 GiB and a maximum size of 1024 GiB.    io1 - Provisioned IOPS (SSD). PIOPS volumes must have a minimum size of 4 GiB and a maximum size of 16384 GiB.    gp2 - General Purpose (SSD). General purpose volumes must have a minimum size of 1 GiB and a maximum size of 16384 GiB.    st1 - Throughput Optimized hard disk drive (HDD). Throughput optimized HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.    sc1 - Cold HDD. Cold HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.  
-        public let volumeType: String?
-        /// The volume ID.
-        public let volumeId: String?
-
-        public init(availabilityZone: String? = nil, device: String? = nil, ec2VolumeId: String? = nil, encrypted: Bool? = nil, instanceId: String? = nil, iops: Int32? = nil, mountPoint: String? = nil, name: String? = nil, raidArrayId: String? = nil, region: String? = nil, size: Int32? = nil, status: String? = nil, volumeId: String? = nil, volumeType: String? = nil) {
-            self.encrypted = encrypted
-            self.iops = iops
-            self.size = size
-            self.mountPoint = mountPoint
-            self.region = region
-            self.name = name
-            self.device = device
-            self.raidArrayId = raidArrayId
-            self.availabilityZone = availabilityZone
-            self.instanceId = instanceId
-            self.ec2VolumeId = ec2VolumeId
-            self.status = status
-            self.volumeType = volumeType
             self.volumeId = volumeId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encrypted = "Encrypted"
-            case iops = "Iops"
-            case size = "Size"
-            case mountPoint = "MountPoint"
-            case region = "Region"
-            case name = "Name"
-            case device = "Device"
-            case raidArrayId = "RaidArrayId"
-            case availabilityZone = "AvailabilityZone"
             case instanceId = "InstanceId"
-            case ec2VolumeId = "Ec2VolumeId"
-            case status = "Status"
-            case volumeType = "VolumeType"
             case volumeId = "VolumeId"
-        }
-    }
-
-    public struct StartInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", required: true, type: .string)
-        ]
-        /// The instance ID.
-        public let instanceId: String
-
-        public init(instanceId: String) {
-            self.instanceId = instanceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
-        }
-    }
-
-    public struct StackConfigurationManager: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Version", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The Chef version. This parameter must be set to 12, 11.10, or 11.4 for Linux stacks, and to 12.2 for Windows stacks. The default value for Linux stacks is 11.4.
-        public let version: String?
-        /// The name. This parameter must be set to "Chef".
-        public let name: String?
-
-        public init(name: String? = nil, version: String? = nil) {
-            self.version = version
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case version = "Version"
-            case name = "Name"
-        }
-    }
-
-    public struct DescribeEcsClustersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "EcsClusterArns", required: false, type: .list), 
-            AWSShapeMember(label: "StackId", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// If the previous paginated request did not return all of the remaining results, the response object'sNextToken parameter value is set to a token. To retrieve the next set of results, call DescribeEcsClusters again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
-        public let nextToken: String?
-        /// A list of ARNs, one for each cluster to be described.
-        public let ecsClusterArns: [String]?
-        /// A stack ID. DescribeEcsClusters returns a description of the cluster that is registered with the stack.
-        public let stackId: String?
-        /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
-        public let maxResults: Int32?
-
-        public init(ecsClusterArns: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, stackId: String? = nil) {
-            self.nextToken = nextToken
-            self.ecsClusterArns = ecsClusterArns
-            self.stackId = stackId
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case ecsClusterArns = "EcsClusterArns"
-            case stackId = "StackId"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct DescribeVolumesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Volumes", required: false, type: .list)
-        ]
-        /// An array of volume IDs.
-        public let volumes: [Volume]?
-
-        public init(volumes: [Volume]? = nil) {
-            self.volumes = volumes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case volumes = "Volumes"
-        }
-    }
-
-    public struct DescribeServiceErrorsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceErrors", required: false, type: .list)
-        ]
-        /// An array of ServiceError objects that describe the specified service errors.
-        public let serviceErrors: [ServiceError]?
-
-        public init(serviceErrors: [ServiceError]? = nil) {
-            self.serviceErrors = serviceErrors
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serviceErrors = "ServiceErrors"
-        }
-    }
-
-    public struct DataSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string)
-        ]
-        /// The data source's type, AutoSelectOpsworksMysqlInstance, OpsworksMysqlInstance, RdsDbInstance, or None.
-        public let `type`: String?
-        /// The database name.
-        public let databaseName: String?
-        /// The data source's ARN.
-        public let arn: String?
-
-        public init(arn: String? = nil, databaseName: String? = nil, type: String? = nil) {
-            self.`type` = `type`
-            self.databaseName = databaseName
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case databaseName = "DatabaseName"
-            case arn = "Arn"
         }
     }
 
@@ -3099,856 +195,77 @@ extension OpsWorks {
         }
     }
 
-    public struct Deployment: AWSShape {
+    public struct AttachElasticLoadBalancerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompletedAt", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
-            AWSShapeMember(label: "Command", required: false, type: .structure), 
-            AWSShapeMember(label: "AppId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "IamUserArn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
-            AWSShapeMember(label: "Duration", required: false, type: .integer), 
-            AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
-            AWSShapeMember(label: "StackId", required: false, type: .string), 
-            AWSShapeMember(label: "CustomJson", required: false, type: .string), 
-            AWSShapeMember(label: "Comment", required: false, type: .string)
+            AWSShapeMember(label: "ElasticLoadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "LayerId", required: true, type: .string)
         ]
-        /// Date when the deployment completed.
-        public let completedAt: String?
-        /// The IDs of the target instances.
-        public let instanceIds: [String]?
-        public let command: DeploymentCommand?
-        /// The app ID.
-        public let appId: String?
-        /// The deployment status:   running   successful   failed  
-        public let status: String?
-        /// The user's IAM ARN.
-        public let iamUserArn: String?
-        /// Date when the deployment was created.
-        public let createdAt: String?
-        /// The deployment duration.
-        public let duration: Int32?
-        /// The deployment ID.
-        public let deploymentId: String?
-        /// The stack ID.
-        public let stackId: String?
-        /// A string that contains user-defined custom JSON. It can be used to override the corresponding default stack configuration attribute values for stack or to pass data to recipes. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information on custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
-        public let customJson: String?
-        /// A user-defined comment.
-        public let comment: String?
+        /// The Elastic Load Balancing instance's name.
+        public let elasticLoadBalancerName: String
+        /// The ID of the layer to which the Elastic Load Balancing instance is to be attached.
+        public let layerId: String
 
-        public init(appId: String? = nil, command: DeploymentCommand? = nil, comment: String? = nil, completedAt: String? = nil, createdAt: String? = nil, customJson: String? = nil, deploymentId: String? = nil, duration: Int32? = nil, iamUserArn: String? = nil, instanceIds: [String]? = nil, stackId: String? = nil, status: String? = nil) {
-            self.completedAt = completedAt
-            self.instanceIds = instanceIds
-            self.command = command
-            self.appId = appId
-            self.status = status
-            self.iamUserArn = iamUserArn
-            self.createdAt = createdAt
-            self.duration = duration
-            self.deploymentId = deploymentId
-            self.stackId = stackId
-            self.customJson = customJson
-            self.comment = comment
+        public init(elasticLoadBalancerName: String, layerId: String) {
+            self.elasticLoadBalancerName = elasticLoadBalancerName
+            self.layerId = layerId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completedAt = "CompletedAt"
-            case instanceIds = "InstanceIds"
-            case command = "Command"
-            case appId = "AppId"
-            case status = "Status"
-            case iamUserArn = "IamUserArn"
-            case createdAt = "CreatedAt"
-            case duration = "Duration"
-            case deploymentId = "DeploymentId"
-            case stackId = "StackId"
-            case customJson = "CustomJson"
-            case comment = "Comment"
+            case elasticLoadBalancerName = "ElasticLoadBalancerName"
+            case layerId = "LayerId"
         }
     }
 
-    public struct ReportedOs: AWSShape {
+    public struct AutoScalingThresholds: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .string), 
-            AWSShapeMember(label: "Family", required: false, type: .string)
+            AWSShapeMember(label: "Alarms", required: false, type: .list), 
+            AWSShapeMember(label: "CpuThreshold", required: false, type: .double), 
+            AWSShapeMember(label: "IgnoreMetricsTime", required: false, type: .integer), 
+            AWSShapeMember(label: "InstanceCount", required: false, type: .integer), 
+            AWSShapeMember(label: "LoadThreshold", required: false, type: .double), 
+            AWSShapeMember(label: "MemoryThreshold", required: false, type: .double), 
+            AWSShapeMember(label: "ThresholdsWaitTime", required: false, type: .integer)
         ]
-        /// The operating system name.
-        public let name: String?
-        /// The operating system version.
-        public let version: String?
-        /// The operating system family.
-        public let family: String?
+        /// Custom Cloudwatch auto scaling alarms, to be used as thresholds. This parameter takes a list of up to five alarm names, which are case sensitive and must be in the same region as the stack.  To use custom alarms, you must update your service role to allow cloudwatch:DescribeAlarms. You can either have AWS OpsWorks Stacks update the role for you when you first use this feature or you can edit the role manually. For more information, see Allowing AWS OpsWorks Stacks to Act on Your Behalf. 
+        public let alarms: [String]?
+        /// The CPU utilization threshold, as a percent of the available CPU. A value of -1 disables the threshold.
+        public let cpuThreshold: Double?
+        /// The amount of time (in minutes) after a scaling event occurs that AWS OpsWorks Stacks should ignore metrics and suppress additional scaling events. For example, AWS OpsWorks Stacks adds new instances following an upscaling event but the instances won't start reducing the load until they have been booted and configured. There is no point in raising additional scaling events during that operation, which typically takes several minutes. IgnoreMetricsTime allows you to direct AWS OpsWorks Stacks to suppress scaling events long enough to get the new instances online.
+        public let ignoreMetricsTime: Int32?
+        /// The number of instances to add or remove when the load exceeds a threshold.
+        public let instanceCount: Int32?
+        /// The load threshold. A value of -1 disables the threshold. For more information about how load is computed, see Load (computing).
+        public let loadThreshold: Double?
+        /// The memory utilization threshold, as a percent of the available memory. A value of -1 disables the threshold.
+        public let memoryThreshold: Double?
+        /// The amount of time, in minutes, that the load must exceed a threshold before more instances are added or removed.
+        public let thresholdsWaitTime: Int32?
 
-        public init(family: String? = nil, name: String? = nil, version: String? = nil) {
-            self.name = name
-            self.version = version
-            self.family = family
+        public init(alarms: [String]? = nil, cpuThreshold: Double? = nil, ignoreMetricsTime: Int32? = nil, instanceCount: Int32? = nil, loadThreshold: Double? = nil, memoryThreshold: Double? = nil, thresholdsWaitTime: Int32? = nil) {
+            self.alarms = alarms
+            self.cpuThreshold = cpuThreshold
+            self.ignoreMetricsTime = ignoreMetricsTime
+            self.instanceCount = instanceCount
+            self.loadThreshold = loadThreshold
+            self.memoryThreshold = memoryThreshold
+            self.thresholdsWaitTime = thresholdsWaitTime
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case version = "Version"
-            case family = "Family"
+            case alarms = "Alarms"
+            case cpuThreshold = "CpuThreshold"
+            case ignoreMetricsTime = "IgnoreMetricsTime"
+            case instanceCount = "InstanceCount"
+            case loadThreshold = "LoadThreshold"
+            case memoryThreshold = "MemoryThreshold"
+            case thresholdsWaitTime = "ThresholdsWaitTime"
         }
     }
 
-    public struct ListTagsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
-        /// If a paginated request does not return all of the remaining results, this parameter is set to a token that you can assign to the request object's NextToken parameter to get the next set of results. If the previous paginated request returned all of the remaining results, this parameter is set to null. 
-        public let nextToken: String?
-        /// A set of key-value pairs that contain tag keys and tag values that are attached to a stack or layer.
-        public let tags: [String: String]?
-
-        public init(nextToken: String? = nil, tags: [String: String]? = nil) {
-            self.nextToken = nextToken
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case tags = "Tags"
-        }
-    }
-
-    public enum AppType: String, CustomStringConvertible, Codable {
-        case awsFlowRuby = "aws-flow-ruby"
-        case java = "java"
-        case rails = "rails"
-        case php = "php"
-        case nodejs = "nodejs"
-        case `static` = "static"
-        case other = "other"
+    public enum AutoScalingType: String, CustomStringConvertible, Codable {
+        case load = "load"
+        case timer = "timer"
         public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeLoadBasedAutoScalingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LayerIds", required: true, type: .list)
-        ]
-        /// An array of layer IDs.
-        public let layerIds: [String]
-
-        public init(layerIds: [String]) {
-            self.layerIds = layerIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case layerIds = "LayerIds"
-        }
-    }
-
-    public struct InstancesCount: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RunningSetup", required: false, type: .integer), 
-            AWSShapeMember(label: "Booting", required: false, type: .integer), 
-            AWSShapeMember(label: "Terminated", required: false, type: .integer), 
-            AWSShapeMember(label: "ShuttingDown", required: false, type: .integer), 
-            AWSShapeMember(label: "StopFailed", required: false, type: .integer), 
-            AWSShapeMember(label: "Online", required: false, type: .integer), 
-            AWSShapeMember(label: "StartFailed", required: false, type: .integer), 
-            AWSShapeMember(label: "Unassigning", required: false, type: .integer), 
-            AWSShapeMember(label: "Stopping", required: false, type: .integer), 
-            AWSShapeMember(label: "Registered", required: false, type: .integer), 
-            AWSShapeMember(label: "Assigning", required: false, type: .integer), 
-            AWSShapeMember(label: "SetupFailed", required: false, type: .integer), 
-            AWSShapeMember(label: "Deregistering", required: false, type: .integer), 
-            AWSShapeMember(label: "Stopped", required: false, type: .integer), 
-            AWSShapeMember(label: "Requested", required: false, type: .integer), 
-            AWSShapeMember(label: "Registering", required: false, type: .integer), 
-            AWSShapeMember(label: "Rebooting", required: false, type: .integer), 
-            AWSShapeMember(label: "Pending", required: false, type: .integer), 
-            AWSShapeMember(label: "ConnectionLost", required: false, type: .integer), 
-            AWSShapeMember(label: "Terminating", required: false, type: .integer)
-        ]
-        /// The number of instances with running_setup status.
-        public let runningSetup: Int32?
-        /// The number of instances with booting status.
-        public let booting: Int32?
-        /// The number of instances with terminated status.
-        public let terminated: Int32?
-        /// The number of instances with shutting_down status.
-        public let shuttingDown: Int32?
-        /// The number of instances with stop_failed status.
-        public let stopFailed: Int32?
-        /// The number of instances with online status.
-        public let online: Int32?
-        /// The number of instances with start_failed status.
-        public let startFailed: Int32?
-        /// The number of instances in the Unassigning state.
-        public let unassigning: Int32?
-        /// The number of instances with stopping status.
-        public let stopping: Int32?
-        /// The number of instances in the Registered state.
-        public let registered: Int32?
-        /// The number of instances in the Assigning state.
-        public let assigning: Int32?
-        /// The number of instances with setup_failed status.
-        public let setupFailed: Int32?
-        /// The number of instances in the Deregistering state.
-        public let deregistering: Int32?
-        /// The number of instances with stopped status.
-        public let stopped: Int32?
-        /// The number of instances with requested status.
-        public let requested: Int32?
-        /// The number of instances in the Registering state.
-        public let registering: Int32?
-        /// The number of instances with rebooting status.
-        public let rebooting: Int32?
-        /// The number of instances with pending status.
-        public let pending: Int32?
-        /// The number of instances with connection_lost status.
-        public let connectionLost: Int32?
-        /// The number of instances with terminating status.
-        public let terminating: Int32?
-
-        public init(assigning: Int32? = nil, booting: Int32? = nil, connectionLost: Int32? = nil, deregistering: Int32? = nil, online: Int32? = nil, pending: Int32? = nil, rebooting: Int32? = nil, registered: Int32? = nil, registering: Int32? = nil, requested: Int32? = nil, runningSetup: Int32? = nil, setupFailed: Int32? = nil, shuttingDown: Int32? = nil, startFailed: Int32? = nil, stopFailed: Int32? = nil, stopped: Int32? = nil, stopping: Int32? = nil, terminated: Int32? = nil, terminating: Int32? = nil, unassigning: Int32? = nil) {
-            self.runningSetup = runningSetup
-            self.booting = booting
-            self.terminated = terminated
-            self.shuttingDown = shuttingDown
-            self.stopFailed = stopFailed
-            self.online = online
-            self.startFailed = startFailed
-            self.unassigning = unassigning
-            self.stopping = stopping
-            self.registered = registered
-            self.assigning = assigning
-            self.setupFailed = setupFailed
-            self.deregistering = deregistering
-            self.stopped = stopped
-            self.requested = requested
-            self.registering = registering
-            self.rebooting = rebooting
-            self.pending = pending
-            self.connectionLost = connectionLost
-            self.terminating = terminating
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case runningSetup = "RunningSetup"
-            case booting = "Booting"
-            case terminated = "Terminated"
-            case shuttingDown = "ShuttingDown"
-            case stopFailed = "StopFailed"
-            case online = "Online"
-            case startFailed = "StartFailed"
-            case unassigning = "Unassigning"
-            case stopping = "Stopping"
-            case registered = "Registered"
-            case assigning = "Assigning"
-            case setupFailed = "SetupFailed"
-            case deregistering = "Deregistering"
-            case stopped = "Stopped"
-            case requested = "Requested"
-            case registering = "Registering"
-            case rebooting = "Rebooting"
-            case pending = "Pending"
-            case connectionLost = "ConnectionLost"
-            case terminating = "Terminating"
-        }
-    }
-
-    public struct DescribeVolumesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VolumeIds", required: false, type: .list), 
-            AWSShapeMember(label: "StackId", required: false, type: .string), 
-            AWSShapeMember(label: "RaidArrayId", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceId", required: false, type: .string)
-        ]
-        /// Am array of volume IDs. If you use this parameter, DescribeVolumes returns descriptions of the specified volumes. Otherwise, it returns a description of every volume.
-        public let volumeIds: [String]?
-        /// A stack ID. The action describes the stack's registered Amazon EBS volumes.
-        public let stackId: String?
-        /// The RAID array ID. If you use this parameter, DescribeVolumes returns descriptions of the volumes associated with the specified RAID array.
-        public let raidArrayId: String?
-        /// The instance ID. If you use this parameter, DescribeVolumes returns descriptions of the volumes associated with the specified instance.
-        public let instanceId: String?
-
-        public init(instanceId: String? = nil, raidArrayId: String? = nil, stackId: String? = nil, volumeIds: [String]? = nil) {
-            self.volumeIds = volumeIds
-            self.stackId = stackId
-            self.raidArrayId = raidArrayId
-            self.instanceId = instanceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case volumeIds = "VolumeIds"
-            case stackId = "StackId"
-            case raidArrayId = "RaidArrayId"
-            case instanceId = "InstanceId"
-        }
-    }
-
-    public struct ServiceError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceErrorId", required: false, type: .string), 
-            AWSShapeMember(label: "StackId", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .string)
-        ]
-        /// The error ID.
-        public let serviceErrorId: String?
-        /// The stack ID.
-        public let stackId: String?
-        /// When the error occurred.
-        public let createdAt: String?
-        /// The instance ID.
-        public let instanceId: String?
-        /// A message that describes the error.
-        public let message: String?
-        /// The error type.
-        public let `type`: String?
-
-        public init(createdAt: String? = nil, instanceId: String? = nil, message: String? = nil, serviceErrorId: String? = nil, stackId: String? = nil, type: String? = nil) {
-            self.serviceErrorId = serviceErrorId
-            self.stackId = stackId
-            self.createdAt = createdAt
-            self.instanceId = instanceId
-            self.message = message
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serviceErrorId = "ServiceErrorId"
-            case stackId = "StackId"
-            case createdAt = "CreatedAt"
-            case instanceId = "InstanceId"
-            case message = "Message"
-            case `type` = "Type"
-        }
-    }
-
-    public struct DeregisterElasticIpRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ElasticIp", required: true, type: .string)
-        ]
-        /// The Elastic IP address.
-        public let elasticIp: String
-
-        public init(elasticIp: String) {
-            self.elasticIp = elasticIp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case elasticIp = "ElasticIp"
-        }
-    }
-
-    public struct CreateInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AmiId", required: false, type: .string), 
-            AWSShapeMember(label: "Architecture", required: false, type: .enum), 
-            AWSShapeMember(label: "AgentVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Hostname", required: false, type: .string), 
-            AWSShapeMember(label: "Os", required: false, type: .string), 
-            AWSShapeMember(label: "SshKeyName", required: false, type: .string), 
-            AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
-            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
-            AWSShapeMember(label: "LayerIds", required: true, type: .list), 
-            AWSShapeMember(label: "VirtualizationType", required: false, type: .string), 
-            AWSShapeMember(label: "AutoScalingType", required: false, type: .enum), 
-            AWSShapeMember(label: "RootDeviceType", required: false, type: .enum), 
-            AWSShapeMember(label: "Tenancy", required: false, type: .string), 
-            AWSShapeMember(label: "BlockDeviceMappings", required: false, type: .list), 
-            AWSShapeMember(label: "InstallUpdatesOnBoot", required: false, type: .boolean), 
-            AWSShapeMember(label: "StackId", required: true, type: .string), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string)
-        ]
-        /// A custom AMI ID to be used to create the instance. The AMI should be based on one of the supported operating systems. For more information, see Using Custom AMIs.  If you specify a custom AMI, you must set Os to Custom. 
-        public let amiId: String?
-        /// The instance architecture. The default option is x86_64. Instance types do not necessarily support both architectures. For a list of the architectures that are supported by the different instance types, see Instance Families and Types.
-        public let architecture: Architecture?
-        /// The default AWS OpsWorks Stacks agent version. You have the following options:    INHERIT - Use the stack's default agent version setting.    version_number - Use the specified agent version. This value overrides the stack's default setting. To update the agent version, edit the instance configuration and specify a new version. AWS OpsWorks Stacks then automatically installs that version on the instance.   The default setting is INHERIT. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.
-        public let agentVersion: String?
-        /// The instance host name.
-        public let hostname: String?
-        /// The instance's operating system, which must be set to one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom.   For more information about the supported operating systems, see AWS OpsWorks Stacks Operating Systems. The default option is the current Amazon Linux version. If you set this parameter to Custom, you must use the CreateInstance action's AmiId parameter to specify the custom AMI that you want to use. Block device mappings are not supported if the value is Custom. For more information about supported operating systems, see Operating SystemsFor more information about how to use custom AMIs with AWS OpsWorks Stacks, see Using Custom AMIs.
-        public let os: String?
-        /// The instance's Amazon EC2 key-pair name.
-        public let sshKeyName: String?
-        /// Whether to create an Amazon EBS-optimized instance.
-        public let ebsOptimized: Bool?
-        /// The instance type, such as t2.micro. For a list of supported instance types, open the stack in the console, choose Instances, and choose + Instance. The Size list contains the currently supported types. For more information, see Instance Families and Types. The parameter values that you use to specify the various types are in the API Name column of the Available Instance Types table.
-        public let instanceType: String
-        /// An array that contains the instance's layer IDs.
-        public let layerIds: [String]
-        /// The instance's virtualization type, paravirtual or hvm.
-        public let virtualizationType: String?
-        /// For load-based or time-based instances, the type. Windows stacks can use only time-based instances.
-        public let autoScalingType: AutoScalingType?
-        /// The instance root device type. For more information, see Storage for the Root Device.
-        public let rootDeviceType: RootDeviceType?
-        /// The instance's tenancy option. The default option is no tenancy, or if the instance is running in a VPC, inherit tenancy settings from the VPC. The following are valid values for this parameter: dedicated, default, or host. Because there are costs associated with changes in tenancy options, we recommend that you research tenancy options before choosing them for your instances. For more information about dedicated hosts, see Dedicated Hosts Overview and Amazon EC2 Dedicated Hosts. For more information about dedicated instances, see Dedicated Instances and Amazon EC2 Dedicated Instances.
-        public let tenancy: String?
-        /// An array of BlockDeviceMapping objects that specify the instance's block devices. For more information, see Block Device Mapping. Note that block device mappings are not supported for custom AMIs.
-        public let blockDeviceMappings: [BlockDeviceMapping]?
-        /// Whether to install operating system and package updates when the instance boots. The default value is true. To control when updates are installed, set this value to false. You must then update your instances manually by using CreateDeployment to run the update_dependencies stack command or by manually running yum (Amazon Linux) or apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true to ensure that your instances have the latest security updates. 
-        public let installUpdatesOnBoot: Bool?
-        /// The stack ID.
-        public let stackId: String
-        /// The ID of the instance's subnet. If the stack is running in a VPC, you can use this parameter to override the stack's default subnet ID value and direct AWS OpsWorks Stacks to launch the instance in a different subnet.
-        public let subnetId: String?
-        /// The instance Availability Zone. For more information, see Regions and Endpoints.
-        public let availabilityZone: String?
-
-        public init(agentVersion: String? = nil, amiId: String? = nil, architecture: Architecture? = nil, autoScalingType: AutoScalingType? = nil, availabilityZone: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, ebsOptimized: Bool? = nil, hostname: String? = nil, installUpdatesOnBoot: Bool? = nil, instanceType: String, layerIds: [String], os: String? = nil, rootDeviceType: RootDeviceType? = nil, sshKeyName: String? = nil, stackId: String, subnetId: String? = nil, tenancy: String? = nil, virtualizationType: String? = nil) {
-            self.amiId = amiId
-            self.architecture = architecture
-            self.agentVersion = agentVersion
-            self.hostname = hostname
-            self.os = os
-            self.sshKeyName = sshKeyName
-            self.ebsOptimized = ebsOptimized
-            self.instanceType = instanceType
-            self.layerIds = layerIds
-            self.virtualizationType = virtualizationType
-            self.autoScalingType = autoScalingType
-            self.rootDeviceType = rootDeviceType
-            self.tenancy = tenancy
-            self.blockDeviceMappings = blockDeviceMappings
-            self.installUpdatesOnBoot = installUpdatesOnBoot
-            self.stackId = stackId
-            self.subnetId = subnetId
-            self.availabilityZone = availabilityZone
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case amiId = "AmiId"
-            case architecture = "Architecture"
-            case agentVersion = "AgentVersion"
-            case hostname = "Hostname"
-            case os = "Os"
-            case sshKeyName = "SshKeyName"
-            case ebsOptimized = "EbsOptimized"
-            case instanceType = "InstanceType"
-            case layerIds = "LayerIds"
-            case virtualizationType = "VirtualizationType"
-            case autoScalingType = "AutoScalingType"
-            case rootDeviceType = "RootDeviceType"
-            case tenancy = "Tenancy"
-            case blockDeviceMappings = "BlockDeviceMappings"
-            case installUpdatesOnBoot = "InstallUpdatesOnBoot"
-            case stackId = "StackId"
-            case subnetId = "SubnetId"
-            case availabilityZone = "AvailabilityZone"
-        }
-    }
-
-    public struct CreateAppResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AppId", required: false, type: .string)
-        ]
-        /// The app ID.
-        public let appId: String?
-
-        public init(appId: String? = nil) {
-            self.appId = appId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case appId = "AppId"
-        }
-    }
-
-    public struct ChefConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ManageBerkshelf", required: false, type: .boolean), 
-            AWSShapeMember(label: "BerkshelfVersion", required: false, type: .string)
-        ]
-        /// Whether to enable Berkshelf.
-        public let manageBerkshelf: Bool?
-        /// The Berkshelf version.
-        public let berkshelfVersion: String?
-
-        public init(berkshelfVersion: String? = nil, manageBerkshelf: Bool? = nil) {
-            self.manageBerkshelf = manageBerkshelf
-            self.berkshelfVersion = berkshelfVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case manageBerkshelf = "ManageBerkshelf"
-            case berkshelfVersion = "BerkshelfVersion"
-        }
-    }
-
-    public struct UpdateVolumeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MountPoint", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeId", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The new mount point.
-        public let mountPoint: String?
-        /// The volume ID.
-        public let volumeId: String
-        /// The new name.
-        public let name: String?
-
-        public init(mountPoint: String? = nil, name: String? = nil, volumeId: String) {
-            self.mountPoint = mountPoint
-            self.volumeId = volumeId
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mountPoint = "MountPoint"
-            case volumeId = "VolumeId"
-            case name = "Name"
-        }
-    }
-
-    public struct DeleteUserProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IamUserArn", required: true, type: .string)
-        ]
-        /// The user's IAM ARN. This can also be a federated user's ARN.
-        public let iamUserArn: String
-
-        public init(iamUserArn: String) {
-            self.iamUserArn = iamUserArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case iamUserArn = "IamUserArn"
-        }
-    }
-
-    public struct DescribeMyUserProfileResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserProfile", required: false, type: .structure)
-        ]
-        /// A UserProfile object that describes the user's SSH information.
-        public let userProfile: SelfUserProfile?
-
-        public init(userProfile: SelfUserProfile? = nil) {
-            self.userProfile = userProfile
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userProfile = "UserProfile"
-        }
-    }
-
-    public struct CreateLayerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomInstanceProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "CustomSecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "CloudWatchLogsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "StackId", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "AutoAssignPublicIps", required: false, type: .boolean), 
-            AWSShapeMember(label: "Attributes", required: false, type: .map), 
-            AWSShapeMember(label: "UseEbsOptimizedInstances", required: false, type: .boolean), 
-            AWSShapeMember(label: "Type", required: true, type: .enum), 
-            AWSShapeMember(label: "CustomJson", required: false, type: .string), 
-            AWSShapeMember(label: "Shortname", required: true, type: .string), 
-            AWSShapeMember(label: "EnableAutoHealing", required: false, type: .boolean), 
-            AWSShapeMember(label: "AutoAssignElasticIps", required: false, type: .boolean), 
-            AWSShapeMember(label: "InstallUpdatesOnBoot", required: false, type: .boolean), 
-            AWSShapeMember(label: "LifecycleEventConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "CustomRecipes", required: false, type: .structure), 
-            AWSShapeMember(label: "Packages", required: false, type: .list), 
-            AWSShapeMember(label: "VolumeConfigurations", required: false, type: .list)
-        ]
-        /// The ARN of an IAM profile to be used for the layer's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
-        public let customInstanceProfileArn: String?
-        /// An array containing the layer custom security group IDs.
-        public let customSecurityGroupIds: [String]?
-        /// Specifies CloudWatch Logs configuration options for the layer. For more information, see CloudWatchLogsLogStream.
-        public let cloudWatchLogsConfiguration: CloudWatchLogsConfiguration?
-        /// The layer stack ID.
-        public let stackId: String
-        /// The layer name, which is used by the console.
-        public let name: String
-        /// For stacks that are running in a VPC, whether to automatically assign a public IP address to the layer's instances. For more information, see How to Edit a Layer.
-        public let autoAssignPublicIps: Bool?
-        /// One or more user-defined key-value pairs to be added to the stack attributes. To create a cluster layer, set the EcsClusterArn attribute to the cluster's ARN.
-        public let attributes: [LayerAttributesKeys: String]?
-        /// Whether to use Amazon EBS-optimized instances.
-        public let useEbsOptimizedInstances: Bool?
-        /// The layer type. A stack cannot have more than one built-in layer of the same type. It can have any number of custom layers. Built-in layers are not available in Chef 12 stacks.
-        public let `type`: LayerType
-        /// A JSON-formatted string containing custom stack configuration and deployment attributes to be installed on the layer's instances. For more information, see  Using Custom JSON. This feature is supported as of version 1.7.42 of the AWS CLI. 
-        public let customJson: String?
-        /// For custom layers only, use this parameter to specify the layer's short name, which is used internally by AWS OpsWorks Stacks and by Chef recipes. The short name is also used as the name for the directory where your app files are installed. It can have a maximum of 200 characters, which are limited to the alphanumeric characters, '-', '_', and '.'. The built-in layers' short names are defined by AWS OpsWorks Stacks. For more information, see the Layer Reference.
-        public let shortname: String
-        /// Whether to disable auto healing for the layer.
-        public let enableAutoHealing: Bool?
-        /// Whether to automatically assign an Elastic IP address to the layer's instances. For more information, see How to Edit a Layer.
-        public let autoAssignElasticIps: Bool?
-        /// Whether to install operating system and package updates when the instance boots. The default value is true. To control when updates are installed, set this value to false. You must then update your instances manually by using CreateDeployment to run the update_dependencies stack command or by manually running yum (Amazon Linux) or apt-get (Ubuntu) on the instances.   To ensure that your instances have the latest security updates, we strongly recommend using the default value of true. 
-        public let installUpdatesOnBoot: Bool?
-        /// A LifeCycleEventConfiguration object that you can use to configure the Shutdown event to specify an execution timeout and enable or disable Elastic Load Balancer connection draining.
-        public let lifecycleEventConfiguration: LifecycleEventConfiguration?
-        /// A LayerCustomRecipes object that specifies the layer custom recipes.
-        public let customRecipes: Recipes?
-        /// An array of Package objects that describes the layer packages.
-        public let packages: [String]?
-        /// A VolumeConfigurations object that describes the layer's Amazon EBS volumes.
-        public let volumeConfigurations: [VolumeConfiguration]?
-
-        public init(attributes: [LayerAttributesKeys: String]? = nil, autoAssignElasticIps: Bool? = nil, autoAssignPublicIps: Bool? = nil, cloudWatchLogsConfiguration: CloudWatchLogsConfiguration? = nil, customInstanceProfileArn: String? = nil, customJson: String? = nil, customRecipes: Recipes? = nil, customSecurityGroupIds: [String]? = nil, enableAutoHealing: Bool? = nil, installUpdatesOnBoot: Bool? = nil, lifecycleEventConfiguration: LifecycleEventConfiguration? = nil, name: String, packages: [String]? = nil, shortname: String, stackId: String, type: LayerType, useEbsOptimizedInstances: Bool? = nil, volumeConfigurations: [VolumeConfiguration]? = nil) {
-            self.customInstanceProfileArn = customInstanceProfileArn
-            self.customSecurityGroupIds = customSecurityGroupIds
-            self.cloudWatchLogsConfiguration = cloudWatchLogsConfiguration
-            self.stackId = stackId
-            self.name = name
-            self.autoAssignPublicIps = autoAssignPublicIps
-            self.attributes = attributes
-            self.useEbsOptimizedInstances = useEbsOptimizedInstances
-            self.`type` = `type`
-            self.customJson = customJson
-            self.shortname = shortname
-            self.enableAutoHealing = enableAutoHealing
-            self.autoAssignElasticIps = autoAssignElasticIps
-            self.installUpdatesOnBoot = installUpdatesOnBoot
-            self.lifecycleEventConfiguration = lifecycleEventConfiguration
-            self.customRecipes = customRecipes
-            self.packages = packages
-            self.volumeConfigurations = volumeConfigurations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case customInstanceProfileArn = "CustomInstanceProfileArn"
-            case customSecurityGroupIds = "CustomSecurityGroupIds"
-            case cloudWatchLogsConfiguration = "CloudWatchLogsConfiguration"
-            case stackId = "StackId"
-            case name = "Name"
-            case autoAssignPublicIps = "AutoAssignPublicIps"
-            case attributes = "Attributes"
-            case useEbsOptimizedInstances = "UseEbsOptimizedInstances"
-            case `type` = "Type"
-            case customJson = "CustomJson"
-            case shortname = "Shortname"
-            case enableAutoHealing = "EnableAutoHealing"
-            case autoAssignElasticIps = "AutoAssignElasticIps"
-            case installUpdatesOnBoot = "InstallUpdatesOnBoot"
-            case lifecycleEventConfiguration = "LifecycleEventConfiguration"
-            case customRecipes = "CustomRecipes"
-            case packages = "Packages"
-            case volumeConfigurations = "VolumeConfigurations"
-        }
-    }
-
-    public struct RaidArray: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VolumeType", required: false, type: .string), 
-            AWSShapeMember(label: "MountPoint", required: false, type: .string), 
-            AWSShapeMember(label: "NumberOfDisks", required: false, type: .integer), 
-            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "RaidArrayId", required: false, type: .string), 
-            AWSShapeMember(label: "Device", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "Size", required: false, type: .integer), 
-            AWSShapeMember(label: "StackId", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
-            AWSShapeMember(label: "RaidLevel", required: false, type: .integer)
-        ]
-        /// The volume type, standard or PIOPS.
-        public let volumeType: String?
-        /// The array's mount point.
-        public let mountPoint: String?
-        /// The number of disks in the array.
-        public let numberOfDisks: Int32?
-        /// The instance ID.
-        public let instanceId: String?
-        /// The array ID.
-        public let raidArrayId: String?
-        /// The array's Linux device. For example /dev/mdadm0.
-        public let device: String?
-        /// The array name.
-        public let name: String?
-        /// For PIOPS volumes, the IOPS per disk.
-        public let iops: Int32?
-        /// The array's Availability Zone. For more information, see Regions and Endpoints.
-        public let availabilityZone: String?
-        /// The array's size.
-        public let size: Int32?
-        /// The stack ID.
-        public let stackId: String?
-        /// When the RAID array was created.
-        public let createdAt: String?
-        /// The RAID level.
-        public let raidLevel: Int32?
-
-        public init(availabilityZone: String? = nil, createdAt: String? = nil, device: String? = nil, instanceId: String? = nil, iops: Int32? = nil, mountPoint: String? = nil, name: String? = nil, numberOfDisks: Int32? = nil, raidArrayId: String? = nil, raidLevel: Int32? = nil, size: Int32? = nil, stackId: String? = nil, volumeType: String? = nil) {
-            self.volumeType = volumeType
-            self.mountPoint = mountPoint
-            self.numberOfDisks = numberOfDisks
-            self.instanceId = instanceId
-            self.raidArrayId = raidArrayId
-            self.device = device
-            self.name = name
-            self.iops = iops
-            self.availabilityZone = availabilityZone
-            self.size = size
-            self.stackId = stackId
-            self.createdAt = createdAt
-            self.raidLevel = raidLevel
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case volumeType = "VolumeType"
-            case mountPoint = "MountPoint"
-            case numberOfDisks = "NumberOfDisks"
-            case instanceId = "InstanceId"
-            case raidArrayId = "RaidArrayId"
-            case device = "Device"
-            case name = "Name"
-            case iops = "Iops"
-            case availabilityZone = "AvailabilityZone"
-            case size = "Size"
-            case stackId = "StackId"
-            case createdAt = "CreatedAt"
-            case raidLevel = "RaidLevel"
-        }
-    }
-
-    public struct DescribeAppsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Apps", required: false, type: .list)
-        ]
-        /// An array of App objects that describe the specified apps. 
-        public let apps: [App]?
-
-        public init(apps: [App]? = nil) {
-            self.apps = apps
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case apps = "Apps"
-        }
-    }
-
-    public struct ElasticIp: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Ip", required: false, type: .string), 
-            AWSShapeMember(label: "Region", required: false, type: .string), 
-            AWSShapeMember(label: "Domain", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceId", required: false, type: .string)
-        ]
-        /// The name.
-        public let name: String?
-        /// The IP address.
-        public let ip: String?
-        /// The AWS region. For more information, see Regions and Endpoints.
-        public let region: String?
-        /// The domain.
-        public let domain: String?
-        /// The ID of the instance that the address is attached to.
-        public let instanceId: String?
-
-        public init(domain: String? = nil, instanceId: String? = nil, ip: String? = nil, name: String? = nil, region: String? = nil) {
-            self.name = name
-            self.ip = ip
-            self.region = region
-            self.domain = domain
-            self.instanceId = instanceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case ip = "Ip"
-            case region = "Region"
-            case domain = "Domain"
-            case instanceId = "InstanceId"
-        }
-    }
-
-    public struct RegisterEcsClusterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EcsClusterArn", required: true, type: .string), 
-            AWSShapeMember(label: "StackId", required: true, type: .string)
-        ]
-        /// The cluster's ARN.
-        public let ecsClusterArn: String
-        /// The stack ID.
-        public let stackId: String
-
-        public init(ecsClusterArn: String, stackId: String) {
-            self.ecsClusterArn = ecsClusterArn
-            self.stackId = stackId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ecsClusterArn = "EcsClusterArn"
-            case stackId = "StackId"
-        }
-    }
-
-    public struct UpdateUserProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SshPublicKey", required: false, type: .string), 
-            AWSShapeMember(label: "IamUserArn", required: true, type: .string), 
-            AWSShapeMember(label: "AllowSelfManagement", required: false, type: .boolean), 
-            AWSShapeMember(label: "SshUsername", required: false, type: .string)
-        ]
-        /// The user's new SSH public key.
-        public let sshPublicKey: String?
-        /// The user IAM ARN. This can also be a federated user's ARN.
-        public let iamUserArn: String
-        /// Whether users can specify their own SSH public key through the My Settings page. For more information, see Managing User Permissions.
-        public let allowSelfManagement: Bool?
-        /// The user's SSH user name. The allowable characters are [a-z], [A-Z], [0-9], '-', and '_'. If the specified name includes other punctuation marks, AWS OpsWorks Stacks removes them. For example, my.name will be changed to myname. If you do not specify an SSH user name, AWS OpsWorks Stacks generates one from the IAM user name. 
-        public let sshUsername: String?
-
-        public init(allowSelfManagement: Bool? = nil, iamUserArn: String, sshPublicKey: String? = nil, sshUsername: String? = nil) {
-            self.sshPublicKey = sshPublicKey
-            self.iamUserArn = iamUserArn
-            self.allowSelfManagement = allowSelfManagement
-            self.sshUsername = sshUsername
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sshPublicKey = "SshPublicKey"
-            case iamUserArn = "IamUserArn"
-            case allowSelfManagement = "AllowSelfManagement"
-            case sshUsername = "SshUsername"
-        }
-    }
-
-    public struct GrantAccessResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TemporaryCredential", required: false, type: .structure)
-        ]
-        /// A TemporaryCredential object that contains the data needed to log in to the instance by RDP clients, such as the Microsoft Remote Desktop Connection.
-        public let temporaryCredential: TemporaryCredential?
-
-        public init(temporaryCredential: TemporaryCredential? = nil) {
-            self.temporaryCredential = temporaryCredential
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case temporaryCredential = "TemporaryCredential"
-        }
-    }
-
-    public struct DeregisterInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", required: true, type: .string)
-        ]
-        /// The instance ID.
-        public let instanceId: String
-
-        public init(instanceId: String) {
-            self.instanceId = instanceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
-        }
     }
 
     public struct BlockDeviceMapping: AWSShape {
@@ -3982,814 +299,181 @@ extension OpsWorks {
         }
     }
 
-    public struct SetTimeBasedAutoScalingRequest: AWSShape {
+    public struct ChefConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
-            AWSShapeMember(label: "AutoScalingSchedule", required: false, type: .structure)
+            AWSShapeMember(label: "BerkshelfVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ManageBerkshelf", required: false, type: .boolean)
         ]
-        /// The instance ID.
-        public let instanceId: String
-        /// An AutoScalingSchedule with the instance schedule.
-        public let autoScalingSchedule: WeeklyAutoScalingSchedule?
+        /// The Berkshelf version.
+        public let berkshelfVersion: String?
+        /// Whether to enable Berkshelf.
+        public let manageBerkshelf: Bool?
 
-        public init(autoScalingSchedule: WeeklyAutoScalingSchedule? = nil, instanceId: String) {
-            self.instanceId = instanceId
-            self.autoScalingSchedule = autoScalingSchedule
+        public init(berkshelfVersion: String? = nil, manageBerkshelf: Bool? = nil) {
+            self.berkshelfVersion = berkshelfVersion
+            self.manageBerkshelf = manageBerkshelf
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
-            case autoScalingSchedule = "AutoScalingSchedule"
+            case berkshelfVersion = "BerkshelfVersion"
+            case manageBerkshelf = "ManageBerkshelf"
         }
     }
 
-    public struct DescribeDeploymentsRequest: AWSShape {
+    public struct CloneStackRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackId", required: false, type: .string), 
-            AWSShapeMember(label: "DeploymentIds", required: false, type: .list), 
-            AWSShapeMember(label: "AppId", required: false, type: .string)
-        ]
-        /// The stack ID. If you include this parameter, the command returns a description of the commands associated with the specified stack.
-        public let stackId: String?
-        /// An array of deployment IDs to be described. If you include this parameter, the command returns a description of the specified deployments. Otherwise, it returns a description of every deployment.
-        public let deploymentIds: [String]?
-        /// The app ID. If you include this parameter, the command returns a description of the commands associated with the specified app.
-        public let appId: String?
-
-        public init(appId: String? = nil, deploymentIds: [String]? = nil, stackId: String? = nil) {
-            self.stackId = stackId
-            self.deploymentIds = deploymentIds
-            self.appId = appId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stackId = "StackId"
-            case deploymentIds = "DeploymentIds"
-            case appId = "AppId"
-        }
-    }
-
-    public struct DescribeStackProvisioningParametersResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AgentInstallerUrl", required: false, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .map)
-        ]
-        /// The AWS OpsWorks Stacks agent installer's URL.
-        public let agentInstallerUrl: String?
-        /// An embedded object that contains the provisioning parameters.
-        public let parameters: [String: String]?
-
-        public init(agentInstallerUrl: String? = nil, parameters: [String: String]? = nil) {
-            self.agentInstallerUrl = agentInstallerUrl
-            self.parameters = parameters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case agentInstallerUrl = "AgentInstallerUrl"
-            case parameters = "Parameters"
-        }
-    }
-
-    public struct RegisterInstanceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", required: false, type: .string)
-        ]
-        /// The registered instance's AWS OpsWorks Stacks ID.
-        public let instanceId: String?
-
-        public init(instanceId: String? = nil) {
-            self.instanceId = instanceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
-        }
-    }
-
-    public struct DescribeAgentVersionsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AgentVersions", required: false, type: .list)
-        ]
-        /// The agent versions for the specified stack or configuration manager. Note that this value is the complete version number, not the abbreviated number used by the console.
-        public let agentVersions: [AgentVersion]?
-
-        public init(agentVersions: [AgentVersion]? = nil) {
-            self.agentVersions = agentVersions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case agentVersions = "AgentVersions"
-        }
-    }
-
-    public struct UpdateMyUserProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SshPublicKey", required: false, type: .string)
-        ]
-        /// The user's SSH public key.
-        public let sshPublicKey: String?
-
-        public init(sshPublicKey: String? = nil) {
-            self.sshPublicKey = sshPublicKey
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sshPublicKey = "SshPublicKey"
-        }
-    }
-
-    public struct Layer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstallUpdatesOnBoot", required: false, type: .boolean), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "CloudWatchLogsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "AutoAssignElasticIps", required: false, type: .boolean), 
-            AWSShapeMember(label: "DefaultSecurityGroupNames", required: false, type: .list), 
-            AWSShapeMember(label: "UseEbsOptimizedInstances", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Packages", required: false, type: .list), 
-            AWSShapeMember(label: "LayerId", required: false, type: .string), 
-            AWSShapeMember(label: "CustomSecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "AgentVersion", required: false, type: .string), 
             AWSShapeMember(label: "Attributes", required: false, type: .map), 
-            AWSShapeMember(label: "LifecycleEventConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "CustomRecipes", required: false, type: .structure), 
+            AWSShapeMember(label: "ChefConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "CloneAppIds", required: false, type: .list), 
+            AWSShapeMember(label: "ClonePermissions", required: false, type: .boolean), 
+            AWSShapeMember(label: "ConfigurationManager", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomCookbooksSource", required: false, type: .structure), 
             AWSShapeMember(label: "CustomJson", required: false, type: .string), 
-            AWSShapeMember(label: "Shortname", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "CustomInstanceProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "StackId", required: false, type: .string), 
-            AWSShapeMember(label: "AutoAssignPublicIps", required: false, type: .boolean), 
-            AWSShapeMember(label: "DefaultRecipes", required: false, type: .structure), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
-            AWSShapeMember(label: "EnableAutoHealing", required: false, type: .boolean)
-        ]
-        /// Whether to install operating system and package updates when the instance boots. The default value is true. If this value is set to false, you must then update your instances manually by using CreateDeployment to run the update_dependencies stack command or manually running yum (Amazon Linux) or apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true, to ensure that your instances have the latest security updates. 
-        public let installUpdatesOnBoot: Bool?
-        /// The layer type.
-        public let `type`: LayerType?
-        /// The Amazon CloudWatch Logs configuration settings for the layer.
-        public let cloudWatchLogsConfiguration: CloudWatchLogsConfiguration?
-        /// Whether to automatically assign an Elastic IP address to the layer's instances. For more information, see How to Edit a Layer.
-        public let autoAssignElasticIps: Bool?
-        /// An array containing the layer's security group names.
-        public let defaultSecurityGroupNames: [String]?
-        /// Whether the layer uses Amazon EBS-optimized instances.
-        public let useEbsOptimizedInstances: Bool?
-        /// The layer name.
-        public let name: String?
-        /// An array of Package objects that describe the layer's packages.
-        public let packages: [String]?
-        /// The layer ID.
-        public let layerId: String?
-        /// An array containing the layer's custom security group IDs.
-        public let customSecurityGroupIds: [String]?
-        /// The layer attributes. For the HaproxyStatsPassword, MysqlRootPassword, and GangliaPassword attributes, AWS OpsWorks Stacks returns *****FILTERED***** instead of the actual value For an ECS Cluster layer, AWS OpsWorks Stacks the EcsClusterArn attribute is set to the cluster's ARN.
-        public let attributes: [LayerAttributesKeys: String]?
-        /// A LifeCycleEventConfiguration object that specifies the Shutdown event configuration.
-        public let lifecycleEventConfiguration: LifecycleEventConfiguration?
-        /// A LayerCustomRecipes object that specifies the layer's custom recipes.
-        public let customRecipes: Recipes?
-        /// A JSON formatted string containing the layer's custom stack configuration and deployment attributes.
-        public let customJson: String?
-        /// The layer short name.
-        public let shortname: String?
-        /// A VolumeConfigurations object that describes the layer's Amazon EBS volumes.
-        public let volumeConfigurations: [VolumeConfiguration]?
-        /// The ARN of the default IAM profile to be used for the layer's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
-        public let customInstanceProfileArn: String?
-        /// The layer stack ID.
-        public let stackId: String?
-        /// For stacks that are running in a VPC, whether to automatically assign a public IP address to the layer's instances. For more information, see How to Edit a Layer.
-        public let autoAssignPublicIps: Bool?
-        public let defaultRecipes: Recipes?
-        /// The Amazon Resource Number (ARN) of a layer.
-        public let arn: String?
-        /// Date when the layer was created.
-        public let createdAt: String?
-        /// Whether auto healing is disabled for the layer.
-        public let enableAutoHealing: Bool?
-
-        public init(arn: String? = nil, attributes: [LayerAttributesKeys: String]? = nil, autoAssignElasticIps: Bool? = nil, autoAssignPublicIps: Bool? = nil, cloudWatchLogsConfiguration: CloudWatchLogsConfiguration? = nil, createdAt: String? = nil, customInstanceProfileArn: String? = nil, customJson: String? = nil, customRecipes: Recipes? = nil, customSecurityGroupIds: [String]? = nil, defaultRecipes: Recipes? = nil, defaultSecurityGroupNames: [String]? = nil, enableAutoHealing: Bool? = nil, installUpdatesOnBoot: Bool? = nil, layerId: String? = nil, lifecycleEventConfiguration: LifecycleEventConfiguration? = nil, name: String? = nil, packages: [String]? = nil, shortname: String? = nil, stackId: String? = nil, type: LayerType? = nil, useEbsOptimizedInstances: Bool? = nil, volumeConfigurations: [VolumeConfiguration]? = nil) {
-            self.installUpdatesOnBoot = installUpdatesOnBoot
-            self.`type` = `type`
-            self.cloudWatchLogsConfiguration = cloudWatchLogsConfiguration
-            self.autoAssignElasticIps = autoAssignElasticIps
-            self.defaultSecurityGroupNames = defaultSecurityGroupNames
-            self.useEbsOptimizedInstances = useEbsOptimizedInstances
-            self.name = name
-            self.packages = packages
-            self.layerId = layerId
-            self.customSecurityGroupIds = customSecurityGroupIds
-            self.attributes = attributes
-            self.lifecycleEventConfiguration = lifecycleEventConfiguration
-            self.customRecipes = customRecipes
-            self.customJson = customJson
-            self.shortname = shortname
-            self.volumeConfigurations = volumeConfigurations
-            self.customInstanceProfileArn = customInstanceProfileArn
-            self.stackId = stackId
-            self.autoAssignPublicIps = autoAssignPublicIps
-            self.defaultRecipes = defaultRecipes
-            self.arn = arn
-            self.createdAt = createdAt
-            self.enableAutoHealing = enableAutoHealing
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case installUpdatesOnBoot = "InstallUpdatesOnBoot"
-            case `type` = "Type"
-            case cloudWatchLogsConfiguration = "CloudWatchLogsConfiguration"
-            case autoAssignElasticIps = "AutoAssignElasticIps"
-            case defaultSecurityGroupNames = "DefaultSecurityGroupNames"
-            case useEbsOptimizedInstances = "UseEbsOptimizedInstances"
-            case name = "Name"
-            case packages = "Packages"
-            case layerId = "LayerId"
-            case customSecurityGroupIds = "CustomSecurityGroupIds"
-            case attributes = "Attributes"
-            case lifecycleEventConfiguration = "LifecycleEventConfiguration"
-            case customRecipes = "CustomRecipes"
-            case customJson = "CustomJson"
-            case shortname = "Shortname"
-            case volumeConfigurations = "VolumeConfigurations"
-            case customInstanceProfileArn = "CustomInstanceProfileArn"
-            case stackId = "StackId"
-            case autoAssignPublicIps = "AutoAssignPublicIps"
-            case defaultRecipes = "DefaultRecipes"
-            case arn = "Arn"
-            case createdAt = "CreatedAt"
-            case enableAutoHealing = "EnableAutoHealing"
-        }
-    }
-
-    public struct CreateInstanceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", required: false, type: .string)
-        ]
-        /// The instance ID.
-        public let instanceId: String?
-
-        public init(instanceId: String? = nil) {
-            self.instanceId = instanceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
-        }
-    }
-
-    public struct OperatingSystemConfigurationManager: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Version", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The versions of the configuration manager that are supported by an operating system.
-        public let version: String?
-        /// The name of the configuration manager, which is Chef.
-        public let name: String?
-
-        public init(name: String? = nil, version: String? = nil) {
-            self.version = version
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case version = "Version"
-            case name = "Name"
-        }
-    }
-
-    public struct UpdateElasticIpRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultAvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultInstanceProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultOs", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultRootDeviceType", required: false, type: .enum), 
+            AWSShapeMember(label: "DefaultSshKeyName", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultSubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "HostnameTheme", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ElasticIp", required: true, type: .string)
+            AWSShapeMember(label: "Region", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "SourceStackId", required: true, type: .string), 
+            AWSShapeMember(label: "UseCustomCookbooks", required: false, type: .boolean), 
+            AWSShapeMember(label: "UseOpsworksSecurityGroups", required: false, type: .boolean), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
-        /// The new name.
-        public let name: String?
-        /// The IP address for which you want to update the name.
-        public let elasticIp: String
-
-        public init(elasticIp: String, name: String? = nil) {
-            self.name = name
-            self.elasticIp = elasticIp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case elasticIp = "ElasticIp"
-        }
-    }
-
-    public enum AppAttributesKeys: String, CustomStringConvertible, Codable {
-        case documentroot = "DocumentRoot"
-        case railsenv = "RailsEnv"
-        case autobundleondeploy = "AutoBundleOnDeploy"
-        case awsflowrubysettings = "AwsFlowRubySettings"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct EcsCluster: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EcsClusterName", required: false, type: .string), 
-            AWSShapeMember(label: "RegisteredAt", required: false, type: .string), 
-            AWSShapeMember(label: "EcsClusterArn", required: false, type: .string), 
-            AWSShapeMember(label: "StackId", required: false, type: .string)
-        ]
-        /// The cluster name.
-        public let ecsClusterName: String?
-        /// The time and date that the cluster was registered with the stack.
-        public let registeredAt: String?
-        /// The cluster's ARN.
-        public let ecsClusterArn: String?
-        /// The stack ID.
-        public let stackId: String?
-
-        public init(ecsClusterArn: String? = nil, ecsClusterName: String? = nil, registeredAt: String? = nil, stackId: String? = nil) {
-            self.ecsClusterName = ecsClusterName
-            self.registeredAt = registeredAt
-            self.ecsClusterArn = ecsClusterArn
-            self.stackId = stackId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ecsClusterName = "EcsClusterName"
-            case registeredAt = "RegisteredAt"
-            case ecsClusterArn = "EcsClusterArn"
-            case stackId = "StackId"
-        }
-    }
-
-    public struct DescribeInstancesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Instances", required: false, type: .list)
-        ]
-        /// An array of Instance objects that describe the instances.
-        public let instances: [Instance]?
-
-        public init(instances: [Instance]? = nil) {
-            self.instances = instances
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instances = "Instances"
-        }
-    }
-
-    public struct RegisterRdsDbInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RdsDbInstanceArn", required: true, type: .string), 
-            AWSShapeMember(label: "StackId", required: true, type: .string), 
-            AWSShapeMember(label: "DbUser", required: true, type: .string), 
-            AWSShapeMember(label: "DbPassword", required: true, type: .string)
-        ]
-        /// The Amazon RDS instance's ARN.
-        public let rdsDbInstanceArn: String
-        /// The stack ID.
-        public let stackId: String
-        /// The database's master user name.
-        public let dbUser: String
-        /// The database password.
-        public let dbPassword: String
-
-        public init(dbPassword: String, dbUser: String, rdsDbInstanceArn: String, stackId: String) {
-            self.rdsDbInstanceArn = rdsDbInstanceArn
-            self.stackId = stackId
-            self.dbUser = dbUser
-            self.dbPassword = dbPassword
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rdsDbInstanceArn = "RdsDbInstanceArn"
-            case stackId = "StackId"
-            case dbUser = "DbUser"
-            case dbPassword = "DbPassword"
-        }
-    }
-
-    public enum VirtualizationType: String, CustomStringConvertible, Codable {
-        case paravirtual = "paravirtual"
-        case hvm = "hvm"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct SetPermissionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IamUserArn", required: true, type: .string), 
-            AWSShapeMember(label: "StackId", required: true, type: .string), 
-            AWSShapeMember(label: "Level", required: false, type: .string), 
-            AWSShapeMember(label: "AllowSsh", required: false, type: .boolean), 
-            AWSShapeMember(label: "AllowSudo", required: false, type: .boolean)
-        ]
-        /// The user's IAM ARN. This can also be a federated user's ARN.
-        public let iamUserArn: String
-        /// The stack ID.
-        public let stackId: String
-        /// The user's permission level, which must be set to one of the following strings. You cannot set your own permissions level.    deny     show     deploy     manage     iam_only    For more information about the permissions associated with these levels, see Managing User Permissions.
-        public let level: String?
-        /// The user is allowed to use SSH to communicate with the instance.
-        public let allowSsh: Bool?
-        /// The user is allowed to use sudo to elevate privileges.
-        public let allowSudo: Bool?
-
-        public init(allowSsh: Bool? = nil, allowSudo: Bool? = nil, iamUserArn: String, level: String? = nil, stackId: String) {
-            self.iamUserArn = iamUserArn
-            self.stackId = stackId
-            self.level = level
-            self.allowSsh = allowSsh
-            self.allowSudo = allowSudo
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case iamUserArn = "IamUserArn"
-            case stackId = "StackId"
-            case level = "Level"
-            case allowSsh = "AllowSsh"
-            case allowSudo = "AllowSudo"
-        }
-    }
-
-    public struct DisassociateElasticIpRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ElasticIp", required: true, type: .string)
-        ]
-        /// The Elastic IP address.
-        public let elasticIp: String
-
-        public init(elasticIp: String) {
-            self.elasticIp = elasticIp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case elasticIp = "ElasticIp"
-        }
-    }
-
-    public struct DescribeLayersResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Layers", required: false, type: .list)
-        ]
-        /// An array of Layer objects that describe the layers.
-        public let layers: [Layer]?
-
-        public init(layers: [Layer]? = nil) {
-            self.layers = layers
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case layers = "Layers"
-        }
-    }
-
-    public struct UnassignVolumeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VolumeId", required: true, type: .string)
-        ]
-        /// The volume ID.
-        public let volumeId: String
-
-        public init(volumeId: String) {
-            self.volumeId = volumeId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case volumeId = "VolumeId"
-        }
-    }
-
-    public struct AgentVersion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Version", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigurationManager", required: false, type: .structure)
-        ]
-        /// The agent version.
-        public let version: String?
-        /// The configuration manager.
+        /// The default AWS OpsWorks Stacks agent version. You have the following options:   Auto-update - Set this parameter to LATEST. AWS OpsWorks Stacks automatically installs new agent versions on the stack's instances as soon as they are available.   Fixed version - Set this parameter to your preferred agent version. To update the agent version, you must edit the stack configuration and specify a new version. AWS OpsWorks Stacks then automatically installs that version on the stack's instances.   The default setting is LATEST. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.  You can also specify an agent version when you create or update an instance, which overrides the stack's default setting. 
+        public let agentVersion: String?
+        /// A list of stack attributes and values as key/value pairs to be added to the cloned stack.
+        public let attributes: [StackAttributesKeys: String]?
+        /// A ChefConfiguration object that specifies whether to enable Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more information, see Create a New Stack.
+        public let chefConfiguration: ChefConfiguration?
+        /// A list of source stack app IDs to be included in the cloned stack.
+        public let cloneAppIds: [String]?
+        /// Whether to clone the source stack's permissions.
+        public let clonePermissions: Bool?
+        /// The configuration manager. When you clone a stack we recommend that you use the configuration manager to specify the Chef version: 12, 11.10, or 11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently 12.
         public let configurationManager: StackConfigurationManager?
+        public let customCookbooksSource: Source?
+        /// A string that contains user-defined, custom JSON. It is used to override the corresponding default stack configuration JSON values. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information about custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes 
+        public let customJson: String?
+        /// The cloned stack's default Availability Zone, which must be in the specified region. For more information, see Regions and Endpoints. If you also specify a value for DefaultSubnetId, the subnet must be in the same zone. For more information, see the VpcId parameter description. 
+        public let defaultAvailabilityZone: String?
+        /// The Amazon Resource Name (ARN) of an IAM profile that is the default profile for all of the stack's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
+        public let defaultInstanceProfileArn: String?
+        /// The stack's operating system, which must be set to one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7     Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information about how to use custom AMIs with OpsWorks, see Using Custom AMIs.   The default option is the parent stack's operating system. For more information about supported operating systems, see AWS OpsWorks Stacks Operating Systems.  You can specify a different Linux operating system for the cloned stack, but you cannot change from Linux to Windows or Windows to Linux. 
+        public let defaultOs: String?
+        /// The default root device type. This value is used by default for all instances in the cloned stack, but you can override it when you create an instance. For more information, see Storage for the Root Device.
+        public let defaultRootDeviceType: RootDeviceType?
+        /// A default Amazon EC2 key pair name. The default value is none. If you specify a key pair name, AWS OpsWorks installs the public key on the instance and you can use the private key with an SSH client to log in to the instance. For more information, see  Using SSH to Communicate with an Instance and  Managing SSH Access. You can override this setting by specifying a different key pair, or no key pair, when you  create an instance. 
+        public let defaultSshKeyName: String?
+        /// The stack's default VPC subnet ID. This parameter is required if you specify a value for the VpcId parameter. All instances are launched into this subnet unless you specify otherwise when you create the instance. If you also specify a value for DefaultAvailabilityZone, the subnet must be in that zone. For information on default values and when this parameter is required, see the VpcId parameter description. 
+        public let defaultSubnetId: String?
+        /// The stack's host name theme, with spaces are replaced by underscores. The theme is used to generate host names for the stack's instances. By default, HostnameTheme is set to Layer_Dependent, which creates host names by appending integers to the layer's short name. The other themes are:    Baked_Goods     Clouds     Europe_Cities     Fruits     Greek_Deities     Legendary_creatures_from_Japan     Planets_and_Moons     Roman_Deities     Scottish_Islands     US_Cities     Wild_Cats    To obtain a generated host name, call GetHostNameSuggestion, which returns a host name based on the current theme.
+        public let hostnameTheme: String?
+        /// The cloned stack name.
+        public let name: String?
+        /// The cloned stack AWS region, such as "ap-northeast-2". For more information about AWS regions, see Regions and Endpoints.
+        public let region: String?
+        /// The stack AWS Identity and Access Management (IAM) role, which allows AWS OpsWorks Stacks to work with AWS resources on your behalf. You must set this parameter to the Amazon Resource Name (ARN) for an existing IAM role. If you create a stack by using the AWS OpsWorks Stacks console, it creates the role for you. You can obtain an existing stack's IAM ARN programmatically by calling DescribePermissions. For more information about IAM ARNs, see Using Identifiers.  You must set this parameter to a valid service role ARN or the action will fail; there is no default value. You can specify the source stack's service role ARN, if you prefer, but you must do so explicitly. 
+        public let serviceRoleArn: String
+        /// The source stack ID.
+        public let sourceStackId: String
+        /// Whether to use custom cookbooks.
+        public let useCustomCookbooks: Bool?
+        /// Whether to associate the AWS OpsWorks Stacks built-in security groups with the stack's layers. AWS OpsWorks Stacks provides a standard set of built-in security groups, one for each layer, which are associated with layers by default. With UseOpsworksSecurityGroups you can instead provide your own custom security groups. UseOpsworksSecurityGroups has the following settings:    True - AWS OpsWorks Stacks automatically associates the appropriate built-in security group with each layer (default setting). You can associate additional security groups with a layer after you create it but you cannot delete the built-in security group.   False - AWS OpsWorks Stacks does not associate built-in security groups with layers. You must create appropriate Amazon Elastic Compute Cloud (Amazon EC2) security groups and associate a security group with each layer that you create. However, you can still manually associate a built-in security group with a layer on creation; custom security groups are required only for those layers that need custom settings.   For more information, see Create a New Stack.
+        public let useOpsworksSecurityGroups: Bool?
+        /// The ID of the VPC that the cloned stack is to be launched into. It must be in the specified region. All instances are launched into this VPC, and you cannot change the ID later.   If your account supports EC2 Classic, the default value is no VPC.   If your account does not support EC2 Classic, the default value is the default VPC for the specified region.   If the VPC ID corresponds to a default VPC and you have specified either the DefaultAvailabilityZone or the DefaultSubnetId parameter only, AWS OpsWorks Stacks infers the value of the other parameter. If you specify neither parameter, AWS OpsWorks Stacks sets these parameters to the first valid Availability Zone for the specified region and the corresponding default VPC subnet ID, respectively.  If you specify a nondefault VPC ID, note the following:   It must belong to a VPC in your account that is in the specified region.   You must specify a value for DefaultSubnetId.   For more information about how to use AWS OpsWorks Stacks with a VPC, see Running a Stack in a VPC. For more information about default VPC and EC2 Classic, see Supported Platforms. 
+        public let vpcId: String?
 
-        public init(configurationManager: StackConfigurationManager? = nil, version: String? = nil) {
-            self.version = version
+        public init(agentVersion: String? = nil, attributes: [StackAttributesKeys: String]? = nil, chefConfiguration: ChefConfiguration? = nil, cloneAppIds: [String]? = nil, clonePermissions: Bool? = nil, configurationManager: StackConfigurationManager? = nil, customCookbooksSource: Source? = nil, customJson: String? = nil, defaultAvailabilityZone: String? = nil, defaultInstanceProfileArn: String? = nil, defaultOs: String? = nil, defaultRootDeviceType: RootDeviceType? = nil, defaultSshKeyName: String? = nil, defaultSubnetId: String? = nil, hostnameTheme: String? = nil, name: String? = nil, region: String? = nil, serviceRoleArn: String, sourceStackId: String, useCustomCookbooks: Bool? = nil, useOpsworksSecurityGroups: Bool? = nil, vpcId: String? = nil) {
+            self.agentVersion = agentVersion
+            self.attributes = attributes
+            self.chefConfiguration = chefConfiguration
+            self.cloneAppIds = cloneAppIds
+            self.clonePermissions = clonePermissions
             self.configurationManager = configurationManager
+            self.customCookbooksSource = customCookbooksSource
+            self.customJson = customJson
+            self.defaultAvailabilityZone = defaultAvailabilityZone
+            self.defaultInstanceProfileArn = defaultInstanceProfileArn
+            self.defaultOs = defaultOs
+            self.defaultRootDeviceType = defaultRootDeviceType
+            self.defaultSshKeyName = defaultSshKeyName
+            self.defaultSubnetId = defaultSubnetId
+            self.hostnameTheme = hostnameTheme
+            self.name = name
+            self.region = region
+            self.serviceRoleArn = serviceRoleArn
+            self.sourceStackId = sourceStackId
+            self.useCustomCookbooks = useCustomCookbooks
+            self.useOpsworksSecurityGroups = useOpsworksSecurityGroups
+            self.vpcId = vpcId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case version = "Version"
+            case agentVersion = "AgentVersion"
+            case attributes = "Attributes"
+            case chefConfiguration = "ChefConfiguration"
+            case cloneAppIds = "CloneAppIds"
+            case clonePermissions = "ClonePermissions"
             case configurationManager = "ConfigurationManager"
+            case customCookbooksSource = "CustomCookbooksSource"
+            case customJson = "CustomJson"
+            case defaultAvailabilityZone = "DefaultAvailabilityZone"
+            case defaultInstanceProfileArn = "DefaultInstanceProfileArn"
+            case defaultOs = "DefaultOs"
+            case defaultRootDeviceType = "DefaultRootDeviceType"
+            case defaultSshKeyName = "DefaultSshKeyName"
+            case defaultSubnetId = "DefaultSubnetId"
+            case hostnameTheme = "HostnameTheme"
+            case name = "Name"
+            case region = "Region"
+            case serviceRoleArn = "ServiceRoleArn"
+            case sourceStackId = "SourceStackId"
+            case useCustomCookbooks = "UseCustomCookbooks"
+            case useOpsworksSecurityGroups = "UseOpsworksSecurityGroups"
+            case vpcId = "VpcId"
         }
     }
 
-    public struct UnassignInstanceRequest: AWSShape {
+    public struct CloneStackResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", required: true, type: .string)
-        ]
-        /// The instance ID.
-        public let instanceId: String
-
-        public init(instanceId: String) {
-            self.instanceId = instanceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
-        }
-    }
-
-    public struct DeleteInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeleteVolumes", required: false, type: .boolean), 
-            AWSShapeMember(label: "DeleteElasticIp", required: false, type: .boolean), 
-            AWSShapeMember(label: "InstanceId", required: true, type: .string)
-        ]
-        /// Whether to delete the instance's Amazon EBS volumes.
-        public let deleteVolumes: Bool?
-        /// Whether to delete the instance Elastic IP address.
-        public let deleteElasticIp: Bool?
-        /// The instance ID.
-        public let instanceId: String
-
-        public init(deleteElasticIp: Bool? = nil, deleteVolumes: Bool? = nil, instanceId: String) {
-            self.deleteVolumes = deleteVolumes
-            self.deleteElasticIp = deleteElasticIp
-            self.instanceId = instanceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deleteVolumes = "DeleteVolumes"
-            case deleteElasticIp = "DeleteElasticIp"
-            case instanceId = "InstanceId"
-        }
-    }
-
-    public struct DescribeRaidArraysRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RaidArrayIds", required: false, type: .list), 
-            AWSShapeMember(label: "StackId", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceId", required: false, type: .string)
-        ]
-        /// An array of RAID array IDs. If you use this parameter, DescribeRaidArrays returns descriptions of the specified arrays. Otherwise, it returns a description of every array.
-        public let raidArrayIds: [String]?
-        /// The stack ID.
-        public let stackId: String?
-        /// The instance ID. If you use this parameter, DescribeRaidArrays returns descriptions of the RAID arrays associated with the specified instance. 
-        public let instanceId: String?
-
-        public init(instanceId: String? = nil, raidArrayIds: [String]? = nil, stackId: String? = nil) {
-            self.raidArrayIds = raidArrayIds
-            self.stackId = stackId
-            self.instanceId = instanceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case raidArrayIds = "RaidArrayIds"
-            case stackId = "StackId"
-            case instanceId = "InstanceId"
-        }
-    }
-
-    public enum LayerType: String, CustomStringConvertible, Codable {
-        case awsFlowRuby = "aws-flow-ruby"
-        case ecsCluster = "ecs-cluster"
-        case javaApp = "java-app"
-        case lb = "lb"
-        case web = "web"
-        case phpApp = "php-app"
-        case railsApp = "rails-app"
-        case nodejsApp = "nodejs-app"
-        case memcached = "memcached"
-        case dbMaster = "db-master"
-        case monitoringMaster = "monitoring-master"
-        case custom = "custom"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Architecture: String, CustomStringConvertible, Codable {
-        case x8664 = "x86_64"
-        case i386 = "i386"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeElasticIpsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ips", required: false, type: .list), 
-            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
             AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
-        /// An array of Elastic IP addresses to be described. If you include this parameter, DescribeElasticIps returns a description of the specified Elastic IP addresses. Otherwise, it returns a description of every Elastic IP address.
-        public let ips: [String]?
-        /// The instance ID. If you include this parameter, DescribeElasticIps returns a description of the Elastic IP addresses associated with the specified instance.
-        public let instanceId: String?
-        /// A stack ID. If you include this parameter, DescribeElasticIps returns a description of the Elastic IP addresses that are registered with the specified stack.
+        /// The cloned stack ID.
         public let stackId: String?
 
-        public init(instanceId: String? = nil, ips: [String]? = nil, stackId: String? = nil) {
-            self.ips = ips
-            self.instanceId = instanceId
-            self.stackId = stackId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ips = "Ips"
-            case instanceId = "InstanceId"
-            case stackId = "StackId"
-        }
-    }
-
-    public struct RebootInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", required: true, type: .string)
-        ]
-        /// The instance ID.
-        public let instanceId: String
-
-        public init(instanceId: String) {
-            self.instanceId = instanceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
-        }
-    }
-
-    public struct TimeBasedAutoScalingConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "AutoScalingSchedule", required: false, type: .structure)
-        ]
-        /// The instance ID.
-        public let instanceId: String?
-        /// A WeeklyAutoScalingSchedule object with the instance schedule.
-        public let autoScalingSchedule: WeeklyAutoScalingSchedule?
-
-        public init(autoScalingSchedule: WeeklyAutoScalingSchedule? = nil, instanceId: String? = nil) {
-            self.instanceId = instanceId
-            self.autoScalingSchedule = autoScalingSchedule
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
-            case autoScalingSchedule = "AutoScalingSchedule"
-        }
-    }
-
-    public struct Command: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .string), 
-            AWSShapeMember(label: "CommandId", required: false, type: .string), 
-            AWSShapeMember(label: "AcknowledgedAt", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
-            AWSShapeMember(label: "ExitCode", required: false, type: .integer), 
-            AWSShapeMember(label: "CompletedAt", required: false, type: .string), 
-            AWSShapeMember(label: "LogUrl", required: false, type: .string)
-        ]
-        /// The ID of the instance where the command was executed.
-        public let instanceId: String?
-        /// The command deployment ID.
-        public let deploymentId: String?
-        /// The command status:   failed   successful   skipped   pending  
-        public let status: String?
-        /// The command type:    configure     deploy     execute_recipes     install_dependencies     restart     rollback     setup     start     stop     undeploy     update_custom_cookbooks     update_dependencies   
-        public let `type`: String?
-        /// The command ID.
-        public let commandId: String?
-        /// Date and time when the command was acknowledged.
-        public let acknowledgedAt: String?
-        /// Date and time when the command was run.
-        public let createdAt: String?
-        /// The command exit code.
-        public let exitCode: Int32?
-        /// Date when the command completed.
-        public let completedAt: String?
-        /// The URL of the command log.
-        public let logUrl: String?
-
-        public init(acknowledgedAt: String? = nil, commandId: String? = nil, completedAt: String? = nil, createdAt: String? = nil, deploymentId: String? = nil, exitCode: Int32? = nil, instanceId: String? = nil, logUrl: String? = nil, status: String? = nil, type: String? = nil) {
-            self.instanceId = instanceId
-            self.deploymentId = deploymentId
-            self.status = status
-            self.`type` = `type`
-            self.commandId = commandId
-            self.acknowledgedAt = acknowledgedAt
-            self.createdAt = createdAt
-            self.exitCode = exitCode
-            self.completedAt = completedAt
-            self.logUrl = logUrl
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
-            case deploymentId = "DeploymentId"
-            case status = "Status"
-            case `type` = "Type"
-            case commandId = "CommandId"
-            case acknowledgedAt = "AcknowledgedAt"
-            case createdAt = "CreatedAt"
-            case exitCode = "ExitCode"
-            case completedAt = "CompletedAt"
-            case logUrl = "LogUrl"
-        }
-    }
-
-    public struct DeregisterRdsDbInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RdsDbInstanceArn", required: true, type: .string)
-        ]
-        /// The Amazon RDS instance's ARN.
-        public let rdsDbInstanceArn: String
-
-        public init(rdsDbInstanceArn: String) {
-            self.rdsDbInstanceArn = rdsDbInstanceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rdsDbInstanceArn = "RdsDbInstanceArn"
-        }
-    }
-
-    public struct DescribeCommandsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Commands", required: false, type: .list)
-        ]
-        /// An array of Command objects that describe each of the specified commands.
-        public let commands: [Command]?
-
-        public init(commands: [Command]? = nil) {
-            self.commands = commands
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case commands = "Commands"
-        }
-    }
-
-    public struct DescribeLayersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LayerIds", required: false, type: .list), 
-            AWSShapeMember(label: "StackId", required: false, type: .string)
-        ]
-        /// An array of layer IDs that specify the layers to be described. If you omit this parameter, DescribeLayers returns a description of every layer in the specified stack.
-        public let layerIds: [String]?
-        /// The stack ID.
-        public let stackId: String?
-
-        public init(layerIds: [String]? = nil, stackId: String? = nil) {
-            self.layerIds = layerIds
-            self.stackId = stackId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case layerIds = "LayerIds"
-            case stackId = "StackId"
-        }
-    }
-
-    public enum DeploymentCommandName: String, CustomStringConvertible, Codable {
-        case installDependencies = "install_dependencies"
-        case updateDependencies = "update_dependencies"
-        case updateCustomCookbooks = "update_custom_cookbooks"
-        case executeRecipes = "execute_recipes"
-        case configure = "configure"
-        case setup = "setup"
-        case deploy = "deploy"
-        case rollback = "rollback"
-        case start = "start"
-        case stop = "stop"
-        case restart = "restart"
-        case undeploy = "undeploy"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeElasticLoadBalancersResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ElasticLoadBalancers", required: false, type: .list)
-        ]
-        /// A list of ElasticLoadBalancer objects that describe the specified Elastic Load Balancing instances.
-        public let elasticLoadBalancers: [ElasticLoadBalancer]?
-
-        public init(elasticLoadBalancers: [ElasticLoadBalancer]? = nil) {
-            self.elasticLoadBalancers = elasticLoadBalancers
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case elasticLoadBalancers = "ElasticLoadBalancers"
-        }
-    }
-
-    public struct StopStackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackId", required: true, type: .string)
-        ]
-        /// The stack ID.
-        public let stackId: String
-
-        public init(stackId: String) {
+        public init(stackId: String? = nil) {
             self.stackId = stackId
         }
 
         private enum CodingKeys: String, CodingKey {
             case stackId = "StackId"
+        }
+    }
+
+    public struct CloudWatchLogsConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "LogStreams", required: false, type: .list)
+        ]
+        /// Whether CloudWatch Logs is enabled for a layer.
+        public let enabled: Bool?
+        /// A list of configuration options for CloudWatch Logs.
+        public let logStreams: [CloudWatchLogsLogStream]?
+
+        public init(enabled: Bool? = nil, logStreams: [CloudWatchLogsLogStream]? = nil) {
+            self.enabled = enabled
+            self.logStreams = logStreams
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case logStreams = "LogStreams"
         }
     }
 
@@ -4889,106 +573,509 @@ extension OpsWorks {
         public var description: String { return self.rawValue }
     }
 
-    public struct LoadBasedAutoScalingConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UpScaling", required: false, type: .structure), 
-            AWSShapeMember(label: "DownScaling", required: false, type: .structure), 
-            AWSShapeMember(label: "Enable", required: false, type: .boolean), 
-            AWSShapeMember(label: "LayerId", required: false, type: .string)
-        ]
-        /// An AutoScalingThresholds object that describes the upscaling configuration, which defines how and when AWS OpsWorks Stacks increases the number of instances.
-        public let upScaling: AutoScalingThresholds?
-        /// An AutoScalingThresholds object that describes the downscaling configuration, which defines how and when AWS OpsWorks Stacks reduces the number of instances.
-        public let downScaling: AutoScalingThresholds?
-        /// Whether load-based auto scaling is enabled for the layer.
-        public let enable: Bool?
-        /// The layer ID.
-        public let layerId: String?
+    public enum CloudWatchLogsInitialPosition: String, CustomStringConvertible, Codable {
+        case startOfFile = "start_of_file"
+        case endOfFile = "end_of_file"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(downScaling: AutoScalingThresholds? = nil, enable: Bool? = nil, layerId: String? = nil, upScaling: AutoScalingThresholds? = nil) {
-            self.upScaling = upScaling
-            self.downScaling = downScaling
-            self.enable = enable
-            self.layerId = layerId
+    public struct CloudWatchLogsLogStream: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BatchCount", required: false, type: .integer), 
+            AWSShapeMember(label: "BatchSize", required: false, type: .integer), 
+            AWSShapeMember(label: "BufferDuration", required: false, type: .integer), 
+            AWSShapeMember(label: "DatetimeFormat", required: false, type: .string), 
+            AWSShapeMember(label: "Encoding", required: false, type: .enum), 
+            AWSShapeMember(label: "File", required: false, type: .string), 
+            AWSShapeMember(label: "FileFingerprintLines", required: false, type: .string), 
+            AWSShapeMember(label: "InitialPosition", required: false, type: .enum), 
+            AWSShapeMember(label: "LogGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "MultiLineStartPattern", required: false, type: .string), 
+            AWSShapeMember(label: "TimeZone", required: false, type: .enum)
+        ]
+        /// Specifies the max number of log events in a batch, up to 10000. The default value is 1000.
+        public let batchCount: Int32?
+        /// Specifies the maximum size of log events in a batch, in bytes, up to 1048576 bytes. The default value is 32768 bytes. This size is calculated as the sum of all event messages in UTF-8, plus 26 bytes for each log event.
+        public let batchSize: Int32?
+        /// Specifies the time duration for the batching of log events. The minimum value is 5000ms and default value is 5000ms.
+        public let bufferDuration: Int32?
+        /// Specifies how the time stamp is extracted from logs. For more information, see the CloudWatch Logs Agent Reference.
+        public let datetimeFormat: String?
+        /// Specifies the encoding of the log file so that the file can be read correctly. The default is utf_8. Encodings supported by Python codecs.decode() can be used here.
+        public let encoding: CloudWatchLogsEncoding?
+        /// Specifies log files that you want to push to CloudWatch Logs.  File can point to a specific file or multiple files (by using wild card characters such as /var/log/system.log*). Only the latest file is pushed to CloudWatch Logs, based on file modification time. We recommend that you use wild card characters to specify a series of files of the same type, such as access_log.2014-06-01-01, access_log.2014-06-01-02, and so on by using a pattern like access_log.*. Don't use a wildcard to match multiple file types, such as access_log_80 and access_log_443. To specify multiple, different file types, add another log stream entry to the configuration file, so that each log file type is stored in a different log group. Zipped files are not supported.
+        public let file: String?
+        /// Specifies the range of lines for identifying a file. The valid values are one number, or two dash-delimited numbers, such as '1', '2-5'. The default value is '1', meaning the first line is used to calculate the fingerprint. Fingerprint lines are not sent to CloudWatch Logs unless all specified lines are available.
+        public let fileFingerprintLines: String?
+        /// Specifies where to start to read data (start_of_file or end_of_file). The default is start_of_file. This setting is only used if there is no state persisted for that log stream.
+        public let initialPosition: CloudWatchLogsInitialPosition?
+        /// Specifies the destination log group. A log group is created automatically if it doesn't already exist. Log group names can be between 1 and 512 characters long. Allowed characters include a-z, A-Z, 0-9, '_' (underscore), '-' (hyphen), '/' (forward slash), and '.' (period).
+        public let logGroupName: String?
+        /// Specifies the pattern for identifying the start of a log message.
+        public let multiLineStartPattern: String?
+        /// Specifies the time zone of log event time stamps.
+        public let timeZone: CloudWatchLogsTimeZone?
+
+        public init(batchCount: Int32? = nil, batchSize: Int32? = nil, bufferDuration: Int32? = nil, datetimeFormat: String? = nil, encoding: CloudWatchLogsEncoding? = nil, file: String? = nil, fileFingerprintLines: String? = nil, initialPosition: CloudWatchLogsInitialPosition? = nil, logGroupName: String? = nil, multiLineStartPattern: String? = nil, timeZone: CloudWatchLogsTimeZone? = nil) {
+            self.batchCount = batchCount
+            self.batchSize = batchSize
+            self.bufferDuration = bufferDuration
+            self.datetimeFormat = datetimeFormat
+            self.encoding = encoding
+            self.file = file
+            self.fileFingerprintLines = fileFingerprintLines
+            self.initialPosition = initialPosition
+            self.logGroupName = logGroupName
+            self.multiLineStartPattern = multiLineStartPattern
+            self.timeZone = timeZone
         }
 
         private enum CodingKeys: String, CodingKey {
-            case upScaling = "UpScaling"
-            case downScaling = "DownScaling"
-            case enable = "Enable"
-            case layerId = "LayerId"
+            case batchCount = "BatchCount"
+            case batchSize = "BatchSize"
+            case bufferDuration = "BufferDuration"
+            case datetimeFormat = "DatetimeFormat"
+            case encoding = "Encoding"
+            case file = "File"
+            case fileFingerprintLines = "FileFingerprintLines"
+            case initialPosition = "InitialPosition"
+            case logGroupName = "LogGroupName"
+            case multiLineStartPattern = "MultiLineStartPattern"
+            case timeZone = "TimeZone"
         }
     }
 
-    public struct GetHostnameSuggestionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LayerId", required: true, type: .string)
-        ]
-        /// The layer ID.
-        public let layerId: String
+    public enum CloudWatchLogsTimeZone: String, CustomStringConvertible, Codable {
+        case local = "LOCAL"
+        case utc = "UTC"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(layerId: String) {
-            self.layerId = layerId
+    public struct Command: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcknowledgedAt", required: false, type: .string), 
+            AWSShapeMember(label: "CommandId", required: false, type: .string), 
+            AWSShapeMember(label: "CompletedAt", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "ExitCode", required: false, type: .integer), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "LogUrl", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .string)
+        ]
+        /// Date and time when the command was acknowledged.
+        public let acknowledgedAt: String?
+        /// The command ID.
+        public let commandId: String?
+        /// Date when the command completed.
+        public let completedAt: String?
+        /// Date and time when the command was run.
+        public let createdAt: String?
+        /// The command deployment ID.
+        public let deploymentId: String?
+        /// The command exit code.
+        public let exitCode: Int32?
+        /// The ID of the instance where the command was executed.
+        public let instanceId: String?
+        /// The URL of the command log.
+        public let logUrl: String?
+        /// The command status:   failed   successful   skipped   pending  
+        public let status: String?
+        /// The command type:    configure     deploy     execute_recipes     install_dependencies     restart     rollback     setup     start     stop     undeploy     update_custom_cookbooks     update_dependencies   
+        public let `type`: String?
+
+        public init(acknowledgedAt: String? = nil, commandId: String? = nil, completedAt: String? = nil, createdAt: String? = nil, deploymentId: String? = nil, exitCode: Int32? = nil, instanceId: String? = nil, logUrl: String? = nil, status: String? = nil, type: String? = nil) {
+            self.acknowledgedAt = acknowledgedAt
+            self.commandId = commandId
+            self.completedAt = completedAt
+            self.createdAt = createdAt
+            self.deploymentId = deploymentId
+            self.exitCode = exitCode
+            self.instanceId = instanceId
+            self.logUrl = logUrl
+            self.status = status
+            self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
-            case layerId = "LayerId"
+            case acknowledgedAt = "AcknowledgedAt"
+            case commandId = "CommandId"
+            case completedAt = "CompletedAt"
+            case createdAt = "CreatedAt"
+            case deploymentId = "DeploymentId"
+            case exitCode = "ExitCode"
+            case instanceId = "InstanceId"
+            case logUrl = "LogUrl"
+            case status = "Status"
+            case `type` = "Type"
         }
     }
 
-    public struct ElasticLoadBalancer: AWSShape {
+    public struct CreateAppRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackId", required: false, type: .string), 
-            AWSShapeMember(label: "DnsName", required: false, type: .string), 
-            AWSShapeMember(label: "Region", required: false, type: .string), 
-            AWSShapeMember(label: "LayerId", required: false, type: .string), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
-            AWSShapeMember(label: "Ec2InstanceIds", required: false, type: .list), 
-            AWSShapeMember(label: "ElasticLoadBalancerName", required: false, type: .string)
+            AWSShapeMember(label: "AppSource", required: false, type: .structure), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "DataSources", required: false, type: .list), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Domains", required: false, type: .list), 
+            AWSShapeMember(label: "EnableSsl", required: false, type: .boolean), 
+            AWSShapeMember(label: "Environment", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Shortname", required: false, type: .string), 
+            AWSShapeMember(label: "SslConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "StackId", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
-        /// The ID of the stack that the instance is associated with.
-        public let stackId: String?
-        /// The instance's public DNS name.
-        public let dnsName: String?
-        /// The instance's AWS region.
-        public let region: String?
-        /// The ID of the layer that the instance is attached to.
-        public let layerId: String?
-        /// The VPC ID.
-        public let vpcId: String?
-        /// A list of subnet IDs, if the stack is running in a VPC.
-        public let subnetIds: [String]?
-        /// A list of Availability Zones.
-        public let availabilityZones: [String]?
-        /// A list of the EC2 instances that the Elastic Load Balancing instance is managing traffic for.
-        public let ec2InstanceIds: [String]?
-        /// The Elastic Load Balancing instance's name.
-        public let elasticLoadBalancerName: String?
+        /// A Source object that specifies the app repository.
+        public let appSource: Source?
+        /// One or more user-defined key/value pairs to be added to the stack attributes.
+        public let attributes: [AppAttributesKeys: String]?
+        /// The app's data source.
+        public let dataSources: [DataSource]?
+        /// A description of the app.
+        public let description: String?
+        /// The app virtual host settings, with multiple domains separated by commas. For example: 'www.example.com, example.com' 
+        public let domains: [String]?
+        /// Whether to enable SSL for the app.
+        public let enableSsl: Bool?
+        /// An array of EnvironmentVariable objects that specify environment variables to be associated with the app. After you deploy the app, these variables are defined on the associated app server instance. For more information, see  Environment Variables. There is no specific limit on the number of environment variables. However, the size of the associated data structure - which includes the variables' names, values, and protected flag values - cannot exceed 10 KB (10240 Bytes). This limit should accommodate most if not all use cases. Exceeding it will cause an exception with the message, "Environment: is too large (maximum is 10KB)."  This parameter is supported only by Chef 11.10 stacks. If you have specified one or more environment variables, you cannot modify the stack's Chef version. 
+        public let environment: [EnvironmentVariable]?
+        /// The app name.
+        public let name: String
+        /// The app's short name.
+        public let shortname: String?
+        /// An SslConfiguration object with the SSL configuration.
+        public let sslConfiguration: SslConfiguration?
+        /// The stack ID.
+        public let stackId: String
+        /// The app type. Each supported type is associated with a particular layer. For example, PHP applications are associated with a PHP layer. AWS OpsWorks Stacks deploys an application to those instances that are members of the corresponding layer. If your app isn't one of the standard types, or you prefer to implement your own Deploy recipes, specify other.
+        public let `type`: AppType
 
-        public init(availabilityZones: [String]? = nil, dnsName: String? = nil, ec2InstanceIds: [String]? = nil, elasticLoadBalancerName: String? = nil, layerId: String? = nil, region: String? = nil, stackId: String? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+        public init(appSource: Source? = nil, attributes: [AppAttributesKeys: String]? = nil, dataSources: [DataSource]? = nil, description: String? = nil, domains: [String]? = nil, enableSsl: Bool? = nil, environment: [EnvironmentVariable]? = nil, name: String, shortname: String? = nil, sslConfiguration: SslConfiguration? = nil, stackId: String, type: AppType) {
+            self.appSource = appSource
+            self.attributes = attributes
+            self.dataSources = dataSources
+            self.description = description
+            self.domains = domains
+            self.enableSsl = enableSsl
+            self.environment = environment
+            self.name = name
+            self.shortname = shortname
+            self.sslConfiguration = sslConfiguration
             self.stackId = stackId
-            self.dnsName = dnsName
-            self.region = region
-            self.layerId = layerId
-            self.vpcId = vpcId
-            self.subnetIds = subnetIds
-            self.availabilityZones = availabilityZones
-            self.ec2InstanceIds = ec2InstanceIds
-            self.elasticLoadBalancerName = elasticLoadBalancerName
+            self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appSource = "AppSource"
+            case attributes = "Attributes"
+            case dataSources = "DataSources"
+            case description = "Description"
+            case domains = "Domains"
+            case enableSsl = "EnableSsl"
+            case environment = "Environment"
+            case name = "Name"
+            case shortname = "Shortname"
+            case sslConfiguration = "SslConfiguration"
             case stackId = "StackId"
-            case dnsName = "DnsName"
-            case region = "Region"
-            case layerId = "LayerId"
-            case vpcId = "VpcId"
-            case subnetIds = "SubnetIds"
-            case availabilityZones = "AvailabilityZones"
-            case ec2InstanceIds = "Ec2InstanceIds"
-            case elasticLoadBalancerName = "ElasticLoadBalancerName"
+            case `type` = "Type"
+        }
+    }
+
+    public struct CreateAppResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppId", required: false, type: .string)
+        ]
+        /// The app ID.
+        public let appId: String?
+
+        public init(appId: String? = nil) {
+            self.appId = appId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "AppId"
+        }
+    }
+
+    public struct CreateDeploymentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppId", required: false, type: .string), 
+            AWSShapeMember(label: "Command", required: true, type: .structure), 
+            AWSShapeMember(label: "Comment", required: false, type: .string), 
+            AWSShapeMember(label: "CustomJson", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
+            AWSShapeMember(label: "LayerIds", required: false, type: .list), 
+            AWSShapeMember(label: "StackId", required: true, type: .string)
+        ]
+        /// The app ID. This parameter is required for app deployments, but not for other deployment commands.
+        public let appId: String?
+        /// A DeploymentCommand object that specifies the deployment command and any associated arguments.
+        public let command: DeploymentCommand
+        /// A user-defined comment.
+        public let comment: String?
+        /// A string that contains user-defined, custom JSON. It is used to override the corresponding default stack configuration JSON values. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information about custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
+        public let customJson: String?
+        /// The instance IDs for the deployment targets.
+        public let instanceIds: [String]?
+        /// The layer IDs for the deployment targets.
+        public let layerIds: [String]?
+        /// The stack ID.
+        public let stackId: String
+
+        public init(appId: String? = nil, command: DeploymentCommand, comment: String? = nil, customJson: String? = nil, instanceIds: [String]? = nil, layerIds: [String]? = nil, stackId: String) {
+            self.appId = appId
+            self.command = command
+            self.comment = comment
+            self.customJson = customJson
+            self.instanceIds = instanceIds
+            self.layerIds = layerIds
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "AppId"
+            case command = "Command"
+            case comment = "Comment"
+            case customJson = "CustomJson"
+            case instanceIds = "InstanceIds"
+            case layerIds = "LayerIds"
+            case stackId = "StackId"
+        }
+    }
+
+    public struct CreateDeploymentResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeploymentId", required: false, type: .string)
+        ]
+        /// The deployment ID, which can be used with other requests to identify the deployment.
+        public let deploymentId: String?
+
+        public init(deploymentId: String? = nil) {
+            self.deploymentId = deploymentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId = "DeploymentId"
+        }
+    }
+
+    public struct CreateInstanceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AgentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "AmiId", required: false, type: .string), 
+            AWSShapeMember(label: "Architecture", required: false, type: .enum), 
+            AWSShapeMember(label: "AutoScalingType", required: false, type: .enum), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "BlockDeviceMappings", required: false, type: .list), 
+            AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
+            AWSShapeMember(label: "Hostname", required: false, type: .string), 
+            AWSShapeMember(label: "InstallUpdatesOnBoot", required: false, type: .boolean), 
+            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
+            AWSShapeMember(label: "LayerIds", required: true, type: .list), 
+            AWSShapeMember(label: "Os", required: false, type: .string), 
+            AWSShapeMember(label: "RootDeviceType", required: false, type: .enum), 
+            AWSShapeMember(label: "SshKeyName", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: true, type: .string), 
+            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "Tenancy", required: false, type: .string), 
+            AWSShapeMember(label: "VirtualizationType", required: false, type: .string)
+        ]
+        /// The default AWS OpsWorks Stacks agent version. You have the following options:    INHERIT - Use the stack's default agent version setting.    version_number - Use the specified agent version. This value overrides the stack's default setting. To update the agent version, edit the instance configuration and specify a new version. AWS OpsWorks Stacks then automatically installs that version on the instance.   The default setting is INHERIT. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.
+        public let agentVersion: String?
+        /// A custom AMI ID to be used to create the instance. The AMI should be based on one of the supported operating systems. For more information, see Using Custom AMIs.  If you specify a custom AMI, you must set Os to Custom. 
+        public let amiId: String?
+        /// The instance architecture. The default option is x86_64. Instance types do not necessarily support both architectures. For a list of the architectures that are supported by the different instance types, see Instance Families and Types.
+        public let architecture: Architecture?
+        /// For load-based or time-based instances, the type. Windows stacks can use only time-based instances.
+        public let autoScalingType: AutoScalingType?
+        /// The instance Availability Zone. For more information, see Regions and Endpoints.
+        public let availabilityZone: String?
+        /// An array of BlockDeviceMapping objects that specify the instance's block devices. For more information, see Block Device Mapping. Note that block device mappings are not supported for custom AMIs.
+        public let blockDeviceMappings: [BlockDeviceMapping]?
+        /// Whether to create an Amazon EBS-optimized instance.
+        public let ebsOptimized: Bool?
+        /// The instance host name.
+        public let hostname: String?
+        /// Whether to install operating system and package updates when the instance boots. The default value is true. To control when updates are installed, set this value to false. You must then update your instances manually by using CreateDeployment to run the update_dependencies stack command or by manually running yum (Amazon Linux) or apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true to ensure that your instances have the latest security updates. 
+        public let installUpdatesOnBoot: Bool?
+        /// The instance type, such as t2.micro. For a list of supported instance types, open the stack in the console, choose Instances, and choose + Instance. The Size list contains the currently supported types. For more information, see Instance Families and Types. The parameter values that you use to specify the various types are in the API Name column of the Available Instance Types table.
+        public let instanceType: String
+        /// An array that contains the instance's layer IDs.
+        public let layerIds: [String]
+        /// The instance's operating system, which must be set to one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom.   For more information about the supported operating systems, see AWS OpsWorks Stacks Operating Systems. The default option is the current Amazon Linux version. If you set this parameter to Custom, you must use the CreateInstance action's AmiId parameter to specify the custom AMI that you want to use. Block device mappings are not supported if the value is Custom. For more information about supported operating systems, see Operating SystemsFor more information about how to use custom AMIs with AWS OpsWorks Stacks, see Using Custom AMIs.
+        public let os: String?
+        /// The instance root device type. For more information, see Storage for the Root Device.
+        public let rootDeviceType: RootDeviceType?
+        /// The instance's Amazon EC2 key-pair name.
+        public let sshKeyName: String?
+        /// The stack ID.
+        public let stackId: String
+        /// The ID of the instance's subnet. If the stack is running in a VPC, you can use this parameter to override the stack's default subnet ID value and direct AWS OpsWorks Stacks to launch the instance in a different subnet.
+        public let subnetId: String?
+        /// The instance's tenancy option. The default option is no tenancy, or if the instance is running in a VPC, inherit tenancy settings from the VPC. The following are valid values for this parameter: dedicated, default, or host. Because there are costs associated with changes in tenancy options, we recommend that you research tenancy options before choosing them for your instances. For more information about dedicated hosts, see Dedicated Hosts Overview and Amazon EC2 Dedicated Hosts. For more information about dedicated instances, see Dedicated Instances and Amazon EC2 Dedicated Instances.
+        public let tenancy: String?
+        /// The instance's virtualization type, paravirtual or hvm.
+        public let virtualizationType: String?
+
+        public init(agentVersion: String? = nil, amiId: String? = nil, architecture: Architecture? = nil, autoScalingType: AutoScalingType? = nil, availabilityZone: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, ebsOptimized: Bool? = nil, hostname: String? = nil, installUpdatesOnBoot: Bool? = nil, instanceType: String, layerIds: [String], os: String? = nil, rootDeviceType: RootDeviceType? = nil, sshKeyName: String? = nil, stackId: String, subnetId: String? = nil, tenancy: String? = nil, virtualizationType: String? = nil) {
+            self.agentVersion = agentVersion
+            self.amiId = amiId
+            self.architecture = architecture
+            self.autoScalingType = autoScalingType
+            self.availabilityZone = availabilityZone
+            self.blockDeviceMappings = blockDeviceMappings
+            self.ebsOptimized = ebsOptimized
+            self.hostname = hostname
+            self.installUpdatesOnBoot = installUpdatesOnBoot
+            self.instanceType = instanceType
+            self.layerIds = layerIds
+            self.os = os
+            self.rootDeviceType = rootDeviceType
+            self.sshKeyName = sshKeyName
+            self.stackId = stackId
+            self.subnetId = subnetId
+            self.tenancy = tenancy
+            self.virtualizationType = virtualizationType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentVersion = "AgentVersion"
+            case amiId = "AmiId"
+            case architecture = "Architecture"
+            case autoScalingType = "AutoScalingType"
+            case availabilityZone = "AvailabilityZone"
+            case blockDeviceMappings = "BlockDeviceMappings"
+            case ebsOptimized = "EbsOptimized"
+            case hostname = "Hostname"
+            case installUpdatesOnBoot = "InstallUpdatesOnBoot"
+            case instanceType = "InstanceType"
+            case layerIds = "LayerIds"
+            case os = "Os"
+            case rootDeviceType = "RootDeviceType"
+            case sshKeyName = "SshKeyName"
+            case stackId = "StackId"
+            case subnetId = "SubnetId"
+            case tenancy = "Tenancy"
+            case virtualizationType = "VirtualizationType"
+        }
+    }
+
+    public struct CreateInstanceResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: false, type: .string)
+        ]
+        /// The instance ID.
+        public let instanceId: String?
+
+        public init(instanceId: String? = nil) {
+            self.instanceId = instanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct CreateLayerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "AutoAssignElasticIps", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutoAssignPublicIps", required: false, type: .boolean), 
+            AWSShapeMember(label: "CloudWatchLogsConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomInstanceProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "CustomJson", required: false, type: .string), 
+            AWSShapeMember(label: "CustomRecipes", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomSecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "EnableAutoHealing", required: false, type: .boolean), 
+            AWSShapeMember(label: "InstallUpdatesOnBoot", required: false, type: .boolean), 
+            AWSShapeMember(label: "LifecycleEventConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Packages", required: false, type: .list), 
+            AWSShapeMember(label: "Shortname", required: true, type: .string), 
+            AWSShapeMember(label: "StackId", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "UseEbsOptimizedInstances", required: false, type: .boolean), 
+            AWSShapeMember(label: "VolumeConfigurations", required: false, type: .list)
+        ]
+        /// One or more user-defined key-value pairs to be added to the stack attributes. To create a cluster layer, set the EcsClusterArn attribute to the cluster's ARN.
+        public let attributes: [LayerAttributesKeys: String]?
+        /// Whether to automatically assign an Elastic IP address to the layer's instances. For more information, see How to Edit a Layer.
+        public let autoAssignElasticIps: Bool?
+        /// For stacks that are running in a VPC, whether to automatically assign a public IP address to the layer's instances. For more information, see How to Edit a Layer.
+        public let autoAssignPublicIps: Bool?
+        /// Specifies CloudWatch Logs configuration options for the layer. For more information, see CloudWatchLogsLogStream.
+        public let cloudWatchLogsConfiguration: CloudWatchLogsConfiguration?
+        /// The ARN of an IAM profile to be used for the layer's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
+        public let customInstanceProfileArn: String?
+        /// A JSON-formatted string containing custom stack configuration and deployment attributes to be installed on the layer's instances. For more information, see  Using Custom JSON. This feature is supported as of version 1.7.42 of the AWS CLI. 
+        public let customJson: String?
+        /// A LayerCustomRecipes object that specifies the layer custom recipes.
+        public let customRecipes: Recipes?
+        /// An array containing the layer custom security group IDs.
+        public let customSecurityGroupIds: [String]?
+        /// Whether to disable auto healing for the layer.
+        public let enableAutoHealing: Bool?
+        /// Whether to install operating system and package updates when the instance boots. The default value is true. To control when updates are installed, set this value to false. You must then update your instances manually by using CreateDeployment to run the update_dependencies stack command or by manually running yum (Amazon Linux) or apt-get (Ubuntu) on the instances.   To ensure that your instances have the latest security updates, we strongly recommend using the default value of true. 
+        public let installUpdatesOnBoot: Bool?
+        /// A LifeCycleEventConfiguration object that you can use to configure the Shutdown event to specify an execution timeout and enable or disable Elastic Load Balancer connection draining.
+        public let lifecycleEventConfiguration: LifecycleEventConfiguration?
+        /// The layer name, which is used by the console.
+        public let name: String
+        /// An array of Package objects that describes the layer packages.
+        public let packages: [String]?
+        /// For custom layers only, use this parameter to specify the layer's short name, which is used internally by AWS OpsWorks Stacks and by Chef recipes. The short name is also used as the name for the directory where your app files are installed. It can have a maximum of 200 characters, which are limited to the alphanumeric characters, '-', '_', and '.'. The built-in layers' short names are defined by AWS OpsWorks Stacks. For more information, see the Layer Reference.
+        public let shortname: String
+        /// The layer stack ID.
+        public let stackId: String
+        /// The layer type. A stack cannot have more than one built-in layer of the same type. It can have any number of custom layers. Built-in layers are not available in Chef 12 stacks.
+        public let `type`: LayerType
+        /// Whether to use Amazon EBS-optimized instances.
+        public let useEbsOptimizedInstances: Bool?
+        /// A VolumeConfigurations object that describes the layer's Amazon EBS volumes.
+        public let volumeConfigurations: [VolumeConfiguration]?
+
+        public init(attributes: [LayerAttributesKeys: String]? = nil, autoAssignElasticIps: Bool? = nil, autoAssignPublicIps: Bool? = nil, cloudWatchLogsConfiguration: CloudWatchLogsConfiguration? = nil, customInstanceProfileArn: String? = nil, customJson: String? = nil, customRecipes: Recipes? = nil, customSecurityGroupIds: [String]? = nil, enableAutoHealing: Bool? = nil, installUpdatesOnBoot: Bool? = nil, lifecycleEventConfiguration: LifecycleEventConfiguration? = nil, name: String, packages: [String]? = nil, shortname: String, stackId: String, type: LayerType, useEbsOptimizedInstances: Bool? = nil, volumeConfigurations: [VolumeConfiguration]? = nil) {
+            self.attributes = attributes
+            self.autoAssignElasticIps = autoAssignElasticIps
+            self.autoAssignPublicIps = autoAssignPublicIps
+            self.cloudWatchLogsConfiguration = cloudWatchLogsConfiguration
+            self.customInstanceProfileArn = customInstanceProfileArn
+            self.customJson = customJson
+            self.customRecipes = customRecipes
+            self.customSecurityGroupIds = customSecurityGroupIds
+            self.enableAutoHealing = enableAutoHealing
+            self.installUpdatesOnBoot = installUpdatesOnBoot
+            self.lifecycleEventConfiguration = lifecycleEventConfiguration
+            self.name = name
+            self.packages = packages
+            self.shortname = shortname
+            self.stackId = stackId
+            self.`type` = `type`
+            self.useEbsOptimizedInstances = useEbsOptimizedInstances
+            self.volumeConfigurations = volumeConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case autoAssignElasticIps = "AutoAssignElasticIps"
+            case autoAssignPublicIps = "AutoAssignPublicIps"
+            case cloudWatchLogsConfiguration = "CloudWatchLogsConfiguration"
+            case customInstanceProfileArn = "CustomInstanceProfileArn"
+            case customJson = "CustomJson"
+            case customRecipes = "CustomRecipes"
+            case customSecurityGroupIds = "CustomSecurityGroupIds"
+            case enableAutoHealing = "EnableAutoHealing"
+            case installUpdatesOnBoot = "InstallUpdatesOnBoot"
+            case lifecycleEventConfiguration = "LifecycleEventConfiguration"
+            case name = "Name"
+            case packages = "Packages"
+            case shortname = "Shortname"
+            case stackId = "StackId"
+            case `type` = "Type"
+            case useEbsOptimizedInstances = "UseEbsOptimizedInstances"
+            case volumeConfigurations = "VolumeConfigurations"
         }
     }
 
@@ -5008,106 +1095,4019 @@ extension OpsWorks {
         }
     }
 
-    public struct TemporaryCredential: AWSShape {
+    public struct CreateStackRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Password", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "ValidForInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "Username", required: false, type: .string)
+            AWSShapeMember(label: "AgentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "ChefConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ConfigurationManager", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomCookbooksSource", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomJson", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultAvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultInstanceProfileArn", required: true, type: .string), 
+            AWSShapeMember(label: "DefaultOs", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultRootDeviceType", required: false, type: .enum), 
+            AWSShapeMember(label: "DefaultSshKeyName", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultSubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "HostnameTheme", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Region", required: true, type: .string), 
+            AWSShapeMember(label: "ServiceRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "UseCustomCookbooks", required: false, type: .boolean), 
+            AWSShapeMember(label: "UseOpsworksSecurityGroups", required: false, type: .boolean), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
-        /// The password.
-        public let password: String?
-        /// The instance's AWS OpsWorks Stacks ID.
-        public let instanceId: String?
-        /// The length of time (in minutes) that the grant is valid. When the grant expires, at the end of this period, the user will no longer be able to use the credentials to log in. If they are logged in at the time, they will be automatically logged out.
-        public let validForInMinutes: Int32?
-        /// The user name.
-        public let username: String?
+        /// The default AWS OpsWorks Stacks agent version. You have the following options:   Auto-update - Set this parameter to LATEST. AWS OpsWorks Stacks automatically installs new agent versions on the stack's instances as soon as they are available.   Fixed version - Set this parameter to your preferred agent version. To update the agent version, you must edit the stack configuration and specify a new version. AWS OpsWorks Stacks then automatically installs that version on the stack's instances.   The default setting is the most recent release of the agent. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.  You can also specify an agent version when you create or update an instance, which overrides the stack's default setting. 
+        public let agentVersion: String?
+        /// One or more user-defined key-value pairs to be added to the stack attributes.
+        public let attributes: [StackAttributesKeys: String]?
+        /// A ChefConfiguration object that specifies whether to enable Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more information, see Create a New Stack.
+        public let chefConfiguration: ChefConfiguration?
+        /// The configuration manager. When you create a stack we recommend that you use the configuration manager to specify the Chef version: 12, 11.10, or 11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently 12.
+        public let configurationManager: StackConfigurationManager?
+        public let customCookbooksSource: Source?
+        /// A string that contains user-defined, custom JSON. It can be used to override the corresponding default stack configuration attribute values or to pass data to recipes. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information about custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
+        public let customJson: String?
+        /// The stack's default Availability Zone, which must be in the specified region. For more information, see Regions and Endpoints. If you also specify a value for DefaultSubnetId, the subnet must be in the same zone. For more information, see the VpcId parameter description. 
+        public let defaultAvailabilityZone: String?
+        /// The Amazon Resource Name (ARN) of an IAM profile that is the default profile for all of the stack's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
+        public let defaultInstanceProfileArn: String
+        /// The stack's default operating system, which is installed on every instance unless you specify a different operating system when you create the instance. You can specify one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information, see  Using Custom AMIs.   The default option is the current Amazon Linux version. For more information about supported operating systems, see AWS OpsWorks Stacks Operating Systems.
+        public let defaultOs: String?
+        /// The default root device type. This value is the default for all instances in the stack, but you can override it when you create an instance. The default option is instance-store. For more information, see Storage for the Root Device.
+        public let defaultRootDeviceType: RootDeviceType?
+        /// A default Amazon EC2 key pair name. The default value is none. If you specify a key pair name, AWS OpsWorks installs the public key on the instance and you can use the private key with an SSH client to log in to the instance. For more information, see  Using SSH to Communicate with an Instance and  Managing SSH Access. You can override this setting by specifying a different key pair, or no key pair, when you  create an instance. 
+        public let defaultSshKeyName: String?
+        /// The stack's default VPC subnet ID. This parameter is required if you specify a value for the VpcId parameter. All instances are launched into this subnet unless you specify otherwise when you create the instance. If you also specify a value for DefaultAvailabilityZone, the subnet must be in that zone. For information on default values and when this parameter is required, see the VpcId parameter description. 
+        public let defaultSubnetId: String?
+        /// The stack's host name theme, with spaces replaced by underscores. The theme is used to generate host names for the stack's instances. By default, HostnameTheme is set to Layer_Dependent, which creates host names by appending integers to the layer's short name. The other themes are:    Baked_Goods     Clouds     Europe_Cities     Fruits     Greek_Deities     Legendary_creatures_from_Japan     Planets_and_Moons     Roman_Deities     Scottish_Islands     US_Cities     Wild_Cats    To obtain a generated host name, call GetHostNameSuggestion, which returns a host name based on the current theme.
+        public let hostnameTheme: String?
+        /// The stack name.
+        public let name: String
+        /// The stack's AWS region, such as ap-south-1. For more information about Amazon regions, see Regions and Endpoints.  In the AWS CLI, this API maps to the --stack-region parameter. If the --stack-region parameter and the AWS CLI common parameter --region are set to the same value, the stack uses a regional endpoint. If the --stack-region parameter is not set, but the AWS CLI --region parameter is, this also results in a stack with a regional endpoint. However, if the --region parameter is set to us-east-1, and the --stack-region parameter is set to one of the following, then the stack uses a legacy or classic region: us-west-1, us-west-2, sa-east-1, eu-central-1, eu-west-1, ap-northeast-1, ap-southeast-1, ap-southeast-2. In this case, the actual API endpoint of the stack is in us-east-1. Only the preceding regions are supported as classic regions in the us-east-1 API endpoint. Because it is a best practice to choose the regional endpoint that is closest to where you manage AWS, we recommend that you use regional endpoints for new stacks. The AWS CLI common --region parameter always specifies a regional API endpoint; it cannot be used to specify a classic AWS OpsWorks Stacks region. 
+        public let region: String
+        /// The stack's AWS Identity and Access Management (IAM) role, which allows AWS OpsWorks Stacks to work with AWS resources on your behalf. You must set this parameter to the Amazon Resource Name (ARN) for an existing IAM role. For more information about IAM ARNs, see Using Identifiers.
+        public let serviceRoleArn: String
+        /// Whether the stack uses custom cookbooks.
+        public let useCustomCookbooks: Bool?
+        /// Whether to associate the AWS OpsWorks Stacks built-in security groups with the stack's layers. AWS OpsWorks Stacks provides a standard set of built-in security groups, one for each layer, which are associated with layers by default. With UseOpsworksSecurityGroups you can instead provide your own custom security groups. UseOpsworksSecurityGroups has the following settings:    True - AWS OpsWorks Stacks automatically associates the appropriate built-in security group with each layer (default setting). You can associate additional security groups with a layer after you create it, but you cannot delete the built-in security group.   False - AWS OpsWorks Stacks does not associate built-in security groups with layers. You must create appropriate EC2 security groups and associate a security group with each layer that you create. However, you can still manually associate a built-in security group with a layer on creation; custom security groups are required only for those layers that need custom settings.   For more information, see Create a New Stack.
+        public let useOpsworksSecurityGroups: Bool?
+        /// The ID of the VPC that the stack is to be launched into. The VPC must be in the stack's region. All instances are launched into this VPC. You cannot change the ID later.   If your account supports EC2-Classic, the default value is no VPC.   If your account does not support EC2-Classic, the default value is the default VPC for the specified region.   If the VPC ID corresponds to a default VPC and you have specified either the DefaultAvailabilityZone or the DefaultSubnetId parameter only, AWS OpsWorks Stacks infers the value of the other parameter. If you specify neither parameter, AWS OpsWorks Stacks sets these parameters to the first valid Availability Zone for the specified region and the corresponding default VPC subnet ID, respectively. If you specify a nondefault VPC ID, note the following:   It must belong to a VPC in your account that is in the specified region.   You must specify a value for DefaultSubnetId.   For more information about how to use AWS OpsWorks Stacks with a VPC, see Running a Stack in a VPC. For more information about default VPC and EC2-Classic, see Supported Platforms. 
+        public let vpcId: String?
 
-        public init(instanceId: String? = nil, password: String? = nil, username: String? = nil, validForInMinutes: Int32? = nil) {
-            self.password = password
-            self.instanceId = instanceId
-            self.validForInMinutes = validForInMinutes
-            self.username = username
+        public init(agentVersion: String? = nil, attributes: [StackAttributesKeys: String]? = nil, chefConfiguration: ChefConfiguration? = nil, configurationManager: StackConfigurationManager? = nil, customCookbooksSource: Source? = nil, customJson: String? = nil, defaultAvailabilityZone: String? = nil, defaultInstanceProfileArn: String, defaultOs: String? = nil, defaultRootDeviceType: RootDeviceType? = nil, defaultSshKeyName: String? = nil, defaultSubnetId: String? = nil, hostnameTheme: String? = nil, name: String, region: String, serviceRoleArn: String, useCustomCookbooks: Bool? = nil, useOpsworksSecurityGroups: Bool? = nil, vpcId: String? = nil) {
+            self.agentVersion = agentVersion
+            self.attributes = attributes
+            self.chefConfiguration = chefConfiguration
+            self.configurationManager = configurationManager
+            self.customCookbooksSource = customCookbooksSource
+            self.customJson = customJson
+            self.defaultAvailabilityZone = defaultAvailabilityZone
+            self.defaultInstanceProfileArn = defaultInstanceProfileArn
+            self.defaultOs = defaultOs
+            self.defaultRootDeviceType = defaultRootDeviceType
+            self.defaultSshKeyName = defaultSshKeyName
+            self.defaultSubnetId = defaultSubnetId
+            self.hostnameTheme = hostnameTheme
+            self.name = name
+            self.region = region
+            self.serviceRoleArn = serviceRoleArn
+            self.useCustomCookbooks = useCustomCookbooks
+            self.useOpsworksSecurityGroups = useOpsworksSecurityGroups
+            self.vpcId = vpcId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case password = "Password"
+            case agentVersion = "AgentVersion"
+            case attributes = "Attributes"
+            case chefConfiguration = "ChefConfiguration"
+            case configurationManager = "ConfigurationManager"
+            case customCookbooksSource = "CustomCookbooksSource"
+            case customJson = "CustomJson"
+            case defaultAvailabilityZone = "DefaultAvailabilityZone"
+            case defaultInstanceProfileArn = "DefaultInstanceProfileArn"
+            case defaultOs = "DefaultOs"
+            case defaultRootDeviceType = "DefaultRootDeviceType"
+            case defaultSshKeyName = "DefaultSshKeyName"
+            case defaultSubnetId = "DefaultSubnetId"
+            case hostnameTheme = "HostnameTheme"
+            case name = "Name"
+            case region = "Region"
+            case serviceRoleArn = "ServiceRoleArn"
+            case useCustomCookbooks = "UseCustomCookbooks"
+            case useOpsworksSecurityGroups = "UseOpsworksSecurityGroups"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct CreateStackResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: false, type: .string)
+        ]
+        /// The stack ID, which is an opaque string that you use to identify the stack when performing actions such as DescribeStacks.
+        public let stackId: String?
+
+        public init(stackId: String? = nil) {
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
+        }
+    }
+
+    public struct CreateUserProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowSelfManagement", required: false, type: .boolean), 
+            AWSShapeMember(label: "IamUserArn", required: true, type: .string), 
+            AWSShapeMember(label: "SshPublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "SshUsername", required: false, type: .string)
+        ]
+        /// Whether users can specify their own SSH public key through the My Settings page. For more information, see Setting an IAM User's Public SSH Key.
+        public let allowSelfManagement: Bool?
+        /// The user's IAM ARN; this can also be a federated user's ARN.
+        public let iamUserArn: String
+        /// The user's public SSH key.
+        public let sshPublicKey: String?
+        /// The user's SSH user name. The allowable characters are [a-z], [A-Z], [0-9], '-', and '_'. If the specified name includes other punctuation marks, AWS OpsWorks Stacks removes them. For example, my.name will be changed to myname. If you do not specify an SSH user name, AWS OpsWorks Stacks generates one from the IAM user name. 
+        public let sshUsername: String?
+
+        public init(allowSelfManagement: Bool? = nil, iamUserArn: String, sshPublicKey: String? = nil, sshUsername: String? = nil) {
+            self.allowSelfManagement = allowSelfManagement
+            self.iamUserArn = iamUserArn
+            self.sshPublicKey = sshPublicKey
+            self.sshUsername = sshUsername
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowSelfManagement = "AllowSelfManagement"
+            case iamUserArn = "IamUserArn"
+            case sshPublicKey = "SshPublicKey"
+            case sshUsername = "SshUsername"
+        }
+    }
+
+    public struct CreateUserProfileResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IamUserArn", required: false, type: .string)
+        ]
+        /// The user's IAM ARN.
+        public let iamUserArn: String?
+
+        public init(iamUserArn: String? = nil) {
+            self.iamUserArn = iamUserArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iamUserArn = "IamUserArn"
+        }
+    }
+
+    public struct DataSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .string)
+        ]
+        /// The data source's ARN.
+        public let arn: String?
+        /// The database name.
+        public let databaseName: String?
+        /// The data source's type, AutoSelectOpsworksMysqlInstance, OpsworksMysqlInstance, RdsDbInstance, or None.
+        public let `type`: String?
+
+        public init(arn: String? = nil, databaseName: String? = nil, type: String? = nil) {
+            self.arn = arn
+            self.databaseName = databaseName
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case databaseName = "DatabaseName"
+            case `type` = "Type"
+        }
+    }
+
+    public struct DeleteAppRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppId", required: true, type: .string)
+        ]
+        /// The app ID.
+        public let appId: String
+
+        public init(appId: String) {
+            self.appId = appId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "AppId"
+        }
+    }
+
+    public struct DeleteInstanceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeleteElasticIp", required: false, type: .boolean), 
+            AWSShapeMember(label: "DeleteVolumes", required: false, type: .boolean), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
+        ]
+        /// Whether to delete the instance Elastic IP address.
+        public let deleteElasticIp: Bool?
+        /// Whether to delete the instance's Amazon EBS volumes.
+        public let deleteVolumes: Bool?
+        /// The instance ID.
+        public let instanceId: String
+
+        public init(deleteElasticIp: Bool? = nil, deleteVolumes: Bool? = nil, instanceId: String) {
+            self.deleteElasticIp = deleteElasticIp
+            self.deleteVolumes = deleteVolumes
+            self.instanceId = instanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleteElasticIp = "DeleteElasticIp"
+            case deleteVolumes = "DeleteVolumes"
             case instanceId = "InstanceId"
-            case validForInMinutes = "ValidForInMinutes"
-            case username = "Username"
+        }
+    }
+
+    public struct DeleteLayerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LayerId", required: true, type: .string)
+        ]
+        /// The layer ID.
+        public let layerId: String
+
+        public init(layerId: String) {
+            self.layerId = layerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case layerId = "LayerId"
+        }
+    }
+
+    public struct DeleteStackRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: true, type: .string)
+        ]
+        /// The stack ID.
+        public let stackId: String
+
+        public init(stackId: String) {
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
+        }
+    }
+
+    public struct DeleteUserProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IamUserArn", required: true, type: .string)
+        ]
+        /// The user's IAM ARN. This can also be a federated user's ARN.
+        public let iamUserArn: String
+
+        public init(iamUserArn: String) {
+            self.iamUserArn = iamUserArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iamUserArn = "IamUserArn"
+        }
+    }
+
+    public struct Deployment: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppId", required: false, type: .string), 
+            AWSShapeMember(label: "Command", required: false, type: .structure), 
+            AWSShapeMember(label: "Comment", required: false, type: .string), 
+            AWSShapeMember(label: "CompletedAt", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
+            AWSShapeMember(label: "CustomJson", required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "Duration", required: false, type: .integer), 
+            AWSShapeMember(label: "IamUserArn", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string)
+        ]
+        /// The app ID.
+        public let appId: String?
+        public let command: DeploymentCommand?
+        /// A user-defined comment.
+        public let comment: String?
+        /// Date when the deployment completed.
+        public let completedAt: String?
+        /// Date when the deployment was created.
+        public let createdAt: String?
+        /// A string that contains user-defined custom JSON. It can be used to override the corresponding default stack configuration attribute values for stack or to pass data to recipes. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information on custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
+        public let customJson: String?
+        /// The deployment ID.
+        public let deploymentId: String?
+        /// The deployment duration.
+        public let duration: Int32?
+        /// The user's IAM ARN.
+        public let iamUserArn: String?
+        /// The IDs of the target instances.
+        public let instanceIds: [String]?
+        /// The stack ID.
+        public let stackId: String?
+        /// The deployment status:   running   successful   failed  
+        public let status: String?
+
+        public init(appId: String? = nil, command: DeploymentCommand? = nil, comment: String? = nil, completedAt: String? = nil, createdAt: String? = nil, customJson: String? = nil, deploymentId: String? = nil, duration: Int32? = nil, iamUserArn: String? = nil, instanceIds: [String]? = nil, stackId: String? = nil, status: String? = nil) {
+            self.appId = appId
+            self.command = command
+            self.comment = comment
+            self.completedAt = completedAt
+            self.createdAt = createdAt
+            self.customJson = customJson
+            self.deploymentId = deploymentId
+            self.duration = duration
+            self.iamUserArn = iamUserArn
+            self.instanceIds = instanceIds
+            self.stackId = stackId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "AppId"
+            case command = "Command"
+            case comment = "Comment"
+            case completedAt = "CompletedAt"
+            case createdAt = "CreatedAt"
+            case customJson = "CustomJson"
+            case deploymentId = "DeploymentId"
+            case duration = "Duration"
+            case iamUserArn = "IamUserArn"
+            case instanceIds = "InstanceIds"
+            case stackId = "StackId"
+            case status = "Status"
+        }
+    }
+
+    public struct DeploymentCommand: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Args", required: false, type: .map), 
+            AWSShapeMember(label: "Name", required: true, type: .enum)
+        ]
+        /// The arguments of those commands that take arguments. It should be set to a JSON object with the following format:  {"arg_name1" : ["value1", "value2", ...], "arg_name2" : ["value1", "value2", ...], ...}  The update_dependencies command takes two arguments:    upgrade_os_to - Specifies the desired Amazon Linux version for instances whose OS you want to upgrade, such as Amazon Linux 2016.09. You must also set the allow_reboot argument to true.    allow_reboot - Specifies whether to allow AWS OpsWorks Stacks to reboot the instances if necessary, after installing the updates. This argument can be set to either true or false. The default value is false.   For example, to upgrade an instance to Amazon Linux 2016.09, set Args to the following.   { "upgrade_os_to":["Amazon Linux 2016.09"], "allow_reboot":["true"] }  
+        public let args: [String: [String]]?
+        /// Specifies the operation. You can specify only one command. For stacks, the following commands are available:    execute_recipes: Execute one or more recipes. To specify the recipes, set an Args parameter named recipes to the list of recipes to be executed. For example, to execute phpapp::appsetup, set Args to {"recipes":["phpapp::appsetup"]}.    install_dependencies: Install the stack's dependencies.    update_custom_cookbooks: Update the stack's custom cookbooks.    update_dependencies: Update the stack's dependencies.    The update_dependencies and install_dependencies commands are supported only for Linux instances. You can run the commands successfully on Windows instances, but they do nothing.  For apps, the following commands are available:    deploy: Deploy an app. Ruby on Rails apps have an optional Args parameter named migrate. Set Args to {"migrate":["true"]} to migrate the database. The default setting is {"migrate":["false"]}.    rollback Roll the app back to the previous version. When you update an app, AWS OpsWorks Stacks stores the previous version, up to a maximum of five versions. You can use this command to roll an app back as many as four versions.    start: Start the app's web or application server.    stop: Stop the app's web or application server.    restart: Restart the app's web or application server.    undeploy: Undeploy the app.  
+        public let name: DeploymentCommandName
+
+        public init(args: [String: [String]]? = nil, name: DeploymentCommandName) {
+            self.args = args
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case args = "Args"
+            case name = "Name"
+        }
+    }
+
+    public enum DeploymentCommandName: String, CustomStringConvertible, Codable {
+        case installDependencies = "install_dependencies"
+        case updateDependencies = "update_dependencies"
+        case updateCustomCookbooks = "update_custom_cookbooks"
+        case executeRecipes = "execute_recipes"
+        case configure = "configure"
+        case setup = "setup"
+        case deploy = "deploy"
+        case rollback = "rollback"
+        case start = "start"
+        case stop = "stop"
+        case restart = "restart"
+        case undeploy = "undeploy"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeregisterEcsClusterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EcsClusterArn", required: true, type: .string)
+        ]
+        /// The cluster's Amazon Resource Number (ARN).
+        public let ecsClusterArn: String
+
+        public init(ecsClusterArn: String) {
+            self.ecsClusterArn = ecsClusterArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ecsClusterArn = "EcsClusterArn"
+        }
+    }
+
+    public struct DeregisterElasticIpRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ElasticIp", required: true, type: .string)
+        ]
+        /// The Elastic IP address.
+        public let elasticIp: String
+
+        public init(elasticIp: String) {
+            self.elasticIp = elasticIp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case elasticIp = "ElasticIp"
+        }
+    }
+
+    public struct DeregisterInstanceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
+        ]
+        /// The instance ID.
+        public let instanceId: String
+
+        public init(instanceId: String) {
+            self.instanceId = instanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct DeregisterRdsDbInstanceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RdsDbInstanceArn", required: true, type: .string)
+        ]
+        /// The Amazon RDS instance's ARN.
+        public let rdsDbInstanceArn: String
+
+        public init(rdsDbInstanceArn: String) {
+            self.rdsDbInstanceArn = rdsDbInstanceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rdsDbInstanceArn = "RdsDbInstanceArn"
+        }
+    }
+
+    public struct DeregisterVolumeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeId", required: true, type: .string)
+        ]
+        /// The AWS OpsWorks Stacks volume ID, which is the GUID that AWS OpsWorks Stacks assigned to the instance when you registered the volume with the stack, not the Amazon EC2 volume ID.
+        public let volumeId: String
+
+        public init(volumeId: String) {
+            self.volumeId = volumeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case volumeId = "VolumeId"
+        }
+    }
+
+    public struct DescribeAgentVersionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationManager", required: false, type: .structure), 
+            AWSShapeMember(label: "StackId", required: false, type: .string)
+        ]
+        /// The configuration manager.
+        public let configurationManager: StackConfigurationManager?
+        /// The stack ID.
+        public let stackId: String?
+
+        public init(configurationManager: StackConfigurationManager? = nil, stackId: String? = nil) {
+            self.configurationManager = configurationManager
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationManager = "ConfigurationManager"
+            case stackId = "StackId"
+        }
+    }
+
+    public struct DescribeAgentVersionsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AgentVersions", required: false, type: .list)
+        ]
+        /// The agent versions for the specified stack or configuration manager. Note that this value is the complete version number, not the abbreviated number used by the console.
+        public let agentVersions: [AgentVersion]?
+
+        public init(agentVersions: [AgentVersion]? = nil) {
+            self.agentVersions = agentVersions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentVersions = "AgentVersions"
+        }
+    }
+
+    public struct DescribeAppsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppIds", required: false, type: .list), 
+            AWSShapeMember(label: "StackId", required: false, type: .string)
+        ]
+        /// An array of app IDs for the apps to be described. If you use this parameter, DescribeApps returns a description of the specified apps. Otherwise, it returns a description of every app.
+        public let appIds: [String]?
+        /// The app stack ID. If you use this parameter, DescribeApps returns a description of the apps in the specified stack.
+        public let stackId: String?
+
+        public init(appIds: [String]? = nil, stackId: String? = nil) {
+            self.appIds = appIds
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appIds = "AppIds"
+            case stackId = "StackId"
+        }
+    }
+
+    public struct DescribeAppsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Apps", required: false, type: .list)
+        ]
+        /// An array of App objects that describe the specified apps. 
+        public let apps: [App]?
+
+        public init(apps: [App]? = nil) {
+            self.apps = apps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apps = "Apps"
         }
     }
 
     public struct DescribeCommandsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
             AWSShapeMember(label: "CommandIds", required: false, type: .list), 
-            AWSShapeMember(label: "DeploymentId", required: false, type: .string)
+            AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string)
         ]
-        /// The instance ID. If you include this parameter, DescribeCommands returns a description of the commands associated with the specified instance.
-        public let instanceId: String?
         /// An array of command IDs. If you include this parameter, DescribeCommands returns a description of the specified commands. Otherwise, it returns a description of every command.
         public let commandIds: [String]?
         /// The deployment ID. If you include this parameter, DescribeCommands returns a description of the commands associated with the specified deployment.
         public let deploymentId: String?
+        /// The instance ID. If you include this parameter, DescribeCommands returns a description of the commands associated with the specified instance.
+        public let instanceId: String?
 
         public init(commandIds: [String]? = nil, deploymentId: String? = nil, instanceId: String? = nil) {
-            self.instanceId = instanceId
             self.commandIds = commandIds
             self.deploymentId = deploymentId
+            self.instanceId = instanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commandIds = "CommandIds"
+            case deploymentId = "DeploymentId"
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct DescribeCommandsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Commands", required: false, type: .list)
+        ]
+        /// An array of Command objects that describe each of the specified commands.
+        public let commands: [Command]?
+
+        public init(commands: [Command]? = nil) {
+            self.commands = commands
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commands = "Commands"
+        }
+    }
+
+    public struct DescribeDeploymentsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppId", required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentIds", required: false, type: .list), 
+            AWSShapeMember(label: "StackId", required: false, type: .string)
+        ]
+        /// The app ID. If you include this parameter, the command returns a description of the commands associated with the specified app.
+        public let appId: String?
+        /// An array of deployment IDs to be described. If you include this parameter, the command returns a description of the specified deployments. Otherwise, it returns a description of every deployment.
+        public let deploymentIds: [String]?
+        /// The stack ID. If you include this parameter, the command returns a description of the commands associated with the specified stack.
+        public let stackId: String?
+
+        public init(appId: String? = nil, deploymentIds: [String]? = nil, stackId: String? = nil) {
+            self.appId = appId
+            self.deploymentIds = deploymentIds
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "AppId"
+            case deploymentIds = "DeploymentIds"
+            case stackId = "StackId"
+        }
+    }
+
+    public struct DescribeDeploymentsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Deployments", required: false, type: .list)
+        ]
+        /// An array of Deployment objects that describe the deployments.
+        public let deployments: [Deployment]?
+
+        public init(deployments: [Deployment]? = nil) {
+            self.deployments = deployments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deployments = "Deployments"
+        }
+    }
+
+    public struct DescribeEcsClustersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EcsClusterArns", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: false, type: .string)
+        ]
+        /// A list of ARNs, one for each cluster to be described.
+        public let ecsClusterArns: [String]?
+        /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
+        public let maxResults: Int32?
+        /// If the previous paginated request did not return all of the remaining results, the response object'sNextToken parameter value is set to a token. To retrieve the next set of results, call DescribeEcsClusters again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+        public let nextToken: String?
+        /// A stack ID. DescribeEcsClusters returns a description of the cluster that is registered with the stack.
+        public let stackId: String?
+
+        public init(ecsClusterArns: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, stackId: String? = nil) {
+            self.ecsClusterArns = ecsClusterArns
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ecsClusterArns = "EcsClusterArns"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case stackId = "StackId"
+        }
+    }
+
+    public struct DescribeEcsClustersResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EcsClusters", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of EcsCluster objects containing the cluster descriptions.
+        public let ecsClusters: [EcsCluster]?
+        /// If a paginated request does not return all of the remaining results, this parameter is set to a token that you can assign to the request object's NextToken parameter to retrieve the next set of results. If the previous paginated request returned all of the remaining results, this parameter is set to null.
+        public let nextToken: String?
+
+        public init(ecsClusters: [EcsCluster]? = nil, nextToken: String? = nil) {
+            self.ecsClusters = ecsClusters
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ecsClusters = "EcsClusters"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeElasticIpsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "Ips", required: false, type: .list), 
+            AWSShapeMember(label: "StackId", required: false, type: .string)
+        ]
+        /// The instance ID. If you include this parameter, DescribeElasticIps returns a description of the Elastic IP addresses associated with the specified instance.
+        public let instanceId: String?
+        /// An array of Elastic IP addresses to be described. If you include this parameter, DescribeElasticIps returns a description of the specified Elastic IP addresses. Otherwise, it returns a description of every Elastic IP address.
+        public let ips: [String]?
+        /// A stack ID. If you include this parameter, DescribeElasticIps returns a description of the Elastic IP addresses that are registered with the specified stack.
+        public let stackId: String?
+
+        public init(instanceId: String? = nil, ips: [String]? = nil, stackId: String? = nil) {
+            self.instanceId = instanceId
+            self.ips = ips
+            self.stackId = stackId
         }
 
         private enum CodingKeys: String, CodingKey {
             case instanceId = "InstanceId"
-            case commandIds = "CommandIds"
-            case deploymentId = "DeploymentId"
+            case ips = "Ips"
+            case stackId = "StackId"
         }
     }
 
-    public struct CreateDeploymentRequest: AWSShape {
+    public struct DescribeElasticIpsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Command", required: true, type: .structure), 
-            AWSShapeMember(label: "Comment", required: false, type: .string), 
-            AWSShapeMember(label: "LayerIds", required: false, type: .list), 
-            AWSShapeMember(label: "StackId", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
-            AWSShapeMember(label: "AppId", required: false, type: .string), 
-            AWSShapeMember(label: "CustomJson", required: false, type: .string)
+            AWSShapeMember(label: "ElasticIps", required: false, type: .list)
         ]
-        /// A DeploymentCommand object that specifies the deployment command and any associated arguments.
-        public let command: DeploymentCommand
-        /// A user-defined comment.
-        public let comment: String?
-        /// The layer IDs for the deployment targets.
-        public let layerIds: [String]?
-        /// The stack ID.
-        public let stackId: String
-        /// The instance IDs for the deployment targets.
-        public let instanceIds: [String]?
-        /// The app ID. This parameter is required for app deployments, but not for other deployment commands.
-        public let appId: String?
-        /// A string that contains user-defined, custom JSON. It is used to override the corresponding default stack configuration JSON values. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information about custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
-        public let customJson: String?
+        /// An ElasticIps object that describes the specified Elastic IP addresses.
+        public let elasticIps: [ElasticIp]?
 
-        public init(appId: String? = nil, command: DeploymentCommand, comment: String? = nil, customJson: String? = nil, instanceIds: [String]? = nil, layerIds: [String]? = nil, stackId: String) {
-            self.command = command
-            self.comment = comment
-            self.layerIds = layerIds
-            self.stackId = stackId
-            self.instanceIds = instanceIds
-            self.appId = appId
-            self.customJson = customJson
+        public init(elasticIps: [ElasticIp]? = nil) {
+            self.elasticIps = elasticIps
         }
 
         private enum CodingKeys: String, CodingKey {
-            case command = "Command"
-            case comment = "Comment"
+            case elasticIps = "ElasticIps"
+        }
+    }
+
+    public struct DescribeElasticLoadBalancersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LayerIds", required: false, type: .list), 
+            AWSShapeMember(label: "StackId", required: false, type: .string)
+        ]
+        /// A list of layer IDs. The action describes the Elastic Load Balancing instances for the specified layers.
+        public let layerIds: [String]?
+        /// A stack ID. The action describes the stack's Elastic Load Balancing instances.
+        public let stackId: String?
+
+        public init(layerIds: [String]? = nil, stackId: String? = nil) {
+            self.layerIds = layerIds
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case layerIds = "LayerIds"
             case stackId = "StackId"
+        }
+    }
+
+    public struct DescribeElasticLoadBalancersResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ElasticLoadBalancers", required: false, type: .list)
+        ]
+        /// A list of ElasticLoadBalancer objects that describe the specified Elastic Load Balancing instances.
+        public let elasticLoadBalancers: [ElasticLoadBalancer]?
+
+        public init(elasticLoadBalancers: [ElasticLoadBalancer]? = nil) {
+            self.elasticLoadBalancers = elasticLoadBalancers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case elasticLoadBalancers = "ElasticLoadBalancers"
+        }
+    }
+
+    public struct DescribeInstancesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
+            AWSShapeMember(label: "LayerId", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: false, type: .string)
+        ]
+        /// An array of instance IDs to be described. If you use this parameter, DescribeInstances returns a description of the specified instances. Otherwise, it returns a description of every instance.
+        public let instanceIds: [String]?
+        /// A layer ID. If you use this parameter, DescribeInstances returns descriptions of the instances associated with the specified layer.
+        public let layerId: String?
+        /// A stack ID. If you use this parameter, DescribeInstances returns descriptions of the instances associated with the specified stack.
+        public let stackId: String?
+
+        public init(instanceIds: [String]? = nil, layerId: String? = nil, stackId: String? = nil) {
+            self.instanceIds = instanceIds
+            self.layerId = layerId
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case instanceIds = "InstanceIds"
-            case appId = "AppId"
+            case layerId = "LayerId"
+            case stackId = "StackId"
+        }
+    }
+
+    public struct DescribeInstancesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Instances", required: false, type: .list)
+        ]
+        /// An array of Instance objects that describe the instances.
+        public let instances: [Instance]?
+
+        public init(instances: [Instance]? = nil) {
+            self.instances = instances
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instances = "Instances"
+        }
+    }
+
+    public struct DescribeLayersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LayerIds", required: false, type: .list), 
+            AWSShapeMember(label: "StackId", required: false, type: .string)
+        ]
+        /// An array of layer IDs that specify the layers to be described. If you omit this parameter, DescribeLayers returns a description of every layer in the specified stack.
+        public let layerIds: [String]?
+        /// The stack ID.
+        public let stackId: String?
+
+        public init(layerIds: [String]? = nil, stackId: String? = nil) {
+            self.layerIds = layerIds
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case layerIds = "LayerIds"
+            case stackId = "StackId"
+        }
+    }
+
+    public struct DescribeLayersResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Layers", required: false, type: .list)
+        ]
+        /// An array of Layer objects that describe the layers.
+        public let layers: [Layer]?
+
+        public init(layers: [Layer]? = nil) {
+            self.layers = layers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case layers = "Layers"
+        }
+    }
+
+    public struct DescribeLoadBasedAutoScalingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LayerIds", required: true, type: .list)
+        ]
+        /// An array of layer IDs.
+        public let layerIds: [String]
+
+        public init(layerIds: [String]) {
+            self.layerIds = layerIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case layerIds = "LayerIds"
+        }
+    }
+
+    public struct DescribeLoadBasedAutoScalingResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBasedAutoScalingConfigurations", required: false, type: .list)
+        ]
+        /// An array of LoadBasedAutoScalingConfiguration objects that describe each layer's configuration.
+        public let loadBasedAutoScalingConfigurations: [LoadBasedAutoScalingConfiguration]?
+
+        public init(loadBasedAutoScalingConfigurations: [LoadBasedAutoScalingConfiguration]? = nil) {
+            self.loadBasedAutoScalingConfigurations = loadBasedAutoScalingConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loadBasedAutoScalingConfigurations = "LoadBasedAutoScalingConfigurations"
+        }
+    }
+
+    public struct DescribeMyUserProfileResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserProfile", required: false, type: .structure)
+        ]
+        /// A UserProfile object that describes the user's SSH information.
+        public let userProfile: SelfUserProfile?
+
+        public init(userProfile: SelfUserProfile? = nil) {
+            self.userProfile = userProfile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userProfile = "UserProfile"
+        }
+    }
+
+    public struct DescribeOperatingSystemsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperatingSystems", required: false, type: .list)
+        ]
+        /// Contains information in response to a DescribeOperatingSystems request.
+        public let operatingSystems: [OperatingSystem]?
+
+        public init(operatingSystems: [OperatingSystem]? = nil) {
+            self.operatingSystems = operatingSystems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operatingSystems = "OperatingSystems"
+        }
+    }
+
+    public struct DescribePermissionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IamUserArn", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: false, type: .string)
+        ]
+        /// The user's IAM ARN. This can also be a federated user's ARN. For more information about IAM ARNs, see Using Identifiers.
+        public let iamUserArn: String?
+        /// The stack ID.
+        public let stackId: String?
+
+        public init(iamUserArn: String? = nil, stackId: String? = nil) {
+            self.iamUserArn = iamUserArn
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iamUserArn = "IamUserArn"
+            case stackId = "StackId"
+        }
+    }
+
+    public struct DescribePermissionsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Permissions", required: false, type: .list)
+        ]
+        /// An array of Permission objects that describe the stack permissions.   If the request object contains only a stack ID, the array contains a Permission object with permissions for each of the stack IAM ARNs.   If the request object contains only an IAM ARN, the array contains a Permission object with permissions for each of the user's stack IDs.   If the request contains a stack ID and an IAM ARN, the array contains a single Permission object with permissions for the specified stack and IAM ARN.  
+        public let permissions: [Permission]?
+
+        public init(permissions: [Permission]? = nil) {
+            self.permissions = permissions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case permissions = "Permissions"
+        }
+    }
+
+    public struct DescribeRaidArraysRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "RaidArrayIds", required: false, type: .list), 
+            AWSShapeMember(label: "StackId", required: false, type: .string)
+        ]
+        /// The instance ID. If you use this parameter, DescribeRaidArrays returns descriptions of the RAID arrays associated with the specified instance. 
+        public let instanceId: String?
+        /// An array of RAID array IDs. If you use this parameter, DescribeRaidArrays returns descriptions of the specified arrays. Otherwise, it returns a description of every array.
+        public let raidArrayIds: [String]?
+        /// The stack ID.
+        public let stackId: String?
+
+        public init(instanceId: String? = nil, raidArrayIds: [String]? = nil, stackId: String? = nil) {
+            self.instanceId = instanceId
+            self.raidArrayIds = raidArrayIds
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case raidArrayIds = "RaidArrayIds"
+            case stackId = "StackId"
+        }
+    }
+
+    public struct DescribeRaidArraysResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RaidArrays", required: false, type: .list)
+        ]
+        /// A RaidArrays object that describes the specified RAID arrays.
+        public let raidArrays: [RaidArray]?
+
+        public init(raidArrays: [RaidArray]? = nil) {
+            self.raidArrays = raidArrays
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case raidArrays = "RaidArrays"
+        }
+    }
+
+    public struct DescribeRdsDbInstancesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RdsDbInstanceArns", required: false, type: .list), 
+            AWSShapeMember(label: "StackId", required: true, type: .string)
+        ]
+        /// An array containing the ARNs of the instances to be described.
+        public let rdsDbInstanceArns: [String]?
+        /// The ID of the stack with which the instances are registered. The operation returns descriptions of all registered Amazon RDS instances.
+        public let stackId: String
+
+        public init(rdsDbInstanceArns: [String]? = nil, stackId: String) {
+            self.rdsDbInstanceArns = rdsDbInstanceArns
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rdsDbInstanceArns = "RdsDbInstanceArns"
+            case stackId = "StackId"
+        }
+    }
+
+    public struct DescribeRdsDbInstancesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RdsDbInstances", required: false, type: .list)
+        ]
+        /// An a array of RdsDbInstance objects that describe the instances.
+        public let rdsDbInstances: [RdsDbInstance]?
+
+        public init(rdsDbInstances: [RdsDbInstance]? = nil) {
+            self.rdsDbInstances = rdsDbInstances
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rdsDbInstances = "RdsDbInstances"
+        }
+    }
+
+    public struct DescribeServiceErrorsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceErrorIds", required: false, type: .list), 
+            AWSShapeMember(label: "StackId", required: false, type: .string)
+        ]
+        /// The instance ID. If you use this parameter, DescribeServiceErrors returns descriptions of the errors associated with the specified instance.
+        public let instanceId: String?
+        /// An array of service error IDs. If you use this parameter, DescribeServiceErrors returns descriptions of the specified errors. Otherwise, it returns a description of every error.
+        public let serviceErrorIds: [String]?
+        /// The stack ID. If you use this parameter, DescribeServiceErrors returns descriptions of the errors associated with the specified stack.
+        public let stackId: String?
+
+        public init(instanceId: String? = nil, serviceErrorIds: [String]? = nil, stackId: String? = nil) {
+            self.instanceId = instanceId
+            self.serviceErrorIds = serviceErrorIds
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case serviceErrorIds = "ServiceErrorIds"
+            case stackId = "StackId"
+        }
+    }
+
+    public struct DescribeServiceErrorsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceErrors", required: false, type: .list)
+        ]
+        /// An array of ServiceError objects that describe the specified service errors.
+        public let serviceErrors: [ServiceError]?
+
+        public init(serviceErrors: [ServiceError]? = nil) {
+            self.serviceErrors = serviceErrors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceErrors = "ServiceErrors"
+        }
+    }
+
+    public struct DescribeStackProvisioningParametersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: true, type: .string)
+        ]
+        /// The stack ID.
+        public let stackId: String
+
+        public init(stackId: String) {
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
+        }
+    }
+
+    public struct DescribeStackProvisioningParametersResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AgentInstallerUrl", required: false, type: .string), 
+            AWSShapeMember(label: "Parameters", required: false, type: .map)
+        ]
+        /// The AWS OpsWorks Stacks agent installer's URL.
+        public let agentInstallerUrl: String?
+        /// An embedded object that contains the provisioning parameters.
+        public let parameters: [String: String]?
+
+        public init(agentInstallerUrl: String? = nil, parameters: [String: String]? = nil) {
+            self.agentInstallerUrl = agentInstallerUrl
+            self.parameters = parameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentInstallerUrl = "AgentInstallerUrl"
+            case parameters = "Parameters"
+        }
+    }
+
+    public struct DescribeStackSummaryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: true, type: .string)
+        ]
+        /// The stack ID.
+        public let stackId: String
+
+        public init(stackId: String) {
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
+        }
+    }
+
+    public struct DescribeStackSummaryResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackSummary", required: false, type: .structure)
+        ]
+        /// A StackSummary object that contains the results.
+        public let stackSummary: StackSummary?
+
+        public init(stackSummary: StackSummary? = nil) {
+            self.stackSummary = stackSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stackSummary = "StackSummary"
+        }
+    }
+
+    public struct DescribeStacksRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackIds", required: false, type: .list)
+        ]
+        /// An array of stack IDs that specify the stacks to be described. If you omit this parameter, DescribeStacks returns a description of every stack.
+        public let stackIds: [String]?
+
+        public init(stackIds: [String]? = nil) {
+            self.stackIds = stackIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stackIds = "StackIds"
+        }
+    }
+
+    public struct DescribeStacksResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Stacks", required: false, type: .list)
+        ]
+        /// An array of Stack objects that describe the stacks.
+        public let stacks: [Stack]?
+
+        public init(stacks: [Stack]? = nil) {
+            self.stacks = stacks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stacks = "Stacks"
+        }
+    }
+
+    public struct DescribeTimeBasedAutoScalingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceIds", required: true, type: .list)
+        ]
+        /// An array of instance IDs.
+        public let instanceIds: [String]
+
+        public init(instanceIds: [String]) {
+            self.instanceIds = instanceIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceIds = "InstanceIds"
+        }
+    }
+
+    public struct DescribeTimeBasedAutoScalingResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TimeBasedAutoScalingConfigurations", required: false, type: .list)
+        ]
+        /// An array of TimeBasedAutoScalingConfiguration objects that describe the configuration for the specified instances.
+        public let timeBasedAutoScalingConfigurations: [TimeBasedAutoScalingConfiguration]?
+
+        public init(timeBasedAutoScalingConfigurations: [TimeBasedAutoScalingConfiguration]? = nil) {
+            self.timeBasedAutoScalingConfigurations = timeBasedAutoScalingConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timeBasedAutoScalingConfigurations = "TimeBasedAutoScalingConfigurations"
+        }
+    }
+
+    public struct DescribeUserProfilesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IamUserArns", required: false, type: .list)
+        ]
+        /// An array of IAM or federated user ARNs that identify the users to be described.
+        public let iamUserArns: [String]?
+
+        public init(iamUserArns: [String]? = nil) {
+            self.iamUserArns = iamUserArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iamUserArns = "IamUserArns"
+        }
+    }
+
+    public struct DescribeUserProfilesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserProfiles", required: false, type: .list)
+        ]
+        /// A Users object that describes the specified users.
+        public let userProfiles: [UserProfile]?
+
+        public init(userProfiles: [UserProfile]? = nil) {
+            self.userProfiles = userProfiles
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userProfiles = "UserProfiles"
+        }
+    }
+
+    public struct DescribeVolumesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "RaidArrayId", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeIds", required: false, type: .list)
+        ]
+        /// The instance ID. If you use this parameter, DescribeVolumes returns descriptions of the volumes associated with the specified instance.
+        public let instanceId: String?
+        /// The RAID array ID. If you use this parameter, DescribeVolumes returns descriptions of the volumes associated with the specified RAID array.
+        public let raidArrayId: String?
+        /// A stack ID. The action describes the stack's registered Amazon EBS volumes.
+        public let stackId: String?
+        /// Am array of volume IDs. If you use this parameter, DescribeVolumes returns descriptions of the specified volumes. Otherwise, it returns a description of every volume.
+        public let volumeIds: [String]?
+
+        public init(instanceId: String? = nil, raidArrayId: String? = nil, stackId: String? = nil, volumeIds: [String]? = nil) {
+            self.instanceId = instanceId
+            self.raidArrayId = raidArrayId
+            self.stackId = stackId
+            self.volumeIds = volumeIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case raidArrayId = "RaidArrayId"
+            case stackId = "StackId"
+            case volumeIds = "VolumeIds"
+        }
+    }
+
+    public struct DescribeVolumesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Volumes", required: false, type: .list)
+        ]
+        /// An array of volume IDs.
+        public let volumes: [Volume]?
+
+        public init(volumes: [Volume]? = nil) {
+            self.volumes = volumes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case volumes = "Volumes"
+        }
+    }
+
+    public struct DetachElasticLoadBalancerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ElasticLoadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "LayerId", required: true, type: .string)
+        ]
+        /// The Elastic Load Balancing instance's name.
+        public let elasticLoadBalancerName: String
+        /// The ID of the layer that the Elastic Load Balancing instance is attached to.
+        public let layerId: String
+
+        public init(elasticLoadBalancerName: String, layerId: String) {
+            self.elasticLoadBalancerName = elasticLoadBalancerName
+            self.layerId = layerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case elasticLoadBalancerName = "ElasticLoadBalancerName"
+            case layerId = "LayerId"
+        }
+    }
+
+    public struct DisassociateElasticIpRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ElasticIp", required: true, type: .string)
+        ]
+        /// The Elastic IP address.
+        public let elasticIp: String
+
+        public init(elasticIp: String) {
+            self.elasticIp = elasticIp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case elasticIp = "ElasticIp"
+        }
+    }
+
+    public struct EbsBlockDevice: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeleteOnTermination", required: false, type: .boolean), 
+            AWSShapeMember(label: "Iops", required: false, type: .integer), 
+            AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeSize", required: false, type: .integer), 
+            AWSShapeMember(label: "VolumeType", required: false, type: .enum)
+        ]
+        /// Whether the volume is deleted on instance termination.
+        public let deleteOnTermination: Bool?
+        /// The number of I/O operations per second (IOPS) that the volume supports. For more information, see EbsBlockDevice.
+        public let iops: Int32?
+        /// The snapshot ID.
+        public let snapshotId: String?
+        /// The volume size, in GiB. For more information, see EbsBlockDevice.
+        public let volumeSize: Int32?
+        /// The volume type. gp2 for General Purpose (SSD) volumes, io1 for Provisioned IOPS (SSD) volumes, st1 for Throughput Optimized hard disk drives (HDD), sc1 for Cold HDD,and standard for Magnetic volumes. If you specify the io1 volume type, you must also specify a value for the Iops attribute. The maximum ratio of provisioned IOPS to requested volume size (in GiB) is 50:1. AWS uses the default volume size (in GiB) specified in the AMI attributes to set IOPS to 50 x (volume size).
+        public let volumeType: VolumeType?
+
+        public init(deleteOnTermination: Bool? = nil, iops: Int32? = nil, snapshotId: String? = nil, volumeSize: Int32? = nil, volumeType: VolumeType? = nil) {
+            self.deleteOnTermination = deleteOnTermination
+            self.iops = iops
+            self.snapshotId = snapshotId
+            self.volumeSize = volumeSize
+            self.volumeType = volumeType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleteOnTermination = "DeleteOnTermination"
+            case iops = "Iops"
+            case snapshotId = "SnapshotId"
+            case volumeSize = "VolumeSize"
+            case volumeType = "VolumeType"
+        }
+    }
+
+    public struct EcsCluster: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EcsClusterArn", required: false, type: .string), 
+            AWSShapeMember(label: "EcsClusterName", required: false, type: .string), 
+            AWSShapeMember(label: "RegisteredAt", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: false, type: .string)
+        ]
+        /// The cluster's ARN.
+        public let ecsClusterArn: String?
+        /// The cluster name.
+        public let ecsClusterName: String?
+        /// The time and date that the cluster was registered with the stack.
+        public let registeredAt: String?
+        /// The stack ID.
+        public let stackId: String?
+
+        public init(ecsClusterArn: String? = nil, ecsClusterName: String? = nil, registeredAt: String? = nil, stackId: String? = nil) {
+            self.ecsClusterArn = ecsClusterArn
+            self.ecsClusterName = ecsClusterName
+            self.registeredAt = registeredAt
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ecsClusterArn = "EcsClusterArn"
+            case ecsClusterName = "EcsClusterName"
+            case registeredAt = "RegisteredAt"
+            case stackId = "StackId"
+        }
+    }
+
+    public struct ElasticIp: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Domain", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "Ip", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Region", required: false, type: .string)
+        ]
+        /// The domain.
+        public let domain: String?
+        /// The ID of the instance that the address is attached to.
+        public let instanceId: String?
+        /// The IP address.
+        public let ip: String?
+        /// The name.
+        public let name: String?
+        /// The AWS region. For more information, see Regions and Endpoints.
+        public let region: String?
+
+        public init(domain: String? = nil, instanceId: String? = nil, ip: String? = nil, name: String? = nil, region: String? = nil) {
+            self.domain = domain
+            self.instanceId = instanceId
+            self.ip = ip
+            self.name = name
+            self.region = region
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case instanceId = "InstanceId"
+            case ip = "Ip"
+            case name = "Name"
+            case region = "Region"
+        }
+    }
+
+    public struct ElasticLoadBalancer: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "DnsName", required: false, type: .string), 
+            AWSShapeMember(label: "Ec2InstanceIds", required: false, type: .list), 
+            AWSShapeMember(label: "ElasticLoadBalancerName", required: false, type: .string), 
+            AWSShapeMember(label: "LayerId", required: false, type: .string), 
+            AWSShapeMember(label: "Region", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string)
+        ]
+        /// A list of Availability Zones.
+        public let availabilityZones: [String]?
+        /// The instance's public DNS name.
+        public let dnsName: String?
+        /// A list of the EC2 instances that the Elastic Load Balancing instance is managing traffic for.
+        public let ec2InstanceIds: [String]?
+        /// The Elastic Load Balancing instance's name.
+        public let elasticLoadBalancerName: String?
+        /// The ID of the layer that the instance is attached to.
+        public let layerId: String?
+        /// The instance's AWS region.
+        public let region: String?
+        /// The ID of the stack that the instance is associated with.
+        public let stackId: String?
+        /// A list of subnet IDs, if the stack is running in a VPC.
+        public let subnetIds: [String]?
+        /// The VPC ID.
+        public let vpcId: String?
+
+        public init(availabilityZones: [String]? = nil, dnsName: String? = nil, ec2InstanceIds: [String]? = nil, elasticLoadBalancerName: String? = nil, layerId: String? = nil, region: String? = nil, stackId: String? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+            self.availabilityZones = availabilityZones
+            self.dnsName = dnsName
+            self.ec2InstanceIds = ec2InstanceIds
+            self.elasticLoadBalancerName = elasticLoadBalancerName
+            self.layerId = layerId
+            self.region = region
+            self.stackId = stackId
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case dnsName = "DnsName"
+            case ec2InstanceIds = "Ec2InstanceIds"
+            case elasticLoadBalancerName = "ElasticLoadBalancerName"
+            case layerId = "LayerId"
+            case region = "Region"
+            case stackId = "StackId"
+            case subnetIds = "SubnetIds"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct EnvironmentVariable: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Secure", required: false, type: .boolean), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+        /// (Required) The environment variable's name, which can consist of up to 64 characters and must be specified. The name can contain upper- and lowercase letters, numbers, and underscores (_), but it must start with a letter or underscore.
+        public let key: String
+        /// (Optional) Whether the variable's value will be returned by the DescribeApps action. To conceal an environment variable's value, set Secure to true. DescribeApps then returns *****FILTERED***** instead of the actual value. The default value for Secure is false. 
+        public let secure: Bool?
+        /// (Optional) The environment variable's value, which can be left empty. If you specify a value, it can contain up to 256 characters, which must all be printable.
+        public let value: String
+
+        public init(key: String, secure: Bool? = nil, value: String) {
+            self.key = key
+            self.secure = secure
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case secure = "Secure"
+            case value = "Value"
+        }
+    }
+
+    public struct GetHostnameSuggestionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LayerId", required: true, type: .string)
+        ]
+        /// The layer ID.
+        public let layerId: String
+
+        public init(layerId: String) {
+            self.layerId = layerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case layerId = "LayerId"
+        }
+    }
+
+    public struct GetHostnameSuggestionResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Hostname", required: false, type: .string), 
+            AWSShapeMember(label: "LayerId", required: false, type: .string)
+        ]
+        /// The generated host name.
+        public let hostname: String?
+        /// The layer ID.
+        public let layerId: String?
+
+        public init(hostname: String? = nil, layerId: String? = nil) {
+            self.hostname = hostname
+            self.layerId = layerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostname = "Hostname"
+            case layerId = "LayerId"
+        }
+    }
+
+    public struct GrantAccessRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
+            AWSShapeMember(label: "ValidForInMinutes", required: false, type: .integer)
+        ]
+        /// The instance's AWS OpsWorks Stacks ID.
+        public let instanceId: String
+        /// The length of time (in minutes) that the grant is valid. When the grant expires at the end of this period, the user will no longer be able to use the credentials to log in. If the user is logged in at the time, he or she automatically will be logged out.
+        public let validForInMinutes: Int32?
+
+        public init(instanceId: String, validForInMinutes: Int32? = nil) {
+            self.instanceId = instanceId
+            self.validForInMinutes = validForInMinutes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case validForInMinutes = "ValidForInMinutes"
+        }
+    }
+
+    public struct GrantAccessResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemporaryCredential", required: false, type: .structure)
+        ]
+        /// A TemporaryCredential object that contains the data needed to log in to the instance by RDP clients, such as the Microsoft Remote Desktop Connection.
+        public let temporaryCredential: TemporaryCredential?
+
+        public init(temporaryCredential: TemporaryCredential? = nil) {
+            self.temporaryCredential = temporaryCredential
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case temporaryCredential = "TemporaryCredential"
+        }
+    }
+
+    public struct Instance: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AgentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "AmiId", required: false, type: .string), 
+            AWSShapeMember(label: "Architecture", required: false, type: .enum), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "AutoScalingType", required: false, type: .enum), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "BlockDeviceMappings", required: false, type: .list), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
+            AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
+            AWSShapeMember(label: "Ec2InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "EcsClusterArn", required: false, type: .string), 
+            AWSShapeMember(label: "EcsContainerInstanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "ElasticIp", required: false, type: .string), 
+            AWSShapeMember(label: "Hostname", required: false, type: .string), 
+            AWSShapeMember(label: "InfrastructureClass", required: false, type: .string), 
+            AWSShapeMember(label: "InstallUpdatesOnBoot", required: false, type: .boolean), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "LastServiceErrorId", required: false, type: .string), 
+            AWSShapeMember(label: "LayerIds", required: false, type: .list), 
+            AWSShapeMember(label: "Os", required: false, type: .string), 
+            AWSShapeMember(label: "Platform", required: false, type: .string), 
+            AWSShapeMember(label: "PrivateDns", required: false, type: .string), 
+            AWSShapeMember(label: "PrivateIp", required: false, type: .string), 
+            AWSShapeMember(label: "PublicDns", required: false, type: .string), 
+            AWSShapeMember(label: "PublicIp", required: false, type: .string), 
+            AWSShapeMember(label: "RegisteredBy", required: false, type: .string), 
+            AWSShapeMember(label: "ReportedAgentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ReportedOs", required: false, type: .structure), 
+            AWSShapeMember(label: "RootDeviceType", required: false, type: .enum), 
+            AWSShapeMember(label: "RootDeviceVolumeId", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "SshHostDsaKeyFingerprint", required: false, type: .string), 
+            AWSShapeMember(label: "SshHostRsaKeyFingerprint", required: false, type: .string), 
+            AWSShapeMember(label: "SshKeyName", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "Tenancy", required: false, type: .string), 
+            AWSShapeMember(label: "VirtualizationType", required: false, type: .enum)
+        ]
+        /// The agent version. This parameter is set to INHERIT if the instance inherits the default stack setting or to a a version number for a fixed agent version.
+        public let agentVersion: String?
+        /// A custom AMI ID to be used to create the instance. For more information, see Instances 
+        public let amiId: String?
+        /// The instance architecture: "i386" or "x86_64".
+        public let architecture: Architecture?
+        /// The instance's Amazon Resource Number (ARN).
+        public let arn: String?
+        /// For load-based or time-based instances, the type.
+        public let autoScalingType: AutoScalingType?
+        /// The instance Availability Zone. For more information, see Regions and Endpoints.
+        public let availabilityZone: String?
+        /// An array of BlockDeviceMapping objects that specify the instance's block device mappings.
+        public let blockDeviceMappings: [BlockDeviceMapping]?
+        /// The time that the instance was created.
+        public let createdAt: String?
+        /// Whether this is an Amazon EBS-optimized instance.
+        public let ebsOptimized: Bool?
+        /// The ID of the associated Amazon EC2 instance.
+        public let ec2InstanceId: String?
+        /// For container instances, the Amazon ECS cluster's ARN.
+        public let ecsClusterArn: String?
+        /// For container instances, the instance's ARN.
+        public let ecsContainerInstanceArn: String?
+        /// The instance Elastic IP address .
+        public let elasticIp: String?
+        /// The instance host name.
+        public let hostname: String?
+        /// For registered instances, the infrastructure class: ec2 or on-premises.
+        public let infrastructureClass: String?
+        /// Whether to install operating system and package updates when the instance boots. The default value is true. If this value is set to false, you must then update your instances manually by using CreateDeployment to run the update_dependencies stack command or by manually running yum (Amazon Linux) or apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true, to ensure that your instances have the latest security updates. 
+        public let installUpdatesOnBoot: Bool?
+        /// The instance ID.
+        public let instanceId: String?
+        /// The ARN of the instance's IAM profile. For more information about IAM ARNs, see Using Identifiers.
+        public let instanceProfileArn: String?
+        /// The instance type, such as t2.micro.
+        public let instanceType: String?
+        /// The ID of the last service error. For more information, call DescribeServiceErrors.
+        public let lastServiceErrorId: String?
+        /// An array containing the instance layer IDs.
+        public let layerIds: [String]?
+        /// The instance's operating system.
+        public let os: String?
+        /// The instance's platform.
+        public let platform: String?
+        /// The instance's private DNS name.
+        public let privateDns: String?
+        /// The instance's private IP address.
+        public let privateIp: String?
+        /// The instance public DNS name.
+        public let publicDns: String?
+        /// The instance public IP address.
+        public let publicIp: String?
+        /// For registered instances, who performed the registration.
+        public let registeredBy: String?
+        /// The instance's reported AWS OpsWorks Stacks agent version.
+        public let reportedAgentVersion: String?
+        /// For registered instances, the reported operating system.
+        public let reportedOs: ReportedOs?
+        /// The instance's root device type. For more information, see Storage for the Root Device.
+        public let rootDeviceType: RootDeviceType?
+        /// The root device volume ID.
+        public let rootDeviceVolumeId: String?
+        /// An array containing the instance security group IDs.
+        public let securityGroupIds: [String]?
+        /// The SSH key's Deep Security Agent (DSA) fingerprint.
+        public let sshHostDsaKeyFingerprint: String?
+        /// The SSH key's RSA fingerprint.
+        public let sshHostRsaKeyFingerprint: String?
+        /// The instance's Amazon EC2 key-pair name.
+        public let sshKeyName: String?
+        /// The stack ID.
+        public let stackId: String?
+        /// The instance status:    booting     connection_lost     online     pending     rebooting     requested     running_setup     setup_failed     shutting_down     start_failed     stop_failed     stopped     stopping     terminated     terminating   
+        public let status: String?
+        /// The instance's subnet ID; applicable only if the stack is running in a VPC.
+        public let subnetId: String?
+        /// The instance's tenancy option, such as dedicated or host.
+        public let tenancy: String?
+        /// The instance's virtualization type: paravirtual or hvm.
+        public let virtualizationType: VirtualizationType?
+
+        public init(agentVersion: String? = nil, amiId: String? = nil, architecture: Architecture? = nil, arn: String? = nil, autoScalingType: AutoScalingType? = nil, availabilityZone: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, createdAt: String? = nil, ebsOptimized: Bool? = nil, ec2InstanceId: String? = nil, ecsClusterArn: String? = nil, ecsContainerInstanceArn: String? = nil, elasticIp: String? = nil, hostname: String? = nil, infrastructureClass: String? = nil, installUpdatesOnBoot: Bool? = nil, instanceId: String? = nil, instanceProfileArn: String? = nil, instanceType: String? = nil, lastServiceErrorId: String? = nil, layerIds: [String]? = nil, os: String? = nil, platform: String? = nil, privateDns: String? = nil, privateIp: String? = nil, publicDns: String? = nil, publicIp: String? = nil, registeredBy: String? = nil, reportedAgentVersion: String? = nil, reportedOs: ReportedOs? = nil, rootDeviceType: RootDeviceType? = nil, rootDeviceVolumeId: String? = nil, securityGroupIds: [String]? = nil, sshHostDsaKeyFingerprint: String? = nil, sshHostRsaKeyFingerprint: String? = nil, sshKeyName: String? = nil, stackId: String? = nil, status: String? = nil, subnetId: String? = nil, tenancy: String? = nil, virtualizationType: VirtualizationType? = nil) {
+            self.agentVersion = agentVersion
+            self.amiId = amiId
+            self.architecture = architecture
+            self.arn = arn
+            self.autoScalingType = autoScalingType
+            self.availabilityZone = availabilityZone
+            self.blockDeviceMappings = blockDeviceMappings
+            self.createdAt = createdAt
+            self.ebsOptimized = ebsOptimized
+            self.ec2InstanceId = ec2InstanceId
+            self.ecsClusterArn = ecsClusterArn
+            self.ecsContainerInstanceArn = ecsContainerInstanceArn
+            self.elasticIp = elasticIp
+            self.hostname = hostname
+            self.infrastructureClass = infrastructureClass
+            self.installUpdatesOnBoot = installUpdatesOnBoot
+            self.instanceId = instanceId
+            self.instanceProfileArn = instanceProfileArn
+            self.instanceType = instanceType
+            self.lastServiceErrorId = lastServiceErrorId
+            self.layerIds = layerIds
+            self.os = os
+            self.platform = platform
+            self.privateDns = privateDns
+            self.privateIp = privateIp
+            self.publicDns = publicDns
+            self.publicIp = publicIp
+            self.registeredBy = registeredBy
+            self.reportedAgentVersion = reportedAgentVersion
+            self.reportedOs = reportedOs
+            self.rootDeviceType = rootDeviceType
+            self.rootDeviceVolumeId = rootDeviceVolumeId
+            self.securityGroupIds = securityGroupIds
+            self.sshHostDsaKeyFingerprint = sshHostDsaKeyFingerprint
+            self.sshHostRsaKeyFingerprint = sshHostRsaKeyFingerprint
+            self.sshKeyName = sshKeyName
+            self.stackId = stackId
+            self.status = status
+            self.subnetId = subnetId
+            self.tenancy = tenancy
+            self.virtualizationType = virtualizationType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentVersion = "AgentVersion"
+            case amiId = "AmiId"
+            case architecture = "Architecture"
+            case arn = "Arn"
+            case autoScalingType = "AutoScalingType"
+            case availabilityZone = "AvailabilityZone"
+            case blockDeviceMappings = "BlockDeviceMappings"
+            case createdAt = "CreatedAt"
+            case ebsOptimized = "EbsOptimized"
+            case ec2InstanceId = "Ec2InstanceId"
+            case ecsClusterArn = "EcsClusterArn"
+            case ecsContainerInstanceArn = "EcsContainerInstanceArn"
+            case elasticIp = "ElasticIp"
+            case hostname = "Hostname"
+            case infrastructureClass = "InfrastructureClass"
+            case installUpdatesOnBoot = "InstallUpdatesOnBoot"
+            case instanceId = "InstanceId"
+            case instanceProfileArn = "InstanceProfileArn"
+            case instanceType = "InstanceType"
+            case lastServiceErrorId = "LastServiceErrorId"
+            case layerIds = "LayerIds"
+            case os = "Os"
+            case platform = "Platform"
+            case privateDns = "PrivateDns"
+            case privateIp = "PrivateIp"
+            case publicDns = "PublicDns"
+            case publicIp = "PublicIp"
+            case registeredBy = "RegisteredBy"
+            case reportedAgentVersion = "ReportedAgentVersion"
+            case reportedOs = "ReportedOs"
+            case rootDeviceType = "RootDeviceType"
+            case rootDeviceVolumeId = "RootDeviceVolumeId"
+            case securityGroupIds = "SecurityGroupIds"
+            case sshHostDsaKeyFingerprint = "SshHostDsaKeyFingerprint"
+            case sshHostRsaKeyFingerprint = "SshHostRsaKeyFingerprint"
+            case sshKeyName = "SshKeyName"
+            case stackId = "StackId"
+            case status = "Status"
+            case subnetId = "SubnetId"
+            case tenancy = "Tenancy"
+            case virtualizationType = "VirtualizationType"
+        }
+    }
+
+    public struct InstanceIdentity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Document", required: false, type: .string), 
+            AWSShapeMember(label: "Signature", required: false, type: .string)
+        ]
+        /// A JSON document that contains the metadata.
+        public let document: String?
+        /// A signature that can be used to verify the document's accuracy and authenticity.
+        public let signature: String?
+
+        public init(document: String? = nil, signature: String? = nil) {
+            self.document = document
+            self.signature = signature
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case document = "Document"
+            case signature = "Signature"
+        }
+    }
+
+    public struct InstancesCount: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Assigning", required: false, type: .integer), 
+            AWSShapeMember(label: "Booting", required: false, type: .integer), 
+            AWSShapeMember(label: "ConnectionLost", required: false, type: .integer), 
+            AWSShapeMember(label: "Deregistering", required: false, type: .integer), 
+            AWSShapeMember(label: "Online", required: false, type: .integer), 
+            AWSShapeMember(label: "Pending", required: false, type: .integer), 
+            AWSShapeMember(label: "Rebooting", required: false, type: .integer), 
+            AWSShapeMember(label: "Registered", required: false, type: .integer), 
+            AWSShapeMember(label: "Registering", required: false, type: .integer), 
+            AWSShapeMember(label: "Requested", required: false, type: .integer), 
+            AWSShapeMember(label: "RunningSetup", required: false, type: .integer), 
+            AWSShapeMember(label: "SetupFailed", required: false, type: .integer), 
+            AWSShapeMember(label: "ShuttingDown", required: false, type: .integer), 
+            AWSShapeMember(label: "StartFailed", required: false, type: .integer), 
+            AWSShapeMember(label: "StopFailed", required: false, type: .integer), 
+            AWSShapeMember(label: "Stopped", required: false, type: .integer), 
+            AWSShapeMember(label: "Stopping", required: false, type: .integer), 
+            AWSShapeMember(label: "Terminated", required: false, type: .integer), 
+            AWSShapeMember(label: "Terminating", required: false, type: .integer), 
+            AWSShapeMember(label: "Unassigning", required: false, type: .integer)
+        ]
+        /// The number of instances in the Assigning state.
+        public let assigning: Int32?
+        /// The number of instances with booting status.
+        public let booting: Int32?
+        /// The number of instances with connection_lost status.
+        public let connectionLost: Int32?
+        /// The number of instances in the Deregistering state.
+        public let deregistering: Int32?
+        /// The number of instances with online status.
+        public let online: Int32?
+        /// The number of instances with pending status.
+        public let pending: Int32?
+        /// The number of instances with rebooting status.
+        public let rebooting: Int32?
+        /// The number of instances in the Registered state.
+        public let registered: Int32?
+        /// The number of instances in the Registering state.
+        public let registering: Int32?
+        /// The number of instances with requested status.
+        public let requested: Int32?
+        /// The number of instances with running_setup status.
+        public let runningSetup: Int32?
+        /// The number of instances with setup_failed status.
+        public let setupFailed: Int32?
+        /// The number of instances with shutting_down status.
+        public let shuttingDown: Int32?
+        /// The number of instances with start_failed status.
+        public let startFailed: Int32?
+        /// The number of instances with stop_failed status.
+        public let stopFailed: Int32?
+        /// The number of instances with stopped status.
+        public let stopped: Int32?
+        /// The number of instances with stopping status.
+        public let stopping: Int32?
+        /// The number of instances with terminated status.
+        public let terminated: Int32?
+        /// The number of instances with terminating status.
+        public let terminating: Int32?
+        /// The number of instances in the Unassigning state.
+        public let unassigning: Int32?
+
+        public init(assigning: Int32? = nil, booting: Int32? = nil, connectionLost: Int32? = nil, deregistering: Int32? = nil, online: Int32? = nil, pending: Int32? = nil, rebooting: Int32? = nil, registered: Int32? = nil, registering: Int32? = nil, requested: Int32? = nil, runningSetup: Int32? = nil, setupFailed: Int32? = nil, shuttingDown: Int32? = nil, startFailed: Int32? = nil, stopFailed: Int32? = nil, stopped: Int32? = nil, stopping: Int32? = nil, terminated: Int32? = nil, terminating: Int32? = nil, unassigning: Int32? = nil) {
+            self.assigning = assigning
+            self.booting = booting
+            self.connectionLost = connectionLost
+            self.deregistering = deregistering
+            self.online = online
+            self.pending = pending
+            self.rebooting = rebooting
+            self.registered = registered
+            self.registering = registering
+            self.requested = requested
+            self.runningSetup = runningSetup
+            self.setupFailed = setupFailed
+            self.shuttingDown = shuttingDown
+            self.startFailed = startFailed
+            self.stopFailed = stopFailed
+            self.stopped = stopped
+            self.stopping = stopping
+            self.terminated = terminated
+            self.terminating = terminating
+            self.unassigning = unassigning
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assigning = "Assigning"
+            case booting = "Booting"
+            case connectionLost = "ConnectionLost"
+            case deregistering = "Deregistering"
+            case online = "Online"
+            case pending = "Pending"
+            case rebooting = "Rebooting"
+            case registered = "Registered"
+            case registering = "Registering"
+            case requested = "Requested"
+            case runningSetup = "RunningSetup"
+            case setupFailed = "SetupFailed"
+            case shuttingDown = "ShuttingDown"
+            case startFailed = "StartFailed"
+            case stopFailed = "StopFailed"
+            case stopped = "Stopped"
+            case stopping = "Stopping"
+            case terminated = "Terminated"
+            case terminating = "Terminating"
+            case unassigning = "Unassigning"
+        }
+    }
+
+    public struct Layer: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "AutoAssignElasticIps", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutoAssignPublicIps", required: false, type: .boolean), 
+            AWSShapeMember(label: "CloudWatchLogsConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
+            AWSShapeMember(label: "CustomInstanceProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "CustomJson", required: false, type: .string), 
+            AWSShapeMember(label: "CustomRecipes", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomSecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "DefaultRecipes", required: false, type: .structure), 
+            AWSShapeMember(label: "DefaultSecurityGroupNames", required: false, type: .list), 
+            AWSShapeMember(label: "EnableAutoHealing", required: false, type: .boolean), 
+            AWSShapeMember(label: "InstallUpdatesOnBoot", required: false, type: .boolean), 
+            AWSShapeMember(label: "LayerId", required: false, type: .string), 
+            AWSShapeMember(label: "LifecycleEventConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Packages", required: false, type: .list), 
+            AWSShapeMember(label: "Shortname", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "UseEbsOptimizedInstances", required: false, type: .boolean), 
+            AWSShapeMember(label: "VolumeConfigurations", required: false, type: .list)
+        ]
+        /// The Amazon Resource Number (ARN) of a layer.
+        public let arn: String?
+        /// The layer attributes. For the HaproxyStatsPassword, MysqlRootPassword, and GangliaPassword attributes, AWS OpsWorks Stacks returns *****FILTERED***** instead of the actual value For an ECS Cluster layer, AWS OpsWorks Stacks the EcsClusterArn attribute is set to the cluster's ARN.
+        public let attributes: [LayerAttributesKeys: String]?
+        /// Whether to automatically assign an Elastic IP address to the layer's instances. For more information, see How to Edit a Layer.
+        public let autoAssignElasticIps: Bool?
+        /// For stacks that are running in a VPC, whether to automatically assign a public IP address to the layer's instances. For more information, see How to Edit a Layer.
+        public let autoAssignPublicIps: Bool?
+        /// The Amazon CloudWatch Logs configuration settings for the layer.
+        public let cloudWatchLogsConfiguration: CloudWatchLogsConfiguration?
+        /// Date when the layer was created.
+        public let createdAt: String?
+        /// The ARN of the default IAM profile to be used for the layer's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
+        public let customInstanceProfileArn: String?
+        /// A JSON formatted string containing the layer's custom stack configuration and deployment attributes.
+        public let customJson: String?
+        /// A LayerCustomRecipes object that specifies the layer's custom recipes.
+        public let customRecipes: Recipes?
+        /// An array containing the layer's custom security group IDs.
+        public let customSecurityGroupIds: [String]?
+        public let defaultRecipes: Recipes?
+        /// An array containing the layer's security group names.
+        public let defaultSecurityGroupNames: [String]?
+        /// Whether auto healing is disabled for the layer.
+        public let enableAutoHealing: Bool?
+        /// Whether to install operating system and package updates when the instance boots. The default value is true. If this value is set to false, you must then update your instances manually by using CreateDeployment to run the update_dependencies stack command or manually running yum (Amazon Linux) or apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true, to ensure that your instances have the latest security updates. 
+        public let installUpdatesOnBoot: Bool?
+        /// The layer ID.
+        public let layerId: String?
+        /// A LifeCycleEventConfiguration object that specifies the Shutdown event configuration.
+        public let lifecycleEventConfiguration: LifecycleEventConfiguration?
+        /// The layer name.
+        public let name: String?
+        /// An array of Package objects that describe the layer's packages.
+        public let packages: [String]?
+        /// The layer short name.
+        public let shortname: String?
+        /// The layer stack ID.
+        public let stackId: String?
+        /// The layer type.
+        public let `type`: LayerType?
+        /// Whether the layer uses Amazon EBS-optimized instances.
+        public let useEbsOptimizedInstances: Bool?
+        /// A VolumeConfigurations object that describes the layer's Amazon EBS volumes.
+        public let volumeConfigurations: [VolumeConfiguration]?
+
+        public init(arn: String? = nil, attributes: [LayerAttributesKeys: String]? = nil, autoAssignElasticIps: Bool? = nil, autoAssignPublicIps: Bool? = nil, cloudWatchLogsConfiguration: CloudWatchLogsConfiguration? = nil, createdAt: String? = nil, customInstanceProfileArn: String? = nil, customJson: String? = nil, customRecipes: Recipes? = nil, customSecurityGroupIds: [String]? = nil, defaultRecipes: Recipes? = nil, defaultSecurityGroupNames: [String]? = nil, enableAutoHealing: Bool? = nil, installUpdatesOnBoot: Bool? = nil, layerId: String? = nil, lifecycleEventConfiguration: LifecycleEventConfiguration? = nil, name: String? = nil, packages: [String]? = nil, shortname: String? = nil, stackId: String? = nil, type: LayerType? = nil, useEbsOptimizedInstances: Bool? = nil, volumeConfigurations: [VolumeConfiguration]? = nil) {
+            self.arn = arn
+            self.attributes = attributes
+            self.autoAssignElasticIps = autoAssignElasticIps
+            self.autoAssignPublicIps = autoAssignPublicIps
+            self.cloudWatchLogsConfiguration = cloudWatchLogsConfiguration
+            self.createdAt = createdAt
+            self.customInstanceProfileArn = customInstanceProfileArn
+            self.customJson = customJson
+            self.customRecipes = customRecipes
+            self.customSecurityGroupIds = customSecurityGroupIds
+            self.defaultRecipes = defaultRecipes
+            self.defaultSecurityGroupNames = defaultSecurityGroupNames
+            self.enableAutoHealing = enableAutoHealing
+            self.installUpdatesOnBoot = installUpdatesOnBoot
+            self.layerId = layerId
+            self.lifecycleEventConfiguration = lifecycleEventConfiguration
+            self.name = name
+            self.packages = packages
+            self.shortname = shortname
+            self.stackId = stackId
+            self.`type` = `type`
+            self.useEbsOptimizedInstances = useEbsOptimizedInstances
+            self.volumeConfigurations = volumeConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case attributes = "Attributes"
+            case autoAssignElasticIps = "AutoAssignElasticIps"
+            case autoAssignPublicIps = "AutoAssignPublicIps"
+            case cloudWatchLogsConfiguration = "CloudWatchLogsConfiguration"
+            case createdAt = "CreatedAt"
+            case customInstanceProfileArn = "CustomInstanceProfileArn"
             case customJson = "CustomJson"
+            case customRecipes = "CustomRecipes"
+            case customSecurityGroupIds = "CustomSecurityGroupIds"
+            case defaultRecipes = "DefaultRecipes"
+            case defaultSecurityGroupNames = "DefaultSecurityGroupNames"
+            case enableAutoHealing = "EnableAutoHealing"
+            case installUpdatesOnBoot = "InstallUpdatesOnBoot"
+            case layerId = "LayerId"
+            case lifecycleEventConfiguration = "LifecycleEventConfiguration"
+            case name = "Name"
+            case packages = "Packages"
+            case shortname = "Shortname"
+            case stackId = "StackId"
+            case `type` = "Type"
+            case useEbsOptimizedInstances = "UseEbsOptimizedInstances"
+            case volumeConfigurations = "VolumeConfigurations"
+        }
+    }
+
+    public enum LayerAttributesKeys: String, CustomStringConvertible, Codable {
+        case ecsclusterarn = "EcsClusterArn"
+        case enablehaproxystats = "EnableHaproxyStats"
+        case haproxystatsurl = "HaproxyStatsUrl"
+        case haproxystatsuser = "HaproxyStatsUser"
+        case haproxystatspassword = "HaproxyStatsPassword"
+        case haproxyhealthcheckurl = "HaproxyHealthCheckUrl"
+        case haproxyhealthcheckmethod = "HaproxyHealthCheckMethod"
+        case mysqlrootpassword = "MysqlRootPassword"
+        case mysqlrootpasswordubiquitous = "MysqlRootPasswordUbiquitous"
+        case gangliaurl = "GangliaUrl"
+        case gangliauser = "GangliaUser"
+        case gangliapassword = "GangliaPassword"
+        case memcachedmemory = "MemcachedMemory"
+        case nodejsversion = "NodejsVersion"
+        case rubyversion = "RubyVersion"
+        case rubygemsversion = "RubygemsVersion"
+        case managebundler = "ManageBundler"
+        case bundlerversion = "BundlerVersion"
+        case railsstack = "RailsStack"
+        case passengerversion = "PassengerVersion"
+        case jvm = "Jvm"
+        case jvmversion = "JvmVersion"
+        case jvmoptions = "JvmOptions"
+        case javaappserver = "JavaAppServer"
+        case javaappserverversion = "JavaAppServerVersion"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LayerType: String, CustomStringConvertible, Codable {
+        case awsFlowRuby = "aws-flow-ruby"
+        case ecsCluster = "ecs-cluster"
+        case javaApp = "java-app"
+        case lb = "lb"
+        case web = "web"
+        case phpApp = "php-app"
+        case railsApp = "rails-app"
+        case nodejsApp = "nodejs-app"
+        case memcached = "memcached"
+        case dbMaster = "db-master"
+        case monitoringMaster = "monitoring-master"
+        case custom = "custom"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct LifecycleEventConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Shutdown", required: false, type: .structure)
+        ]
+        /// A ShutdownEventConfiguration object that specifies the Shutdown event configuration.
+        public let shutdown: ShutdownEventConfiguration?
+
+        public init(shutdown: ShutdownEventConfiguration? = nil) {
+            self.shutdown = shutdown
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case shutdown = "Shutdown"
+        }
+    }
+
+    public struct ListTagsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
+        ]
+        /// Do not use. A validation exception occurs if you add a MaxResults parameter to a ListTagsRequest call. 
+        public let maxResults: Int32?
+        /// Do not use. A validation exception occurs if you add a NextToken parameter to a ListTagsRequest call. 
+        public let nextToken: String?
+        /// The stack or layer's Amazon Resource Number (ARN).
+        public let resourceArn: String
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct ListTagsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .map)
+        ]
+        /// If a paginated request does not return all of the remaining results, this parameter is set to a token that you can assign to the request object's NextToken parameter to get the next set of results. If the previous paginated request returned all of the remaining results, this parameter is set to null. 
+        public let nextToken: String?
+        /// A set of key-value pairs that contain tag keys and tag values that are attached to a stack or layer.
+        public let tags: [String: String]?
+
+        public init(nextToken: String? = nil, tags: [String: String]? = nil) {
+            self.nextToken = nextToken
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tags = "Tags"
+        }
+    }
+
+    public struct LoadBasedAutoScalingConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DownScaling", required: false, type: .structure), 
+            AWSShapeMember(label: "Enable", required: false, type: .boolean), 
+            AWSShapeMember(label: "LayerId", required: false, type: .string), 
+            AWSShapeMember(label: "UpScaling", required: false, type: .structure)
+        ]
+        /// An AutoScalingThresholds object that describes the downscaling configuration, which defines how and when AWS OpsWorks Stacks reduces the number of instances.
+        public let downScaling: AutoScalingThresholds?
+        /// Whether load-based auto scaling is enabled for the layer.
+        public let enable: Bool?
+        /// The layer ID.
+        public let layerId: String?
+        /// An AutoScalingThresholds object that describes the upscaling configuration, which defines how and when AWS OpsWorks Stacks increases the number of instances.
+        public let upScaling: AutoScalingThresholds?
+
+        public init(downScaling: AutoScalingThresholds? = nil, enable: Bool? = nil, layerId: String? = nil, upScaling: AutoScalingThresholds? = nil) {
+            self.downScaling = downScaling
+            self.enable = enable
+            self.layerId = layerId
+            self.upScaling = upScaling
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case downScaling = "DownScaling"
+            case enable = "Enable"
+            case layerId = "LayerId"
+            case upScaling = "UpScaling"
+        }
+    }
+
+    public struct OperatingSystem: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationManagers", required: false, type: .list), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ReportedName", required: false, type: .string), 
+            AWSShapeMember(label: "ReportedVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Supported", required: false, type: .boolean), 
+            AWSShapeMember(label: "Type", required: false, type: .string)
+        ]
+        /// Supported configuration manager name and versions for an AWS OpsWorks Stacks operating system.
+        public let configurationManagers: [OperatingSystemConfigurationManager]?
+        /// The ID of a supported operating system, such as Amazon Linux 2017.09.
+        public let id: String?
+        /// The name of the operating system, such as Amazon Linux 2017.09.
+        public let name: String?
+        /// A short name for the operating system manufacturer.
+        public let reportedName: String?
+        /// The version of the operating system, including the release and edition, if applicable.
+        public let reportedVersion: String?
+        /// Indicates that an operating system is not supported for new instances.
+        public let supported: Bool?
+        /// The type of a supported operating system, either Linux or Windows.
+        public let `type`: String?
+
+        public init(configurationManagers: [OperatingSystemConfigurationManager]? = nil, id: String? = nil, name: String? = nil, reportedName: String? = nil, reportedVersion: String? = nil, supported: Bool? = nil, type: String? = nil) {
+            self.configurationManagers = configurationManagers
+            self.id = id
+            self.name = name
+            self.reportedName = reportedName
+            self.reportedVersion = reportedVersion
+            self.supported = supported
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationManagers = "ConfigurationManagers"
+            case id = "Id"
+            case name = "Name"
+            case reportedName = "ReportedName"
+            case reportedVersion = "ReportedVersion"
+            case supported = "Supported"
+            case `type` = "Type"
+        }
+    }
+
+    public struct OperatingSystemConfigurationManager: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        /// The name of the configuration manager, which is Chef.
+        public let name: String?
+        /// The versions of the configuration manager that are supported by an operating system.
+        public let version: String?
+
+        public init(name: String? = nil, version: String? = nil) {
+            self.name = name
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case version = "Version"
+        }
+    }
+
+    public struct Permission: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowSsh", required: false, type: .boolean), 
+            AWSShapeMember(label: "AllowSudo", required: false, type: .boolean), 
+            AWSShapeMember(label: "IamUserArn", required: false, type: .string), 
+            AWSShapeMember(label: "Level", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: false, type: .string)
+        ]
+        /// Whether the user can use SSH.
+        public let allowSsh: Bool?
+        /// Whether the user can use sudo.
+        public let allowSudo: Bool?
+        /// The Amazon Resource Name (ARN) for an AWS Identity and Access Management (IAM) role. For more information about IAM ARNs, see Using Identifiers.
+        public let iamUserArn: String?
+        /// The user's permission level, which must be the following:    deny     show     deploy     manage     iam_only    For more information on the permissions associated with these levels, see Managing User Permissions 
+        public let level: String?
+        /// A stack ID.
+        public let stackId: String?
+
+        public init(allowSsh: Bool? = nil, allowSudo: Bool? = nil, iamUserArn: String? = nil, level: String? = nil, stackId: String? = nil) {
+            self.allowSsh = allowSsh
+            self.allowSudo = allowSudo
+            self.iamUserArn = iamUserArn
+            self.level = level
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowSsh = "AllowSsh"
+            case allowSudo = "AllowSudo"
+            case iamUserArn = "IamUserArn"
+            case level = "Level"
+            case stackId = "StackId"
+        }
+    }
+
+    public struct RaidArray: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
+            AWSShapeMember(label: "Device", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "Iops", required: false, type: .integer), 
+            AWSShapeMember(label: "MountPoint", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "NumberOfDisks", required: false, type: .integer), 
+            AWSShapeMember(label: "RaidArrayId", required: false, type: .string), 
+            AWSShapeMember(label: "RaidLevel", required: false, type: .integer), 
+            AWSShapeMember(label: "Size", required: false, type: .integer), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeType", required: false, type: .string)
+        ]
+        /// The array's Availability Zone. For more information, see Regions and Endpoints.
+        public let availabilityZone: String?
+        /// When the RAID array was created.
+        public let createdAt: String?
+        /// The array's Linux device. For example /dev/mdadm0.
+        public let device: String?
+        /// The instance ID.
+        public let instanceId: String?
+        /// For PIOPS volumes, the IOPS per disk.
+        public let iops: Int32?
+        /// The array's mount point.
+        public let mountPoint: String?
+        /// The array name.
+        public let name: String?
+        /// The number of disks in the array.
+        public let numberOfDisks: Int32?
+        /// The array ID.
+        public let raidArrayId: String?
+        /// The RAID level.
+        public let raidLevel: Int32?
+        /// The array's size.
+        public let size: Int32?
+        /// The stack ID.
+        public let stackId: String?
+        /// The volume type, standard or PIOPS.
+        public let volumeType: String?
+
+        public init(availabilityZone: String? = nil, createdAt: String? = nil, device: String? = nil, instanceId: String? = nil, iops: Int32? = nil, mountPoint: String? = nil, name: String? = nil, numberOfDisks: Int32? = nil, raidArrayId: String? = nil, raidLevel: Int32? = nil, size: Int32? = nil, stackId: String? = nil, volumeType: String? = nil) {
+            self.availabilityZone = availabilityZone
+            self.createdAt = createdAt
+            self.device = device
+            self.instanceId = instanceId
+            self.iops = iops
+            self.mountPoint = mountPoint
+            self.name = name
+            self.numberOfDisks = numberOfDisks
+            self.raidArrayId = raidArrayId
+            self.raidLevel = raidLevel
+            self.size = size
+            self.stackId = stackId
+            self.volumeType = volumeType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case createdAt = "CreatedAt"
+            case device = "Device"
+            case instanceId = "InstanceId"
+            case iops = "Iops"
+            case mountPoint = "MountPoint"
+            case name = "Name"
+            case numberOfDisks = "NumberOfDisks"
+            case raidArrayId = "RaidArrayId"
+            case raidLevel = "RaidLevel"
+            case size = "Size"
+            case stackId = "StackId"
+            case volumeType = "VolumeType"
+        }
+    }
+
+    public struct RdsDbInstance: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Address", required: false, type: .string), 
+            AWSShapeMember(label: "DbInstanceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "DbPassword", required: false, type: .string), 
+            AWSShapeMember(label: "DbUser", required: false, type: .string), 
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
+            AWSShapeMember(label: "MissingOnRds", required: false, type: .boolean), 
+            AWSShapeMember(label: "RdsDbInstanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "Region", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: false, type: .string)
+        ]
+        /// The instance's address.
+        public let address: String?
+        /// The DB instance identifier.
+        public let dbInstanceIdentifier: String?
+        /// AWS OpsWorks Stacks returns *****FILTERED***** instead of the actual value.
+        public let dbPassword: String?
+        /// The master user name.
+        public let dbUser: String?
+        /// The instance's database engine.
+        public let engine: String?
+        /// Set to true if AWS OpsWorks Stacks is unable to discover the Amazon RDS instance. AWS OpsWorks Stacks attempts to discover the instance only once. If this value is set to true, you must deregister the instance, and then register it again.
+        public let missingOnRds: Bool?
+        /// The instance's ARN.
+        public let rdsDbInstanceArn: String?
+        /// The instance's AWS region.
+        public let region: String?
+        /// The ID of the stack with which the instance is registered.
+        public let stackId: String?
+
+        public init(address: String? = nil, dbInstanceIdentifier: String? = nil, dbPassword: String? = nil, dbUser: String? = nil, engine: String? = nil, missingOnRds: Bool? = nil, rdsDbInstanceArn: String? = nil, region: String? = nil, stackId: String? = nil) {
+            self.address = address
+            self.dbInstanceIdentifier = dbInstanceIdentifier
+            self.dbPassword = dbPassword
+            self.dbUser = dbUser
+            self.engine = engine
+            self.missingOnRds = missingOnRds
+            self.rdsDbInstanceArn = rdsDbInstanceArn
+            self.region = region
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case dbInstanceIdentifier = "DbInstanceIdentifier"
+            case dbPassword = "DbPassword"
+            case dbUser = "DbUser"
+            case engine = "Engine"
+            case missingOnRds = "MissingOnRds"
+            case rdsDbInstanceArn = "RdsDbInstanceArn"
+            case region = "Region"
+            case stackId = "StackId"
+        }
+    }
+
+    public struct RebootInstanceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
+        ]
+        /// The instance ID.
+        public let instanceId: String
+
+        public init(instanceId: String) {
+            self.instanceId = instanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct Recipes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Configure", required: false, type: .list), 
+            AWSShapeMember(label: "Deploy", required: false, type: .list), 
+            AWSShapeMember(label: "Setup", required: false, type: .list), 
+            AWSShapeMember(label: "Shutdown", required: false, type: .list), 
+            AWSShapeMember(label: "Undeploy", required: false, type: .list)
+        ]
+        /// An array of custom recipe names to be run following a configure event.
+        public let configure: [String]?
+        /// An array of custom recipe names to be run following a deploy event.
+        public let deploy: [String]?
+        /// An array of custom recipe names to be run following a setup event.
+        public let setup: [String]?
+        /// An array of custom recipe names to be run following a shutdown event.
+        public let shutdown: [String]?
+        /// An array of custom recipe names to be run following a undeploy event.
+        public let undeploy: [String]?
+
+        public init(configure: [String]? = nil, deploy: [String]? = nil, setup: [String]? = nil, shutdown: [String]? = nil, undeploy: [String]? = nil) {
+            self.configure = configure
+            self.deploy = deploy
+            self.setup = setup
+            self.shutdown = shutdown
+            self.undeploy = undeploy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configure = "Configure"
+            case deploy = "Deploy"
+            case setup = "Setup"
+            case shutdown = "Shutdown"
+            case undeploy = "Undeploy"
+        }
+    }
+
+    public struct RegisterEcsClusterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EcsClusterArn", required: true, type: .string), 
+            AWSShapeMember(label: "StackId", required: true, type: .string)
+        ]
+        /// The cluster's ARN.
+        public let ecsClusterArn: String
+        /// The stack ID.
+        public let stackId: String
+
+        public init(ecsClusterArn: String, stackId: String) {
+            self.ecsClusterArn = ecsClusterArn
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ecsClusterArn = "EcsClusterArn"
+            case stackId = "StackId"
+        }
+    }
+
+    public struct RegisterEcsClusterResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EcsClusterArn", required: false, type: .string)
+        ]
+        /// The cluster's ARN.
+        public let ecsClusterArn: String?
+
+        public init(ecsClusterArn: String? = nil) {
+            self.ecsClusterArn = ecsClusterArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ecsClusterArn = "EcsClusterArn"
+        }
+    }
+
+    public struct RegisterElasticIpRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ElasticIp", required: true, type: .string), 
+            AWSShapeMember(label: "StackId", required: true, type: .string)
+        ]
+        /// The Elastic IP address.
+        public let elasticIp: String
+        /// The stack ID.
+        public let stackId: String
+
+        public init(elasticIp: String, stackId: String) {
+            self.elasticIp = elasticIp
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case elasticIp = "ElasticIp"
+            case stackId = "StackId"
+        }
+    }
+
+    public struct RegisterElasticIpResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ElasticIp", required: false, type: .string)
+        ]
+        /// The Elastic IP address.
+        public let elasticIp: String?
+
+        public init(elasticIp: String? = nil) {
+            self.elasticIp = elasticIp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case elasticIp = "ElasticIp"
+        }
+    }
+
+    public struct RegisterInstanceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Hostname", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceIdentity", required: false, type: .structure), 
+            AWSShapeMember(label: "PrivateIp", required: false, type: .string), 
+            AWSShapeMember(label: "PublicIp", required: false, type: .string), 
+            AWSShapeMember(label: "RsaPublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "RsaPublicKeyFingerprint", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: true, type: .string)
+        ]
+        /// The instance's hostname.
+        public let hostname: String?
+        /// An InstanceIdentity object that contains the instance's identity.
+        public let instanceIdentity: InstanceIdentity?
+        /// The instance's private IP address.
+        public let privateIp: String?
+        /// The instance's public IP address.
+        public let publicIp: String?
+        /// The instances public RSA key. This key is used to encrypt communication between the instance and the service.
+        public let rsaPublicKey: String?
+        /// The instances public RSA key fingerprint.
+        public let rsaPublicKeyFingerprint: String?
+        /// The ID of the stack that the instance is to be registered with.
+        public let stackId: String
+
+        public init(hostname: String? = nil, instanceIdentity: InstanceIdentity? = nil, privateIp: String? = nil, publicIp: String? = nil, rsaPublicKey: String? = nil, rsaPublicKeyFingerprint: String? = nil, stackId: String) {
+            self.hostname = hostname
+            self.instanceIdentity = instanceIdentity
+            self.privateIp = privateIp
+            self.publicIp = publicIp
+            self.rsaPublicKey = rsaPublicKey
+            self.rsaPublicKeyFingerprint = rsaPublicKeyFingerprint
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostname = "Hostname"
+            case instanceIdentity = "InstanceIdentity"
+            case privateIp = "PrivateIp"
+            case publicIp = "PublicIp"
+            case rsaPublicKey = "RsaPublicKey"
+            case rsaPublicKeyFingerprint = "RsaPublicKeyFingerprint"
+            case stackId = "StackId"
+        }
+    }
+
+    public struct RegisterInstanceResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: false, type: .string)
+        ]
+        /// The registered instance's AWS OpsWorks Stacks ID.
+        public let instanceId: String?
+
+        public init(instanceId: String? = nil) {
+            self.instanceId = instanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct RegisterRdsDbInstanceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DbPassword", required: true, type: .string), 
+            AWSShapeMember(label: "DbUser", required: true, type: .string), 
+            AWSShapeMember(label: "RdsDbInstanceArn", required: true, type: .string), 
+            AWSShapeMember(label: "StackId", required: true, type: .string)
+        ]
+        /// The database password.
+        public let dbPassword: String
+        /// The database's master user name.
+        public let dbUser: String
+        /// The Amazon RDS instance's ARN.
+        public let rdsDbInstanceArn: String
+        /// The stack ID.
+        public let stackId: String
+
+        public init(dbPassword: String, dbUser: String, rdsDbInstanceArn: String, stackId: String) {
+            self.dbPassword = dbPassword
+            self.dbUser = dbUser
+            self.rdsDbInstanceArn = rdsDbInstanceArn
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbPassword = "DbPassword"
+            case dbUser = "DbUser"
+            case rdsDbInstanceArn = "RdsDbInstanceArn"
+            case stackId = "StackId"
+        }
+    }
+
+    public struct RegisterVolumeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Ec2VolumeId", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: true, type: .string)
+        ]
+        /// The Amazon EBS volume ID.
+        public let ec2VolumeId: String?
+        /// The stack ID.
+        public let stackId: String
+
+        public init(ec2VolumeId: String? = nil, stackId: String) {
+            self.ec2VolumeId = ec2VolumeId
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ec2VolumeId = "Ec2VolumeId"
+            case stackId = "StackId"
+        }
+    }
+
+    public struct RegisterVolumeResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeId", required: false, type: .string)
+        ]
+        /// The volume ID.
+        public let volumeId: String?
+
+        public init(volumeId: String? = nil) {
+            self.volumeId = volumeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case volumeId = "VolumeId"
+        }
+    }
+
+    public struct ReportedOs: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Family", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        /// The operating system family.
+        public let family: String?
+        /// The operating system name.
+        public let name: String?
+        /// The operating system version.
+        public let version: String?
+
+        public init(family: String? = nil, name: String? = nil, version: String? = nil) {
+            self.family = family
+            self.name = name
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case family = "Family"
+            case name = "Name"
+            case version = "Version"
+        }
+    }
+
+    public enum RootDeviceType: String, CustomStringConvertible, Codable {
+        case ebs = "ebs"
+        case instanceStore = "instance-store"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct SelfUserProfile: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IamUserArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "SshPublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "SshUsername", required: false, type: .string)
+        ]
+        /// The user's IAM ARN.
+        public let iamUserArn: String?
+        /// The user's name.
+        public let name: String?
+        /// The user's SSH public key.
+        public let sshPublicKey: String?
+        /// The user's SSH user name.
+        public let sshUsername: String?
+
+        public init(iamUserArn: String? = nil, name: String? = nil, sshPublicKey: String? = nil, sshUsername: String? = nil) {
+            self.iamUserArn = iamUserArn
+            self.name = name
+            self.sshPublicKey = sshPublicKey
+            self.sshUsername = sshUsername
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iamUserArn = "IamUserArn"
+            case name = "Name"
+            case sshPublicKey = "SshPublicKey"
+            case sshUsername = "SshUsername"
+        }
+    }
+
+    public struct ServiceError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceErrorId", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .string)
+        ]
+        /// When the error occurred.
+        public let createdAt: String?
+        /// The instance ID.
+        public let instanceId: String?
+        /// A message that describes the error.
+        public let message: String?
+        /// The error ID.
+        public let serviceErrorId: String?
+        /// The stack ID.
+        public let stackId: String?
+        /// The error type.
+        public let `type`: String?
+
+        public init(createdAt: String? = nil, instanceId: String? = nil, message: String? = nil, serviceErrorId: String? = nil, stackId: String? = nil, type: String? = nil) {
+            self.createdAt = createdAt
+            self.instanceId = instanceId
+            self.message = message
+            self.serviceErrorId = serviceErrorId
+            self.stackId = stackId
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case instanceId = "InstanceId"
+            case message = "Message"
+            case serviceErrorId = "ServiceErrorId"
+            case stackId = "StackId"
+            case `type` = "Type"
+        }
+    }
+
+    public struct SetLoadBasedAutoScalingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DownScaling", required: false, type: .structure), 
+            AWSShapeMember(label: "Enable", required: false, type: .boolean), 
+            AWSShapeMember(label: "LayerId", required: true, type: .string), 
+            AWSShapeMember(label: "UpScaling", required: false, type: .structure)
+        ]
+        /// An AutoScalingThresholds object with the downscaling threshold configuration. If the load falls below these thresholds for a specified amount of time, AWS OpsWorks Stacks stops a specified number of instances.
+        public let downScaling: AutoScalingThresholds?
+        /// Enables load-based auto scaling for the layer.
+        public let enable: Bool?
+        /// The layer ID.
+        public let layerId: String
+        /// An AutoScalingThresholds object with the upscaling threshold configuration. If the load exceeds these thresholds for a specified amount of time, AWS OpsWorks Stacks starts a specified number of instances.
+        public let upScaling: AutoScalingThresholds?
+
+        public init(downScaling: AutoScalingThresholds? = nil, enable: Bool? = nil, layerId: String, upScaling: AutoScalingThresholds? = nil) {
+            self.downScaling = downScaling
+            self.enable = enable
+            self.layerId = layerId
+            self.upScaling = upScaling
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case downScaling = "DownScaling"
+            case enable = "Enable"
+            case layerId = "LayerId"
+            case upScaling = "UpScaling"
+        }
+    }
+
+    public struct SetPermissionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowSsh", required: false, type: .boolean), 
+            AWSShapeMember(label: "AllowSudo", required: false, type: .boolean), 
+            AWSShapeMember(label: "IamUserArn", required: true, type: .string), 
+            AWSShapeMember(label: "Level", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: true, type: .string)
+        ]
+        /// The user is allowed to use SSH to communicate with the instance.
+        public let allowSsh: Bool?
+        /// The user is allowed to use sudo to elevate privileges.
+        public let allowSudo: Bool?
+        /// The user's IAM ARN. This can also be a federated user's ARN.
+        public let iamUserArn: String
+        /// The user's permission level, which must be set to one of the following strings. You cannot set your own permissions level.    deny     show     deploy     manage     iam_only    For more information about the permissions associated with these levels, see Managing User Permissions.
+        public let level: String?
+        /// The stack ID.
+        public let stackId: String
+
+        public init(allowSsh: Bool? = nil, allowSudo: Bool? = nil, iamUserArn: String, level: String? = nil, stackId: String) {
+            self.allowSsh = allowSsh
+            self.allowSudo = allowSudo
+            self.iamUserArn = iamUserArn
+            self.level = level
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowSsh = "AllowSsh"
+            case allowSudo = "AllowSudo"
+            case iamUserArn = "IamUserArn"
+            case level = "Level"
+            case stackId = "StackId"
+        }
+    }
+
+    public struct SetTimeBasedAutoScalingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoScalingSchedule", required: false, type: .structure), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
+        ]
+        /// An AutoScalingSchedule with the instance schedule.
+        public let autoScalingSchedule: WeeklyAutoScalingSchedule?
+        /// The instance ID.
+        public let instanceId: String
+
+        public init(autoScalingSchedule: WeeklyAutoScalingSchedule? = nil, instanceId: String) {
+            self.autoScalingSchedule = autoScalingSchedule
+            self.instanceId = instanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingSchedule = "AutoScalingSchedule"
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct ShutdownEventConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DelayUntilElbConnectionsDrained", required: false, type: .boolean), 
+            AWSShapeMember(label: "ExecutionTimeout", required: false, type: .integer)
+        ]
+        /// Whether to enable Elastic Load Balancing connection draining. For more information, see Connection Draining 
+        public let delayUntilElbConnectionsDrained: Bool?
+        /// The time, in seconds, that AWS OpsWorks Stacks will wait after triggering a Shutdown event before shutting down an instance.
+        public let executionTimeout: Int32?
+
+        public init(delayUntilElbConnectionsDrained: Bool? = nil, executionTimeout: Int32? = nil) {
+            self.delayUntilElbConnectionsDrained = delayUntilElbConnectionsDrained
+            self.executionTimeout = executionTimeout
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delayUntilElbConnectionsDrained = "DelayUntilElbConnectionsDrained"
+            case executionTimeout = "ExecutionTimeout"
+        }
+    }
+
+    public struct Source: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Password", required: false, type: .string), 
+            AWSShapeMember(label: "Revision", required: false, type: .string), 
+            AWSShapeMember(label: "SshKey", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Url", required: false, type: .string), 
+            AWSShapeMember(label: "Username", required: false, type: .string)
+        ]
+        /// When included in a request, the parameter depends on the repository type.   For Amazon S3 bundles, set Password to the appropriate IAM secret access key.   For HTTP bundles and Subversion repositories, set Password to the password.   For more information on how to safely handle IAM credentials, see http://docs.aws.amazon.com/general/latest/gr/aws-access-keys-best-practices.html. In responses, AWS OpsWorks Stacks returns *****FILTERED***** instead of the actual value.
+        public let password: String?
+        /// The application's version. AWS OpsWorks Stacks enables you to easily deploy new versions of an application. One of the simplest approaches is to have branches or revisions in your repository that represent different versions that can potentially be deployed.
+        public let revision: String?
+        /// In requests, the repository's SSH key. In responses, AWS OpsWorks Stacks returns *****FILTERED***** instead of the actual value.
+        public let sshKey: String?
+        /// The repository type.
+        public let `type`: SourceType?
+        /// The source URL. The following is an example of an Amazon S3 source URL: https://s3.amazonaws.com/opsworks-demo-bucket/opsworks_cookbook_demo.tar.gz.
+        public let url: String?
+        /// This parameter depends on the repository type.   For Amazon S3 bundles, set Username to the appropriate IAM access key ID.   For HTTP bundles, Git repositories, and Subversion repositories, set Username to the user name.  
+        public let username: String?
+
+        public init(password: String? = nil, revision: String? = nil, sshKey: String? = nil, type: SourceType? = nil, url: String? = nil, username: String? = nil) {
+            self.password = password
+            self.revision = revision
+            self.sshKey = sshKey
+            self.`type` = `type`
+            self.url = url
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case password = "Password"
+            case revision = "Revision"
+            case sshKey = "SshKey"
+            case `type` = "Type"
+            case url = "Url"
+            case username = "Username"
+        }
+    }
+
+    public enum SourceType: String, CustomStringConvertible, Codable {
+        case git = "git"
+        case svn = "svn"
+        case archive = "archive"
+        case s3 = "s3"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct SslConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificate", required: true, type: .string), 
+            AWSShapeMember(label: "Chain", required: false, type: .string), 
+            AWSShapeMember(label: "PrivateKey", required: true, type: .string)
+        ]
+        /// The contents of the certificate's domain.crt file.
+        public let certificate: String
+        /// Optional. Can be used to specify an intermediate certificate authority key or client authentication.
+        public let chain: String?
+        /// The private key; the contents of the certificate's domain.kex file.
+        public let privateKey: String
+
+        public init(certificate: String, chain: String? = nil, privateKey: String) {
+            self.certificate = certificate
+            self.chain = chain
+            self.privateKey = privateKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
+            case chain = "Chain"
+            case privateKey = "PrivateKey"
+        }
+    }
+
+    public struct Stack: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AgentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "ChefConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ConfigurationManager", required: false, type: .structure), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
+            AWSShapeMember(label: "CustomCookbooksSource", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomJson", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultAvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultInstanceProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultOs", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultRootDeviceType", required: false, type: .enum), 
+            AWSShapeMember(label: "DefaultSshKeyName", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultSubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "HostnameTheme", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Region", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "UseCustomCookbooks", required: false, type: .boolean), 
+            AWSShapeMember(label: "UseOpsworksSecurityGroups", required: false, type: .boolean), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string)
+        ]
+        /// The agent version. This parameter is set to LATEST for auto-update. or a version number for a fixed agent version.
+        public let agentVersion: String?
+        /// The stack's ARN.
+        public let arn: String?
+        /// The stack's attributes.
+        public let attributes: [StackAttributesKeys: String]?
+        /// A ChefConfiguration object that specifies whether to enable Berkshelf and the Berkshelf version. For more information, see Create a New Stack.
+        public let chefConfiguration: ChefConfiguration?
+        /// The configuration manager.
+        public let configurationManager: StackConfigurationManager?
+        /// The date when the stack was created.
+        public let createdAt: String?
+        public let customCookbooksSource: Source?
+        /// A JSON object that contains user-defined attributes to be added to the stack configuration and deployment attributes. You can use custom JSON to override the corresponding default stack configuration attribute values or to pass data to recipes. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information on custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
+        public let customJson: String?
+        /// The stack's default Availability Zone. For more information, see Regions and Endpoints.
+        public let defaultAvailabilityZone: String?
+        /// The ARN of an IAM profile that is the default profile for all of the stack's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
+        public let defaultInstanceProfileArn: String?
+        /// The stack's default operating system.
+        public let defaultOs: String?
+        /// The default root device type. This value is used by default for all instances in the stack, but you can override it when you create an instance. For more information, see Storage for the Root Device.
+        public let defaultRootDeviceType: RootDeviceType?
+        /// A default Amazon EC2 key pair for the stack's instances. You can override this value when you create or update an instance.
+        public let defaultSshKeyName: String?
+        /// The default subnet ID; applicable only if the stack is running in a VPC.
+        public let defaultSubnetId: String?
+        /// The stack host name theme, with spaces replaced by underscores.
+        public let hostnameTheme: String?
+        /// The stack name.
+        public let name: String?
+        /// The stack AWS region, such as "ap-northeast-2". For more information about AWS regions, see Regions and Endpoints.
+        public let region: String?
+        /// The stack AWS Identity and Access Management (IAM) role.
+        public let serviceRoleArn: String?
+        /// The stack ID.
+        public let stackId: String?
+        /// Whether the stack uses custom cookbooks.
+        public let useCustomCookbooks: Bool?
+        /// Whether the stack automatically associates the AWS OpsWorks Stacks built-in security groups with the stack's layers.
+        public let useOpsworksSecurityGroups: Bool?
+        /// The VPC ID; applicable only if the stack is running in a VPC.
+        public let vpcId: String?
+
+        public init(agentVersion: String? = nil, arn: String? = nil, attributes: [StackAttributesKeys: String]? = nil, chefConfiguration: ChefConfiguration? = nil, configurationManager: StackConfigurationManager? = nil, createdAt: String? = nil, customCookbooksSource: Source? = nil, customJson: String? = nil, defaultAvailabilityZone: String? = nil, defaultInstanceProfileArn: String? = nil, defaultOs: String? = nil, defaultRootDeviceType: RootDeviceType? = nil, defaultSshKeyName: String? = nil, defaultSubnetId: String? = nil, hostnameTheme: String? = nil, name: String? = nil, region: String? = nil, serviceRoleArn: String? = nil, stackId: String? = nil, useCustomCookbooks: Bool? = nil, useOpsworksSecurityGroups: Bool? = nil, vpcId: String? = nil) {
+            self.agentVersion = agentVersion
+            self.arn = arn
+            self.attributes = attributes
+            self.chefConfiguration = chefConfiguration
+            self.configurationManager = configurationManager
+            self.createdAt = createdAt
+            self.customCookbooksSource = customCookbooksSource
+            self.customJson = customJson
+            self.defaultAvailabilityZone = defaultAvailabilityZone
+            self.defaultInstanceProfileArn = defaultInstanceProfileArn
+            self.defaultOs = defaultOs
+            self.defaultRootDeviceType = defaultRootDeviceType
+            self.defaultSshKeyName = defaultSshKeyName
+            self.defaultSubnetId = defaultSubnetId
+            self.hostnameTheme = hostnameTheme
+            self.name = name
+            self.region = region
+            self.serviceRoleArn = serviceRoleArn
+            self.stackId = stackId
+            self.useCustomCookbooks = useCustomCookbooks
+            self.useOpsworksSecurityGroups = useOpsworksSecurityGroups
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentVersion = "AgentVersion"
+            case arn = "Arn"
+            case attributes = "Attributes"
+            case chefConfiguration = "ChefConfiguration"
+            case configurationManager = "ConfigurationManager"
+            case createdAt = "CreatedAt"
+            case customCookbooksSource = "CustomCookbooksSource"
+            case customJson = "CustomJson"
+            case defaultAvailabilityZone = "DefaultAvailabilityZone"
+            case defaultInstanceProfileArn = "DefaultInstanceProfileArn"
+            case defaultOs = "DefaultOs"
+            case defaultRootDeviceType = "DefaultRootDeviceType"
+            case defaultSshKeyName = "DefaultSshKeyName"
+            case defaultSubnetId = "DefaultSubnetId"
+            case hostnameTheme = "HostnameTheme"
+            case name = "Name"
+            case region = "Region"
+            case serviceRoleArn = "ServiceRoleArn"
+            case stackId = "StackId"
+            case useCustomCookbooks = "UseCustomCookbooks"
+            case useOpsworksSecurityGroups = "UseOpsworksSecurityGroups"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public enum StackAttributesKeys: String, CustomStringConvertible, Codable {
+        case color = "Color"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct StackConfigurationManager: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        /// The name. This parameter must be set to "Chef".
+        public let name: String?
+        /// The Chef version. This parameter must be set to 12, 11.10, or 11.4 for Linux stacks, and to 12.2 for Windows stacks. The default value for Linux stacks is 11.4.
+        public let version: String?
+
+        public init(name: String? = nil, version: String? = nil) {
+            self.name = name
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case version = "Version"
+        }
+    }
+
+    public struct StackSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppsCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "InstancesCount", required: false, type: .structure), 
+            AWSShapeMember(label: "LayersCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: false, type: .string)
+        ]
+        /// The number of apps.
+        public let appsCount: Int32?
+        /// The stack's ARN.
+        public let arn: String?
+        /// An InstancesCount object with the number of instances in each status.
+        public let instancesCount: InstancesCount?
+        /// The number of layers.
+        public let layersCount: Int32?
+        /// The stack name.
+        public let name: String?
+        /// The stack ID.
+        public let stackId: String?
+
+        public init(appsCount: Int32? = nil, arn: String? = nil, instancesCount: InstancesCount? = nil, layersCount: Int32? = nil, name: String? = nil, stackId: String? = nil) {
+            self.appsCount = appsCount
+            self.arn = arn
+            self.instancesCount = instancesCount
+            self.layersCount = layersCount
+            self.name = name
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appsCount = "AppsCount"
+            case arn = "Arn"
+            case instancesCount = "InstancesCount"
+            case layersCount = "LayersCount"
+            case name = "Name"
+            case stackId = "StackId"
+        }
+    }
+
+    public struct StartInstanceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
+        ]
+        /// The instance ID.
+        public let instanceId: String
+
+        public init(instanceId: String) {
+            self.instanceId = instanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct StartStackRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: true, type: .string)
+        ]
+        /// The stack ID.
+        public let stackId: String
+
+        public init(stackId: String) {
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
+        }
+    }
+
+    public struct StopInstanceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Force", required: false, type: .boolean), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
+        ]
+        /// Specifies whether to force an instance to stop.
+        public let force: Bool?
+        /// The instance ID.
+        public let instanceId: String
+
+        public init(force: Bool? = nil, instanceId: String) {
+            self.force = force
+            self.instanceId = instanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case force = "Force"
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct StopStackRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: true, type: .string)
+        ]
+        /// The stack ID.
+        public let stackId: String
+
+        public init(stackId: String) {
+            self.stackId = stackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .map)
+        ]
+        /// The stack or layer's Amazon Resource Number (ARN).
+        public let resourceArn: String
+        /// A map that contains tag keys and tag values that are attached to a stack or layer.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 40 tags is allowed for any resource.  
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TemporaryCredential: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "Password", required: false, type: .string), 
+            AWSShapeMember(label: "Username", required: false, type: .string), 
+            AWSShapeMember(label: "ValidForInMinutes", required: false, type: .integer)
+        ]
+        /// The instance's AWS OpsWorks Stacks ID.
+        public let instanceId: String?
+        /// The password.
+        public let password: String?
+        /// The user name.
+        public let username: String?
+        /// The length of time (in minutes) that the grant is valid. When the grant expires, at the end of this period, the user will no longer be able to use the credentials to log in. If they are logged in at the time, they will be automatically logged out.
+        public let validForInMinutes: Int32?
+
+        public init(instanceId: String? = nil, password: String? = nil, username: String? = nil, validForInMinutes: Int32? = nil) {
+            self.instanceId = instanceId
+            self.password = password
+            self.username = username
+            self.validForInMinutes = validForInMinutes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case password = "Password"
+            case username = "Username"
+            case validForInMinutes = "ValidForInMinutes"
+        }
+    }
+
+    public struct TimeBasedAutoScalingConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoScalingSchedule", required: false, type: .structure), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string)
+        ]
+        /// A WeeklyAutoScalingSchedule object with the instance schedule.
+        public let autoScalingSchedule: WeeklyAutoScalingSchedule?
+        /// The instance ID.
+        public let instanceId: String?
+
+        public init(autoScalingSchedule: WeeklyAutoScalingSchedule? = nil, instanceId: String? = nil) {
+            self.autoScalingSchedule = autoScalingSchedule
+            self.instanceId = instanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingSchedule = "AutoScalingSchedule"
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct UnassignInstanceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
+        ]
+        /// The instance ID.
+        public let instanceId: String
+
+        public init(instanceId: String) {
+            self.instanceId = instanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct UnassignVolumeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeId", required: true, type: .string)
+        ]
+        /// The volume ID.
+        public let volumeId: String
+
+        public init(volumeId: String) {
+            self.volumeId = volumeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case volumeId = "VolumeId"
+        }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+        ]
+        /// The stack or layer's Amazon Resource Number (ARN).
+        public let resourceArn: String
+        /// A list of the keys of tags to be removed from a stack or layer.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UpdateAppRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppId", required: true, type: .string), 
+            AWSShapeMember(label: "AppSource", required: false, type: .structure), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "DataSources", required: false, type: .list), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Domains", required: false, type: .list), 
+            AWSShapeMember(label: "EnableSsl", required: false, type: .boolean), 
+            AWSShapeMember(label: "Environment", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "SslConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+        /// The app ID.
+        public let appId: String
+        /// A Source object that specifies the app repository.
+        public let appSource: Source?
+        /// One or more user-defined key/value pairs to be added to the stack attributes.
+        public let attributes: [AppAttributesKeys: String]?
+        /// The app's data sources.
+        public let dataSources: [DataSource]?
+        /// A description of the app.
+        public let description: String?
+        /// The app's virtual host settings, with multiple domains separated by commas. For example: 'www.example.com, example.com' 
+        public let domains: [String]?
+        /// Whether SSL is enabled for the app.
+        public let enableSsl: Bool?
+        /// An array of EnvironmentVariable objects that specify environment variables to be associated with the app. After you deploy the app, these variables are defined on the associated app server instances.For more information, see  Environment Variables. There is no specific limit on the number of environment variables. However, the size of the associated data structure - which includes the variables' names, values, and protected flag values - cannot exceed 10 KB (10240 Bytes). This limit should accommodate most if not all use cases. Exceeding it will cause an exception with the message, "Environment: is too large (maximum is 10KB)."  This parameter is supported only by Chef 11.10 stacks. If you have specified one or more environment variables, you cannot modify the stack's Chef version. 
+        public let environment: [EnvironmentVariable]?
+        /// The app name.
+        public let name: String?
+        /// An SslConfiguration object with the SSL configuration.
+        public let sslConfiguration: SslConfiguration?
+        /// The app type.
+        public let `type`: AppType?
+
+        public init(appId: String, appSource: Source? = nil, attributes: [AppAttributesKeys: String]? = nil, dataSources: [DataSource]? = nil, description: String? = nil, domains: [String]? = nil, enableSsl: Bool? = nil, environment: [EnvironmentVariable]? = nil, name: String? = nil, sslConfiguration: SslConfiguration? = nil, type: AppType? = nil) {
+            self.appId = appId
+            self.appSource = appSource
+            self.attributes = attributes
+            self.dataSources = dataSources
+            self.description = description
+            self.domains = domains
+            self.enableSsl = enableSsl
+            self.environment = environment
+            self.name = name
+            self.sslConfiguration = sslConfiguration
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "AppId"
+            case appSource = "AppSource"
+            case attributes = "Attributes"
+            case dataSources = "DataSources"
+            case description = "Description"
+            case domains = "Domains"
+            case enableSsl = "EnableSsl"
+            case environment = "Environment"
+            case name = "Name"
+            case sslConfiguration = "SslConfiguration"
+            case `type` = "Type"
+        }
+    }
+
+    public struct UpdateElasticIpRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ElasticIp", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The IP address for which you want to update the name.
+        public let elasticIp: String
+        /// The new name.
+        public let name: String?
+
+        public init(elasticIp: String, name: String? = nil) {
+            self.elasticIp = elasticIp
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case elasticIp = "ElasticIp"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateInstanceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AgentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "AmiId", required: false, type: .string), 
+            AWSShapeMember(label: "Architecture", required: false, type: .enum), 
+            AWSShapeMember(label: "AutoScalingType", required: false, type: .enum), 
+            AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
+            AWSShapeMember(label: "Hostname", required: false, type: .string), 
+            AWSShapeMember(label: "InstallUpdatesOnBoot", required: false, type: .boolean), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "LayerIds", required: false, type: .list), 
+            AWSShapeMember(label: "Os", required: false, type: .string), 
+            AWSShapeMember(label: "SshKeyName", required: false, type: .string)
+        ]
+        /// The default AWS OpsWorks Stacks agent version. You have the following options:    INHERIT - Use the stack's default agent version setting.    version_number - Use the specified agent version. This value overrides the stack's default setting. To update the agent version, you must edit the instance configuration and specify a new version. AWS OpsWorks Stacks then automatically installs that version on the instance.   The default setting is INHERIT. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.
+        public let agentVersion: String?
+        /// The ID of the AMI that was used to create the instance. The value of this parameter must be the same AMI ID that the instance is already using. You cannot apply a new AMI to an instance by running UpdateInstance. UpdateInstance does not work on instances that are using custom AMIs. 
+        public let amiId: String?
+        /// The instance architecture. Instance types do not necessarily support both architectures. For a list of the architectures that are supported by the different instance types, see Instance Families and Types.
+        public let architecture: Architecture?
+        /// For load-based or time-based instances, the type. Windows stacks can use only time-based instances.
+        public let autoScalingType: AutoScalingType?
+        /// This property cannot be updated.
+        public let ebsOptimized: Bool?
+        /// The instance host name.
+        public let hostname: String?
+        /// Whether to install operating system and package updates when the instance boots. The default value is true. To control when updates are installed, set this value to false. You must then update your instances manually by using CreateDeployment to run the update_dependencies stack command or by manually running yum (Amazon Linux) or apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true, to ensure that your instances have the latest security updates. 
+        public let installUpdatesOnBoot: Bool?
+        /// The instance ID.
+        public let instanceId: String
+        /// The instance type, such as t2.micro. For a list of supported instance types, open the stack in the console, choose Instances, and choose + Instance. The Size list contains the currently supported types. For more information, see Instance Families and Types. The parameter values that you use to specify the various types are in the API Name column of the Available Instance Types table.
+        public let instanceType: String?
+        /// The instance's layer IDs.
+        public let layerIds: [String]?
+        /// The instance's operating system, which must be set to one of the following. You cannot update an instance that is using a custom AMI.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   For more information about supported operating systems, see AWS OpsWorks Stacks Operating Systems. The default option is the current Amazon Linux version. If you set this parameter to Custom, you must use the AmiId parameter to specify the custom AMI that you want to use. For more information about supported operating systems, see Operating Systems. For more information about how to use custom AMIs with OpsWorks, see Using Custom AMIs.  You can specify a different Linux operating system for the updated stack, but you cannot change from Linux to Windows or Windows to Linux. 
+        public let os: String?
+        /// The instance's Amazon EC2 key name.
+        public let sshKeyName: String?
+
+        public init(agentVersion: String? = nil, amiId: String? = nil, architecture: Architecture? = nil, autoScalingType: AutoScalingType? = nil, ebsOptimized: Bool? = nil, hostname: String? = nil, installUpdatesOnBoot: Bool? = nil, instanceId: String, instanceType: String? = nil, layerIds: [String]? = nil, os: String? = nil, sshKeyName: String? = nil) {
+            self.agentVersion = agentVersion
+            self.amiId = amiId
+            self.architecture = architecture
+            self.autoScalingType = autoScalingType
+            self.ebsOptimized = ebsOptimized
+            self.hostname = hostname
+            self.installUpdatesOnBoot = installUpdatesOnBoot
+            self.instanceId = instanceId
+            self.instanceType = instanceType
+            self.layerIds = layerIds
+            self.os = os
+            self.sshKeyName = sshKeyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentVersion = "AgentVersion"
+            case amiId = "AmiId"
+            case architecture = "Architecture"
+            case autoScalingType = "AutoScalingType"
+            case ebsOptimized = "EbsOptimized"
+            case hostname = "Hostname"
+            case installUpdatesOnBoot = "InstallUpdatesOnBoot"
+            case instanceId = "InstanceId"
+            case instanceType = "InstanceType"
+            case layerIds = "LayerIds"
+            case os = "Os"
+            case sshKeyName = "SshKeyName"
+        }
+    }
+
+    public struct UpdateLayerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "AutoAssignElasticIps", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutoAssignPublicIps", required: false, type: .boolean), 
+            AWSShapeMember(label: "CloudWatchLogsConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomInstanceProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "CustomJson", required: false, type: .string), 
+            AWSShapeMember(label: "CustomRecipes", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomSecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "EnableAutoHealing", required: false, type: .boolean), 
+            AWSShapeMember(label: "InstallUpdatesOnBoot", required: false, type: .boolean), 
+            AWSShapeMember(label: "LayerId", required: true, type: .string), 
+            AWSShapeMember(label: "LifecycleEventConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Packages", required: false, type: .list), 
+            AWSShapeMember(label: "Shortname", required: false, type: .string), 
+            AWSShapeMember(label: "UseEbsOptimizedInstances", required: false, type: .boolean), 
+            AWSShapeMember(label: "VolumeConfigurations", required: false, type: .list)
+        ]
+        /// One or more user-defined key/value pairs to be added to the stack attributes.
+        public let attributes: [LayerAttributesKeys: String]?
+        /// Whether to automatically assign an Elastic IP address to the layer's instances. For more information, see How to Edit a Layer.
+        public let autoAssignElasticIps: Bool?
+        /// For stacks that are running in a VPC, whether to automatically assign a public IP address to the layer's instances. For more information, see How to Edit a Layer.
+        public let autoAssignPublicIps: Bool?
+        /// Specifies CloudWatch Logs configuration options for the layer. For more information, see CloudWatchLogsLogStream.
+        public let cloudWatchLogsConfiguration: CloudWatchLogsConfiguration?
+        /// The ARN of an IAM profile to be used for all of the layer's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
+        public let customInstanceProfileArn: String?
+        /// A JSON-formatted string containing custom stack configuration and deployment attributes to be installed on the layer's instances. For more information, see  Using Custom JSON. 
+        public let customJson: String?
+        /// A LayerCustomRecipes object that specifies the layer's custom recipes.
+        public let customRecipes: Recipes?
+        /// An array containing the layer's custom security group IDs.
+        public let customSecurityGroupIds: [String]?
+        /// Whether to disable auto healing for the layer.
+        public let enableAutoHealing: Bool?
+        /// Whether to install operating system and package updates when the instance boots. The default value is true. To control when updates are installed, set this value to false. You must then update your instances manually by using CreateDeployment to run the update_dependencies stack command or manually running yum (Amazon Linux) or apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true, to ensure that your instances have the latest security updates. 
+        public let installUpdatesOnBoot: Bool?
+        /// The layer ID.
+        public let layerId: String
+        public let lifecycleEventConfiguration: LifecycleEventConfiguration?
+        /// The layer name, which is used by the console.
+        public let name: String?
+        /// An array of Package objects that describe the layer's packages.
+        public let packages: [String]?
+        /// For custom layers only, use this parameter to specify the layer's short name, which is used internally by AWS OpsWorks Stacks and by Chef. The short name is also used as the name for the directory where your app files are installed. It can have a maximum of 200 characters and must be in the following format: /\A[a-z0-9\-\_\.]+\Z/. The built-in layers' short names are defined by AWS OpsWorks Stacks. For more information, see the Layer Reference 
+        public let shortname: String?
+        /// Whether to use Amazon EBS-optimized instances.
+        public let useEbsOptimizedInstances: Bool?
+        /// A VolumeConfigurations object that describes the layer's Amazon EBS volumes.
+        public let volumeConfigurations: [VolumeConfiguration]?
+
+        public init(attributes: [LayerAttributesKeys: String]? = nil, autoAssignElasticIps: Bool? = nil, autoAssignPublicIps: Bool? = nil, cloudWatchLogsConfiguration: CloudWatchLogsConfiguration? = nil, customInstanceProfileArn: String? = nil, customJson: String? = nil, customRecipes: Recipes? = nil, customSecurityGroupIds: [String]? = nil, enableAutoHealing: Bool? = nil, installUpdatesOnBoot: Bool? = nil, layerId: String, lifecycleEventConfiguration: LifecycleEventConfiguration? = nil, name: String? = nil, packages: [String]? = nil, shortname: String? = nil, useEbsOptimizedInstances: Bool? = nil, volumeConfigurations: [VolumeConfiguration]? = nil) {
+            self.attributes = attributes
+            self.autoAssignElasticIps = autoAssignElasticIps
+            self.autoAssignPublicIps = autoAssignPublicIps
+            self.cloudWatchLogsConfiguration = cloudWatchLogsConfiguration
+            self.customInstanceProfileArn = customInstanceProfileArn
+            self.customJson = customJson
+            self.customRecipes = customRecipes
+            self.customSecurityGroupIds = customSecurityGroupIds
+            self.enableAutoHealing = enableAutoHealing
+            self.installUpdatesOnBoot = installUpdatesOnBoot
+            self.layerId = layerId
+            self.lifecycleEventConfiguration = lifecycleEventConfiguration
+            self.name = name
+            self.packages = packages
+            self.shortname = shortname
+            self.useEbsOptimizedInstances = useEbsOptimizedInstances
+            self.volumeConfigurations = volumeConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case autoAssignElasticIps = "AutoAssignElasticIps"
+            case autoAssignPublicIps = "AutoAssignPublicIps"
+            case cloudWatchLogsConfiguration = "CloudWatchLogsConfiguration"
+            case customInstanceProfileArn = "CustomInstanceProfileArn"
+            case customJson = "CustomJson"
+            case customRecipes = "CustomRecipes"
+            case customSecurityGroupIds = "CustomSecurityGroupIds"
+            case enableAutoHealing = "EnableAutoHealing"
+            case installUpdatesOnBoot = "InstallUpdatesOnBoot"
+            case layerId = "LayerId"
+            case lifecycleEventConfiguration = "LifecycleEventConfiguration"
+            case name = "Name"
+            case packages = "Packages"
+            case shortname = "Shortname"
+            case useEbsOptimizedInstances = "UseEbsOptimizedInstances"
+            case volumeConfigurations = "VolumeConfigurations"
+        }
+    }
+
+    public struct UpdateMyUserProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SshPublicKey", required: false, type: .string)
+        ]
+        /// The user's SSH public key.
+        public let sshPublicKey: String?
+
+        public init(sshPublicKey: String? = nil) {
+            self.sshPublicKey = sshPublicKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sshPublicKey = "SshPublicKey"
+        }
+    }
+
+    public struct UpdateRdsDbInstanceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DbPassword", required: false, type: .string), 
+            AWSShapeMember(label: "DbUser", required: false, type: .string), 
+            AWSShapeMember(label: "RdsDbInstanceArn", required: true, type: .string)
+        ]
+        /// The database password.
+        public let dbPassword: String?
+        /// The master user name.
+        public let dbUser: String?
+        /// The Amazon RDS instance's ARN.
+        public let rdsDbInstanceArn: String
+
+        public init(dbPassword: String? = nil, dbUser: String? = nil, rdsDbInstanceArn: String) {
+            self.dbPassword = dbPassword
+            self.dbUser = dbUser
+            self.rdsDbInstanceArn = rdsDbInstanceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbPassword = "DbPassword"
+            case dbUser = "DbUser"
+            case rdsDbInstanceArn = "RdsDbInstanceArn"
+        }
+    }
+
+    public struct UpdateStackRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AgentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "ChefConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ConfigurationManager", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomCookbooksSource", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomJson", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultAvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultInstanceProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultOs", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultRootDeviceType", required: false, type: .enum), 
+            AWSShapeMember(label: "DefaultSshKeyName", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultSubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "HostnameTheme", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: true, type: .string), 
+            AWSShapeMember(label: "UseCustomCookbooks", required: false, type: .boolean), 
+            AWSShapeMember(label: "UseOpsworksSecurityGroups", required: false, type: .boolean)
+        ]
+        /// The default AWS OpsWorks Stacks agent version. You have the following options:   Auto-update - Set this parameter to LATEST. AWS OpsWorks Stacks automatically installs new agent versions on the stack's instances as soon as they are available.   Fixed version - Set this parameter to your preferred agent version. To update the agent version, you must edit the stack configuration and specify a new version. AWS OpsWorks Stacks then automatically installs that version on the stack's instances.   The default setting is LATEST. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.  You can also specify an agent version when you create or update an instance, which overrides the stack's default setting. 
+        public let agentVersion: String?
+        /// One or more user-defined key-value pairs to be added to the stack attributes.
+        public let attributes: [StackAttributesKeys: String]?
+        /// A ChefConfiguration object that specifies whether to enable Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more information, see Create a New Stack.
+        public let chefConfiguration: ChefConfiguration?
+        /// The configuration manager. When you update a stack, we recommend that you use the configuration manager to specify the Chef version: 12, 11.10, or 11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently 12.
+        public let configurationManager: StackConfigurationManager?
+        public let customCookbooksSource: Source?
+        /// A string that contains user-defined, custom JSON. It can be used to override the corresponding default stack configuration JSON values or to pass data to recipes. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information about custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
+        public let customJson: String?
+        /// The stack's default Availability Zone, which must be in the stack's region. For more information, see Regions and Endpoints. If you also specify a value for DefaultSubnetId, the subnet must be in the same zone. For more information, see CreateStack. 
+        public let defaultAvailabilityZone: String?
+        /// The ARN of an IAM profile that is the default profile for all of the stack's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
+        public let defaultInstanceProfileArn: String?
+        /// The stack's operating system, which must be set to one of the following:   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information about how to use custom AMIs with OpsWorks, see Using Custom AMIs.   The default option is the stack's current operating system. For more information about supported operating systems, see AWS OpsWorks Stacks Operating Systems.
+        public let defaultOs: String?
+        /// The default root device type. This value is used by default for all instances in the stack, but you can override it when you create an instance. For more information, see Storage for the Root Device.
+        public let defaultRootDeviceType: RootDeviceType?
+        /// A default Amazon EC2 key-pair name. The default value is none. If you specify a key-pair name, AWS OpsWorks Stacks installs the public key on the instance and you can use the private key with an SSH client to log in to the instance. For more information, see  Using SSH to Communicate with an Instance and  Managing SSH Access. You can override this setting by specifying a different key pair, or no key pair, when you  create an instance. 
+        public let defaultSshKeyName: String?
+        /// The stack's default VPC subnet ID. This parameter is required if you specify a value for the VpcId parameter. All instances are launched into this subnet unless you specify otherwise when you create the instance. If you also specify a value for DefaultAvailabilityZone, the subnet must be in that zone. For information on default values and when this parameter is required, see the VpcId parameter description. 
+        public let defaultSubnetId: String?
+        /// The stack's new host name theme, with spaces replaced by underscores. The theme is used to generate host names for the stack's instances. By default, HostnameTheme is set to Layer_Dependent, which creates host names by appending integers to the layer's short name. The other themes are:    Baked_Goods     Clouds     Europe_Cities     Fruits     Greek_Deities     Legendary_creatures_from_Japan     Planets_and_Moons     Roman_Deities     Scottish_Islands     US_Cities     Wild_Cats    To obtain a generated host name, call GetHostNameSuggestion, which returns a host name based on the current theme.
+        public let hostnameTheme: String?
+        /// The stack's new name.
+        public let name: String?
+        /// Do not use this parameter. You cannot update a stack's service role.
+        public let serviceRoleArn: String?
+        /// The stack ID.
+        public let stackId: String
+        /// Whether the stack uses custom cookbooks.
+        public let useCustomCookbooks: Bool?
+        /// Whether to associate the AWS OpsWorks Stacks built-in security groups with the stack's layers. AWS OpsWorks Stacks provides a standard set of built-in security groups, one for each layer, which are associated with layers by default. UseOpsworksSecurityGroups allows you to provide your own custom security groups instead of using the built-in groups. UseOpsworksSecurityGroups has the following settings:    True - AWS OpsWorks Stacks automatically associates the appropriate built-in security group with each layer (default setting). You can associate additional security groups with a layer after you create it, but you cannot delete the built-in security group.   False - AWS OpsWorks Stacks does not associate built-in security groups with layers. You must create appropriate EC2 security groups and associate a security group with each layer that you create. However, you can still manually associate a built-in security group with a layer on. Custom security groups are required only for those layers that need custom settings.   For more information, see Create a New Stack.
+        public let useOpsworksSecurityGroups: Bool?
+
+        public init(agentVersion: String? = nil, attributes: [StackAttributesKeys: String]? = nil, chefConfiguration: ChefConfiguration? = nil, configurationManager: StackConfigurationManager? = nil, customCookbooksSource: Source? = nil, customJson: String? = nil, defaultAvailabilityZone: String? = nil, defaultInstanceProfileArn: String? = nil, defaultOs: String? = nil, defaultRootDeviceType: RootDeviceType? = nil, defaultSshKeyName: String? = nil, defaultSubnetId: String? = nil, hostnameTheme: String? = nil, name: String? = nil, serviceRoleArn: String? = nil, stackId: String, useCustomCookbooks: Bool? = nil, useOpsworksSecurityGroups: Bool? = nil) {
+            self.agentVersion = agentVersion
+            self.attributes = attributes
+            self.chefConfiguration = chefConfiguration
+            self.configurationManager = configurationManager
+            self.customCookbooksSource = customCookbooksSource
+            self.customJson = customJson
+            self.defaultAvailabilityZone = defaultAvailabilityZone
+            self.defaultInstanceProfileArn = defaultInstanceProfileArn
+            self.defaultOs = defaultOs
+            self.defaultRootDeviceType = defaultRootDeviceType
+            self.defaultSshKeyName = defaultSshKeyName
+            self.defaultSubnetId = defaultSubnetId
+            self.hostnameTheme = hostnameTheme
+            self.name = name
+            self.serviceRoleArn = serviceRoleArn
+            self.stackId = stackId
+            self.useCustomCookbooks = useCustomCookbooks
+            self.useOpsworksSecurityGroups = useOpsworksSecurityGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentVersion = "AgentVersion"
+            case attributes = "Attributes"
+            case chefConfiguration = "ChefConfiguration"
+            case configurationManager = "ConfigurationManager"
+            case customCookbooksSource = "CustomCookbooksSource"
+            case customJson = "CustomJson"
+            case defaultAvailabilityZone = "DefaultAvailabilityZone"
+            case defaultInstanceProfileArn = "DefaultInstanceProfileArn"
+            case defaultOs = "DefaultOs"
+            case defaultRootDeviceType = "DefaultRootDeviceType"
+            case defaultSshKeyName = "DefaultSshKeyName"
+            case defaultSubnetId = "DefaultSubnetId"
+            case hostnameTheme = "HostnameTheme"
+            case name = "Name"
+            case serviceRoleArn = "ServiceRoleArn"
+            case stackId = "StackId"
+            case useCustomCookbooks = "UseCustomCookbooks"
+            case useOpsworksSecurityGroups = "UseOpsworksSecurityGroups"
+        }
+    }
+
+    public struct UpdateUserProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowSelfManagement", required: false, type: .boolean), 
+            AWSShapeMember(label: "IamUserArn", required: true, type: .string), 
+            AWSShapeMember(label: "SshPublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "SshUsername", required: false, type: .string)
+        ]
+        /// Whether users can specify their own SSH public key through the My Settings page. For more information, see Managing User Permissions.
+        public let allowSelfManagement: Bool?
+        /// The user IAM ARN. This can also be a federated user's ARN.
+        public let iamUserArn: String
+        /// The user's new SSH public key.
+        public let sshPublicKey: String?
+        /// The user's SSH user name. The allowable characters are [a-z], [A-Z], [0-9], '-', and '_'. If the specified name includes other punctuation marks, AWS OpsWorks Stacks removes them. For example, my.name will be changed to myname. If you do not specify an SSH user name, AWS OpsWorks Stacks generates one from the IAM user name. 
+        public let sshUsername: String?
+
+        public init(allowSelfManagement: Bool? = nil, iamUserArn: String, sshPublicKey: String? = nil, sshUsername: String? = nil) {
+            self.allowSelfManagement = allowSelfManagement
+            self.iamUserArn = iamUserArn
+            self.sshPublicKey = sshPublicKey
+            self.sshUsername = sshUsername
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowSelfManagement = "AllowSelfManagement"
+            case iamUserArn = "IamUserArn"
+            case sshPublicKey = "SshPublicKey"
+            case sshUsername = "SshUsername"
+        }
+    }
+
+    public struct UpdateVolumeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MountPoint", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeId", required: true, type: .string)
+        ]
+        /// The new mount point.
+        public let mountPoint: String?
+        /// The new name.
+        public let name: String?
+        /// The volume ID.
+        public let volumeId: String
+
+        public init(mountPoint: String? = nil, name: String? = nil, volumeId: String) {
+            self.mountPoint = mountPoint
+            self.name = name
+            self.volumeId = volumeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mountPoint = "MountPoint"
+            case name = "Name"
+            case volumeId = "VolumeId"
+        }
+    }
+
+    public struct UserProfile: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowSelfManagement", required: false, type: .boolean), 
+            AWSShapeMember(label: "IamUserArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "SshPublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "SshUsername", required: false, type: .string)
+        ]
+        /// Whether users can specify their own SSH public key through the My Settings page. For more information, see Managing User Permissions.
+        public let allowSelfManagement: Bool?
+        /// The user's IAM ARN.
+        public let iamUserArn: String?
+        /// The user's name.
+        public let name: String?
+        /// The user's SSH public key.
+        public let sshPublicKey: String?
+        /// The user's SSH user name.
+        public let sshUsername: String?
+
+        public init(allowSelfManagement: Bool? = nil, iamUserArn: String? = nil, name: String? = nil, sshPublicKey: String? = nil, sshUsername: String? = nil) {
+            self.allowSelfManagement = allowSelfManagement
+            self.iamUserArn = iamUserArn
+            self.name = name
+            self.sshPublicKey = sshPublicKey
+            self.sshUsername = sshUsername
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowSelfManagement = "AllowSelfManagement"
+            case iamUserArn = "IamUserArn"
+            case name = "Name"
+            case sshPublicKey = "SshPublicKey"
+            case sshUsername = "SshUsername"
+        }
+    }
+
+    public enum VirtualizationType: String, CustomStringConvertible, Codable {
+        case paravirtual = "paravirtual"
+        case hvm = "hvm"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Volume: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "Device", required: false, type: .string), 
+            AWSShapeMember(label: "Ec2VolumeId", required: false, type: .string), 
+            AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "Iops", required: false, type: .integer), 
+            AWSShapeMember(label: "MountPoint", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "RaidArrayId", required: false, type: .string), 
+            AWSShapeMember(label: "Region", required: false, type: .string), 
+            AWSShapeMember(label: "Size", required: false, type: .integer), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeId", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeType", required: false, type: .string)
+        ]
+        /// The volume Availability Zone. For more information, see Regions and Endpoints.
+        public let availabilityZone: String?
+        /// The device name.
+        public let device: String?
+        /// The Amazon EC2 volume ID.
+        public let ec2VolumeId: String?
+        /// Specifies whether an Amazon EBS volume is encrypted. For more information, see Amazon EBS Encryption.
+        public let encrypted: Bool?
+        /// The instance ID.
+        public let instanceId: String?
+        /// For PIOPS volumes, the IOPS per disk.
+        public let iops: Int32?
+        /// The volume mount point. For example, "/mnt/disk1".
+        public let mountPoint: String?
+        /// The volume name.
+        public let name: String?
+        /// The RAID array ID.
+        public let raidArrayId: String?
+        /// The AWS region. For more information about AWS regions, see Regions and Endpoints.
+        public let region: String?
+        /// The volume size.
+        public let size: Int32?
+        /// The value returned by DescribeVolumes.
+        public let status: String?
+        /// The volume ID.
+        public let volumeId: String?
+        /// The volume type. For more information, see  Amazon EBS Volume Types.    standard - Magnetic. Magnetic volumes must have a minimum size of 1 GiB and a maximum size of 1024 GiB.    io1 - Provisioned IOPS (SSD). PIOPS volumes must have a minimum size of 4 GiB and a maximum size of 16384 GiB.    gp2 - General Purpose (SSD). General purpose volumes must have a minimum size of 1 GiB and a maximum size of 16384 GiB.    st1 - Throughput Optimized hard disk drive (HDD). Throughput optimized HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.    sc1 - Cold HDD. Cold HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.  
+        public let volumeType: String?
+
+        public init(availabilityZone: String? = nil, device: String? = nil, ec2VolumeId: String? = nil, encrypted: Bool? = nil, instanceId: String? = nil, iops: Int32? = nil, mountPoint: String? = nil, name: String? = nil, raidArrayId: String? = nil, region: String? = nil, size: Int32? = nil, status: String? = nil, volumeId: String? = nil, volumeType: String? = nil) {
+            self.availabilityZone = availabilityZone
+            self.device = device
+            self.ec2VolumeId = ec2VolumeId
+            self.encrypted = encrypted
+            self.instanceId = instanceId
+            self.iops = iops
+            self.mountPoint = mountPoint
+            self.name = name
+            self.raidArrayId = raidArrayId
+            self.region = region
+            self.size = size
+            self.status = status
+            self.volumeId = volumeId
+            self.volumeType = volumeType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case device = "Device"
+            case ec2VolumeId = "Ec2VolumeId"
+            case encrypted = "Encrypted"
+            case instanceId = "InstanceId"
+            case iops = "Iops"
+            case mountPoint = "MountPoint"
+            case name = "Name"
+            case raidArrayId = "RaidArrayId"
+            case region = "Region"
+            case size = "Size"
+            case status = "Status"
+            case volumeId = "VolumeId"
+            case volumeType = "VolumeType"
+        }
+    }
+
+    public struct VolumeConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "Iops", required: false, type: .integer), 
+            AWSShapeMember(label: "MountPoint", required: true, type: .string), 
+            AWSShapeMember(label: "NumberOfDisks", required: true, type: .integer), 
+            AWSShapeMember(label: "RaidLevel", required: false, type: .integer), 
+            AWSShapeMember(label: "Size", required: true, type: .integer), 
+            AWSShapeMember(label: "VolumeType", required: false, type: .string)
+        ]
+        /// Specifies whether an Amazon EBS volume is encrypted. For more information, see Amazon EBS Encryption.
+        public let encrypted: Bool?
+        /// For PIOPS volumes, the IOPS per disk.
+        public let iops: Int32?
+        /// The volume mount point. For example "/dev/sdh".
+        public let mountPoint: String
+        /// The number of disks in the volume.
+        public let numberOfDisks: Int32
+        /// The volume RAID level.
+        public let raidLevel: Int32?
+        /// The volume size.
+        public let size: Int32
+        /// The volume type. For more information, see  Amazon EBS Volume Types.    standard - Magnetic. Magnetic volumes must have a minimum size of 1 GiB and a maximum size of 1024 GiB.    io1 - Provisioned IOPS (SSD). PIOPS volumes must have a minimum size of 4 GiB and a maximum size of 16384 GiB.    gp2 - General Purpose (SSD). General purpose volumes must have a minimum size of 1 GiB and a maximum size of 16384 GiB.    st1 - Throughput Optimized hard disk drive (HDD). Throughput optimized HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.    sc1 - Cold HDD. Cold HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.  
+        public let volumeType: String?
+
+        public init(encrypted: Bool? = nil, iops: Int32? = nil, mountPoint: String, numberOfDisks: Int32, raidLevel: Int32? = nil, size: Int32, volumeType: String? = nil) {
+            self.encrypted = encrypted
+            self.iops = iops
+            self.mountPoint = mountPoint
+            self.numberOfDisks = numberOfDisks
+            self.raidLevel = raidLevel
+            self.size = size
+            self.volumeType = volumeType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encrypted = "Encrypted"
+            case iops = "Iops"
+            case mountPoint = "MountPoint"
+            case numberOfDisks = "NumberOfDisks"
+            case raidLevel = "RaidLevel"
+            case size = "Size"
+            case volumeType = "VolumeType"
+        }
+    }
+
+    public enum VolumeType: String, CustomStringConvertible, Codable {
+        case gp2 = "gp2"
+        case io1 = "io1"
+        case standard = "standard"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct WeeklyAutoScalingSchedule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Friday", required: false, type: .map), 
+            AWSShapeMember(label: "Monday", required: false, type: .map), 
+            AWSShapeMember(label: "Saturday", required: false, type: .map), 
+            AWSShapeMember(label: "Sunday", required: false, type: .map), 
+            AWSShapeMember(label: "Thursday", required: false, type: .map), 
+            AWSShapeMember(label: "Tuesday", required: false, type: .map), 
+            AWSShapeMember(label: "Wednesday", required: false, type: .map)
+        ]
+        /// The schedule for Friday.
+        public let friday: [String: String]?
+        /// The schedule for Monday.
+        public let monday: [String: String]?
+        /// The schedule for Saturday.
+        public let saturday: [String: String]?
+        /// The schedule for Sunday.
+        public let sunday: [String: String]?
+        /// The schedule for Thursday.
+        public let thursday: [String: String]?
+        /// The schedule for Tuesday.
+        public let tuesday: [String: String]?
+        /// The schedule for Wednesday.
+        public let wednesday: [String: String]?
+
+        public init(friday: [String: String]? = nil, monday: [String: String]? = nil, saturday: [String: String]? = nil, sunday: [String: String]? = nil, thursday: [String: String]? = nil, tuesday: [String: String]? = nil, wednesday: [String: String]? = nil) {
+            self.friday = friday
+            self.monday = monday
+            self.saturday = saturday
+            self.sunday = sunday
+            self.thursday = thursday
+            self.tuesday = tuesday
+            self.wednesday = wednesday
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case friday = "Friday"
+            case monday = "Monday"
+            case saturday = "Saturday"
+            case sunday = "Sunday"
+            case thursday = "Thursday"
+            case tuesday = "Tuesday"
+            case wednesday = "Wednesday"
         }
     }
 

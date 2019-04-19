@@ -5,75 +5,6 @@ import AWSSDKSwiftCore
 
 extension DirectoryService {
 
-    public struct OwnerDirectoryDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RadiusSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "VpcSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "RadiusStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "DnsIpAddrs", required: false, type: .list), 
-            AWSShapeMember(label: "AccountId", required: false, type: .string)
-        ]
-        /// A RadiusSettings object that contains information about the RADIUS server.
-        public let radiusSettings: RadiusSettings?
-        /// Information about the VPC settings for the directory.
-        public let vpcSettings: DirectoryVpcSettingsDescription?
-        /// Identifier of the AWS Managed Microsoft AD directory in the directory owner account.
-        public let directoryId: String?
-        /// Information about the status of the RADIUS server.
-        public let radiusStatus: RadiusStatus?
-        /// IP address of the directory’s domain controllers.
-        public let dnsIpAddrs: [String]?
-        /// Identifier of the directory owner account.
-        public let accountId: String?
-
-        public init(accountId: String? = nil, directoryId: String? = nil, dnsIpAddrs: [String]? = nil, radiusSettings: RadiusSettings? = nil, radiusStatus: RadiusStatus? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil) {
-            self.radiusSettings = radiusSettings
-            self.vpcSettings = vpcSettings
-            self.directoryId = directoryId
-            self.radiusStatus = radiusStatus
-            self.dnsIpAddrs = dnsIpAddrs
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case radiusSettings = "RadiusSettings"
-            case vpcSettings = "VpcSettings"
-            case directoryId = "DirectoryId"
-            case radiusStatus = "RadiusStatus"
-            case dnsIpAddrs = "DnsIpAddrs"
-            case accountId = "AccountId"
-        }
-    }
-
-    public enum TrustDirection: String, CustomStringConvertible, Codable {
-        case oneWayOutgoing = "One-Way: Outgoing"
-        case oneWayIncoming = "One-Way: Incoming"
-        case twoWay = "Two-Way"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateRadiusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "RadiusSettings", required: true, type: .structure)
-        ]
-        /// The identifier of the directory for which to update the RADIUS server information.
-        public let directoryId: String
-        /// A RadiusSettings object that contains information about the RADIUS server.
-        public let radiusSettings: RadiusSettings
-
-        public init(directoryId: String, radiusSettings: RadiusSettings) {
-            self.directoryId = directoryId
-            self.radiusSettings = radiusSettings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryId = "DirectoryId"
-            case radiusSettings = "RadiusSettings"
-        }
-    }
-
     public struct AcceptSharedDirectoryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SharedDirectoryId", required: true, type: .string)
@@ -90,291 +21,123 @@ extension DirectoryService {
         }
     }
 
-    public struct DescribeEventTopicsRequest: AWSShape {
+    public struct AcceptSharedDirectoryResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TopicNames", required: false, type: .list), 
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
+            AWSShapeMember(label: "SharedDirectory", required: false, type: .structure)
         ]
-        /// A list of SNS topic names for which to obtain the information. If this member is null, all associations for the specified Directory ID are returned. An empty list results in an InvalidParameterException being thrown.
-        public let topicNames: [String]?
-        /// The Directory ID for which to get the list of associated SNS topics. If this member is null, associations for all Directory IDs are returned.
-        public let directoryId: String?
+        /// The shared directory in the directory consumer account.
+        public let sharedDirectory: SharedDirectory?
 
-        public init(directoryId: String? = nil, topicNames: [String]? = nil) {
-            self.topicNames = topicNames
-            self.directoryId = directoryId
+        public init(sharedDirectory: SharedDirectory? = nil) {
+            self.sharedDirectory = sharedDirectory
         }
 
         private enum CodingKeys: String, CodingKey {
-            case topicNames = "TopicNames"
-            case directoryId = "DirectoryId"
+            case sharedDirectory = "SharedDirectory"
         }
     }
 
-    public struct DeleteConditionalForwarderResult: AWSShape {
+    public struct AddIpRoutesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "IpRoutes", required: true, type: .list), 
+            AWSShapeMember(label: "UpdateSecurityGroupForDirectoryControllers", required: false, type: .boolean)
+        ]
+        /// Identifier (ID) of the directory to which to add the address block.
+        public let directoryId: String
+        /// IP address blocks, using CIDR format, of the traffic to route. This is often the IP address block of the DNS server used for your on-premises domain.
+        public let ipRoutes: [IpRoute]
+        /// If set to true, updates the inbound and outbound rules of the security group that has the description: "AWS created security group for directory ID directory controllers." Following are the new rules:  Inbound:   Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 3268-33269, Source: 0.0.0.0/0   Type: DNS (UDP), Protocol: UDP, Range: 53, Source: 0.0.0.0/0   Type: DNS (TCP), Protocol: TCP, Range: 53, Source: 0.0.0.0/0   Type: LDAP, Protocol: TCP, Range: 389, Source: 0.0.0.0/0   Type: All ICMP, Protocol: All, Range: N/A, Source: 0.0.0.0/0    Outbound:   Type: All traffic, Protocol: All, Range: All, Destination: 0.0.0.0/0   These security rules impact an internal network interface that is not exposed publicly.
+        public let updateSecurityGroupForDirectoryControllers: Bool?
+
+        public init(directoryId: String, ipRoutes: [IpRoute], updateSecurityGroupForDirectoryControllers: Bool? = nil) {
+            self.directoryId = directoryId
+            self.ipRoutes = ipRoutes
+            self.updateSecurityGroupForDirectoryControllers = updateSecurityGroupForDirectoryControllers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case ipRoutes = "IpRoutes"
+            case updateSecurityGroupForDirectoryControllers = "UpdateSecurityGroupForDirectoryControllers"
+        }
+    }
+
+    public struct AddIpRoutesResult: AWSShape {
 
         public init() {
         }
 
     }
 
-    public enum TrustState: String, CustomStringConvertible, Codable {
-        case creating = "Creating"
-        case created = "Created"
-        case verifying = "Verifying"
-        case verifyfailed = "VerifyFailed"
-        case verified = "Verified"
-        case updating = "Updating"
-        case updatefailed = "UpdateFailed"
-        case updated = "Updated"
-        case deleting = "Deleting"
-        case deleted = "Deleted"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RejectSharedDirectoryRequest: AWSShape {
+    public struct AddTagsToResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SharedDirectoryId", required: true, type: .string)
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
-        /// Identifier of the shared directory in the directory consumer account. This identifier is different for each directory owner account.
-        public let sharedDirectoryId: String
+        /// Identifier (ID) for the directory to which to add the tag.
+        public let resourceId: String
+        /// The tags to be assigned to the directory.
+        public let tags: [Tag]
 
-        public init(sharedDirectoryId: String) {
-            self.sharedDirectoryId = sharedDirectoryId
+        public init(resourceId: String, tags: [Tag]) {
+            self.resourceId = resourceId
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sharedDirectoryId = "SharedDirectoryId"
+            case resourceId = "ResourceId"
+            case tags = "Tags"
         }
     }
 
-    public struct StartSchemaExtensionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaExtensionId", required: false, type: .string)
-        ]
-        /// The identifier of the schema extension that will be applied.
-        public let schemaExtensionId: String?
+    public struct AddTagsToResourceResult: AWSShape {
 
-        public init(schemaExtensionId: String? = nil) {
+        public init() {
+        }
+
+    }
+
+    public struct Attribute: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The name of the attribute.
+        public let name: String?
+        /// The value of the attribute.
+        public let value: String?
+
+        public init(name: String? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
+    public struct CancelSchemaExtensionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "SchemaExtensionId", required: true, type: .string)
+        ]
+        /// The identifier of the directory whose schema extension will be canceled.
+        public let directoryId: String
+        /// The identifier of the schema extension that will be canceled.
+        public let schemaExtensionId: String
+
+        public init(directoryId: String, schemaExtensionId: String) {
+            self.directoryId = directoryId
             self.schemaExtensionId = schemaExtensionId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
             case schemaExtensionId = "SchemaExtensionId"
         }
-    }
-
-    public struct UnshareDirectoryResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SharedDirectoryId", required: false, type: .string)
-        ]
-        /// Identifier of the directory stored in the directory consumer account that is to be unshared from the specified directory (DirectoryId).
-        public let sharedDirectoryId: String?
-
-        public init(sharedDirectoryId: String? = nil) {
-            self.sharedDirectoryId = sharedDirectoryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sharedDirectoryId = "SharedDirectoryId"
-        }
-    }
-
-    public struct DeleteSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotId", required: false, type: .string)
-        ]
-        /// The identifier of the directory snapshot that was deleted.
-        public let snapshotId: String?
-
-        public init(snapshotId: String? = nil) {
-            self.snapshotId = snapshotId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case snapshotId = "SnapshotId"
-        }
-    }
-
-    public struct Snapshot: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "SnapshotId", required: false, type: .string)
-        ]
-        /// The directory identifier.
-        public let directoryId: String?
-        /// The snapshot type.
-        public let `type`: SnapshotType?
-        /// The snapshot status.
-        public let status: SnapshotStatus?
-        /// The date and time that the snapshot was taken.
-        public let startTime: TimeStamp?
-        /// The descriptive name of the snapshot.
-        public let name: String?
-        /// The snapshot identifier.
-        public let snapshotId: String?
-
-        public init(directoryId: String? = nil, name: String? = nil, snapshotId: String? = nil, startTime: TimeStamp? = nil, status: SnapshotStatus? = nil, type: SnapshotType? = nil) {
-            self.directoryId = directoryId
-            self.`type` = `type`
-            self.status = status
-            self.startTime = startTime
-            self.name = name
-            self.snapshotId = snapshotId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryId = "DirectoryId"
-            case `type` = "Type"
-            case status = "Status"
-            case startTime = "StartTime"
-            case name = "Name"
-            case snapshotId = "SnapshotId"
-        }
-    }
-
-    public struct Computer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComputerId", required: false, type: .string), 
-            AWSShapeMember(label: "ComputerName", required: false, type: .string), 
-            AWSShapeMember(label: "ComputerAttributes", required: false, type: .list)
-        ]
-        /// The identifier of the computer.
-        public let computerId: String?
-        /// The computer name.
-        public let computerName: String?
-        /// An array of Attribute objects containing the LDAP attributes that belong to the computer account.
-        public let computerAttributes: [Attribute]?
-
-        public init(computerAttributes: [Attribute]? = nil, computerId: String? = nil, computerName: String? = nil) {
-            self.computerId = computerId
-            self.computerName = computerName
-            self.computerAttributes = computerAttributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case computerId = "ComputerId"
-            case computerName = "ComputerName"
-            case computerAttributes = "ComputerAttributes"
-        }
-    }
-
-    public struct DirectoryLimits: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectedDirectoriesLimit", required: false, type: .integer), 
-            AWSShapeMember(label: "ConnectedDirectoriesLimitReached", required: false, type: .boolean), 
-            AWSShapeMember(label: "CloudOnlyMicrosoftADCurrentCount", required: false, type: .integer), 
-            AWSShapeMember(label: "CloudOnlyDirectoriesLimit", required: false, type: .integer), 
-            AWSShapeMember(label: "CloudOnlyDirectoriesLimitReached", required: false, type: .boolean), 
-            AWSShapeMember(label: "ConnectedDirectoriesCurrentCount", required: false, type: .integer), 
-            AWSShapeMember(label: "CloudOnlyMicrosoftADLimit", required: false, type: .integer), 
-            AWSShapeMember(label: "CloudOnlyMicrosoftADLimitReached", required: false, type: .boolean), 
-            AWSShapeMember(label: "CloudOnlyDirectoriesCurrentCount", required: false, type: .integer)
-        ]
-        /// The maximum number of connected directories allowed in the region.
-        public let connectedDirectoriesLimit: Int32?
-        /// Indicates if the connected directory limit has been reached.
-        public let connectedDirectoriesLimitReached: Bool?
-        /// The current number of AWS Managed Microsoft AD directories in the region.
-        public let cloudOnlyMicrosoftADCurrentCount: Int32?
-        /// The maximum number of cloud directories allowed in the region.
-        public let cloudOnlyDirectoriesLimit: Int32?
-        /// Indicates if the cloud directory limit has been reached.
-        public let cloudOnlyDirectoriesLimitReached: Bool?
-        /// The current number of connected directories in the region.
-        public let connectedDirectoriesCurrentCount: Int32?
-        /// The maximum number of AWS Managed Microsoft AD directories allowed in the region.
-        public let cloudOnlyMicrosoftADLimit: Int32?
-        /// Indicates if the AWS Managed Microsoft AD directory limit has been reached.
-        public let cloudOnlyMicrosoftADLimitReached: Bool?
-        /// The current number of cloud directories in the region.
-        public let cloudOnlyDirectoriesCurrentCount: Int32?
-
-        public init(cloudOnlyDirectoriesCurrentCount: Int32? = nil, cloudOnlyDirectoriesLimit: Int32? = nil, cloudOnlyDirectoriesLimitReached: Bool? = nil, cloudOnlyMicrosoftADCurrentCount: Int32? = nil, cloudOnlyMicrosoftADLimit: Int32? = nil, cloudOnlyMicrosoftADLimitReached: Bool? = nil, connectedDirectoriesCurrentCount: Int32? = nil, connectedDirectoriesLimit: Int32? = nil, connectedDirectoriesLimitReached: Bool? = nil) {
-            self.connectedDirectoriesLimit = connectedDirectoriesLimit
-            self.connectedDirectoriesLimitReached = connectedDirectoriesLimitReached
-            self.cloudOnlyMicrosoftADCurrentCount = cloudOnlyMicrosoftADCurrentCount
-            self.cloudOnlyDirectoriesLimit = cloudOnlyDirectoriesLimit
-            self.cloudOnlyDirectoriesLimitReached = cloudOnlyDirectoriesLimitReached
-            self.connectedDirectoriesCurrentCount = connectedDirectoriesCurrentCount
-            self.cloudOnlyMicrosoftADLimit = cloudOnlyMicrosoftADLimit
-            self.cloudOnlyMicrosoftADLimitReached = cloudOnlyMicrosoftADLimitReached
-            self.cloudOnlyDirectoriesCurrentCount = cloudOnlyDirectoriesCurrentCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectedDirectoriesLimit = "ConnectedDirectoriesLimit"
-            case connectedDirectoriesLimitReached = "ConnectedDirectoriesLimitReached"
-            case cloudOnlyMicrosoftADCurrentCount = "CloudOnlyMicrosoftADCurrentCount"
-            case cloudOnlyDirectoriesLimit = "CloudOnlyDirectoriesLimit"
-            case cloudOnlyDirectoriesLimitReached = "CloudOnlyDirectoriesLimitReached"
-            case connectedDirectoriesCurrentCount = "ConnectedDirectoriesCurrentCount"
-            case cloudOnlyMicrosoftADLimit = "CloudOnlyMicrosoftADLimit"
-            case cloudOnlyMicrosoftADLimitReached = "CloudOnlyMicrosoftADLimitReached"
-            case cloudOnlyDirectoriesCurrentCount = "CloudOnlyDirectoriesCurrentCount"
-        }
-    }
-
-    public struct DeregisterEventTopicRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "TopicName", required: true, type: .string)
-        ]
-        /// The Directory ID to remove as a publisher. This directory will no longer send messages to the specified SNS topic.
-        public let directoryId: String
-        /// The name of the SNS topic from which to remove the directory as a publisher.
-        public let topicName: String
-
-        public init(directoryId: String, topicName: String) {
-            self.directoryId = directoryId
-            self.topicName = topicName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryId = "DirectoryId"
-            case topicName = "TopicName"
-        }
-    }
-
-    public struct DescribeDomainControllersResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainControllers", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// List of the DomainController objects that were retrieved.
-        public let domainControllers: [DomainController]?
-        /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeDomainControllers retrieve the next set of items.
-        public let nextToken: String?
-
-        public init(domainControllers: [DomainController]? = nil, nextToken: String? = nil) {
-            self.domainControllers = domainControllers
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainControllers = "DomainControllers"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public enum DirectoryStage: String, CustomStringConvertible, Codable {
-        case requested = "Requested"
-        case creating = "Creating"
-        case created = "Created"
-        case active = "Active"
-        case inoperable = "Inoperable"
-        case impaired = "Impaired"
-        case restoring = "Restoring"
-        case restorefailed = "RestoreFailed"
-        case deleting = "Deleting"
-        case deleted = "Deleted"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
     }
 
     public struct CancelSchemaExtensionResult: AWSShape {
@@ -384,37 +147,281 @@ extension DirectoryService {
 
     }
 
-    public struct ListSchemaExtensionsRequest: AWSShape {
+    public struct Computer: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "ComputerAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "ComputerId", required: false, type: .string), 
+            AWSShapeMember(label: "ComputerName", required: false, type: .string)
         ]
-        /// The identifier of the directory from which to retrieve the schema extension information.
-        public let directoryId: String
-        /// The maximum number of items to return.
-        public let limit: Int32?
-        /// The ListSchemaExtensions.NextToken value from a previous call to ListSchemaExtensions. Pass null if this is the first call.
-        public let nextToken: String?
+        /// An array of Attribute objects containing the LDAP attributes that belong to the computer account.
+        public let computerAttributes: [Attribute]?
+        /// The identifier of the computer.
+        public let computerId: String?
+        /// The computer name.
+        public let computerName: String?
 
-        public init(directoryId: String, limit: Int32? = nil, nextToken: String? = nil) {
+        public init(computerAttributes: [Attribute]? = nil, computerId: String? = nil, computerName: String? = nil) {
+            self.computerAttributes = computerAttributes
+            self.computerId = computerId
+            self.computerName = computerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computerAttributes = "ComputerAttributes"
+            case computerId = "ComputerId"
+            case computerName = "ComputerName"
+        }
+    }
+
+    public struct ConditionalForwarder: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DnsIpAddrs", required: false, type: .list), 
+            AWSShapeMember(label: "RemoteDomainName", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationScope", required: false, type: .enum)
+        ]
+        /// The IP addresses of the remote DNS server associated with RemoteDomainName. This is the IP address of the DNS server that your conditional forwarder points to.
+        public let dnsIpAddrs: [String]?
+        /// The fully qualified domain name (FQDN) of the remote domains pointed to by the conditional forwarder.
+        public let remoteDomainName: String?
+        /// The replication scope of the conditional forwarder. The only allowed value is Domain, which will replicate the conditional forwarder to all of the domain controllers for your AWS directory.
+        public let replicationScope: ReplicationScope?
+
+        public init(dnsIpAddrs: [String]? = nil, remoteDomainName: String? = nil, replicationScope: ReplicationScope? = nil) {
+            self.dnsIpAddrs = dnsIpAddrs
+            self.remoteDomainName = remoteDomainName
+            self.replicationScope = replicationScope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dnsIpAddrs = "DnsIpAddrs"
+            case remoteDomainName = "RemoteDomainName"
+            case replicationScope = "ReplicationScope"
+        }
+    }
+
+    public struct ConnectDirectoryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectSettings", required: true, type: .structure), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "ShortName", required: false, type: .string), 
+            AWSShapeMember(label: "Size", required: true, type: .enum)
+        ]
+        /// A DirectoryConnectSettings object that contains additional information for the operation.
+        public let connectSettings: DirectoryConnectSettings
+        /// A textual description for the directory.
+        public let description: String?
+        /// The fully qualified name of the on-premises directory, such as corp.example.com.
+        public let name: String
+        /// The password for the on-premises user account.
+        public let password: String
+        /// The NetBIOS name of the on-premises directory, such as CORP.
+        public let shortName: String?
+        /// The size of the directory.
+        public let size: DirectorySize
+
+        public init(connectSettings: DirectoryConnectSettings, description: String? = nil, name: String, password: String, shortName: String? = nil, size: DirectorySize) {
+            self.connectSettings = connectSettings
+            self.description = description
+            self.name = name
+            self.password = password
+            self.shortName = shortName
+            self.size = size
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectSettings = "ConnectSettings"
+            case description = "Description"
+            case name = "Name"
+            case password = "Password"
+            case shortName = "ShortName"
+            case size = "Size"
+        }
+    }
+
+    public struct ConnectDirectoryResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
+        ]
+        /// The identifier of the new directory.
+        public let directoryId: String?
+
+        public init(directoryId: String? = nil) {
             self.directoryId = directoryId
-            self.limit = limit
-            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
-            case limit = "Limit"
-            case nextToken = "NextToken"
         }
     }
 
-    public struct GetDirectoryLimitsRequest: AWSShape {
+    public struct CreateAliasRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Alias", required: true, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
+        ]
+        /// The requested alias. The alias must be unique amongst all aliases in AWS. This operation throws an EntityAlreadyExistsException error if the alias already exists.
+        public let alias: String
+        /// The identifier of the directory for which to create the alias.
+        public let directoryId: String
+
+        public init(alias: String, directoryId: String) {
+            self.alias = alias
+            self.directoryId = directoryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias = "Alias"
+            case directoryId = "DirectoryId"
+        }
+    }
+
+    public struct CreateAliasResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Alias", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
+        ]
+        /// The alias for the directory.
+        public let alias: String?
+        /// The identifier of the directory.
+        public let directoryId: String?
+
+        public init(alias: String? = nil, directoryId: String? = nil) {
+            self.alias = alias
+            self.directoryId = directoryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias = "Alias"
+            case directoryId = "DirectoryId"
+        }
+    }
+
+    public struct CreateComputerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComputerAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "ComputerName", required: true, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "OrganizationalUnitDistinguishedName", required: false, type: .string), 
+            AWSShapeMember(label: "Password", required: true, type: .string)
+        ]
+        /// An array of Attribute objects that contain any LDAP attributes to apply to the computer account.
+        public let computerAttributes: [Attribute]?
+        /// The name of the computer account.
+        public let computerName: String
+        /// The identifier of the directory in which to create the computer account.
+        public let directoryId: String
+        /// The fully-qualified distinguished name of the organizational unit to place the computer account in.
+        public let organizationalUnitDistinguishedName: String?
+        /// A one-time password that is used to join the computer to the directory. You should generate a random, strong password to use for this parameter.
+        public let password: String
+
+        public init(computerAttributes: [Attribute]? = nil, computerName: String, directoryId: String, organizationalUnitDistinguishedName: String? = nil, password: String) {
+            self.computerAttributes = computerAttributes
+            self.computerName = computerName
+            self.directoryId = directoryId
+            self.organizationalUnitDistinguishedName = organizationalUnitDistinguishedName
+            self.password = password
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computerAttributes = "ComputerAttributes"
+            case computerName = "ComputerName"
+            case directoryId = "DirectoryId"
+            case organizationalUnitDistinguishedName = "OrganizationalUnitDistinguishedName"
+            case password = "Password"
+        }
+    }
+
+    public struct CreateComputerResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Computer", required: false, type: .structure)
+        ]
+        /// A Computer object that represents the computer account.
+        public let computer: Computer?
+
+        public init(computer: Computer? = nil) {
+            self.computer = computer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computer = "Computer"
+        }
+    }
+
+    public struct CreateConditionalForwarderRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "DnsIpAddrs", required: true, type: .list), 
+            AWSShapeMember(label: "RemoteDomainName", required: true, type: .string)
+        ]
+        /// The directory ID of the AWS directory for which you are creating the conditional forwarder.
+        public let directoryId: String
+        /// The IP addresses of the remote DNS server associated with RemoteDomainName.
+        public let dnsIpAddrs: [String]
+        /// The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship.
+        public let remoteDomainName: String
+
+        public init(directoryId: String, dnsIpAddrs: [String], remoteDomainName: String) {
+            self.directoryId = directoryId
+            self.dnsIpAddrs = dnsIpAddrs
+            self.remoteDomainName = remoteDomainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case dnsIpAddrs = "DnsIpAddrs"
+            case remoteDomainName = "RemoteDomainName"
+        }
+    }
+
+    public struct CreateConditionalForwarderResult: AWSShape {
 
         public init() {
         }
 
+    }
+
+    public struct CreateDirectoryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "ShortName", required: false, type: .string), 
+            AWSShapeMember(label: "Size", required: true, type: .enum), 
+            AWSShapeMember(label: "VpcSettings", required: false, type: .structure)
+        ]
+        /// A textual description for the directory.
+        public let description: String?
+        /// The fully qualified name for the directory, such as corp.example.com.
+        public let name: String
+        /// The password for the directory administrator. The directory creation process creates a directory administrator account with the user name Administrator and this password.
+        public let password: String
+        /// The short name of the directory, such as CORP.
+        public let shortName: String?
+        /// The size of the directory.
+        public let size: DirectorySize
+        /// A DirectoryVpcSettings object that contains additional information for the operation.
+        public let vpcSettings: DirectoryVpcSettings?
+
+        public init(description: String? = nil, name: String, password: String, shortName: String? = nil, size: DirectorySize, vpcSettings: DirectoryVpcSettings? = nil) {
+            self.description = description
+            self.name = name
+            self.password = password
+            self.shortName = shortName
+            self.size = size
+            self.vpcSettings = vpcSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case password = "Password"
+            case shortName = "ShortName"
+            case size = "Size"
+            case vpcSettings = "VpcSettings"
+        }
     }
 
     public struct CreateDirectoryResult: AWSShape {
@@ -433,344 +440,120 @@ extension DirectoryService {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct CreateLogSubscriptionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer)
-        ]
-        /// Identifier (ID) of the directory for which you want to retrieve tags.
-        public let resourceId: String
-        /// Reserved for future use.
-        public let nextToken: String?
-        /// Reserved for future use.
-        public let limit: Int32?
-
-        public init(limit: Int32? = nil, nextToken: String? = nil, resourceId: String) {
-            self.resourceId = resourceId
-            self.nextToken = nextToken
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case nextToken = "NextToken"
-            case limit = "Limit"
-        }
-    }
-
-    public struct UnshareTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: true, type: .enum), 
-            AWSShapeMember(label: "Id", required: true, type: .string)
-        ]
-        /// Type of identifier to be used in the Id field.
-        public let `type`: TargetType
-        /// Identifier of the directory consumer account.
-        public let id: String
-
-        public init(id: String, type: TargetType) {
-            self.`type` = `type`
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case id = "Id"
-        }
-    }
-
-    public struct DescribeEventTopicsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventTopics", required: false, type: .list)
-        ]
-        /// A list of SNS topic names that receive status messages from the specified Directory ID.
-        public let eventTopics: [EventTopic]?
-
-        public init(eventTopics: [EventTopic]? = nil) {
-            self.eventTopics = eventTopics
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventTopics = "EventTopics"
-        }
-    }
-
-    public enum DirectoryEdition: String, CustomStringConvertible, Codable {
-        case enterprise = "Enterprise"
-        case standard = "Standard"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DisableSsoRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Password", required: false, type: .string), 
             AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: false, type: .string)
+            AWSShapeMember(label: "LogGroupName", required: true, type: .string)
         ]
-        /// The password of an alternate account to use to disable single-sign on. This is only used for AD Connector directories. For more information, see the UserName parameter.
-        public let password: String?
-        /// The identifier of the directory for which to disable single-sign on.
+        /// Identifier (ID) of the directory to which you want to subscribe and receive real-time logs to your specified CloudWatch log group.
         public let directoryId: String
-        /// The username of an alternate account to use to disable single-sign on. This is only used for AD Connector directories. This account must have privileges to remove a service principal name. If the AD Connector service account does not have privileges to remove a service principal name, you can specify an alternate account with the UserName and Password parameters. These credentials are only used to disable single sign-on and are not stored by the service. The AD Connector service account is not changed.
-        public let userName: String?
+        /// The name of the CloudWatch log group where the real-time domain controller logs are forwarded.
+        public let logGroupName: String
 
-        public init(directoryId: String, password: String? = nil, userName: String? = nil) {
-            self.password = password
+        public init(directoryId: String, logGroupName: String) {
             self.directoryId = directoryId
-            self.userName = userName
+            self.logGroupName = logGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case password = "Password"
             case directoryId = "DirectoryId"
-            case userName = "UserName"
+            case logGroupName = "LogGroupName"
         }
     }
 
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
-        /// Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-        public let key: String
-        /// The optional value of the tag. The string value can be Unicode characters. The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-        public let value: String
+    public struct CreateLogSubscriptionResult: AWSShape {
 
-        public init(key: String, value: String) {
-            self.key = key
-            self.value = value
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case value = "Value"
-        }
-    }
-
-    public enum ShareMethod: String, CustomStringConvertible, Codable {
-        case organizations = "ORGANIZATIONS"
-        case handshake = "HANDSHAKE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RegisterEventTopicRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TopicName", required: true, type: .string), 
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
-        ]
-        /// The SNS topic name to which the directory will publish status messages. This SNS topic must be in the same region as the specified Directory ID.
-        public let topicName: String
-        /// The Directory ID that will publish status messages to the SNS topic.
-        public let directoryId: String
-
-        public init(directoryId: String, topicName: String) {
-            self.topicName = topicName
-            self.directoryId = directoryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case topicName = "TopicName"
-            case directoryId = "DirectoryId"
-        }
     }
 
     public struct CreateMicrosoftADRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Edition", required: false, type: .enum), 
-            AWSShapeMember(label: "ShortName", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "VpcSettings", required: true, type: .structure), 
-            AWSShapeMember(label: "Password", required: true, type: .string)
+            AWSShapeMember(label: "Edition", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "ShortName", required: false, type: .string), 
+            AWSShapeMember(label: "VpcSettings", required: true, type: .structure)
         ]
-        /// The fully qualified domain name for the directory, such as corp.example.com. This name will resolve inside your VPC only. It does not need to be publicly resolvable.
-        public let name: String
-        /// AWS Managed Microsoft AD is available in two editions: Standard and Enterprise. Enterprise is the default.
-        public let edition: DirectoryEdition?
-        /// The NetBIOS name for your domain. A short identifier for your domain, such as CORP. If you don't specify a NetBIOS name, it will default to the first part of your directory DNS. For example, CORP for the directory DNS corp.example.com. 
-        public let shortName: String?
         /// A textual description for the directory. This label will appear on the AWS console Directory Details page after the directory is created.
         public let description: String?
-        /// Contains VPC information for the CreateDirectory or CreateMicrosoftAD operation.
-        public let vpcSettings: DirectoryVpcSettings
+        /// AWS Managed Microsoft AD is available in two editions: Standard and Enterprise. Enterprise is the default.
+        public let edition: DirectoryEdition?
+        /// The fully qualified domain name for the directory, such as corp.example.com. This name will resolve inside your VPC only. It does not need to be publicly resolvable.
+        public let name: String
         /// The password for the default administrative user named Admin.
         public let password: String
+        /// The NetBIOS name for your domain. A short identifier for your domain, such as CORP. If you don't specify a NetBIOS name, it will default to the first part of your directory DNS. For example, CORP for the directory DNS corp.example.com. 
+        public let shortName: String?
+        /// Contains VPC information for the CreateDirectory or CreateMicrosoftAD operation.
+        public let vpcSettings: DirectoryVpcSettings
 
         public init(description: String? = nil, edition: DirectoryEdition? = nil, name: String, password: String, shortName: String? = nil, vpcSettings: DirectoryVpcSettings) {
-            self.name = name
-            self.edition = edition
-            self.shortName = shortName
             self.description = description
+            self.edition = edition
+            self.name = name
+            self.password = password
+            self.shortName = shortName
             self.vpcSettings = vpcSettings
-            self.password = password
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case edition = "Edition"
-            case shortName = "ShortName"
             case description = "Description"
+            case edition = "Edition"
+            case name = "Name"
+            case password = "Password"
+            case shortName = "ShortName"
             case vpcSettings = "VpcSettings"
-            case password = "Password"
         }
     }
 
-    public struct ListIpRoutesRequest: AWSShape {
+    public struct CreateMicrosoftADResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
         ]
-        /// Maximum number of items to return. If this value is zero, the maximum number of items is specified by the limitations of the operation.
-        public let limit: Int32?
-        /// Identifier (ID) of the directory for which you want to retrieve the IP addresses.
-        public let directoryId: String
-        /// The ListIpRoutes.NextToken value from a previous call to ListIpRoutes. Pass null if this is the first call.
-        public let nextToken: String?
+        /// The identifier of the directory that was created.
+        public let directoryId: String?
 
-        public init(directoryId: String, limit: Int32? = nil, nextToken: String? = nil) {
-            self.limit = limit
+        public init(directoryId: String? = nil) {
             self.directoryId = directoryId
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
-            case directoryId = "DirectoryId"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct EnableSsoRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: false, type: .string), 
-            AWSShapeMember(label: "Password", required: false, type: .string)
-        ]
-        /// The identifier of the directory for which to enable single-sign on.
-        public let directoryId: String
-        /// The username of an alternate account to use to enable single-sign on. This is only used for AD Connector directories. This account must have privileges to add a service principal name. If the AD Connector service account does not have privileges to add a service principal name, you can specify an alternate account with the UserName and Password parameters. These credentials are only used to enable single sign-on and are not stored by the service. The AD Connector service account is not changed.
-        public let userName: String?
-        /// The password of an alternate account to use to enable single-sign on. This is only used for AD Connector directories. For more information, see the UserName parameter.
-        public let password: String?
-
-        public init(directoryId: String, password: String? = nil, userName: String? = nil) {
-            self.directoryId = directoryId
-            self.userName = userName
-            self.password = password
         }
 
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
-            case userName = "UserName"
-            case password = "Password"
         }
     }
 
-    public enum TargetType: String, CustomStringConvertible, Codable {
-        case account = "ACCOUNT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ShareDirectoryResult: AWSShape {
+    public struct CreateSnapshotRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SharedDirectoryId", required: false, type: .string)
-        ]
-        /// Identifier of the directory that is stored in the directory consumer account that is shared from the specified directory (DirectoryId).
-        public let sharedDirectoryId: String?
-
-        public init(sharedDirectoryId: String? = nil) {
-            self.sharedDirectoryId = sharedDirectoryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sharedDirectoryId = "SharedDirectoryId"
-        }
-    }
-
-    public struct AddTagsToResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: true, type: .list), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string)
-        ]
-        /// The tags to be assigned to the directory.
-        public let tags: [Tag]
-        /// Identifier (ID) for the directory to which to add the tag.
-        public let resourceId: String
-
-        public init(resourceId: String, tags: [Tag]) {
-            self.tags = tags
-            self.resourceId = resourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case resourceId = "ResourceId"
-        }
-    }
-
-    public enum RadiusStatus: String, CustomStringConvertible, Codable {
-        case creating = "Creating"
-        case completed = "Completed"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ShareDirectoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ShareTarget", required: true, type: .structure), 
-            AWSShapeMember(label: "ShareNotes", required: false, type: .string), 
             AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "ShareMethod", required: true, type: .enum)
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
-        /// Identifier for the directory consumer account with whom the directory is to be shared.
-        public let shareTarget: ShareTarget
-        /// A directory share request that is sent by the directory owner to the directory consumer. The request includes a typed message to help the directory consumer administrator determine whether to approve or reject the share invitation.
-        public let shareNotes: String?
-        /// Identifier of the AWS Managed Microsoft AD directory that you want to share with other AWS accounts.
+        /// The identifier of the directory of which to take a snapshot.
         public let directoryId: String
-        /// The method used when sharing a directory to determine whether the directory should be shared within your AWS organization (ORGANIZATIONS) or with any AWS account by sending a directory sharing request (HANDSHAKE).
-        public let shareMethod: ShareMethod
+        /// The descriptive name to apply to the snapshot.
+        public let name: String?
 
-        public init(directoryId: String, shareMethod: ShareMethod, shareNotes: String? = nil, shareTarget: ShareTarget) {
-            self.shareTarget = shareTarget
-            self.shareNotes = shareNotes
+        public init(directoryId: String, name: String? = nil) {
             self.directoryId = directoryId
-            self.shareMethod = shareMethod
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case shareTarget = "ShareTarget"
-            case shareNotes = "ShareNotes"
             case directoryId = "DirectoryId"
-            case shareMethod = "ShareMethod"
+            case name = "Name"
         }
     }
 
-    public struct DisableRadiusResult: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct DeregisterEventTopicResult: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct RestoreFromSnapshotRequest: AWSShape {
+    public struct CreateSnapshotResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotId", required: true, type: .string)
+            AWSShapeMember(label: "SnapshotId", required: false, type: .string)
         ]
-        /// The identifier of the snapshot to restore from.
-        public let snapshotId: String
+        /// The identifier of the snapshot that was created.
+        public let snapshotId: String?
 
-        public init(snapshotId: String) {
+        public init(snapshotId: String? = nil) {
             self.snapshotId = snapshotId
         }
 
@@ -779,11 +562,57 @@ extension DirectoryService {
         }
     }
 
-    public struct VerifyTrustResult: AWSShape {
+    public struct CreateTrustRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConditionalForwarderIpAddrs", required: false, type: .list), 
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "RemoteDomainName", required: true, type: .string), 
+            AWSShapeMember(label: "SelectiveAuth", required: false, type: .enum), 
+            AWSShapeMember(label: "TrustDirection", required: true, type: .enum), 
+            AWSShapeMember(label: "TrustPassword", required: true, type: .string), 
+            AWSShapeMember(label: "TrustType", required: false, type: .enum)
+        ]
+        /// The IP addresses of the remote DNS server associated with RemoteDomainName.
+        public let conditionalForwarderIpAddrs: [String]?
+        /// The Directory ID of the AWS Managed Microsoft AD directory for which to establish the trust relationship.
+        public let directoryId: String
+        /// The Fully Qualified Domain Name (FQDN) of the external domain for which to create the trust relationship.
+        public let remoteDomainName: String
+        /// Optional parameter to enable selective authentication for the trust.
+        public let selectiveAuth: SelectiveAuth?
+        /// The direction of the trust relationship.
+        public let trustDirection: TrustDirection
+        /// The trust password. The must be the same password that was used when creating the trust relationship on the external domain.
+        public let trustPassword: String
+        /// The trust relationship type. Forest is the default.
+        public let trustType: TrustType?
+
+        public init(conditionalForwarderIpAddrs: [String]? = nil, directoryId: String, remoteDomainName: String, selectiveAuth: SelectiveAuth? = nil, trustDirection: TrustDirection, trustPassword: String, trustType: TrustType? = nil) {
+            self.conditionalForwarderIpAddrs = conditionalForwarderIpAddrs
+            self.directoryId = directoryId
+            self.remoteDomainName = remoteDomainName
+            self.selectiveAuth = selectiveAuth
+            self.trustDirection = trustDirection
+            self.trustPassword = trustPassword
+            self.trustType = trustType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionalForwarderIpAddrs = "ConditionalForwarderIpAddrs"
+            case directoryId = "DirectoryId"
+            case remoteDomainName = "RemoteDomainName"
+            case selectiveAuth = "SelectiveAuth"
+            case trustDirection = "TrustDirection"
+            case trustPassword = "TrustPassword"
+            case trustType = "TrustType"
+        }
+    }
+
+    public struct CreateTrustResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TrustId", required: false, type: .string)
         ]
-        /// The unique Trust ID of the trust relationship that was verified.
+        /// A unique identifier for the trust relationship that was created.
         public let trustId: String?
 
         public init(trustId: String? = nil) {
@@ -795,112 +624,118 @@ extension DirectoryService {
         }
     }
 
-    public enum TopicStatus: String, CustomStringConvertible, Codable {
-        case registered = "Registered"
-        case topicNotFound = "Topic not found"
-        case failed = "Failed"
-        case deleted = "Deleted"
-        public var description: String { return self.rawValue }
+    public struct DeleteConditionalForwarderRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "RemoteDomainName", required: true, type: .string)
+        ]
+        /// The directory ID for which you are deleting the conditional forwarder.
+        public let directoryId: String
+        /// The fully qualified domain name (FQDN) of the remote domain with which you are deleting the conditional forwarder.
+        public let remoteDomainName: String
+
+        public init(directoryId: String, remoteDomainName: String) {
+            self.directoryId = directoryId
+            self.remoteDomainName = remoteDomainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case remoteDomainName = "RemoteDomainName"
+        }
     }
 
-    public struct Trust: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StateLastUpdatedDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TrustType", required: false, type: .enum), 
-            AWSShapeMember(label: "SelectiveAuth", required: false, type: .enum), 
-            AWSShapeMember(label: "TrustStateReason", required: false, type: .string), 
-            AWSShapeMember(label: "TrustId", required: false, type: .string), 
-            AWSShapeMember(label: "TrustState", required: false, type: .enum), 
-            AWSShapeMember(label: "CreatedDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "RemoteDomainName", required: false, type: .string), 
-            AWSShapeMember(label: "TrustDirection", required: false, type: .enum), 
-            AWSShapeMember(label: "LastUpdatedDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
-        ]
-        /// The date and time that the TrustState was last updated.
-        public let stateLastUpdatedDateTime: TimeStamp?
-        /// The trust relationship type. Forest is the default.
-        public let trustType: TrustType?
-        /// Current state of selective authentication for the trust.
-        public let selectiveAuth: SelectiveAuth?
-        /// The reason for the TrustState.
-        public let trustStateReason: String?
-        /// The unique ID of the trust relationship.
-        public let trustId: String?
-        /// The trust relationship state.
-        public let trustState: TrustState?
-        /// The date and time that the trust relationship was created.
-        public let createdDateTime: TimeStamp?
-        /// The Fully Qualified Domain Name (FQDN) of the external domain involved in the trust relationship.
-        public let remoteDomainName: String?
-        /// The trust relationship direction.
-        public let trustDirection: TrustDirection?
-        /// The date and time that the trust relationship was last updated.
-        public let lastUpdatedDateTime: TimeStamp?
-        /// The Directory ID of the AWS directory involved in the trust relationship.
-        public let directoryId: String?
+    public struct DeleteConditionalForwarderResult: AWSShape {
 
-        public init(createdDateTime: TimeStamp? = nil, directoryId: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, remoteDomainName: String? = nil, selectiveAuth: SelectiveAuth? = nil, stateLastUpdatedDateTime: TimeStamp? = nil, trustDirection: TrustDirection? = nil, trustId: String? = nil, trustState: TrustState? = nil, trustStateReason: String? = nil, trustType: TrustType? = nil) {
-            self.stateLastUpdatedDateTime = stateLastUpdatedDateTime
-            self.trustType = trustType
-            self.selectiveAuth = selectiveAuth
-            self.trustStateReason = trustStateReason
-            self.trustId = trustId
-            self.trustState = trustState
-            self.createdDateTime = createdDateTime
-            self.remoteDomainName = remoteDomainName
-            self.trustDirection = trustDirection
-            self.lastUpdatedDateTime = lastUpdatedDateTime
+        public init() {
+        }
+
+    }
+
+    public struct DeleteDirectoryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
+        ]
+        /// The identifier of the directory to delete.
+        public let directoryId: String
+
+        public init(directoryId: String) {
             self.directoryId = directoryId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stateLastUpdatedDateTime = "StateLastUpdatedDateTime"
-            case trustType = "TrustType"
-            case selectiveAuth = "SelectiveAuth"
-            case trustStateReason = "TrustStateReason"
-            case trustId = "TrustId"
-            case trustState = "TrustState"
-            case createdDateTime = "CreatedDateTime"
-            case remoteDomainName = "RemoteDomainName"
-            case trustDirection = "TrustDirection"
-            case lastUpdatedDateTime = "LastUpdatedDateTime"
             case directoryId = "DirectoryId"
         }
     }
 
-    public struct UpdateNumberOfDomainControllersResult: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct CreateConditionalForwarderResult: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct ListIpRoutesResult: AWSShape {
+    public struct DeleteDirectoryResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IpRoutesInfo", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
         ]
-        /// A list of IpRoutes.
-        public let ipRoutesInfo: [IpRouteInfo]?
-        /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to ListIpRoutes to retrieve the next set of items.
-        public let nextToken: String?
+        /// The directory identifier.
+        public let directoryId: String?
 
-        public init(ipRoutesInfo: [IpRouteInfo]? = nil, nextToken: String? = nil) {
-            self.ipRoutesInfo = ipRoutesInfo
-            self.nextToken = nextToken
+        public init(directoryId: String? = nil) {
+            self.directoryId = directoryId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ipRoutesInfo = "IpRoutesInfo"
-            case nextToken = "NextToken"
+            case directoryId = "DirectoryId"
+        }
+    }
+
+    public struct DeleteLogSubscriptionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
+        ]
+        /// Identifier (ID) of the directory whose log subscription you want to delete.
+        public let directoryId: String
+
+        public init(directoryId: String) {
+            self.directoryId = directoryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+        }
+    }
+
+    public struct DeleteLogSubscriptionResult: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteSnapshotRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotId", required: true, type: .string)
+        ]
+        /// The identifier of the directory snapshot to be deleted.
+        public let snapshotId: String
+
+        public init(snapshotId: String) {
+            self.snapshotId = snapshotId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotId = "SnapshotId"
+        }
+    }
+
+    public struct DeleteSnapshotResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotId", required: false, type: .string)
+        ]
+        /// The identifier of the directory snapshot that was deleted.
+        public let snapshotId: String?
+
+        public init(snapshotId: String? = nil) {
+            self.snapshotId = snapshotId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotId = "SnapshotId"
         }
     }
 
@@ -925,306 +760,14 @@ extension DirectoryService {
         }
     }
 
-    public struct AddIpRoutesResult: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct SchemaExtensionInfo: AWSShape {
+    public struct DeleteTrustResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaExtensionStatusReason", required: false, type: .string), 
-            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "StartDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaExtensionStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "SchemaExtensionId", required: false, type: .string)
+            AWSShapeMember(label: "TrustId", required: false, type: .string)
         ]
-        /// The reason for the SchemaExtensionStatus.
-        public let schemaExtensionStatusReason: String?
-        /// The date and time that the schema extension was completed.
-        public let endDateTime: TimeStamp?
-        /// The identifier of the directory to which the schema extension is applied.
-        public let directoryId: String?
-        /// The date and time that the schema extension started being applied to the directory.
-        public let startDateTime: TimeStamp?
-        /// A description of the schema extension.
-        public let description: String?
-        /// The current status of the schema extension.
-        public let schemaExtensionStatus: SchemaExtensionStatus?
-        /// The identifier of the schema extension.
-        public let schemaExtensionId: String?
-
-        public init(description: String? = nil, directoryId: String? = nil, endDateTime: TimeStamp? = nil, schemaExtensionId: String? = nil, schemaExtensionStatus: SchemaExtensionStatus? = nil, schemaExtensionStatusReason: String? = nil, startDateTime: TimeStamp? = nil) {
-            self.schemaExtensionStatusReason = schemaExtensionStatusReason
-            self.endDateTime = endDateTime
-            self.directoryId = directoryId
-            self.startDateTime = startDateTime
-            self.description = description
-            self.schemaExtensionStatus = schemaExtensionStatus
-            self.schemaExtensionId = schemaExtensionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemaExtensionStatusReason = "SchemaExtensionStatusReason"
-            case endDateTime = "EndDateTime"
-            case directoryId = "DirectoryId"
-            case startDateTime = "StartDateTime"
-            case description = "Description"
-            case schemaExtensionStatus = "SchemaExtensionStatus"
-            case schemaExtensionId = "SchemaExtensionId"
-        }
-    }
-
-    public struct EnableRadiusResult: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct CreateAliasResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Alias", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
-        ]
-        /// The alias for the directory.
-        public let alias: String?
-        /// The identifier of the directory.
-        public let directoryId: String?
-
-        public init(alias: String? = nil, directoryId: String? = nil) {
-            self.alias = alias
-            self.directoryId = directoryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case alias = "Alias"
-            case directoryId = "DirectoryId"
-        }
-    }
-
-    public struct UpdateNumberOfDomainControllersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DesiredNumber", required: true, type: .integer), 
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
-        ]
-        /// The number of domain controllers desired in the directory.
-        public let desiredNumber: Int32
-        /// Identifier of the directory to which the domain controllers will be added or removed.
-        public let directoryId: String
-
-        public init(desiredNumber: Int32, directoryId: String) {
-            self.desiredNumber = desiredNumber
-            self.directoryId = directoryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case desiredNumber = "DesiredNumber"
-            case directoryId = "DirectoryId"
-        }
-    }
-
-    public struct CreateConditionalForwarderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DnsIpAddrs", required: true, type: .list), 
-            AWSShapeMember(label: "RemoteDomainName", required: true, type: .string), 
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
-        ]
-        /// The IP addresses of the remote DNS server associated with RemoteDomainName.
-        public let dnsIpAddrs: [String]
-        /// The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship.
-        public let remoteDomainName: String
-        /// The directory ID of the AWS directory for which you are creating the conditional forwarder.
-        public let directoryId: String
-
-        public init(directoryId: String, dnsIpAddrs: [String], remoteDomainName: String) {
-            self.dnsIpAddrs = dnsIpAddrs
-            self.remoteDomainName = remoteDomainName
-            self.directoryId = directoryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dnsIpAddrs = "DnsIpAddrs"
-            case remoteDomainName = "RemoteDomainName"
-            case directoryId = "DirectoryId"
-        }
-    }
-
-    public struct AcceptSharedDirectoryResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SharedDirectory", required: false, type: .structure)
-        ]
-        /// The shared directory in the directory consumer account.
-        public let sharedDirectory: SharedDirectory?
-
-        public init(sharedDirectory: SharedDirectory? = nil) {
-            self.sharedDirectory = sharedDirectory
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sharedDirectory = "SharedDirectory"
-        }
-    }
-
-    public struct DescribeConditionalForwardersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RemoteDomainNames", required: false, type: .list), 
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
-        ]
-        /// The fully qualified domain names (FQDN) of the remote domains for which to get the list of associated conditional forwarders. If this member is null, all conditional forwarders are returned.
-        public let remoteDomainNames: [String]?
-        /// The directory ID for which to get the list of associated conditional forwarders.
-        public let directoryId: String
-
-        public init(directoryId: String, remoteDomainNames: [String]? = nil) {
-            self.remoteDomainNames = remoteDomainNames
-            self.directoryId = directoryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case remoteDomainNames = "RemoteDomainNames"
-            case directoryId = "DirectoryId"
-        }
-    }
-
-    public struct RemoveIpRoutesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "CidrIps", required: true, type: .list)
-        ]
-        /// Identifier (ID) of the directory from which you want to remove the IP addresses.
-        public let directoryId: String
-        /// IP address blocks that you want to remove.
-        public let cidrIps: [String]
-
-        public init(cidrIps: [String], directoryId: String) {
-            self.directoryId = directoryId
-            self.cidrIps = cidrIps
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryId = "DirectoryId"
-            case cidrIps = "CidrIps"
-        }
-    }
-
-    public struct RemoveIpRoutesResult: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct UpdateConditionalForwarderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RemoteDomainName", required: true, type: .string), 
-            AWSShapeMember(label: "DnsIpAddrs", required: true, type: .list), 
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
-        ]
-        /// The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship.
-        public let remoteDomainName: String
-        /// The updated IP addresses of the remote DNS server associated with the conditional forwarder.
-        public let dnsIpAddrs: [String]
-        /// The directory ID of the AWS directory for which to update the conditional forwarder.
-        public let directoryId: String
-
-        public init(directoryId: String, dnsIpAddrs: [String], remoteDomainName: String) {
-            self.remoteDomainName = remoteDomainName
-            self.dnsIpAddrs = dnsIpAddrs
-            self.directoryId = directoryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case remoteDomainName = "RemoteDomainName"
-            case dnsIpAddrs = "DnsIpAddrs"
-            case directoryId = "DirectoryId"
-        }
-    }
-
-    public struct RemoveTagsFromResourceResult: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public enum DirectoryType: String, CustomStringConvertible, Codable {
-        case simplead = "SimpleAD"
-        case adconnector = "ADConnector"
-        case microsoftad = "MicrosoftAD"
-        case sharedmicrosoftad = "SharedMicrosoftAD"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RestoreFromSnapshotResult: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct UpdateTrustResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrustId", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string)
-        ]
-        /// Identifier of the trust relationship.
+        /// The Trust ID of the trust relationship that was deleted.
         public let trustId: String?
-        public let requestId: String?
 
-        public init(requestId: String? = nil, trustId: String? = nil) {
-            self.trustId = trustId
-            self.requestId = requestId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case trustId = "TrustId"
-            case requestId = "RequestId"
-        }
-    }
-
-    public struct DescribeDirectoriesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryDescriptions", required: false, type: .list)
-        ]
-        /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeDirectories to retrieve the next set of items.
-        public let nextToken: String?
-        /// The list of DirectoryDescription objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
-        public let directoryDescriptions: [DirectoryDescription]?
-
-        public init(directoryDescriptions: [DirectoryDescription]? = nil, nextToken: String? = nil) {
-            self.nextToken = nextToken
-            self.directoryDescriptions = directoryDescriptions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case directoryDescriptions = "DirectoryDescriptions"
-        }
-    }
-
-    public enum IpRouteStatusMsg: String, CustomStringConvertible, Codable {
-        case adding = "Adding"
-        case added = "Added"
-        case removing = "Removing"
-        case removed = "Removed"
-        case addfailed = "AddFailed"
-        case removefailed = "RemoveFailed"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct VerifyTrustRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrustId", required: true, type: .string)
-        ]
-        /// The unique Trust ID of the trust relationship to verify.
-        public let trustId: String
-
-        public init(trustId: String) {
+        public init(trustId: String? = nil) {
             self.trustId = trustId
         }
 
@@ -1233,785 +776,68 @@ extension DirectoryService {
         }
     }
 
-    public struct GetDirectoryLimitsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryLimits", required: false, type: .structure)
-        ]
-        /// A DirectoryLimits object that contains the directory limits for the current region.
-        public let directoryLimits: DirectoryLimits?
-
-        public init(directoryLimits: DirectoryLimits? = nil) {
-            self.directoryLimits = directoryLimits
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryLimits = "DirectoryLimits"
-        }
-    }
-
-    public enum SnapshotStatus: String, CustomStringConvertible, Codable {
-        case creating = "Creating"
-        case completed = "Completed"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateComputerResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Computer", required: false, type: .structure)
-        ]
-        /// A Computer object that represents the computer account.
-        public let computer: Computer?
-
-        public init(computer: Computer? = nil) {
-            self.computer = computer
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case computer = "Computer"
-        }
-    }
-
-    public struct DescribeTrustsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TrustIds", required: false, type: .list), 
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
-        ]
-        /// The maximum number of objects to return.
-        public let limit: Int32?
-        /// The DescribeTrustsResult.NextToken value from a previous call to DescribeTrusts. Pass null if this is the first call.
-        public let nextToken: String?
-        /// A list of identifiers of the trust relationships for which to obtain the information. If this member is null, all trust relationships that belong to the current account are returned. An empty list results in an InvalidParameterException being thrown.
-        public let trustIds: [String]?
-        /// The Directory ID of the AWS directory that is a part of the requested trust relationship.
-        public let directoryId: String?
-
-        public init(directoryId: String? = nil, limit: Int32? = nil, nextToken: String? = nil, trustIds: [String]? = nil) {
-            self.limit = limit
-            self.nextToken = nextToken
-            self.trustIds = trustIds
-            self.directoryId = directoryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
-            case nextToken = "NextToken"
-            case trustIds = "TrustIds"
-            case directoryId = "DirectoryId"
-        }
-    }
-
-    public struct UpdateTrustRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SelectiveAuth", required: false, type: .enum), 
-            AWSShapeMember(label: "TrustId", required: true, type: .string)
-        ]
-        /// Updates selective authentication for the trust.
-        public let selectiveAuth: SelectiveAuth?
-        /// Identifier of the trust relationship.
-        public let trustId: String
-
-        public init(selectiveAuth: SelectiveAuth? = nil, trustId: String) {
-            self.selectiveAuth = selectiveAuth
-            self.trustId = trustId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case selectiveAuth = "SelectiveAuth"
-            case trustId = "TrustId"
-        }
-    }
-
-    public struct CreateTrustRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrustType", required: false, type: .enum), 
-            AWSShapeMember(label: "TrustPassword", required: true, type: .string), 
-            AWSShapeMember(label: "TrustDirection", required: true, type: .enum), 
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "ConditionalForwarderIpAddrs", required: false, type: .list), 
-            AWSShapeMember(label: "RemoteDomainName", required: true, type: .string), 
-            AWSShapeMember(label: "SelectiveAuth", required: false, type: .enum)
-        ]
-        /// The trust relationship type. Forest is the default.
-        public let trustType: TrustType?
-        /// The trust password. The must be the same password that was used when creating the trust relationship on the external domain.
-        public let trustPassword: String
-        /// The direction of the trust relationship.
-        public let trustDirection: TrustDirection
-        /// The Directory ID of the AWS Managed Microsoft AD directory for which to establish the trust relationship.
-        public let directoryId: String
-        /// The IP addresses of the remote DNS server associated with RemoteDomainName.
-        public let conditionalForwarderIpAddrs: [String]?
-        /// The Fully Qualified Domain Name (FQDN) of the external domain for which to create the trust relationship.
-        public let remoteDomainName: String
-        /// Optional parameter to enable selective authentication for the trust.
-        public let selectiveAuth: SelectiveAuth?
-
-        public init(conditionalForwarderIpAddrs: [String]? = nil, directoryId: String, remoteDomainName: String, selectiveAuth: SelectiveAuth? = nil, trustDirection: TrustDirection, trustPassword: String, trustType: TrustType? = nil) {
-            self.trustType = trustType
-            self.trustPassword = trustPassword
-            self.trustDirection = trustDirection
-            self.directoryId = directoryId
-            self.conditionalForwarderIpAddrs = conditionalForwarderIpAddrs
-            self.remoteDomainName = remoteDomainName
-            self.selectiveAuth = selectiveAuth
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case trustType = "TrustType"
-            case trustPassword = "TrustPassword"
-            case trustDirection = "TrustDirection"
-            case directoryId = "DirectoryId"
-            case conditionalForwarderIpAddrs = "ConditionalForwarderIpAddrs"
-            case remoteDomainName = "RemoteDomainName"
-            case selectiveAuth = "SelectiveAuth"
-        }
-    }
-
-    public enum TrustType: String, CustomStringConvertible, Codable {
-        case forest = "Forest"
-        case external = "External"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DisableRadiusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
-        ]
-        /// The identifier of the directory for which to disable MFA.
-        public let directoryId: String
-
-        public init(directoryId: String) {
-            self.directoryId = directoryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryId = "DirectoryId"
-        }
-    }
-
-    public struct CreateMicrosoftADResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
-        ]
-        /// The identifier of the directory that was created.
-        public let directoryId: String?
-
-        public init(directoryId: String? = nil) {
-            self.directoryId = directoryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryId = "DirectoryId"
-        }
-    }
-
-    public enum DirectorySize: String, CustomStringConvertible, Codable {
-        case small = "Small"
-        case large = "Large"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ConnectDirectoryResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
-        ]
-        /// The identifier of the new directory.
-        public let directoryId: String?
-
-        public init(directoryId: String? = nil) {
-            self.directoryId = directoryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryId = "DirectoryId"
-        }
-    }
-
-    public struct RegisterEventTopicResult: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct UpdateConditionalForwarderResult: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct CreateSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotId", required: false, type: .string)
-        ]
-        /// The identifier of the snapshot that was created.
-        public let snapshotId: String?
-
-        public init(snapshotId: String? = nil) {
-            self.snapshotId = snapshotId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case snapshotId = "SnapshotId"
-        }
-    }
-
-    public struct ListTagsForResourceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
-        /// Reserved for future use.
-        public let nextToken: String?
-        /// List of tags returned by the ListTagsForResource operation.
-        public let tags: [Tag]?
-
-        public init(nextToken: String? = nil, tags: [Tag]? = nil) {
-            self.nextToken = nextToken
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case tags = "Tags"
-        }
-    }
-
-    public struct GetSnapshotLimitsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
-        ]
-        /// Contains the identifier of the directory to obtain the limits for.
-        public let directoryId: String
-
-        public init(directoryId: String) {
-            self.directoryId = directoryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryId = "DirectoryId"
-        }
-    }
-
-    public struct ListSchemaExtensionsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaExtensionsInfo", required: false, type: .list)
-        ]
-        /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to ListSchemaExtensions to retrieve the next set of items.
-        public let nextToken: String?
-        /// Information about the schema extensions applied to the directory.
-        public let schemaExtensionsInfo: [SchemaExtensionInfo]?
-
-        public init(nextToken: String? = nil, schemaExtensionsInfo: [SchemaExtensionInfo]? = nil) {
-            self.nextToken = nextToken
-            self.schemaExtensionsInfo = schemaExtensionsInfo
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case schemaExtensionsInfo = "SchemaExtensionsInfo"
-        }
-    }
-
-    public struct DeleteDirectoryResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
-        ]
-        /// The directory identifier.
-        public let directoryId: String?
-
-        public init(directoryId: String? = nil) {
-            self.directoryId = directoryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryId = "DirectoryId"
-        }
-    }
-
-    public struct StartSchemaExtensionRequest: AWSShape {
+    public struct DeregisterEventTopicRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "CreateSnapshotBeforeSchemaExtension", required: true, type: .boolean), 
-            AWSShapeMember(label: "Description", required: true, type: .string), 
-            AWSShapeMember(label: "LdifContent", required: true, type: .string)
+            AWSShapeMember(label: "TopicName", required: true, type: .string)
         ]
-        /// The identifier of the directory for which the schema extension will be applied to.
+        /// The Directory ID to remove as a publisher. This directory will no longer send messages to the specified SNS topic.
         public let directoryId: String
-        /// If true, creates a snapshot of the directory before applying the schema extension.
-        public let createSnapshotBeforeSchemaExtension: Bool
-        /// A description of the schema extension.
-        public let description: String
-        /// The LDIF file represented as a string. To construct the LdifContent string, precede each line as it would be formatted in an ldif file with \n. See the example request below for more details. The file size can be no larger than 1MB.
-        public let ldifContent: String
+        /// The name of the SNS topic from which to remove the directory as a publisher.
+        public let topicName: String
 
-        public init(createSnapshotBeforeSchemaExtension: Bool, description: String, directoryId: String, ldifContent: String) {
-            self.directoryId = directoryId
-            self.createSnapshotBeforeSchemaExtension = createSnapshotBeforeSchemaExtension
-            self.description = description
-            self.ldifContent = ldifContent
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryId = "DirectoryId"
-            case createSnapshotBeforeSchemaExtension = "CreateSnapshotBeforeSchemaExtension"
-            case description = "Description"
-            case ldifContent = "LdifContent"
-        }
-    }
-
-    public struct DescribeSnapshotsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotIds", required: false, type: .list), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
-        ]
-        /// A list of identifiers of the snapshots to obtain the information for. If this member is null or empty, all snapshots are returned using the Limit and NextToken members.
-        public let snapshotIds: [String]?
-        /// The maximum number of objects to return.
-        public let limit: Int32?
-        /// The DescribeSnapshotsResult.NextToken value from a previous call to DescribeSnapshots. Pass null if this is the first call.
-        public let nextToken: String?
-        /// The identifier of the directory for which to retrieve snapshot information.
-        public let directoryId: String?
-
-        public init(directoryId: String? = nil, limit: Int32? = nil, nextToken: String? = nil, snapshotIds: [String]? = nil) {
-            self.snapshotIds = snapshotIds
-            self.limit = limit
-            self.nextToken = nextToken
-            self.directoryId = directoryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case snapshotIds = "SnapshotIds"
-            case limit = "Limit"
-            case nextToken = "NextToken"
-            case directoryId = "DirectoryId"
-        }
-    }
-
-    public struct DescribeSharedDirectoriesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SharedDirectories", required: false, type: .list)
-        ]
-        /// If not null, token that indicates that more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeSharedDirectories to retrieve the next set of items.
-        public let nextToken: String?
-        /// A list of all shared directories in your account.
-        public let sharedDirectories: [SharedDirectory]?
-
-        public init(nextToken: String? = nil, sharedDirectories: [SharedDirectory]? = nil) {
-            self.nextToken = nextToken
-            self.sharedDirectories = sharedDirectories
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case sharedDirectories = "SharedDirectories"
-        }
-    }
-
-    public struct DescribeSharedDirectoriesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "OwnerDirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "SharedDirectoryIds", required: false, type: .list)
-        ]
-        /// The DescribeSharedDirectoriesResult.NextToken value from a previous call to DescribeSharedDirectories. Pass null if this is the first call. 
-        public let nextToken: String?
-        /// The number of shared directories to return in the response object.
-        public let limit: Int32?
-        /// Returns the identifier of the directory in the directory owner account. 
-        public let ownerDirectoryId: String
-        /// A list of identifiers of all shared directories in your account. 
-        public let sharedDirectoryIds: [String]?
-
-        public init(limit: Int32? = nil, nextToken: String? = nil, ownerDirectoryId: String, sharedDirectoryIds: [String]? = nil) {
-            self.nextToken = nextToken
-            self.limit = limit
-            self.ownerDirectoryId = ownerDirectoryId
-            self.sharedDirectoryIds = sharedDirectoryIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case limit = "Limit"
-            case ownerDirectoryId = "OwnerDirectoryId"
-            case sharedDirectoryIds = "SharedDirectoryIds"
-        }
-    }
-
-    public struct RadiusSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationProtocol", required: false, type: .enum), 
-            AWSShapeMember(label: "RadiusPort", required: false, type: .integer), 
-            AWSShapeMember(label: "RadiusRetries", required: false, type: .integer), 
-            AWSShapeMember(label: "DisplayLabel", required: false, type: .string), 
-            AWSShapeMember(label: "RadiusServers", required: false, type: .list), 
-            AWSShapeMember(label: "SharedSecret", required: false, type: .string), 
-            AWSShapeMember(label: "RadiusTimeout", required: false, type: .integer), 
-            AWSShapeMember(label: "UseSameUsername", required: false, type: .boolean)
-        ]
-        /// The protocol specified for your RADIUS endpoints.
-        public let authenticationProtocol: RadiusAuthenticationProtocol?
-        /// The port that your RADIUS server is using for communications. Your on-premises network must allow inbound traffic over this port from the AWS Directory Service servers.
-        public let radiusPort: Int32?
-        /// The maximum number of times that communication with the RADIUS server is attempted.
-        public let radiusRetries: Int32?
-        /// Not currently used.
-        public let displayLabel: String?
-        /// An array of strings that contains the IP addresses of the RADIUS server endpoints, or the IP addresses of your RADIUS server load balancer.
-        public let radiusServers: [String]?
-        /// Required for enabling RADIUS on the directory.
-        public let sharedSecret: String?
-        /// The amount of time, in seconds, to wait for the RADIUS server to respond.
-        public let radiusTimeout: Int32?
-        /// Not currently used.
-        public let useSameUsername: Bool?
-
-        public init(authenticationProtocol: RadiusAuthenticationProtocol? = nil, displayLabel: String? = nil, radiusPort: Int32? = nil, radiusRetries: Int32? = nil, radiusServers: [String]? = nil, radiusTimeout: Int32? = nil, sharedSecret: String? = nil, useSameUsername: Bool? = nil) {
-            self.authenticationProtocol = authenticationProtocol
-            self.radiusPort = radiusPort
-            self.radiusRetries = radiusRetries
-            self.displayLabel = displayLabel
-            self.radiusServers = radiusServers
-            self.sharedSecret = sharedSecret
-            self.radiusTimeout = radiusTimeout
-            self.useSameUsername = useSameUsername
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authenticationProtocol = "AuthenticationProtocol"
-            case radiusPort = "RadiusPort"
-            case radiusRetries = "RadiusRetries"
-            case displayLabel = "DisplayLabel"
-            case radiusServers = "RadiusServers"
-            case sharedSecret = "SharedSecret"
-            case radiusTimeout = "RadiusTimeout"
-            case useSameUsername = "UseSameUsername"
-        }
-    }
-
-    public struct EventTopic: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "TopicName", required: false, type: .string)
-        ]
-        /// The SNS topic ARN (Amazon Resource Name).
-        public let topicArn: String?
-        /// The date and time of when you associated your directory with the SNS topic.
-        public let createdDateTime: TimeStamp?
-        /// The topic registration status.
-        public let status: TopicStatus?
-        /// The Directory ID of an AWS Directory Service directory that will publish status messages to an SNS topic.
-        public let directoryId: String?
-        /// The name of an AWS SNS topic the receives status messages from the directory.
-        public let topicName: String?
-
-        public init(createdDateTime: TimeStamp? = nil, directoryId: String? = nil, status: TopicStatus? = nil, topicArn: String? = nil, topicName: String? = nil) {
-            self.topicArn = topicArn
-            self.createdDateTime = createdDateTime
-            self.status = status
+        public init(directoryId: String, topicName: String) {
             self.directoryId = directoryId
             self.topicName = topicName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case topicArn = "TopicArn"
-            case createdDateTime = "CreatedDateTime"
-            case status = "Status"
             case directoryId = "DirectoryId"
             case topicName = "TopicName"
         }
     }
 
-    public struct DirectoryVpcSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VpcId", required: true, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: true, type: .list)
-        ]
-        /// The identifier of the VPC in which to create the directory.
-        public let vpcId: String
-        /// The identifiers of the subnets for the directory servers. The two subnets must be in different Availability Zones. AWS Directory Service creates a directory server and a DNS server in each of these subnets.
-        public let subnetIds: [String]
-
-        public init(subnetIds: [String], vpcId: String) {
-            self.vpcId = vpcId
-            self.subnetIds = subnetIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vpcId = "VpcId"
-            case subnetIds = "SubnetIds"
-        }
-    }
-
-    public enum SnapshotType: String, CustomStringConvertible, Codable {
-        case auto = "Auto"
-        case manual = "Manual"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DirectoryDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Edition", required: false, type: .enum), 
-            AWSShapeMember(label: "Size", required: false, type: .enum), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DesiredNumberOfDomainControllers", required: false, type: .integer), 
-            AWSShapeMember(label: "VpcSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "RadiusStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "ShortName", required: false, type: .string), 
-            AWSShapeMember(label: "RadiusSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "ShareNotes", required: false, type: .string), 
-            AWSShapeMember(label: "LaunchTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "OwnerDirectoryDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "SsoEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "StageLastUpdatedDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ShareStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "DnsIpAddrs", required: false, type: .list), 
-            AWSShapeMember(label: "Stage", required: false, type: .enum), 
-            AWSShapeMember(label: "ConnectSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "StageReason", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "ShareMethod", required: false, type: .enum), 
-            AWSShapeMember(label: "AccessUrl", required: false, type: .string), 
-            AWSShapeMember(label: "Alias", required: false, type: .string)
-        ]
-        /// The edition associated with this directory.
-        public let edition: DirectoryEdition?
-        /// The directory size.
-        public let size: DirectorySize?
-        /// The textual description for the directory.
-        public let description: String?
-        /// The desired number of domain controllers in the directory if the directory is Microsoft AD.
-        public let desiredNumberOfDomainControllers: Int32?
-        /// A DirectoryVpcSettingsDescription object that contains additional information about a directory. This member is only present if the directory is a Simple AD or Managed AD directory.
-        public let vpcSettings: DirectoryVpcSettingsDescription?
-        /// The status of the RADIUS MFA server connection.
-        public let radiusStatus: RadiusStatus?
-        /// The short name of the directory.
-        public let shortName: String?
-        /// A RadiusSettings object that contains information about the RADIUS server configured for this directory.
-        public let radiusSettings: RadiusSettings?
-        /// A directory share request that is sent by the directory owner to the directory consumer. The request includes a typed message to help the directory consumer administrator determine whether to approve or reject the share invitation.
-        public let shareNotes: String?
-        /// Specifies when the directory was created.
-        public let launchTime: TimeStamp?
-        /// Describes the AWS Managed Microsoft AD directory in the directory owner account.
-        public let ownerDirectoryDescription: OwnerDirectoryDescription?
-        /// The directory size.
-        public let `type`: DirectoryType?
-        /// Indicates if single sign-on is enabled for the directory. For more information, see EnableSso and DisableSso.
-        public let ssoEnabled: Bool?
-        /// The fully qualified name of the directory.
-        public let name: String?
-        /// The date and time that the stage was last updated.
-        public let stageLastUpdatedDateTime: TimeStamp?
-        /// Current directory status of the shared AWS Managed Microsoft AD directory.
-        public let shareStatus: ShareStatus?
-        /// The IP addresses of the DNS servers for the directory. For a Simple AD or Microsoft AD directory, these are the IP addresses of the Simple AD or Microsoft AD directory servers. For an AD Connector directory, these are the IP addresses of the DNS servers or domain controllers in the on-premises directory to which the AD Connector is connected.
-        public let dnsIpAddrs: [String]?
-        /// The current stage of the directory.
-        public let stage: DirectoryStage?
-        /// A DirectoryConnectSettingsDescription object that contains additional information about an AD Connector directory. This member is only present if the directory is an AD Connector directory.
-        public let connectSettings: DirectoryConnectSettingsDescription?
-        /// Additional information about the directory stage.
-        public let stageReason: String?
-        /// The directory identifier.
-        public let directoryId: String?
-        /// The method used when sharing a directory to determine whether the directory should be shared within your AWS organization (ORGANIZATIONS) or with any AWS account by sending a shared directory request (HANDSHAKE).
-        public let shareMethod: ShareMethod?
-        /// The access URL for the directory, such as http://&lt;alias&gt;.awsapps.com. If no alias has been created for the directory, &lt;alias&gt; is the directory identifier, such as d-XXXXXXXXXX.
-        public let accessUrl: String?
-        /// The alias for the directory. If no alias has been created for the directory, the alias is the directory identifier, such as d-XXXXXXXXXX.
-        public let alias: String?
-
-        public init(accessUrl: String? = nil, alias: String? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, description: String? = nil, desiredNumberOfDomainControllers: Int32? = nil, directoryId: String? = nil, dnsIpAddrs: [String]? = nil, edition: DirectoryEdition? = nil, launchTime: TimeStamp? = nil, name: String? = nil, ownerDirectoryDescription: OwnerDirectoryDescription? = nil, radiusSettings: RadiusSettings? = nil, radiusStatus: RadiusStatus? = nil, shareMethod: ShareMethod? = nil, shareNotes: String? = nil, shareStatus: ShareStatus? = nil, shortName: String? = nil, size: DirectorySize? = nil, ssoEnabled: Bool? = nil, stage: DirectoryStage? = nil, stageLastUpdatedDateTime: TimeStamp? = nil, stageReason: String? = nil, type: DirectoryType? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil) {
-            self.edition = edition
-            self.size = size
-            self.description = description
-            self.desiredNumberOfDomainControllers = desiredNumberOfDomainControllers
-            self.vpcSettings = vpcSettings
-            self.radiusStatus = radiusStatus
-            self.shortName = shortName
-            self.radiusSettings = radiusSettings
-            self.shareNotes = shareNotes
-            self.launchTime = launchTime
-            self.ownerDirectoryDescription = ownerDirectoryDescription
-            self.`type` = `type`
-            self.ssoEnabled = ssoEnabled
-            self.name = name
-            self.stageLastUpdatedDateTime = stageLastUpdatedDateTime
-            self.shareStatus = shareStatus
-            self.dnsIpAddrs = dnsIpAddrs
-            self.stage = stage
-            self.connectSettings = connectSettings
-            self.stageReason = stageReason
-            self.directoryId = directoryId
-            self.shareMethod = shareMethod
-            self.accessUrl = accessUrl
-            self.alias = alias
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case edition = "Edition"
-            case size = "Size"
-            case description = "Description"
-            case desiredNumberOfDomainControllers = "DesiredNumberOfDomainControllers"
-            case vpcSettings = "VpcSettings"
-            case radiusStatus = "RadiusStatus"
-            case shortName = "ShortName"
-            case radiusSettings = "RadiusSettings"
-            case shareNotes = "ShareNotes"
-            case launchTime = "LaunchTime"
-            case ownerDirectoryDescription = "OwnerDirectoryDescription"
-            case `type` = "Type"
-            case ssoEnabled = "SsoEnabled"
-            case name = "Name"
-            case stageLastUpdatedDateTime = "StageLastUpdatedDateTime"
-            case shareStatus = "ShareStatus"
-            case dnsIpAddrs = "DnsIpAddrs"
-            case stage = "Stage"
-            case connectSettings = "ConnectSettings"
-            case stageReason = "StageReason"
-            case directoryId = "DirectoryId"
-            case shareMethod = "ShareMethod"
-            case accessUrl = "AccessUrl"
-            case alias = "Alias"
-        }
-    }
-
-    public enum ShareStatus: String, CustomStringConvertible, Codable {
-        case shared = "Shared"
-        case pendingacceptance = "PendingAcceptance"
-        case rejected = "Rejected"
-        case rejecting = "Rejecting"
-        case rejectfailed = "RejectFailed"
-        case sharing = "Sharing"
-        case sharefailed = "ShareFailed"
-        case deleted = "Deleted"
-        case deleting = "Deleting"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AddTagsToResourceResult: AWSShape {
+    public struct DeregisterEventTopicResult: AWSShape {
 
         public init() {
         }
 
     }
 
-    public struct DescribeTrustsResult: AWSShape {
+    public struct DescribeConditionalForwardersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Trusts", required: false, type: .list)
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "RemoteDomainNames", required: false, type: .list)
         ]
-        /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeTrusts to retrieve the next set of items.
-        public let nextToken: String?
-        /// The list of Trust objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
-        public let trusts: [Trust]?
-
-        public init(nextToken: String? = nil, trusts: [Trust]? = nil) {
-            self.nextToken = nextToken
-            self.trusts = trusts
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case trusts = "Trusts"
-        }
-    }
-
-    public struct DeleteSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotId", required: true, type: .string)
-        ]
-        /// The identifier of the directory snapshot to be deleted.
-        public let snapshotId: String
-
-        public init(snapshotId: String) {
-            self.snapshotId = snapshotId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case snapshotId = "SnapshotId"
-        }
-    }
-
-    public enum RadiusAuthenticationProtocol: String, CustomStringConvertible, Codable {
-        case pap = "PAP"
-        case chap = "CHAP"
-        case msChapv1 = "MS-CHAPv1"
-        case msChapv2 = "MS-CHAPv2"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteDirectoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
-        ]
-        /// The identifier of the directory to delete.
+        /// The directory ID for which to get the list of associated conditional forwarders.
         public let directoryId: String
+        /// The fully qualified domain names (FQDN) of the remote domains for which to get the list of associated conditional forwarders. If this member is null, all conditional forwarders are returned.
+        public let remoteDomainNames: [String]?
 
-        public init(directoryId: String) {
+        public init(directoryId: String, remoteDomainNames: [String]? = nil) {
             self.directoryId = directoryId
+            self.remoteDomainNames = remoteDomainNames
         }
 
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
+            case remoteDomainNames = "RemoteDomainNames"
         }
     }
 
-    public struct ConnectDirectoryRequest: AWSShape {
+    public struct DescribeConditionalForwardersResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Size", required: true, type: .enum), 
-            AWSShapeMember(label: "Password", required: true, type: .string), 
-            AWSShapeMember(label: "ShortName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ConnectSettings", required: true, type: .structure), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
+            AWSShapeMember(label: "ConditionalForwarders", required: false, type: .list)
         ]
-        /// The size of the directory.
-        public let size: DirectorySize
-        /// The password for the on-premises user account.
-        public let password: String
-        /// The NetBIOS name of the on-premises directory, such as CORP.
-        public let shortName: String?
-        /// A textual description for the directory.
-        public let description: String?
-        /// A DirectoryConnectSettings object that contains additional information for the operation.
-        public let connectSettings: DirectoryConnectSettings
-        /// The fully qualified name of the on-premises directory, such as corp.example.com.
-        public let name: String
+        /// The list of conditional forwarders that have been created.
+        public let conditionalForwarders: [ConditionalForwarder]?
 
-        public init(connectSettings: DirectoryConnectSettings, description: String? = nil, name: String, password: String, shortName: String? = nil, size: DirectorySize) {
-            self.size = size
-            self.password = password
-            self.shortName = shortName
-            self.description = description
-            self.connectSettings = connectSettings
-            self.name = name
+        public init(conditionalForwarders: [ConditionalForwarder]? = nil) {
+            self.conditionalForwarders = conditionalForwarders
         }
 
         private enum CodingKeys: String, CodingKey {
-            case size = "Size"
-            case password = "Password"
-            case shortName = "ShortName"
-            case description = "Description"
-            case connectSettings = "ConnectSettings"
-            case name = "Name"
+            case conditionalForwarders = "ConditionalForwarders"
         }
     }
 
@@ -2041,70 +867,664 @@ extension DirectoryService {
         }
     }
 
-    public struct DescribeConditionalForwardersResult: AWSShape {
+    public struct DescribeDirectoriesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConditionalForwarders", required: false, type: .list)
+            AWSShapeMember(label: "DirectoryDescriptions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The list of conditional forwarders that have been created.
-        public let conditionalForwarders: [ConditionalForwarder]?
+        /// The list of DirectoryDescription objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
+        public let directoryDescriptions: [DirectoryDescription]?
+        /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeDirectories to retrieve the next set of items.
+        public let nextToken: String?
 
-        public init(conditionalForwarders: [ConditionalForwarder]? = nil) {
-            self.conditionalForwarders = conditionalForwarders
+        public init(directoryDescriptions: [DirectoryDescription]? = nil, nextToken: String? = nil) {
+            self.directoryDescriptions = directoryDescriptions
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case conditionalForwarders = "ConditionalForwarders"
+            case directoryDescriptions = "DirectoryDescriptions"
+            case nextToken = "NextToken"
         }
     }
 
-    public struct EnableSsoResult: AWSShape {
+    public struct DescribeDomainControllersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "DomainControllerIds", required: false, type: .list), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Identifier of the directory for which to retrieve the domain controller information.
+        public let directoryId: String
+        /// A list of identifiers for the domain controllers whose information will be provided.
+        public let domainControllerIds: [String]?
+        /// The maximum number of items to return.
+        public let limit: Int32?
+        /// The DescribeDomainControllers.NextToken value from a previous call to DescribeDomainControllers. Pass null if this is the first call. 
+        public let nextToken: String?
+
+        public init(directoryId: String, domainControllerIds: [String]? = nil, limit: Int32? = nil, nextToken: String? = nil) {
+            self.directoryId = directoryId
+            self.domainControllerIds = domainControllerIds
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case domainControllerIds = "DomainControllerIds"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeDomainControllersResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainControllers", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// List of the DomainController objects that were retrieved.
+        public let domainControllers: [DomainController]?
+        /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeDomainControllers retrieve the next set of items.
+        public let nextToken: String?
+
+        public init(domainControllers: [DomainController]? = nil, nextToken: String? = nil) {
+            self.domainControllers = domainControllers
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainControllers = "DomainControllers"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeEventTopicsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
+            AWSShapeMember(label: "TopicNames", required: false, type: .list)
+        ]
+        /// The Directory ID for which to get the list of associated SNS topics. If this member is null, associations for all Directory IDs are returned.
+        public let directoryId: String?
+        /// A list of SNS topic names for which to obtain the information. If this member is null, all associations for the specified Directory ID are returned. An empty list results in an InvalidParameterException being thrown.
+        public let topicNames: [String]?
+
+        public init(directoryId: String? = nil, topicNames: [String]? = nil) {
+            self.directoryId = directoryId
+            self.topicNames = topicNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case topicNames = "TopicNames"
+        }
+    }
+
+    public struct DescribeEventTopicsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventTopics", required: false, type: .list)
+        ]
+        /// A list of SNS topic names that receive status messages from the specified Directory ID.
+        public let eventTopics: [EventTopic]?
+
+        public init(eventTopics: [EventTopic]? = nil) {
+            self.eventTopics = eventTopics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventTopics = "EventTopics"
+        }
+    }
+
+    public struct DescribeSharedDirectoriesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "OwnerDirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "SharedDirectoryIds", required: false, type: .list)
+        ]
+        /// The number of shared directories to return in the response object.
+        public let limit: Int32?
+        /// The DescribeSharedDirectoriesResult.NextToken value from a previous call to DescribeSharedDirectories. Pass null if this is the first call. 
+        public let nextToken: String?
+        /// Returns the identifier of the directory in the directory owner account. 
+        public let ownerDirectoryId: String
+        /// A list of identifiers of all shared directories in your account. 
+        public let sharedDirectoryIds: [String]?
+
+        public init(limit: Int32? = nil, nextToken: String? = nil, ownerDirectoryId: String, sharedDirectoryIds: [String]? = nil) {
+            self.limit = limit
+            self.nextToken = nextToken
+            self.ownerDirectoryId = ownerDirectoryId
+            self.sharedDirectoryIds = sharedDirectoryIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case ownerDirectoryId = "OwnerDirectoryId"
+            case sharedDirectoryIds = "SharedDirectoryIds"
+        }
+    }
+
+    public struct DescribeSharedDirectoriesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SharedDirectories", required: false, type: .list)
+        ]
+        /// If not null, token that indicates that more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeSharedDirectories to retrieve the next set of items.
+        public let nextToken: String?
+        /// A list of all shared directories in your account.
+        public let sharedDirectories: [SharedDirectory]?
+
+        public init(nextToken: String? = nil, sharedDirectories: [SharedDirectory]? = nil) {
+            self.nextToken = nextToken
+            self.sharedDirectories = sharedDirectories
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case sharedDirectories = "SharedDirectories"
+        }
+    }
+
+    public struct DescribeSnapshotsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotIds", required: false, type: .list)
+        ]
+        /// The identifier of the directory for which to retrieve snapshot information.
+        public let directoryId: String?
+        /// The maximum number of objects to return.
+        public let limit: Int32?
+        /// The DescribeSnapshotsResult.NextToken value from a previous call to DescribeSnapshots. Pass null if this is the first call.
+        public let nextToken: String?
+        /// A list of identifiers of the snapshots to obtain the information for. If this member is null or empty, all snapshots are returned using the Limit and NextToken members.
+        public let snapshotIds: [String]?
+
+        public init(directoryId: String? = nil, limit: Int32? = nil, nextToken: String? = nil, snapshotIds: [String]? = nil) {
+            self.directoryId = directoryId
+            self.limit = limit
+            self.nextToken = nextToken
+            self.snapshotIds = snapshotIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case snapshotIds = "SnapshotIds"
+        }
+    }
+
+    public struct DescribeSnapshotsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Snapshots", required: false, type: .list)
+        ]
+        /// If not null, more results are available. Pass this value in the NextToken member of a subsequent call to DescribeSnapshots.
+        public let nextToken: String?
+        /// The list of Snapshot objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
+        public let snapshots: [Snapshot]?
+
+        public init(nextToken: String? = nil, snapshots: [Snapshot]? = nil) {
+            self.nextToken = nextToken
+            self.snapshots = snapshots
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case snapshots = "Snapshots"
+        }
+    }
+
+    public struct DescribeTrustsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TrustIds", required: false, type: .list)
+        ]
+        /// The Directory ID of the AWS directory that is a part of the requested trust relationship.
+        public let directoryId: String?
+        /// The maximum number of objects to return.
+        public let limit: Int32?
+        /// The DescribeTrustsResult.NextToken value from a previous call to DescribeTrusts. Pass null if this is the first call.
+        public let nextToken: String?
+        /// A list of identifiers of the trust relationships for which to obtain the information. If this member is null, all trust relationships that belong to the current account are returned. An empty list results in an InvalidParameterException being thrown.
+        public let trustIds: [String]?
+
+        public init(directoryId: String? = nil, limit: Int32? = nil, nextToken: String? = nil, trustIds: [String]? = nil) {
+            self.directoryId = directoryId
+            self.limit = limit
+            self.nextToken = nextToken
+            self.trustIds = trustIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case trustIds = "TrustIds"
+        }
+    }
+
+    public struct DescribeTrustsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Trusts", required: false, type: .list)
+        ]
+        /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeTrusts to retrieve the next set of items.
+        public let nextToken: String?
+        /// The list of Trust objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
+        public let trusts: [Trust]?
+
+        public init(nextToken: String? = nil, trusts: [Trust]? = nil) {
+            self.nextToken = nextToken
+            self.trusts = trusts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case trusts = "Trusts"
+        }
+    }
+
+    public struct DirectoryConnectSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomerDnsIps", required: true, type: .list), 
+            AWSShapeMember(label: "CustomerUserName", required: true, type: .string), 
+            AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
+            AWSShapeMember(label: "VpcId", required: true, type: .string)
+        ]
+        /// A list of one or more IP addresses of DNS servers or domain controllers in the on-premises directory.
+        public let customerDnsIps: [String]
+        /// The user name of an account in the on-premises directory that is used to connect to the directory. This account must have the following permissions:   Read users and groups   Create computer objects   Join computers to the domain  
+        public let customerUserName: String
+        /// A list of subnet identifiers in the VPC in which the AD Connector is created.
+        public let subnetIds: [String]
+        /// The identifier of the VPC in which the AD Connector is created.
+        public let vpcId: String
+
+        public init(customerDnsIps: [String], customerUserName: String, subnetIds: [String], vpcId: String) {
+            self.customerDnsIps = customerDnsIps
+            self.customerUserName = customerUserName
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerDnsIps = "CustomerDnsIps"
+            case customerUserName = "CustomerUserName"
+            case subnetIds = "SubnetIds"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct DirectoryConnectSettingsDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "ConnectIps", required: false, type: .list), 
+            AWSShapeMember(label: "CustomerUserName", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string)
+        ]
+        /// A list of the Availability Zones that the directory is in.
+        public let availabilityZones: [String]?
+        /// The IP addresses of the AD Connector servers.
+        public let connectIps: [String]?
+        /// The user name of the service account in the on-premises directory.
+        public let customerUserName: String?
+        /// The security group identifier for the AD Connector directory.
+        public let securityGroupId: String?
+        /// A list of subnet identifiers in the VPC that the AD connector is in.
+        public let subnetIds: [String]?
+        /// The identifier of the VPC that the AD Connector is in.
+        public let vpcId: String?
+
+        public init(availabilityZones: [String]? = nil, connectIps: [String]? = nil, customerUserName: String? = nil, securityGroupId: String? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+            self.availabilityZones = availabilityZones
+            self.connectIps = connectIps
+            self.customerUserName = customerUserName
+            self.securityGroupId = securityGroupId
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case connectIps = "ConnectIps"
+            case customerUserName = "CustomerUserName"
+            case securityGroupId = "SecurityGroupId"
+            case subnetIds = "SubnetIds"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct DirectoryDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessUrl", required: false, type: .string), 
+            AWSShapeMember(label: "Alias", required: false, type: .string), 
+            AWSShapeMember(label: "ConnectSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "DesiredNumberOfDomainControllers", required: false, type: .integer), 
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
+            AWSShapeMember(label: "DnsIpAddrs", required: false, type: .list), 
+            AWSShapeMember(label: "Edition", required: false, type: .enum), 
+            AWSShapeMember(label: "LaunchTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "OwnerDirectoryDescription", required: false, type: .structure), 
+            AWSShapeMember(label: "RadiusSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "RadiusStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "ShareMethod", required: false, type: .enum), 
+            AWSShapeMember(label: "ShareNotes", required: false, type: .string), 
+            AWSShapeMember(label: "ShareStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "ShortName", required: false, type: .string), 
+            AWSShapeMember(label: "Size", required: false, type: .enum), 
+            AWSShapeMember(label: "SsoEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "Stage", required: false, type: .enum), 
+            AWSShapeMember(label: "StageLastUpdatedDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StageReason", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "VpcSettings", required: false, type: .structure)
+        ]
+        /// The access URL for the directory, such as http://&lt;alias&gt;.awsapps.com. If no alias has been created for the directory, &lt;alias&gt; is the directory identifier, such as d-XXXXXXXXXX.
+        public let accessUrl: String?
+        /// The alias for the directory. If no alias has been created for the directory, the alias is the directory identifier, such as d-XXXXXXXXXX.
+        public let alias: String?
+        /// A DirectoryConnectSettingsDescription object that contains additional information about an AD Connector directory. This member is only present if the directory is an AD Connector directory.
+        public let connectSettings: DirectoryConnectSettingsDescription?
+        /// The textual description for the directory.
+        public let description: String?
+        /// The desired number of domain controllers in the directory if the directory is Microsoft AD.
+        public let desiredNumberOfDomainControllers: Int32?
+        /// The directory identifier.
+        public let directoryId: String?
+        /// The IP addresses of the DNS servers for the directory. For a Simple AD or Microsoft AD directory, these are the IP addresses of the Simple AD or Microsoft AD directory servers. For an AD Connector directory, these are the IP addresses of the DNS servers or domain controllers in the on-premises directory to which the AD Connector is connected.
+        public let dnsIpAddrs: [String]?
+        /// The edition associated with this directory.
+        public let edition: DirectoryEdition?
+        /// Specifies when the directory was created.
+        public let launchTime: TimeStamp?
+        /// The fully qualified name of the directory.
+        public let name: String?
+        /// Describes the AWS Managed Microsoft AD directory in the directory owner account.
+        public let ownerDirectoryDescription: OwnerDirectoryDescription?
+        /// A RadiusSettings object that contains information about the RADIUS server configured for this directory.
+        public let radiusSettings: RadiusSettings?
+        /// The status of the RADIUS MFA server connection.
+        public let radiusStatus: RadiusStatus?
+        /// The method used when sharing a directory to determine whether the directory should be shared within your AWS organization (ORGANIZATIONS) or with any AWS account by sending a shared directory request (HANDSHAKE).
+        public let shareMethod: ShareMethod?
+        /// A directory share request that is sent by the directory owner to the directory consumer. The request includes a typed message to help the directory consumer administrator determine whether to approve or reject the share invitation.
+        public let shareNotes: String?
+        /// Current directory status of the shared AWS Managed Microsoft AD directory.
+        public let shareStatus: ShareStatus?
+        /// The short name of the directory.
+        public let shortName: String?
+        /// The directory size.
+        public let size: DirectorySize?
+        /// Indicates if single sign-on is enabled for the directory. For more information, see EnableSso and DisableSso.
+        public let ssoEnabled: Bool?
+        /// The current stage of the directory.
+        public let stage: DirectoryStage?
+        /// The date and time that the stage was last updated.
+        public let stageLastUpdatedDateTime: TimeStamp?
+        /// Additional information about the directory stage.
+        public let stageReason: String?
+        /// The directory size.
+        public let `type`: DirectoryType?
+        /// A DirectoryVpcSettingsDescription object that contains additional information about a directory. This member is only present if the directory is a Simple AD or Managed AD directory.
+        public let vpcSettings: DirectoryVpcSettingsDescription?
+
+        public init(accessUrl: String? = nil, alias: String? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, description: String? = nil, desiredNumberOfDomainControllers: Int32? = nil, directoryId: String? = nil, dnsIpAddrs: [String]? = nil, edition: DirectoryEdition? = nil, launchTime: TimeStamp? = nil, name: String? = nil, ownerDirectoryDescription: OwnerDirectoryDescription? = nil, radiusSettings: RadiusSettings? = nil, radiusStatus: RadiusStatus? = nil, shareMethod: ShareMethod? = nil, shareNotes: String? = nil, shareStatus: ShareStatus? = nil, shortName: String? = nil, size: DirectorySize? = nil, ssoEnabled: Bool? = nil, stage: DirectoryStage? = nil, stageLastUpdatedDateTime: TimeStamp? = nil, stageReason: String? = nil, type: DirectoryType? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil) {
+            self.accessUrl = accessUrl
+            self.alias = alias
+            self.connectSettings = connectSettings
+            self.description = description
+            self.desiredNumberOfDomainControllers = desiredNumberOfDomainControllers
+            self.directoryId = directoryId
+            self.dnsIpAddrs = dnsIpAddrs
+            self.edition = edition
+            self.launchTime = launchTime
+            self.name = name
+            self.ownerDirectoryDescription = ownerDirectoryDescription
+            self.radiusSettings = radiusSettings
+            self.radiusStatus = radiusStatus
+            self.shareMethod = shareMethod
+            self.shareNotes = shareNotes
+            self.shareStatus = shareStatus
+            self.shortName = shortName
+            self.size = size
+            self.ssoEnabled = ssoEnabled
+            self.stage = stage
+            self.stageLastUpdatedDateTime = stageLastUpdatedDateTime
+            self.stageReason = stageReason
+            self.`type` = `type`
+            self.vpcSettings = vpcSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessUrl = "AccessUrl"
+            case alias = "Alias"
+            case connectSettings = "ConnectSettings"
+            case description = "Description"
+            case desiredNumberOfDomainControllers = "DesiredNumberOfDomainControllers"
+            case directoryId = "DirectoryId"
+            case dnsIpAddrs = "DnsIpAddrs"
+            case edition = "Edition"
+            case launchTime = "LaunchTime"
+            case name = "Name"
+            case ownerDirectoryDescription = "OwnerDirectoryDescription"
+            case radiusSettings = "RadiusSettings"
+            case radiusStatus = "RadiusStatus"
+            case shareMethod = "ShareMethod"
+            case shareNotes = "ShareNotes"
+            case shareStatus = "ShareStatus"
+            case shortName = "ShortName"
+            case size = "Size"
+            case ssoEnabled = "SsoEnabled"
+            case stage = "Stage"
+            case stageLastUpdatedDateTime = "StageLastUpdatedDateTime"
+            case stageReason = "StageReason"
+            case `type` = "Type"
+            case vpcSettings = "VpcSettings"
+        }
+    }
+
+    public enum DirectoryEdition: String, CustomStringConvertible, Codable {
+        case enterprise = "Enterprise"
+        case standard = "Standard"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DirectoryLimits: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudOnlyDirectoriesCurrentCount", required: false, type: .integer), 
+            AWSShapeMember(label: "CloudOnlyDirectoriesLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "CloudOnlyDirectoriesLimitReached", required: false, type: .boolean), 
+            AWSShapeMember(label: "CloudOnlyMicrosoftADCurrentCount", required: false, type: .integer), 
+            AWSShapeMember(label: "CloudOnlyMicrosoftADLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "CloudOnlyMicrosoftADLimitReached", required: false, type: .boolean), 
+            AWSShapeMember(label: "ConnectedDirectoriesCurrentCount", required: false, type: .integer), 
+            AWSShapeMember(label: "ConnectedDirectoriesLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "ConnectedDirectoriesLimitReached", required: false, type: .boolean)
+        ]
+        /// The current number of cloud directories in the region.
+        public let cloudOnlyDirectoriesCurrentCount: Int32?
+        /// The maximum number of cloud directories allowed in the region.
+        public let cloudOnlyDirectoriesLimit: Int32?
+        /// Indicates if the cloud directory limit has been reached.
+        public let cloudOnlyDirectoriesLimitReached: Bool?
+        /// The current number of AWS Managed Microsoft AD directories in the region.
+        public let cloudOnlyMicrosoftADCurrentCount: Int32?
+        /// The maximum number of AWS Managed Microsoft AD directories allowed in the region.
+        public let cloudOnlyMicrosoftADLimit: Int32?
+        /// Indicates if the AWS Managed Microsoft AD directory limit has been reached.
+        public let cloudOnlyMicrosoftADLimitReached: Bool?
+        /// The current number of connected directories in the region.
+        public let connectedDirectoriesCurrentCount: Int32?
+        /// The maximum number of connected directories allowed in the region.
+        public let connectedDirectoriesLimit: Int32?
+        /// Indicates if the connected directory limit has been reached.
+        public let connectedDirectoriesLimitReached: Bool?
+
+        public init(cloudOnlyDirectoriesCurrentCount: Int32? = nil, cloudOnlyDirectoriesLimit: Int32? = nil, cloudOnlyDirectoriesLimitReached: Bool? = nil, cloudOnlyMicrosoftADCurrentCount: Int32? = nil, cloudOnlyMicrosoftADLimit: Int32? = nil, cloudOnlyMicrosoftADLimitReached: Bool? = nil, connectedDirectoriesCurrentCount: Int32? = nil, connectedDirectoriesLimit: Int32? = nil, connectedDirectoriesLimitReached: Bool? = nil) {
+            self.cloudOnlyDirectoriesCurrentCount = cloudOnlyDirectoriesCurrentCount
+            self.cloudOnlyDirectoriesLimit = cloudOnlyDirectoriesLimit
+            self.cloudOnlyDirectoriesLimitReached = cloudOnlyDirectoriesLimitReached
+            self.cloudOnlyMicrosoftADCurrentCount = cloudOnlyMicrosoftADCurrentCount
+            self.cloudOnlyMicrosoftADLimit = cloudOnlyMicrosoftADLimit
+            self.cloudOnlyMicrosoftADLimitReached = cloudOnlyMicrosoftADLimitReached
+            self.connectedDirectoriesCurrentCount = connectedDirectoriesCurrentCount
+            self.connectedDirectoriesLimit = connectedDirectoriesLimit
+            self.connectedDirectoriesLimitReached = connectedDirectoriesLimitReached
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudOnlyDirectoriesCurrentCount = "CloudOnlyDirectoriesCurrentCount"
+            case cloudOnlyDirectoriesLimit = "CloudOnlyDirectoriesLimit"
+            case cloudOnlyDirectoriesLimitReached = "CloudOnlyDirectoriesLimitReached"
+            case cloudOnlyMicrosoftADCurrentCount = "CloudOnlyMicrosoftADCurrentCount"
+            case cloudOnlyMicrosoftADLimit = "CloudOnlyMicrosoftADLimit"
+            case cloudOnlyMicrosoftADLimitReached = "CloudOnlyMicrosoftADLimitReached"
+            case connectedDirectoriesCurrentCount = "ConnectedDirectoriesCurrentCount"
+            case connectedDirectoriesLimit = "ConnectedDirectoriesLimit"
+            case connectedDirectoriesLimitReached = "ConnectedDirectoriesLimitReached"
+        }
+    }
+
+    public enum DirectorySize: String, CustomStringConvertible, Codable {
+        case small = "Small"
+        case large = "Large"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DirectoryStage: String, CustomStringConvertible, Codable {
+        case requested = "Requested"
+        case creating = "Creating"
+        case created = "Created"
+        case active = "Active"
+        case inoperable = "Inoperable"
+        case impaired = "Impaired"
+        case restoring = "Restoring"
+        case restorefailed = "RestoreFailed"
+        case deleting = "Deleting"
+        case deleted = "Deleted"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DirectoryType: String, CustomStringConvertible, Codable {
+        case simplead = "SimpleAD"
+        case adconnector = "ADConnector"
+        case microsoftad = "MicrosoftAD"
+        case sharedmicrosoftad = "SharedMicrosoftAD"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DirectoryVpcSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
+            AWSShapeMember(label: "VpcId", required: true, type: .string)
+        ]
+        /// The identifiers of the subnets for the directory servers. The two subnets must be in different Availability Zones. AWS Directory Service creates a directory server and a DNS server in each of these subnets.
+        public let subnetIds: [String]
+        /// The identifier of the VPC in which to create the directory.
+        public let vpcId: String
+
+        public init(subnetIds: [String], vpcId: String) {
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetIds = "SubnetIds"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct DirectoryVpcSettingsDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "SecurityGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string)
+        ]
+        /// The list of Availability Zones that the directory is in.
+        public let availabilityZones: [String]?
+        /// The domain controller security group identifier for the directory.
+        public let securityGroupId: String?
+        /// The identifiers of the subnets for the directory servers.
+        public let subnetIds: [String]?
+        /// The identifier of the VPC that the directory is in.
+        public let vpcId: String?
+
+        public init(availabilityZones: [String]? = nil, securityGroupId: String? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+            self.availabilityZones = availabilityZones
+            self.securityGroupId = securityGroupId
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case securityGroupId = "SecurityGroupId"
+            case subnetIds = "SubnetIds"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct DisableRadiusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
+        ]
+        /// The identifier of the directory for which to disable MFA.
+        public let directoryId: String
+
+        public init(directoryId: String) {
+            self.directoryId = directoryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+        }
+    }
+
+    public struct DisableRadiusResult: AWSShape {
 
         public init() {
         }
 
     }
 
-    public enum SchemaExtensionStatus: String, CustomStringConvertible, Codable {
-        case initializing = "Initializing"
-        case creatingsnapshot = "CreatingSnapshot"
-        case updatingschema = "UpdatingSchema"
-        case replicating = "Replicating"
-        case cancelinprogress = "CancelInProgress"
-        case rollbackinprogress = "RollbackInProgress"
-        case cancelled = "Cancelled"
-        case failed = "Failed"
-        case completed = "Completed"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeDomainControllersRequest: AWSShape {
+    public struct DisableSsoRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "DomainControllerIds", required: false, type: .list)
+            AWSShapeMember(label: "Password", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string)
         ]
-        /// The DescribeDomainControllers.NextToken value from a previous call to DescribeDomainControllers. Pass null if this is the first call. 
-        public let nextToken: String?
-        /// Identifier of the directory for which to retrieve the domain controller information.
+        /// The identifier of the directory for which to disable single-sign on.
         public let directoryId: String
-        /// The maximum number of items to return.
-        public let limit: Int32?
-        /// A list of identifiers for the domain controllers whose information will be provided.
-        public let domainControllerIds: [String]?
+        /// The password of an alternate account to use to disable single-sign on. This is only used for AD Connector directories. For more information, see the UserName parameter.
+        public let password: String?
+        /// The username of an alternate account to use to disable single-sign on. This is only used for AD Connector directories. This account must have privileges to remove a service principal name. If the AD Connector service account does not have privileges to remove a service principal name, you can specify an alternate account with the UserName and Password parameters. These credentials are only used to disable single sign-on and are not stored by the service. The AD Connector service account is not changed.
+        public let userName: String?
 
-        public init(directoryId: String, domainControllerIds: [String]? = nil, limit: Int32? = nil, nextToken: String? = nil) {
-            self.nextToken = nextToken
+        public init(directoryId: String, password: String? = nil, userName: String? = nil) {
             self.directoryId = directoryId
-            self.limit = limit
-            self.domainControllerIds = domainControllerIds
+            self.password = password
+            self.userName = userName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
             case directoryId = "DirectoryId"
-            case limit = "Limit"
-            case domainControllerIds = "DomainControllerIds"
+            case password = "Password"
+            case userName = "UserName"
         }
     }
 
@@ -2115,82 +1535,64 @@ extension DirectoryService {
 
     }
 
-    public struct LogSubscription: AWSShape {
+    public struct DomainController: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
             AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "SubscriptionCreatedDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LogGroupName", required: false, type: .string)
+            AWSShapeMember(label: "DnsIpAddr", required: false, type: .string), 
+            AWSShapeMember(label: "DomainControllerId", required: false, type: .string), 
+            AWSShapeMember(label: "LaunchTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "StatusLastUpdatedDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StatusReason", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
-        /// Identifier (ID) of the directory that you want to associate with the log subscription.
+        /// The Availability Zone where the domain controller is located.
+        public let availabilityZone: String?
+        /// Identifier of the directory where the domain controller resides.
         public let directoryId: String?
-        /// The date and time that the log subscription was created.
-        public let subscriptionCreatedDateTime: TimeStamp?
-        /// The name of the log group.
-        public let logGroupName: String?
+        /// The IP address of the domain controller.
+        public let dnsIpAddr: String?
+        /// Identifies a specific domain controller in the directory.
+        public let domainControllerId: String?
+        /// Specifies when the domain controller was created.
+        public let launchTime: TimeStamp?
+        /// The status of the domain controller.
+        public let status: DomainControllerStatus?
+        /// The date and time that the status was last updated.
+        public let statusLastUpdatedDateTime: TimeStamp?
+        /// A description of the domain controller state.
+        public let statusReason: String?
+        /// Identifier of the subnet in the VPC that contains the domain controller.
+        public let subnetId: String?
+        /// The identifier of the VPC that contains the domain controller.
+        public let vpcId: String?
 
-        public init(directoryId: String? = nil, logGroupName: String? = nil, subscriptionCreatedDateTime: TimeStamp? = nil) {
+        public init(availabilityZone: String? = nil, directoryId: String? = nil, dnsIpAddr: String? = nil, domainControllerId: String? = nil, launchTime: TimeStamp? = nil, status: DomainControllerStatus? = nil, statusLastUpdatedDateTime: TimeStamp? = nil, statusReason: String? = nil, subnetId: String? = nil, vpcId: String? = nil) {
+            self.availabilityZone = availabilityZone
             self.directoryId = directoryId
-            self.subscriptionCreatedDateTime = subscriptionCreatedDateTime
-            self.logGroupName = logGroupName
+            self.dnsIpAddr = dnsIpAddr
+            self.domainControllerId = domainControllerId
+            self.launchTime = launchTime
+            self.status = status
+            self.statusLastUpdatedDateTime = statusLastUpdatedDateTime
+            self.statusReason = statusReason
+            self.subnetId = subnetId
+            self.vpcId = vpcId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
             case directoryId = "DirectoryId"
-            case subscriptionCreatedDateTime = "SubscriptionCreatedDateTime"
-            case logGroupName = "LogGroupName"
-        }
-    }
-
-    public struct IpRoute: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "CidrIp", required: false, type: .string)
-        ]
-        /// Description of the address block.
-        public let description: String?
-        /// IP address block using CIDR format, for example 10.0.0.0/24. This is often the address block of the DNS server used for your on-premises domain. For a single IP address use a CIDR address block with /32. For example 10.0.0.0/32.
-        public let cidrIp: String?
-
-        public init(cidrIp: String? = nil, description: String? = nil) {
-            self.description = description
-            self.cidrIp = cidrIp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "Description"
-            case cidrIp = "CidrIp"
-        }
-    }
-
-    public enum SelectiveAuth: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case disabled = "Disabled"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListLogSubscriptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer)
-        ]
-        /// The token for the next set of items to return.
-        public let nextToken: String?
-        /// If a DirectoryID is provided, lists only the log subscription associated with that directory. If no DirectoryId is provided, lists all log subscriptions associated with your AWS account. If there are no log subscriptions for the AWS account or the directory, an empty list will be returned.
-        public let directoryId: String?
-        /// The maximum number of items returned.
-        public let limit: Int32?
-
-        public init(directoryId: String? = nil, limit: Int32? = nil, nextToken: String? = nil) {
-            self.nextToken = nextToken
-            self.directoryId = directoryId
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case directoryId = "DirectoryId"
-            case limit = "Limit"
+            case dnsIpAddr = "DnsIpAddr"
+            case domainControllerId = "DomainControllerId"
+            case launchTime = "LaunchTime"
+            case status = "Status"
+            case statusLastUpdatedDateTime = "StatusLastUpdatedDateTime"
+            case statusReason = "StatusReason"
+            case subnetId = "SubnetId"
+            case vpcId = "VpcId"
         }
     }
 
@@ -2203,465 +1605,6 @@ extension DirectoryService {
         case deleted = "Deleted"
         case failed = "Failed"
         public var description: String { return self.rawValue }
-    }
-
-    public struct ListLogSubscriptionsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LogSubscriptions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list of active LogSubscription objects for calling the AWS account.
-        public let logSubscriptions: [LogSubscription]?
-        /// The token for the next set of items to return.
-        public let nextToken: String?
-
-        public init(logSubscriptions: [LogSubscription]? = nil, nextToken: String? = nil) {
-            self.logSubscriptions = logSubscriptions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case logSubscriptions = "LogSubscriptions"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DirectoryConnectSettingsDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectIps", required: false, type: .list), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string), 
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
-            AWSShapeMember(label: "SecurityGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeMember(label: "CustomerUserName", required: false, type: .string)
-        ]
-        /// The IP addresses of the AD Connector servers.
-        public let connectIps: [String]?
-        /// The identifier of the VPC that the AD Connector is in.
-        public let vpcId: String?
-        /// A list of the Availability Zones that the directory is in.
-        public let availabilityZones: [String]?
-        /// The security group identifier for the AD Connector directory.
-        public let securityGroupId: String?
-        /// A list of subnet identifiers in the VPC that the AD connector is in.
-        public let subnetIds: [String]?
-        /// The user name of the service account in the on-premises directory.
-        public let customerUserName: String?
-
-        public init(availabilityZones: [String]? = nil, connectIps: [String]? = nil, customerUserName: String? = nil, securityGroupId: String? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
-            self.connectIps = connectIps
-            self.vpcId = vpcId
-            self.availabilityZones = availabilityZones
-            self.securityGroupId = securityGroupId
-            self.subnetIds = subnetIds
-            self.customerUserName = customerUserName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectIps = "ConnectIps"
-            case vpcId = "VpcId"
-            case availabilityZones = "AvailabilityZones"
-            case securityGroupId = "SecurityGroupId"
-            case subnetIds = "SubnetIds"
-            case customerUserName = "CustomerUserName"
-        }
-    }
-
-    public struct CreateSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The identifier of the directory of which to take a snapshot.
-        public let directoryId: String
-        /// The descriptive name to apply to the snapshot.
-        public let name: String?
-
-        public init(directoryId: String, name: String? = nil) {
-            self.directoryId = directoryId
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryId = "DirectoryId"
-            case name = "Name"
-        }
-    }
-
-    public struct ResetUserPasswordRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "NewPassword", required: true, type: .string)
-        ]
-        /// Identifier of the AWS Managed Microsoft AD or Simple AD directory in which the user resides.
-        public let directoryId: String
-        /// The user name of the user whose password will be reset.
-        public let userName: String
-        /// The new password that will be reset.
-        public let newPassword: String
-
-        public init(directoryId: String, newPassword: String, userName: String) {
-            self.directoryId = directoryId
-            self.userName = userName
-            self.newPassword = newPassword
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryId = "DirectoryId"
-            case userName = "UserName"
-            case newPassword = "NewPassword"
-        }
-    }
-
-    public struct CreateDirectoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ShortName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Password", required: true, type: .string), 
-            AWSShapeMember(label: "VpcSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "Size", required: true, type: .enum)
-        ]
-        /// The short name of the directory, such as CORP.
-        public let shortName: String?
-        /// A textual description for the directory.
-        public let description: String?
-        /// The fully qualified name for the directory, such as corp.example.com.
-        public let name: String
-        /// The password for the directory administrator. The directory creation process creates a directory administrator account with the user name Administrator and this password.
-        public let password: String
-        /// A DirectoryVpcSettings object that contains additional information for the operation.
-        public let vpcSettings: DirectoryVpcSettings?
-        /// The size of the directory.
-        public let size: DirectorySize
-
-        public init(description: String? = nil, name: String, password: String, shortName: String? = nil, size: DirectorySize, vpcSettings: DirectoryVpcSettings? = nil) {
-            self.shortName = shortName
-            self.description = description
-            self.name = name
-            self.password = password
-            self.vpcSettings = vpcSettings
-            self.size = size
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case shortName = "ShortName"
-            case description = "Description"
-            case name = "Name"
-            case password = "Password"
-            case vpcSettings = "VpcSettings"
-            case size = "Size"
-        }
-    }
-
-    public struct ConditionalForwarder: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationScope", required: false, type: .enum), 
-            AWSShapeMember(label: "RemoteDomainName", required: false, type: .string), 
-            AWSShapeMember(label: "DnsIpAddrs", required: false, type: .list)
-        ]
-        /// The replication scope of the conditional forwarder. The only allowed value is Domain, which will replicate the conditional forwarder to all of the domain controllers for your AWS directory.
-        public let replicationScope: ReplicationScope?
-        /// The fully qualified domain name (FQDN) of the remote domains pointed to by the conditional forwarder.
-        public let remoteDomainName: String?
-        /// The IP addresses of the remote DNS server associated with RemoteDomainName. This is the IP address of the DNS server that your conditional forwarder points to.
-        public let dnsIpAddrs: [String]?
-
-        public init(dnsIpAddrs: [String]? = nil, remoteDomainName: String? = nil, replicationScope: ReplicationScope? = nil) {
-            self.replicationScope = replicationScope
-            self.remoteDomainName = remoteDomainName
-            self.dnsIpAddrs = dnsIpAddrs
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationScope = "ReplicationScope"
-            case remoteDomainName = "RemoteDomainName"
-            case dnsIpAddrs = "DnsIpAddrs"
-        }
-    }
-
-    public struct CreateTrustResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrustId", required: false, type: .string)
-        ]
-        /// A unique identifier for the trust relationship that was created.
-        public let trustId: String?
-
-        public init(trustId: String? = nil) {
-            self.trustId = trustId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case trustId = "TrustId"
-        }
-    }
-
-    public struct RejectSharedDirectoryResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SharedDirectoryId", required: false, type: .string)
-        ]
-        /// Identifier of the shared directory in the directory consumer account.
-        public let sharedDirectoryId: String?
-
-        public init(sharedDirectoryId: String? = nil) {
-            self.sharedDirectoryId = sharedDirectoryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sharedDirectoryId = "SharedDirectoryId"
-        }
-    }
-
-    public struct ResetUserPasswordResult: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct CancelSchemaExtensionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "SchemaExtensionId", required: true, type: .string)
-        ]
-        /// The identifier of the directory whose schema extension will be canceled.
-        public let directoryId: String
-        /// The identifier of the schema extension that will be canceled.
-        public let schemaExtensionId: String
-
-        public init(directoryId: String, schemaExtensionId: String) {
-            self.directoryId = directoryId
-            self.schemaExtensionId = schemaExtensionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryId = "DirectoryId"
-            case schemaExtensionId = "SchemaExtensionId"
-        }
-    }
-
-    public struct UpdateRadiusResult: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct CreateLogSubscriptionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "LogGroupName", required: true, type: .string)
-        ]
-        /// Identifier (ID) of the directory to which you want to subscribe and receive real-time logs to your specified CloudWatch log group.
-        public let directoryId: String
-        /// The name of the CloudWatch log group where the real-time domain controller logs are forwarded.
-        public let logGroupName: String
-
-        public init(directoryId: String, logGroupName: String) {
-            self.directoryId = directoryId
-            self.logGroupName = logGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryId = "DirectoryId"
-            case logGroupName = "LogGroupName"
-        }
-    }
-
-    public struct Attribute: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
-        /// The name of the attribute.
-        public let name: String?
-        /// The value of the attribute.
-        public let value: String?
-
-        public init(name: String? = nil, value: String? = nil) {
-            self.name = name
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case value = "Value"
-        }
-    }
-
-    public struct SnapshotLimits: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ManualSnapshotsLimitReached", required: false, type: .boolean), 
-            AWSShapeMember(label: "ManualSnapshotsLimit", required: false, type: .integer), 
-            AWSShapeMember(label: "ManualSnapshotsCurrentCount", required: false, type: .integer)
-        ]
-        /// Indicates if the manual snapshot limit has been reached.
-        public let manualSnapshotsLimitReached: Bool?
-        /// The maximum number of manual snapshots allowed.
-        public let manualSnapshotsLimit: Int32?
-        /// The current number of manual snapshots of the directory.
-        public let manualSnapshotsCurrentCount: Int32?
-
-        public init(manualSnapshotsCurrentCount: Int32? = nil, manualSnapshotsLimit: Int32? = nil, manualSnapshotsLimitReached: Bool? = nil) {
-            self.manualSnapshotsLimitReached = manualSnapshotsLimitReached
-            self.manualSnapshotsLimit = manualSnapshotsLimit
-            self.manualSnapshotsCurrentCount = manualSnapshotsCurrentCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case manualSnapshotsLimitReached = "ManualSnapshotsLimitReached"
-            case manualSnapshotsLimit = "ManualSnapshotsLimit"
-            case manualSnapshotsCurrentCount = "ManualSnapshotsCurrentCount"
-        }
-    }
-
-    public enum ReplicationScope: String, CustomStringConvertible, Codable {
-        case domain = "Domain"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateAliasRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Alias", required: true, type: .string), 
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
-        ]
-        /// The requested alias. The alias must be unique amongst all aliases in AWS. This operation throws an EntityAlreadyExistsException error if the alias already exists.
-        public let alias: String
-        /// The identifier of the directory for which to create the alias.
-        public let directoryId: String
-
-        public init(alias: String, directoryId: String) {
-            self.alias = alias
-            self.directoryId = directoryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case alias = "Alias"
-            case directoryId = "DirectoryId"
-        }
-    }
-
-    public struct DeleteLogSubscriptionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
-        ]
-        /// Identifier (ID) of the directory whose log subscription you want to delete.
-        public let directoryId: String
-
-        public init(directoryId: String) {
-            self.directoryId = directoryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryId = "DirectoryId"
-        }
-    }
-
-    public struct CreateComputerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationalUnitDistinguishedName", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "ComputerAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "Password", required: true, type: .string), 
-            AWSShapeMember(label: "ComputerName", required: true, type: .string)
-        ]
-        /// The fully-qualified distinguished name of the organizational unit to place the computer account in.
-        public let organizationalUnitDistinguishedName: String?
-        /// The identifier of the directory in which to create the computer account.
-        public let directoryId: String
-        /// An array of Attribute objects that contain any LDAP attributes to apply to the computer account.
-        public let computerAttributes: [Attribute]?
-        /// A one-time password that is used to join the computer to the directory. You should generate a random, strong password to use for this parameter.
-        public let password: String
-        /// The name of the computer account.
-        public let computerName: String
-
-        public init(computerAttributes: [Attribute]? = nil, computerName: String, directoryId: String, organizationalUnitDistinguishedName: String? = nil, password: String) {
-            self.organizationalUnitDistinguishedName = organizationalUnitDistinguishedName
-            self.directoryId = directoryId
-            self.computerAttributes = computerAttributes
-            self.password = password
-            self.computerName = computerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case organizationalUnitDistinguishedName = "OrganizationalUnitDistinguishedName"
-            case directoryId = "DirectoryId"
-            case computerAttributes = "ComputerAttributes"
-            case password = "Password"
-            case computerName = "ComputerName"
-        }
-    }
-
-    public struct DescribeSnapshotsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Snapshots", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The list of Snapshot objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
-        public let snapshots: [Snapshot]?
-        /// If not null, more results are available. Pass this value in the NextToken member of a subsequent call to DescribeSnapshots.
-        public let nextToken: String?
-
-        public init(nextToken: String? = nil, snapshots: [Snapshot]? = nil) {
-            self.snapshots = snapshots
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case snapshots = "Snapshots"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DeleteLogSubscriptionResult: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct UnshareDirectoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnshareTarget", required: true, type: .structure), 
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
-        ]
-        /// Identifier for the directory consumer account with whom the directory has to be unshared.
-        public let unshareTarget: UnshareTarget
-        /// The identifier of the AWS Managed Microsoft AD directory that you want to stop sharing.
-        public let directoryId: String
-
-        public init(directoryId: String, unshareTarget: UnshareTarget) {
-            self.unshareTarget = unshareTarget
-            self.directoryId = directoryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case unshareTarget = "UnshareTarget"
-            case directoryId = "DirectoryId"
-        }
-    }
-
-    public struct ShareTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
-        /// Identifier of the directory consumer account.
-        public let id: String
-        /// Type of identifier to be used in the Id field.
-        public let `type`: TargetType
-
-        public init(id: String, type: TargetType) {
-            self.id = id
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case `type` = "Type"
-        }
     }
 
     public struct EnableRadiusRequest: AWSShape {
@@ -2685,176 +1628,616 @@ extension DirectoryService {
         }
     }
 
-    public struct CreateLogSubscriptionResult: AWSShape {
+    public struct EnableRadiusResult: AWSShape {
 
         public init() {
         }
 
     }
 
-    public struct IpRouteInfo: AWSShape {
+    public struct EnableSsoRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "Password", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string)
+        ]
+        /// The identifier of the directory for which to enable single-sign on.
+        public let directoryId: String
+        /// The password of an alternate account to use to enable single-sign on. This is only used for AD Connector directories. For more information, see the UserName parameter.
+        public let password: String?
+        /// The username of an alternate account to use to enable single-sign on. This is only used for AD Connector directories. This account must have privileges to add a service principal name. If the AD Connector service account does not have privileges to add a service principal name, you can specify an alternate account with the UserName and Password parameters. These credentials are only used to enable single sign-on and are not stored by the service. The AD Connector service account is not changed.
+        public let userName: String?
+
+        public init(directoryId: String, password: String? = nil, userName: String? = nil) {
+            self.directoryId = directoryId
+            self.password = password
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case password = "Password"
+            case userName = "UserName"
+        }
+    }
+
+    public struct EnableSsoResult: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct EventTopic: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "TopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "TopicName", required: false, type: .string)
+        ]
+        /// The date and time of when you associated your directory with the SNS topic.
+        public let createdDateTime: TimeStamp?
+        /// The Directory ID of an AWS Directory Service directory that will publish status messages to an SNS topic.
+        public let directoryId: String?
+        /// The topic registration status.
+        public let status: TopicStatus?
+        /// The SNS topic ARN (Amazon Resource Name).
+        public let topicArn: String?
+        /// The name of an AWS SNS topic the receives status messages from the directory.
+        public let topicName: String?
+
+        public init(createdDateTime: TimeStamp? = nil, directoryId: String? = nil, status: TopicStatus? = nil, topicArn: String? = nil, topicName: String? = nil) {
+            self.createdDateTime = createdDateTime
+            self.directoryId = directoryId
+            self.status = status
+            self.topicArn = topicArn
+            self.topicName = topicName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdDateTime = "CreatedDateTime"
+            case directoryId = "DirectoryId"
+            case status = "Status"
+            case topicArn = "TopicArn"
+            case topicName = "TopicName"
+        }
+    }
+
+    public struct GetDirectoryLimitsRequest: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct GetDirectoryLimitsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryLimits", required: false, type: .structure)
+        ]
+        /// A DirectoryLimits object that contains the directory limits for the current region.
+        public let directoryLimits: DirectoryLimits?
+
+        public init(directoryLimits: DirectoryLimits? = nil) {
+            self.directoryLimits = directoryLimits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryLimits = "DirectoryLimits"
+        }
+    }
+
+    public struct GetSnapshotLimitsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
+        ]
+        /// Contains the identifier of the directory to obtain the limits for.
+        public let directoryId: String
+
+        public init(directoryId: String) {
+            self.directoryId = directoryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+        }
+    }
+
+    public struct GetSnapshotLimitsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotLimits", required: false, type: .structure)
+        ]
+        /// A SnapshotLimits object that contains the manual snapshot limits for the specified directory.
+        public let snapshotLimits: SnapshotLimits?
+
+        public init(snapshotLimits: SnapshotLimits? = nil) {
+            self.snapshotLimits = snapshotLimits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotLimits = "SnapshotLimits"
+        }
+    }
+
+    public struct IpRoute: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CidrIp", required: false, type: .string), 
-            AWSShapeMember(label: "IpRouteStatusMsg", required: false, type: .enum), 
-            AWSShapeMember(label: "IpRouteStatusReason", required: false, type: .string), 
-            AWSShapeMember(label: "AddedDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
-        /// Identifier (ID) of the directory associated with the IP addresses.
-        public let directoryId: String?
-        /// IP address block in the IpRoute.
+        /// IP address block using CIDR format, for example 10.0.0.0/24. This is often the address block of the DNS server used for your on-premises domain. For a single IP address use a CIDR address block with /32. For example 10.0.0.0/32.
         public let cidrIp: String?
-        /// The status of the IP address block.
-        public let ipRouteStatusMsg: IpRouteStatusMsg?
-        /// The reason for the IpRouteStatusMsg.
-        public let ipRouteStatusReason: String?
-        /// The date and time the address block was added to the directory.
-        public let addedDateTime: TimeStamp?
-        /// Description of the IpRouteInfo.
+        /// Description of the address block.
         public let description: String?
 
-        public init(addedDateTime: TimeStamp? = nil, cidrIp: String? = nil, description: String? = nil, directoryId: String? = nil, ipRouteStatusMsg: IpRouteStatusMsg? = nil, ipRouteStatusReason: String? = nil) {
-            self.directoryId = directoryId
+        public init(cidrIp: String? = nil, description: String? = nil) {
             self.cidrIp = cidrIp
-            self.ipRouteStatusMsg = ipRouteStatusMsg
-            self.ipRouteStatusReason = ipRouteStatusReason
-            self.addedDateTime = addedDateTime
             self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directoryId = "DirectoryId"
             case cidrIp = "CidrIp"
-            case ipRouteStatusMsg = "IpRouteStatusMsg"
-            case ipRouteStatusReason = "IpRouteStatusReason"
-            case addedDateTime = "AddedDateTime"
             case description = "Description"
         }
     }
 
-    public struct DeleteConditionalForwarderRequest: AWSShape {
+    public struct IpRouteInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AddedDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CidrIp", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
+            AWSShapeMember(label: "IpRouteStatusMsg", required: false, type: .enum), 
+            AWSShapeMember(label: "IpRouteStatusReason", required: false, type: .string)
+        ]
+        /// The date and time the address block was added to the directory.
+        public let addedDateTime: TimeStamp?
+        /// IP address block in the IpRoute.
+        public let cidrIp: String?
+        /// Description of the IpRouteInfo.
+        public let description: String?
+        /// Identifier (ID) of the directory associated with the IP addresses.
+        public let directoryId: String?
+        /// The status of the IP address block.
+        public let ipRouteStatusMsg: IpRouteStatusMsg?
+        /// The reason for the IpRouteStatusMsg.
+        public let ipRouteStatusReason: String?
+
+        public init(addedDateTime: TimeStamp? = nil, cidrIp: String? = nil, description: String? = nil, directoryId: String? = nil, ipRouteStatusMsg: IpRouteStatusMsg? = nil, ipRouteStatusReason: String? = nil) {
+            self.addedDateTime = addedDateTime
+            self.cidrIp = cidrIp
+            self.description = description
+            self.directoryId = directoryId
+            self.ipRouteStatusMsg = ipRouteStatusMsg
+            self.ipRouteStatusReason = ipRouteStatusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addedDateTime = "AddedDateTime"
+            case cidrIp = "CidrIp"
+            case description = "Description"
+            case directoryId = "DirectoryId"
+            case ipRouteStatusMsg = "IpRouteStatusMsg"
+            case ipRouteStatusReason = "IpRouteStatusReason"
+        }
+    }
+
+    public enum IpRouteStatusMsg: String, CustomStringConvertible, Codable {
+        case adding = "Adding"
+        case added = "Added"
+        case removing = "Removing"
+        case removed = "Removed"
+        case addfailed = "AddFailed"
+        case removefailed = "RemoveFailed"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListIpRoutesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "RemoteDomainName", required: true, type: .string)
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The directory ID for which you are deleting the conditional forwarder.
+        /// Identifier (ID) of the directory for which you want to retrieve the IP addresses.
         public let directoryId: String
-        /// The fully qualified domain name (FQDN) of the remote domain with which you are deleting the conditional forwarder.
-        public let remoteDomainName: String
+        /// Maximum number of items to return. If this value is zero, the maximum number of items is specified by the limitations of the operation.
+        public let limit: Int32?
+        /// The ListIpRoutes.NextToken value from a previous call to ListIpRoutes. Pass null if this is the first call.
+        public let nextToken: String?
 
-        public init(directoryId: String, remoteDomainName: String) {
+        public init(directoryId: String, limit: Int32? = nil, nextToken: String? = nil) {
             self.directoryId = directoryId
-            self.remoteDomainName = remoteDomainName
+            self.limit = limit
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
-            case remoteDomainName = "RemoteDomainName"
+            case limit = "Limit"
+            case nextToken = "NextToken"
         }
     }
 
-    public struct DirectoryVpcSettingsDescription: AWSShape {
+    public struct ListIpRoutesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string), 
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
-            AWSShapeMember(label: "SecurityGroupId", required: false, type: .string)
+            AWSShapeMember(label: "IpRoutesInfo", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The identifiers of the subnets for the directory servers.
-        public let subnetIds: [String]?
-        /// The identifier of the VPC that the directory is in.
-        public let vpcId: String?
-        /// The list of Availability Zones that the directory is in.
-        public let availabilityZones: [String]?
-        /// The domain controller security group identifier for the directory.
-        public let securityGroupId: String?
+        /// A list of IpRoutes.
+        public let ipRoutesInfo: [IpRouteInfo]?
+        /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to ListIpRoutes to retrieve the next set of items.
+        public let nextToken: String?
 
-        public init(availabilityZones: [String]? = nil, securityGroupId: String? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
-            self.subnetIds = subnetIds
-            self.vpcId = vpcId
-            self.availabilityZones = availabilityZones
-            self.securityGroupId = securityGroupId
+        public init(ipRoutesInfo: [IpRouteInfo]? = nil, nextToken: String? = nil) {
+            self.ipRoutesInfo = ipRoutesInfo
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subnetIds = "SubnetIds"
-            case vpcId = "VpcId"
-            case availabilityZones = "AvailabilityZones"
-            case securityGroupId = "SecurityGroupId"
+            case ipRoutesInfo = "IpRoutesInfo"
+            case nextToken = "NextToken"
         }
     }
 
-    public struct SharedDirectory: AWSShape {
+    public struct ListLogSubscriptionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ShareNotes", required: false, type: .string), 
-            AWSShapeMember(label: "SharedDirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "OwnerAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ShareStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "CreatedDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ShareMethod", required: false, type: .enum), 
-            AWSShapeMember(label: "SharedAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "OwnerDirectoryId", required: false, type: .string)
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// A directory share request that is sent by the directory owner to the directory consumer. The request includes a typed message to help the directory consumer administrator determine whether to approve or reject the share invitation.
-        public let shareNotes: String?
+        /// If a DirectoryID is provided, lists only the log subscription associated with that directory. If no DirectoryId is provided, lists all log subscriptions associated with your AWS account. If there are no log subscriptions for the AWS account or the directory, an empty list will be returned.
+        public let directoryId: String?
+        /// The maximum number of items returned.
+        public let limit: Int32?
+        /// The token for the next set of items to return.
+        public let nextToken: String?
+
+        public init(directoryId: String? = nil, limit: Int32? = nil, nextToken: String? = nil) {
+            self.directoryId = directoryId
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListLogSubscriptionsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LogSubscriptions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of active LogSubscription objects for calling the AWS account.
+        public let logSubscriptions: [LogSubscription]?
+        /// The token for the next set of items to return.
+        public let nextToken: String?
+
+        public init(logSubscriptions: [LogSubscription]? = nil, nextToken: String? = nil) {
+            self.logSubscriptions = logSubscriptions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logSubscriptions = "LogSubscriptions"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListSchemaExtensionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The identifier of the directory from which to retrieve the schema extension information.
+        public let directoryId: String
+        /// The maximum number of items to return.
+        public let limit: Int32?
+        /// The ListSchemaExtensions.NextToken value from a previous call to ListSchemaExtensions. Pass null if this is the first call.
+        public let nextToken: String?
+
+        public init(directoryId: String, limit: Int32? = nil, nextToken: String? = nil) {
+            self.directoryId = directoryId
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListSchemaExtensionsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SchemaExtensionsInfo", required: false, type: .list)
+        ]
+        /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to ListSchemaExtensions to retrieve the next set of items.
+        public let nextToken: String?
+        /// Information about the schema extensions applied to the directory.
+        public let schemaExtensionsInfo: [SchemaExtensionInfo]?
+
+        public init(nextToken: String? = nil, schemaExtensionsInfo: [SchemaExtensionInfo]? = nil) {
+            self.nextToken = nextToken
+            self.schemaExtensionsInfo = schemaExtensionsInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case schemaExtensionsInfo = "SchemaExtensionsInfo"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string)
+        ]
+        /// Reserved for future use.
+        public let limit: Int32?
+        /// Reserved for future use.
+        public let nextToken: String?
+        /// Identifier (ID) of the directory for which you want to retrieve tags.
+        public let resourceId: String
+
+        public init(limit: Int32? = nil, nextToken: String? = nil, resourceId: String) {
+            self.limit = limit
+            self.nextToken = nextToken
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct ListTagsForResourceResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// Reserved for future use.
+        public let nextToken: String?
+        /// List of tags returned by the ListTagsForResource operation.
+        public let tags: [Tag]?
+
+        public init(nextToken: String? = nil, tags: [Tag]? = nil) {
+            self.nextToken = nextToken
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tags = "Tags"
+        }
+    }
+
+    public struct LogSubscription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
+            AWSShapeMember(label: "LogGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionCreatedDateTime", required: false, type: .timestamp)
+        ]
+        /// Identifier (ID) of the directory that you want to associate with the log subscription.
+        public let directoryId: String?
+        /// The name of the log group.
+        public let logGroupName: String?
+        /// The date and time that the log subscription was created.
+        public let subscriptionCreatedDateTime: TimeStamp?
+
+        public init(directoryId: String? = nil, logGroupName: String? = nil, subscriptionCreatedDateTime: TimeStamp? = nil) {
+            self.directoryId = directoryId
+            self.logGroupName = logGroupName
+            self.subscriptionCreatedDateTime = subscriptionCreatedDateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case logGroupName = "LogGroupName"
+            case subscriptionCreatedDateTime = "SubscriptionCreatedDateTime"
+        }
+    }
+
+    public struct OwnerDirectoryDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
+            AWSShapeMember(label: "DnsIpAddrs", required: false, type: .list), 
+            AWSShapeMember(label: "RadiusSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "RadiusStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "VpcSettings", required: false, type: .structure)
+        ]
+        /// Identifier of the directory owner account.
+        public let accountId: String?
+        /// Identifier of the AWS Managed Microsoft AD directory in the directory owner account.
+        public let directoryId: String?
+        /// IP address of the directory’s domain controllers.
+        public let dnsIpAddrs: [String]?
+        /// A RadiusSettings object that contains information about the RADIUS server.
+        public let radiusSettings: RadiusSettings?
+        /// Information about the status of the RADIUS server.
+        public let radiusStatus: RadiusStatus?
+        /// Information about the VPC settings for the directory.
+        public let vpcSettings: DirectoryVpcSettingsDescription?
+
+        public init(accountId: String? = nil, directoryId: String? = nil, dnsIpAddrs: [String]? = nil, radiusSettings: RadiusSettings? = nil, radiusStatus: RadiusStatus? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil) {
+            self.accountId = accountId
+            self.directoryId = directoryId
+            self.dnsIpAddrs = dnsIpAddrs
+            self.radiusSettings = radiusSettings
+            self.radiusStatus = radiusStatus
+            self.vpcSettings = vpcSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case directoryId = "DirectoryId"
+            case dnsIpAddrs = "DnsIpAddrs"
+            case radiusSettings = "RadiusSettings"
+            case radiusStatus = "RadiusStatus"
+            case vpcSettings = "VpcSettings"
+        }
+    }
+
+    public enum RadiusAuthenticationProtocol: String, CustomStringConvertible, Codable {
+        case pap = "PAP"
+        case chap = "CHAP"
+        case msChapv1 = "MS-CHAPv1"
+        case msChapv2 = "MS-CHAPv2"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RadiusSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationProtocol", required: false, type: .enum), 
+            AWSShapeMember(label: "DisplayLabel", required: false, type: .string), 
+            AWSShapeMember(label: "RadiusPort", required: false, type: .integer), 
+            AWSShapeMember(label: "RadiusRetries", required: false, type: .integer), 
+            AWSShapeMember(label: "RadiusServers", required: false, type: .list), 
+            AWSShapeMember(label: "RadiusTimeout", required: false, type: .integer), 
+            AWSShapeMember(label: "SharedSecret", required: false, type: .string), 
+            AWSShapeMember(label: "UseSameUsername", required: false, type: .boolean)
+        ]
+        /// The protocol specified for your RADIUS endpoints.
+        public let authenticationProtocol: RadiusAuthenticationProtocol?
+        /// Not currently used.
+        public let displayLabel: String?
+        /// The port that your RADIUS server is using for communications. Your on-premises network must allow inbound traffic over this port from the AWS Directory Service servers.
+        public let radiusPort: Int32?
+        /// The maximum number of times that communication with the RADIUS server is attempted.
+        public let radiusRetries: Int32?
+        /// An array of strings that contains the IP addresses of the RADIUS server endpoints, or the IP addresses of your RADIUS server load balancer.
+        public let radiusServers: [String]?
+        /// The amount of time, in seconds, to wait for the RADIUS server to respond.
+        public let radiusTimeout: Int32?
+        /// Required for enabling RADIUS on the directory.
+        public let sharedSecret: String?
+        /// Not currently used.
+        public let useSameUsername: Bool?
+
+        public init(authenticationProtocol: RadiusAuthenticationProtocol? = nil, displayLabel: String? = nil, radiusPort: Int32? = nil, radiusRetries: Int32? = nil, radiusServers: [String]? = nil, radiusTimeout: Int32? = nil, sharedSecret: String? = nil, useSameUsername: Bool? = nil) {
+            self.authenticationProtocol = authenticationProtocol
+            self.displayLabel = displayLabel
+            self.radiusPort = radiusPort
+            self.radiusRetries = radiusRetries
+            self.radiusServers = radiusServers
+            self.radiusTimeout = radiusTimeout
+            self.sharedSecret = sharedSecret
+            self.useSameUsername = useSameUsername
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationProtocol = "AuthenticationProtocol"
+            case displayLabel = "DisplayLabel"
+            case radiusPort = "RadiusPort"
+            case radiusRetries = "RadiusRetries"
+            case radiusServers = "RadiusServers"
+            case radiusTimeout = "RadiusTimeout"
+            case sharedSecret = "SharedSecret"
+            case useSameUsername = "UseSameUsername"
+        }
+    }
+
+    public enum RadiusStatus: String, CustomStringConvertible, Codable {
+        case creating = "Creating"
+        case completed = "Completed"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RegisterEventTopicRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "TopicName", required: true, type: .string)
+        ]
+        /// The Directory ID that will publish status messages to the SNS topic.
+        public let directoryId: String
+        /// The SNS topic name to which the directory will publish status messages. This SNS topic must be in the same region as the specified Directory ID.
+        public let topicName: String
+
+        public init(directoryId: String, topicName: String) {
+            self.directoryId = directoryId
+            self.topicName = topicName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case topicName = "TopicName"
+        }
+    }
+
+    public struct RegisterEventTopicResult: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct RejectSharedDirectoryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SharedDirectoryId", required: true, type: .string)
+        ]
         /// Identifier of the shared directory in the directory consumer account. This identifier is different for each directory owner account.
-        public let sharedDirectoryId: String?
-        /// Identifier of the directory owner account, which contains the directory that has been shared to the consumer account.
-        public let ownerAccountId: String?
-        /// The date and time that the shared directory was last updated.
-        public let lastUpdatedDateTime: TimeStamp?
-        /// Current directory status of the shared AWS Managed Microsoft AD directory.
-        public let shareStatus: ShareStatus?
-        /// The date and time that the shared directory was created.
-        public let createdDateTime: TimeStamp?
-        /// The method used when sharing a directory to determine whether the directory should be shared within your AWS organization (ORGANIZATIONS) or with any AWS account by sending a shared directory request (HANDSHAKE).
-        public let shareMethod: ShareMethod?
-        /// Identifier of the directory consumer account that has access to the shared directory (OwnerDirectoryId) in the directory owner account.
-        public let sharedAccountId: String?
-        /// Identifier of the directory in the directory owner account. 
-        public let ownerDirectoryId: String?
+        public let sharedDirectoryId: String
 
-        public init(createdDateTime: TimeStamp? = nil, lastUpdatedDateTime: TimeStamp? = nil, ownerAccountId: String? = nil, ownerDirectoryId: String? = nil, shareMethod: ShareMethod? = nil, shareNotes: String? = nil, shareStatus: ShareStatus? = nil, sharedAccountId: String? = nil, sharedDirectoryId: String? = nil) {
-            self.shareNotes = shareNotes
+        public init(sharedDirectoryId: String) {
             self.sharedDirectoryId = sharedDirectoryId
-            self.ownerAccountId = ownerAccountId
-            self.lastUpdatedDateTime = lastUpdatedDateTime
-            self.shareStatus = shareStatus
-            self.createdDateTime = createdDateTime
-            self.shareMethod = shareMethod
-            self.sharedAccountId = sharedAccountId
-            self.ownerDirectoryId = ownerDirectoryId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case shareNotes = "ShareNotes"
             case sharedDirectoryId = "SharedDirectoryId"
-            case ownerAccountId = "OwnerAccountId"
-            case lastUpdatedDateTime = "LastUpdatedDateTime"
-            case shareStatus = "ShareStatus"
-            case createdDateTime = "CreatedDateTime"
-            case shareMethod = "ShareMethod"
-            case sharedAccountId = "SharedAccountId"
-            case ownerDirectoryId = "OwnerDirectoryId"
         }
     }
 
-    public struct DeleteTrustResult: AWSShape {
+    public struct RejectSharedDirectoryResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrustId", required: false, type: .string)
+            AWSShapeMember(label: "SharedDirectoryId", required: false, type: .string)
         ]
-        /// The Trust ID of the trust relationship that was deleted.
-        public let trustId: String?
+        /// Identifier of the shared directory in the directory consumer account.
+        public let sharedDirectoryId: String?
 
-        public init(trustId: String? = nil) {
-            self.trustId = trustId
+        public init(sharedDirectoryId: String? = nil) {
+            self.sharedDirectoryId = sharedDirectoryId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case trustId = "TrustId"
+            case sharedDirectoryId = "SharedDirectoryId"
         }
+    }
+
+    public struct RemoveIpRoutesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CidrIps", required: true, type: .list), 
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
+        ]
+        /// IP address blocks that you want to remove.
+        public let cidrIps: [String]
+        /// Identifier (ID) of the directory from which you want to remove the IP addresses.
+        public let directoryId: String
+
+        public init(cidrIps: [String], directoryId: String) {
+            self.cidrIps = cidrIps
+            self.directoryId = directoryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidrIps = "CidrIps"
+            case directoryId = "DirectoryId"
+        }
+    }
+
+    public struct RemoveIpRoutesResult: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct RemoveTagsFromResourceRequest: AWSShape {
@@ -2878,137 +2261,754 @@ extension DirectoryService {
         }
     }
 
-    public struct AddIpRoutesRequest: AWSShape {
+    public struct RemoveTagsFromResourceResult: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public enum ReplicationScope: String, CustomStringConvertible, Codable {
+        case domain = "Domain"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ResetUserPasswordRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IpRoutes", required: true, type: .list), 
             AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "UpdateSecurityGroupForDirectoryControllers", required: false, type: .boolean)
+            AWSShapeMember(label: "NewPassword", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string)
         ]
-        /// IP address blocks, using CIDR format, of the traffic to route. This is often the IP address block of the DNS server used for your on-premises domain.
-        public let ipRoutes: [IpRoute]
-        /// Identifier (ID) of the directory to which to add the address block.
+        /// Identifier of the AWS Managed Microsoft AD or Simple AD directory in which the user resides.
         public let directoryId: String
-        /// If set to true, updates the inbound and outbound rules of the security group that has the description: "AWS created security group for directory ID directory controllers." Following are the new rules:  Inbound:   Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 3268-33269, Source: 0.0.0.0/0   Type: DNS (UDP), Protocol: UDP, Range: 53, Source: 0.0.0.0/0   Type: DNS (TCP), Protocol: TCP, Range: 53, Source: 0.0.0.0/0   Type: LDAP, Protocol: TCP, Range: 389, Source: 0.0.0.0/0   Type: All ICMP, Protocol: All, Range: N/A, Source: 0.0.0.0/0    Outbound:   Type: All traffic, Protocol: All, Range: All, Destination: 0.0.0.0/0   These security rules impact an internal network interface that is not exposed publicly.
-        public let updateSecurityGroupForDirectoryControllers: Bool?
+        /// The new password that will be reset.
+        public let newPassword: String
+        /// The user name of the user whose password will be reset.
+        public let userName: String
 
-        public init(directoryId: String, ipRoutes: [IpRoute], updateSecurityGroupForDirectoryControllers: Bool? = nil) {
-            self.ipRoutes = ipRoutes
+        public init(directoryId: String, newPassword: String, userName: String) {
             self.directoryId = directoryId
-            self.updateSecurityGroupForDirectoryControllers = updateSecurityGroupForDirectoryControllers
+            self.newPassword = newPassword
+            self.userName = userName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ipRoutes = "IpRoutes"
             case directoryId = "DirectoryId"
-            case updateSecurityGroupForDirectoryControllers = "UpdateSecurityGroupForDirectoryControllers"
+            case newPassword = "NewPassword"
+            case userName = "UserName"
         }
     }
 
-    public struct DomainController: AWSShape {
+    public struct ResetUserPasswordResult: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct RestoreFromSnapshotRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StatusLastUpdatedDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SnapshotId", required: true, type: .string)
+        ]
+        /// The identifier of the snapshot to restore from.
+        public let snapshotId: String
+
+        public init(snapshotId: String) {
+            self.snapshotId = snapshotId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotId = "SnapshotId"
+        }
+    }
+
+    public struct RestoreFromSnapshotResult: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct SchemaExtensionInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "LaunchTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DnsIpAddr", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string), 
-            AWSShapeMember(label: "DomainControllerId", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "StatusReason", required: false, type: .string)
+            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SchemaExtensionId", required: false, type: .string), 
+            AWSShapeMember(label: "SchemaExtensionStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "SchemaExtensionStatusReason", required: false, type: .string), 
+            AWSShapeMember(label: "StartDateTime", required: false, type: .timestamp)
         ]
-        /// The date and time that the status was last updated.
-        public let statusLastUpdatedDateTime: TimeStamp?
-        /// Identifier of the directory where the domain controller resides.
+        /// A description of the schema extension.
+        public let description: String?
+        /// The identifier of the directory to which the schema extension is applied.
         public let directoryId: String?
-        /// Specifies when the domain controller was created.
-        public let launchTime: TimeStamp?
-        /// The IP address of the domain controller.
-        public let dnsIpAddr: String?
-        /// The status of the domain controller.
-        public let status: DomainControllerStatus?
-        /// The Availability Zone where the domain controller is located.
-        public let availabilityZone: String?
-        /// The identifier of the VPC that contains the domain controller.
-        public let vpcId: String?
-        /// Identifies a specific domain controller in the directory.
-        public let domainControllerId: String?
-        /// Identifier of the subnet in the VPC that contains the domain controller.
-        public let subnetId: String?
-        /// A description of the domain controller state.
-        public let statusReason: String?
+        /// The date and time that the schema extension was completed.
+        public let endDateTime: TimeStamp?
+        /// The identifier of the schema extension.
+        public let schemaExtensionId: String?
+        /// The current status of the schema extension.
+        public let schemaExtensionStatus: SchemaExtensionStatus?
+        /// The reason for the SchemaExtensionStatus.
+        public let schemaExtensionStatusReason: String?
+        /// The date and time that the schema extension started being applied to the directory.
+        public let startDateTime: TimeStamp?
 
-        public init(availabilityZone: String? = nil, directoryId: String? = nil, dnsIpAddr: String? = nil, domainControllerId: String? = nil, launchTime: TimeStamp? = nil, status: DomainControllerStatus? = nil, statusLastUpdatedDateTime: TimeStamp? = nil, statusReason: String? = nil, subnetId: String? = nil, vpcId: String? = nil) {
-            self.statusLastUpdatedDateTime = statusLastUpdatedDateTime
+        public init(description: String? = nil, directoryId: String? = nil, endDateTime: TimeStamp? = nil, schemaExtensionId: String? = nil, schemaExtensionStatus: SchemaExtensionStatus? = nil, schemaExtensionStatusReason: String? = nil, startDateTime: TimeStamp? = nil) {
+            self.description = description
             self.directoryId = directoryId
-            self.launchTime = launchTime
-            self.dnsIpAddr = dnsIpAddr
-            self.status = status
-            self.availabilityZone = availabilityZone
-            self.vpcId = vpcId
-            self.domainControllerId = domainControllerId
-            self.subnetId = subnetId
-            self.statusReason = statusReason
+            self.endDateTime = endDateTime
+            self.schemaExtensionId = schemaExtensionId
+            self.schemaExtensionStatus = schemaExtensionStatus
+            self.schemaExtensionStatusReason = schemaExtensionStatusReason
+            self.startDateTime = startDateTime
         }
 
         private enum CodingKeys: String, CodingKey {
-            case statusLastUpdatedDateTime = "StatusLastUpdatedDateTime"
+            case description = "Description"
             case directoryId = "DirectoryId"
-            case launchTime = "LaunchTime"
-            case dnsIpAddr = "DnsIpAddr"
+            case endDateTime = "EndDateTime"
+            case schemaExtensionId = "SchemaExtensionId"
+            case schemaExtensionStatus = "SchemaExtensionStatus"
+            case schemaExtensionStatusReason = "SchemaExtensionStatusReason"
+            case startDateTime = "StartDateTime"
+        }
+    }
+
+    public enum SchemaExtensionStatus: String, CustomStringConvertible, Codable {
+        case initializing = "Initializing"
+        case creatingsnapshot = "CreatingSnapshot"
+        case updatingschema = "UpdatingSchema"
+        case replicating = "Replicating"
+        case cancelinprogress = "CancelInProgress"
+        case rollbackinprogress = "RollbackInProgress"
+        case cancelled = "Cancelled"
+        case failed = "Failed"
+        case completed = "Completed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SelectiveAuth: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ShareDirectoryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "ShareMethod", required: true, type: .enum), 
+            AWSShapeMember(label: "ShareNotes", required: false, type: .string), 
+            AWSShapeMember(label: "ShareTarget", required: true, type: .structure)
+        ]
+        /// Identifier of the AWS Managed Microsoft AD directory that you want to share with other AWS accounts.
+        public let directoryId: String
+        /// The method used when sharing a directory to determine whether the directory should be shared within your AWS organization (ORGANIZATIONS) or with any AWS account by sending a directory sharing request (HANDSHAKE).
+        public let shareMethod: ShareMethod
+        /// A directory share request that is sent by the directory owner to the directory consumer. The request includes a typed message to help the directory consumer administrator determine whether to approve or reject the share invitation.
+        public let shareNotes: String?
+        /// Identifier for the directory consumer account with whom the directory is to be shared.
+        public let shareTarget: ShareTarget
+
+        public init(directoryId: String, shareMethod: ShareMethod, shareNotes: String? = nil, shareTarget: ShareTarget) {
+            self.directoryId = directoryId
+            self.shareMethod = shareMethod
+            self.shareNotes = shareNotes
+            self.shareTarget = shareTarget
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case shareMethod = "ShareMethod"
+            case shareNotes = "ShareNotes"
+            case shareTarget = "ShareTarget"
+        }
+    }
+
+    public struct ShareDirectoryResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SharedDirectoryId", required: false, type: .string)
+        ]
+        /// Identifier of the directory that is stored in the directory consumer account that is shared from the specified directory (DirectoryId).
+        public let sharedDirectoryId: String?
+
+        public init(sharedDirectoryId: String? = nil) {
+            self.sharedDirectoryId = sharedDirectoryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sharedDirectoryId = "SharedDirectoryId"
+        }
+    }
+
+    public enum ShareMethod: String, CustomStringConvertible, Codable {
+        case organizations = "ORGANIZATIONS"
+        case handshake = "HANDSHAKE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ShareStatus: String, CustomStringConvertible, Codable {
+        case shared = "Shared"
+        case pendingacceptance = "PendingAcceptance"
+        case rejected = "Rejected"
+        case rejecting = "Rejecting"
+        case rejectfailed = "RejectFailed"
+        case sharing = "Sharing"
+        case sharefailed = "ShareFailed"
+        case deleted = "Deleted"
+        case deleting = "Deleting"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ShareTarget: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
+        ]
+        /// Identifier of the directory consumer account.
+        public let id: String
+        /// Type of identifier to be used in the Id field.
+        public let `type`: TargetType
+
+        public init(id: String, type: TargetType) {
+            self.id = id
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case `type` = "Type"
+        }
+    }
+
+    public struct SharedDirectory: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastUpdatedDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "OwnerAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "OwnerDirectoryId", required: false, type: .string), 
+            AWSShapeMember(label: "ShareMethod", required: false, type: .enum), 
+            AWSShapeMember(label: "ShareNotes", required: false, type: .string), 
+            AWSShapeMember(label: "ShareStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "SharedAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "SharedDirectoryId", required: false, type: .string)
+        ]
+        /// The date and time that the shared directory was created.
+        public let createdDateTime: TimeStamp?
+        /// The date and time that the shared directory was last updated.
+        public let lastUpdatedDateTime: TimeStamp?
+        /// Identifier of the directory owner account, which contains the directory that has been shared to the consumer account.
+        public let ownerAccountId: String?
+        /// Identifier of the directory in the directory owner account. 
+        public let ownerDirectoryId: String?
+        /// The method used when sharing a directory to determine whether the directory should be shared within your AWS organization (ORGANIZATIONS) or with any AWS account by sending a shared directory request (HANDSHAKE).
+        public let shareMethod: ShareMethod?
+        /// A directory share request that is sent by the directory owner to the directory consumer. The request includes a typed message to help the directory consumer administrator determine whether to approve or reject the share invitation.
+        public let shareNotes: String?
+        /// Current directory status of the shared AWS Managed Microsoft AD directory.
+        public let shareStatus: ShareStatus?
+        /// Identifier of the directory consumer account that has access to the shared directory (OwnerDirectoryId) in the directory owner account.
+        public let sharedAccountId: String?
+        /// Identifier of the shared directory in the directory consumer account. This identifier is different for each directory owner account.
+        public let sharedDirectoryId: String?
+
+        public init(createdDateTime: TimeStamp? = nil, lastUpdatedDateTime: TimeStamp? = nil, ownerAccountId: String? = nil, ownerDirectoryId: String? = nil, shareMethod: ShareMethod? = nil, shareNotes: String? = nil, shareStatus: ShareStatus? = nil, sharedAccountId: String? = nil, sharedDirectoryId: String? = nil) {
+            self.createdDateTime = createdDateTime
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.ownerAccountId = ownerAccountId
+            self.ownerDirectoryId = ownerDirectoryId
+            self.shareMethod = shareMethod
+            self.shareNotes = shareNotes
+            self.shareStatus = shareStatus
+            self.sharedAccountId = sharedAccountId
+            self.sharedDirectoryId = sharedDirectoryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdDateTime = "CreatedDateTime"
+            case lastUpdatedDateTime = "LastUpdatedDateTime"
+            case ownerAccountId = "OwnerAccountId"
+            case ownerDirectoryId = "OwnerDirectoryId"
+            case shareMethod = "ShareMethod"
+            case shareNotes = "ShareNotes"
+            case shareStatus = "ShareStatus"
+            case sharedAccountId = "SharedAccountId"
+            case sharedDirectoryId = "SharedDirectoryId"
+        }
+    }
+
+    public struct Snapshot: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+        /// The directory identifier.
+        public let directoryId: String?
+        /// The descriptive name of the snapshot.
+        public let name: String?
+        /// The snapshot identifier.
+        public let snapshotId: String?
+        /// The date and time that the snapshot was taken.
+        public let startTime: TimeStamp?
+        /// The snapshot status.
+        public let status: SnapshotStatus?
+        /// The snapshot type.
+        public let `type`: SnapshotType?
+
+        public init(directoryId: String? = nil, name: String? = nil, snapshotId: String? = nil, startTime: TimeStamp? = nil, status: SnapshotStatus? = nil, type: SnapshotType? = nil) {
+            self.directoryId = directoryId
+            self.name = name
+            self.snapshotId = snapshotId
+            self.startTime = startTime
+            self.status = status
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case name = "Name"
+            case snapshotId = "SnapshotId"
+            case startTime = "StartTime"
             case status = "Status"
-            case availabilityZone = "AvailabilityZone"
-            case vpcId = "VpcId"
-            case domainControllerId = "DomainControllerId"
-            case subnetId = "SubnetId"
-            case statusReason = "StatusReason"
+            case `type` = "Type"
         }
     }
 
-    public struct DirectoryConnectSettings: AWSShape {
+    public struct SnapshotLimits: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
-            AWSShapeMember(label: "CustomerUserName", required: true, type: .string), 
-            AWSShapeMember(label: "VpcId", required: true, type: .string), 
-            AWSShapeMember(label: "CustomerDnsIps", required: true, type: .list)
+            AWSShapeMember(label: "ManualSnapshotsCurrentCount", required: false, type: .integer), 
+            AWSShapeMember(label: "ManualSnapshotsLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "ManualSnapshotsLimitReached", required: false, type: .boolean)
         ]
-        /// A list of subnet identifiers in the VPC in which the AD Connector is created.
-        public let subnetIds: [String]
-        /// The user name of an account in the on-premises directory that is used to connect to the directory. This account must have the following permissions:   Read users and groups   Create computer objects   Join computers to the domain  
-        public let customerUserName: String
-        /// The identifier of the VPC in which the AD Connector is created.
-        public let vpcId: String
-        /// A list of one or more IP addresses of DNS servers or domain controllers in the on-premises directory.
-        public let customerDnsIps: [String]
+        /// The current number of manual snapshots of the directory.
+        public let manualSnapshotsCurrentCount: Int32?
+        /// The maximum number of manual snapshots allowed.
+        public let manualSnapshotsLimit: Int32?
+        /// Indicates if the manual snapshot limit has been reached.
+        public let manualSnapshotsLimitReached: Bool?
 
-        public init(customerDnsIps: [String], customerUserName: String, subnetIds: [String], vpcId: String) {
-            self.subnetIds = subnetIds
-            self.customerUserName = customerUserName
-            self.vpcId = vpcId
-            self.customerDnsIps = customerDnsIps
+        public init(manualSnapshotsCurrentCount: Int32? = nil, manualSnapshotsLimit: Int32? = nil, manualSnapshotsLimitReached: Bool? = nil) {
+            self.manualSnapshotsCurrentCount = manualSnapshotsCurrentCount
+            self.manualSnapshotsLimit = manualSnapshotsLimit
+            self.manualSnapshotsLimitReached = manualSnapshotsLimitReached
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subnetIds = "SubnetIds"
-            case customerUserName = "CustomerUserName"
-            case vpcId = "VpcId"
-            case customerDnsIps = "CustomerDnsIps"
+            case manualSnapshotsCurrentCount = "ManualSnapshotsCurrentCount"
+            case manualSnapshotsLimit = "ManualSnapshotsLimit"
+            case manualSnapshotsLimitReached = "ManualSnapshotsLimitReached"
         }
     }
 
-    public struct GetSnapshotLimitsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotLimits", required: false, type: .structure)
-        ]
-        /// A SnapshotLimits object that contains the manual snapshot limits for the specified directory.
-        public let snapshotLimits: SnapshotLimits?
+    public enum SnapshotStatus: String, CustomStringConvertible, Codable {
+        case creating = "Creating"
+        case completed = "Completed"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(snapshotLimits: SnapshotLimits? = nil) {
-            self.snapshotLimits = snapshotLimits
+    public enum SnapshotType: String, CustomStringConvertible, Codable {
+        case auto = "Auto"
+        case manual = "Manual"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct StartSchemaExtensionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateSnapshotBeforeSchemaExtension", required: true, type: .boolean), 
+            AWSShapeMember(label: "Description", required: true, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "LdifContent", required: true, type: .string)
+        ]
+        /// If true, creates a snapshot of the directory before applying the schema extension.
+        public let createSnapshotBeforeSchemaExtension: Bool
+        /// A description of the schema extension.
+        public let description: String
+        /// The identifier of the directory for which the schema extension will be applied to.
+        public let directoryId: String
+        /// The LDIF file represented as a string. To construct the LdifContent string, precede each line as it would be formatted in an ldif file with \n. See the example request below for more details. The file size can be no larger than 1MB.
+        public let ldifContent: String
+
+        public init(createSnapshotBeforeSchemaExtension: Bool, description: String, directoryId: String, ldifContent: String) {
+            self.createSnapshotBeforeSchemaExtension = createSnapshotBeforeSchemaExtension
+            self.description = description
+            self.directoryId = directoryId
+            self.ldifContent = ldifContent
         }
 
         private enum CodingKeys: String, CodingKey {
-            case snapshotLimits = "SnapshotLimits"
+            case createSnapshotBeforeSchemaExtension = "CreateSnapshotBeforeSchemaExtension"
+            case description = "Description"
+            case directoryId = "DirectoryId"
+            case ldifContent = "LdifContent"
+        }
+    }
+
+    public struct StartSchemaExtensionResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaExtensionId", required: false, type: .string)
+        ]
+        /// The identifier of the schema extension that will be applied.
+        public let schemaExtensionId: String?
+
+        public init(schemaExtensionId: String? = nil) {
+            self.schemaExtensionId = schemaExtensionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaExtensionId = "SchemaExtensionId"
+        }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+        /// Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+        public let key: String
+        /// The optional value of the tag. The string value can be Unicode characters. The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public enum TargetType: String, CustomStringConvertible, Codable {
+        case account = "ACCOUNT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TopicStatus: String, CustomStringConvertible, Codable {
+        case registered = "Registered"
+        case topicNotFound = "Topic not found"
+        case failed = "Failed"
+        case deleted = "Deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Trust: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RemoteDomainName", required: false, type: .string), 
+            AWSShapeMember(label: "SelectiveAuth", required: false, type: .enum), 
+            AWSShapeMember(label: "StateLastUpdatedDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TrustDirection", required: false, type: .enum), 
+            AWSShapeMember(label: "TrustId", required: false, type: .string), 
+            AWSShapeMember(label: "TrustState", required: false, type: .enum), 
+            AWSShapeMember(label: "TrustStateReason", required: false, type: .string), 
+            AWSShapeMember(label: "TrustType", required: false, type: .enum)
+        ]
+        /// The date and time that the trust relationship was created.
+        public let createdDateTime: TimeStamp?
+        /// The Directory ID of the AWS directory involved in the trust relationship.
+        public let directoryId: String?
+        /// The date and time that the trust relationship was last updated.
+        public let lastUpdatedDateTime: TimeStamp?
+        /// The Fully Qualified Domain Name (FQDN) of the external domain involved in the trust relationship.
+        public let remoteDomainName: String?
+        /// Current state of selective authentication for the trust.
+        public let selectiveAuth: SelectiveAuth?
+        /// The date and time that the TrustState was last updated.
+        public let stateLastUpdatedDateTime: TimeStamp?
+        /// The trust relationship direction.
+        public let trustDirection: TrustDirection?
+        /// The unique ID of the trust relationship.
+        public let trustId: String?
+        /// The trust relationship state.
+        public let trustState: TrustState?
+        /// The reason for the TrustState.
+        public let trustStateReason: String?
+        /// The trust relationship type. Forest is the default.
+        public let trustType: TrustType?
+
+        public init(createdDateTime: TimeStamp? = nil, directoryId: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, remoteDomainName: String? = nil, selectiveAuth: SelectiveAuth? = nil, stateLastUpdatedDateTime: TimeStamp? = nil, trustDirection: TrustDirection? = nil, trustId: String? = nil, trustState: TrustState? = nil, trustStateReason: String? = nil, trustType: TrustType? = nil) {
+            self.createdDateTime = createdDateTime
+            self.directoryId = directoryId
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.remoteDomainName = remoteDomainName
+            self.selectiveAuth = selectiveAuth
+            self.stateLastUpdatedDateTime = stateLastUpdatedDateTime
+            self.trustDirection = trustDirection
+            self.trustId = trustId
+            self.trustState = trustState
+            self.trustStateReason = trustStateReason
+            self.trustType = trustType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdDateTime = "CreatedDateTime"
+            case directoryId = "DirectoryId"
+            case lastUpdatedDateTime = "LastUpdatedDateTime"
+            case remoteDomainName = "RemoteDomainName"
+            case selectiveAuth = "SelectiveAuth"
+            case stateLastUpdatedDateTime = "StateLastUpdatedDateTime"
+            case trustDirection = "TrustDirection"
+            case trustId = "TrustId"
+            case trustState = "TrustState"
+            case trustStateReason = "TrustStateReason"
+            case trustType = "TrustType"
+        }
+    }
+
+    public enum TrustDirection: String, CustomStringConvertible, Codable {
+        case oneWayOutgoing = "One-Way: Outgoing"
+        case oneWayIncoming = "One-Way: Incoming"
+        case twoWay = "Two-Way"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrustState: String, CustomStringConvertible, Codable {
+        case creating = "Creating"
+        case created = "Created"
+        case verifying = "Verifying"
+        case verifyfailed = "VerifyFailed"
+        case verified = "Verified"
+        case updating = "Updating"
+        case updatefailed = "UpdateFailed"
+        case updated = "Updated"
+        case deleting = "Deleting"
+        case deleted = "Deleted"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrustType: String, CustomStringConvertible, Codable {
+        case forest = "Forest"
+        case external = "External"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UnshareDirectoryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "UnshareTarget", required: true, type: .structure)
+        ]
+        /// The identifier of the AWS Managed Microsoft AD directory that you want to stop sharing.
+        public let directoryId: String
+        /// Identifier for the directory consumer account with whom the directory has to be unshared.
+        public let unshareTarget: UnshareTarget
+
+        public init(directoryId: String, unshareTarget: UnshareTarget) {
+            self.directoryId = directoryId
+            self.unshareTarget = unshareTarget
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case unshareTarget = "UnshareTarget"
+        }
+    }
+
+    public struct UnshareDirectoryResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SharedDirectoryId", required: false, type: .string)
+        ]
+        /// Identifier of the directory stored in the directory consumer account that is to be unshared from the specified directory (DirectoryId).
+        public let sharedDirectoryId: String?
+
+        public init(sharedDirectoryId: String? = nil) {
+            self.sharedDirectoryId = sharedDirectoryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sharedDirectoryId = "SharedDirectoryId"
+        }
+    }
+
+    public struct UnshareTarget: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
+        ]
+        /// Identifier of the directory consumer account.
+        public let id: String
+        /// Type of identifier to be used in the Id field.
+        public let `type`: TargetType
+
+        public init(id: String, type: TargetType) {
+            self.id = id
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case `type` = "Type"
+        }
+    }
+
+    public struct UpdateConditionalForwarderRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "DnsIpAddrs", required: true, type: .list), 
+            AWSShapeMember(label: "RemoteDomainName", required: true, type: .string)
+        ]
+        /// The directory ID of the AWS directory for which to update the conditional forwarder.
+        public let directoryId: String
+        /// The updated IP addresses of the remote DNS server associated with the conditional forwarder.
+        public let dnsIpAddrs: [String]
+        /// The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship.
+        public let remoteDomainName: String
+
+        public init(directoryId: String, dnsIpAddrs: [String], remoteDomainName: String) {
+            self.directoryId = directoryId
+            self.dnsIpAddrs = dnsIpAddrs
+            self.remoteDomainName = remoteDomainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case dnsIpAddrs = "DnsIpAddrs"
+            case remoteDomainName = "RemoteDomainName"
+        }
+    }
+
+    public struct UpdateConditionalForwarderResult: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateNumberOfDomainControllersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DesiredNumber", required: true, type: .integer), 
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
+        ]
+        /// The number of domain controllers desired in the directory.
+        public let desiredNumber: Int32
+        /// Identifier of the directory to which the domain controllers will be added or removed.
+        public let directoryId: String
+
+        public init(desiredNumber: Int32, directoryId: String) {
+            self.desiredNumber = desiredNumber
+            self.directoryId = directoryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case desiredNumber = "DesiredNumber"
+            case directoryId = "DirectoryId"
+        }
+    }
+
+    public struct UpdateNumberOfDomainControllersResult: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateRadiusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "RadiusSettings", required: true, type: .structure)
+        ]
+        /// The identifier of the directory for which to update the RADIUS server information.
+        public let directoryId: String
+        /// A RadiusSettings object that contains information about the RADIUS server.
+        public let radiusSettings: RadiusSettings
+
+        public init(directoryId: String, radiusSettings: RadiusSettings) {
+            self.directoryId = directoryId
+            self.radiusSettings = radiusSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case radiusSettings = "RadiusSettings"
+        }
+    }
+
+    public struct UpdateRadiusResult: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateTrustRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SelectiveAuth", required: false, type: .enum), 
+            AWSShapeMember(label: "TrustId", required: true, type: .string)
+        ]
+        /// Updates selective authentication for the trust.
+        public let selectiveAuth: SelectiveAuth?
+        /// Identifier of the trust relationship.
+        public let trustId: String
+
+        public init(selectiveAuth: SelectiveAuth? = nil, trustId: String) {
+            self.selectiveAuth = selectiveAuth
+            self.trustId = trustId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case selectiveAuth = "SelectiveAuth"
+            case trustId = "TrustId"
+        }
+    }
+
+    public struct UpdateTrustResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "TrustId", required: false, type: .string)
+        ]
+        public let requestId: String?
+        /// Identifier of the trust relationship.
+        public let trustId: String?
+
+        public init(requestId: String? = nil, trustId: String? = nil) {
+            self.requestId = requestId
+            self.trustId = trustId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case trustId = "TrustId"
+        }
+    }
+
+    public struct VerifyTrustRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrustId", required: true, type: .string)
+        ]
+        /// The unique Trust ID of the trust relationship to verify.
+        public let trustId: String
+
+        public init(trustId: String) {
+            self.trustId = trustId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trustId = "TrustId"
+        }
+    }
+
+    public struct VerifyTrustResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrustId", required: false, type: .string)
+        ]
+        /// The unique Trust ID of the trust relationship that was verified.
+        public let trustId: String?
+
+        public init(trustId: String? = nil) {
+            self.trustId = trustId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trustId = "TrustId"
         }
     }
 

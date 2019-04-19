@@ -4,18 +4,18 @@ import AWSSDKSwiftCore
 
 /// Error enum for GlobalAccelerator
 public enum GlobalAcceleratorErrorType: AWSErrorType {
+    case acceleratorNotDisabledException(message: String?)
+    case acceleratorNotFoundException(message: String?)
+    case associatedEndpointGroupFoundException(message: String?)
+    case associatedListenerFoundException(message: String?)
+    case endpointGroupAlreadyExistsException(message: String?)
+    case endpointGroupNotFoundException(message: String?)
     case internalServiceErrorException(message: String?)
     case invalidArgumentException(message: String?)
-    case limitExceededException(message: String?)
-    case acceleratorNotFoundException(message: String?)
     case invalidNextTokenException(message: String?)
-    case endpointGroupNotFoundException(message: String?)
-    case endpointGroupAlreadyExistsException(message: String?)
-    case listenerNotFoundException(message: String?)
-    case acceleratorNotDisabledException(message: String?)
-    case associatedListenerFoundException(message: String?)
     case invalidPortRangeException(message: String?)
-    case associatedEndpointGroupFoundException(message: String?)
+    case limitExceededException(message: String?)
+    case listenerNotFoundException(message: String?)
 }
 
 extension GlobalAcceleratorErrorType {
@@ -25,30 +25,30 @@ extension GlobalAcceleratorErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "AcceleratorNotDisabledException":
+            self = .acceleratorNotDisabledException(message: message)
+        case "AcceleratorNotFoundException":
+            self = .acceleratorNotFoundException(message: message)
+        case "AssociatedEndpointGroupFoundException":
+            self = .associatedEndpointGroupFoundException(message: message)
+        case "AssociatedListenerFoundException":
+            self = .associatedListenerFoundException(message: message)
+        case "EndpointGroupAlreadyExistsException":
+            self = .endpointGroupAlreadyExistsException(message: message)
+        case "EndpointGroupNotFoundException":
+            self = .endpointGroupNotFoundException(message: message)
         case "InternalServiceErrorException":
             self = .internalServiceErrorException(message: message)
         case "InvalidArgumentException":
             self = .invalidArgumentException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "AcceleratorNotFoundException":
-            self = .acceleratorNotFoundException(message: message)
         case "InvalidNextTokenException":
             self = .invalidNextTokenException(message: message)
-        case "EndpointGroupNotFoundException":
-            self = .endpointGroupNotFoundException(message: message)
-        case "EndpointGroupAlreadyExistsException":
-            self = .endpointGroupAlreadyExistsException(message: message)
-        case "ListenerNotFoundException":
-            self = .listenerNotFoundException(message: message)
-        case "AcceleratorNotDisabledException":
-            self = .acceleratorNotDisabledException(message: message)
-        case "AssociatedListenerFoundException":
-            self = .associatedListenerFoundException(message: message)
         case "InvalidPortRangeException":
             self = .invalidPortRangeException(message: message)
-        case "AssociatedEndpointGroupFoundException":
-            self = .associatedEndpointGroupFoundException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
+        case "ListenerNotFoundException":
+            self = .listenerNotFoundException(message: message)
         default:
             return nil
         }

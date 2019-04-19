@@ -5,222 +5,29 @@ import AWSSDKSwiftCore
 
 extension MQ {
 
-    public struct DescribeConfigurationRequest: AWSShape {
+    public struct BrokerInstance: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationId", location: .uri(locationName: "configuration-id"), required: true, type: .string)
+            AWSShapeMember(label: "ConsoleURL", location: .body(locationName: "consoleURL"), required: false, type: .string), 
+            AWSShapeMember(label: "Endpoints", location: .body(locationName: "endpoints"), required: false, type: .list), 
+            AWSShapeMember(label: "IpAddress", location: .body(locationName: "ipAddress"), required: false, type: .string)
         ]
-        public let configurationId: String
+        /// The URL of the broker's ActiveMQ Web Console.
+        public let consoleURL: String?
+        /// The broker's wire-level protocol endpoints.
+        public let endpoints: [String]?
+        /// The IP address of the Elastic Network Interface (ENI) attached to the broker.
+        public let ipAddress: String?
 
-        public init(configurationId: String) {
-            self.configurationId = configurationId
+        public init(consoleURL: String? = nil, endpoints: [String]? = nil, ipAddress: String? = nil) {
+            self.consoleURL = consoleURL
+            self.endpoints = endpoints
+            self.ipAddress = ipAddress
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationId = "configuration-id"
-        }
-    }
-
-    public enum EngineType: String, CustomStringConvertible, Codable {
-        case activemq = "ACTIVEMQ"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DeploymentMode: String, CustomStringConvertible, Codable {
-        case singleInstance = "SINGLE_INSTANCE"
-        case activeStandbyMultiAz = "ACTIVE_STANDBY_MULTI_AZ"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateUserInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Groups", location: .body(locationName: "groups"), required: false, type: .list), 
-            AWSShapeMember(label: "Password", location: .body(locationName: "password"), required: false, type: .string), 
-            AWSShapeMember(label: "ConsoleAccess", location: .body(locationName: "consoleAccess"), required: false, type: .boolean)
-        ]
-        /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
-        public let groups: [String]?
-        /// The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas.
-        public let password: String?
-        /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
-        public let consoleAccess: Bool?
-
-        public init(consoleAccess: Bool? = nil, groups: [String]? = nil, password: String? = nil) {
-            self.groups = groups
-            self.password = password
-            self.consoleAccess = consoleAccess
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groups = "groups"
-            case password = "password"
-            case consoleAccess = "consoleAccess"
-        }
-    }
-
-    public struct ListBrokersOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "BrokerSummaries", location: .body(locationName: "brokerSummaries"), required: false, type: .list)
-        ]
-        /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
-        public let nextToken: String?
-        /// A list of information about all brokers.
-        public let brokerSummaries: [BrokerSummary]?
-
-        public init(brokerSummaries: [BrokerSummary]? = nil, nextToken: String? = nil) {
-            self.nextToken = nextToken
-            self.brokerSummaries = brokerSummaries
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case brokerSummaries = "brokerSummaries"
-        }
-    }
-
-    public struct DescribeUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
-            AWSShapeMember(label: "ConsoleAccess", location: .body(locationName: "consoleAccess"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Pending", location: .body(locationName: "pending"), required: false, type: .structure), 
-            AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string), 
-            AWSShapeMember(label: "Groups", location: .body(locationName: "groups"), required: false, type: .list)
-        ]
-        public let brokerId: String?
-        public let consoleAccess: Bool?
-        public let pending: UserPendingChanges?
-        public let username: String?
-        public let groups: [String]?
-
-        public init(brokerId: String? = nil, consoleAccess: Bool? = nil, groups: [String]? = nil, pending: UserPendingChanges? = nil, username: String? = nil) {
-            self.brokerId = brokerId
-            self.consoleAccess = consoleAccess
-            self.pending = pending
-            self.username = username
-            self.groups = groups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case brokerId = "brokerId"
-            case consoleAccess = "consoleAccess"
-            case pending = "pending"
-            case username = "username"
-            case groups = "groups"
-        }
-    }
-
-    public struct DeleteUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Username", location: .uri(locationName: "username"), required: true, type: .string), 
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string)
-        ]
-        public let username: String
-        public let brokerId: String
-
-        public init(brokerId: String, username: String) {
-            self.username = username
-            self.brokerId = brokerId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case username = "username"
-            case brokerId = "broker-id"
-        }
-    }
-
-    public struct UpdateBrokerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", location: .body(locationName: "autoMinorVersionUpgrade"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Configuration", location: .body(locationName: "configuration"), required: false, type: .structure), 
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string), 
-            AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure), 
-            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string)
-        ]
-        public let autoMinorVersionUpgrade: Bool?
-        public let configuration: ConfigurationId?
-        public let brokerId: String
-        public let logs: Logs?
-        public let engineVersion: String?
-
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerId: String, configuration: ConfigurationId? = nil, engineVersion: String? = nil, logs: Logs? = nil) {
-            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
-            self.configuration = configuration
-            self.brokerId = brokerId
-            self.logs = logs
-            self.engineVersion = engineVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
-            case configuration = "configuration"
-            case brokerId = "broker-id"
-            case logs = "logs"
-            case engineVersion = "engineVersion"
-        }
-    }
-
-    public struct DeleteBrokerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string)
-        ]
-        public let brokerId: String?
-
-        public init(brokerId: String? = nil) {
-            self.brokerId = brokerId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case brokerId = "brokerId"
-        }
-    }
-
-    public struct ListConfigurationRevisionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "ConfigurationId", location: .body(locationName: "configurationId"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "Revisions", location: .body(locationName: "revisions"), required: false, type: .list)
-        ]
-        public let nextToken: String?
-        public let configurationId: String?
-        public let maxResults: Int32?
-        public let revisions: [ConfigurationRevision]?
-
-        public init(configurationId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, revisions: [ConfigurationRevision]? = nil) {
-            self.nextToken = nextToken
-            self.configurationId = configurationId
-            self.maxResults = maxResults
-            self.revisions = revisions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case configurationId = "configurationId"
-            case maxResults = "maxResults"
-            case revisions = "revisions"
-        }
-    }
-
-    public struct ListConfigurationRevisionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationId", location: .uri(locationName: "configuration-id"), required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
-        ]
-        public let configurationId: String
-        public let nextToken: String?
-        public let maxResults: Int32?
-
-        public init(configurationId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.configurationId = configurationId
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configurationId = "configuration-id"
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
+            case consoleURL = "consoleURL"
+            case endpoints = "endpoints"
+            case ipAddress = "ipAddress"
         }
     }
 
@@ -233,70 +40,128 @@ extension MQ {
         public var description: String { return self.rawValue }
     }
 
-    public struct CreateUserRequest: AWSShape {
+    public struct BrokerSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsoleAccess", location: .body(locationName: "consoleAccess"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Groups", location: .body(locationName: "groups"), required: false, type: .list), 
-            AWSShapeMember(label: "Password", location: .body(locationName: "password"), required: false, type: .string), 
-            AWSShapeMember(label: "Username", location: .uri(locationName: "username"), required: true, type: .string), 
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string)
+            AWSShapeMember(label: "BrokerArn", location: .body(locationName: "brokerArn"), required: false, type: .string), 
+            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
+            AWSShapeMember(label: "BrokerName", location: .body(locationName: "brokerName"), required: false, type: .string), 
+            AWSShapeMember(label: "BrokerState", location: .body(locationName: "brokerState"), required: false, type: .enum), 
+            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "DeploymentMode", location: .body(locationName: "deploymentMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "HostInstanceType", location: .body(locationName: "hostInstanceType"), required: false, type: .string)
         ]
-        public let consoleAccess: Bool?
-        public let groups: [String]?
-        public let password: String?
-        public let username: String
-        public let brokerId: String
+        /// The Amazon Resource Name (ARN) of the broker.
+        public let brokerArn: String?
+        /// The unique ID that Amazon MQ generates for the broker.
+        public let brokerId: String?
+        /// The name of the broker. This value must be unique in your AWS account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores, and must not contain whitespaces, brackets, wildcard characters, or special characters.
+        public let brokerName: String?
+        /// The status of the broker.
+        public let brokerState: BrokerState?
+        /// The time when the broker was created.
+        public let created: TimeStamp?
+        /// Required. The deployment mode of the broker.
+        public let deploymentMode: DeploymentMode?
+        /// The broker's instance type.
+        public let hostInstanceType: String?
 
-        public init(brokerId: String, consoleAccess: Bool? = nil, groups: [String]? = nil, password: String? = nil, username: String) {
-            self.consoleAccess = consoleAccess
-            self.groups = groups
-            self.password = password
-            self.username = username
+        public init(brokerArn: String? = nil, brokerId: String? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, created: TimeStamp? = nil, deploymentMode: DeploymentMode? = nil, hostInstanceType: String? = nil) {
+            self.brokerArn = brokerArn
             self.brokerId = brokerId
+            self.brokerName = brokerName
+            self.brokerState = brokerState
+            self.created = created
+            self.deploymentMode = deploymentMode
+            self.hostInstanceType = hostInstanceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case consoleAccess = "consoleAccess"
-            case groups = "groups"
-            case password = "password"
-            case username = "username"
-            case brokerId = "broker-id"
+            case brokerArn = "brokerArn"
+            case brokerId = "brokerId"
+            case brokerName = "brokerName"
+            case brokerState = "brokerState"
+            case created = "created"
+            case deploymentMode = "deploymentMode"
+            case hostInstanceType = "hostInstanceType"
         }
     }
 
-    public struct LogsSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Pending", location: .body(locationName: "pending"), required: false, type: .structure), 
-            AWSShapeMember(label: "GeneralLogGroup", location: .body(locationName: "generalLogGroup"), required: false, type: .string), 
-            AWSShapeMember(label: "General", location: .body(locationName: "general"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Audit", location: .body(locationName: "audit"), required: false, type: .boolean), 
-            AWSShapeMember(label: "AuditLogGroup", location: .body(locationName: "auditLogGroup"), required: false, type: .string)
-        ]
-        /// The list of information about logs pending to be deployed for the specified broker.
-        public let pending: PendingLogs?
-        /// The location of the CloudWatch Logs log group where general logs are sent.
-        public let generalLogGroup: String?
-        /// Enables general logging.
-        public let general: Bool?
-        /// Enables audit logging. Every user management action made using JMX or the ActiveMQ Web Console is logged.
-        public let audit: Bool?
-        /// The location of the CloudWatch Logs log group where audit logs are sent.
-        public let auditLogGroup: String?
+    public enum ChangeType: String, CustomStringConvertible, Codable {
+        case create = "CREATE"
+        case update = "UPDATE"
+        case delete = "DELETE"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(audit: Bool? = nil, auditLogGroup: String? = nil, general: Bool? = nil, generalLogGroup: String? = nil, pending: PendingLogs? = nil) {
-            self.pending = pending
-            self.generalLogGroup = generalLogGroup
-            self.general = general
-            self.audit = audit
-            self.auditLogGroup = auditLogGroup
+    public struct Configuration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
+            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
+        ]
+        /// Required. The ARN of the configuration.
+        public let arn: String?
+        /// Required. The date and time of the configuration revision.
+        public let created: TimeStamp?
+        /// Required. The description of the configuration.
+        public let description: String?
+        /// Required. The type of broker engine. Note: Currently, Amazon MQ supports only ACTIVEMQ.
+        public let engineType: EngineType?
+        /// Required. The version of the broker engine.
+        public let engineVersion: String?
+        /// Required. The unique ID that Amazon MQ generates for the configuration.
+        public let id: String?
+        /// Required. The latest revision of the configuration.
+        public let latestRevision: ConfigurationRevision?
+        /// Required. The name of the configuration. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150 characters long.
+        public let name: String?
+
+        public init(arn: String? = nil, created: TimeStamp? = nil, description: String? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil) {
+            self.arn = arn
+            self.created = created
+            self.description = description
+            self.engineType = engineType
+            self.engineVersion = engineVersion
+            self.id = id
+            self.latestRevision = latestRevision
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pending = "pending"
-            case generalLogGroup = "generalLogGroup"
-            case general = "general"
-            case audit = "audit"
-            case auditLogGroup = "auditLogGroup"
+            case arn = "arn"
+            case created = "created"
+            case description = "description"
+            case engineType = "engineType"
+            case engineVersion = "engineVersion"
+            case id = "id"
+            case latestRevision = "latestRevision"
+            case name = "name"
+        }
+    }
+
+    public struct ConfigurationId: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "Revision", location: .body(locationName: "revision"), required: false, type: .integer)
+        ]
+        /// Required. The unique ID that Amazon MQ generates for the configuration.
+        public let id: String?
+        /// The revision number of the configuration.
+        public let revision: Int32?
+
+        public init(id: String? = nil, revision: Int32? = nil) {
+            self.id = id
+            self.revision = revision
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case revision = "revision"
         }
     }
 
@@ -326,29 +191,1230 @@ extension MQ {
         }
     }
 
-    public struct ListConfigurationsOutput: AWSShape {
+    public struct Configurations: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Configurations", location: .body(locationName: "configurations"), required: false, type: .list)
+            AWSShapeMember(label: "Current", location: .body(locationName: "current"), required: false, type: .structure), 
+            AWSShapeMember(label: "History", location: .body(locationName: "history"), required: false, type: .list), 
+            AWSShapeMember(label: "Pending", location: .body(locationName: "pending"), required: false, type: .structure)
         ]
-        /// The maximum number of configurations that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100.
-        public let maxResults: Int32?
+        /// The current configuration of the broker.
+        public let current: ConfigurationId?
+        /// The history of configurations applied to the broker.
+        public let history: [ConfigurationId]?
+        /// The pending configuration of the broker.
+        public let pending: ConfigurationId?
+
+        public init(current: ConfigurationId? = nil, history: [ConfigurationId]? = nil, pending: ConfigurationId? = nil) {
+            self.current = current
+            self.history = history
+            self.pending = pending
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case current = "current"
+            case history = "history"
+            case pending = "pending"
+        }
+    }
+
+    public struct CreateBrokerInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", location: .body(locationName: "autoMinorVersionUpgrade"), required: false, type: .boolean), 
+            AWSShapeMember(label: "BrokerName", location: .body(locationName: "brokerName"), required: false, type: .string), 
+            AWSShapeMember(label: "Configuration", location: .body(locationName: "configuration"), required: false, type: .structure), 
+            AWSShapeMember(label: "CreatorRequestId", location: .body(locationName: "creatorRequestId"), required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentMode", location: .body(locationName: "deploymentMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
+            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "HostInstanceType", location: .body(locationName: "hostInstanceType"), required: false, type: .string), 
+            AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure), 
+            AWSShapeMember(label: "MaintenanceWindowStartTime", location: .body(locationName: "maintenanceWindowStartTime"), required: false, type: .structure), 
+            AWSShapeMember(label: "PubliclyAccessible", location: .body(locationName: "publiclyAccessible"), required: false, type: .boolean), 
+            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list), 
+            AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIds"), required: false, type: .list), 
+            AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list)
+        ]
+        /// Required. Enables automatic upgrades to new minor versions for brokers, as Apache releases the versions. The automatic upgrades occur during the maintenance window of the broker or after a manual broker reboot.
+        public let autoMinorVersionUpgrade: Bool?
+        /// Required. The name of the broker. This value must be unique in your AWS account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores, and must not contain whitespaces, brackets, wildcard characters, or special characters.
+        public let brokerName: String?
+        /// A list of information about the configuration.
+        public let configuration: ConfigurationId?
+        /// The unique ID that the requester receives for the created broker. Amazon MQ passes your ID with the API action. Note: We recommend using a Universally Unique Identifier (UUID) for the creatorRequestId. You may omit the creatorRequestId if your application doesn't require idempotency.
+        public let creatorRequestId: String?
+        /// Required. The deployment mode of the broker.
+        public let deploymentMode: DeploymentMode?
+        /// Required. The type of broker engine. Note: Currently, Amazon MQ supports only ACTIVEMQ.
+        public let engineType: EngineType?
+        /// Required. The version of the broker engine. Note: Currently, Amazon MQ supports only 5.15.6 and 5.15.0.
+        public let engineVersion: String?
+        /// Required. The broker's instance type.
+        public let hostInstanceType: String?
+        /// Enables Amazon CloudWatch logging for brokers.
+        public let logs: Logs?
+        /// The parameters that determine the WeeklyStartTime.
+        public let maintenanceWindowStartTime: WeeklyStartTime?
+        /// Required. Enables connections from applications outside of the VPC that hosts the broker's subnets.
+        public let publiclyAccessible: Bool?
+        /// The list of rules (1 minimum, 125 maximum) that authorize connections to brokers.
+        public let securityGroups: [String]?
+        /// The list of groups (2 maximum) that define which subnets and IP ranges the broker can use from different Availability Zones. A SINGLE_INSTANCE deployment requires one subnet (for example, the default subnet). An ACTIVE_STANDBY_MULTI_AZ deployment requires two subnets.
+        public let subnetIds: [String]?
+        /// Required. The list of ActiveMQ users (persons or applications) who can access queues and topics. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
+        public let users: [User]?
+
+        public init(autoMinorVersionUpgrade: Bool? = nil, brokerName: String? = nil, configuration: ConfigurationId? = nil, creatorRequestId: String? = nil, deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, users: [User]? = nil) {
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.brokerName = brokerName
+            self.configuration = configuration
+            self.creatorRequestId = creatorRequestId
+            self.deploymentMode = deploymentMode
+            self.engineType = engineType
+            self.engineVersion = engineVersion
+            self.hostInstanceType = hostInstanceType
+            self.logs = logs
+            self.maintenanceWindowStartTime = maintenanceWindowStartTime
+            self.publiclyAccessible = publiclyAccessible
+            self.securityGroups = securityGroups
+            self.subnetIds = subnetIds
+            self.users = users
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
+            case brokerName = "brokerName"
+            case configuration = "configuration"
+            case creatorRequestId = "creatorRequestId"
+            case deploymentMode = "deploymentMode"
+            case engineType = "engineType"
+            case engineVersion = "engineVersion"
+            case hostInstanceType = "hostInstanceType"
+            case logs = "logs"
+            case maintenanceWindowStartTime = "maintenanceWindowStartTime"
+            case publiclyAccessible = "publiclyAccessible"
+            case securityGroups = "securityGroups"
+            case subnetIds = "subnetIds"
+            case users = "users"
+        }
+    }
+
+    public struct CreateBrokerOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BrokerArn", location: .body(locationName: "brokerArn"), required: false, type: .string), 
+            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the broker.
+        public let brokerArn: String?
+        /// The unique ID that Amazon MQ generates for the broker.
+        public let brokerId: String?
+
+        public init(brokerArn: String? = nil, brokerId: String? = nil) {
+            self.brokerArn = brokerArn
+            self.brokerId = brokerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerArn = "brokerArn"
+            case brokerId = "brokerId"
+        }
+    }
+
+    public struct CreateBrokerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", location: .body(locationName: "autoMinorVersionUpgrade"), required: false, type: .boolean), 
+            AWSShapeMember(label: "BrokerName", location: .body(locationName: "brokerName"), required: false, type: .string), 
+            AWSShapeMember(label: "Configuration", location: .body(locationName: "configuration"), required: false, type: .structure), 
+            AWSShapeMember(label: "CreatorRequestId", location: .body(locationName: "creatorRequestId"), required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentMode", location: .body(locationName: "deploymentMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
+            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "HostInstanceType", location: .body(locationName: "hostInstanceType"), required: false, type: .string), 
+            AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure), 
+            AWSShapeMember(label: "MaintenanceWindowStartTime", location: .body(locationName: "maintenanceWindowStartTime"), required: false, type: .structure), 
+            AWSShapeMember(label: "PubliclyAccessible", location: .body(locationName: "publiclyAccessible"), required: false, type: .boolean), 
+            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list), 
+            AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIds"), required: false, type: .list), 
+            AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list)
+        ]
+        public let autoMinorVersionUpgrade: Bool?
+        public let brokerName: String?
+        public let configuration: ConfigurationId?
+        public let creatorRequestId: String?
+        public let deploymentMode: DeploymentMode?
+        public let engineType: EngineType?
+        public let engineVersion: String?
+        public let hostInstanceType: String?
+        public let logs: Logs?
+        public let maintenanceWindowStartTime: WeeklyStartTime?
+        public let publiclyAccessible: Bool?
+        public let securityGroups: [String]?
+        public let subnetIds: [String]?
+        public let users: [User]?
+
+        public init(autoMinorVersionUpgrade: Bool? = nil, brokerName: String? = nil, configuration: ConfigurationId? = nil, creatorRequestId: String? = nil, deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, users: [User]? = nil) {
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.brokerName = brokerName
+            self.configuration = configuration
+            self.creatorRequestId = creatorRequestId
+            self.deploymentMode = deploymentMode
+            self.engineType = engineType
+            self.engineVersion = engineVersion
+            self.hostInstanceType = hostInstanceType
+            self.logs = logs
+            self.maintenanceWindowStartTime = maintenanceWindowStartTime
+            self.publiclyAccessible = publiclyAccessible
+            self.securityGroups = securityGroups
+            self.subnetIds = subnetIds
+            self.users = users
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
+            case brokerName = "brokerName"
+            case configuration = "configuration"
+            case creatorRequestId = "creatorRequestId"
+            case deploymentMode = "deploymentMode"
+            case engineType = "engineType"
+            case engineVersion = "engineVersion"
+            case hostInstanceType = "hostInstanceType"
+            case logs = "logs"
+            case maintenanceWindowStartTime = "maintenanceWindowStartTime"
+            case publiclyAccessible = "publiclyAccessible"
+            case securityGroups = "securityGroups"
+            case subnetIds = "subnetIds"
+            case users = "users"
+        }
+    }
+
+    public struct CreateBrokerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BrokerArn", location: .body(locationName: "brokerArn"), required: false, type: .string), 
+            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string)
+        ]
+        public let brokerArn: String?
+        public let brokerId: String?
+
+        public init(brokerArn: String? = nil, brokerId: String? = nil) {
+            self.brokerArn = brokerArn
+            self.brokerId = brokerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerArn = "brokerArn"
+            case brokerId = "brokerId"
+        }
+    }
+
+    public struct CreateConfigurationInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
+            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
+        ]
+        /// Required. The type of broker engine. Note: Currently, Amazon MQ supports only ACTIVEMQ.
+        public let engineType: EngineType?
+        /// Required. The version of the broker engine. Note: Currently, Amazon MQ supports only 5.15.6 and 5.15.0.
+        public let engineVersion: String?
+        /// Required. The name of the configuration. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150 characters long.
+        public let name: String?
+
+        public init(engineType: EngineType? = nil, engineVersion: String? = nil, name: String? = nil) {
+            self.engineType = engineType
+            self.engineVersion = engineVersion
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engineType = "engineType"
+            case engineVersion = "engineVersion"
+            case name = "name"
+        }
+    }
+
+    public struct CreateConfigurationOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
+        ]
+        /// Required. The Amazon Resource Name (ARN) of the configuration.
+        public let arn: String?
+        /// Required. The date and time of the configuration.
+        public let created: TimeStamp?
+        /// Required. The unique ID that Amazon MQ generates for the configuration.
+        public let id: String?
+        /// The latest revision of the configuration.
+        public let latestRevision: ConfigurationRevision?
+        /// Required. The name of the configuration. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150 characters long.
+        public let name: String?
+
+        public init(arn: String? = nil, created: TimeStamp? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil) {
+            self.arn = arn
+            self.created = created
+            self.id = id
+            self.latestRevision = latestRevision
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case created = "created"
+            case id = "id"
+            case latestRevision = "latestRevision"
+            case name = "name"
+        }
+    }
+
+    public struct CreateConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
+            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
+        ]
+        public let engineType: EngineType?
+        public let engineVersion: String?
+        public let name: String?
+
+        public init(engineType: EngineType? = nil, engineVersion: String? = nil, name: String? = nil) {
+            self.engineType = engineType
+            self.engineVersion = engineVersion
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engineType = "engineType"
+            case engineVersion = "engineVersion"
+            case name = "name"
+        }
+    }
+
+    public struct CreateConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
+        ]
+        public let arn: String?
+        public let created: TimeStamp?
+        public let id: String?
+        public let latestRevision: ConfigurationRevision?
+        public let name: String?
+
+        public init(arn: String? = nil, created: TimeStamp? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil) {
+            self.arn = arn
+            self.created = created
+            self.id = id
+            self.latestRevision = latestRevision
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case created = "created"
+            case id = "id"
+            case latestRevision = "latestRevision"
+            case name = "name"
+        }
+    }
+
+    public struct CreateUserInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConsoleAccess", location: .body(locationName: "consoleAccess"), required: false, type: .boolean), 
+            AWSShapeMember(label: "Groups", location: .body(locationName: "groups"), required: false, type: .list), 
+            AWSShapeMember(label: "Password", location: .body(locationName: "password"), required: false, type: .string)
+        ]
+        /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
+        public let consoleAccess: Bool?
+        /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
+        public let groups: [String]?
+        /// Required. The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas.
+        public let password: String?
+
+        public init(consoleAccess: Bool? = nil, groups: [String]? = nil, password: String? = nil) {
+            self.consoleAccess = consoleAccess
+            self.groups = groups
+            self.password = password
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consoleAccess = "consoleAccess"
+            case groups = "groups"
+            case password = "password"
+        }
+    }
+
+    public struct CreateUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string), 
+            AWSShapeMember(label: "ConsoleAccess", location: .body(locationName: "consoleAccess"), required: false, type: .boolean), 
+            AWSShapeMember(label: "Groups", location: .body(locationName: "groups"), required: false, type: .list), 
+            AWSShapeMember(label: "Password", location: .body(locationName: "password"), required: false, type: .string), 
+            AWSShapeMember(label: "Username", location: .uri(locationName: "username"), required: true, type: .string)
+        ]
+        public let brokerId: String
+        public let consoleAccess: Bool?
+        public let groups: [String]?
+        public let password: String?
+        public let username: String
+
+        public init(brokerId: String, consoleAccess: Bool? = nil, groups: [String]? = nil, password: String? = nil, username: String) {
+            self.brokerId = brokerId
+            self.consoleAccess = consoleAccess
+            self.groups = groups
+            self.password = password
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerId = "broker-id"
+            case consoleAccess = "consoleAccess"
+            case groups = "groups"
+            case password = "password"
+            case username = "username"
+        }
+    }
+
+    public struct CreateUserResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public enum DayOfWeek: String, CustomStringConvertible, Codable {
+        case monday = "MONDAY"
+        case tuesday = "TUESDAY"
+        case wednesday = "WEDNESDAY"
+        case thursday = "THURSDAY"
+        case friday = "FRIDAY"
+        case saturday = "SATURDAY"
+        case sunday = "SUNDAY"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteBrokerOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string)
+        ]
+        /// The unique ID that Amazon MQ generates for the broker.
+        public let brokerId: String?
+
+        public init(brokerId: String? = nil) {
+            self.brokerId = brokerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerId = "brokerId"
+        }
+    }
+
+    public struct DeleteBrokerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string)
+        ]
+        public let brokerId: String
+
+        public init(brokerId: String) {
+            self.brokerId = brokerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerId = "broker-id"
+        }
+    }
+
+    public struct DeleteBrokerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string)
+        ]
+        public let brokerId: String?
+
+        public init(brokerId: String? = nil) {
+            self.brokerId = brokerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerId = "brokerId"
+        }
+    }
+
+    public struct DeleteUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string), 
+            AWSShapeMember(label: "Username", location: .uri(locationName: "username"), required: true, type: .string)
+        ]
+        public let brokerId: String
+        public let username: String
+
+        public init(brokerId: String, username: String) {
+            self.brokerId = brokerId
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerId = "broker-id"
+            case username = "username"
+        }
+    }
+
+    public struct DeleteUserResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public enum DeploymentMode: String, CustomStringConvertible, Codable {
+        case singleInstance = "SINGLE_INSTANCE"
+        case activeStandbyMultiAz = "ACTIVE_STANDBY_MULTI_AZ"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeBrokerOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", location: .body(locationName: "autoMinorVersionUpgrade"), required: false, type: .boolean), 
+            AWSShapeMember(label: "BrokerArn", location: .body(locationName: "brokerArn"), required: false, type: .string), 
+            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
+            AWSShapeMember(label: "BrokerInstances", location: .body(locationName: "brokerInstances"), required: false, type: .list), 
+            AWSShapeMember(label: "BrokerName", location: .body(locationName: "brokerName"), required: false, type: .string), 
+            AWSShapeMember(label: "BrokerState", location: .body(locationName: "brokerState"), required: false, type: .enum), 
+            AWSShapeMember(label: "Configurations", location: .body(locationName: "configurations"), required: false, type: .structure), 
+            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "DeploymentMode", location: .body(locationName: "deploymentMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
+            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "HostInstanceType", location: .body(locationName: "hostInstanceType"), required: false, type: .string), 
+            AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure), 
+            AWSShapeMember(label: "MaintenanceWindowStartTime", location: .body(locationName: "maintenanceWindowStartTime"), required: false, type: .structure), 
+            AWSShapeMember(label: "PendingEngineVersion", location: .body(locationName: "pendingEngineVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "PubliclyAccessible", location: .body(locationName: "publiclyAccessible"), required: false, type: .boolean), 
+            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list), 
+            AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIds"), required: false, type: .list), 
+            AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list)
+        ]
+        /// Required. Enables automatic upgrades to new minor versions for brokers, as Apache releases the versions. The automatic upgrades occur during the maintenance window of the broker or after a manual broker reboot.
+        public let autoMinorVersionUpgrade: Bool?
+        /// The Amazon Resource Name (ARN) of the broker.
+        public let brokerArn: String?
+        /// The unique ID that Amazon MQ generates for the broker.
+        public let brokerId: String?
+        /// A list of information about allocated brokers.
+        public let brokerInstances: [BrokerInstance]?
+        /// The name of the broker. This value must be unique in your AWS account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores, and must not contain whitespaces, brackets, wildcard characters, or special characters.
+        public let brokerName: String?
+        /// The status of the broker.
+        public let brokerState: BrokerState?
+        /// The list of all revisions for the specified configuration.
+        public let configurations: Configurations?
+        /// The time when the broker was created.
+        public let created: TimeStamp?
+        /// Required. The deployment mode of the broker.
+        public let deploymentMode: DeploymentMode?
+        /// Required. The type of broker engine. Note: Currently, Amazon MQ supports only ACTIVEMQ.
+        public let engineType: EngineType?
+        /// The version of the broker engine. Note: Currently, Amazon MQ supports only 5.15.6 and 5.15.0.
+        public let engineVersion: String?
+        /// The broker's instance type.
+        public let hostInstanceType: String?
+        /// The list of information about logs currently enabled and pending to be deployed for the specified broker.
+        public let logs: LogsSummary?
+        /// The parameters that determine the WeeklyStartTime.
+        public let maintenanceWindowStartTime: WeeklyStartTime?
+        /// The version of the broker engine to upgrade to.
+        public let pendingEngineVersion: String?
+        /// Required. Enables connections from applications outside of the VPC that hosts the broker's subnets.
+        public let publiclyAccessible: Bool?
+        /// Required. The list of rules (1 minimum, 125 maximum) that authorize connections to brokers.
+        public let securityGroups: [String]?
+        /// The list of groups (2 maximum) that define which subnets and IP ranges the broker can use from different Availability Zones. A SINGLE_INSTANCE deployment requires one subnet (for example, the default subnet). An ACTIVE_STANDBY_MULTI_AZ deployment requires two subnets.
+        public let subnetIds: [String]?
+        /// The list of all ActiveMQ usernames for the specified broker.
+        public let users: [UserSummary]?
+
+        public init(autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: TimeStamp? = nil, deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingEngineVersion: String? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, users: [UserSummary]? = nil) {
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.brokerArn = brokerArn
+            self.brokerId = brokerId
+            self.brokerInstances = brokerInstances
+            self.brokerName = brokerName
+            self.brokerState = brokerState
+            self.configurations = configurations
+            self.created = created
+            self.deploymentMode = deploymentMode
+            self.engineType = engineType
+            self.engineVersion = engineVersion
+            self.hostInstanceType = hostInstanceType
+            self.logs = logs
+            self.maintenanceWindowStartTime = maintenanceWindowStartTime
+            self.pendingEngineVersion = pendingEngineVersion
+            self.publiclyAccessible = publiclyAccessible
+            self.securityGroups = securityGroups
+            self.subnetIds = subnetIds
+            self.users = users
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
+            case brokerArn = "brokerArn"
+            case brokerId = "brokerId"
+            case brokerInstances = "brokerInstances"
+            case brokerName = "brokerName"
+            case brokerState = "brokerState"
+            case configurations = "configurations"
+            case created = "created"
+            case deploymentMode = "deploymentMode"
+            case engineType = "engineType"
+            case engineVersion = "engineVersion"
+            case hostInstanceType = "hostInstanceType"
+            case logs = "logs"
+            case maintenanceWindowStartTime = "maintenanceWindowStartTime"
+            case pendingEngineVersion = "pendingEngineVersion"
+            case publiclyAccessible = "publiclyAccessible"
+            case securityGroups = "securityGroups"
+            case subnetIds = "subnetIds"
+            case users = "users"
+        }
+    }
+
+    public struct DescribeBrokerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string)
+        ]
+        public let brokerId: String
+
+        public init(brokerId: String) {
+            self.brokerId = brokerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerId = "broker-id"
+        }
+    }
+
+    public struct DescribeBrokerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", location: .body(locationName: "autoMinorVersionUpgrade"), required: false, type: .boolean), 
+            AWSShapeMember(label: "BrokerArn", location: .body(locationName: "brokerArn"), required: false, type: .string), 
+            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
+            AWSShapeMember(label: "BrokerInstances", location: .body(locationName: "brokerInstances"), required: false, type: .list), 
+            AWSShapeMember(label: "BrokerName", location: .body(locationName: "brokerName"), required: false, type: .string), 
+            AWSShapeMember(label: "BrokerState", location: .body(locationName: "brokerState"), required: false, type: .enum), 
+            AWSShapeMember(label: "Configurations", location: .body(locationName: "configurations"), required: false, type: .structure), 
+            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "DeploymentMode", location: .body(locationName: "deploymentMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
+            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "HostInstanceType", location: .body(locationName: "hostInstanceType"), required: false, type: .string), 
+            AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure), 
+            AWSShapeMember(label: "MaintenanceWindowStartTime", location: .body(locationName: "maintenanceWindowStartTime"), required: false, type: .structure), 
+            AWSShapeMember(label: "PendingEngineVersion", location: .body(locationName: "pendingEngineVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "PubliclyAccessible", location: .body(locationName: "publiclyAccessible"), required: false, type: .boolean), 
+            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list), 
+            AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIds"), required: false, type: .list), 
+            AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list)
+        ]
+        public let autoMinorVersionUpgrade: Bool?
+        public let brokerArn: String?
+        public let brokerId: String?
+        public let brokerInstances: [BrokerInstance]?
+        public let brokerName: String?
+        public let brokerState: BrokerState?
+        public let configurations: Configurations?
+        public let created: TimeStamp?
+        public let deploymentMode: DeploymentMode?
+        public let engineType: EngineType?
+        public let engineVersion: String?
+        public let hostInstanceType: String?
+        public let logs: LogsSummary?
+        public let maintenanceWindowStartTime: WeeklyStartTime?
+        public let pendingEngineVersion: String?
+        public let publiclyAccessible: Bool?
+        public let securityGroups: [String]?
+        public let subnetIds: [String]?
+        public let users: [UserSummary]?
+
+        public init(autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: TimeStamp? = nil, deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingEngineVersion: String? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, users: [UserSummary]? = nil) {
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.brokerArn = brokerArn
+            self.brokerId = brokerId
+            self.brokerInstances = brokerInstances
+            self.brokerName = brokerName
+            self.brokerState = brokerState
+            self.configurations = configurations
+            self.created = created
+            self.deploymentMode = deploymentMode
+            self.engineType = engineType
+            self.engineVersion = engineVersion
+            self.hostInstanceType = hostInstanceType
+            self.logs = logs
+            self.maintenanceWindowStartTime = maintenanceWindowStartTime
+            self.pendingEngineVersion = pendingEngineVersion
+            self.publiclyAccessible = publiclyAccessible
+            self.securityGroups = securityGroups
+            self.subnetIds = subnetIds
+            self.users = users
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
+            case brokerArn = "brokerArn"
+            case brokerId = "brokerId"
+            case brokerInstances = "brokerInstances"
+            case brokerName = "brokerName"
+            case brokerState = "brokerState"
+            case configurations = "configurations"
+            case created = "created"
+            case deploymentMode = "deploymentMode"
+            case engineType = "engineType"
+            case engineVersion = "engineVersion"
+            case hostInstanceType = "hostInstanceType"
+            case logs = "logs"
+            case maintenanceWindowStartTime = "maintenanceWindowStartTime"
+            case pendingEngineVersion = "pendingEngineVersion"
+            case publiclyAccessible = "publiclyAccessible"
+            case securityGroups = "securityGroups"
+            case subnetIds = "subnetIds"
+            case users = "users"
+        }
+    }
+
+    public struct DescribeConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationId", location: .uri(locationName: "configuration-id"), required: true, type: .string)
+        ]
+        public let configurationId: String
+
+        public init(configurationId: String) {
+            self.configurationId = configurationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationId = "configuration-id"
+        }
+    }
+
+    public struct DescribeConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
+            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
+        ]
+        public let arn: String?
+        public let created: TimeStamp?
+        public let description: String?
+        public let engineType: EngineType?
+        public let engineVersion: String?
+        public let id: String?
+        public let latestRevision: ConfigurationRevision?
+        public let name: String?
+
+        public init(arn: String? = nil, created: TimeStamp? = nil, description: String? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil) {
+            self.arn = arn
+            self.created = created
+            self.description = description
+            self.engineType = engineType
+            self.engineVersion = engineVersion
+            self.id = id
+            self.latestRevision = latestRevision
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case created = "created"
+            case description = "description"
+            case engineType = "engineType"
+            case engineVersion = "engineVersion"
+            case id = "id"
+            case latestRevision = "latestRevision"
+            case name = "name"
+        }
+    }
+
+    public struct DescribeConfigurationRevisionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationId", location: .body(locationName: "configurationId"), required: false, type: .string), 
+            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "Data", location: .body(locationName: "data"), required: false, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
+        ]
+        /// Required. The unique ID that Amazon MQ generates for the configuration.
+        public let configurationId: String?
+        /// Required. The date and time of the configuration.
+        public let created: TimeStamp?
+        /// Required. The base64-encoded XML configuration.
+        public let data: String?
+        /// The description of the configuration.
+        public let description: String?
+
+        public init(configurationId: String? = nil, created: TimeStamp? = nil, data: String? = nil, description: String? = nil) {
+            self.configurationId = configurationId
+            self.created = created
+            self.data = data
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationId = "configurationId"
+            case created = "created"
+            case data = "data"
+            case description = "description"
+        }
+    }
+
+    public struct DescribeConfigurationRevisionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationId", location: .uri(locationName: "configuration-id"), required: true, type: .string), 
+            AWSShapeMember(label: "ConfigurationRevision", location: .uri(locationName: "configuration-revision"), required: true, type: .string)
+        ]
+        public let configurationId: String
+        public let configurationRevision: String
+
+        public init(configurationId: String, configurationRevision: String) {
+            self.configurationId = configurationId
+            self.configurationRevision = configurationRevision
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationId = "configuration-id"
+            case configurationRevision = "configuration-revision"
+        }
+    }
+
+    public struct DescribeConfigurationRevisionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationId", location: .body(locationName: "configurationId"), required: false, type: .string), 
+            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "Data", location: .body(locationName: "data"), required: false, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
+        ]
+        public let configurationId: String?
+        public let created: TimeStamp?
+        public let data: String?
+        public let description: String?
+
+        public init(configurationId: String? = nil, created: TimeStamp? = nil, data: String? = nil, description: String? = nil) {
+            self.configurationId = configurationId
+            self.created = created
+            self.data = data
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationId = "configurationId"
+            case created = "created"
+            case data = "data"
+            case description = "description"
+        }
+    }
+
+    public struct DescribeUserOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
+            AWSShapeMember(label: "ConsoleAccess", location: .body(locationName: "consoleAccess"), required: false, type: .boolean), 
+            AWSShapeMember(label: "Groups", location: .body(locationName: "groups"), required: false, type: .list), 
+            AWSShapeMember(label: "Pending", location: .body(locationName: "pending"), required: false, type: .structure), 
+            AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string)
+        ]
+        /// Required. The unique ID that Amazon MQ generates for the broker.
+        public let brokerId: String?
+        /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
+        public let consoleAccess: Bool?
+        /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
+        public let groups: [String]?
+        /// The status of the changes pending for the ActiveMQ user.
+        public let pending: UserPendingChanges?
+        /// Required. The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
+        public let username: String?
+
+        public init(brokerId: String? = nil, consoleAccess: Bool? = nil, groups: [String]? = nil, pending: UserPendingChanges? = nil, username: String? = nil) {
+            self.brokerId = brokerId
+            self.consoleAccess = consoleAccess
+            self.groups = groups
+            self.pending = pending
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerId = "brokerId"
+            case consoleAccess = "consoleAccess"
+            case groups = "groups"
+            case pending = "pending"
+            case username = "username"
+        }
+    }
+
+    public struct DescribeUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string), 
+            AWSShapeMember(label: "Username", location: .uri(locationName: "username"), required: true, type: .string)
+        ]
+        public let brokerId: String
+        public let username: String
+
+        public init(brokerId: String, username: String) {
+            self.brokerId = brokerId
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerId = "broker-id"
+            case username = "username"
+        }
+    }
+
+    public struct DescribeUserResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
+            AWSShapeMember(label: "ConsoleAccess", location: .body(locationName: "consoleAccess"), required: false, type: .boolean), 
+            AWSShapeMember(label: "Groups", location: .body(locationName: "groups"), required: false, type: .list), 
+            AWSShapeMember(label: "Pending", location: .body(locationName: "pending"), required: false, type: .structure), 
+            AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string)
+        ]
+        public let brokerId: String?
+        public let consoleAccess: Bool?
+        public let groups: [String]?
+        public let pending: UserPendingChanges?
+        public let username: String?
+
+        public init(brokerId: String? = nil, consoleAccess: Bool? = nil, groups: [String]? = nil, pending: UserPendingChanges? = nil, username: String? = nil) {
+            self.brokerId = brokerId
+            self.consoleAccess = consoleAccess
+            self.groups = groups
+            self.pending = pending
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerId = "brokerId"
+            case consoleAccess = "consoleAccess"
+            case groups = "groups"
+            case pending = "pending"
+            case username = "username"
+        }
+    }
+
+    public enum EngineType: String, CustomStringConvertible, Codable {
+        case activemq = "ACTIVEMQ"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Error: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorAttribute", location: .body(locationName: "errorAttribute"), required: false, type: .string), 
+            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
+        ]
+        /// The attribute which caused the error.
+        public let errorAttribute: String?
+        /// The explanation of the error.
+        public let message: String?
+
+        public init(errorAttribute: String? = nil, message: String? = nil) {
+            self.errorAttribute = errorAttribute
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorAttribute = "errorAttribute"
+            case message = "message"
+        }
+    }
+
+    public struct ListBrokersOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BrokerSummaries", location: .body(locationName: "brokerSummaries"), required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+        /// A list of information about all brokers.
+        public let brokerSummaries: [BrokerSummary]?
         /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
         public let nextToken: String?
-        /// The list of all revisions for the specified configuration.
-        public let configurations: [Configuration]?
 
-        public init(configurations: [Configuration]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(brokerSummaries: [BrokerSummary]? = nil, nextToken: String? = nil) {
+            self.brokerSummaries = brokerSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerSummaries = "brokerSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListBrokersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+        public let maxResults: Int32?
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
-            self.configurations = configurations
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListBrokersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BrokerSummaries", location: .body(locationName: "brokerSummaries"), required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+        public let brokerSummaries: [BrokerSummary]?
+        public let nextToken: String?
+
+        public init(brokerSummaries: [BrokerSummary]? = nil, nextToken: String? = nil) {
+            self.brokerSummaries = brokerSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerSummaries = "brokerSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListConfigurationRevisionsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationId", location: .body(locationName: "configurationId"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "Revisions", location: .body(locationName: "revisions"), required: false, type: .list)
+        ]
+        /// The unique ID that Amazon MQ generates for the configuration.
+        public let configurationId: String?
+        /// The maximum number of configuration revisions that can be returned per page (20 by default). This value must be an integer from 5 to 100.
+        public let maxResults: Int32?
+        /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
+        public let nextToken: String?
+        /// The list of all revisions for the specified configuration.
+        public let revisions: [ConfigurationRevision]?
+
+        public init(configurationId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, revisions: [ConfigurationRevision]? = nil) {
+            self.configurationId = configurationId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.revisions = revisions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationId = "configurationId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case revisions = "revisions"
+        }
+    }
+
+    public struct ListConfigurationRevisionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationId", location: .uri(locationName: "configuration-id"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+        public let configurationId: String
+        public let maxResults: Int32?
+        public let nextToken: String?
+
+        public init(configurationId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.configurationId = configurationId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationId = "configuration-id"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListConfigurationRevisionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationId", location: .body(locationName: "configurationId"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "Revisions", location: .body(locationName: "revisions"), required: false, type: .list)
+        ]
+        public let configurationId: String?
+        public let maxResults: Int32?
+        public let nextToken: String?
+        public let revisions: [ConfigurationRevision]?
+
+        public init(configurationId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, revisions: [ConfigurationRevision]? = nil) {
+            self.configurationId = configurationId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.revisions = revisions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationId = "configurationId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case revisions = "revisions"
+        }
+    }
+
+    public struct ListConfigurationsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Configurations", location: .body(locationName: "configurations"), required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+        /// The list of all revisions for the specified configuration.
+        public let configurations: [Configuration]?
+        /// The maximum number of configurations that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100.
+        public let maxResults: Int32?
+        /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
+        public let nextToken: String?
+
+        public init(configurations: [Configuration]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.configurations = configurations
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case configurations = "configurations"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListConfigurationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+        public let maxResults: Int32?
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListConfigurationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Configurations", location: .body(locationName: "configurations"), required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+        public let configurations: [Configuration]?
+        public let maxResults: Int32?
+        public let nextToken: String?
+
+        public init(configurations: [Configuration]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.configurations = configurations
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurations = "configurations"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListUsersOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list)
+        ]
+        /// Required. The unique ID that Amazon MQ generates for the broker.
+        public let brokerId: String?
+        /// Required. The maximum number of ActiveMQ users that can be returned per page (20 by default). This value must be an integer from 5 to 100.
+        public let maxResults: Int32?
+        /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
+        public let nextToken: String?
+        /// Required. The list of all ActiveMQ usernames for the specified broker.
+        public let users: [UserSummary]?
+
+        public init(brokerId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, users: [UserSummary]? = nil) {
+            self.brokerId = brokerId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.users = users
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerId = "brokerId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case users = "users"
+        }
+    }
+
+    public struct ListUsersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+        public let brokerId: String
+        public let maxResults: Int32?
+        public let nextToken: String?
+
+        public init(brokerId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.brokerId = brokerId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerId = "broker-id"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListUsersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list)
+        ]
+        public let brokerId: String?
+        public let maxResults: Int32?
+        public let nextToken: String?
+        public let users: [UserSummary]?
+
+        public init(brokerId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, users: [UserSummary]? = nil) {
+            self.brokerId = brokerId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.users = users
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerId = "brokerId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case users = "users"
         }
     }
 
@@ -373,74 +1439,245 @@ extension MQ {
         }
     }
 
-    public struct ListBrokersResponse: AWSShape {
+    public struct LogsSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerSummaries", location: .body(locationName: "brokerSummaries"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "Audit", location: .body(locationName: "audit"), required: false, type: .boolean), 
+            AWSShapeMember(label: "AuditLogGroup", location: .body(locationName: "auditLogGroup"), required: false, type: .string), 
+            AWSShapeMember(label: "General", location: .body(locationName: "general"), required: false, type: .boolean), 
+            AWSShapeMember(label: "GeneralLogGroup", location: .body(locationName: "generalLogGroup"), required: false, type: .string), 
+            AWSShapeMember(label: "Pending", location: .body(locationName: "pending"), required: false, type: .structure)
         ]
-        public let brokerSummaries: [BrokerSummary]?
-        public let nextToken: String?
+        /// Enables audit logging. Every user management action made using JMX or the ActiveMQ Web Console is logged.
+        public let audit: Bool?
+        /// The location of the CloudWatch Logs log group where audit logs are sent.
+        public let auditLogGroup: String?
+        /// Enables general logging.
+        public let general: Bool?
+        /// The location of the CloudWatch Logs log group where general logs are sent.
+        public let generalLogGroup: String?
+        /// The list of information about logs pending to be deployed for the specified broker.
+        public let pending: PendingLogs?
 
-        public init(brokerSummaries: [BrokerSummary]? = nil, nextToken: String? = nil) {
-            self.brokerSummaries = brokerSummaries
-            self.nextToken = nextToken
+        public init(audit: Bool? = nil, auditLogGroup: String? = nil, general: Bool? = nil, generalLogGroup: String? = nil, pending: PendingLogs? = nil) {
+            self.audit = audit
+            self.auditLogGroup = auditLogGroup
+            self.general = general
+            self.generalLogGroup = generalLogGroup
+            self.pending = pending
         }
 
         private enum CodingKeys: String, CodingKey {
-            case brokerSummaries = "brokerSummaries"
-            case nextToken = "nextToken"
+            case audit = "audit"
+            case auditLogGroup = "auditLogGroup"
+            case general = "general"
+            case generalLogGroup = "generalLogGroup"
+            case pending = "pending"
         }
     }
 
-    public struct ListUsersRequest: AWSShape {
+    public struct PendingLogs: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "Audit", location: .body(locationName: "audit"), required: false, type: .boolean), 
+            AWSShapeMember(label: "General", location: .body(locationName: "general"), required: false, type: .boolean)
+        ]
+        /// Enables audit logging. Every user management action made using JMX or the ActiveMQ Web Console is logged.
+        public let audit: Bool?
+        /// Enables general logging.
+        public let general: Bool?
+
+        public init(audit: Bool? = nil, general: Bool? = nil) {
+            self.audit = audit
+            self.general = general
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audit = "audit"
+            case general = "general"
+        }
+    }
+
+    public struct RebootBrokerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string)
         ]
-        public let nextToken: String?
-        public let maxResults: Int32?
         public let brokerId: String
 
-        public init(brokerId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
+        public init(brokerId: String) {
             self.brokerId = brokerId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
             case brokerId = "broker-id"
         }
     }
 
-    public struct ConfigurationId: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Revision", location: .body(locationName: "revision"), required: false, type: .integer), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
-        ]
-        /// The revision number of the configuration.
-        public let revision: Int32?
-        /// Required. The unique ID that Amazon MQ generates for the configuration.
-        public let id: String?
-
-        public init(id: String? = nil, revision: Int32? = nil) {
-            self.revision = revision
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case revision = "revision"
-            case id = "id"
-        }
-    }
-
-    public struct UpdateUserResponse: AWSShape {
+    public struct RebootBrokerResponse: AWSShape {
 
         public init() {
         }
 
+    }
+
+    public struct SanitizationWarning: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeName", location: .body(locationName: "attributeName"), required: false, type: .string), 
+            AWSShapeMember(label: "ElementName", location: .body(locationName: "elementName"), required: false, type: .string), 
+            AWSShapeMember(label: "Reason", location: .body(locationName: "reason"), required: false, type: .enum)
+        ]
+        /// The name of the XML attribute that has been sanitized.
+        public let attributeName: String?
+        /// The name of the XML element that has been sanitized.
+        public let elementName: String?
+        /// Required. The reason for which the XML elements or attributes were sanitized.
+        public let reason: SanitizationWarningReason?
+
+        public init(attributeName: String? = nil, elementName: String? = nil, reason: SanitizationWarningReason? = nil) {
+            self.attributeName = attributeName
+            self.elementName = elementName
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "attributeName"
+            case elementName = "elementName"
+            case reason = "reason"
+        }
+    }
+
+    public enum SanitizationWarningReason: String, CustomStringConvertible, Codable {
+        case disallowedElementRemoved = "DISALLOWED_ELEMENT_REMOVED"
+        case disallowedAttributeRemoved = "DISALLOWED_ATTRIBUTE_REMOVED"
+        case invalidAttributeValueRemoved = "INVALID_ATTRIBUTE_VALUE_REMOVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateBrokerInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", location: .body(locationName: "autoMinorVersionUpgrade"), required: false, type: .boolean), 
+            AWSShapeMember(label: "Configuration", location: .body(locationName: "configuration"), required: false, type: .structure), 
+            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure)
+        ]
+        /// Enables automatic upgrades to new minor versions for brokers, as Apache releases the versions. The automatic upgrades occur during the maintenance window of the broker or after a manual broker reboot.
+        public let autoMinorVersionUpgrade: Bool?
+        /// A list of information about the configuration.
+        public let configuration: ConfigurationId?
+        /// The version of the broker engine. Note: Currently, Amazon MQ supports only 5.15.6 and 5.15.0.
+        public let engineVersion: String?
+        /// Enables Amazon CloudWatch logging for brokers.
+        public let logs: Logs?
+
+        public init(autoMinorVersionUpgrade: Bool? = nil, configuration: ConfigurationId? = nil, engineVersion: String? = nil, logs: Logs? = nil) {
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.configuration = configuration
+            self.engineVersion = engineVersion
+            self.logs = logs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
+            case configuration = "configuration"
+            case engineVersion = "engineVersion"
+            case logs = "logs"
+        }
+    }
+
+    public struct UpdateBrokerOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", location: .body(locationName: "autoMinorVersionUpgrade"), required: false, type: .boolean), 
+            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
+            AWSShapeMember(label: "Configuration", location: .body(locationName: "configuration"), required: false, type: .structure), 
+            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure)
+        ]
+        /// The new value of automatic upgrades to new minor version for brokers.
+        public let autoMinorVersionUpgrade: Bool?
+        /// Required. The unique ID that Amazon MQ generates for the broker.
+        public let brokerId: String?
+        /// The ID of the updated configuration.
+        public let configuration: ConfigurationId?
+        /// The version of the broker engine to upgrade to.
+        public let engineVersion: String?
+        /// The list of information about logs to be enabled for the specified broker.
+        public let logs: Logs?
+
+        public init(autoMinorVersionUpgrade: Bool? = nil, brokerId: String? = nil, configuration: ConfigurationId? = nil, engineVersion: String? = nil, logs: Logs? = nil) {
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.brokerId = brokerId
+            self.configuration = configuration
+            self.engineVersion = engineVersion
+            self.logs = logs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
+            case brokerId = "brokerId"
+            case configuration = "configuration"
+            case engineVersion = "engineVersion"
+            case logs = "logs"
+        }
+    }
+
+    public struct UpdateBrokerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", location: .body(locationName: "autoMinorVersionUpgrade"), required: false, type: .boolean), 
+            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string), 
+            AWSShapeMember(label: "Configuration", location: .body(locationName: "configuration"), required: false, type: .structure), 
+            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure)
+        ]
+        public let autoMinorVersionUpgrade: Bool?
+        public let brokerId: String
+        public let configuration: ConfigurationId?
+        public let engineVersion: String?
+        public let logs: Logs?
+
+        public init(autoMinorVersionUpgrade: Bool? = nil, brokerId: String, configuration: ConfigurationId? = nil, engineVersion: String? = nil, logs: Logs? = nil) {
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.brokerId = brokerId
+            self.configuration = configuration
+            self.engineVersion = engineVersion
+            self.logs = logs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
+            case brokerId = "broker-id"
+            case configuration = "configuration"
+            case engineVersion = "engineVersion"
+            case logs = "logs"
+        }
+    }
+
+    public struct UpdateBrokerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", location: .body(locationName: "autoMinorVersionUpgrade"), required: false, type: .boolean), 
+            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
+            AWSShapeMember(label: "Configuration", location: .body(locationName: "configuration"), required: false, type: .structure), 
+            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure)
+        ]
+        public let autoMinorVersionUpgrade: Bool?
+        public let brokerId: String?
+        public let configuration: ConfigurationId?
+        public let engineVersion: String?
+        public let logs: Logs?
+
+        public init(autoMinorVersionUpgrade: Bool? = nil, brokerId: String? = nil, configuration: ConfigurationId? = nil, engineVersion: String? = nil, logs: Logs? = nil) {
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.brokerId = brokerId
+            self.configuration = configuration
+            self.engineVersion = engineVersion
+            self.logs = logs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
+            case brokerId = "brokerId"
+            case configuration = "configuration"
+            case engineVersion = "engineVersion"
+            case logs = "logs"
+        }
     }
 
     public struct UpdateConfigurationInput: AWSShape {
@@ -464,954 +1701,44 @@ extension MQ {
         }
     }
 
-    public struct CreateUserResponse: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct UserPendingChanges: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PendingChange", location: .body(locationName: "pendingChange"), required: false, type: .enum), 
-            AWSShapeMember(label: "ConsoleAccess", location: .body(locationName: "consoleAccess"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Groups", location: .body(locationName: "groups"), required: false, type: .list)
-        ]
-        /// Required. The type of change pending for the ActiveMQ user.
-        public let pendingChange: ChangeType?
-        /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
-        public let consoleAccess: Bool?
-        /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
-        public let groups: [String]?
-
-        public init(consoleAccess: Bool? = nil, groups: [String]? = nil, pendingChange: ChangeType? = nil) {
-            self.pendingChange = pendingChange
-            self.consoleAccess = consoleAccess
-            self.groups = groups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pendingChange = "pendingChange"
-            case consoleAccess = "consoleAccess"
-            case groups = "groups"
-        }
-    }
-
-    public struct UpdateBrokerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", location: .body(locationName: "autoMinorVersionUpgrade"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure), 
-            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "Configuration", location: .body(locationName: "configuration"), required: false, type: .structure)
-        ]
-        public let brokerId: String?
-        public let autoMinorVersionUpgrade: Bool?
-        public let logs: Logs?
-        public let engineVersion: String?
-        public let configuration: ConfigurationId?
-
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerId: String? = nil, configuration: ConfigurationId? = nil, engineVersion: String? = nil, logs: Logs? = nil) {
-            self.brokerId = brokerId
-            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
-            self.logs = logs
-            self.engineVersion = engineVersion
-            self.configuration = configuration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case brokerId = "brokerId"
-            case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
-            case logs = "logs"
-            case engineVersion = "engineVersion"
-            case configuration = "configuration"
-        }
-    }
-
-    public struct Configuration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
-            AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure), 
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp)
-        ]
-        /// Required. The description of the configuration.
-        public let description: String?
-        /// Required. The unique ID that Amazon MQ generates for the configuration.
-        public let id: String?
-        /// Required. The type of broker engine. Note: Currently, Amazon MQ supports only ACTIVEMQ.
-        public let engineType: EngineType?
-        /// Required. The name of the configuration. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150 characters long.
-        public let name: String?
-        /// Required. The version of the broker engine.
-        public let engineVersion: String?
-        /// Required. The latest revision of the configuration.
-        public let latestRevision: ConfigurationRevision?
-        /// Required. The ARN of the configuration.
-        public let arn: String?
-        /// Required. The date and time of the configuration revision.
-        public let created: TimeStamp?
-
-        public init(arn: String? = nil, created: TimeStamp? = nil, description: String? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil) {
-            self.description = description
-            self.id = id
-            self.engineType = engineType
-            self.name = name
-            self.engineVersion = engineVersion
-            self.latestRevision = latestRevision
-            self.arn = arn
-            self.created = created
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "description"
-            case id = "id"
-            case engineType = "engineType"
-            case name = "name"
-            case engineVersion = "engineVersion"
-            case latestRevision = "latestRevision"
-            case arn = "arn"
-            case created = "created"
-        }
-    }
-
-    public struct CreateBrokerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list), 
-            AWSShapeMember(label: "MaintenanceWindowStartTime", location: .body(locationName: "maintenanceWindowStartTime"), required: false, type: .structure), 
-            AWSShapeMember(label: "CreatorRequestId", location: .body(locationName: "creatorRequestId"), required: false, type: .string), 
-            AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list), 
-            AWSShapeMember(label: "DeploymentMode", location: .body(locationName: "deploymentMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "HostInstanceType", location: .body(locationName: "hostInstanceType"), required: false, type: .string), 
-            AWSShapeMember(label: "BrokerName", location: .body(locationName: "brokerName"), required: false, type: .string), 
-            AWSShapeMember(label: "PubliclyAccessible", location: .body(locationName: "publiclyAccessible"), required: false, type: .boolean), 
-            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "Configuration", location: .body(locationName: "configuration"), required: false, type: .structure), 
-            AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
-            AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", location: .body(locationName: "autoMinorVersionUpgrade"), required: false, type: .boolean), 
-            AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIds"), required: false, type: .list)
-        ]
-        public let securityGroups: [String]?
-        public let maintenanceWindowStartTime: WeeklyStartTime?
-        public let creatorRequestId: String?
-        public let users: [User]?
-        public let deploymentMode: DeploymentMode?
-        public let hostInstanceType: String?
-        public let brokerName: String?
-        public let publiclyAccessible: Bool?
-        public let engineVersion: String?
-        public let configuration: ConfigurationId?
-        public let engineType: EngineType?
-        public let logs: Logs?
-        public let autoMinorVersionUpgrade: Bool?
-        public let subnetIds: [String]?
-
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerName: String? = nil, configuration: ConfigurationId? = nil, creatorRequestId: String? = nil, deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, users: [User]? = nil) {
-            self.securityGroups = securityGroups
-            self.maintenanceWindowStartTime = maintenanceWindowStartTime
-            self.creatorRequestId = creatorRequestId
-            self.users = users
-            self.deploymentMode = deploymentMode
-            self.hostInstanceType = hostInstanceType
-            self.brokerName = brokerName
-            self.publiclyAccessible = publiclyAccessible
-            self.engineVersion = engineVersion
-            self.configuration = configuration
-            self.engineType = engineType
-            self.logs = logs
-            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
-            self.subnetIds = subnetIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case securityGroups = "securityGroups"
-            case maintenanceWindowStartTime = "maintenanceWindowStartTime"
-            case creatorRequestId = "creatorRequestId"
-            case users = "users"
-            case deploymentMode = "deploymentMode"
-            case hostInstanceType = "hostInstanceType"
-            case brokerName = "brokerName"
-            case publiclyAccessible = "publiclyAccessible"
-            case engineVersion = "engineVersion"
-            case configuration = "configuration"
-            case engineType = "engineType"
-            case logs = "logs"
-            case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
-            case subnetIds = "subnetIds"
-        }
-    }
-
-    public enum DayOfWeek: String, CustomStringConvertible, Codable {
-        case monday = "MONDAY"
-        case tuesday = "TUESDAY"
-        case wednesday = "WEDNESDAY"
-        case thursday = "THURSDAY"
-        case friday = "FRIDAY"
-        case saturday = "SATURDAY"
-        case sunday = "SUNDAY"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RebootBrokerResponse: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct ListConfigurationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Configurations", location: .body(locationName: "configurations"), required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer)
-        ]
-        public let nextToken: String?
-        public let configurations: [Configuration]?
-        public let maxResults: Int32?
-
-        public init(configurations: [Configuration]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.nextToken = nextToken
-            self.configurations = configurations
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case configurations = "configurations"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct PendingLogs: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "General", location: .body(locationName: "general"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Audit", location: .body(locationName: "audit"), required: false, type: .boolean)
-        ]
-        /// Enables general logging.
-        public let general: Bool?
-        /// Enables audit logging. Every user management action made using JMX or the ActiveMQ Web Console is logged.
-        public let audit: Bool?
-
-        public init(audit: Bool? = nil, general: Bool? = nil) {
-            self.general = general
-            self.audit = audit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case general = "general"
-            case audit = "audit"
-        }
-    }
-
-    public struct ListConfigurationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
-        ]
-        public let maxResults: Int32?
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct CreateBrokerInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Configuration", location: .body(locationName: "configuration"), required: false, type: .structure), 
-            AWSShapeMember(label: "DeploymentMode", location: .body(locationName: "deploymentMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list), 
-            AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
-            AWSShapeMember(label: "PubliclyAccessible", location: .body(locationName: "publiclyAccessible"), required: false, type: .boolean), 
-            AWSShapeMember(label: "HostInstanceType", location: .body(locationName: "hostInstanceType"), required: false, type: .string), 
-            AWSShapeMember(label: "CreatorRequestId", location: .body(locationName: "creatorRequestId"), required: false, type: .string), 
-            AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure), 
-            AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIds"), required: false, type: .list), 
-            AWSShapeMember(label: "MaintenanceWindowStartTime", location: .body(locationName: "maintenanceWindowStartTime"), required: false, type: .structure), 
-            AWSShapeMember(label: "BrokerName", location: .body(locationName: "brokerName"), required: false, type: .string), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", location: .body(locationName: "autoMinorVersionUpgrade"), required: false, type: .boolean), 
-            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list)
-        ]
-        /// A list of information about the configuration.
-        public let configuration: ConfigurationId?
-        /// Required. The deployment mode of the broker.
-        public let deploymentMode: DeploymentMode?
-        /// Required. The version of the broker engine. Note: Currently, Amazon MQ supports only 5.15.6 and 5.15.0.
-        public let engineVersion: String?
-        /// Required. The list of ActiveMQ users (persons or applications) who can access queues and topics. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
-        public let users: [User]?
-        /// Required. The type of broker engine. Note: Currently, Amazon MQ supports only ACTIVEMQ.
-        public let engineType: EngineType?
-        /// Required. Enables connections from applications outside of the VPC that hosts the broker's subnets.
-        public let publiclyAccessible: Bool?
-        /// Required. The broker's instance type.
-        public let hostInstanceType: String?
-        /// The unique ID that the requester receives for the created broker. Amazon MQ passes your ID with the API action. Note: We recommend using a Universally Unique Identifier (UUID) for the creatorRequestId. You may omit the creatorRequestId if your application doesn't require idempotency.
-        public let creatorRequestId: String?
-        /// Enables Amazon CloudWatch logging for brokers.
-        public let logs: Logs?
-        /// The list of groups (2 maximum) that define which subnets and IP ranges the broker can use from different Availability Zones. A SINGLE_INSTANCE deployment requires one subnet (for example, the default subnet). An ACTIVE_STANDBY_MULTI_AZ deployment requires two subnets.
-        public let subnetIds: [String]?
-        /// The parameters that determine the WeeklyStartTime.
-        public let maintenanceWindowStartTime: WeeklyStartTime?
-        /// Required. The name of the broker. This value must be unique in your AWS account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores, and must not contain whitespaces, brackets, wildcard characters, or special characters.
-        public let brokerName: String?
-        /// Required. Enables automatic upgrades to new minor versions for brokers, as Apache releases the versions. The automatic upgrades occur during the maintenance window of the broker or after a manual broker reboot.
-        public let autoMinorVersionUpgrade: Bool?
-        /// The list of rules (1 minimum, 125 maximum) that authorize connections to brokers.
-        public let securityGroups: [String]?
-
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerName: String? = nil, configuration: ConfigurationId? = nil, creatorRequestId: String? = nil, deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, users: [User]? = nil) {
-            self.configuration = configuration
-            self.deploymentMode = deploymentMode
-            self.engineVersion = engineVersion
-            self.users = users
-            self.engineType = engineType
-            self.publiclyAccessible = publiclyAccessible
-            self.hostInstanceType = hostInstanceType
-            self.creatorRequestId = creatorRequestId
-            self.logs = logs
-            self.subnetIds = subnetIds
-            self.maintenanceWindowStartTime = maintenanceWindowStartTime
-            self.brokerName = brokerName
-            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
-            self.securityGroups = securityGroups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configuration = "configuration"
-            case deploymentMode = "deploymentMode"
-            case engineVersion = "engineVersion"
-            case users = "users"
-            case engineType = "engineType"
-            case publiclyAccessible = "publiclyAccessible"
-            case hostInstanceType = "hostInstanceType"
-            case creatorRequestId = "creatorRequestId"
-            case logs = "logs"
-            case subnetIds = "subnetIds"
-            case maintenanceWindowStartTime = "maintenanceWindowStartTime"
-            case brokerName = "brokerName"
-            case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
-            case securityGroups = "securityGroups"
-        }
-    }
-
-    public struct ListBrokersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
-        ]
-        public let nextToken: String?
-        public let maxResults: Int32?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct CreateBrokerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
-            AWSShapeMember(label: "BrokerArn", location: .body(locationName: "brokerArn"), required: false, type: .string)
-        ]
-        public let brokerId: String?
-        public let brokerArn: String?
-
-        public init(brokerArn: String? = nil, brokerId: String? = nil) {
-            self.brokerId = brokerId
-            self.brokerArn = brokerArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case brokerId = "brokerId"
-            case brokerArn = "brokerArn"
-        }
-    }
-
-    public struct DescribeBrokerOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaintenanceWindowStartTime", location: .body(locationName: "maintenanceWindowStartTime"), required: false, type: .structure), 
-            AWSShapeMember(label: "DeploymentMode", location: .body(locationName: "deploymentMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "BrokerArn", location: .body(locationName: "brokerArn"), required: false, type: .string), 
-            AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
-            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "BrokerName", location: .body(locationName: "brokerName"), required: false, type: .string), 
-            AWSShapeMember(label: "HostInstanceType", location: .body(locationName: "hostInstanceType"), required: false, type: .string), 
-            AWSShapeMember(label: "PubliclyAccessible", location: .body(locationName: "publiclyAccessible"), required: false, type: .boolean), 
-            AWSShapeMember(label: "PendingEngineVersion", location: .body(locationName: "pendingEngineVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "BrokerState", location: .body(locationName: "brokerState"), required: false, type: .enum), 
-            AWSShapeMember(label: "Configurations", location: .body(locationName: "configurations"), required: false, type: .structure), 
-            AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", location: .body(locationName: "autoMinorVersionUpgrade"), required: false, type: .boolean), 
-            AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIds"), required: false, type: .list), 
-            AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list), 
-            AWSShapeMember(label: "BrokerInstances", location: .body(locationName: "brokerInstances"), required: false, type: .list), 
-            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
-            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list)
-        ]
-        /// The parameters that determine the WeeklyStartTime.
-        public let maintenanceWindowStartTime: WeeklyStartTime?
-        /// Required. The deployment mode of the broker.
-        public let deploymentMode: DeploymentMode?
-        /// The Amazon Resource Name (ARN) of the broker.
-        public let brokerArn: String?
-        /// Required. The type of broker engine. Note: Currently, Amazon MQ supports only ACTIVEMQ.
-        public let engineType: EngineType?
-        /// The version of the broker engine. Note: Currently, Amazon MQ supports only 5.15.6 and 5.15.0.
-        public let engineVersion: String?
-        /// The name of the broker. This value must be unique in your AWS account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores, and must not contain whitespaces, brackets, wildcard characters, or special characters.
-        public let brokerName: String?
-        /// The broker's instance type.
-        public let hostInstanceType: String?
-        /// Required. Enables connections from applications outside of the VPC that hosts the broker's subnets.
-        public let publiclyAccessible: Bool?
-        /// The version of the broker engine to upgrade to.
-        public let pendingEngineVersion: String?
-        /// The status of the broker.
-        public let brokerState: BrokerState?
-        /// The list of all revisions for the specified configuration.
-        public let configurations: Configurations?
-        /// The list of information about logs currently enabled and pending to be deployed for the specified broker.
-        public let logs: LogsSummary?
-        /// Required. Enables automatic upgrades to new minor versions for brokers, as Apache releases the versions. The automatic upgrades occur during the maintenance window of the broker or after a manual broker reboot.
-        public let autoMinorVersionUpgrade: Bool?
-        /// The list of groups (2 maximum) that define which subnets and IP ranges the broker can use from different Availability Zones. A SINGLE_INSTANCE deployment requires one subnet (for example, the default subnet). An ACTIVE_STANDBY_MULTI_AZ deployment requires two subnets.
-        public let subnetIds: [String]?
-        /// The list of all ActiveMQ usernames for the specified broker.
-        public let users: [UserSummary]?
-        /// A list of information about allocated brokers.
-        public let brokerInstances: [BrokerInstance]?
-        /// The unique ID that Amazon MQ generates for the broker.
-        public let brokerId: String?
-        /// The time when the broker was created.
-        public let created: TimeStamp?
-        /// Required. The list of rules (1 minimum, 125 maximum) that authorize connections to brokers.
-        public let securityGroups: [String]?
-
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: TimeStamp? = nil, deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingEngineVersion: String? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, users: [UserSummary]? = nil) {
-            self.maintenanceWindowStartTime = maintenanceWindowStartTime
-            self.deploymentMode = deploymentMode
-            self.brokerArn = brokerArn
-            self.engineType = engineType
-            self.engineVersion = engineVersion
-            self.brokerName = brokerName
-            self.hostInstanceType = hostInstanceType
-            self.publiclyAccessible = publiclyAccessible
-            self.pendingEngineVersion = pendingEngineVersion
-            self.brokerState = brokerState
-            self.configurations = configurations
-            self.logs = logs
-            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
-            self.subnetIds = subnetIds
-            self.users = users
-            self.brokerInstances = brokerInstances
-            self.brokerId = brokerId
-            self.created = created
-            self.securityGroups = securityGroups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maintenanceWindowStartTime = "maintenanceWindowStartTime"
-            case deploymentMode = "deploymentMode"
-            case brokerArn = "brokerArn"
-            case engineType = "engineType"
-            case engineVersion = "engineVersion"
-            case brokerName = "brokerName"
-            case hostInstanceType = "hostInstanceType"
-            case publiclyAccessible = "publiclyAccessible"
-            case pendingEngineVersion = "pendingEngineVersion"
-            case brokerState = "brokerState"
-            case configurations = "configurations"
-            case logs = "logs"
-            case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
-            case subnetIds = "subnetIds"
-            case users = "users"
-            case brokerInstances = "brokerInstances"
-            case brokerId = "brokerId"
-            case created = "created"
-            case securityGroups = "securityGroups"
-        }
-    }
-
-    public struct DescribeConfigurationRevisionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Data", location: .body(locationName: "data"), required: false, type: .string), 
-            AWSShapeMember(label: "ConfigurationId", location: .body(locationName: "configurationId"), required: false, type: .string)
-        ]
-        public let created: TimeStamp?
-        public let description: String?
-        public let data: String?
-        public let configurationId: String?
-
-        public init(configurationId: String? = nil, created: TimeStamp? = nil, data: String? = nil, description: String? = nil) {
-            self.created = created
-            self.description = description
-            self.data = data
-            self.configurationId = configurationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case created = "created"
-            case description = "description"
-            case data = "data"
-            case configurationId = "configurationId"
-        }
-    }
-
-    public struct CreateUserInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Password", location: .body(locationName: "password"), required: false, type: .string), 
-            AWSShapeMember(label: "Groups", location: .body(locationName: "groups"), required: false, type: .list), 
-            AWSShapeMember(label: "ConsoleAccess", location: .body(locationName: "consoleAccess"), required: false, type: .boolean)
-        ]
-        /// Required. The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas.
-        public let password: String?
-        /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
-        public let groups: [String]?
-        /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
-        public let consoleAccess: Bool?
-
-        public init(consoleAccess: Bool? = nil, groups: [String]? = nil, password: String? = nil) {
-            self.password = password
-            self.groups = groups
-            self.consoleAccess = consoleAccess
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case password = "password"
-            case groups = "groups"
-            case consoleAccess = "consoleAccess"
-        }
-    }
-
-    public struct UserSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string), 
-            AWSShapeMember(label: "PendingChange", location: .body(locationName: "pendingChange"), required: false, type: .enum)
-        ]
-        /// Required. The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
-        public let username: String?
-        /// The type of change pending for the ActiveMQ user.
-        public let pendingChange: ChangeType?
-
-        public init(pendingChange: ChangeType? = nil, username: String? = nil) {
-            self.username = username
-            self.pendingChange = pendingChange
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case username = "username"
-            case pendingChange = "pendingChange"
-        }
-    }
-
-    public struct RebootBrokerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string)
-        ]
-        public let brokerId: String
-
-        public init(brokerId: String) {
-            self.brokerId = brokerId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case brokerId = "broker-id"
-        }
-    }
-
-    public struct DescribeConfigurationRevisionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationId", location: .uri(locationName: "configuration-id"), required: true, type: .string), 
-            AWSShapeMember(label: "ConfigurationRevision", location: .uri(locationName: "configuration-revision"), required: true, type: .string)
-        ]
-        public let configurationId: String
-        public let configurationRevision: String
-
-        public init(configurationId: String, configurationRevision: String) {
-            self.configurationId = configurationId
-            self.configurationRevision = configurationRevision
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configurationId = "configuration-id"
-            case configurationRevision = "configuration-revision"
-        }
-    }
-
-    public struct DeleteUserResponse: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct DescribeConfigurationRevisionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "ConfigurationId", location: .body(locationName: "configurationId"), required: false, type: .string), 
-            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Data", location: .body(locationName: "data"), required: false, type: .string)
-        ]
-        /// The description of the configuration.
-        public let description: String?
-        /// Required. The unique ID that Amazon MQ generates for the configuration.
-        public let configurationId: String?
-        /// Required. The date and time of the configuration.
-        public let created: TimeStamp?
-        /// Required. The base64-encoded XML configuration.
-        public let data: String?
-
-        public init(configurationId: String? = nil, created: TimeStamp? = nil, data: String? = nil, description: String? = nil) {
-            self.description = description
-            self.configurationId = configurationId
-            self.created = created
-            self.data = data
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "description"
-            case configurationId = "configurationId"
-            case created = "created"
-            case data = "data"
-        }
-    }
-
-    public struct CreateConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum)
-        ]
-        public let engineVersion: String?
-        public let name: String?
-        public let engineType: EngineType?
-
-        public init(engineType: EngineType? = nil, engineVersion: String? = nil, name: String? = nil) {
-            self.engineVersion = engineVersion
-            self.name = name
-            self.engineType = engineType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case engineVersion = "engineVersion"
-            case name = "name"
-            case engineType = "engineType"
-        }
-    }
-
-    public struct DeleteBrokerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string)
-        ]
-        public let brokerId: String
-
-        public init(brokerId: String) {
-            self.brokerId = brokerId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case brokerId = "broker-id"
-        }
-    }
-
-    public struct UpdateUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Groups", location: .body(locationName: "groups"), required: false, type: .list), 
-            AWSShapeMember(label: "ConsoleAccess", location: .body(locationName: "consoleAccess"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Username", location: .uri(locationName: "username"), required: true, type: .string), 
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string), 
-            AWSShapeMember(label: "Password", location: .body(locationName: "password"), required: false, type: .string)
-        ]
-        public let groups: [String]?
-        public let consoleAccess: Bool?
-        public let username: String
-        public let brokerId: String
-        public let password: String?
-
-        public init(brokerId: String, consoleAccess: Bool? = nil, groups: [String]? = nil, password: String? = nil, username: String) {
-            self.groups = groups
-            self.consoleAccess = consoleAccess
-            self.username = username
-            self.brokerId = brokerId
-            self.password = password
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groups = "groups"
-            case consoleAccess = "consoleAccess"
-            case username = "username"
-            case brokerId = "broker-id"
-            case password = "password"
-        }
-    }
-
-    public struct UpdateBrokerInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure), 
-            AWSShapeMember(label: "Configuration", location: .body(locationName: "configuration"), required: false, type: .structure), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", location: .body(locationName: "autoMinorVersionUpgrade"), required: false, type: .boolean)
-        ]
-        /// The version of the broker engine. Note: Currently, Amazon MQ supports only 5.15.6 and 5.15.0.
-        public let engineVersion: String?
-        /// Enables Amazon CloudWatch logging for brokers.
-        public let logs: Logs?
-        /// A list of information about the configuration.
-        public let configuration: ConfigurationId?
-        /// Enables automatic upgrades to new minor versions for brokers, as Apache releases the versions. The automatic upgrades occur during the maintenance window of the broker or after a manual broker reboot.
-        public let autoMinorVersionUpgrade: Bool?
-
-        public init(autoMinorVersionUpgrade: Bool? = nil, configuration: ConfigurationId? = nil, engineVersion: String? = nil, logs: Logs? = nil) {
-            self.engineVersion = engineVersion
-            self.logs = logs
-            self.configuration = configuration
-            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case engineVersion = "engineVersion"
-            case logs = "logs"
-            case configuration = "configuration"
-            case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
-        }
-    }
-
-    public struct DescribeUserOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Groups", location: .body(locationName: "groups"), required: false, type: .list), 
-            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
-            AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string), 
-            AWSShapeMember(label: "Pending", location: .body(locationName: "pending"), required: false, type: .structure), 
-            AWSShapeMember(label: "ConsoleAccess", location: .body(locationName: "consoleAccess"), required: false, type: .boolean)
-        ]
-        /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
-        public let groups: [String]?
-        /// Required. The unique ID that Amazon MQ generates for the broker.
-        public let brokerId: String?
-        /// Required. The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
-        public let username: String?
-        /// The status of the changes pending for the ActiveMQ user.
-        public let pending: UserPendingChanges?
-        /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
-        public let consoleAccess: Bool?
-
-        public init(brokerId: String? = nil, consoleAccess: Bool? = nil, groups: [String]? = nil, pending: UserPendingChanges? = nil, username: String? = nil) {
-            self.groups = groups
-            self.brokerId = brokerId
-            self.username = username
-            self.pending = pending
-            self.consoleAccess = consoleAccess
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groups = "groups"
-            case brokerId = "brokerId"
-            case username = "username"
-            case pending = "pending"
-            case consoleAccess = "consoleAccess"
-        }
-    }
-
-    public struct CreateConfigurationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum)
-        ]
-        /// Required. The version of the broker engine. Note: Currently, Amazon MQ supports only 5.15.6 and 5.15.0.
-        public let engineVersion: String?
-        /// Required. The name of the configuration. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150 characters long.
-        public let name: String?
-        /// Required. The type of broker engine. Note: Currently, Amazon MQ supports only ACTIVEMQ.
-        public let engineType: EngineType?
-
-        public init(engineType: EngineType? = nil, engineVersion: String? = nil, name: String? = nil) {
-            self.engineVersion = engineVersion
-            self.name = name
-            self.engineType = engineType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case engineVersion = "engineVersion"
-            case name = "name"
-            case engineType = "engineType"
-        }
-    }
-
     public struct UpdateConfigurationOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "Warnings", location: .body(locationName: "warnings"), required: false, type: .list), 
-            AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure), 
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
-            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp)
+            AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "Warnings", location: .body(locationName: "warnings"), required: false, type: .list)
         ]
+        /// Required. The Amazon Resource Name (ARN) of the configuration.
+        public let arn: String?
+        /// Required. The date and time of the configuration.
+        public let created: TimeStamp?
+        /// Required. The unique ID that Amazon MQ generates for the configuration.
+        public let id: String?
+        /// The latest revision of the configuration.
+        public let latestRevision: ConfigurationRevision?
         /// Required. The name of the configuration. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150 characters long.
         public let name: String?
         /// The list of the first 20 warnings about the configuration XML elements or attributes that were sanitized.
         public let warnings: [SanitizationWarning]?
-        /// The latest revision of the configuration.
-        public let latestRevision: ConfigurationRevision?
-        /// Required. The Amazon Resource Name (ARN) of the configuration.
-        public let arn: String?
-        /// Required. The unique ID that Amazon MQ generates for the configuration.
-        public let id: String?
-        /// Required. The date and time of the configuration.
-        public let created: TimeStamp?
 
         public init(arn: String? = nil, created: TimeStamp? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, warnings: [SanitizationWarning]? = nil) {
+            self.arn = arn
+            self.created = created
+            self.id = id
+            self.latestRevision = latestRevision
             self.name = name
             self.warnings = warnings
-            self.latestRevision = latestRevision
-            self.arn = arn
-            self.id = id
-            self.created = created
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case created = "created"
+            case id = "id"
+            case latestRevision = "latestRevision"
             case name = "name"
             case warnings = "warnings"
-            case latestRevision = "latestRevision"
-            case arn = "arn"
-            case id = "id"
-            case created = "created"
-        }
-    }
-
-    public struct ListUsersOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list), 
-            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
-        /// Required. The list of all ActiveMQ usernames for the specified broker.
-        public let users: [UserSummary]?
-        /// Required. The unique ID that Amazon MQ generates for the broker.
-        public let brokerId: String?
-        /// Required. The maximum number of ActiveMQ users that can be returned per page (20 by default). This value must be an integer from 5 to 100.
-        public let maxResults: Int32?
-        /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
-        public let nextToken: String?
-
-        public init(brokerId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, users: [UserSummary]? = nil) {
-            self.users = users
-            self.brokerId = brokerId
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case users = "users"
-            case brokerId = "brokerId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct DeleteBrokerOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string)
-        ]
-        /// The unique ID that Amazon MQ generates for the broker.
-        public let brokerId: String?
-
-        public init(brokerId: String? = nil) {
-            self.brokerId = brokerId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case brokerId = "brokerId"
-        }
-    }
-
-    public struct UpdateBrokerOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", location: .body(locationName: "autoMinorVersionUpgrade"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure), 
-            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
-            AWSShapeMember(label: "Configuration", location: .body(locationName: "configuration"), required: false, type: .structure), 
-            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string)
-        ]
-        /// The new value of automatic upgrades to new minor version for brokers.
-        public let autoMinorVersionUpgrade: Bool?
-        /// The list of information about logs to be enabled for the specified broker.
-        public let logs: Logs?
-        /// Required. The unique ID that Amazon MQ generates for the broker.
-        public let brokerId: String?
-        /// The ID of the updated configuration.
-        public let configuration: ConfigurationId?
-        /// The version of the broker engine to upgrade to.
-        public let engineVersion: String?
-
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerId: String? = nil, configuration: ConfigurationId? = nil, engineVersion: String? = nil, logs: Logs? = nil) {
-            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
-            self.logs = logs
-            self.brokerId = brokerId
-            self.configuration = configuration
-            self.engineVersion = engineVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
-            case logs = "logs"
-            case brokerId = "brokerId"
-            case configuration = "configuration"
-            case engineVersion = "engineVersion"
-        }
-    }
-
-    public struct ListConfigurationRevisionsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "ConfigurationId", location: .body(locationName: "configurationId"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Revisions", location: .body(locationName: "revisions"), required: false, type: .list)
-        ]
-        /// The maximum number of configuration revisions that can be returned per page (20 by default). This value must be an integer from 5 to 100.
-        public let maxResults: Int32?
-        /// The unique ID that Amazon MQ generates for the configuration.
-        public let configurationId: String?
-        /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
-        public let nextToken: String?
-        /// The list of all revisions for the specified configuration.
-        public let revisions: [ConfigurationRevision]?
-
-        public init(configurationId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, revisions: [ConfigurationRevision]? = nil) {
-            self.maxResults = maxResults
-            self.configurationId = configurationId
-            self.nextToken = nextToken
-            self.revisions = revisions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case configurationId = "configurationId"
-            case nextToken = "nextToken"
-            case revisions = "revisions"
         }
     }
 
@@ -1438,533 +1765,206 @@ extension MQ {
         }
     }
 
-    public struct DescribeBrokerResponse: AWSShape {
+    public struct UpdateConfigurationResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerState", location: .body(locationName: "brokerState"), required: false, type: .enum), 
-            AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list), 
-            AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure), 
-            AWSShapeMember(label: "BrokerInstances", location: .body(locationName: "brokerInstances"), required: false, type: .list), 
-            AWSShapeMember(label: "BrokerArn", location: .body(locationName: "brokerArn"), required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
-            AWSShapeMember(label: "HostInstanceType", location: .body(locationName: "hostInstanceType"), required: false, type: .string), 
-            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
-            AWSShapeMember(label: "BrokerName", location: .body(locationName: "brokerName"), required: false, type: .string), 
-            AWSShapeMember(label: "MaintenanceWindowStartTime", location: .body(locationName: "maintenanceWindowStartTime"), required: false, type: .structure), 
-            AWSShapeMember(label: "Configurations", location: .body(locationName: "configurations"), required: false, type: .structure), 
-            AWSShapeMember(label: "PubliclyAccessible", location: .body(locationName: "publiclyAccessible"), required: false, type: .boolean), 
-            AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIds"), required: false, type: .list), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", location: .body(locationName: "autoMinorVersionUpgrade"), required: false, type: .boolean), 
-            AWSShapeMember(label: "DeploymentMode", location: .body(locationName: "deploymentMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "PendingEngineVersion", location: .body(locationName: "pendingEngineVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list)
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "Warnings", location: .body(locationName: "warnings"), required: false, type: .list)
         ]
-        public let brokerState: BrokerState?
-        public let users: [UserSummary]?
-        public let logs: LogsSummary?
-        public let brokerInstances: [BrokerInstance]?
-        public let brokerArn: String?
-        public let engineVersion: String?
-        public let engineType: EngineType?
-        public let hostInstanceType: String?
-        public let brokerId: String?
-        public let brokerName: String?
-        public let maintenanceWindowStartTime: WeeklyStartTime?
-        public let configurations: Configurations?
-        public let publiclyAccessible: Bool?
-        public let subnetIds: [String]?
+        public let arn: String?
         public let created: TimeStamp?
-        public let autoMinorVersionUpgrade: Bool?
-        public let deploymentMode: DeploymentMode?
-        public let pendingEngineVersion: String?
-        public let securityGroups: [String]?
+        public let id: String?
+        public let latestRevision: ConfigurationRevision?
+        public let name: String?
+        public let warnings: [SanitizationWarning]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: TimeStamp? = nil, deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingEngineVersion: String? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, users: [UserSummary]? = nil) {
-            self.brokerState = brokerState
-            self.users = users
-            self.logs = logs
-            self.brokerInstances = brokerInstances
-            self.brokerArn = brokerArn
-            self.engineVersion = engineVersion
-            self.engineType = engineType
-            self.hostInstanceType = hostInstanceType
-            self.brokerId = brokerId
-            self.brokerName = brokerName
-            self.maintenanceWindowStartTime = maintenanceWindowStartTime
-            self.configurations = configurations
-            self.publiclyAccessible = publiclyAccessible
-            self.subnetIds = subnetIds
+        public init(arn: String? = nil, created: TimeStamp? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, warnings: [SanitizationWarning]? = nil) {
+            self.arn = arn
             self.created = created
-            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
-            self.deploymentMode = deploymentMode
-            self.pendingEngineVersion = pendingEngineVersion
-            self.securityGroups = securityGroups
+            self.id = id
+            self.latestRevision = latestRevision
+            self.name = name
+            self.warnings = warnings
         }
 
         private enum CodingKeys: String, CodingKey {
-            case brokerState = "brokerState"
-            case users = "users"
-            case logs = "logs"
-            case brokerInstances = "brokerInstances"
-            case brokerArn = "brokerArn"
-            case engineVersion = "engineVersion"
-            case engineType = "engineType"
-            case hostInstanceType = "hostInstanceType"
-            case brokerId = "brokerId"
-            case brokerName = "brokerName"
-            case maintenanceWindowStartTime = "maintenanceWindowStartTime"
-            case configurations = "configurations"
-            case publiclyAccessible = "publiclyAccessible"
-            case subnetIds = "subnetIds"
+            case arn = "arn"
             case created = "created"
-            case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
-            case deploymentMode = "deploymentMode"
-            case pendingEngineVersion = "pendingEngineVersion"
-            case securityGroups = "securityGroups"
+            case id = "id"
+            case latestRevision = "latestRevision"
+            case name = "name"
+            case warnings = "warnings"
         }
     }
 
-    public enum ChangeType: String, CustomStringConvertible, Codable {
-        case create = "CREATE"
-        case update = "UPDATE"
-        case delete = "DELETE"
-        public var description: String { return self.rawValue }
+    public struct UpdateUserInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConsoleAccess", location: .body(locationName: "consoleAccess"), required: false, type: .boolean), 
+            AWSShapeMember(label: "Groups", location: .body(locationName: "groups"), required: false, type: .list), 
+            AWSShapeMember(label: "Password", location: .body(locationName: "password"), required: false, type: .string)
+        ]
+        /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
+        public let consoleAccess: Bool?
+        /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
+        public let groups: [String]?
+        /// The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas.
+        public let password: String?
+
+        public init(consoleAccess: Bool? = nil, groups: [String]? = nil, password: String? = nil) {
+            self.consoleAccess = consoleAccess
+            self.groups = groups
+            self.password = password
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consoleAccess = "consoleAccess"
+            case groups = "groups"
+            case password = "password"
+        }
     }
 
-    public struct DescribeBrokerRequest: AWSShape {
+    public struct UpdateUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string)
+            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string), 
+            AWSShapeMember(label: "ConsoleAccess", location: .body(locationName: "consoleAccess"), required: false, type: .boolean), 
+            AWSShapeMember(label: "Groups", location: .body(locationName: "groups"), required: false, type: .list), 
+            AWSShapeMember(label: "Password", location: .body(locationName: "password"), required: false, type: .string), 
+            AWSShapeMember(label: "Username", location: .uri(locationName: "username"), required: true, type: .string)
         ]
         public let brokerId: String
+        public let consoleAccess: Bool?
+        public let groups: [String]?
+        public let password: String?
+        public let username: String
 
-        public init(brokerId: String) {
+        public init(brokerId: String, consoleAccess: Bool? = nil, groups: [String]? = nil, password: String? = nil, username: String) {
             self.brokerId = brokerId
+            self.consoleAccess = consoleAccess
+            self.groups = groups
+            self.password = password
+            self.username = username
         }
 
         private enum CodingKeys: String, CodingKey {
             case brokerId = "broker-id"
+            case consoleAccess = "consoleAccess"
+            case groups = "groups"
+            case password = "password"
+            case username = "username"
         }
     }
 
-    public struct SanitizationWarning: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ElementName", location: .body(locationName: "elementName"), required: false, type: .string), 
-            AWSShapeMember(label: "AttributeName", location: .body(locationName: "attributeName"), required: false, type: .string), 
-            AWSShapeMember(label: "Reason", location: .body(locationName: "reason"), required: false, type: .enum)
-        ]
-        /// The name of the XML element that has been sanitized.
-        public let elementName: String?
-        /// The name of the XML attribute that has been sanitized.
-        public let attributeName: String?
-        /// Required. The reason for which the XML elements or attributes were sanitized.
-        public let reason: SanitizationWarningReason?
+    public struct UpdateUserResponse: AWSShape {
 
-        public init(attributeName: String? = nil, elementName: String? = nil, reason: SanitizationWarningReason? = nil) {
-            self.elementName = elementName
-            self.attributeName = attributeName
-            self.reason = reason
+        public init() {
+        }
+
+    }
+
+    public struct User: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConsoleAccess", location: .body(locationName: "consoleAccess"), required: false, type: .boolean), 
+            AWSShapeMember(label: "Groups", location: .body(locationName: "groups"), required: false, type: .list), 
+            AWSShapeMember(label: "Password", location: .body(locationName: "password"), required: false, type: .string), 
+            AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string)
+        ]
+        /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
+        public let consoleAccess: Bool?
+        /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
+        public let groups: [String]?
+        /// Required. The password of the ActiveMQ user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas.
+        public let password: String?
+        /// Required. The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
+        public let username: String?
+
+        public init(consoleAccess: Bool? = nil, groups: [String]? = nil, password: String? = nil, username: String? = nil) {
+            self.consoleAccess = consoleAccess
+            self.groups = groups
+            self.password = password
+            self.username = username
         }
 
         private enum CodingKeys: String, CodingKey {
-            case elementName = "elementName"
-            case attributeName = "attributeName"
-            case reason = "reason"
+            case consoleAccess = "consoleAccess"
+            case groups = "groups"
+            case password = "password"
+            case username = "username"
+        }
+    }
+
+    public struct UserPendingChanges: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConsoleAccess", location: .body(locationName: "consoleAccess"), required: false, type: .boolean), 
+            AWSShapeMember(label: "Groups", location: .body(locationName: "groups"), required: false, type: .list), 
+            AWSShapeMember(label: "PendingChange", location: .body(locationName: "pendingChange"), required: false, type: .enum)
+        ]
+        /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
+        public let consoleAccess: Bool?
+        /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
+        public let groups: [String]?
+        /// Required. The type of change pending for the ActiveMQ user.
+        public let pendingChange: ChangeType?
+
+        public init(consoleAccess: Bool? = nil, groups: [String]? = nil, pendingChange: ChangeType? = nil) {
+            self.consoleAccess = consoleAccess
+            self.groups = groups
+            self.pendingChange = pendingChange
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consoleAccess = "consoleAccess"
+            case groups = "groups"
+            case pendingChange = "pendingChange"
+        }
+    }
+
+    public struct UserSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PendingChange", location: .body(locationName: "pendingChange"), required: false, type: .enum), 
+            AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string)
+        ]
+        /// The type of change pending for the ActiveMQ user.
+        public let pendingChange: ChangeType?
+        /// Required. The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
+        public let username: String?
+
+        public init(pendingChange: ChangeType? = nil, username: String? = nil) {
+            self.pendingChange = pendingChange
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pendingChange = "pendingChange"
+            case username = "username"
         }
     }
 
     public struct WeeklyStartTime: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DayOfWeek", location: .body(locationName: "dayOfWeek"), required: false, type: .enum), 
-            AWSShapeMember(label: "TimeZone", location: .body(locationName: "timeZone"), required: false, type: .string), 
-            AWSShapeMember(label: "TimeOfDay", location: .body(locationName: "timeOfDay"), required: false, type: .string)
+            AWSShapeMember(label: "TimeOfDay", location: .body(locationName: "timeOfDay"), required: false, type: .string), 
+            AWSShapeMember(label: "TimeZone", location: .body(locationName: "timeZone"), required: false, type: .string)
         ]
         /// Required. The day of the week.
         public let dayOfWeek: DayOfWeek?
-        /// The time zone, UTC by default, in either the Country/City format, or the UTC offset format.
-        public let timeZone: String?
         /// Required. The time, in 24-hour format.
         public let timeOfDay: String?
+        /// The time zone, UTC by default, in either the Country/City format, or the UTC offset format.
+        public let timeZone: String?
 
         public init(dayOfWeek: DayOfWeek? = nil, timeOfDay: String? = nil, timeZone: String? = nil) {
             self.dayOfWeek = dayOfWeek
-            self.timeZone = timeZone
             self.timeOfDay = timeOfDay
+            self.timeZone = timeZone
         }
 
         private enum CodingKeys: String, CodingKey {
             case dayOfWeek = "dayOfWeek"
-            case timeZone = "timeZone"
             case timeOfDay = "timeOfDay"
-        }
-    }
-
-    public struct UpdateConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure), 
-            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
-            AWSShapeMember(label: "Warnings", location: .body(locationName: "warnings"), required: false, type: .list)
-        ]
-        public let latestRevision: ConfigurationRevision?
-        public let created: TimeStamp?
-        public let arn: String?
-        public let name: String?
-        public let id: String?
-        public let warnings: [SanitizationWarning]?
-
-        public init(arn: String? = nil, created: TimeStamp? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, warnings: [SanitizationWarning]? = nil) {
-            self.latestRevision = latestRevision
-            self.created = created
-            self.arn = arn
-            self.name = name
-            self.id = id
-            self.warnings = warnings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case latestRevision = "latestRevision"
-            case created = "created"
-            case arn = "arn"
-            case name = "name"
-            case id = "id"
-            case warnings = "warnings"
-        }
-    }
-
-    public enum SanitizationWarningReason: String, CustomStringConvertible, Codable {
-        case disallowedElementRemoved = "DISALLOWED_ELEMENT_REMOVED"
-        case disallowedAttributeRemoved = "DISALLOWED_ATTRIBUTE_REMOVED"
-        case invalidAttributeValueRemoved = "INVALID_ATTRIBUTE_VALUE_REMOVED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct BrokerInstance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IpAddress", location: .body(locationName: "ipAddress"), required: false, type: .string), 
-            AWSShapeMember(label: "ConsoleURL", location: .body(locationName: "consoleURL"), required: false, type: .string), 
-            AWSShapeMember(label: "Endpoints", location: .body(locationName: "endpoints"), required: false, type: .list)
-        ]
-        /// The IP address of the Elastic Network Interface (ENI) attached to the broker.
-        public let ipAddress: String?
-        /// The URL of the broker's ActiveMQ Web Console.
-        public let consoleURL: String?
-        /// The broker's wire-level protocol endpoints.
-        public let endpoints: [String]?
-
-        public init(consoleURL: String? = nil, endpoints: [String]? = nil, ipAddress: String? = nil) {
-            self.ipAddress = ipAddress
-            self.consoleURL = consoleURL
-            self.endpoints = endpoints
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ipAddress = "ipAddress"
-            case consoleURL = "consoleURL"
-            case endpoints = "endpoints"
-        }
-    }
-
-    public struct Error: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorAttribute", location: .body(locationName: "errorAttribute"), required: false, type: .string), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
-        ]
-        /// The attribute which caused the error.
-        public let errorAttribute: String?
-        /// The explanation of the error.
-        public let message: String?
-
-        public init(errorAttribute: String? = nil, message: String? = nil) {
-            self.errorAttribute = errorAttribute
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorAttribute = "errorAttribute"
-            case message = "message"
-        }
-    }
-
-    public struct DescribeConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
-            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
-        ]
-        public let engineVersion: String?
-        public let latestRevision: ConfigurationRevision?
-        public let description: String?
-        public let id: String?
-        public let created: TimeStamp?
-        public let engineType: EngineType?
-        public let arn: String?
-        public let name: String?
-
-        public init(arn: String? = nil, created: TimeStamp? = nil, description: String? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil) {
-            self.engineVersion = engineVersion
-            self.latestRevision = latestRevision
-            self.description = description
-            self.id = id
-            self.created = created
-            self.engineType = engineType
-            self.arn = arn
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case engineVersion = "engineVersion"
-            case latestRevision = "latestRevision"
-            case description = "description"
-            case id = "id"
-            case created = "created"
-            case engineType = "engineType"
-            case arn = "arn"
-            case name = "name"
-        }
-    }
-
-    public struct BrokerSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerArn", location: .body(locationName: "brokerArn"), required: false, type: .string), 
-            AWSShapeMember(label: "BrokerName", location: .body(locationName: "brokerName"), required: false, type: .string), 
-            AWSShapeMember(label: "DeploymentMode", location: .body(locationName: "deploymentMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "BrokerState", location: .body(locationName: "brokerState"), required: false, type: .enum), 
-            AWSShapeMember(label: "HostInstanceType", location: .body(locationName: "hostInstanceType"), required: false, type: .string), 
-            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the broker.
-        public let brokerArn: String?
-        /// The name of the broker. This value must be unique in your AWS account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores, and must not contain whitespaces, brackets, wildcard characters, or special characters.
-        public let brokerName: String?
-        /// Required. The deployment mode of the broker.
-        public let deploymentMode: DeploymentMode?
-        /// The status of the broker.
-        public let brokerState: BrokerState?
-        /// The broker's instance type.
-        public let hostInstanceType: String?
-        /// The time when the broker was created.
-        public let created: TimeStamp?
-        /// The unique ID that Amazon MQ generates for the broker.
-        public let brokerId: String?
-
-        public init(brokerArn: String? = nil, brokerId: String? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, created: TimeStamp? = nil, deploymentMode: DeploymentMode? = nil, hostInstanceType: String? = nil) {
-            self.brokerArn = brokerArn
-            self.brokerName = brokerName
-            self.deploymentMode = deploymentMode
-            self.brokerState = brokerState
-            self.hostInstanceType = hostInstanceType
-            self.created = created
-            self.brokerId = brokerId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case brokerArn = "brokerArn"
-            case brokerName = "brokerName"
-            case deploymentMode = "deploymentMode"
-            case brokerState = "brokerState"
-            case hostInstanceType = "hostInstanceType"
-            case created = "created"
-            case brokerId = "brokerId"
-        }
-    }
-
-    public struct DescribeUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Username", location: .uri(locationName: "username"), required: true, type: .string), 
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string)
-        ]
-        public let username: String
-        public let brokerId: String
-
-        public init(brokerId: String, username: String) {
-            self.username = username
-            self.brokerId = brokerId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case username = "username"
-            case brokerId = "broker-id"
-        }
-    }
-
-    public struct ListUsersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
-        public let brokerId: String?
-        public let maxResults: Int32?
-        public let users: [UserSummary]?
-        public let nextToken: String?
-
-        public init(brokerId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, users: [UserSummary]? = nil) {
-            self.brokerId = brokerId
-            self.maxResults = maxResults
-            self.users = users
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case brokerId = "brokerId"
-            case maxResults = "maxResults"
-            case users = "users"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct User: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string), 
-            AWSShapeMember(label: "Password", location: .body(locationName: "password"), required: false, type: .string), 
-            AWSShapeMember(label: "Groups", location: .body(locationName: "groups"), required: false, type: .list), 
-            AWSShapeMember(label: "ConsoleAccess", location: .body(locationName: "consoleAccess"), required: false, type: .boolean)
-        ]
-        /// Required. The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
-        public let username: String?
-        /// Required. The password of the ActiveMQ user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas.
-        public let password: String?
-        /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
-        public let groups: [String]?
-        /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
-        public let consoleAccess: Bool?
-
-        public init(consoleAccess: Bool? = nil, groups: [String]? = nil, password: String? = nil, username: String? = nil) {
-            self.username = username
-            self.password = password
-            self.groups = groups
-            self.consoleAccess = consoleAccess
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case username = "username"
-            case password = "password"
-            case groups = "groups"
-            case consoleAccess = "consoleAccess"
-        }
-    }
-
-    public struct CreateConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
-            AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
-        ]
-        public let created: TimeStamp?
-        public let arn: String?
-        public let id: String?
-        public let latestRevision: ConfigurationRevision?
-        public let name: String?
-
-        public init(arn: String? = nil, created: TimeStamp? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil) {
-            self.created = created
-            self.arn = arn
-            self.id = id
-            self.latestRevision = latestRevision
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case created = "created"
-            case arn = "arn"
-            case id = "id"
-            case latestRevision = "latestRevision"
-            case name = "name"
-        }
-    }
-
-    public struct CreateBrokerOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
-            AWSShapeMember(label: "BrokerArn", location: .body(locationName: "brokerArn"), required: false, type: .string)
-        ]
-        /// The unique ID that Amazon MQ generates for the broker.
-        public let brokerId: String?
-        /// The Amazon Resource Name (ARN) of the broker.
-        public let brokerArn: String?
-
-        public init(brokerArn: String? = nil, brokerId: String? = nil) {
-            self.brokerId = brokerId
-            self.brokerArn = brokerArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case brokerId = "brokerId"
-            case brokerArn = "brokerArn"
-        }
-    }
-
-    public struct Configurations: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Current", location: .body(locationName: "current"), required: false, type: .structure), 
-            AWSShapeMember(label: "Pending", location: .body(locationName: "pending"), required: false, type: .structure), 
-            AWSShapeMember(label: "History", location: .body(locationName: "history"), required: false, type: .list)
-        ]
-        /// The current configuration of the broker.
-        public let current: ConfigurationId?
-        /// The pending configuration of the broker.
-        public let pending: ConfigurationId?
-        /// The history of configurations applied to the broker.
-        public let history: [ConfigurationId]?
-
-        public init(current: ConfigurationId? = nil, history: [ConfigurationId]? = nil, pending: ConfigurationId? = nil) {
-            self.current = current
-            self.pending = pending
-            self.history = history
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case current = "current"
-            case pending = "pending"
-            case history = "history"
-        }
-    }
-
-    public struct CreateConfigurationOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
-            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure)
-        ]
-        /// Required. The unique ID that Amazon MQ generates for the configuration.
-        public let id: String?
-        /// Required. The date and time of the configuration.
-        public let created: TimeStamp?
-        /// Required. The name of the configuration. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150 characters long.
-        public let name: String?
-        /// Required. The Amazon Resource Name (ARN) of the configuration.
-        public let arn: String?
-        /// The latest revision of the configuration.
-        public let latestRevision: ConfigurationRevision?
-
-        public init(arn: String? = nil, created: TimeStamp? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil) {
-            self.id = id
-            self.created = created
-            self.name = name
-            self.arn = arn
-            self.latestRevision = latestRevision
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case created = "created"
-            case name = "name"
-            case arn = "arn"
-            case latestRevision = "latestRevision"
+            case timeZone = "timeZone"
         }
     }
 

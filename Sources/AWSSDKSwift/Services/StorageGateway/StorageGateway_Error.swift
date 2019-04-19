@@ -4,8 +4,8 @@ import AWSSDKSwiftCore
 
 /// Error enum for StorageGateway
 public enum StorageGatewayErrorType: AWSErrorType {
-    case invalidGatewayRequestException(message: String?)
     case internalServerError(message: String?)
+    case invalidGatewayRequestException(message: String?)
     case serviceUnavailableError(message: String?)
 }
 
@@ -16,10 +16,10 @@ extension StorageGatewayErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "InvalidGatewayRequestException":
-            self = .invalidGatewayRequestException(message: message)
         case "InternalServerError":
             self = .internalServerError(message: message)
+        case "InvalidGatewayRequestException":
+            self = .invalidGatewayRequestException(message: message)
         case "ServiceUnavailableError":
             self = .serviceUnavailableError(message: message)
         default:

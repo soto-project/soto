@@ -24,9 +24,9 @@ public struct MediaConnect {
         )
     }
 
-    ///  Displays the details of a flow. The response includes the flow ARN, name, and Availability Zone, as well as details about the source, outputs, and entitlements.
-    public func describeFlow(_ input: DescribeFlowRequest) throws -> DescribeFlowResponse {
-        return try client.send(operation: "DescribeFlow", path: "/v1/flows/{flowArn}", httpMethod: "GET", input: input)
+    ///  Adds outputs to an existing flow. You can create up to 20 outputs per flow.
+    public func addFlowOutputs(_ input: AddFlowOutputsRequest) throws -> AddFlowOutputsResponse {
+        return try client.send(operation: "AddFlowOutputs", path: "/v1/flows/{flowArn}/outputs", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new flow. The request must include one source. The request optionally can include outputs (up to 20) and entitlements (up to 50).
@@ -34,44 +34,14 @@ public struct MediaConnect {
         return try client.send(operation: "CreateFlow", path: "/v1/flows", httpMethod: "POST", input: input)
     }
 
-    ///  Displays a list of flows that are associated with this account. This request returns a paginated result.
-    public func listFlows(_ input: ListFlowsRequest) throws -> ListFlowsResponse {
-        return try client.send(operation: "ListFlows", path: "/v1/flows", httpMethod: "GET", input: input)
+    ///  Deletes a flow. Before you can delete a flow, you must stop the flow.
+    public func deleteFlow(_ input: DeleteFlowRequest) throws -> DeleteFlowResponse {
+        return try client.send(operation: "DeleteFlow", path: "/v1/flows/{flowArn}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Updates an existing flow output.
-    public func updateFlowOutput(_ input: UpdateFlowOutputRequest) throws -> UpdateFlowOutputResponse {
-        return try client.send(operation: "UpdateFlowOutput", path: "/v1/flows/{flowArn}/outputs/{outputArn}", httpMethod: "PUT", input: input)
-    }
-
-    ///  Revokes an entitlement from a flow. Once an entitlement is revoked, the content becomes unavailable to the subscriber and the associated output is removed.
-    public func revokeFlowEntitlement(_ input: RevokeFlowEntitlementRequest) throws -> RevokeFlowEntitlementResponse {
-        return try client.send(operation: "RevokeFlowEntitlement", path: "/v1/flows/{flowArn}/entitlements/{entitlementArn}", httpMethod: "DELETE", input: input)
-    }
-
-    ///  Displays a list of all entitlements that have been granted to this account. This request returns 20 results per page.
-    public func listEntitlements(_ input: ListEntitlementsRequest) throws -> ListEntitlementsResponse {
-        return try client.send(operation: "ListEntitlements", path: "/v1/entitlements", httpMethod: "GET", input: input)
-    }
-
-    ///  You can change an entitlement's description, subscribers, and encryption. If you change the subscribers, the service will remove the outputs that are are used by the subscribers that are removed.
-    public func updateFlowEntitlement(_ input: UpdateFlowEntitlementRequest) throws -> UpdateFlowEntitlementResponse {
-        return try client.send(operation: "UpdateFlowEntitlement", path: "/v1/flows/{flowArn}/entitlements/{entitlementArn}", httpMethod: "PUT", input: input)
-    }
-
-    ///  Adds outputs to an existing flow. You can create up to 20 outputs per flow.
-    public func addFlowOutputs(_ input: AddFlowOutputsRequest) throws -> AddFlowOutputsResponse {
-        return try client.send(operation: "AddFlowOutputs", path: "/v1/flows/{flowArn}/outputs", httpMethod: "POST", input: input)
-    }
-
-    ///  Updates the source of a flow.
-    public func updateFlowSource(_ input: UpdateFlowSourceRequest) throws -> UpdateFlowSourceResponse {
-        return try client.send(operation: "UpdateFlowSource", path: "/v1/flows/{flowArn}/source/{sourceArn}", httpMethod: "PUT", input: input)
-    }
-
-    ///  Stops a flow.
-    public func stopFlow(_ input: StopFlowRequest) throws -> StopFlowResponse {
-        return try client.send(operation: "StopFlow", path: "/v1/flows/stop/{flowArn}", httpMethod: "POST", input: input)
+    ///  Displays the details of a flow. The response includes the flow ARN, name, and Availability Zone, as well as details about the source, outputs, and entitlements.
+    public func describeFlow(_ input: DescribeFlowRequest) throws -> DescribeFlowResponse {
+        return try client.send(operation: "DescribeFlow", path: "/v1/flows/{flowArn}", httpMethod: "GET", input: input)
     }
 
     ///  Grants entitlements to an existing flow.
@@ -79,9 +49,14 @@ public struct MediaConnect {
         return try client.send(operation: "GrantFlowEntitlements", path: "/v1/flows/{flowArn}/entitlements", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a flow. Before you can delete a flow, you must stop the flow.
-    public func deleteFlow(_ input: DeleteFlowRequest) throws -> DeleteFlowResponse {
-        return try client.send(operation: "DeleteFlow", path: "/v1/flows/{flowArn}", httpMethod: "DELETE", input: input)
+    ///  Displays a list of all entitlements that have been granted to this account. This request returns 20 results per page.
+    public func listEntitlements(_ input: ListEntitlementsRequest) throws -> ListEntitlementsResponse {
+        return try client.send(operation: "ListEntitlements", path: "/v1/entitlements", httpMethod: "GET", input: input)
+    }
+
+    ///  Displays a list of flows that are associated with this account. This request returns a paginated result.
+    public func listFlows(_ input: ListFlowsRequest) throws -> ListFlowsResponse {
+        return try client.send(operation: "ListFlows", path: "/v1/flows", httpMethod: "GET", input: input)
     }
 
     ///  Removes an output from an existing flow. This request can be made only on an output that does not have an entitlement associated with it. If the output has an entitlement, you must revoke the entitlement instead. When an entitlement is revoked from a flow, the service automatically removes the associated output.
@@ -89,9 +64,34 @@ public struct MediaConnect {
         return try client.send(operation: "RemoveFlowOutput", path: "/v1/flows/{flowArn}/outputs/{outputArn}", httpMethod: "DELETE", input: input)
     }
 
+    ///  Revokes an entitlement from a flow. Once an entitlement is revoked, the content becomes unavailable to the subscriber and the associated output is removed.
+    public func revokeFlowEntitlement(_ input: RevokeFlowEntitlementRequest) throws -> RevokeFlowEntitlementResponse {
+        return try client.send(operation: "RevokeFlowEntitlement", path: "/v1/flows/{flowArn}/entitlements/{entitlementArn}", httpMethod: "DELETE", input: input)
+    }
+
     ///  Starts a flow.
     public func startFlow(_ input: StartFlowRequest) throws -> StartFlowResponse {
         return try client.send(operation: "StartFlow", path: "/v1/flows/start/{flowArn}", httpMethod: "POST", input: input)
+    }
+
+    ///  Stops a flow.
+    public func stopFlow(_ input: StopFlowRequest) throws -> StopFlowResponse {
+        return try client.send(operation: "StopFlow", path: "/v1/flows/stop/{flowArn}", httpMethod: "POST", input: input)
+    }
+
+    ///  You can change an entitlement's description, subscribers, and encryption. If you change the subscribers, the service will remove the outputs that are are used by the subscribers that are removed.
+    public func updateFlowEntitlement(_ input: UpdateFlowEntitlementRequest) throws -> UpdateFlowEntitlementResponse {
+        return try client.send(operation: "UpdateFlowEntitlement", path: "/v1/flows/{flowArn}/entitlements/{entitlementArn}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates an existing flow output.
+    public func updateFlowOutput(_ input: UpdateFlowOutputRequest) throws -> UpdateFlowOutputResponse {
+        return try client.send(operation: "UpdateFlowOutput", path: "/v1/flows/{flowArn}/outputs/{outputArn}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates the source of a flow.
+    public func updateFlowSource(_ input: UpdateFlowSourceRequest) throws -> UpdateFlowSourceResponse {
+        return try client.send(operation: "UpdateFlowSource", path: "/v1/flows/{flowArn}/source/{sourceArn}", httpMethod: "PUT", input: input)
     }
 
 

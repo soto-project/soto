@@ -5,125 +5,319 @@ import AWSSDKSwiftCore
 
 extension Kafka {
 
-    public struct EncryptionAtRest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataVolumeKMSKeyId", location: .body(locationName: "dataVolumeKMSKeyId"), required: true, type: .string)
-        ]
-        /// The AWS KMS key used for data encryption.
-        public let dataVolumeKMSKeyId: String
-
-        public init(dataVolumeKMSKeyId: String) {
-            self.dataVolumeKMSKeyId = dataVolumeKMSKeyId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dataVolumeKMSKeyId = "dataVolumeKMSKeyId"
-        }
+    public enum BrokerAZDistribution: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        public var description: String { return self.rawValue }
     }
 
-    public struct ListNodesRequest: AWSShape {
+    public struct BrokerNodeGroupInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "ClusterArn", location: .uri(locationName: "clusterArn"), required: true, type: .string)
+            AWSShapeMember(label: "BrokerAZDistribution", location: .body(locationName: "brokerAZDistribution"), required: false, type: .enum), 
+            AWSShapeMember(label: "ClientSubnets", location: .body(locationName: "clientSubnets"), required: true, type: .list), 
+            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType"), required: true, type: .string), 
+            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list), 
+            AWSShapeMember(label: "StorageInfo", location: .body(locationName: "storageInfo"), required: false, type: .structure)
         ]
-        public let maxResults: Int32?
-        public let nextToken: String?
-        public let clusterArn: String
+        /// The distribution of broker nodes across Availability Zones.
+        public let brokerAZDistribution: BrokerAZDistribution?
+        /// The list of subnets to connect to in the client virtual private cloud (VPC). AWS creates elastic network interfaces inside these subnets. Client applications use elastic network interfaces to produce and consume data. Client subnets can't be in Availability Zone us-east-1e.
+        public let clientSubnets: [String]
+        /// The type of Amazon EC2 instances to use for Kafka brokers. The following instance types are allowed: kafka.m5.large, kafka.m5.xlarge, kafka.m5.2xlarge,
+        /// kafka.m5.4xlarge, kafka.m5.12xlarge, and kafka.m5.24xlarge.
+        public let instanceType: String
+        /// The AWS security groups to associate with the elastic network interfaces in order to specify who can connect to and communicate with the Amazon MSK cluster.
+        public let securityGroups: [String]?
+        /// Contains information about storage volumes attached to MSK broker nodes.
+        public let storageInfo: StorageInfo?
 
-        public init(clusterArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.clusterArn = clusterArn
+        public init(brokerAZDistribution: BrokerAZDistribution? = nil, clientSubnets: [String], instanceType: String, securityGroups: [String]? = nil, storageInfo: StorageInfo? = nil) {
+            self.brokerAZDistribution = brokerAZDistribution
+            self.clientSubnets = clientSubnets
+            self.instanceType = instanceType
+            self.securityGroups = securityGroups
+            self.storageInfo = storageInfo
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case clusterArn = "clusterArn"
-        }
-    }
-
-    public struct ZookeeperNodeInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ZookeeperId", location: .body(locationName: "zookeeperId"), required: false, type: .double), 
-            AWSShapeMember(label: "ClientVpcIpAddress", location: .body(locationName: "clientVpcIpAddress"), required: false, type: .string), 
-            AWSShapeMember(label: "ZookeeperVersion", location: .body(locationName: "zookeeperVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "AttachedENIId", location: .body(locationName: "attachedENIId"), required: false, type: .string)
-        ]
-        /// The role-specific ID for Zookeeper.
-        public let zookeeperId: Double?
-        /// The virtual private cloud (VPC) IP address of the client.
-        public let clientVpcIpAddress: String?
-        /// The version of Zookeeper.
-        public let zookeeperVersion: String?
-        /// The attached elastic network interface of the broker.
-        public let attachedENIId: String?
-
-        public init(attachedENIId: String? = nil, clientVpcIpAddress: String? = nil, zookeeperId: Double? = nil, zookeeperVersion: String? = nil) {
-            self.zookeeperId = zookeeperId
-            self.clientVpcIpAddress = clientVpcIpAddress
-            self.zookeeperVersion = zookeeperVersion
-            self.attachedENIId = attachedENIId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case zookeeperId = "zookeeperId"
-            case clientVpcIpAddress = "clientVpcIpAddress"
-            case zookeeperVersion = "zookeeperVersion"
-            case attachedENIId = "attachedENIId"
-        }
-    }
-
-    public struct GetBootstrapBrokersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BootstrapBrokerString", location: .body(locationName: "bootstrapBrokerString"), required: false, type: .string)
-        ]
-        /// A string containing one or more hostname:port pairs.
-        public let bootstrapBrokerString: String?
-
-        public init(bootstrapBrokerString: String? = nil) {
-            self.bootstrapBrokerString = bootstrapBrokerString
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bootstrapBrokerString = "bootstrapBrokerString"
+            case brokerAZDistribution = "brokerAZDistribution"
+            case clientSubnets = "clientSubnets"
+            case instanceType = "instanceType"
+            case securityGroups = "securityGroups"
+            case storageInfo = "storageInfo"
         }
     }
 
     public struct BrokerNodeInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientVpcIpAddress", location: .body(locationName: "clientVpcIpAddress"), required: false, type: .string), 
-            AWSShapeMember(label: "CurrentBrokerSoftwareInfo", location: .body(locationName: "currentBrokerSoftwareInfo"), required: false, type: .structure), 
             AWSShapeMember(label: "AttachedENIId", location: .body(locationName: "attachedENIId"), required: false, type: .string), 
+            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .double), 
             AWSShapeMember(label: "ClientSubnet", location: .body(locationName: "clientSubnet"), required: false, type: .string), 
-            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .double)
+            AWSShapeMember(label: "ClientVpcIpAddress", location: .body(locationName: "clientVpcIpAddress"), required: false, type: .string), 
+            AWSShapeMember(label: "CurrentBrokerSoftwareInfo", location: .body(locationName: "currentBrokerSoftwareInfo"), required: false, type: .structure)
         ]
+        /// The attached elastic network interface of the broker.
+        public let attachedENIId: String?
+        /// The ID of the broker.
+        public let brokerId: Double?
+        /// The client subnet to which this broker node belongs.
+        public let clientSubnet: String?
         /// The virtual private cloud (VPC) of the client.
         public let clientVpcIpAddress: String?
         /// Information about the version of software currently deployed on the Kafka brokers in the cluster.
         public let currentBrokerSoftwareInfo: BrokerSoftwareInfo?
-        /// The attached elastic network interface of the broker.
-        public let attachedENIId: String?
-        /// The client subnet to which this broker node belongs.
-        public let clientSubnet: String?
-        /// The ID of the broker.
-        public let brokerId: Double?
 
         public init(attachedENIId: String? = nil, brokerId: Double? = nil, clientSubnet: String? = nil, clientVpcIpAddress: String? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil) {
+            self.attachedENIId = attachedENIId
+            self.brokerId = brokerId
+            self.clientSubnet = clientSubnet
             self.clientVpcIpAddress = clientVpcIpAddress
             self.currentBrokerSoftwareInfo = currentBrokerSoftwareInfo
-            self.attachedENIId = attachedENIId
-            self.clientSubnet = clientSubnet
-            self.brokerId = brokerId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case attachedENIId = "attachedENIId"
+            case brokerId = "brokerId"
+            case clientSubnet = "clientSubnet"
             case clientVpcIpAddress = "clientVpcIpAddress"
             case currentBrokerSoftwareInfo = "currentBrokerSoftwareInfo"
-            case attachedENIId = "attachedENIId"
-            case clientSubnet = "clientSubnet"
-            case brokerId = "brokerId"
+        }
+    }
+
+    public struct BrokerSoftwareInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationArn", location: .body(locationName: "configurationArn"), required: false, type: .string), 
+            AWSShapeMember(label: "ConfigurationRevision", location: .body(locationName: "configurationRevision"), required: false, type: .string), 
+            AWSShapeMember(label: "KafkaVersion", location: .body(locationName: "kafkaVersion"), required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the configuration used for the cluster.
+        public let configurationArn: String?
+        /// The revision of the configuration to use.
+        public let configurationRevision: String?
+        /// The version of Apache Kafka.
+        public let kafkaVersion: String?
+
+        public init(configurationArn: String? = nil, configurationRevision: String? = nil, kafkaVersion: String? = nil) {
+            self.configurationArn = configurationArn
+            self.configurationRevision = configurationRevision
+            self.kafkaVersion = kafkaVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationArn = "configurationArn"
+            case configurationRevision = "configurationRevision"
+            case kafkaVersion = "kafkaVersion"
+        }
+    }
+
+    public struct ClusterInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BrokerNodeGroupInfo", location: .body(locationName: "brokerNodeGroupInfo"), required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterArn", location: .body(locationName: "clusterArn"), required: false, type: .string), 
+            AWSShapeMember(label: "ClusterName", location: .body(locationName: "clusterName"), required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "CurrentBrokerSoftwareInfo", location: .body(locationName: "currentBrokerSoftwareInfo"), required: false, type: .structure), 
+            AWSShapeMember(label: "CurrentVersion", location: .body(locationName: "currentVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "EncryptionInfo", location: .body(locationName: "encryptionInfo"), required: false, type: .structure), 
+            AWSShapeMember(label: "EnhancedMonitoring", location: .body(locationName: "enhancedMonitoring"), required: false, type: .enum), 
+            AWSShapeMember(label: "NumberOfBrokerNodes", location: .body(locationName: "numberOfBrokerNodes"), required: false, type: .integer), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeMember(label: "ZookeeperConnectString", location: .body(locationName: "zookeeperConnectString"), required: false, type: .string)
+        ]
+        /// Information about the broker nodes.
+        public let brokerNodeGroupInfo: BrokerNodeGroupInfo?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+        public let clusterArn: String?
+        /// The name of the cluster.
+        public let clusterName: String?
+        /// The time when the cluster was created.
+        public let creationTime: TimeStamp?
+        /// Information about the version of software currently deployed on the Kafka brokers in the cluster.
+        public let currentBrokerSoftwareInfo: BrokerSoftwareInfo?
+        /// The current version of the MSK cluster.
+        public let currentVersion: String?
+        /// Includes all encryption-related information.
+        public let encryptionInfo: EncryptionInfo?
+        /// Specifies which metrics are gathered for the MSK cluster. This property has three possible values: DEFAULT, PER_BROKER, and PER_TOPIC_PER_BROKER.
+        public let enhancedMonitoring: EnhancedMonitoring?
+        /// The number of Kafka broker nodes in the cluster.
+        public let numberOfBrokerNodes: Int32?
+        /// The state of the cluster. The possible states are CREATING, ACTIVE, and FAILED.
+        public let state: ClusterState?
+        /// The connection string to use to connect to the Apache ZooKeeper cluster.
+        public let zookeeperConnectString: String?
+
+        public init(brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clusterArn: String? = nil, clusterName: String? = nil, creationTime: TimeStamp? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, currentVersion: String? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, numberOfBrokerNodes: Int32? = nil, state: ClusterState? = nil, zookeeperConnectString: String? = nil) {
+            self.brokerNodeGroupInfo = brokerNodeGroupInfo
+            self.clusterArn = clusterArn
+            self.clusterName = clusterName
+            self.creationTime = creationTime
+            self.currentBrokerSoftwareInfo = currentBrokerSoftwareInfo
+            self.currentVersion = currentVersion
+            self.encryptionInfo = encryptionInfo
+            self.enhancedMonitoring = enhancedMonitoring
+            self.numberOfBrokerNodes = numberOfBrokerNodes
+            self.state = state
+            self.zookeeperConnectString = zookeeperConnectString
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerNodeGroupInfo = "brokerNodeGroupInfo"
+            case clusterArn = "clusterArn"
+            case clusterName = "clusterName"
+            case creationTime = "creationTime"
+            case currentBrokerSoftwareInfo = "currentBrokerSoftwareInfo"
+            case currentVersion = "currentVersion"
+            case encryptionInfo = "encryptionInfo"
+            case enhancedMonitoring = "enhancedMonitoring"
+            case numberOfBrokerNodes = "numberOfBrokerNodes"
+            case state = "state"
+            case zookeeperConnectString = "zookeeperConnectString"
+        }
+    }
+
+    public enum ClusterState: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateClusterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BrokerNodeGroupInfo", location: .body(locationName: "brokerNodeGroupInfo"), required: true, type: .structure), 
+            AWSShapeMember(label: "ClusterName", location: .body(locationName: "clusterName"), required: true, type: .string), 
+            AWSShapeMember(label: "EncryptionInfo", location: .body(locationName: "encryptionInfo"), required: false, type: .structure), 
+            AWSShapeMember(label: "EnhancedMonitoring", location: .body(locationName: "enhancedMonitoring"), required: false, type: .enum), 
+            AWSShapeMember(label: "KafkaVersion", location: .body(locationName: "kafkaVersion"), required: true, type: .string), 
+            AWSShapeMember(label: "NumberOfBrokerNodes", location: .body(locationName: "numberOfBrokerNodes"), required: true, type: .integer)
+        ]
+        /// Information about the broker nodes in the cluster.
+        public let brokerNodeGroupInfo: BrokerNodeGroupInfo
+        /// The name of the cluster.
+        public let clusterName: String
+        /// Includes all encryption-related information.
+        public let encryptionInfo: EncryptionInfo?
+        /// Specifies the level of monitoring for the MSK cluster. The possible values are DEFAULT, PER_BROKER, and PER_TOPIC_PER_BROKER.
+        public let enhancedMonitoring: EnhancedMonitoring?
+        /// The version of Apache Kafka.
+        public let kafkaVersion: String
+        /// The number of Kafka broker nodes in the Amazon MSK cluster.
+        public let numberOfBrokerNodes: Int32
+
+        public init(brokerNodeGroupInfo: BrokerNodeGroupInfo, clusterName: String, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, kafkaVersion: String, numberOfBrokerNodes: Int32) {
+            self.brokerNodeGroupInfo = brokerNodeGroupInfo
+            self.clusterName = clusterName
+            self.encryptionInfo = encryptionInfo
+            self.enhancedMonitoring = enhancedMonitoring
+            self.kafkaVersion = kafkaVersion
+            self.numberOfBrokerNodes = numberOfBrokerNodes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerNodeGroupInfo = "brokerNodeGroupInfo"
+            case clusterName = "clusterName"
+            case encryptionInfo = "encryptionInfo"
+            case enhancedMonitoring = "enhancedMonitoring"
+            case kafkaVersion = "kafkaVersion"
+            case numberOfBrokerNodes = "numberOfBrokerNodes"
+        }
+    }
+
+    public struct CreateClusterResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterArn", location: .body(locationName: "clusterArn"), required: false, type: .string), 
+            AWSShapeMember(label: "ClusterName", location: .body(locationName: "clusterName"), required: false, type: .string), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum)
+        ]
+        /// The Amazon Resource Name (ARN) of the cluster.
+        public let clusterArn: String?
+        /// The name of the MSK cluster.
+        public let clusterName: String?
+        /// The state of the cluster. The possible states are CREATING, ACTIVE, and FAILED.
+        public let state: ClusterState?
+
+        public init(clusterArn: String? = nil, clusterName: String? = nil, state: ClusterState? = nil) {
+            self.clusterArn = clusterArn
+            self.clusterName = clusterName
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+            case clusterName = "clusterName"
+            case state = "state"
+        }
+    }
+
+    public struct DeleteClusterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterArn", location: .uri(locationName: "clusterArn"), required: true, type: .string), 
+            AWSShapeMember(label: "CurrentVersion", location: .querystring(locationName: "currentVersion"), required: false, type: .string)
+        ]
+        public let clusterArn: String
+        public let currentVersion: String?
+
+        public init(clusterArn: String, currentVersion: String? = nil) {
+            self.clusterArn = clusterArn
+            self.currentVersion = currentVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+            case currentVersion = "currentVersion"
+        }
+    }
+
+    public struct DeleteClusterResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterArn", location: .body(locationName: "clusterArn"), required: false, type: .string), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum)
+        ]
+        /// The Amazon Resource Name (ARN) of the cluster.
+        public let clusterArn: String?
+        /// The state of the cluster. The possible states are CREATING, ACTIVE, and FAILED.
+        public let state: ClusterState?
+
+        public init(clusterArn: String? = nil, state: ClusterState? = nil) {
+            self.clusterArn = clusterArn
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+            case state = "state"
+        }
+    }
+
+    public struct DescribeClusterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterArn", location: .uri(locationName: "clusterArn"), required: true, type: .string)
+        ]
+        public let clusterArn: String
+
+        public init(clusterArn: String) {
+            self.clusterArn = clusterArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+        }
+    }
+
+    public struct DescribeClusterResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterInfo", location: .body(locationName: "clusterInfo"), required: false, type: .structure)
+        ]
+        /// The cluster information.
+        public let clusterInfo: ClusterInfo?
+
+        public init(clusterInfo: ClusterInfo? = nil) {
+            self.clusterInfo = clusterInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterInfo = "clusterInfo"
         }
     }
 
@@ -143,163 +337,43 @@ extension Kafka {
         }
     }
 
-    public struct BrokerNodeGroupInfo: AWSShape {
+    public struct EncryptionAtRest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerAZDistribution", location: .body(locationName: "brokerAZDistribution"), required: false, type: .enum), 
-            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list), 
-            AWSShapeMember(label: "ClientSubnets", location: .body(locationName: "clientSubnets"), required: true, type: .list), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType"), required: true, type: .string), 
-            AWSShapeMember(label: "StorageInfo", location: .body(locationName: "storageInfo"), required: false, type: .structure)
+            AWSShapeMember(label: "DataVolumeKMSKeyId", location: .body(locationName: "dataVolumeKMSKeyId"), required: true, type: .string)
         ]
-        /// The distribution of broker nodes across Availability Zones.
-        public let brokerAZDistribution: BrokerAZDistribution?
-        /// The AWS security groups to associate with the elastic network interfaces in order to specify who can connect to and communicate with the Amazon MSK cluster.
-        public let securityGroups: [String]?
-        /// The list of subnets to connect to in the client virtual private cloud (VPC). AWS creates elastic network interfaces inside these subnets. Client applications use elastic network interfaces to produce and consume data. Client subnets can't be in Availability Zone us-east-1e.
-        public let clientSubnets: [String]
-        /// The type of Amazon EC2 instances to use for Kafka brokers. The following instance types are allowed: kafka.m5.large, kafka.m5.xlarge, kafka.m5.2xlarge,
-        /// kafka.m5.4xlarge, kafka.m5.12xlarge, and kafka.m5.24xlarge.
-        public let instanceType: String
-        /// Contains information about storage volumes attached to MSK broker nodes.
-        public let storageInfo: StorageInfo?
+        /// The AWS KMS key used for data encryption.
+        public let dataVolumeKMSKeyId: String
 
-        public init(brokerAZDistribution: BrokerAZDistribution? = nil, clientSubnets: [String], instanceType: String, securityGroups: [String]? = nil, storageInfo: StorageInfo? = nil) {
-            self.brokerAZDistribution = brokerAZDistribution
-            self.securityGroups = securityGroups
-            self.clientSubnets = clientSubnets
-            self.instanceType = instanceType
-            self.storageInfo = storageInfo
+        public init(dataVolumeKMSKeyId: String) {
+            self.dataVolumeKMSKeyId = dataVolumeKMSKeyId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case brokerAZDistribution = "brokerAZDistribution"
-            case securityGroups = "securityGroups"
-            case clientSubnets = "clientSubnets"
-            case instanceType = "instanceType"
-            case storageInfo = "storageInfo"
+            case dataVolumeKMSKeyId = "dataVolumeKMSKeyId"
         }
     }
 
-    public struct GetBootstrapBrokersRequest: AWSShape {
+    public struct EncryptionInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterArn", location: .uri(locationName: "clusterArn"), required: true, type: .string)
+            AWSShapeMember(label: "EncryptionAtRest", location: .body(locationName: "encryptionAtRest"), required: false, type: .structure)
         ]
-        public let clusterArn: String
+        /// The data volume encryption details.
+        public let encryptionAtRest: EncryptionAtRest?
 
-        public init(clusterArn: String) {
-            self.clusterArn = clusterArn
+        public init(encryptionAtRest: EncryptionAtRest? = nil) {
+            self.encryptionAtRest = encryptionAtRest
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArn = "clusterArn"
+            case encryptionAtRest = "encryptionAtRest"
         }
     }
 
-    public struct ClusterInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnhancedMonitoring", location: .body(locationName: "enhancedMonitoring"), required: false, type: .enum), 
-            AWSShapeMember(label: "ZookeeperConnectString", location: .body(locationName: "zookeeperConnectString"), required: false, type: .string), 
-            AWSShapeMember(label: "BrokerNodeGroupInfo", location: .body(locationName: "brokerNodeGroupInfo"), required: false, type: .structure), 
-            AWSShapeMember(label: "EncryptionInfo", location: .body(locationName: "encryptionInfo"), required: false, type: .structure), 
-            AWSShapeMember(label: "ClusterArn", location: .body(locationName: "clusterArn"), required: false, type: .string), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
-            AWSShapeMember(label: "CurrentBrokerSoftwareInfo", location: .body(locationName: "currentBrokerSoftwareInfo"), required: false, type: .structure), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ClusterName", location: .body(locationName: "clusterName"), required: false, type: .string), 
-            AWSShapeMember(label: "NumberOfBrokerNodes", location: .body(locationName: "numberOfBrokerNodes"), required: false, type: .integer), 
-            AWSShapeMember(label: "CurrentVersion", location: .body(locationName: "currentVersion"), required: false, type: .string)
-        ]
-        /// Specifies which metrics are gathered for the MSK cluster. This property has three possible values: DEFAULT, PER_BROKER, and PER_TOPIC_PER_BROKER.
-        public let enhancedMonitoring: EnhancedMonitoring?
-        /// The connection string to use to connect to the Apache ZooKeeper cluster.
-        public let zookeeperConnectString: String?
-        /// Information about the broker nodes.
-        public let brokerNodeGroupInfo: BrokerNodeGroupInfo?
-        /// Includes all encryption-related information.
-        public let encryptionInfo: EncryptionInfo?
-        /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
-        public let clusterArn: String?
-        /// The state of the cluster. The possible states are CREATING, ACTIVE, and FAILED.
-        public let state: ClusterState?
-        /// Information about the version of software currently deployed on the Kafka brokers in the cluster.
-        public let currentBrokerSoftwareInfo: BrokerSoftwareInfo?
-        /// The time when the cluster was created.
-        public let creationTime: TimeStamp?
-        /// The name of the cluster.
-        public let clusterName: String?
-        /// The number of Kafka broker nodes in the cluster.
-        public let numberOfBrokerNodes: Int32?
-        /// The current version of the MSK cluster.
-        public let currentVersion: String?
-
-        public init(brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clusterArn: String? = nil, clusterName: String? = nil, creationTime: TimeStamp? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, currentVersion: String? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, numberOfBrokerNodes: Int32? = nil, state: ClusterState? = nil, zookeeperConnectString: String? = nil) {
-            self.enhancedMonitoring = enhancedMonitoring
-            self.zookeeperConnectString = zookeeperConnectString
-            self.brokerNodeGroupInfo = brokerNodeGroupInfo
-            self.encryptionInfo = encryptionInfo
-            self.clusterArn = clusterArn
-            self.state = state
-            self.currentBrokerSoftwareInfo = currentBrokerSoftwareInfo
-            self.creationTime = creationTime
-            self.clusterName = clusterName
-            self.numberOfBrokerNodes = numberOfBrokerNodes
-            self.currentVersion = currentVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case enhancedMonitoring = "enhancedMonitoring"
-            case zookeeperConnectString = "zookeeperConnectString"
-            case brokerNodeGroupInfo = "brokerNodeGroupInfo"
-            case encryptionInfo = "encryptionInfo"
-            case clusterArn = "clusterArn"
-            case state = "state"
-            case currentBrokerSoftwareInfo = "currentBrokerSoftwareInfo"
-            case creationTime = "creationTime"
-            case clusterName = "clusterName"
-            case numberOfBrokerNodes = "numberOfBrokerNodes"
-            case currentVersion = "currentVersion"
-        }
-    }
-
-    public struct NodeInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeARN", location: .body(locationName: "nodeARN"), required: false, type: .string), 
-            AWSShapeMember(label: "ZookeeperNodeInfo", location: .body(locationName: "zookeeperNodeInfo"), required: false, type: .structure), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .string), 
-            AWSShapeMember(label: "NodeType", location: .body(locationName: "nodeType"), required: false, type: .enum), 
-            AWSShapeMember(label: "BrokerNodeInfo", location: .body(locationName: "brokerNodeInfo"), required: false, type: .structure), 
-            AWSShapeMember(label: "AddedToClusterTime", location: .body(locationName: "addedToClusterTime"), required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the node.
-        public let nodeARN: String?
-        /// The ZookeeperNodeInfo.
-        public let zookeeperNodeInfo: ZookeeperNodeInfo?
-        /// The instance type.
-        public let instanceType: String?
-        /// The node type.
-        public let nodeType: NodeType?
-        /// The broker node info.
-        public let brokerNodeInfo: BrokerNodeInfo?
-        /// The start time.
-        public let addedToClusterTime: String?
-
-        public init(addedToClusterTime: String? = nil, brokerNodeInfo: BrokerNodeInfo? = nil, instanceType: String? = nil, nodeARN: String? = nil, nodeType: NodeType? = nil, zookeeperNodeInfo: ZookeeperNodeInfo? = nil) {
-            self.nodeARN = nodeARN
-            self.zookeeperNodeInfo = zookeeperNodeInfo
-            self.instanceType = instanceType
-            self.nodeType = nodeType
-            self.brokerNodeInfo = brokerNodeInfo
-            self.addedToClusterTime = addedToClusterTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nodeARN = "nodeARN"
-            case zookeeperNodeInfo = "zookeeperNodeInfo"
-            case instanceType = "instanceType"
-            case nodeType = "nodeType"
-            case brokerNodeInfo = "brokerNodeInfo"
-            case addedToClusterTime = "addedToClusterTime"
-        }
+    public enum EnhancedMonitoring: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case perBroker = "PER_BROKER"
+        case perTopicPerBroker = "PER_TOPIC_PER_BROKER"
+        public var description: String { return self.rawValue }
     }
 
     public struct Error: AWSShape {
@@ -323,25 +397,57 @@ extension Kafka {
         }
     }
 
-    public struct ListNodesResponse: AWSShape {
+    public struct GetBootstrapBrokersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "NodeInfoList", location: .body(locationName: "nodeInfoList"), required: false, type: .list)
+            AWSShapeMember(label: "ClusterArn", location: .uri(locationName: "clusterArn"), required: true, type: .string)
         ]
-        /// The paginated results marker. When the result of a ListNodes operation is truncated, the call returns NextToken in the response. 
-        ///  To get another batch of nodes, provide this token in your next request.
-        public let nextToken: String?
-        /// List containing a NodeInfo object.
-        public let nodeInfoList: [NodeInfo]?
+        public let clusterArn: String
 
-        public init(nextToken: String? = nil, nodeInfoList: [NodeInfo]? = nil) {
-            self.nextToken = nextToken
-            self.nodeInfoList = nodeInfoList
+        public init(clusterArn: String) {
+            self.clusterArn = clusterArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+        }
+    }
+
+    public struct GetBootstrapBrokersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BootstrapBrokerString", location: .body(locationName: "bootstrapBrokerString"), required: false, type: .string)
+        ]
+        /// A string containing one or more hostname:port pairs.
+        public let bootstrapBrokerString: String?
+
+        public init(bootstrapBrokerString: String? = nil) {
+            self.bootstrapBrokerString = bootstrapBrokerString
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bootstrapBrokerString = "bootstrapBrokerString"
+        }
+    }
+
+    public struct ListClustersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterNameFilter", location: .querystring(locationName: "clusterNameFilter"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+        public let clusterNameFilter: String?
+        public let maxResults: Int32?
+        public let nextToken: String?
+
+        public init(clusterNameFilter: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.clusterNameFilter = clusterNameFilter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterNameFilter = "clusterNameFilter"
+            case maxResults = "maxResults"
             case nextToken = "nextToken"
-            case nodeInfoList = "nodeInfoList"
         }
     }
 
@@ -367,123 +473,89 @@ extension Kafka {
         }
     }
 
-    public enum ClusterState: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case creating = "CREATING"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct EncryptionInfo: AWSShape {
+    public struct ListNodesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EncryptionAtRest", location: .body(locationName: "encryptionAtRest"), required: false, type: .structure)
-        ]
-        /// The data volume encryption details.
-        public let encryptionAtRest: EncryptionAtRest?
-
-        public init(encryptionAtRest: EncryptionAtRest? = nil) {
-            self.encryptionAtRest = encryptionAtRest
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case encryptionAtRest = "encryptionAtRest"
-        }
-    }
-
-    public struct BrokerSoftwareInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationRevision", location: .body(locationName: "configurationRevision"), required: false, type: .string), 
-            AWSShapeMember(label: "ConfigurationArn", location: .body(locationName: "configurationArn"), required: false, type: .string), 
-            AWSShapeMember(label: "KafkaVersion", location: .body(locationName: "kafkaVersion"), required: false, type: .string)
-        ]
-        /// The revision of the configuration to use.
-        public let configurationRevision: String?
-        /// The Amazon Resource Name (ARN) of the configuration used for the cluster.
-        public let configurationArn: String?
-        /// The version of Apache Kafka.
-        public let kafkaVersion: String?
-
-        public init(configurationArn: String? = nil, configurationRevision: String? = nil, kafkaVersion: String? = nil) {
-            self.configurationRevision = configurationRevision
-            self.configurationArn = configurationArn
-            self.kafkaVersion = kafkaVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configurationRevision = "configurationRevision"
-            case configurationArn = "configurationArn"
-            case kafkaVersion = "kafkaVersion"
-        }
-    }
-
-    public enum BrokerAZDistribution: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateClusterResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterName", location: .body(locationName: "clusterName"), required: false, type: .string), 
-            AWSShapeMember(label: "ClusterArn", location: .body(locationName: "clusterArn"), required: false, type: .string), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum)
-        ]
-        /// The name of the MSK cluster.
-        public let clusterName: String?
-        /// The Amazon Resource Name (ARN) of the cluster.
-        public let clusterArn: String?
-        /// The state of the cluster. The possible states are CREATING, ACTIVE, and FAILED.
-        public let state: ClusterState?
-
-        public init(clusterArn: String? = nil, clusterName: String? = nil, state: ClusterState? = nil) {
-            self.clusterName = clusterName
-            self.clusterArn = clusterArn
-            self.state = state
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clusterName = "clusterName"
-            case clusterArn = "clusterArn"
-            case state = "state"
-        }
-    }
-
-    public struct DescribeClusterResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterInfo", location: .body(locationName: "clusterInfo"), required: false, type: .structure)
-        ]
-        /// The cluster information.
-        public let clusterInfo: ClusterInfo?
-
-        public init(clusterInfo: ClusterInfo? = nil) {
-            self.clusterInfo = clusterInfo
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clusterInfo = "clusterInfo"
-        }
-    }
-
-    public struct ListClustersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterArn", location: .uri(locationName: "clusterArn"), required: true, type: .string), 
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "ClusterNameFilter", location: .querystring(locationName: "clusterNameFilter"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+        public let clusterArn: String
         public let maxResults: Int32?
-        public let clusterNameFilter: String?
         public let nextToken: String?
 
-        public init(clusterNameFilter: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(clusterArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.clusterArn = clusterArn
             self.maxResults = maxResults
-            self.clusterNameFilter = clusterNameFilter
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
             case maxResults = "maxResults"
-            case clusterNameFilter = "clusterNameFilter"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNodesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "NodeInfoList", location: .body(locationName: "nodeInfoList"), required: false, type: .list)
+        ]
+        /// The paginated results marker. When the result of a ListNodes operation is truncated, the call returns NextToken in the response. 
+        ///  To get another batch of nodes, provide this token in your next request.
+        public let nextToken: String?
+        /// List containing a NodeInfo object.
+        public let nodeInfoList: [NodeInfo]?
+
+        public init(nextToken: String? = nil, nodeInfoList: [NodeInfo]? = nil) {
+            self.nextToken = nextToken
+            self.nodeInfoList = nodeInfoList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case nodeInfoList = "nodeInfoList"
+        }
+    }
+
+    public struct NodeInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AddedToClusterTime", location: .body(locationName: "addedToClusterTime"), required: false, type: .string), 
+            AWSShapeMember(label: "BrokerNodeInfo", location: .body(locationName: "brokerNodeInfo"), required: false, type: .structure), 
+            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .string), 
+            AWSShapeMember(label: "NodeARN", location: .body(locationName: "nodeARN"), required: false, type: .string), 
+            AWSShapeMember(label: "NodeType", location: .body(locationName: "nodeType"), required: false, type: .enum), 
+            AWSShapeMember(label: "ZookeeperNodeInfo", location: .body(locationName: "zookeeperNodeInfo"), required: false, type: .structure)
+        ]
+        /// The start time.
+        public let addedToClusterTime: String?
+        /// The broker node info.
+        public let brokerNodeInfo: BrokerNodeInfo?
+        /// The instance type.
+        public let instanceType: String?
+        /// The Amazon Resource Name (ARN) of the node.
+        public let nodeARN: String?
+        /// The node type.
+        public let nodeType: NodeType?
+        /// The ZookeeperNodeInfo.
+        public let zookeeperNodeInfo: ZookeeperNodeInfo?
+
+        public init(addedToClusterTime: String? = nil, brokerNodeInfo: BrokerNodeInfo? = nil, instanceType: String? = nil, nodeARN: String? = nil, nodeType: NodeType? = nil, zookeeperNodeInfo: ZookeeperNodeInfo? = nil) {
+            self.addedToClusterTime = addedToClusterTime
+            self.brokerNodeInfo = brokerNodeInfo
+            self.instanceType = instanceType
+            self.nodeARN = nodeARN
+            self.nodeType = nodeType
+            self.zookeeperNodeInfo = zookeeperNodeInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addedToClusterTime = "addedToClusterTime"
+            case brokerNodeInfo = "brokerNodeInfo"
+            case instanceType = "instanceType"
+            case nodeARN = "nodeARN"
+            case nodeType = "nodeType"
+            case zookeeperNodeInfo = "zookeeperNodeInfo"
         }
     }
 
@@ -508,106 +580,34 @@ extension Kafka {
         }
     }
 
-    public struct CreateClusterRequest: AWSShape {
+    public struct ZookeeperNodeInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnhancedMonitoring", location: .body(locationName: "enhancedMonitoring"), required: false, type: .enum), 
-            AWSShapeMember(label: "EncryptionInfo", location: .body(locationName: "encryptionInfo"), required: false, type: .structure), 
-            AWSShapeMember(label: "NumberOfBrokerNodes", location: .body(locationName: "numberOfBrokerNodes"), required: true, type: .integer), 
-            AWSShapeMember(label: "KafkaVersion", location: .body(locationName: "kafkaVersion"), required: true, type: .string), 
-            AWSShapeMember(label: "BrokerNodeGroupInfo", location: .body(locationName: "brokerNodeGroupInfo"), required: true, type: .structure), 
-            AWSShapeMember(label: "ClusterName", location: .body(locationName: "clusterName"), required: true, type: .string)
+            AWSShapeMember(label: "AttachedENIId", location: .body(locationName: "attachedENIId"), required: false, type: .string), 
+            AWSShapeMember(label: "ClientVpcIpAddress", location: .body(locationName: "clientVpcIpAddress"), required: false, type: .string), 
+            AWSShapeMember(label: "ZookeeperId", location: .body(locationName: "zookeeperId"), required: false, type: .double), 
+            AWSShapeMember(label: "ZookeeperVersion", location: .body(locationName: "zookeeperVersion"), required: false, type: .string)
         ]
-        /// Specifies the level of monitoring for the MSK cluster. The possible values are DEFAULT, PER_BROKER, and PER_TOPIC_PER_BROKER.
-        public let enhancedMonitoring: EnhancedMonitoring?
-        /// Includes all encryption-related information.
-        public let encryptionInfo: EncryptionInfo?
-        /// The number of Kafka broker nodes in the Amazon MSK cluster.
-        public let numberOfBrokerNodes: Int32
-        /// The version of Apache Kafka.
-        public let kafkaVersion: String
-        /// Information about the broker nodes in the cluster.
-        public let brokerNodeGroupInfo: BrokerNodeGroupInfo
-        /// The name of the cluster.
-        public let clusterName: String
+        /// The attached elastic network interface of the broker.
+        public let attachedENIId: String?
+        /// The virtual private cloud (VPC) IP address of the client.
+        public let clientVpcIpAddress: String?
+        /// The role-specific ID for Zookeeper.
+        public let zookeeperId: Double?
+        /// The version of Zookeeper.
+        public let zookeeperVersion: String?
 
-        public init(brokerNodeGroupInfo: BrokerNodeGroupInfo, clusterName: String, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, kafkaVersion: String, numberOfBrokerNodes: Int32) {
-            self.enhancedMonitoring = enhancedMonitoring
-            self.encryptionInfo = encryptionInfo
-            self.numberOfBrokerNodes = numberOfBrokerNodes
-            self.kafkaVersion = kafkaVersion
-            self.brokerNodeGroupInfo = brokerNodeGroupInfo
-            self.clusterName = clusterName
+        public init(attachedENIId: String? = nil, clientVpcIpAddress: String? = nil, zookeeperId: Double? = nil, zookeeperVersion: String? = nil) {
+            self.attachedENIId = attachedENIId
+            self.clientVpcIpAddress = clientVpcIpAddress
+            self.zookeeperId = zookeeperId
+            self.zookeeperVersion = zookeeperVersion
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enhancedMonitoring = "enhancedMonitoring"
-            case encryptionInfo = "encryptionInfo"
-            case numberOfBrokerNodes = "numberOfBrokerNodes"
-            case kafkaVersion = "kafkaVersion"
-            case brokerNodeGroupInfo = "brokerNodeGroupInfo"
-            case clusterName = "clusterName"
-        }
-    }
-
-    public struct DeleteClusterResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
-            AWSShapeMember(label: "ClusterArn", location: .body(locationName: "clusterArn"), required: false, type: .string)
-        ]
-        /// The state of the cluster. The possible states are CREATING, ACTIVE, and FAILED.
-        public let state: ClusterState?
-        /// The Amazon Resource Name (ARN) of the cluster.
-        public let clusterArn: String?
-
-        public init(clusterArn: String? = nil, state: ClusterState? = nil) {
-            self.state = state
-            self.clusterArn = clusterArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "state"
-            case clusterArn = "clusterArn"
-        }
-    }
-
-    public enum EnhancedMonitoring: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
-        case perBroker = "PER_BROKER"
-        case perTopicPerBroker = "PER_TOPIC_PER_BROKER"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteClusterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentVersion", location: .querystring(locationName: "currentVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "ClusterArn", location: .uri(locationName: "clusterArn"), required: true, type: .string)
-        ]
-        public let currentVersion: String?
-        public let clusterArn: String
-
-        public init(clusterArn: String, currentVersion: String? = nil) {
-            self.currentVersion = currentVersion
-            self.clusterArn = clusterArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case currentVersion = "currentVersion"
-            case clusterArn = "clusterArn"
-        }
-    }
-
-    public struct DescribeClusterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterArn", location: .uri(locationName: "clusterArn"), required: true, type: .string)
-        ]
-        public let clusterArn: String
-
-        public init(clusterArn: String) {
-            self.clusterArn = clusterArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clusterArn = "clusterArn"
+            case attachedENIId = "attachedENIId"
+            case clientVpcIpAddress = "clientVpcIpAddress"
+            case zookeeperId = "zookeeperId"
+            case zookeeperVersion = "zookeeperVersion"
         }
     }
 

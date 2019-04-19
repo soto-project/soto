@@ -24,39 +24,9 @@ public struct Mobile {
         )
     }
 
-    ///   Lists projects in AWS Mobile Hub. 
-    public func listProjects(_ input: ListProjectsRequest) throws -> ListProjectsResult {
-        return try client.send(operation: "ListProjects", path: "/projects", httpMethod: "GET", input: input)
-    }
-
-    ///   Exports project configuration to a snapshot which can be downloaded and shared. Note that mobile app push credentials are encrypted in exported projects, so they can only be shared successfully within the same AWS account. 
-    public func exportProject(_ input: ExportProjectRequest) throws -> ExportProjectResult {
-        return try client.send(operation: "ExportProject", path: "/exports/{projectId}", httpMethod: "POST", input: input)
-    }
-
-    ///   Gets details about a project in AWS Mobile Hub. 
-    public func describeProject(_ input: DescribeProjectRequest) throws -> DescribeProjectResult {
-        return try client.send(operation: "DescribeProject", path: "/project", httpMethod: "GET", input: input)
-    }
-
-    ///   List all available bundles. 
-    public func listBundles(_ input: ListBundlesRequest) throws -> ListBundlesResult {
-        return try client.send(operation: "ListBundles", path: "/bundles", httpMethod: "GET", input: input)
-    }
-
     ///   Creates an AWS Mobile Hub project. 
     public func createProject(_ input: CreateProjectRequest) throws -> CreateProjectResult {
         return try client.send(operation: "CreateProject", path: "/projects", httpMethod: "POST", input: input)
-    }
-
-    ///   Update an existing project. 
-    public func updateProject(_ input: UpdateProjectRequest) throws -> UpdateProjectResult {
-        return try client.send(operation: "UpdateProject", path: "/update", httpMethod: "POST", input: input)
-    }
-
-    ///   Generates customized software development kit (SDK) and or tool packages used to integrate mobile web or mobile app clients with backend AWS resources. 
-    public func exportBundle(_ input: ExportBundleRequest) throws -> ExportBundleResult {
-        return try client.send(operation: "ExportBundle", path: "/bundles/{bundleId}", httpMethod: "POST", input: input)
     }
 
     ///   Delets a project in AWS Mobile Hub. 
@@ -67,6 +37,36 @@ public struct Mobile {
     ///   Get the bundle details for the requested bundle id. 
     public func describeBundle(_ input: DescribeBundleRequest) throws -> DescribeBundleResult {
         return try client.send(operation: "DescribeBundle", path: "/bundles/{bundleId}", httpMethod: "GET", input: input)
+    }
+
+    ///   Gets details about a project in AWS Mobile Hub. 
+    public func describeProject(_ input: DescribeProjectRequest) throws -> DescribeProjectResult {
+        return try client.send(operation: "DescribeProject", path: "/project", httpMethod: "GET", input: input)
+    }
+
+    ///   Generates customized software development kit (SDK) and or tool packages used to integrate mobile web or mobile app clients with backend AWS resources. 
+    public func exportBundle(_ input: ExportBundleRequest) throws -> ExportBundleResult {
+        return try client.send(operation: "ExportBundle", path: "/bundles/{bundleId}", httpMethod: "POST", input: input)
+    }
+
+    ///   Exports project configuration to a snapshot which can be downloaded and shared. Note that mobile app push credentials are encrypted in exported projects, so they can only be shared successfully within the same AWS account. 
+    public func exportProject(_ input: ExportProjectRequest) throws -> ExportProjectResult {
+        return try client.send(operation: "ExportProject", path: "/exports/{projectId}", httpMethod: "POST", input: input)
+    }
+
+    ///   List all available bundles. 
+    public func listBundles(_ input: ListBundlesRequest) throws -> ListBundlesResult {
+        return try client.send(operation: "ListBundles", path: "/bundles", httpMethod: "GET", input: input)
+    }
+
+    ///   Lists projects in AWS Mobile Hub. 
+    public func listProjects(_ input: ListProjectsRequest) throws -> ListProjectsResult {
+        return try client.send(operation: "ListProjects", path: "/projects", httpMethod: "GET", input: input)
+    }
+
+    ///   Update an existing project. 
+    public func updateProject(_ input: UpdateProjectRequest) throws -> UpdateProjectResult {
+        return try client.send(operation: "UpdateProject", path: "/update", httpMethod: "POST", input: input)
     }
 
 

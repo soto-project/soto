@@ -4,14 +4,14 @@ import AWSSDKSwiftCore
 
 /// Error enum for MediaLive
 public enum MediaLiveErrorType: AWSErrorType {
-    case badRequestException(message: String?)
-    case internalServerErrorException(message: String?)
-    case forbiddenException(message: String?)
     case badGatewayException(message: String?)
-    case notFoundException(message: String?)
-    case gatewayTimeoutException(message: String?)
-    case tooManyRequestsException(message: String?)
+    case badRequestException(message: String?)
     case conflictException(message: String?)
+    case forbiddenException(message: String?)
+    case gatewayTimeoutException(message: String?)
+    case internalServerErrorException(message: String?)
+    case notFoundException(message: String?)
+    case tooManyRequestsException(message: String?)
     case unprocessableEntityException(message: String?)
 }
 
@@ -22,22 +22,22 @@ extension MediaLiveErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        case "InternalServerErrorException":
-            self = .internalServerErrorException(message: message)
-        case "ForbiddenException":
-            self = .forbiddenException(message: message)
         case "BadGatewayException":
             self = .badGatewayException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "GatewayTimeoutException":
-            self = .gatewayTimeoutException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
+        case "BadRequestException":
+            self = .badRequestException(message: message)
         case "ConflictException":
             self = .conflictException(message: message)
+        case "ForbiddenException":
+            self = .forbiddenException(message: message)
+        case "GatewayTimeoutException":
+            self = .gatewayTimeoutException(message: message)
+        case "InternalServerErrorException":
+            self = .internalServerErrorException(message: message)
+        case "NotFoundException":
+            self = .notFoundException(message: message)
+        case "TooManyRequestsException":
+            self = .tooManyRequestsException(message: message)
         case "UnprocessableEntityException":
             self = .unprocessableEntityException(message: message)
         default:

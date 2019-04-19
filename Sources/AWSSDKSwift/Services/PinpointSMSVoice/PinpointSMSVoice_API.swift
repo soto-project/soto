@@ -24,14 +24,19 @@ public struct PinpointSMSVoice {
         )
     }
 
-    ///  Update an event destination in a configuration set. An event destination is a location that you publish information about your voice calls to. For example, you can log an event to an Amazon CloudWatch destination when a call fails.
-    public func updateConfigurationSetEventDestination(_ input: UpdateConfigurationSetEventDestinationRequest) throws -> UpdateConfigurationSetEventDestinationResponse {
-        return try client.send(operation: "UpdateConfigurationSetEventDestination", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", httpMethod: "PUT", input: input)
+    ///  Create a new configuration set. After you create the configuration set, you can add one or more event destinations to it.
+    public func createConfigurationSet(_ input: CreateConfigurationSetRequest) throws -> CreateConfigurationSetResponse {
+        return try client.send(operation: "CreateConfigurationSet", path: "/v1/sms-voice/configuration-sets", httpMethod: "POST", input: input)
     }
 
     ///  Create a new event destination in a configuration set.
     public func createConfigurationSetEventDestination(_ input: CreateConfigurationSetEventDestinationRequest) throws -> CreateConfigurationSetEventDestinationResponse {
         return try client.send(operation: "CreateConfigurationSetEventDestination", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes an existing configuration set.
+    public func deleteConfigurationSet(_ input: DeleteConfigurationSetRequest) throws -> DeleteConfigurationSetResponse {
+        return try client.send(operation: "DeleteConfigurationSet", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an event destination in a configuration set.
@@ -49,14 +54,9 @@ public struct PinpointSMSVoice {
         return try client.send(operation: "SendVoiceMessage", path: "/v1/sms-voice/voice/message", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes an existing configuration set.
-    public func deleteConfigurationSet(_ input: DeleteConfigurationSetRequest) throws -> DeleteConfigurationSetResponse {
-        return try client.send(operation: "DeleteConfigurationSet", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}", httpMethod: "DELETE", input: input)
-    }
-
-    ///  Create a new configuration set. After you create the configuration set, you can add one or more event destinations to it.
-    public func createConfigurationSet(_ input: CreateConfigurationSetRequest) throws -> CreateConfigurationSetResponse {
-        return try client.send(operation: "CreateConfigurationSet", path: "/v1/sms-voice/configuration-sets", httpMethod: "POST", input: input)
+    ///  Update an event destination in a configuration set. An event destination is a location that you publish information about your voice calls to. For example, you can log an event to an Amazon CloudWatch destination when a call fails.
+    public func updateConfigurationSetEventDestination(_ input: UpdateConfigurationSetEventDestinationRequest) throws -> UpdateConfigurationSetEventDestinationResponse {
+        return try client.send(operation: "UpdateConfigurationSetEventDestination", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", httpMethod: "PUT", input: input)
     }
 
 

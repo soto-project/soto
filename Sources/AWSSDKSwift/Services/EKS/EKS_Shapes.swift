@@ -5,24 +5,129 @@ import AWSSDKSwiftCore
 
 extension EKS {
 
-    public struct ListClustersRequest: AWSShape {
+    public struct Certificate: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+            AWSShapeMember(label: "data", required: false, type: .string)
         ]
-        /// The nextToken value returned from a previous paginated ListClusters request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        public let nextToken: String?
-        /// The maximum number of cluster results returned by ListClusters in paginated output. When this parameter is used, ListClusters only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListClusters request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListClusters returns up to 100 results and a nextToken value if applicable.
-        public let maxResults: Int32?
+        /// The base64 encoded certificate data required to communicate with your cluster. Add this to the certificate-authority-data section of the kubeconfig file for your cluster.
+        public let data: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
+        public init(data: String? = nil) {
+            self.data = data
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
+            case data = "data"
+        }
+    }
+
+    public struct Cluster: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "certificateAuthority", required: false, type: .structure), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "endpoint", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "platformVersion", required: false, type: .string), 
+            AWSShapeMember(label: "resourcesVpcConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "version", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the cluster.
+        public let arn: String?
+        /// The certificate-authority-data for your cluster.
+        public let certificateAuthority: Certificate?
+        /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The Unix epoch time stamp in seconds for when the cluster was created.
+        public let createdAt: TimeStamp?
+        /// The endpoint for your Kubernetes API server.
+        public let endpoint: String?
+        /// The name of the cluster.
+        public let name: String?
+        /// The platform version of your Amazon EKS cluster. For more information, see Platform Versions in the  Amazon EKS User Guide .
+        public let platformVersion: String?
+        /// The VPC subnets and security groups used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see Cluster VPC Considerations and Cluster Security Group Considerations in the Amazon EKS User Guide.
+        public let resourcesVpcConfig: VpcConfigResponse?
+        /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to AWS API operations on your behalf.
+        public let roleArn: String?
+        /// The current status of the cluster.
+        public let status: ClusterStatus?
+        /// The Kubernetes server version for the cluster.
+        public let version: String?
+
+        public init(arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, endpoint: String? = nil, name: String? = nil, platformVersion: String? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, version: String? = nil) {
+            self.arn = arn
+            self.certificateAuthority = certificateAuthority
+            self.clientRequestToken = clientRequestToken
+            self.createdAt = createdAt
+            self.endpoint = endpoint
+            self.name = name
+            self.platformVersion = platformVersion
+            self.resourcesVpcConfig = resourcesVpcConfig
+            self.roleArn = roleArn
+            self.status = status
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case certificateAuthority = "certificateAuthority"
+            case clientRequestToken = "clientRequestToken"
+            case createdAt = "createdAt"
+            case endpoint = "endpoint"
+            case name = "name"
+            case platformVersion = "platformVersion"
+            case resourcesVpcConfig = "resourcesVpcConfig"
+            case roleArn = "roleArn"
+            case status = "status"
+            case version = "version"
+        }
+    }
+
+    public enum ClusterStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateClusterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "resourcesVpcConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .string)
+        ]
+        /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The unique name to give to your cluster.
+        public let name: String
+        /// The VPC subnets and security groups used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see Cluster VPC Considerations and Cluster Security Group Considerations in the Amazon EKS User Guide. You must specify at least two subnets. You may specify up to 5 security groups, but we recommend that you use a dedicated security group for your cluster control plane.
+        public let resourcesVpcConfig: VpcConfigRequest
+        /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for Amazon EKS to make calls to other AWS API operations on your behalf. For more information, see Amazon EKS Service IAM Role in the  Amazon EKS User Guide .
+        public let roleArn: String
+        /// The desired Kubernetes version for your cluster. If you do not specify a value here, the latest version available in Amazon EKS is used.
+        public let version: String?
+
+        public init(clientRequestToken: String? = nil, name: String, resourcesVpcConfig: VpcConfigRequest, roleArn: String, version: String? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.name = name
+            self.resourcesVpcConfig = resourcesVpcConfig
+            self.roleArn = roleArn
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case name = "name"
+            case resourcesVpcConfig = "resourcesVpcConfig"
+            case roleArn = "roleArn"
+            case version = "version"
         }
     }
 
@@ -31,6 +136,38 @@ extension EKS {
             AWSShapeMember(label: "cluster", required: false, type: .structure)
         ]
         /// The full description of your new cluster.
+        public let cluster: Cluster?
+
+        public init(cluster: Cluster? = nil) {
+            self.cluster = cluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "cluster"
+        }
+    }
+
+    public struct DeleteClusterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+        ]
+        /// The name of the cluster to delete.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct DeleteClusterResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cluster", required: false, type: .structure)
+        ]
+        /// The full description of the cluster to delete.
         public let cluster: Cluster?
 
         public init(cluster: Cluster? = nil) {
@@ -58,109 +195,11 @@ extension EKS {
         }
     }
 
-    public struct Cluster: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourcesVpcConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "endpoint", required: false, type: .string), 
-            AWSShapeMember(label: "certificateAuthority", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "platformVersion", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the cluster.
-        public let arn: String?
-        /// The Kubernetes server version for the cluster.
-        public let version: String?
-        /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request.
-        public let clientRequestToken: String?
-        /// The VPC subnets and security groups used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see Cluster VPC Considerations and Cluster Security Group Considerations in the Amazon EKS User Guide.
-        public let resourcesVpcConfig: VpcConfigResponse?
-        /// The endpoint for your Kubernetes API server.
-        public let endpoint: String?
-        /// The certificate-authority-data for your cluster.
-        public let certificateAuthority: Certificate?
-        /// The name of the cluster.
-        public let name: String?
-        /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to AWS API operations on your behalf.
-        public let roleArn: String?
-        /// The Unix epoch time stamp in seconds for when the cluster was created.
-        public let createdAt: TimeStamp?
-        /// The current status of the cluster.
-        public let status: ClusterStatus?
-        /// The platform version of your Amazon EKS cluster. For more information, see Platform Versions in the  Amazon EKS User Guide .
-        public let platformVersion: String?
-
-        public init(arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, endpoint: String? = nil, name: String? = nil, platformVersion: String? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, version: String? = nil) {
-            self.arn = arn
-            self.version = version
-            self.clientRequestToken = clientRequestToken
-            self.resourcesVpcConfig = resourcesVpcConfig
-            self.endpoint = endpoint
-            self.certificateAuthority = certificateAuthority
-            self.name = name
-            self.roleArn = roleArn
-            self.createdAt = createdAt
-            self.status = status
-            self.platformVersion = platformVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case version = "version"
-            case clientRequestToken = "clientRequestToken"
-            case resourcesVpcConfig = "resourcesVpcConfig"
-            case endpoint = "endpoint"
-            case certificateAuthority = "certificateAuthority"
-            case name = "name"
-            case roleArn = "roleArn"
-            case createdAt = "createdAt"
-            case status = "status"
-            case platformVersion = "platformVersion"
-        }
-    }
-
-    public struct DeleteClusterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
-        ]
-        /// The name of the cluster to delete.
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
-    }
-
-    public struct Certificate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "data", required: false, type: .string)
-        ]
-        /// The base64 encoded certificate data required to communicate with your cluster. Add this to the certificate-authority-data section of the kubeconfig file for your cluster.
-        public let data: String?
-
-        public init(data: String? = nil) {
-            self.data = data
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case data = "data"
-        }
-    }
-
-    public struct DeleteClusterResponse: AWSShape {
+    public struct DescribeClusterResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "cluster", required: false, type: .structure)
         ]
-        /// The full description of the cluster to delete.
+        /// The full description of your specified cluster.
         public let cluster: Cluster?
 
         public init(cluster: Cluster? = nil) {
@@ -172,60 +211,24 @@ extension EKS {
         }
     }
 
-    public struct CreateClusterRequest: AWSShape {
+    public struct ListClustersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourcesVpcConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
-        /// The VPC subnets and security groups used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see Cluster VPC Considerations and Cluster Security Group Considerations in the Amazon EKS User Guide. You must specify at least two subnets. You may specify up to 5 security groups, but we recommend that you use a dedicated security group for your cluster control plane.
-        public let resourcesVpcConfig: VpcConfigRequest
-        /// The desired Kubernetes version for your cluster. If you do not specify a value here, the latest version available in Amazon EKS is used.
-        public let version: String?
-        /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request.
-        public let clientRequestToken: String?
-        /// The unique name to give to your cluster.
-        public let name: String
-        /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for Amazon EKS to make calls to other AWS API operations on your behalf. For more information, see Amazon EKS Service IAM Role in the  Amazon EKS User Guide .
-        public let roleArn: String
+        /// The maximum number of cluster results returned by ListClusters in paginated output. When this parameter is used, ListClusters only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListClusters request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListClusters returns up to 100 results and a nextToken value if applicable.
+        public let maxResults: Int32?
+        /// The nextToken value returned from a previous paginated ListClusters request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
+        public let nextToken: String?
 
-        public init(clientRequestToken: String? = nil, name: String, resourcesVpcConfig: VpcConfigRequest, roleArn: String, version: String? = nil) {
-            self.resourcesVpcConfig = resourcesVpcConfig
-            self.version = version
-            self.clientRequestToken = clientRequestToken
-            self.name = name
-            self.roleArn = roleArn
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourcesVpcConfig = "resourcesVpcConfig"
-            case version = "version"
-            case clientRequestToken = "clientRequestToken"
-            case name = "name"
-            case roleArn = "roleArn"
-        }
-    }
-
-    public struct VpcConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "securityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "subnetIds", required: true, type: .list)
-        ]
-        /// Specify one or more security groups for the cross-account elastic network interfaces that Amazon EKS creates to use to allow communication between your worker nodes and the Kubernetes control plane.
-        public let securityGroupIds: [String]?
-        /// Specify subnets for your Amazon EKS worker nodes. Amazon EKS creates cross-account elastic network interfaces in these subnets to allow communication between your worker nodes and the Kubernetes control plane.
-        public let subnetIds: [String]
-
-        public init(securityGroupIds: [String]? = nil, subnetIds: [String]) {
-            self.securityGroupIds = securityGroupIds
-            self.subnetIds = subnetIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case securityGroupIds = "securityGroupIds"
-            case subnetIds = "subnetIds"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -250,54 +253,51 @@ extension EKS {
         }
     }
 
+    public struct VpcConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "securityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "subnetIds", required: true, type: .list)
+        ]
+        /// Specify one or more security groups for the cross-account elastic network interfaces that Amazon EKS creates to use to allow communication between your worker nodes and the Kubernetes control plane.
+        public let securityGroupIds: [String]?
+        /// Specify subnets for your Amazon EKS worker nodes. Amazon EKS creates cross-account elastic network interfaces in these subnets to allow communication between your worker nodes and the Kubernetes control plane.
+        public let subnetIds: [String]
+
+        public init(securityGroupIds: [String]? = nil, subnetIds: [String]) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+        }
+    }
+
     public struct VpcConfigResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "subnetIds", required: false, type: .list), 
             AWSShapeMember(label: "securityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "subnetIds", required: false, type: .list), 
             AWSShapeMember(label: "vpcId", required: false, type: .string)
         ]
-        /// The subnets associated with your cluster.
-        public let subnetIds: [String]?
         /// The security groups associated with the cross-account elastic network interfaces that are used to allow communication between your worker nodes and the Kubernetes control plane.
         public let securityGroupIds: [String]?
+        /// The subnets associated with your cluster.
+        public let subnetIds: [String]?
         /// The VPC associated with your cluster.
         public let vpcId: String?
 
         public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
-            self.subnetIds = subnetIds
             self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
             self.vpcId = vpcId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subnetIds = "subnetIds"
             case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
             case vpcId = "vpcId"
         }
-    }
-
-    public struct DescribeClusterResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cluster", required: false, type: .structure)
-        ]
-        /// The full description of your specified cluster.
-        public let cluster: Cluster?
-
-        public init(cluster: Cluster? = nil) {
-            self.cluster = cluster
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cluster = "cluster"
-        }
-    }
-
-    public enum ClusterStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
 }

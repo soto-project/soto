@@ -4,12 +4,12 @@ import AWSSDKSwiftCore
 
 /// Error enum for Lightsail
 public enum LightsailErrorType: AWSErrorType {
-    case serviceException(message: String?)
+    case accessDeniedException(message: String?)
+    case accountSetupInProgressException(message: String?)
     case invalidInputException(message: String?)
     case notFoundException(message: String?)
     case operationFailureException(message: String?)
-    case accessDeniedException(message: String?)
-    case accountSetupInProgressException(message: String?)
+    case serviceException(message: String?)
     case unauthenticatedException(message: String?)
 }
 
@@ -20,18 +20,18 @@ extension LightsailErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "ServiceException":
-            self = .serviceException(message: message)
+        case "AccessDeniedException":
+            self = .accessDeniedException(message: message)
+        case "AccountSetupInProgressException":
+            self = .accountSetupInProgressException(message: message)
         case "InvalidInputException":
             self = .invalidInputException(message: message)
         case "NotFoundException":
             self = .notFoundException(message: message)
         case "OperationFailureException":
             self = .operationFailureException(message: message)
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "AccountSetupInProgressException":
-            self = .accountSetupInProgressException(message: message)
+        case "ServiceException":
+            self = .serviceException(message: message)
         case "UnauthenticatedException":
             self = .unauthenticatedException(message: message)
         default:

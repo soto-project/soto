@@ -5,6 +5,47 @@ import AWSSDKSwiftCore
 
 extension MobileAnalytics {
 
+    public struct Event: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attributes", required: false, type: .map), 
+            AWSShapeMember(label: "eventType", required: true, type: .string), 
+            AWSShapeMember(label: "metrics", required: false, type: .map), 
+            AWSShapeMember(label: "session", required: false, type: .structure), 
+            AWSShapeMember(label: "timestamp", required: true, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .string)
+        ]
+        /// A collection of key-value pairs that give additional context to the event. The key-value pairs are specified by the developer. This collection can be empty or the attribute object can be omitted.
+        public let attributes: [String: String]?
+        /// A name signifying an event that occurred in your app. This is used for grouping and aggregating like events together for reporting purposes.
+        public let eventType: String
+        /// A collection of key-value pairs that gives additional, measurable context to the event. The key-value pairs are specified by the developer. This collection can be empty or the attribute object can be omitted.
+        public let metrics: [String: Double]?
+        /// The session the event occured within. 
+        public let session: Session?
+        /// The time the event occurred in ISO 8601 standard date time format. For example, 2014-06-30T19:07:47.885Z
+        public let timestamp: String
+        /// The version of the event.
+        public let version: String?
+
+        public init(attributes: [String: String]? = nil, eventType: String, metrics: [String: Double]? = nil, session: Session? = nil, timestamp: String, version: String? = nil) {
+            self.attributes = attributes
+            self.eventType = eventType
+            self.metrics = metrics
+            self.session = session
+            self.timestamp = timestamp
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case eventType = "eventType"
+            case metrics = "metrics"
+            case session = "session"
+            case timestamp = "timestamp"
+            case version = "version"
+        }
+    }
+
     public struct PutEventsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clientContext", location: .header(locationName: "x-amz-Client-Context"), required: true, type: .string), 
@@ -33,73 +74,32 @@ extension MobileAnalytics {
 
     public struct Session: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "startTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "stopTimestamp", required: false, type: .string), 
             AWSShapeMember(label: "duration", required: false, type: .long), 
-            AWSShapeMember(label: "id", required: false, type: .string)
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "startTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "stopTimestamp", required: false, type: .string)
         ]
-        /// The time the event started in ISO 8601 standard date time format. For example, 2014-06-30T19:07:47.885Z
-        public let startTimestamp: String?
-        /// The time the event terminated in ISO 8601 standard date time format. For example, 2014-06-30T19:07:47.885Z
-        public let stopTimestamp: String?
         /// The duration of the session.
         public let duration: Int64?
         /// A unique identifier for the session
         public let id: String?
+        /// The time the event started in ISO 8601 standard date time format. For example, 2014-06-30T19:07:47.885Z
+        public let startTimestamp: String?
+        /// The time the event terminated in ISO 8601 standard date time format. For example, 2014-06-30T19:07:47.885Z
+        public let stopTimestamp: String?
 
         public init(duration: Int64? = nil, id: String? = nil, startTimestamp: String? = nil, stopTimestamp: String? = nil) {
-            self.startTimestamp = startTimestamp
-            self.stopTimestamp = stopTimestamp
             self.duration = duration
             self.id = id
+            self.startTimestamp = startTimestamp
+            self.stopTimestamp = stopTimestamp
         }
 
         private enum CodingKeys: String, CodingKey {
-            case startTimestamp = "startTimestamp"
-            case stopTimestamp = "stopTimestamp"
             case duration = "duration"
             case id = "id"
-        }
-    }
-
-    public struct Event: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "eventType", required: true, type: .string), 
-            AWSShapeMember(label: "timestamp", required: true, type: .string), 
-            AWSShapeMember(label: "attributes", required: false, type: .map), 
-            AWSShapeMember(label: "metrics", required: false, type: .map), 
-            AWSShapeMember(label: "session", required: false, type: .structure), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
-        /// A name signifying an event that occurred in your app. This is used for grouping and aggregating like events together for reporting purposes.
-        public let eventType: String
-        /// The time the event occurred in ISO 8601 standard date time format. For example, 2014-06-30T19:07:47.885Z
-        public let timestamp: String
-        /// A collection of key-value pairs that give additional context to the event. The key-value pairs are specified by the developer. This collection can be empty or the attribute object can be omitted.
-        public let attributes: [String: String]?
-        /// A collection of key-value pairs that gives additional, measurable context to the event. The key-value pairs are specified by the developer. This collection can be empty or the attribute object can be omitted.
-        public let metrics: [String: Double]?
-        /// The session the event occured within. 
-        public let session: Session?
-        /// The version of the event.
-        public let version: String?
-
-        public init(attributes: [String: String]? = nil, eventType: String, metrics: [String: Double]? = nil, session: Session? = nil, timestamp: String, version: String? = nil) {
-            self.eventType = eventType
-            self.timestamp = timestamp
-            self.attributes = attributes
-            self.metrics = metrics
-            self.session = session
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventType = "eventType"
-            case timestamp = "timestamp"
-            case attributes = "attributes"
-            case metrics = "metrics"
-            case session = "session"
-            case version = "version"
+            case startTimestamp = "startTimestamp"
+            case stopTimestamp = "stopTimestamp"
         }
     }
 

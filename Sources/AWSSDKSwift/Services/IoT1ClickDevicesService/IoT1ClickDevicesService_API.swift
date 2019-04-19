@@ -24,9 +24,16 @@ public struct IoT1ClickDevicesService {
         )
     }
 
-    ///  Disassociates a device from your AWS account using its device ID.
-    public func unclaimDevice(_ input: UnclaimDeviceRequest) throws -> UnclaimDeviceResponse {
-        return try client.send(operation: "UnclaimDevice", path: "/devices/{deviceId}/unclaim", httpMethod: "PUT", input: input)
+    ///  Adds device(s) to your account (i.e., claim one or more devices) if and only if
+    ///   you received a claim code with the device(s).
+    public func claimDevicesByClaimCode(_ input: ClaimDevicesByClaimCodeRequest) throws -> ClaimDevicesByClaimCodeResponse {
+        return try client.send(operation: "ClaimDevicesByClaimCode", path: "/claims/{claimCode}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Given a device ID, returns a DescribeDeviceResponse object describing
+    ///   the details of the device.
+    public func describeDevice(_ input: DescribeDeviceRequest) throws -> DescribeDeviceResponse {
+        return try client.send(operation: "DescribeDevice", path: "/devices/{deviceId}", httpMethod: "GET", input: input)
     }
 
     ///  Given a device ID, finalizes the claim request for the associated device.
@@ -38,10 +45,10 @@ public struct IoT1ClickDevicesService {
         return try client.send(operation: "FinalizeDeviceClaim", path: "/devices/{deviceId}/finalize-claim", httpMethod: "PUT", input: input)
     }
 
-    ///  Given a device ID, issues a request to invoke a named device method (with possible
-    ///   parameters). See the "Example POST" code snippet below.
-    public func invokeDeviceMethod(_ input: InvokeDeviceMethodRequest) throws -> InvokeDeviceMethodResponse {
-        return try client.send(operation: "InvokeDeviceMethod", path: "/devices/{deviceId}/methods", httpMethod: "POST", input: input)
+    ///  Given a device ID, returns the invokable methods associated with the
+    ///   device.
+    public func getDeviceMethods(_ input: GetDeviceMethodsRequest) throws -> GetDeviceMethodsResponse {
+        return try client.send(operation: "GetDeviceMethods", path: "/devices/{deviceId}/methods", httpMethod: "GET", input: input)
     }
 
     ///  Given a device ID, initiates a claim request for the associated device.
@@ -53,10 +60,10 @@ public struct IoT1ClickDevicesService {
         return try client.send(operation: "InitiateDeviceClaim", path: "/devices/{deviceId}/initiate-claim", httpMethod: "PUT", input: input)
     }
 
-    ///  Given a device ID, returns a DescribeDeviceResponse object describing
-    ///   the details of the device.
-    public func describeDevice(_ input: DescribeDeviceRequest) throws -> DescribeDeviceResponse {
-        return try client.send(operation: "DescribeDevice", path: "/devices/{deviceId}", httpMethod: "GET", input: input)
+    ///  Given a device ID, issues a request to invoke a named device method (with possible
+    ///   parameters). See the "Example POST" code snippet below.
+    public func invokeDeviceMethod(_ input: InvokeDeviceMethodRequest) throws -> InvokeDeviceMethodResponse {
+        return try client.send(operation: "InvokeDeviceMethod", path: "/devices/{deviceId}/methods", httpMethod: "POST", input: input)
     }
 
     ///  Using a device ID, returns a DeviceEventsResponse object containing
@@ -65,21 +72,14 @@ public struct IoT1ClickDevicesService {
         return try client.send(operation: "ListDeviceEvents", path: "/devices/{deviceId}/events", httpMethod: "GET", input: input)
     }
 
-    ///  Adds device(s) to your account (i.e., claim one or more devices) if and only if
-    ///   you received a claim code with the device(s).
-    public func claimDevicesByClaimCode(_ input: ClaimDevicesByClaimCodeRequest) throws -> ClaimDevicesByClaimCodeResponse {
-        return try client.send(operation: "ClaimDevicesByClaimCode", path: "/claims/{claimCode}", httpMethod: "PUT", input: input)
-    }
-
-    ///  Given a device ID, returns the invokable methods associated with the
-    ///   device.
-    public func getDeviceMethods(_ input: GetDeviceMethodsRequest) throws -> GetDeviceMethodsResponse {
-        return try client.send(operation: "GetDeviceMethods", path: "/devices/{deviceId}/methods", httpMethod: "GET", input: input)
-    }
-
     ///  Lists the 1-Click compatible devices associated with your AWS account.
     public func listDevices(_ input: ListDevicesRequest) throws -> ListDevicesResponse {
         return try client.send(operation: "ListDevices", path: "/devices", httpMethod: "GET", input: input)
+    }
+
+    ///  Disassociates a device from your AWS account using its device ID.
+    public func unclaimDevice(_ input: UnclaimDeviceRequest) throws -> UnclaimDeviceResponse {
+        return try client.send(operation: "UnclaimDevice", path: "/devices/{deviceId}/unclaim", httpMethod: "PUT", input: input)
     }
 
     ///  Using a Boolean value (true or false), this operation
