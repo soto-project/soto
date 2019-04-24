@@ -5,72 +5,72 @@ import AWSSDKSwiftCore
 
 extension SageMakerRuntime {
 
-    public struct InvokeEndpointOutput: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "Body"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomAttributes", location: .header(locationName: "X-Amzn-SageMaker-Custom-Attributes"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
-            AWSShapeMember(label: "InvokedProductionVariant", location: .header(locationName: "x-Amzn-Invoked-Production-Variant"), required: false, type: .string), 
-            AWSShapeMember(label: "Body", required: true, type: .blob)
-        ]
-        public let customAttributes: String?
-        /// The MIME type of the inference returned in the response body.
-        public let contentType: String?
-        /// Identifies the production variant that was invoked.
-        public let invokedProductionVariant: String?
-        /// Includes the inference provided by the model. For information about the format of the response body, see Common Data Formats—Inference.
-        public let body: Data
-
-        public init(customAttributes: String? = nil, contentType: String? = nil, invokedProductionVariant: String? = nil, body: Data) {
-            self.customAttributes = customAttributes
-            self.contentType = contentType
-            self.invokedProductionVariant = invokedProductionVariant
-            self.body = body
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case customAttributes = "X-Amzn-SageMaker-Custom-Attributes"
-            case contentType = "Content-Type"
-            case invokedProductionVariant = "x-Amzn-Invoked-Production-Variant"
-            case body = "Body"
-        }
-    }
-
     public struct InvokeEndpointInput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Body"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointName", location: .uri(locationName: "EndpointName"), required: true, type: .string), 
             AWSShapeMember(label: "Accept", location: .header(locationName: "Accept"), required: false, type: .string), 
+            AWSShapeMember(label: "Body", required: true, type: .blob), 
             AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
             AWSShapeMember(label: "CustomAttributes", location: .header(locationName: "X-Amzn-SageMaker-Custom-Attributes"), required: false, type: .string), 
-            AWSShapeMember(label: "Body", required: true, type: .blob)
+            AWSShapeMember(label: "EndpointName", location: .uri(locationName: "EndpointName"), required: true, type: .string)
         ]
-        /// The name of the endpoint that you specified when you created the endpoint using the CreateEndpoint API. 
-        public let endpointName: String
         /// The desired MIME type of the inference in the response.
         public let accept: String?
+        /// Provides input data, in the format specified in the ContentType request header. Amazon SageMaker passes all of the data in the body to the model.  For information about the format of the request body, see Common Data Formats—Inference.
+        public let body: Data
         /// The MIME type of the input data in the request body.
         public let contentType: String?
         public let customAttributes: String?
-        /// Provides input data, in the format specified in the ContentType request header. Amazon SageMaker passes all of the data in the body to the model.  For information about the format of the request body, see Common Data Formats—Inference.
-        public let body: Data
+        /// The name of the endpoint that you specified when you created the endpoint using the CreateEndpoint API. 
+        public let endpointName: String
 
-        public init(endpointName: String, accept: String? = nil, contentType: String? = nil, customAttributes: String? = nil, body: Data) {
-            self.endpointName = endpointName
+        public init(accept: String? = nil, body: Data, contentType: String? = nil, customAttributes: String? = nil, endpointName: String) {
             self.accept = accept
+            self.body = body
             self.contentType = contentType
             self.customAttributes = customAttributes
-            self.body = body
+            self.endpointName = endpointName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpointName = "EndpointName"
             case accept = "Accept"
+            case body = "Body"
             case contentType = "Content-Type"
             case customAttributes = "X-Amzn-SageMaker-Custom-Attributes"
+            case endpointName = "EndpointName"
+        }
+    }
+
+    public struct InvokeEndpointOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "Body"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Body", required: true, type: .blob), 
+            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
+            AWSShapeMember(label: "CustomAttributes", location: .header(locationName: "X-Amzn-SageMaker-Custom-Attributes"), required: false, type: .string), 
+            AWSShapeMember(label: "InvokedProductionVariant", location: .header(locationName: "x-Amzn-Invoked-Production-Variant"), required: false, type: .string)
+        ]
+        /// Includes the inference provided by the model. For information about the format of the response body, see Common Data Formats—Inference.
+        public let body: Data
+        /// The MIME type of the inference returned in the response body.
+        public let contentType: String?
+        public let customAttributes: String?
+        /// Identifies the production variant that was invoked.
+        public let invokedProductionVariant: String?
+
+        public init(body: Data, contentType: String? = nil, customAttributes: String? = nil, invokedProductionVariant: String? = nil) {
+            self.body = body
+            self.contentType = contentType
+            self.customAttributes = customAttributes
+            self.invokedProductionVariant = invokedProductionVariant
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case body = "Body"
+            case contentType = "Content-Type"
+            case customAttributes = "X-Amzn-SageMaker-Custom-Attributes"
+            case invokedProductionVariant = "x-Amzn-Invoked-Production-Variant"
         }
     }
 

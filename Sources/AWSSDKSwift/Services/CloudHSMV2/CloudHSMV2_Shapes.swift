@@ -5,79 +5,455 @@ import AWSSDKSwiftCore
 
 extension CloudHSMV2 {
 
-    public struct Cluster: AWSShape {
+    public struct Backup: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityGroup", required: false, type: .string), 
-            AWSShapeMember(label: "PreCoPassword", required: false, type: .string), 
-            AWSShapeMember(label: "CreateTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StateMessage", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "SourceBackupId", required: false, type: .string), 
-            AWSShapeMember(label: "BackupPolicy", required: false, type: .enum), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetMapping", required: false, type: .map), 
+            AWSShapeMember(label: "BackupId", required: true, type: .string), 
+            AWSShapeMember(label: "BackupState", required: false, type: .enum), 
             AWSShapeMember(label: "ClusterId", required: false, type: .string), 
-            AWSShapeMember(label: "HsmType", required: false, type: .string), 
-            AWSShapeMember(label: "Certificates", required: false, type: .structure), 
-            AWSShapeMember(label: "Hsms", required: false, type: .list)
+            AWSShapeMember(label: "CopyTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreateTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DeleteTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SourceBackup", required: false, type: .string), 
+            AWSShapeMember(label: "SourceCluster", required: false, type: .string), 
+            AWSShapeMember(label: "SourceRegion", required: false, type: .string)
         ]
-        /// The identifier (ID) of the cluster's security group.
-        public let securityGroup: String?
-        /// The default password for the cluster's Pre-Crypto Officer (PRECO) user.
-        public let preCoPassword: String?
-        /// The date and time when the cluster was created.
-        public let createTimestamp: TimeStamp?
-        /// A description of the cluster's state.
-        public let stateMessage: String?
-        /// The cluster's state.
-        public let state: ClusterState?
-        /// The identifier (ID) of the backup used to create the cluster. This value exists only when the cluster was created from a backup.
-        public let sourceBackupId: String?
-        /// The cluster's backup policy.
-        public let backupPolicy: BackupPolicy?
-        /// The identifier (ID) of the virtual private cloud (VPC) that contains the cluster.
-        public let vpcId: String?
-        /// A map of the cluster's subnets and their corresponding Availability Zones.
-        public let subnetMapping: [String: String]?
-        /// The cluster's identifier (ID).
+        /// The identifier (ID) of the backup.
+        public let backupId: String
+        /// The state of the backup.
+        public let backupState: BackupState?
+        /// The identifier (ID) of the cluster that was backed up.
         public let clusterId: String?
-        /// The type of HSM that the cluster contains.
-        public let hsmType: String?
-        /// Contains one or more certificates or a certificate signing request (CSR).
-        public let certificates: Certificates?
-        /// Contains information about the HSMs in the cluster.
-        public let hsms: [Hsm]?
+        public let copyTimestamp: TimeStamp?
+        /// The date and time when the backup was created.
+        public let createTimestamp: TimeStamp?
+        /// The date and time when the backup will be permanently deleted.
+        public let deleteTimestamp: TimeStamp?
+        public let sourceBackup: String?
+        public let sourceCluster: String?
+        public let sourceRegion: String?
 
-        public init(securityGroup: String? = nil, preCoPassword: String? = nil, createTimestamp: TimeStamp? = nil, stateMessage: String? = nil, state: ClusterState? = nil, sourceBackupId: String? = nil, backupPolicy: BackupPolicy? = nil, vpcId: String? = nil, subnetMapping: [String: String]? = nil, clusterId: String? = nil, hsmType: String? = nil, certificates: Certificates? = nil, hsms: [Hsm]? = nil) {
-            self.securityGroup = securityGroup
-            self.preCoPassword = preCoPassword
-            self.createTimestamp = createTimestamp
-            self.stateMessage = stateMessage
-            self.state = state
-            self.sourceBackupId = sourceBackupId
-            self.backupPolicy = backupPolicy
-            self.vpcId = vpcId
-            self.subnetMapping = subnetMapping
+        public init(backupId: String, backupState: BackupState? = nil, clusterId: String? = nil, copyTimestamp: TimeStamp? = nil, createTimestamp: TimeStamp? = nil, deleteTimestamp: TimeStamp? = nil, sourceBackup: String? = nil, sourceCluster: String? = nil, sourceRegion: String? = nil) {
+            self.backupId = backupId
+            self.backupState = backupState
             self.clusterId = clusterId
-            self.hsmType = hsmType
-            self.certificates = certificates
-            self.hsms = hsms
+            self.copyTimestamp = copyTimestamp
+            self.createTimestamp = createTimestamp
+            self.deleteTimestamp = deleteTimestamp
+            self.sourceBackup = sourceBackup
+            self.sourceCluster = sourceCluster
+            self.sourceRegion = sourceRegion
         }
 
         private enum CodingKeys: String, CodingKey {
-            case securityGroup = "SecurityGroup"
-            case preCoPassword = "PreCoPassword"
-            case createTimestamp = "CreateTimestamp"
-            case stateMessage = "StateMessage"
-            case state = "State"
-            case sourceBackupId = "SourceBackupId"
-            case backupPolicy = "BackupPolicy"
-            case vpcId = "VpcId"
-            case subnetMapping = "SubnetMapping"
+            case backupId = "BackupId"
+            case backupState = "BackupState"
             case clusterId = "ClusterId"
-            case hsmType = "HsmType"
+            case copyTimestamp = "CopyTimestamp"
+            case createTimestamp = "CreateTimestamp"
+            case deleteTimestamp = "DeleteTimestamp"
+            case sourceBackup = "SourceBackup"
+            case sourceCluster = "SourceCluster"
+            case sourceRegion = "SourceRegion"
+        }
+    }
+
+    public enum BackupPolicy: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BackupState: String, CustomStringConvertible, Codable {
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case ready = "READY"
+        case deleted = "DELETED"
+        case pendingDeletion = "PENDING_DELETION"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Certificates: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsHardwareCertificate", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterCertificate", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterCsr", required: false, type: .string), 
+            AWSShapeMember(label: "HsmCertificate", required: false, type: .string), 
+            AWSShapeMember(label: "ManufacturerHardwareCertificate", required: false, type: .string)
+        ]
+        /// The HSM hardware certificate issued (signed) by AWS CloudHSM.
+        public let awsHardwareCertificate: String?
+        /// The cluster certificate issued (signed) by the issuing certificate authority (CA) of the cluster's owner.
+        public let clusterCertificate: String?
+        /// The cluster's certificate signing request (CSR). The CSR exists only when the cluster's state is UNINITIALIZED.
+        public let clusterCsr: String?
+        /// The HSM certificate issued (signed) by the HSM hardware.
+        public let hsmCertificate: String?
+        /// The HSM hardware certificate issued (signed) by the hardware manufacturer.
+        public let manufacturerHardwareCertificate: String?
+
+        public init(awsHardwareCertificate: String? = nil, clusterCertificate: String? = nil, clusterCsr: String? = nil, hsmCertificate: String? = nil, manufacturerHardwareCertificate: String? = nil) {
+            self.awsHardwareCertificate = awsHardwareCertificate
+            self.clusterCertificate = clusterCertificate
+            self.clusterCsr = clusterCsr
+            self.hsmCertificate = hsmCertificate
+            self.manufacturerHardwareCertificate = manufacturerHardwareCertificate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsHardwareCertificate = "AwsHardwareCertificate"
+            case clusterCertificate = "ClusterCertificate"
+            case clusterCsr = "ClusterCsr"
+            case hsmCertificate = "HsmCertificate"
+            case manufacturerHardwareCertificate = "ManufacturerHardwareCertificate"
+        }
+    }
+
+    public struct Cluster: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BackupPolicy", required: false, type: .enum), 
+            AWSShapeMember(label: "Certificates", required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "CreateTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "HsmType", required: false, type: .string), 
+            AWSShapeMember(label: "Hsms", required: false, type: .list), 
+            AWSShapeMember(label: "PreCoPassword", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroup", required: false, type: .string), 
+            AWSShapeMember(label: "SourceBackupId", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "StateMessage", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetMapping", required: false, type: .map), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string)
+        ]
+        /// The cluster's backup policy.
+        public let backupPolicy: BackupPolicy?
+        /// Contains one or more certificates or a certificate signing request (CSR).
+        public let certificates: Certificates?
+        /// The cluster's identifier (ID).
+        public let clusterId: String?
+        /// The date and time when the cluster was created.
+        public let createTimestamp: TimeStamp?
+        /// The type of HSM that the cluster contains.
+        public let hsmType: String?
+        /// Contains information about the HSMs in the cluster.
+        public let hsms: [Hsm]?
+        /// The default password for the cluster's Pre-Crypto Officer (PRECO) user.
+        public let preCoPassword: String?
+        /// The identifier (ID) of the cluster's security group.
+        public let securityGroup: String?
+        /// The identifier (ID) of the backup used to create the cluster. This value exists only when the cluster was created from a backup.
+        public let sourceBackupId: String?
+        /// The cluster's state.
+        public let state: ClusterState?
+        /// A description of the cluster's state.
+        public let stateMessage: String?
+        /// A map of the cluster's subnets and their corresponding Availability Zones.
+        public let subnetMapping: [String: String]?
+        /// The identifier (ID) of the virtual private cloud (VPC) that contains the cluster.
+        public let vpcId: String?
+
+        public init(backupPolicy: BackupPolicy? = nil, certificates: Certificates? = nil, clusterId: String? = nil, createTimestamp: TimeStamp? = nil, hsmType: String? = nil, hsms: [Hsm]? = nil, preCoPassword: String? = nil, securityGroup: String? = nil, sourceBackupId: String? = nil, state: ClusterState? = nil, stateMessage: String? = nil, subnetMapping: [String: String]? = nil, vpcId: String? = nil) {
+            self.backupPolicy = backupPolicy
+            self.certificates = certificates
+            self.clusterId = clusterId
+            self.createTimestamp = createTimestamp
+            self.hsmType = hsmType
+            self.hsms = hsms
+            self.preCoPassword = preCoPassword
+            self.securityGroup = securityGroup
+            self.sourceBackupId = sourceBackupId
+            self.state = state
+            self.stateMessage = stateMessage
+            self.subnetMapping = subnetMapping
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupPolicy = "BackupPolicy"
             case certificates = "Certificates"
+            case clusterId = "ClusterId"
+            case createTimestamp = "CreateTimestamp"
+            case hsmType = "HsmType"
             case hsms = "Hsms"
+            case preCoPassword = "PreCoPassword"
+            case securityGroup = "SecurityGroup"
+            case sourceBackupId = "SourceBackupId"
+            case state = "State"
+            case stateMessage = "StateMessage"
+            case subnetMapping = "SubnetMapping"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public enum ClusterState: String, CustomStringConvertible, Codable {
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case uninitialized = "UNINITIALIZED"
+        case initializeInProgress = "INITIALIZE_IN_PROGRESS"
+        case initialized = "INITIALIZED"
+        case active = "ACTIVE"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case deleted = "DELETED"
+        case degraded = "DEGRADED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CopyBackupToRegionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BackupId", required: true, type: .string), 
+            AWSShapeMember(label: "DestinationRegion", required: true, type: .string)
+        ]
+        /// The ID of the backup that will be copied to the destination region. 
+        public let backupId: String
+        /// The AWS region that will contain your copied CloudHSM cluster backup.
+        public let destinationRegion: String
+
+        public init(backupId: String, destinationRegion: String) {
+            self.backupId = backupId
+            self.destinationRegion = destinationRegion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupId = "BackupId"
+            case destinationRegion = "DestinationRegion"
+        }
+    }
+
+    public struct CopyBackupToRegionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationBackup", required: false, type: .structure)
+        ]
+        /// Information on the backup that will be copied to the destination region, including CreateTimestamp, SourceBackup, SourceCluster, and Source Region. CreateTimestamp of the destination backup will be the same as that of the source backup. You will need to use the sourceBackupID returned in this operation to use the DescribeBackups operation on the backup that will be copied to the destination region.
+        public let destinationBackup: DestinationBackup?
+
+        public init(destinationBackup: DestinationBackup? = nil) {
+            self.destinationBackup = destinationBackup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationBackup = "DestinationBackup"
+        }
+    }
+
+    public struct CreateClusterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HsmType", required: true, type: .string), 
+            AWSShapeMember(label: "SourceBackupId", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetIds", required: true, type: .list)
+        ]
+        /// The type of HSM to use in the cluster. Currently the only allowed value is hsm1.medium.
+        public let hsmType: String
+        /// The identifier (ID) of the cluster backup to restore. Use this value to restore the cluster from a backup instead of creating a new cluster. To find the backup ID, use DescribeBackups.
+        public let sourceBackupId: String?
+        /// The identifiers (IDs) of the subnets where you are creating the cluster. You must specify at least one subnet. If you specify multiple subnets, they must meet the following criteria:   All subnets must be in the same virtual private cloud (VPC).   You can specify only one subnet per Availability Zone.  
+        public let subnetIds: [String]
+
+        public init(hsmType: String, sourceBackupId: String? = nil, subnetIds: [String]) {
+            self.hsmType = hsmType
+            self.sourceBackupId = sourceBackupId
+            self.subnetIds = subnetIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hsmType = "HsmType"
+            case sourceBackupId = "SourceBackupId"
+            case subnetIds = "SubnetIds"
+        }
+    }
+
+    public struct CreateClusterResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cluster", required: false, type: .structure)
+        ]
+        /// Information about the cluster that was created.
+        public let cluster: Cluster?
+
+        public init(cluster: Cluster? = nil) {
+            self.cluster = cluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
+        }
+    }
+
+    public struct CreateHsmRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZone", required: true, type: .string), 
+            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "IpAddress", required: false, type: .string)
+        ]
+        /// The Availability Zone where you are creating the HSM. To find the cluster's Availability Zones, use DescribeClusters.
+        public let availabilityZone: String
+        /// The identifier (ID) of the HSM's cluster. To find the cluster ID, use DescribeClusters.
+        public let clusterId: String
+        /// The HSM's IP address. If you specify an IP address, use an available address from the subnet that maps to the Availability Zone where you are creating the HSM. If you don't specify an IP address, one is chosen for you from that subnet.
+        public let ipAddress: String?
+
+        public init(availabilityZone: String, clusterId: String, ipAddress: String? = nil) {
+            self.availabilityZone = availabilityZone
+            self.clusterId = clusterId
+            self.ipAddress = ipAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case clusterId = "ClusterId"
+            case ipAddress = "IpAddress"
+        }
+    }
+
+    public struct CreateHsmResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Hsm", required: false, type: .structure)
+        ]
+        /// Information about the HSM that was created.
+        public let hsm: Hsm?
+
+        public init(hsm: Hsm? = nil) {
+            self.hsm = hsm
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hsm = "Hsm"
+        }
+    }
+
+    public struct DeleteBackupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BackupId", required: true, type: .string)
+        ]
+        /// The ID of the backup to be deleted. To find the ID of a backup, use the DescribeBackups operation.
+        public let backupId: String
+
+        public init(backupId: String) {
+            self.backupId = backupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupId = "BackupId"
+        }
+    }
+
+    public struct DeleteBackupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Backup", required: false, type: .structure)
+        ]
+        /// Information on the Backup object deleted.
+        public let backup: Backup?
+
+        public init(backup: Backup? = nil) {
+            self.backup = backup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backup = "Backup"
+        }
+    }
+
+    public struct DeleteClusterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterId", required: true, type: .string)
+        ]
+        /// The identifier (ID) of the cluster that you are deleting. To find the cluster ID, use DescribeClusters.
+        public let clusterId: String
+
+        public init(clusterId: String) {
+            self.clusterId = clusterId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+        }
+    }
+
+    public struct DeleteClusterResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cluster", required: false, type: .structure)
+        ]
+        /// Information about the cluster that was deleted.
+        public let cluster: Cluster?
+
+        public init(cluster: Cluster? = nil) {
+            self.cluster = cluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
+        }
+    }
+
+    public struct DeleteHsmRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "EniId", required: false, type: .string), 
+            AWSShapeMember(label: "EniIp", required: false, type: .string), 
+            AWSShapeMember(label: "HsmId", required: false, type: .string)
+        ]
+        /// The identifier (ID) of the cluster that contains the HSM that you are deleting.
+        public let clusterId: String
+        /// The identifier (ID) of the elastic network interface (ENI) of the HSM that you are deleting.
+        public let eniId: String?
+        /// The IP address of the elastic network interface (ENI) of the HSM that you are deleting.
+        public let eniIp: String?
+        /// The identifier (ID) of the HSM that you are deleting.
+        public let hsmId: String?
+
+        public init(clusterId: String, eniId: String? = nil, eniIp: String? = nil, hsmId: String? = nil) {
+            self.clusterId = clusterId
+            self.eniId = eniId
+            self.eniIp = eniIp
+            self.hsmId = hsmId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+            case eniId = "EniId"
+            case eniIp = "EniIp"
+            case hsmId = "HsmId"
+        }
+    }
+
+    public struct DeleteHsmResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HsmId", required: false, type: .string)
+        ]
+        /// The identifier (ID) of the HSM that was deleted.
+        public let hsmId: String?
+
+        public init(hsmId: String? = nil) {
+            self.hsmId = hsmId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hsmId = "HsmId"
+        }
+    }
+
+    public struct DescribeBackupsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .map), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortAscending", required: false, type: .boolean)
+        ]
+        /// One or more filters to limit the items returned in the response. Use the backupIds filter to return only the specified backups. Specify backups by their backup identifier (ID). Use the sourceBackupIds filter to return only the backups created from a source backup. The sourceBackupID of a source backup is returned by the CopyBackupToRegion operation. Use the clusterIds filter to return only the backups for the specified clusters. Specify clusters by their cluster identifier (ID). Use the states filter to return only backups that match the specified state.
+        public let filters: [String: [String]]?
+        /// The maximum number of backups to return in the response. When there are more backups than the number you specify, the response contains a NextToken value.
+        public let maxResults: Int32?
+        /// The NextToken value that you received in the previous response. Use this value to get more backups.
+        public let nextToken: String?
+        public let sortAscending: Bool?
+
+        public init(filters: [String: [String]]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortAscending: Bool? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortAscending = sortAscending
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortAscending = "SortAscending"
         }
     }
 
@@ -102,436 +478,29 @@ extension CloudHSMV2 {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
-
-    }
-
-    public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagKeyList", required: true, type: .list), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string)
-        ]
-        /// A list of one or more tag keys for the tags that you are removing. Specify only the tag keys, not the tag values.
-        public let tagKeyList: [String]
-        /// The cluster identifier (ID) for the cluster whose tags you are removing. To find the cluster ID, use DescribeClusters.
-        public let resourceId: String
-
-        public init(tagKeyList: [String], resourceId: String) {
-            self.tagKeyList = tagKeyList
-            self.resourceId = resourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagKeyList = "TagKeyList"
-            case resourceId = "ResourceId"
-        }
-    }
-
-    public struct UntagResourceResponse: AWSShape {
-
-    }
-
-    public struct InitializeClusterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrustAnchor", required: true, type: .string), 
-            AWSShapeMember(label: "SignedCert", required: true, type: .string), 
-            AWSShapeMember(label: "ClusterId", required: true, type: .string)
-        ]
-        /// The issuing certificate of the issuing certificate authority (CA) that issued (signed) the cluster certificate. This can be a root (self-signed) certificate or a certificate chain that begins with the certificate that issued the cluster certificate and ends with a root certificate. The certificate or certificate chain must be in PEM format and can contain a maximum of 5000 characters.
-        public let trustAnchor: String
-        /// The cluster certificate issued (signed) by your issuing certificate authority (CA). The certificate must be in PEM format and can contain a maximum of 5000 characters.
-        public let signedCert: String
-        /// The identifier (ID) of the cluster that you are claiming. To find the cluster ID, use DescribeClusters.
-        public let clusterId: String
-
-        public init(trustAnchor: String, signedCert: String, clusterId: String) {
-            self.trustAnchor = trustAnchor
-            self.signedCert = signedCert
-            self.clusterId = clusterId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case trustAnchor = "TrustAnchor"
-            case signedCert = "SignedCert"
-            case clusterId = "ClusterId"
-        }
-    }
-
-    public struct Certificates: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterCertificate", required: false, type: .string), 
-            AWSShapeMember(label: "HsmCertificate", required: false, type: .string), 
-            AWSShapeMember(label: "ManufacturerHardwareCertificate", required: false, type: .string), 
-            AWSShapeMember(label: "ClusterCsr", required: false, type: .string), 
-            AWSShapeMember(label: "AwsHardwareCertificate", required: false, type: .string)
-        ]
-        /// The cluster certificate issued (signed) by the issuing certificate authority (CA) of the cluster's owner.
-        public let clusterCertificate: String?
-        /// The HSM certificate issued (signed) by the HSM hardware.
-        public let hsmCertificate: String?
-        /// The HSM hardware certificate issued (signed) by the hardware manufacturer.
-        public let manufacturerHardwareCertificate: String?
-        /// The cluster's certificate signing request (CSR). The CSR exists only when the cluster's state is UNINITIALIZED.
-        public let clusterCsr: String?
-        /// The HSM hardware certificate issued (signed) by AWS CloudHSM.
-        public let awsHardwareCertificate: String?
-
-        public init(clusterCertificate: String? = nil, hsmCertificate: String? = nil, manufacturerHardwareCertificate: String? = nil, clusterCsr: String? = nil, awsHardwareCertificate: String? = nil) {
-            self.clusterCertificate = clusterCertificate
-            self.hsmCertificate = hsmCertificate
-            self.manufacturerHardwareCertificate = manufacturerHardwareCertificate
-            self.clusterCsr = clusterCsr
-            self.awsHardwareCertificate = awsHardwareCertificate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clusterCertificate = "ClusterCertificate"
-            case hsmCertificate = "HsmCertificate"
-            case manufacturerHardwareCertificate = "ManufacturerHardwareCertificate"
-            case clusterCsr = "ClusterCsr"
-            case awsHardwareCertificate = "AwsHardwareCertificate"
-        }
-    }
-
-    public struct DestinationBackup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceRegion", required: false, type: .string), 
-            AWSShapeMember(label: "SourceBackup", required: false, type: .string), 
-            AWSShapeMember(label: "CreateTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SourceCluster", required: false, type: .string)
-        ]
-        public let sourceRegion: String?
-        public let sourceBackup: String?
-        public let createTimestamp: TimeStamp?
-        public let sourceCluster: String?
-
-        public init(sourceRegion: String? = nil, sourceBackup: String? = nil, createTimestamp: TimeStamp? = nil, sourceCluster: String? = nil) {
-            self.sourceRegion = sourceRegion
-            self.sourceBackup = sourceBackup
-            self.createTimestamp = createTimestamp
-            self.sourceCluster = sourceCluster
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceRegion = "SourceRegion"
-            case sourceBackup = "SourceBackup"
-            case createTimestamp = "CreateTimestamp"
-            case sourceCluster = "SourceCluster"
-        }
-    }
-
-    public struct CopyBackupToRegionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationBackup", required: false, type: .structure)
-        ]
-        /// Information on the backup that will be copied to the destination region, including CreateTimestamp, SourceBackup, SourceCluster, and Source Region. CreateTimestamp of the destination backup will be the same as that of the source backup. You will need to use the sourceBackupID returned in this operation to use the DescribeBackups operation on the backup that will be copied to the destination region.
-        public let destinationBackup: DestinationBackup?
-
-        public init(destinationBackup: DestinationBackup? = nil) {
-            self.destinationBackup = destinationBackup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destinationBackup = "DestinationBackup"
-        }
-    }
-
-    public struct RestoreBackupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupId", required: true, type: .string)
-        ]
-        /// The ID of the backup to be restored. To find the ID of a backup, use the DescribeBackups operation.
-        public let backupId: String
-
-        public init(backupId: String) {
-            self.backupId = backupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case backupId = "BackupId"
-        }
-    }
-
-    public struct CreateClusterResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Cluster", required: false, type: .structure)
-        ]
-        /// Information about the cluster that was created.
-        public let cluster: Cluster?
-
-        public init(cluster: Cluster? = nil) {
-            self.cluster = cluster
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cluster = "Cluster"
-        }
-    }
-
-    public enum HsmState: String, CustomStringConvertible, Codable {
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case active = "ACTIVE"
-        case degraded = "DEGRADED"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ClusterState: String, CustomStringConvertible, Codable {
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case uninitialized = "UNINITIALIZED"
-        case initializeInProgress = "INITIALIZE_IN_PROGRESS"
-        case initialized = "INITIALIZED"
-        case active = "ACTIVE"
-        case updateInProgress = "UPDATE_IN_PROGRESS"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        case deleted = "DELETED"
-        case degraded = "DEGRADED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListTagsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagList", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list of tags.
-        public let tagList: [Tag]
-        /// An opaque string that indicates that the response contains only a subset of tags. Use this value in a subsequent ListTags request to get more tags.
-        public let nextToken: String?
-
-        public init(tagList: [Tag], nextToken: String? = nil) {
-            self.tagList = tagList
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagList = "TagList"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct InitializeClusterResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "StateMessage", required: false, type: .string)
-        ]
-        /// The cluster's state.
-        public let state: ClusterState?
-        /// A description of the cluster's state.
-        public let stateMessage: String?
-
-        public init(state: ClusterState? = nil, stateMessage: String? = nil) {
-            self.state = state
-            self.stateMessage = stateMessage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "State"
-            case stateMessage = "StateMessage"
-        }
-    }
-
-    public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "TagList", required: true, type: .list)
-        ]
-        /// The cluster identifier (ID) for the cluster that you are tagging. To find the cluster ID, use DescribeClusters.
-        public let resourceId: String
-        /// A list of one or more tags.
-        public let tagList: [Tag]
-
-        public init(resourceId: String, tagList: [Tag]) {
-            self.resourceId = resourceId
-            self.tagList = tagList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case tagList = "TagList"
-        }
-    }
-
-    public struct DeleteClusterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterId", required: true, type: .string)
-        ]
-        /// The identifier (ID) of the cluster that you are deleting. To find the cluster ID, use DescribeClusters.
-        public let clusterId: String
-
-        public init(clusterId: String) {
-            self.clusterId = clusterId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clusterId = "ClusterId"
-        }
-    }
-
-    public struct DeleteHsmResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HsmId", required: false, type: .string)
-        ]
-        /// The identifier (ID) of the HSM that was deleted.
-        public let hsmId: String?
-
-        public init(hsmId: String? = nil) {
-            self.hsmId = hsmId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hsmId = "HsmId"
-        }
-    }
-
-    public struct DeleteHsmRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EniIp", required: false, type: .string), 
-            AWSShapeMember(label: "HsmId", required: false, type: .string), 
-            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
-            AWSShapeMember(label: "EniId", required: false, type: .string)
-        ]
-        /// The IP address of the elastic network interface (ENI) of the HSM that you are deleting.
-        public let eniIp: String?
-        /// The identifier (ID) of the HSM that you are deleting.
-        public let hsmId: String?
-        /// The identifier (ID) of the cluster that contains the HSM that you are deleting.
-        public let clusterId: String
-        /// The identifier (ID) of the elastic network interface (ENI) of the HSM that you are deleting.
-        public let eniId: String?
-
-        public init(eniIp: String? = nil, hsmId: String? = nil, clusterId: String, eniId: String? = nil) {
-            self.eniIp = eniIp
-            self.hsmId = hsmId
-            self.clusterId = clusterId
-            self.eniId = eniId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eniIp = "EniIp"
-            case hsmId = "HsmId"
-            case clusterId = "ClusterId"
-            case eniId = "EniId"
-        }
-    }
-
-    public struct CreateHsmResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Hsm", required: false, type: .structure)
-        ]
-        /// Information about the HSM that was created.
-        public let hsm: Hsm?
-
-        public init(hsm: Hsm? = nil) {
-            self.hsm = hsm
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hsm = "Hsm"
-        }
-    }
-
-    public struct DescribeBackupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortAscending", required: false, type: .boolean), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .map)
-        ]
-        /// The NextToken value that you received in the previous response. Use this value to get more backups.
-        public let nextToken: String?
-        public let sortAscending: Bool?
-        /// The maximum number of backups to return in the response. When there are more backups than the number you specify, the response contains a NextToken value.
-        public let maxResults: Int32?
-        /// One or more filters to limit the items returned in the response. Use the backupIds filter to return only the specified backups. Specify backups by their backup identifier (ID). Use the sourceBackupIds filter to return only the backups created from a source backup. The sourceBackupID of a source backup is returned by the CopyBackupToRegion operation. Use the clusterIds filter to return only the backups for the specified clusters. Specify clusters by their cluster identifier (ID). Use the states filter to return only backups that match the specified state.
-        public let filters: [String: [String]]?
-
-        public init(nextToken: String? = nil, sortAscending: Bool? = nil, maxResults: Int32? = nil, filters: [String: [String]]? = nil) {
-            self.nextToken = nextToken
-            self.sortAscending = sortAscending
-            self.maxResults = maxResults
-            self.filters = filters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case sortAscending = "SortAscending"
-            case maxResults = "MaxResults"
-            case filters = "Filters"
-        }
-    }
-
     public struct DescribeClustersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .map), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .map)
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The NextToken value that you received in the previous response. Use this value to get more clusters.
-        public let nextToken: String?
-        /// The maximum number of clusters to return in the response. When there are more clusters than the number you specify, the response contains a NextToken value.
-        public let maxResults: Int32?
         /// One or more filters to limit the items returned in the response. Use the clusterIds filter to return only the specified clusters. Specify clusters by their cluster identifier (ID). Use the vpcIds filter to return only the clusters in the specified virtual private clouds (VPCs). Specify VPCs by their VPC identifier (ID). Use the states filter to return only clusters that match the specified state.
         public let filters: [String: [String]]?
+        /// The maximum number of clusters to return in the response. When there are more clusters than the number you specify, the response contains a NextToken value.
+        public let maxResults: Int32?
+        /// The NextToken value that you received in the previous response. Use this value to get more clusters.
+        public let nextToken: String?
 
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, filters: [String: [String]]? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
+        public init(filters: [String: [String]]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
             case filters = "Filters"
-        }
-    }
-
-    public enum BackupPolicy: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RestoreBackupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Backup", required: false, type: .structure)
-        ]
-        /// Information on the Backup object created.
-        public let backup: Backup?
-
-        public init(backup: Backup? = nil) {
-            self.backup = backup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case backup = "Backup"
-        }
-    }
-
-    public struct CreateClusterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceBackupId", required: false, type: .string), 
-            AWSShapeMember(label: "HsmType", required: true, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: true, type: .list)
-        ]
-        /// The identifier (ID) of the cluster backup to restore. Use this value to restore the cluster from a backup instead of creating a new cluster. To find the backup ID, use DescribeBackups.
-        public let sourceBackupId: String?
-        /// The type of HSM to use in the cluster. Currently the only allowed value is hsm1.medium.
-        public let hsmType: String
-        /// The identifiers (IDs) of the subnets where you are creating the cluster. You must specify at least one subnet. If you specify multiple subnets, they must meet the following criteria:   All subnets must be in the same virtual private cloud (VPC).   You can specify only one subnet per Availability Zone.  
-        public let subnetIds: [String]
-
-        public init(sourceBackupId: String? = nil, hsmType: String, subnetIds: [String]) {
-            self.sourceBackupId = sourceBackupId
-            self.hsmType = hsmType
-            self.subnetIds = subnetIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceBackupId = "SourceBackupId"
-            case hsmType = "HsmType"
-            case subnetIds = "SubnetIds"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
         }
     }
 
@@ -556,159 +525,192 @@ extension CloudHSMV2 {
         }
     }
 
-    public enum BackupState: String, CustomStringConvertible, Codable {
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case ready = "READY"
-        case deleted = "DELETED"
-        case pendingDeletion = "PENDING_DELETION"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateHsmRequest: AWSShape {
+    public struct DestinationBackup: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
-            AWSShapeMember(label: "AvailabilityZone", required: true, type: .string), 
-            AWSShapeMember(label: "ClusterId", required: true, type: .string)
+            AWSShapeMember(label: "CreateTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SourceBackup", required: false, type: .string), 
+            AWSShapeMember(label: "SourceCluster", required: false, type: .string), 
+            AWSShapeMember(label: "SourceRegion", required: false, type: .string)
         ]
-        /// The HSM's IP address. If you specify an IP address, use an available address from the subnet that maps to the Availability Zone where you are creating the HSM. If you don't specify an IP address, one is chosen for you from that subnet.
-        public let ipAddress: String?
-        /// The Availability Zone where you are creating the HSM. To find the cluster's Availability Zones, use DescribeClusters.
-        public let availabilityZone: String
-        /// The identifier (ID) of the HSM's cluster. To find the cluster ID, use DescribeClusters.
-        public let clusterId: String
+        public let createTimestamp: TimeStamp?
+        public let sourceBackup: String?
+        public let sourceCluster: String?
+        public let sourceRegion: String?
 
-        public init(ipAddress: String? = nil, availabilityZone: String, clusterId: String) {
-            self.ipAddress = ipAddress
-            self.availabilityZone = availabilityZone
-            self.clusterId = clusterId
+        public init(createTimestamp: TimeStamp? = nil, sourceBackup: String? = nil, sourceCluster: String? = nil, sourceRegion: String? = nil) {
+            self.createTimestamp = createTimestamp
+            self.sourceBackup = sourceBackup
+            self.sourceCluster = sourceCluster
+            self.sourceRegion = sourceRegion
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ipAddress = "IpAddress"
-            case availabilityZone = "AvailabilityZone"
-            case clusterId = "ClusterId"
-        }
-    }
-
-    public struct ListTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The cluster identifier (ID) for the cluster whose tags you are getting. To find the cluster ID, use DescribeClusters.
-        public let resourceId: String
-        /// The maximum number of tags to return in the response. When there are more tags than the number you specify, the response contains a NextToken value.
-        public let maxResults: Int32?
-        /// The NextToken value that you received in the previous response. Use this value to get more tags.
-        public let nextToken: String?
-
-        public init(resourceId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.resourceId = resourceId
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct CopyBackupToRegionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationRegion", required: true, type: .string), 
-            AWSShapeMember(label: "BackupId", required: true, type: .string)
-        ]
-        /// The AWS region that will contain your copied CloudHSM cluster backup.
-        public let destinationRegion: String
-        /// The ID of the backup that will be copied to the destination region. 
-        public let backupId: String
-
-        public init(destinationRegion: String, backupId: String) {
-            self.destinationRegion = destinationRegion
-            self.backupId = backupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destinationRegion = "DestinationRegion"
-            case backupId = "BackupId"
+            case createTimestamp = "CreateTimestamp"
+            case sourceBackup = "SourceBackup"
+            case sourceCluster = "SourceCluster"
+            case sourceRegion = "SourceRegion"
         }
     }
 
     public struct Hsm: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterId", required: false, type: .string), 
-            AWSShapeMember(label: "HsmId", required: true, type: .string), 
-            AWSShapeMember(label: "EniIp", required: false, type: .string), 
             AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterId", required: false, type: .string), 
             AWSShapeMember(label: "EniId", required: false, type: .string), 
+            AWSShapeMember(label: "EniIp", required: false, type: .string), 
+            AWSShapeMember(label: "HsmId", required: true, type: .string), 
             AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "StateMessage", required: false, type: .string)
+            AWSShapeMember(label: "StateMessage", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetId", required: false, type: .string)
         ]
-        /// The identifier (ID) of the cluster that contains the HSM.
-        public let clusterId: String?
-        /// The HSM's identifier (ID).
-        public let hsmId: String
-        /// The IP address of the HSM's elastic network interface (ENI).
-        public let eniIp: String?
         /// The Availability Zone that contains the HSM.
         public let availabilityZone: String?
-        /// The subnet that contains the HSM's elastic network interface (ENI).
-        public let subnetId: String?
+        /// The identifier (ID) of the cluster that contains the HSM.
+        public let clusterId: String?
         /// The identifier (ID) of the HSM's elastic network interface (ENI).
         public let eniId: String?
+        /// The IP address of the HSM's elastic network interface (ENI).
+        public let eniIp: String?
+        /// The HSM's identifier (ID).
+        public let hsmId: String
         /// The HSM's state.
         public let state: HsmState?
         /// A description of the HSM's state.
         public let stateMessage: String?
+        /// The subnet that contains the HSM's elastic network interface (ENI).
+        public let subnetId: String?
 
-        public init(clusterId: String? = nil, hsmId: String, eniIp: String? = nil, availabilityZone: String? = nil, subnetId: String? = nil, eniId: String? = nil, state: HsmState? = nil, stateMessage: String? = nil) {
-            self.clusterId = clusterId
-            self.hsmId = hsmId
-            self.eniIp = eniIp
+        public init(availabilityZone: String? = nil, clusterId: String? = nil, eniId: String? = nil, eniIp: String? = nil, hsmId: String, state: HsmState? = nil, stateMessage: String? = nil, subnetId: String? = nil) {
             self.availabilityZone = availabilityZone
-            self.subnetId = subnetId
+            self.clusterId = clusterId
             self.eniId = eniId
+            self.eniIp = eniIp
+            self.hsmId = hsmId
+            self.state = state
+            self.stateMessage = stateMessage
+            self.subnetId = subnetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case clusterId = "ClusterId"
+            case eniId = "EniId"
+            case eniIp = "EniIp"
+            case hsmId = "HsmId"
+            case state = "State"
+            case stateMessage = "StateMessage"
+            case subnetId = "SubnetId"
+        }
+    }
+
+    public enum HsmState: String, CustomStringConvertible, Codable {
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case active = "ACTIVE"
+        case degraded = "DEGRADED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct InitializeClusterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "SignedCert", required: true, type: .string), 
+            AWSShapeMember(label: "TrustAnchor", required: true, type: .string)
+        ]
+        /// The identifier (ID) of the cluster that you are claiming. To find the cluster ID, use DescribeClusters.
+        public let clusterId: String
+        /// The cluster certificate issued (signed) by your issuing certificate authority (CA). The certificate must be in PEM format and can contain a maximum of 5000 characters.
+        public let signedCert: String
+        /// The issuing certificate of the issuing certificate authority (CA) that issued (signed) the cluster certificate. This can be a root (self-signed) certificate or a certificate chain that begins with the certificate that issued the cluster certificate and ends with a root certificate. The certificate or certificate chain must be in PEM format and can contain a maximum of 5000 characters.
+        public let trustAnchor: String
+
+        public init(clusterId: String, signedCert: String, trustAnchor: String) {
+            self.clusterId = clusterId
+            self.signedCert = signedCert
+            self.trustAnchor = trustAnchor
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+            case signedCert = "SignedCert"
+            case trustAnchor = "TrustAnchor"
+        }
+    }
+
+    public struct InitializeClusterResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "StateMessage", required: false, type: .string)
+        ]
+        /// The cluster's state.
+        public let state: ClusterState?
+        /// A description of the cluster's state.
+        public let stateMessage: String?
+
+        public init(state: ClusterState? = nil, stateMessage: String? = nil) {
             self.state = state
             self.stateMessage = stateMessage
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterId = "ClusterId"
-            case hsmId = "HsmId"
-            case eniIp = "EniIp"
-            case availabilityZone = "AvailabilityZone"
-            case subnetId = "SubnetId"
-            case eniId = "EniId"
             case state = "State"
             case stateMessage = "StateMessage"
         }
     }
 
-    public struct DeleteBackupResponse: AWSShape {
+    public struct ListTagsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Backup", required: false, type: .structure)
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string)
         ]
-        /// Information on the Backup object deleted.
-        public let backup: Backup?
+        /// The maximum number of tags to return in the response. When there are more tags than the number you specify, the response contains a NextToken value.
+        public let maxResults: Int32?
+        /// The NextToken value that you received in the previous response. Use this value to get more tags.
+        public let nextToken: String?
+        /// The cluster identifier (ID) for the cluster whose tags you are getting. To find the cluster ID, use DescribeClusters.
+        public let resourceId: String
 
-        public init(backup: Backup? = nil) {
-            self.backup = backup
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backup = "Backup"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case resourceId = "ResourceId"
         }
     }
 
-    public struct DeleteBackupRequest: AWSShape {
+    public struct ListTagsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TagList", required: true, type: .list)
+        ]
+        /// An opaque string that indicates that the response contains only a subset of tags. Use this value in a subsequent ListTags request to get more tags.
+        public let nextToken: String?
+        /// A list of tags.
+        public let tagList: [Tag]
+
+        public init(nextToken: String? = nil, tagList: [Tag]) {
+            self.nextToken = nextToken
+            self.tagList = tagList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tagList = "TagList"
+        }
+    }
+
+    public struct RestoreBackupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BackupId", required: true, type: .string)
         ]
-        /// The ID of the backup to be deleted. To find the ID of a backup, use the DescribeBackups operation.
+        /// The ID of the backup to be restored. To find the ID of a backup, use the DescribeBackups operation.
         public let backupId: String
 
         public init(backupId: String) {
@@ -720,93 +722,97 @@ extension CloudHSMV2 {
         }
     }
 
-    public struct Backup: AWSShape {
+    public struct RestoreBackupResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterId", required: false, type: .string), 
-            AWSShapeMember(label: "CopyTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "BackupState", required: false, type: .enum), 
-            AWSShapeMember(label: "BackupId", required: true, type: .string), 
-            AWSShapeMember(label: "CreateTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SourceBackup", required: false, type: .string), 
-            AWSShapeMember(label: "SourceCluster", required: false, type: .string), 
-            AWSShapeMember(label: "DeleteTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SourceRegion", required: false, type: .string)
+            AWSShapeMember(label: "Backup", required: false, type: .structure)
         ]
-        /// The identifier (ID) of the cluster that was backed up.
-        public let clusterId: String?
-        public let copyTimestamp: TimeStamp?
-        /// The state of the backup.
-        public let backupState: BackupState?
-        /// The identifier (ID) of the backup.
-        public let backupId: String
-        /// The date and time when the backup was created.
-        public let createTimestamp: TimeStamp?
-        public let sourceBackup: String?
-        public let sourceCluster: String?
-        /// The date and time when the backup will be permanently deleted.
-        public let deleteTimestamp: TimeStamp?
-        public let sourceRegion: String?
+        /// Information on the Backup object created.
+        public let backup: Backup?
 
-        public init(clusterId: String? = nil, copyTimestamp: TimeStamp? = nil, backupState: BackupState? = nil, backupId: String, createTimestamp: TimeStamp? = nil, sourceBackup: String? = nil, sourceCluster: String? = nil, deleteTimestamp: TimeStamp? = nil, sourceRegion: String? = nil) {
-            self.clusterId = clusterId
-            self.copyTimestamp = copyTimestamp
-            self.backupState = backupState
-            self.backupId = backupId
-            self.createTimestamp = createTimestamp
-            self.sourceBackup = sourceBackup
-            self.sourceCluster = sourceCluster
-            self.deleteTimestamp = deleteTimestamp
-            self.sourceRegion = sourceRegion
+        public init(backup: Backup? = nil) {
+            self.backup = backup
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterId = "ClusterId"
-            case copyTimestamp = "CopyTimestamp"
-            case backupState = "BackupState"
-            case backupId = "BackupId"
-            case createTimestamp = "CreateTimestamp"
-            case sourceBackup = "SourceBackup"
-            case sourceCluster = "SourceCluster"
-            case deleteTimestamp = "DeleteTimestamp"
-            case sourceRegion = "SourceRegion"
+            case backup = "Backup"
         }
     }
 
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: true, type: .string), 
-            AWSShapeMember(label: "Key", required: true, type: .string)
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
         ]
-        /// The value of the tag.
-        public let value: String
         /// The key of the tag.
         public let key: String
+        /// The value of the tag.
+        public let value: String
 
-        public init(value: String, key: String) {
-            self.value = value
+        public init(key: String, value: String) {
             self.key = key
+            self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value = "Value"
             case key = "Key"
+            case value = "Value"
         }
     }
 
-    public struct DeleteClusterResponse: AWSShape {
+    public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Cluster", required: false, type: .structure)
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "TagList", required: true, type: .list)
         ]
-        /// Information about the cluster that was deleted.
-        public let cluster: Cluster?
+        /// The cluster identifier (ID) for the cluster that you are tagging. To find the cluster ID, use DescribeClusters.
+        public let resourceId: String
+        /// A list of one or more tags.
+        public let tagList: [Tag]
 
-        public init(cluster: Cluster? = nil) {
-            self.cluster = cluster
+        public init(resourceId: String, tagList: [Tag]) {
+            self.resourceId = resourceId
+            self.tagList = tagList
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster = "Cluster"
+            case resourceId = "ResourceId"
+            case tagList = "TagList"
         }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeyList", required: true, type: .list)
+        ]
+        /// The cluster identifier (ID) for the cluster whose tags you are removing. To find the cluster ID, use DescribeClusters.
+        public let resourceId: String
+        /// A list of one or more tag keys for the tags that you are removing. Specify only the tag keys, not the tag values.
+        public let tagKeyList: [String]
+
+        public init(resourceId: String, tagKeyList: [String]) {
+            self.resourceId = resourceId
+            self.tagKeyList = tagKeyList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case tagKeyList = "TagKeyList"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
 }

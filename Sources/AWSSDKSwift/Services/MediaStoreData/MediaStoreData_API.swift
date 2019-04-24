@@ -24,9 +24,9 @@ public struct MediaStoreData {
         )
     }
 
-    ///  Uploads an object to the specified path. Object sizes are limited to 25 MB.
-    public func putObject(_ input: PutObjectRequest) throws -> PutObjectResponse {
-        return try client.send(operation: "PutObject", path: "/{Path+}", httpMethod: "PUT", input: input)
+    ///  Deletes an object at the specified path.
+    public func deleteObject(_ input: DeleteObjectRequest) throws -> DeleteObjectResponse {
+        return try client.send(operation: "DeleteObject", path: "/{Path+}", httpMethod: "DELETE", input: input)
     }
 
     ///  Gets the headers for an object at the specified path.
@@ -34,19 +34,19 @@ public struct MediaStoreData {
         return try client.send(operation: "DescribeObject", path: "/{Path+}", httpMethod: "HEAD", input: input)
     }
 
+    ///  Downloads the object at the specified path.
+    public func getObject(_ input: GetObjectRequest) throws -> GetObjectResponse {
+        return try client.send(operation: "GetObject", path: "/{Path+}", httpMethod: "GET", input: input)
+    }
+
     ///  Provides a list of metadata entries about folders and objects in the specified folder.
     public func listItems(_ input: ListItemsRequest) throws -> ListItemsResponse {
         return try client.send(operation: "ListItems", path: "/", httpMethod: "GET", input: input)
     }
 
-    ///  Deletes an object at the specified path.
-    public func deleteObject(_ input: DeleteObjectRequest) throws -> DeleteObjectResponse {
-        return try client.send(operation: "DeleteObject", path: "/{Path+}", httpMethod: "DELETE", input: input)
-    }
-
-    ///  Downloads the object at the specified path.
-    public func getObject(_ input: GetObjectRequest) throws -> GetObjectResponse {
-        return try client.send(operation: "GetObject", path: "/{Path+}", httpMethod: "GET", input: input)
+    ///  Uploads an object to the specified path. Object sizes are limited to 25 MB.
+    public func putObject(_ input: PutObjectRequest) throws -> PutObjectResponse {
+        return try client.send(operation: "PutObject", path: "/{Path+}", httpMethod: "PUT", input: input)
     }
 
 

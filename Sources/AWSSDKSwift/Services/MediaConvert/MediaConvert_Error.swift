@@ -5,11 +5,11 @@ import AWSSDKSwiftCore
 /// Error enum for MediaConvert
 public enum MediaConvertErrorType: AWSErrorType {
     case badRequestException(message: String?)
-    case internalServerErrorException(message: String?)
+    case conflictException(message: String?)
     case forbiddenException(message: String?)
+    case internalServerErrorException(message: String?)
     case notFoundException(message: String?)
     case tooManyRequestsException(message: String?)
-    case conflictException(message: String?)
 }
 
 extension MediaConvertErrorType {
@@ -21,16 +21,16 @@ extension MediaConvertErrorType {
         switch errorCode {
         case "BadRequestException":
             self = .badRequestException(message: message)
-        case "InternalServerErrorException":
-            self = .internalServerErrorException(message: message)
+        case "ConflictException":
+            self = .conflictException(message: message)
         case "ForbiddenException":
             self = .forbiddenException(message: message)
+        case "InternalServerErrorException":
+            self = .internalServerErrorException(message: message)
         case "NotFoundException":
             self = .notFoundException(message: message)
         case "TooManyRequestsException":
             self = .tooManyRequestsException(message: message)
-        case "ConflictException":
-            self = .conflictException(message: message)
         default:
             return nil
         }

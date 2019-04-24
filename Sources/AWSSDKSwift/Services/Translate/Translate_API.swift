@@ -20,7 +20,7 @@ public struct Translate {
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2017-07-01",
             endpoint: endpoint,
-            serviceEndpoints: ["us-west-2-fips": "translate-fips.us-west-2.amazonaws.com", "us-east-2-fips": "translate-fips.us-east-2.amazonaws.com", "us-east-1-fips": "translate-fips.us-east-1.amazonaws.com"],
+            serviceEndpoints: ["us-east-1-fips": "translate-fips.us-east-1.amazonaws.com", "us-east-2-fips": "translate-fips.us-east-2.amazonaws.com", "us-west-2-fips": "translate-fips.us-west-2.amazonaws.com"],
             middlewares: [],
             possibleErrorTypes: [TranslateErrorType.self]
         )
@@ -41,14 +41,14 @@ public struct Translate {
         return try client.send(operation: "ImportTerminology", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Translates input text from the source language to the target language. It is not necessary to use English (en) as either the source or the target language but not all language combinations are supported by Amazon Translate. For more information, see Supported Language Pairs.   Arabic (ar)   Chinese (Simplified) (zh)   Chinese (Traditional) (zh-TW)   Czech (cs)   Danish (da)   Dutch (nl)   English (en)   Finnish (fi)   French (fr)   German (de)   Hebrew (he)   Indonesian (id)   Italian (it)   Japanese (ja)   Korean (ko)   Polish (pl)   Portuguese (pt)   Russian (ru)   Spanish (es)   Swedish (sv)   Turkish (tr)   To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon Translate will call Amazon Comprehend to determine the source language.
-    public func translateText(_ input: TranslateTextRequest) throws -> TranslateTextResponse {
-        return try client.send(operation: "TranslateText", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Provides a list of custom terminologies associated with your account.
     public func listTerminologies(_ input: ListTerminologiesRequest) throws -> ListTerminologiesResponse {
         return try client.send(operation: "ListTerminologies", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Translates input text from the source language to the target language. It is not necessary to use English (en) as either the source or the target language but not all language combinations are supported by Amazon Translate. For more information, see Supported Language Pairs.   Arabic (ar)   Chinese (Simplified) (zh)   Chinese (Traditional) (zh-TW)   Czech (cs)   Danish (da)   Dutch (nl)   English (en)   Finnish (fi)   French (fr)   German (de)   Hebrew (he)   Indonesian (id)   Italian (it)   Japanese (ja)   Korean (ko)   Polish (pl)   Portuguese (pt)   Russian (ru)   Spanish (es)   Swedish (sv)   Turkish (tr)   To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon Translate will call Amazon Comprehend to determine the source language.
+    public func translateText(_ input: TranslateTextRequest) throws -> TranslateTextResponse {
+        return try client.send(operation: "TranslateText", path: "/", httpMethod: "POST", input: input)
     }
 
 

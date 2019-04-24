@@ -25,6 +25,11 @@ public struct Health {
         )
     }
 
+    ///  Returns a list of entities that have been affected by the specified events, based on the specified filter criteria. Entities can refer to individual customer resources, groups of customer resources, or any other construct, depending on the AWS service. Events that have impact beyond that of the affected entities, or where the extent of impact is unknown, include at least one entity indicating this. At least one event ARN is required. Results are sorted by the lastUpdatedTime of the entity, starting with the most recent.
+    public func describeAffectedEntities(_ input: DescribeAffectedEntitiesRequest) throws -> DescribeAffectedEntitiesResponse {
+        return try client.send(operation: "DescribeAffectedEntities", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns the number of entities that are affected by each of the specified events. If no events are specified, the counts of all affected entities are returned.
     public func describeEntityAggregates(_ input: DescribeEntityAggregatesRequest) throws -> DescribeEntityAggregatesResponse {
         return try client.send(operation: "DescribeEntityAggregates", path: "/", httpMethod: "POST", input: input)
@@ -40,19 +45,14 @@ public struct Health {
         return try client.send(operation: "DescribeEventDetails", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about events that meet the specified filter criteria. Events are returned in a summary form and do not include the detailed description, any additional metadata that depends on the event type, or any affected resources. To retrieve that information, use the DescribeEventDetails and DescribeAffectedEntities operations. If no filter criteria are specified, all events are returned. Results are sorted by lastModifiedTime, starting with the most recent.
-    public func describeEvents(_ input: DescribeEventsRequest) throws -> DescribeEventsResponse {
-        return try client.send(operation: "DescribeEvents", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns a list of entities that have been affected by the specified events, based on the specified filter criteria. Entities can refer to individual customer resources, groups of customer resources, or any other construct, depending on the AWS service. Events that have impact beyond that of the affected entities, or where the extent of impact is unknown, include at least one entity indicating this. At least one event ARN is required. Results are sorted by the lastUpdatedTime of the entity, starting with the most recent.
-    public func describeAffectedEntities(_ input: DescribeAffectedEntitiesRequest) throws -> DescribeAffectedEntitiesResponse {
-        return try client.send(operation: "DescribeAffectedEntities", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Returns the event types that meet the specified filter criteria. If no filter criteria are specified, all event types are returned, in no particular order.
     public func describeEventTypes(_ input: DescribeEventTypesRequest) throws -> DescribeEventTypesResponse {
         return try client.send(operation: "DescribeEventTypes", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about events that meet the specified filter criteria. Events are returned in a summary form and do not include the detailed description, any additional metadata that depends on the event type, or any affected resources. To retrieve that information, use the DescribeEventDetails and DescribeAffectedEntities operations. If no filter criteria are specified, all events are returned. Results are sorted by lastModifiedTime, starting with the most recent.
+    public func describeEvents(_ input: DescribeEventsRequest) throws -> DescribeEventsResponse {
+        return try client.send(operation: "DescribeEvents", path: "/", httpMethod: "POST", input: input)
     }
 
 

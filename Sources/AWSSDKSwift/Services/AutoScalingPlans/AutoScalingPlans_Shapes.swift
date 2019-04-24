@@ -7,80 +7,353 @@ extension AutoScalingPlans {
 
     public struct ApplicationSource: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagFilters", required: false, type: .list), 
-            AWSShapeMember(label: "CloudFormationStackARN", required: false, type: .string)
+            AWSShapeMember(label: "CloudFormationStackARN", required: false, type: .string), 
+            AWSShapeMember(label: "TagFilters", required: false, type: .list)
         ]
-        /// A set of tags (up to 50).
-        public let tagFilters: [TagFilter]?
         /// The Amazon Resource Name (ARN) of a AWS CloudFormation stack.
         public let cloudFormationStackARN: String?
+        /// A set of tags (up to 50).
+        public let tagFilters: [TagFilter]?
 
-        public init(tagFilters: [TagFilter]? = nil, cloudFormationStackARN: String? = nil) {
-            self.tagFilters = tagFilters
+        public init(cloudFormationStackARN: String? = nil, tagFilters: [TagFilter]? = nil) {
             self.cloudFormationStackARN = cloudFormationStackARN
+            self.tagFilters = tagFilters
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tagFilters = "TagFilters"
             case cloudFormationStackARN = "CloudFormationStackARN"
+            case tagFilters = "TagFilters"
         }
     }
 
-    public enum ScalingStatusCode: String, CustomStringConvertible, Codable {
-        case inactive = "Inactive"
-        case partiallyactive = "PartiallyActive"
-        case active = "Active"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ScalingPlan: AWSShape {
+    public struct CreateScalingPlanRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "StatusStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ApplicationSource", required: true, type: .structure), 
             AWSShapeMember(label: "ScalingInstructions", required: true, type: .list), 
-            AWSShapeMember(label: "StatusCode", required: true, type: .enum), 
-            AWSShapeMember(label: "ScalingPlanName", required: true, type: .string), 
-            AWSShapeMember(label: "ScalingPlanVersion", required: true, type: .long), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ApplicationSource", required: true, type: .structure)
+            AWSShapeMember(label: "ScalingPlanName", required: true, type: .string)
         ]
-        /// A simple message about the current status of the scaling plan.
-        public let statusMessage: String?
-        /// The Unix time stamp when the scaling plan entered the current status.
-        public let statusStartTime: TimeStamp?
+        /// A CloudFormation stack or set of tags. You can create one scaling plan per application source.
+        public let applicationSource: ApplicationSource
         /// The scaling instructions.
         public let scalingInstructions: [ScalingInstruction]
-        /// The status of the scaling plan.    Active - The scaling plan is active.    ActiveWithProblems - The scaling plan is active, but the scaling configuration for one or more resources could not be applied.    CreationInProgress - The scaling plan is being created.    CreationFailed - The scaling plan could not be created.    DeletionInProgress - The scaling plan is being deleted.    DeletionFailed - The scaling plan could not be deleted.    UpdateInProgress - The scaling plan is being updated.    UpdateFailed - The scaling plan could not be updated.  
-        public let statusCode: ScalingPlanStatusCode
+        /// The name of the scaling plan. Names cannot contain vertical bars, colons, or forward slashes.
+        public let scalingPlanName: String
+
+        public init(applicationSource: ApplicationSource, scalingInstructions: [ScalingInstruction], scalingPlanName: String) {
+            self.applicationSource = applicationSource
+            self.scalingInstructions = scalingInstructions
+            self.scalingPlanName = scalingPlanName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationSource = "ApplicationSource"
+            case scalingInstructions = "ScalingInstructions"
+            case scalingPlanName = "ScalingPlanName"
+        }
+    }
+
+    public struct CreateScalingPlanResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScalingPlanVersion", required: true, type: .long)
+        ]
+        /// The version number of the scaling plan. This value is always 1. Currently, you cannot specify multiple scaling plan versions.
+        public let scalingPlanVersion: Int64
+
+        public init(scalingPlanVersion: Int64) {
+            self.scalingPlanVersion = scalingPlanVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scalingPlanVersion = "ScalingPlanVersion"
+        }
+    }
+
+    public struct CustomizedLoadMetricSpecification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
+            AWSShapeMember(label: "MetricName", required: true, type: .string), 
+            AWSShapeMember(label: "Namespace", required: true, type: .string), 
+            AWSShapeMember(label: "Statistic", required: true, type: .enum), 
+            AWSShapeMember(label: "Unit", required: false, type: .string)
+        ]
+        /// The dimensions of the metric.
+        public let dimensions: [MetricDimension]?
+        /// The name of the metric.
+        public let metricName: String
+        /// The namespace of the metric.
+        public let namespace: String
+        /// The statistic of the metric. Currently, the value must always be Sum. 
+        public let statistic: MetricStatistic
+        /// The unit of the metric.
+        public let unit: String?
+
+        public init(dimensions: [MetricDimension]? = nil, metricName: String, namespace: String, statistic: MetricStatistic, unit: String? = nil) {
+            self.dimensions = dimensions
+            self.metricName = metricName
+            self.namespace = namespace
+            self.statistic = statistic
+            self.unit = unit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+            case metricName = "MetricName"
+            case namespace = "Namespace"
+            case statistic = "Statistic"
+            case unit = "Unit"
+        }
+    }
+
+    public struct CustomizedScalingMetricSpecification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
+            AWSShapeMember(label: "MetricName", required: true, type: .string), 
+            AWSShapeMember(label: "Namespace", required: true, type: .string), 
+            AWSShapeMember(label: "Statistic", required: true, type: .enum), 
+            AWSShapeMember(label: "Unit", required: false, type: .string)
+        ]
+        /// The dimensions of the metric.
+        public let dimensions: [MetricDimension]?
+        /// The name of the metric.
+        public let metricName: String
+        /// The namespace of the metric.
+        public let namespace: String
+        /// The statistic of the metric.
+        public let statistic: MetricStatistic
+        /// The unit of the metric. 
+        public let unit: String?
+
+        public init(dimensions: [MetricDimension]? = nil, metricName: String, namespace: String, statistic: MetricStatistic, unit: String? = nil) {
+            self.dimensions = dimensions
+            self.metricName = metricName
+            self.namespace = namespace
+            self.statistic = statistic
+            self.unit = unit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+            case metricName = "MetricName"
+            case namespace = "Namespace"
+            case statistic = "Statistic"
+            case unit = "Unit"
+        }
+    }
+
+    public struct Datapoint: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Value", required: false, type: .double)
+        ]
+        /// The time stamp for the data point in UTC format.
+        public let timestamp: TimeStamp?
+        /// The value of the data point.
+        public let value: Double?
+
+        public init(timestamp: TimeStamp? = nil, value: Double? = nil) {
+            self.timestamp = timestamp
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timestamp = "Timestamp"
+            case value = "Value"
+        }
+    }
+
+    public struct DeleteScalingPlanRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScalingPlanName", required: true, type: .string), 
+            AWSShapeMember(label: "ScalingPlanVersion", required: true, type: .long)
+        ]
         /// The name of the scaling plan.
         public let scalingPlanName: String
         /// The version number of the scaling plan.
         public let scalingPlanVersion: Int64
-        /// The Unix time stamp when the scaling plan was created.
-        public let creationTime: TimeStamp?
-        /// The application source.
-        public let applicationSource: ApplicationSource
 
-        public init(statusMessage: String? = nil, statusStartTime: TimeStamp? = nil, scalingInstructions: [ScalingInstruction], statusCode: ScalingPlanStatusCode, scalingPlanName: String, scalingPlanVersion: Int64, creationTime: TimeStamp? = nil, applicationSource: ApplicationSource) {
-            self.statusMessage = statusMessage
-            self.statusStartTime = statusStartTime
-            self.scalingInstructions = scalingInstructions
-            self.statusCode = statusCode
+        public init(scalingPlanName: String, scalingPlanVersion: Int64) {
             self.scalingPlanName = scalingPlanName
             self.scalingPlanVersion = scalingPlanVersion
-            self.creationTime = creationTime
-            self.applicationSource = applicationSource
         }
 
         private enum CodingKeys: String, CodingKey {
-            case statusMessage = "StatusMessage"
-            case statusStartTime = "StatusStartTime"
-            case scalingInstructions = "ScalingInstructions"
-            case statusCode = "StatusCode"
             case scalingPlanName = "ScalingPlanName"
             case scalingPlanVersion = "ScalingPlanVersion"
-            case creationTime = "CreationTime"
-            case applicationSource = "ApplicationSource"
+        }
+    }
+
+    public struct DeleteScalingPlanResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DescribeScalingPlanResourcesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ScalingPlanName", required: true, type: .string), 
+            AWSShapeMember(label: "ScalingPlanVersion", required: true, type: .long)
+        ]
+        /// The maximum number of scalable resources to return. The value must be between 1 and 50. The default value is 50.
+        public let maxResults: Int32?
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// The name of the scaling plan.
+        public let scalingPlanName: String
+        /// The version number of the scaling plan.
+        public let scalingPlanVersion: Int64
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, scalingPlanName: String, scalingPlanVersion: Int64) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.scalingPlanName = scalingPlanName
+            self.scalingPlanVersion = scalingPlanVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case scalingPlanName = "ScalingPlanName"
+            case scalingPlanVersion = "ScalingPlanVersion"
+        }
+    }
+
+    public struct DescribeScalingPlanResourcesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ScalingPlanResources", required: false, type: .list)
+        ]
+        /// The token required to get the next set of results. This value is null if there are no more results to return.
+        public let nextToken: String?
+        /// Information about the scalable resources.
+        public let scalingPlanResources: [ScalingPlanResource]?
+
+        public init(nextToken: String? = nil, scalingPlanResources: [ScalingPlanResource]? = nil) {
+            self.nextToken = nextToken
+            self.scalingPlanResources = scalingPlanResources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case scalingPlanResources = "ScalingPlanResources"
+        }
+    }
+
+    public struct DescribeScalingPlansRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationSources", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ScalingPlanNames", required: false, type: .list), 
+            AWSShapeMember(label: "ScalingPlanVersion", required: false, type: .long)
+        ]
+        /// The sources for the applications (up to 10). If you specify scaling plan names, you cannot specify application sources.
+        public let applicationSources: [ApplicationSource]?
+        /// The maximum number of scalable resources to return. This value can be between 1 and 50. The default value is 50.
+        public let maxResults: Int32?
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// The names of the scaling plans (up to 10). If you specify application sources, you cannot specify scaling plan names.
+        public let scalingPlanNames: [String]?
+        /// The version number of the scaling plan. If you specify a scaling plan version, you must also specify a scaling plan name.
+        public let scalingPlanVersion: Int64?
+
+        public init(applicationSources: [ApplicationSource]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, scalingPlanNames: [String]? = nil, scalingPlanVersion: Int64? = nil) {
+            self.applicationSources = applicationSources
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.scalingPlanNames = scalingPlanNames
+            self.scalingPlanVersion = scalingPlanVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationSources = "ApplicationSources"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case scalingPlanNames = "ScalingPlanNames"
+            case scalingPlanVersion = "ScalingPlanVersion"
+        }
+    }
+
+    public struct DescribeScalingPlansResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ScalingPlans", required: false, type: .list)
+        ]
+        /// The token required to get the next set of results. This value is null if there are no more results to return.
+        public let nextToken: String?
+        /// Information about the scaling plans.
+        public let scalingPlans: [ScalingPlan]?
+
+        public init(nextToken: String? = nil, scalingPlans: [ScalingPlan]? = nil) {
+            self.nextToken = nextToken
+            self.scalingPlans = scalingPlans
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case scalingPlans = "ScalingPlans"
+        }
+    }
+
+    public enum ForecastDataType: String, CustomStringConvertible, Codable {
+        case capacityforecast = "CapacityForecast"
+        case loadforecast = "LoadForecast"
+        case scheduledactionmincapacity = "ScheduledActionMinCapacity"
+        case scheduledactionmaxcapacity = "ScheduledActionMaxCapacity"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetScalingPlanResourceForecastDataRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "ForecastDataType", required: true, type: .enum), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
+            AWSShapeMember(label: "ScalingPlanName", required: true, type: .string), 
+            AWSShapeMember(label: "ScalingPlanVersion", required: true, type: .long), 
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
+            AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
+        ]
+        /// The exclusive end time of the time range for the forecast data to get. The maximum time duration between the start and end time is seven days.  Although this parameter can accept a date and time that is more than two days in the future, the availability of forecast data has limits. AWS Auto Scaling only issues forecasts for periods of two days in advance.
+        public let endTime: TimeStamp
+        /// The type of forecast data to get.    LoadForecast: The load metric forecast.     CapacityForecast: The capacity forecast.     ScheduledActionMinCapacity: The minimum capacity for each scheduled scaling action. This data is calculated as the larger of two values: the capacity forecast or the minimum capacity in the scaling instruction.    ScheduledActionMaxCapacity: The maximum capacity for each scheduled scaling action. The calculation used is determined by the predictive scaling maximum capacity behavior setting in the scaling instruction.  
+        public let forecastDataType: ForecastDataType
+        /// The ID of the resource. This string consists of the resource type and unique identifier.    Auto Scaling group - The resource type is autoScalingGroup and the unique identifier is the name of the Auto Scaling group. Example: autoScalingGroup/my-asg.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot Fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.  
+        public let resourceId: String
+        /// The scalable dimension for the resource.
+        public let scalableDimension: ScalableDimension
+        /// The name of the scaling plan.
+        public let scalingPlanName: String
+        /// The version number of the scaling plan.
+        public let scalingPlanVersion: Int64
+        /// The namespace of the AWS service.
+        public let serviceNamespace: ServiceNamespace
+        /// The inclusive start time of the time range for the forecast data to get. The date and time can be at most 56 days before the current date and time. 
+        public let startTime: TimeStamp
+
+        public init(endTime: TimeStamp, forecastDataType: ForecastDataType, resourceId: String, scalableDimension: ScalableDimension, scalingPlanName: String, scalingPlanVersion: Int64, serviceNamespace: ServiceNamespace, startTime: TimeStamp) {
+            self.endTime = endTime
+            self.forecastDataType = forecastDataType
+            self.resourceId = resourceId
+            self.scalableDimension = scalableDimension
+            self.scalingPlanName = scalingPlanName
+            self.scalingPlanVersion = scalingPlanVersion
+            self.serviceNamespace = serviceNamespace
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case forecastDataType = "ForecastDataType"
+            case resourceId = "ResourceId"
+            case scalableDimension = "ScalableDimension"
+            case scalingPlanName = "ScalingPlanName"
+            case scalingPlanVersion = "ScalingPlanVersion"
+            case serviceNamespace = "ServiceNamespace"
+            case startTime = "StartTime"
         }
     }
 
@@ -100,104 +373,6 @@ extension AutoScalingPlans {
         }
     }
 
-    public struct DescribeScalingPlanResourcesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalingPlanResources", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Information about the scalable resources.
-        public let scalingPlanResources: [ScalingPlanResource]?
-        /// The token required to get the next set of results. This value is null if there are no more results to return.
-        public let nextToken: String?
-
-        public init(scalingPlanResources: [ScalingPlanResource]? = nil, nextToken: String? = nil) {
-            self.scalingPlanResources = scalingPlanResources
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scalingPlanResources = "ScalingPlanResources"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public enum ForecastDataType: String, CustomStringConvertible, Codable {
-        case capacityforecast = "CapacityForecast"
-        case loadforecast = "LoadForecast"
-        case scheduledactionmincapacity = "ScheduledActionMinCapacity"
-        case scheduledactionmaxcapacity = "ScheduledActionMaxCapacity"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateScalingPlanRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalingPlanVersion", required: true, type: .long), 
-            AWSShapeMember(label: "ScalingPlanName", required: true, type: .string), 
-            AWSShapeMember(label: "ScalingInstructions", required: false, type: .list), 
-            AWSShapeMember(label: "ApplicationSource", required: false, type: .structure)
-        ]
-        /// The version number of the scaling plan.
-        public let scalingPlanVersion: Int64
-        /// The name of the scaling plan.
-        public let scalingPlanName: String
-        /// The scaling instructions.
-        public let scalingInstructions: [ScalingInstruction]?
-        /// A CloudFormation stack or set of tags.
-        public let applicationSource: ApplicationSource?
-
-        public init(scalingPlanVersion: Int64, scalingPlanName: String, scalingInstructions: [ScalingInstruction]? = nil, applicationSource: ApplicationSource? = nil) {
-            self.scalingPlanVersion = scalingPlanVersion
-            self.scalingPlanName = scalingPlanName
-            self.scalingInstructions = scalingInstructions
-            self.applicationSource = applicationSource
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scalingPlanVersion = "ScalingPlanVersion"
-            case scalingPlanName = "ScalingPlanName"
-            case scalingInstructions = "ScalingInstructions"
-            case applicationSource = "ApplicationSource"
-        }
-    }
-
-    public enum PolicyType: String, CustomStringConvertible, Codable {
-        case targettrackingscaling = "TargetTrackingScaling"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ScalingMetricType: String, CustomStringConvertible, Codable {
-        case asgaveragecpuutilization = "ASGAverageCPUUtilization"
-        case asgaveragenetworkin = "ASGAverageNetworkIn"
-        case asgaveragenetworkout = "ASGAverageNetworkOut"
-        case dynamodbreadcapacityutilization = "DynamoDBReadCapacityUtilization"
-        case dynamodbwritecapacityutilization = "DynamoDBWriteCapacityUtilization"
-        case ecsserviceaveragecpuutilization = "ECSServiceAverageCPUUtilization"
-        case ecsserviceaveragememoryutilization = "ECSServiceAverageMemoryUtilization"
-        case albrequestcountpertarget = "ALBRequestCountPerTarget"
-        case rdsreaderaveragecpuutilization = "RDSReaderAverageCPUUtilization"
-        case rdsreaderaveragedatabaseconnections = "RDSReaderAverageDatabaseConnections"
-        case ec2spotfleetrequestaveragecpuutilization = "EC2SpotFleetRequestAverageCPUUtilization"
-        case ec2spotfleetrequestaveragenetworkin = "EC2SpotFleetRequestAverageNetworkIn"
-        case ec2spotfleetrequestaveragenetworkout = "EC2SpotFleetRequestAverageNetworkOut"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateScalingPlanResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalingPlanVersion", required: true, type: .long)
-        ]
-        /// The version number of the scaling plan. This value is always 1. Currently, you cannot specify multiple scaling plan versions.
-        public let scalingPlanVersion: Int64
-
-        public init(scalingPlanVersion: Int64) {
-            self.scalingPlanVersion = scalingPlanVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scalingPlanVersion = "ScalingPlanVersion"
-        }
-    }
-
     public enum LoadMetricType: String, CustomStringConvertible, Codable {
         case asgtotalcpuutilization = "ASGTotalCPUUtilization"
         case asgtotalnetworkin = "ASGTotalNetworkIn"
@@ -206,29 +381,59 @@ extension AutoScalingPlans {
         public var description: String { return self.rawValue }
     }
 
-    public struct ScalingPolicy: AWSShape {
+    public struct MetricDimension: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyType", required: true, type: .enum), 
-            AWSShapeMember(label: "TargetTrackingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "PolicyName", required: true, type: .string)
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
         ]
-        /// The type of scaling policy.
-        public let policyType: PolicyType
-        /// The target tracking scaling policy. 
-        public let targetTrackingConfiguration: TargetTrackingConfiguration?
-        /// The name of the scaling policy.
-        public let policyName: String
+        /// The name of the dimension.
+        public let name: String
+        /// The value of the dimension.
+        public let value: String
 
-        public init(policyType: PolicyType, targetTrackingConfiguration: TargetTrackingConfiguration? = nil, policyName: String) {
-            self.policyType = policyType
-            self.targetTrackingConfiguration = targetTrackingConfiguration
-            self.policyName = policyName
+        public init(name: String, value: String) {
+            self.name = name
+            self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyType = "PolicyType"
-            case targetTrackingConfiguration = "TargetTrackingConfiguration"
-            case policyName = "PolicyName"
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
+    public enum MetricStatistic: String, CustomStringConvertible, Codable {
+        case average = "Average"
+        case minimum = "Minimum"
+        case maximum = "Maximum"
+        case samplecount = "SampleCount"
+        case sum = "Sum"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyType: String, CustomStringConvertible, Codable {
+        case targettrackingscaling = "TargetTrackingScaling"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct PredefinedLoadMetricSpecification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PredefinedLoadMetricType", required: true, type: .enum), 
+            AWSShapeMember(label: "ResourceLabel", required: false, type: .string)
+        ]
+        /// The metric type.
+        public let predefinedLoadMetricType: LoadMetricType
+        /// Identifies the resource associated with the metric type. You can't specify a resource label unless the metric type is ALBRequestCountPerTarget and there is a target group for an Application Load Balancer attached to the Auto Scaling group. The format is app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt;/targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt;, where:   app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion of the load balancer ARN.   targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final portion of the target group ARN.  
+        public let resourceLabel: String?
+
+        public init(predefinedLoadMetricType: LoadMetricType, resourceLabel: String? = nil) {
+            self.predefinedLoadMetricType = predefinedLoadMetricType
+            self.resourceLabel = resourceLabel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case predefinedLoadMetricType = "PredefinedLoadMetricType"
+            case resourceLabel = "ResourceLabel"
         }
     }
 
@@ -260,108 +465,10 @@ extension AutoScalingPlans {
         public var description: String { return self.rawValue }
     }
 
-    public struct DeleteScalingPlanResponse: AWSShape {
-
-    }
-
-    public enum ScalingPlanStatusCode: String, CustomStringConvertible, Codable {
-        case active = "Active"
-        case activewithproblems = "ActiveWithProblems"
-        case creationinprogress = "CreationInProgress"
-        case creationfailed = "CreationFailed"
-        case deletioninprogress = "DeletionInProgress"
-        case deletionfailed = "DeletionFailed"
-        case updateinprogress = "UpdateInProgress"
-        case updatefailed = "UpdateFailed"
+    public enum PredictiveScalingMode: String, CustomStringConvertible, Codable {
+        case forecastandscale = "ForecastAndScale"
+        case forecastonly = "ForecastOnly"
         public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeScalingPlanResourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ScalingPlanName", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "ScalingPlanVersion", required: true, type: .long)
-        ]
-        /// The token for the next set of results.
-        public let nextToken: String?
-        /// The name of the scaling plan.
-        public let scalingPlanName: String
-        /// The maximum number of scalable resources to return. The value must be between 1 and 50. The default value is 50.
-        public let maxResults: Int32?
-        /// The version number of the scaling plan.
-        public let scalingPlanVersion: Int64
-
-        public init(nextToken: String? = nil, scalingPlanName: String, maxResults: Int32? = nil, scalingPlanVersion: Int64) {
-            self.nextToken = nextToken
-            self.scalingPlanName = scalingPlanName
-            self.maxResults = maxResults
-            self.scalingPlanVersion = scalingPlanVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case scalingPlanName = "ScalingPlanName"
-            case maxResults = "MaxResults"
-            case scalingPlanVersion = "ScalingPlanVersion"
-        }
-    }
-
-    public struct CustomizedScalingMetricSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Unit", required: false, type: .string), 
-            AWSShapeMember(label: "MetricName", required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", required: true, type: .string), 
-            AWSShapeMember(label: "Statistic", required: true, type: .enum), 
-            AWSShapeMember(label: "Dimensions", required: false, type: .list)
-        ]
-        /// The unit of the metric. 
-        public let unit: String?
-        /// The name of the metric.
-        public let metricName: String
-        /// The namespace of the metric.
-        public let namespace: String
-        /// The statistic of the metric.
-        public let statistic: MetricStatistic
-        /// The dimensions of the metric.
-        public let dimensions: [MetricDimension]?
-
-        public init(unit: String? = nil, metricName: String, namespace: String, statistic: MetricStatistic, dimensions: [MetricDimension]? = nil) {
-            self.unit = unit
-            self.metricName = metricName
-            self.namespace = namespace
-            self.statistic = statistic
-            self.dimensions = dimensions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case unit = "Unit"
-            case metricName = "MetricName"
-            case namespace = "Namespace"
-            case statistic = "Statistic"
-            case dimensions = "Dimensions"
-        }
-    }
-
-    public struct DeleteScalingPlanRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalingPlanName", required: true, type: .string), 
-            AWSShapeMember(label: "ScalingPlanVersion", required: true, type: .long)
-        ]
-        /// The name of the scaling plan.
-        public let scalingPlanName: String
-        /// The version number of the scaling plan.
-        public let scalingPlanVersion: Int64
-
-        public init(scalingPlanName: String, scalingPlanVersion: Int64) {
-            self.scalingPlanName = scalingPlanName
-            self.scalingPlanVersion = scalingPlanVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scalingPlanName = "ScalingPlanName"
-            case scalingPlanVersion = "ScalingPlanVersion"
-        }
     }
 
     public enum ScalableDimension: String, CustomStringConvertible, Codable {
@@ -376,10 +483,242 @@ extension AutoScalingPlans {
         public var description: String { return self.rawValue }
     }
 
-    public enum PredictiveScalingMode: String, CustomStringConvertible, Codable {
-        case forecastandscale = "ForecastAndScale"
-        case forecastonly = "ForecastOnly"
+    public struct ScalingInstruction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomizedLoadMetricSpecification", required: false, type: .structure), 
+            AWSShapeMember(label: "DisableDynamicScaling", required: false, type: .boolean), 
+            AWSShapeMember(label: "MaxCapacity", required: true, type: .integer), 
+            AWSShapeMember(label: "MinCapacity", required: true, type: .integer), 
+            AWSShapeMember(label: "PredefinedLoadMetricSpecification", required: false, type: .structure), 
+            AWSShapeMember(label: "PredictiveScalingMaxCapacityBehavior", required: false, type: .enum), 
+            AWSShapeMember(label: "PredictiveScalingMaxCapacityBuffer", required: false, type: .integer), 
+            AWSShapeMember(label: "PredictiveScalingMode", required: false, type: .enum), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
+            AWSShapeMember(label: "ScalingPolicyUpdateBehavior", required: false, type: .enum), 
+            AWSShapeMember(label: "ScheduledActionBufferTime", required: false, type: .integer), 
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
+            AWSShapeMember(label: "TargetTrackingConfigurations", required: true, type: .list)
+        ]
+        /// The customized load metric to use for predictive scaling. This parameter or a PredefinedLoadMetricSpecification is required when configuring predictive scaling, and cannot be used otherwise. 
+        public let customizedLoadMetricSpecification: CustomizedLoadMetricSpecification?
+        /// Controls whether dynamic scaling by AWS Auto Scaling is disabled. When dynamic scaling is enabled, AWS Auto Scaling creates target tracking scaling policies based on the specified target tracking configurations.  The default is enabled (false). 
+        public let disableDynamicScaling: Bool?
+        /// The maximum capacity of the resource. The exception to this upper limit is if you specify a non-default setting for PredictiveScalingMaxCapacityBehavior. 
+        public let maxCapacity: Int32
+        /// The minimum capacity of the resource. 
+        public let minCapacity: Int32
+        /// The predefined load metric to use for predictive scaling. This parameter or a CustomizedLoadMetricSpecification is required when configuring predictive scaling, and cannot be used otherwise. 
+        public let predefinedLoadMetricSpecification: PredefinedLoadMetricSpecification?
+        /// Defines the behavior that should be applied if the forecast capacity approaches or exceeds the maximum capacity specified for the resource. The default value is SetForecastCapacityToMaxCapacity. The following are possible values:    SetForecastCapacityToMaxCapacity - AWS Auto Scaling cannot scale resource capacity higher than the maximum capacity. The maximum capacity is enforced as a hard limit.     SetMaxCapacityToForecastCapacity - AWS Auto Scaling may scale resource capacity higher than the maximum capacity to equal but not exceed forecast capacity.    SetMaxCapacityAboveForecastCapacity - AWS Auto Scaling may scale resource capacity higher than the maximum capacity by a specified buffer value. The intention is to give the target tracking scaling policy extra capacity if unexpected traffic occurs.    Only valid when configuring predictive scaling.
+        public let predictiveScalingMaxCapacityBehavior: PredictiveScalingMaxCapacityBehavior?
+        /// The size of the capacity buffer to use when the forecast capacity is close to or exceeds the maximum capacity. The value is specified as a percentage relative to the forecast capacity. For example, if the buffer is 10, this means a 10 percent buffer, such that if the forecast capacity is 50, and the maximum capacity is 40, then the effective maximum capacity is 55. Only valid when configuring predictive scaling. Required if the PredictiveScalingMaxCapacityBehavior is set to SetMaxCapacityAboveForecastCapacity, and cannot be used otherwise. The range is 1-100.
+        public let predictiveScalingMaxCapacityBuffer: Int32?
+        /// The predictive scaling mode. The default value is ForecastAndScale. Otherwise, AWS Auto Scaling forecasts capacity but does not create any scheduled scaling actions based on the capacity forecast. 
+        public let predictiveScalingMode: PredictiveScalingMode?
+        /// The ID of the resource. This string consists of the resource type and unique identifier.   Auto Scaling group - The resource type is autoScalingGroup and the unique identifier is the name of the Auto Scaling group. Example: autoScalingGroup/my-asg.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot Fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.  
+        public let resourceId: String
+        /// The scalable dimension associated with the resource.    autoscaling:autoScalingGroup:DesiredCapacity - The desired capacity of an Auto Scaling group.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet request.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.  
+        public let scalableDimension: ScalableDimension
+        /// Controls whether a resource's externally created scaling policies are kept or replaced.  The default value is KeepExternalPolicies. If the parameter is set to ReplaceExternalPolicies, any scaling policies that are external to AWS Auto Scaling are deleted and new target tracking scaling policies created.  Only valid when configuring dynamic scaling.  Condition: The number of existing policies to be replaced must be less than or equal to 50. If there are more than 50 policies to be replaced, AWS Auto Scaling keeps all existing policies and does not create new ones.
+        public let scalingPolicyUpdateBehavior: ScalingPolicyUpdateBehavior?
+        /// The amount of time, in seconds, to buffer the run time of scheduled scaling actions when scaling out. For example, if the forecast says to add capacity at 10:00 AM, and the buffer time is 5 minutes, then the run time of the corresponding scheduled scaling action will be 9:55 AM. The intention is to give resources time to be provisioned. For example, it can take a few minutes to launch an EC2 instance. The actual amount of time required depends on several factors, such as the size of the instance and whether there are startup scripts to complete.  The value must be less than the forecast interval duration of 3600 seconds (60 minutes). The default is 300 seconds.  Only valid when configuring predictive scaling. 
+        public let scheduledActionBufferTime: Int32?
+        /// The namespace of the AWS service.
+        public let serviceNamespace: ServiceNamespace
+        /// The structure that defines new target tracking configurations (up to 10). Each of these structures includes a specific scaling metric and a target value for the metric, along with various parameters to use with dynamic scaling.  With predictive scaling and dynamic scaling, the resource scales based on the target tracking configuration that provides the largest capacity for both scale in and scale out.  Condition: The scaling metric must be unique across target tracking configurations.
+        public let targetTrackingConfigurations: [TargetTrackingConfiguration]
+
+        public init(customizedLoadMetricSpecification: CustomizedLoadMetricSpecification? = nil, disableDynamicScaling: Bool? = nil, maxCapacity: Int32, minCapacity: Int32, predefinedLoadMetricSpecification: PredefinedLoadMetricSpecification? = nil, predictiveScalingMaxCapacityBehavior: PredictiveScalingMaxCapacityBehavior? = nil, predictiveScalingMaxCapacityBuffer: Int32? = nil, predictiveScalingMode: PredictiveScalingMode? = nil, resourceId: String, scalableDimension: ScalableDimension, scalingPolicyUpdateBehavior: ScalingPolicyUpdateBehavior? = nil, scheduledActionBufferTime: Int32? = nil, serviceNamespace: ServiceNamespace, targetTrackingConfigurations: [TargetTrackingConfiguration]) {
+            self.customizedLoadMetricSpecification = customizedLoadMetricSpecification
+            self.disableDynamicScaling = disableDynamicScaling
+            self.maxCapacity = maxCapacity
+            self.minCapacity = minCapacity
+            self.predefinedLoadMetricSpecification = predefinedLoadMetricSpecification
+            self.predictiveScalingMaxCapacityBehavior = predictiveScalingMaxCapacityBehavior
+            self.predictiveScalingMaxCapacityBuffer = predictiveScalingMaxCapacityBuffer
+            self.predictiveScalingMode = predictiveScalingMode
+            self.resourceId = resourceId
+            self.scalableDimension = scalableDimension
+            self.scalingPolicyUpdateBehavior = scalingPolicyUpdateBehavior
+            self.scheduledActionBufferTime = scheduledActionBufferTime
+            self.serviceNamespace = serviceNamespace
+            self.targetTrackingConfigurations = targetTrackingConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customizedLoadMetricSpecification = "CustomizedLoadMetricSpecification"
+            case disableDynamicScaling = "DisableDynamicScaling"
+            case maxCapacity = "MaxCapacity"
+            case minCapacity = "MinCapacity"
+            case predefinedLoadMetricSpecification = "PredefinedLoadMetricSpecification"
+            case predictiveScalingMaxCapacityBehavior = "PredictiveScalingMaxCapacityBehavior"
+            case predictiveScalingMaxCapacityBuffer = "PredictiveScalingMaxCapacityBuffer"
+            case predictiveScalingMode = "PredictiveScalingMode"
+            case resourceId = "ResourceId"
+            case scalableDimension = "ScalableDimension"
+            case scalingPolicyUpdateBehavior = "ScalingPolicyUpdateBehavior"
+            case scheduledActionBufferTime = "ScheduledActionBufferTime"
+            case serviceNamespace = "ServiceNamespace"
+            case targetTrackingConfigurations = "TargetTrackingConfigurations"
+        }
+    }
+
+    public enum ScalingMetricType: String, CustomStringConvertible, Codable {
+        case asgaveragecpuutilization = "ASGAverageCPUUtilization"
+        case asgaveragenetworkin = "ASGAverageNetworkIn"
+        case asgaveragenetworkout = "ASGAverageNetworkOut"
+        case dynamodbreadcapacityutilization = "DynamoDBReadCapacityUtilization"
+        case dynamodbwritecapacityutilization = "DynamoDBWriteCapacityUtilization"
+        case ecsserviceaveragecpuutilization = "ECSServiceAverageCPUUtilization"
+        case ecsserviceaveragememoryutilization = "ECSServiceAverageMemoryUtilization"
+        case albrequestcountpertarget = "ALBRequestCountPerTarget"
+        case rdsreaderaveragecpuutilization = "RDSReaderAverageCPUUtilization"
+        case rdsreaderaveragedatabaseconnections = "RDSReaderAverageDatabaseConnections"
+        case ec2spotfleetrequestaveragecpuutilization = "EC2SpotFleetRequestAverageCPUUtilization"
+        case ec2spotfleetrequestaveragenetworkin = "EC2SpotFleetRequestAverageNetworkIn"
+        case ec2spotfleetrequestaveragenetworkout = "EC2SpotFleetRequestAverageNetworkOut"
         public var description: String { return self.rawValue }
+    }
+
+    public struct ScalingPlan: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationSource", required: true, type: .structure), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ScalingInstructions", required: true, type: .list), 
+            AWSShapeMember(label: "ScalingPlanName", required: true, type: .string), 
+            AWSShapeMember(label: "ScalingPlanVersion", required: true, type: .long), 
+            AWSShapeMember(label: "StatusCode", required: true, type: .enum), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "StatusStartTime", required: false, type: .timestamp)
+        ]
+        /// The application source.
+        public let applicationSource: ApplicationSource
+        /// The Unix time stamp when the scaling plan was created.
+        public let creationTime: TimeStamp?
+        /// The scaling instructions.
+        public let scalingInstructions: [ScalingInstruction]
+        /// The name of the scaling plan.
+        public let scalingPlanName: String
+        /// The version number of the scaling plan.
+        public let scalingPlanVersion: Int64
+        /// The status of the scaling plan.    Active - The scaling plan is active.    ActiveWithProblems - The scaling plan is active, but the scaling configuration for one or more resources could not be applied.    CreationInProgress - The scaling plan is being created.    CreationFailed - The scaling plan could not be created.    DeletionInProgress - The scaling plan is being deleted.    DeletionFailed - The scaling plan could not be deleted.    UpdateInProgress - The scaling plan is being updated.    UpdateFailed - The scaling plan could not be updated.  
+        public let statusCode: ScalingPlanStatusCode
+        /// A simple message about the current status of the scaling plan.
+        public let statusMessage: String?
+        /// The Unix time stamp when the scaling plan entered the current status.
+        public let statusStartTime: TimeStamp?
+
+        public init(applicationSource: ApplicationSource, creationTime: TimeStamp? = nil, scalingInstructions: [ScalingInstruction], scalingPlanName: String, scalingPlanVersion: Int64, statusCode: ScalingPlanStatusCode, statusMessage: String? = nil, statusStartTime: TimeStamp? = nil) {
+            self.applicationSource = applicationSource
+            self.creationTime = creationTime
+            self.scalingInstructions = scalingInstructions
+            self.scalingPlanName = scalingPlanName
+            self.scalingPlanVersion = scalingPlanVersion
+            self.statusCode = statusCode
+            self.statusMessage = statusMessage
+            self.statusStartTime = statusStartTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationSource = "ApplicationSource"
+            case creationTime = "CreationTime"
+            case scalingInstructions = "ScalingInstructions"
+            case scalingPlanName = "ScalingPlanName"
+            case scalingPlanVersion = "ScalingPlanVersion"
+            case statusCode = "StatusCode"
+            case statusMessage = "StatusMessage"
+            case statusStartTime = "StatusStartTime"
+        }
+    }
+
+    public struct ScalingPlanResource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
+            AWSShapeMember(label: "ScalingPlanName", required: true, type: .string), 
+            AWSShapeMember(label: "ScalingPlanVersion", required: true, type: .long), 
+            AWSShapeMember(label: "ScalingPolicies", required: false, type: .list), 
+            AWSShapeMember(label: "ScalingStatusCode", required: true, type: .enum), 
+            AWSShapeMember(label: "ScalingStatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum)
+        ]
+        /// The ID of the resource. This string consists of the resource type and unique identifier.   Auto Scaling group - The resource type is autoScalingGroup and the unique identifier is the name of the Auto Scaling group. Example: autoScalingGroup/my-asg.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot Fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.  
+        public let resourceId: String
+        /// The scalable dimension for the resource.    autoscaling:autoScalingGroup:DesiredCapacity - The desired capacity of an Auto Scaling group.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet request.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.  
+        public let scalableDimension: ScalableDimension
+        /// The name of the scaling plan.
+        public let scalingPlanName: String
+        /// The version number of the scaling plan.
+        public let scalingPlanVersion: Int64
+        /// The scaling policies.
+        public let scalingPolicies: [ScalingPolicy]?
+        /// The scaling status of the resource.    Active - The scaling configuration is active.    Inactive - The scaling configuration is not active because the scaling plan is being created or the scaling configuration could not be applied. Check the status message for more information.    PartiallyActive - The scaling configuration is partially active because the scaling plan is being created or deleted or the scaling configuration could not be fully applied. Check the status message for more information.  
+        public let scalingStatusCode: ScalingStatusCode
+        /// A simple message about the current scaling status of the resource.
+        public let scalingStatusMessage: String?
+        /// The namespace of the AWS service.
+        public let serviceNamespace: ServiceNamespace
+
+        public init(resourceId: String, scalableDimension: ScalableDimension, scalingPlanName: String, scalingPlanVersion: Int64, scalingPolicies: [ScalingPolicy]? = nil, scalingStatusCode: ScalingStatusCode, scalingStatusMessage: String? = nil, serviceNamespace: ServiceNamespace) {
+            self.resourceId = resourceId
+            self.scalableDimension = scalableDimension
+            self.scalingPlanName = scalingPlanName
+            self.scalingPlanVersion = scalingPlanVersion
+            self.scalingPolicies = scalingPolicies
+            self.scalingStatusCode = scalingStatusCode
+            self.scalingStatusMessage = scalingStatusMessage
+            self.serviceNamespace = serviceNamespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case scalableDimension = "ScalableDimension"
+            case scalingPlanName = "ScalingPlanName"
+            case scalingPlanVersion = "ScalingPlanVersion"
+            case scalingPolicies = "ScalingPolicies"
+            case scalingStatusCode = "ScalingStatusCode"
+            case scalingStatusMessage = "ScalingStatusMessage"
+            case serviceNamespace = "ServiceNamespace"
+        }
+    }
+
+    public enum ScalingPlanStatusCode: String, CustomStringConvertible, Codable {
+        case active = "Active"
+        case activewithproblems = "ActiveWithProblems"
+        case creationinprogress = "CreationInProgress"
+        case creationfailed = "CreationFailed"
+        case deletioninprogress = "DeletionInProgress"
+        case deletionfailed = "DeletionFailed"
+        case updateinprogress = "UpdateInProgress"
+        case updatefailed = "UpdateFailed"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ScalingPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyType", required: true, type: .enum), 
+            AWSShapeMember(label: "TargetTrackingConfiguration", required: false, type: .structure)
+        ]
+        /// The name of the scaling policy.
+        public let policyName: String
+        /// The type of scaling policy.
+        public let policyType: PolicyType
+        /// The target tracking scaling policy. 
+        public let targetTrackingConfiguration: TargetTrackingConfiguration?
+
+        public init(policyName: String, policyType: PolicyType, targetTrackingConfiguration: TargetTrackingConfiguration? = nil) {
+            self.policyName = policyName
+            self.policyType = policyType
+            self.targetTrackingConfiguration = targetTrackingConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "PolicyName"
+            case policyType = "PolicyType"
+            case targetTrackingConfiguration = "TargetTrackingConfiguration"
+        }
     }
 
     public enum ScalingPolicyUpdateBehavior: String, CustomStringConvertible, Codable {
@@ -388,342 +727,20 @@ extension AutoScalingPlans {
         public var description: String { return self.rawValue }
     }
 
-    public struct GetScalingPlanResourceForecastDataRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeMember(label: "ScalingPlanName", required: true, type: .string), 
-            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "ScalingPlanVersion", required: true, type: .long), 
-            AWSShapeMember(label: "ForecastDataType", required: true, type: .enum), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string)
-        ]
-        /// The scalable dimension for the resource.
-        public let scalableDimension: ScalableDimension
-        /// The inclusive start time of the time range for the forecast data to get. The date and time can be at most 56 days before the current date and time. 
-        public let startTime: TimeStamp
-        /// The namespace of the AWS service.
-        public let serviceNamespace: ServiceNamespace
-        /// The name of the scaling plan.
-        public let scalingPlanName: String
-        /// The exclusive end time of the time range for the forecast data to get. The maximum time duration between the start and end time is seven days.  Although this parameter can accept a date and time that is more than two days in the future, the availability of forecast data has limits. AWS Auto Scaling only issues forecasts for periods of two days in advance.
-        public let endTime: TimeStamp
-        /// The version number of the scaling plan.
-        public let scalingPlanVersion: Int64
-        /// The type of forecast data to get.    LoadForecast: The load metric forecast.     CapacityForecast: The capacity forecast.     ScheduledActionMinCapacity: The minimum capacity for each scheduled scaling action. This data is calculated as the larger of two values: the capacity forecast or the minimum capacity in the scaling instruction.    ScheduledActionMaxCapacity: The maximum capacity for each scheduled scaling action. The calculation used is determined by the predictive scaling maximum capacity behavior setting in the scaling instruction.  
-        public let forecastDataType: ForecastDataType
-        /// The ID of the resource. This string consists of the resource type and unique identifier.    Auto Scaling group - The resource type is autoScalingGroup and the unique identifier is the name of the Auto Scaling group. Example: autoScalingGroup/my-asg.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot Fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.  
-        public let resourceId: String
-
-        public init(scalableDimension: ScalableDimension, startTime: TimeStamp, serviceNamespace: ServiceNamespace, scalingPlanName: String, endTime: TimeStamp, scalingPlanVersion: Int64, forecastDataType: ForecastDataType, resourceId: String) {
-            self.scalableDimension = scalableDimension
-            self.startTime = startTime
-            self.serviceNamespace = serviceNamespace
-            self.scalingPlanName = scalingPlanName
-            self.endTime = endTime
-            self.scalingPlanVersion = scalingPlanVersion
-            self.forecastDataType = forecastDataType
-            self.resourceId = resourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scalableDimension = "ScalableDimension"
-            case startTime = "StartTime"
-            case serviceNamespace = "ServiceNamespace"
-            case scalingPlanName = "ScalingPlanName"
-            case endTime = "EndTime"
-            case scalingPlanVersion = "ScalingPlanVersion"
-            case forecastDataType = "ForecastDataType"
-            case resourceId = "ResourceId"
-        }
-    }
-
-    public struct Datapoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .double), 
-            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp)
-        ]
-        /// The value of the data point.
-        public let value: Double?
-        /// The time stamp for the data point in UTC format.
-        public let timestamp: TimeStamp?
-
-        public init(value: Double? = nil, timestamp: TimeStamp? = nil) {
-            self.value = value
-            self.timestamp = timestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case timestamp = "Timestamp"
-        }
-    }
-
-    public struct DescribeScalingPlansResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalingPlans", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Information about the scaling plans.
-        public let scalingPlans: [ScalingPlan]?
-        /// The token required to get the next set of results. This value is null if there are no more results to return.
-        public let nextToken: String?
-
-        public init(scalingPlans: [ScalingPlan]? = nil, nextToken: String? = nil) {
-            self.scalingPlans = scalingPlans
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scalingPlans = "ScalingPlans"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct CreateScalingPlanRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationSource", required: true, type: .structure), 
-            AWSShapeMember(label: "ScalingPlanName", required: true, type: .string), 
-            AWSShapeMember(label: "ScalingInstructions", required: true, type: .list)
-        ]
-        /// A CloudFormation stack or set of tags. You can create one scaling plan per application source.
-        public let applicationSource: ApplicationSource
-        /// The name of the scaling plan. Names cannot contain vertical bars, colons, or forward slashes.
-        public let scalingPlanName: String
-        /// The scaling instructions.
-        public let scalingInstructions: [ScalingInstruction]
-
-        public init(applicationSource: ApplicationSource, scalingPlanName: String, scalingInstructions: [ScalingInstruction]) {
-            self.applicationSource = applicationSource
-            self.scalingPlanName = scalingPlanName
-            self.scalingInstructions = scalingInstructions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationSource = "ApplicationSource"
-            case scalingPlanName = "ScalingPlanName"
-            case scalingInstructions = "ScalingInstructions"
-        }
-    }
-
-    public enum MetricStatistic: String, CustomStringConvertible, Codable {
-        case average = "Average"
-        case minimum = "Minimum"
-        case maximum = "Maximum"
-        case samplecount = "SampleCount"
-        case sum = "Sum"
+    public enum ScalingStatusCode: String, CustomStringConvertible, Codable {
+        case inactive = "Inactive"
+        case partiallyactive = "PartiallyActive"
+        case active = "Active"
         public var description: String { return self.rawValue }
     }
 
-    public struct ScalingInstruction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetTrackingConfigurations", required: true, type: .list), 
-            AWSShapeMember(label: "PredictiveScalingMaxCapacityBehavior", required: false, type: .enum), 
-            AWSShapeMember(label: "PredictiveScalingMaxCapacityBuffer", required: false, type: .integer), 
-            AWSShapeMember(label: "ScalingPolicyUpdateBehavior", required: false, type: .enum), 
-            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeMember(label: "CustomizedLoadMetricSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "MinCapacity", required: true, type: .integer), 
-            AWSShapeMember(label: "MaxCapacity", required: true, type: .integer), 
-            AWSShapeMember(label: "PredefinedLoadMetricSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeMember(label: "ScheduledActionBufferTime", required: false, type: .integer), 
-            AWSShapeMember(label: "PredictiveScalingMode", required: false, type: .enum), 
-            AWSShapeMember(label: "DisableDynamicScaling", required: false, type: .boolean)
-        ]
-        /// The structure that defines new target tracking configurations (up to 10). Each of these structures includes a specific scaling metric and a target value for the metric, along with various parameters to use with dynamic scaling.  With predictive scaling and dynamic scaling, the resource scales based on the target tracking configuration that provides the largest capacity for both scale in and scale out.  Condition: The scaling metric must be unique across target tracking configurations.
-        public let targetTrackingConfigurations: [TargetTrackingConfiguration]
-        /// Defines the behavior that should be applied if the forecast capacity approaches or exceeds the maximum capacity specified for the resource. The default value is SetForecastCapacityToMaxCapacity. The following are possible values:    SetForecastCapacityToMaxCapacity - AWS Auto Scaling cannot scale resource capacity higher than the maximum capacity. The maximum capacity is enforced as a hard limit.     SetMaxCapacityToForecastCapacity - AWS Auto Scaling may scale resource capacity higher than the maximum capacity to equal but not exceed forecast capacity.    SetMaxCapacityAboveForecastCapacity - AWS Auto Scaling may scale resource capacity higher than the maximum capacity by a specified buffer value. The intention is to give the target tracking scaling policy extra capacity if unexpected traffic occurs.    Only valid when configuring predictive scaling.
-        public let predictiveScalingMaxCapacityBehavior: PredictiveScalingMaxCapacityBehavior?
-        /// The size of the capacity buffer to use when the forecast capacity is close to or exceeds the maximum capacity. The value is specified as a percentage relative to the forecast capacity. For example, if the buffer is 10, this means a 10 percent buffer, such that if the forecast capacity is 50, and the maximum capacity is 40, then the effective maximum capacity is 55. Only valid when configuring predictive scaling. Required if the PredictiveScalingMaxCapacityBehavior is set to SetMaxCapacityAboveForecastCapacity, and cannot be used otherwise. The range is 1-100.
-        public let predictiveScalingMaxCapacityBuffer: Int32?
-        /// Controls whether a resource's externally created scaling policies are kept or replaced.  The default value is KeepExternalPolicies. If the parameter is set to ReplaceExternalPolicies, any scaling policies that are external to AWS Auto Scaling are deleted and new target tracking scaling policies created.  Only valid when configuring dynamic scaling.  Condition: The number of existing policies to be replaced must be less than or equal to 50. If there are more than 50 policies to be replaced, AWS Auto Scaling keeps all existing policies and does not create new ones.
-        public let scalingPolicyUpdateBehavior: ScalingPolicyUpdateBehavior?
-        /// The scalable dimension associated with the resource.    autoscaling:autoScalingGroup:DesiredCapacity - The desired capacity of an Auto Scaling group.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet request.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.  
-        public let scalableDimension: ScalableDimension
-        /// The customized load metric to use for predictive scaling. This parameter or a PredefinedLoadMetricSpecification is required when configuring predictive scaling, and cannot be used otherwise. 
-        public let customizedLoadMetricSpecification: CustomizedLoadMetricSpecification?
-        /// The ID of the resource. This string consists of the resource type and unique identifier.   Auto Scaling group - The resource type is autoScalingGroup and the unique identifier is the name of the Auto Scaling group. Example: autoScalingGroup/my-asg.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot Fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.  
-        public let resourceId: String
-        /// The minimum capacity of the resource. 
-        public let minCapacity: Int32
-        /// The maximum capacity of the resource. The exception to this upper limit is if you specify a non-default setting for PredictiveScalingMaxCapacityBehavior. 
-        public let maxCapacity: Int32
-        /// The predefined load metric to use for predictive scaling. This parameter or a CustomizedLoadMetricSpecification is required when configuring predictive scaling, and cannot be used otherwise. 
-        public let predefinedLoadMetricSpecification: PredefinedLoadMetricSpecification?
-        /// The namespace of the AWS service.
-        public let serviceNamespace: ServiceNamespace
-        /// The amount of time, in seconds, to buffer the run time of scheduled scaling actions when scaling out. For example, if the forecast says to add capacity at 10:00 AM, and the buffer time is 5 minutes, then the run time of the corresponding scheduled scaling action will be 9:55 AM. The intention is to give resources time to be provisioned. For example, it can take a few minutes to launch an EC2 instance. The actual amount of time required depends on several factors, such as the size of the instance and whether there are startup scripts to complete.  The value must be less than the forecast interval duration of 3600 seconds (60 minutes). The default is 300 seconds.  Only valid when configuring predictive scaling. 
-        public let scheduledActionBufferTime: Int32?
-        /// The predictive scaling mode. The default value is ForecastAndScale. Otherwise, AWS Auto Scaling forecasts capacity but does not create any scheduled scaling actions based on the capacity forecast. 
-        public let predictiveScalingMode: PredictiveScalingMode?
-        /// Controls whether dynamic scaling by AWS Auto Scaling is disabled. When dynamic scaling is enabled, AWS Auto Scaling creates target tracking scaling policies based on the specified target tracking configurations.  The default is enabled (false). 
-        public let disableDynamicScaling: Bool?
-
-        public init(targetTrackingConfigurations: [TargetTrackingConfiguration], predictiveScalingMaxCapacityBehavior: PredictiveScalingMaxCapacityBehavior? = nil, predictiveScalingMaxCapacityBuffer: Int32? = nil, scalingPolicyUpdateBehavior: ScalingPolicyUpdateBehavior? = nil, scalableDimension: ScalableDimension, customizedLoadMetricSpecification: CustomizedLoadMetricSpecification? = nil, resourceId: String, minCapacity: Int32, maxCapacity: Int32, predefinedLoadMetricSpecification: PredefinedLoadMetricSpecification? = nil, serviceNamespace: ServiceNamespace, scheduledActionBufferTime: Int32? = nil, predictiveScalingMode: PredictiveScalingMode? = nil, disableDynamicScaling: Bool? = nil) {
-            self.targetTrackingConfigurations = targetTrackingConfigurations
-            self.predictiveScalingMaxCapacityBehavior = predictiveScalingMaxCapacityBehavior
-            self.predictiveScalingMaxCapacityBuffer = predictiveScalingMaxCapacityBuffer
-            self.scalingPolicyUpdateBehavior = scalingPolicyUpdateBehavior
-            self.scalableDimension = scalableDimension
-            self.customizedLoadMetricSpecification = customizedLoadMetricSpecification
-            self.resourceId = resourceId
-            self.minCapacity = minCapacity
-            self.maxCapacity = maxCapacity
-            self.predefinedLoadMetricSpecification = predefinedLoadMetricSpecification
-            self.serviceNamespace = serviceNamespace
-            self.scheduledActionBufferTime = scheduledActionBufferTime
-            self.predictiveScalingMode = predictiveScalingMode
-            self.disableDynamicScaling = disableDynamicScaling
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetTrackingConfigurations = "TargetTrackingConfigurations"
-            case predictiveScalingMaxCapacityBehavior = "PredictiveScalingMaxCapacityBehavior"
-            case predictiveScalingMaxCapacityBuffer = "PredictiveScalingMaxCapacityBuffer"
-            case scalingPolicyUpdateBehavior = "ScalingPolicyUpdateBehavior"
-            case scalableDimension = "ScalableDimension"
-            case customizedLoadMetricSpecification = "CustomizedLoadMetricSpecification"
-            case resourceId = "ResourceId"
-            case minCapacity = "MinCapacity"
-            case maxCapacity = "MaxCapacity"
-            case predefinedLoadMetricSpecification = "PredefinedLoadMetricSpecification"
-            case serviceNamespace = "ServiceNamespace"
-            case scheduledActionBufferTime = "ScheduledActionBufferTime"
-            case predictiveScalingMode = "PredictiveScalingMode"
-            case disableDynamicScaling = "DisableDynamicScaling"
-        }
-    }
-
-    public struct ScalingPlanResource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeMember(label: "ScalingStatusCode", required: true, type: .enum), 
-            AWSShapeMember(label: "ScalingPolicies", required: false, type: .list), 
-            AWSShapeMember(label: "ScalingPlanName", required: true, type: .string), 
-            AWSShapeMember(label: "ScalingStatusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ScalingPlanVersion", required: true, type: .long), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string)
-        ]
-        /// The scalable dimension for the resource.    autoscaling:autoScalingGroup:DesiredCapacity - The desired capacity of an Auto Scaling group.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet request.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.  
-        public let scalableDimension: ScalableDimension
-        /// The namespace of the AWS service.
-        public let serviceNamespace: ServiceNamespace
-        /// The scaling status of the resource.    Active - The scaling configuration is active.    Inactive - The scaling configuration is not active because the scaling plan is being created or the scaling configuration could not be applied. Check the status message for more information.    PartiallyActive - The scaling configuration is partially active because the scaling plan is being created or deleted or the scaling configuration could not be fully applied. Check the status message for more information.  
-        public let scalingStatusCode: ScalingStatusCode
-        /// The scaling policies.
-        public let scalingPolicies: [ScalingPolicy]?
-        /// The name of the scaling plan.
-        public let scalingPlanName: String
-        /// A simple message about the current scaling status of the resource.
-        public let scalingStatusMessage: String?
-        /// The version number of the scaling plan.
-        public let scalingPlanVersion: Int64
-        /// The ID of the resource. This string consists of the resource type and unique identifier.   Auto Scaling group - The resource type is autoScalingGroup and the unique identifier is the name of the Auto Scaling group. Example: autoScalingGroup/my-asg.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot Fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.  
-        public let resourceId: String
-
-        public init(scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, scalingStatusCode: ScalingStatusCode, scalingPolicies: [ScalingPolicy]? = nil, scalingPlanName: String, scalingStatusMessage: String? = nil, scalingPlanVersion: Int64, resourceId: String) {
-            self.scalableDimension = scalableDimension
-            self.serviceNamespace = serviceNamespace
-            self.scalingStatusCode = scalingStatusCode
-            self.scalingPolicies = scalingPolicies
-            self.scalingPlanName = scalingPlanName
-            self.scalingStatusMessage = scalingStatusMessage
-            self.scalingPlanVersion = scalingPlanVersion
-            self.resourceId = resourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scalableDimension = "ScalableDimension"
-            case serviceNamespace = "ServiceNamespace"
-            case scalingStatusCode = "ScalingStatusCode"
-            case scalingPolicies = "ScalingPolicies"
-            case scalingPlanName = "ScalingPlanName"
-            case scalingStatusMessage = "ScalingStatusMessage"
-            case scalingPlanVersion = "ScalingPlanVersion"
-            case resourceId = "ResourceId"
-        }
-    }
-
-    public struct MetricDimension: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The value of the dimension.
-        public let value: String
-        /// The name of the dimension.
-        public let name: String
-
-        public init(value: String, name: String) {
-            self.value = value
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case name = "Name"
-        }
-    }
-
-    public struct PredefinedLoadMetricSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceLabel", required: false, type: .string), 
-            AWSShapeMember(label: "PredefinedLoadMetricType", required: true, type: .enum)
-        ]
-        /// Identifies the resource associated with the metric type. You can't specify a resource label unless the metric type is ALBRequestCountPerTarget and there is a target group for an Application Load Balancer attached to the Auto Scaling group. The format is app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt;/targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt;, where:   app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion of the load balancer ARN.   targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final portion of the target group ARN.  
-        public let resourceLabel: String?
-        /// The metric type.
-        public let predefinedLoadMetricType: LoadMetricType
-
-        public init(resourceLabel: String? = nil, predefinedLoadMetricType: LoadMetricType) {
-            self.resourceLabel = resourceLabel
-            self.predefinedLoadMetricType = predefinedLoadMetricType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceLabel = "ResourceLabel"
-            case predefinedLoadMetricType = "PredefinedLoadMetricType"
-        }
-    }
-
-    public struct DescribeScalingPlansRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ScalingPlanNames", required: false, type: .list), 
-            AWSShapeMember(label: "ApplicationSources", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "ScalingPlanVersion", required: false, type: .long)
-        ]
-        /// The token for the next set of results.
-        public let nextToken: String?
-        /// The names of the scaling plans (up to 10). If you specify application sources, you cannot specify scaling plan names.
-        public let scalingPlanNames: [String]?
-        /// The sources for the applications (up to 10). If you specify scaling plan names, you cannot specify application sources.
-        public let applicationSources: [ApplicationSource]?
-        /// The maximum number of scalable resources to return. This value can be between 1 and 50. The default value is 50.
-        public let maxResults: Int32?
-        /// The version number of the scaling plan. If you specify a scaling plan version, you must also specify a scaling plan name.
-        public let scalingPlanVersion: Int64?
-
-        public init(nextToken: String? = nil, scalingPlanNames: [String]? = nil, applicationSources: [ApplicationSource]? = nil, maxResults: Int32? = nil, scalingPlanVersion: Int64? = nil) {
-            self.nextToken = nextToken
-            self.scalingPlanNames = scalingPlanNames
-            self.applicationSources = applicationSources
-            self.maxResults = maxResults
-            self.scalingPlanVersion = scalingPlanVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case scalingPlanNames = "ScalingPlanNames"
-            case applicationSources = "ApplicationSources"
-            case maxResults = "MaxResults"
-            case scalingPlanVersion = "ScalingPlanVersion"
-        }
+    public enum ServiceNamespace: String, CustomStringConvertible, Codable {
+        case autoscaling = "autoscaling"
+        case ecs = "ecs"
+        case ec2 = "ec2"
+        case rds = "rds"
+        case dynamodb = "dynamodb"
+        public var description: String { return self.rawValue }
     }
 
     public struct TagFilter: AWSShape {
@@ -749,96 +766,85 @@ extension AutoScalingPlans {
 
     public struct TargetTrackingConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetValue", required: true, type: .double), 
-            AWSShapeMember(label: "EstimatedInstanceWarmup", required: false, type: .integer), 
-            AWSShapeMember(label: "ScaleOutCooldown", required: false, type: .integer), 
-            AWSShapeMember(label: "PredefinedScalingMetricSpecification", required: false, type: .structure), 
             AWSShapeMember(label: "CustomizedScalingMetricSpecification", required: false, type: .structure), 
+            AWSShapeMember(label: "DisableScaleIn", required: false, type: .boolean), 
+            AWSShapeMember(label: "EstimatedInstanceWarmup", required: false, type: .integer), 
+            AWSShapeMember(label: "PredefinedScalingMetricSpecification", required: false, type: .structure), 
             AWSShapeMember(label: "ScaleInCooldown", required: false, type: .integer), 
-            AWSShapeMember(label: "DisableScaleIn", required: false, type: .boolean)
+            AWSShapeMember(label: "ScaleOutCooldown", required: false, type: .integer), 
+            AWSShapeMember(label: "TargetValue", required: true, type: .double)
         ]
-        /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2).
-        public let targetValue: Double
-        /// The estimated time, in seconds, until a newly launched instance can contribute to the CloudWatch metrics. This value is used only if the resource is an Auto Scaling group.
-        public let estimatedInstanceWarmup: Int32?
-        /// The amount of time, in seconds, after a scale-out activity completes before another scale-out activity can start. This value is not used if the scalable resource is an Auto Scaling group. While the cooldown period is in effect, the capacity that has been added by the previous scale-out event that initiated the cooldown is calculated as part of the desired capacity for the next scale out. The intention is to continuously (but not excessively) scale out.
-        public let scaleOutCooldown: Int32?
-        /// A predefined metric.
-        public let predefinedScalingMetricSpecification: PredefinedScalingMetricSpecification?
         /// A customized metric.
         public let customizedScalingMetricSpecification: CustomizedScalingMetricSpecification?
-        /// The amount of time, in seconds, after a scale in activity completes before another scale in activity can start. This value is not used if the scalable resource is an Auto Scaling group. The cooldown period is used to block subsequent scale in requests until it has expired. The intention is to scale in conservatively to protect your application's availability. However, if another alarm triggers a scale-out policy during the cooldown period after a scale-in, AWS Auto Scaling scales out your scalable target immediately.
-        public let scaleInCooldown: Int32?
         /// Indicates whether scale in by the target tracking scaling policy is disabled. If the value is true, scale in is disabled and the target tracking scaling policy doesn't remove capacity from the scalable resource. Otherwise, scale in is enabled and the target tracking scaling policy can remove capacity from the scalable resource.  The default value is false.
         public let disableScaleIn: Bool?
+        /// The estimated time, in seconds, until a newly launched instance can contribute to the CloudWatch metrics. This value is used only if the resource is an Auto Scaling group.
+        public let estimatedInstanceWarmup: Int32?
+        /// A predefined metric.
+        public let predefinedScalingMetricSpecification: PredefinedScalingMetricSpecification?
+        /// The amount of time, in seconds, after a scale in activity completes before another scale in activity can start. This value is not used if the scalable resource is an Auto Scaling group. The cooldown period is used to block subsequent scale in requests until it has expired. The intention is to scale in conservatively to protect your application's availability. However, if another alarm triggers a scale-out policy during the cooldown period after a scale-in, AWS Auto Scaling scales out your scalable target immediately.
+        public let scaleInCooldown: Int32?
+        /// The amount of time, in seconds, after a scale-out activity completes before another scale-out activity can start. This value is not used if the scalable resource is an Auto Scaling group. While the cooldown period is in effect, the capacity that has been added by the previous scale-out event that initiated the cooldown is calculated as part of the desired capacity for the next scale out. The intention is to continuously (but not excessively) scale out.
+        public let scaleOutCooldown: Int32?
+        /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2).
+        public let targetValue: Double
 
-        public init(targetValue: Double, estimatedInstanceWarmup: Int32? = nil, scaleOutCooldown: Int32? = nil, predefinedScalingMetricSpecification: PredefinedScalingMetricSpecification? = nil, customizedScalingMetricSpecification: CustomizedScalingMetricSpecification? = nil, scaleInCooldown: Int32? = nil, disableScaleIn: Bool? = nil) {
-            self.targetValue = targetValue
-            self.estimatedInstanceWarmup = estimatedInstanceWarmup
-            self.scaleOutCooldown = scaleOutCooldown
-            self.predefinedScalingMetricSpecification = predefinedScalingMetricSpecification
+        public init(customizedScalingMetricSpecification: CustomizedScalingMetricSpecification? = nil, disableScaleIn: Bool? = nil, estimatedInstanceWarmup: Int32? = nil, predefinedScalingMetricSpecification: PredefinedScalingMetricSpecification? = nil, scaleInCooldown: Int32? = nil, scaleOutCooldown: Int32? = nil, targetValue: Double) {
             self.customizedScalingMetricSpecification = customizedScalingMetricSpecification
-            self.scaleInCooldown = scaleInCooldown
             self.disableScaleIn = disableScaleIn
+            self.estimatedInstanceWarmup = estimatedInstanceWarmup
+            self.predefinedScalingMetricSpecification = predefinedScalingMetricSpecification
+            self.scaleInCooldown = scaleInCooldown
+            self.scaleOutCooldown = scaleOutCooldown
+            self.targetValue = targetValue
         }
 
         private enum CodingKeys: String, CodingKey {
-            case targetValue = "TargetValue"
-            case estimatedInstanceWarmup = "EstimatedInstanceWarmup"
-            case scaleOutCooldown = "ScaleOutCooldown"
-            case predefinedScalingMetricSpecification = "PredefinedScalingMetricSpecification"
             case customizedScalingMetricSpecification = "CustomizedScalingMetricSpecification"
-            case scaleInCooldown = "ScaleInCooldown"
             case disableScaleIn = "DisableScaleIn"
+            case estimatedInstanceWarmup = "EstimatedInstanceWarmup"
+            case predefinedScalingMetricSpecification = "PredefinedScalingMetricSpecification"
+            case scaleInCooldown = "ScaleInCooldown"
+            case scaleOutCooldown = "ScaleOutCooldown"
+            case targetValue = "TargetValue"
         }
     }
 
-    public enum ServiceNamespace: String, CustomStringConvertible, Codable {
-        case autoscaling = "autoscaling"
-        case ecs = "ecs"
-        case ec2 = "ec2"
-        case rds = "rds"
-        case dynamodb = "dynamodb"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CustomizedLoadMetricSpecification: AWSShape {
+    public struct UpdateScalingPlanRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Unit", required: false, type: .string), 
-            AWSShapeMember(label: "MetricName", required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", required: true, type: .string), 
-            AWSShapeMember(label: "Statistic", required: true, type: .enum), 
-            AWSShapeMember(label: "Dimensions", required: false, type: .list)
+            AWSShapeMember(label: "ApplicationSource", required: false, type: .structure), 
+            AWSShapeMember(label: "ScalingInstructions", required: false, type: .list), 
+            AWSShapeMember(label: "ScalingPlanName", required: true, type: .string), 
+            AWSShapeMember(label: "ScalingPlanVersion", required: true, type: .long)
         ]
-        /// The unit of the metric.
-        public let unit: String?
-        /// The name of the metric.
-        public let metricName: String
-        /// The namespace of the metric.
-        public let namespace: String
-        /// The statistic of the metric. Currently, the value must always be Sum. 
-        public let statistic: MetricStatistic
-        /// The dimensions of the metric.
-        public let dimensions: [MetricDimension]?
+        /// A CloudFormation stack or set of tags.
+        public let applicationSource: ApplicationSource?
+        /// The scaling instructions.
+        public let scalingInstructions: [ScalingInstruction]?
+        /// The name of the scaling plan.
+        public let scalingPlanName: String
+        /// The version number of the scaling plan.
+        public let scalingPlanVersion: Int64
 
-        public init(unit: String? = nil, metricName: String, namespace: String, statistic: MetricStatistic, dimensions: [MetricDimension]? = nil) {
-            self.unit = unit
-            self.metricName = metricName
-            self.namespace = namespace
-            self.statistic = statistic
-            self.dimensions = dimensions
+        public init(applicationSource: ApplicationSource? = nil, scalingInstructions: [ScalingInstruction]? = nil, scalingPlanName: String, scalingPlanVersion: Int64) {
+            self.applicationSource = applicationSource
+            self.scalingInstructions = scalingInstructions
+            self.scalingPlanName = scalingPlanName
+            self.scalingPlanVersion = scalingPlanVersion
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unit = "Unit"
-            case metricName = "MetricName"
-            case namespace = "Namespace"
-            case statistic = "Statistic"
-            case dimensions = "Dimensions"
+            case applicationSource = "ApplicationSource"
+            case scalingInstructions = "ScalingInstructions"
+            case scalingPlanName = "ScalingPlanName"
+            case scalingPlanVersion = "ScalingPlanVersion"
         }
     }
 
     public struct UpdateScalingPlanResponse: AWSShape {
+
+        public init() {
+        }
 
     }
 

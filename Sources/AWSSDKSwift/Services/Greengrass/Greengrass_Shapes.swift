@@ -5,318 +5,97 @@ import AWSSDKSwiftCore
 
 extension Greengrass {
 
-    public struct CreateFunctionDefinitionVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .string)
-        ]
-        public let arn: String?
-        public let id: String?
-        public let creationTimestamp: String?
-        public let version: String?
-
-        public init(arn: String? = nil, id: String? = nil, creationTimestamp: String? = nil, version: String? = nil) {
-            self.arn = arn
-            self.id = id
-            self.creationTimestamp = creationTimestamp
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case id = "Id"
-            case creationTimestamp = "CreationTimestamp"
-            case version = "Version"
-        }
-    }
-
-    public struct CreateConnectorDefinitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string)
-        ]
-        public let creationTimestamp: String?
-        public let arn: String?
-        public let latestVersion: String?
-        public let id: String?
-        public let latestVersionArn: String?
-        public let name: String?
-        public let lastUpdatedTimestamp: String?
-
-        public init(creationTimestamp: String? = nil, arn: String? = nil, latestVersion: String? = nil, id: String? = nil, latestVersionArn: String? = nil, name: String? = nil, lastUpdatedTimestamp: String? = nil) {
-            self.creationTimestamp = creationTimestamp
-            self.arn = arn
-            self.latestVersion = latestVersion
-            self.id = id
-            self.latestVersionArn = latestVersionArn
-            self.name = name
-            self.lastUpdatedTimestamp = lastUpdatedTimestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationTimestamp = "CreationTimestamp"
-            case arn = "Arn"
-            case latestVersion = "LatestVersion"
-            case id = "Id"
-            case latestVersionArn = "LatestVersionArn"
-            case name = "Name"
-            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
-        }
-    }
-
-    public struct ListCoreDefinitionVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
-        ]
-        public let coreDefinitionId: String
-        public let maxResults: String?
-        public let nextToken: String?
-
-        public init(coreDefinitionId: String, maxResults: String? = nil, nextToken: String? = nil) {
-            self.coreDefinitionId = coreDefinitionId
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case coreDefinitionId = "CoreDefinitionId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct FunctionDefinitionVersion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Functions", required: false, type: .list), 
-            AWSShapeMember(label: "DefaultConfig", required: false, type: .structure)
-        ]
-        /// A list of Lambda functions in this function definition version.
-        public let functions: [Function]?
-        /// Default configuration that will apply to all Lambda functions in this function definition version
-        public let defaultConfig: FunctionDefaultConfig?
-
-        public init(functions: [Function]? = nil, defaultConfig: FunctionDefaultConfig? = nil) {
-            self.functions = functions
-            self.defaultConfig = defaultConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case functions = "Functions"
-            case defaultConfig = "DefaultConfig"
-        }
-    }
-
-    public struct SecretsManagerSecretResourceData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "AdditionalStagingLabelsToDownload", required: false, type: .list)
-        ]
-        /// The ARN of the Secrets Manager secret to make available on the core. The value of the secret's latest version (represented by the ''AWSCURRENT'' staging label) is included by default.
-        public let arn: String?
-        /// Optional. The staging labels whose values you want to make available on the core, in addition to ''AWSCURRENT''.
-        public let additionalStagingLabelsToDownload: [String]?
-
-        public init(arn: String? = nil, additionalStagingLabelsToDownload: [String]? = nil) {
-            self.arn = arn
-            self.additionalStagingLabelsToDownload = additionalStagingLabelsToDownload
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "ARN"
-            case additionalStagingLabelsToDownload = "AdditionalStagingLabelsToDownload"
-        }
-    }
-
-    public struct ListDeploymentsRequest: AWSShape {
+    public struct AssociateRoleToGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+            AWSShapeMember(label: "RoleArn", required: false, type: .string)
         ]
         public let groupId: String
-        public let maxResults: String?
-        public let nextToken: String?
+        /// The ARN of the role you wish to associate with this group.
+        public let roleArn: String?
 
-        public init(groupId: String, maxResults: String? = nil, nextToken: String? = nil) {
+        public init(groupId: String, roleArn: String? = nil) {
             self.groupId = groupId
-            self.maxResults = maxResults
-            self.nextToken = nextToken
+            self.roleArn = roleArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case groupId = "GroupId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
+            case roleArn = "RoleArn"
         }
     }
 
-    public struct CreateLoggerDefinitionVersionResponse: AWSShape {
+    public struct AssociateRoleToGroupResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .string)
+            AWSShapeMember(label: "AssociatedAt", required: false, type: .string)
         ]
-        public let arn: String?
-        public let id: String?
-        public let creationTimestamp: String?
-        public let version: String?
+        /// The time, in milliseconds since the epoch, when the role ARN was associated with the group.
+        public let associatedAt: String?
 
-        public init(arn: String? = nil, id: String? = nil, creationTimestamp: String? = nil, version: String? = nil) {
-            self.arn = arn
-            self.id = id
-            self.creationTimestamp = creationTimestamp
-            self.version = version
+        public init(associatedAt: String? = nil) {
+            self.associatedAt = associatedAt
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case id = "Id"
-            case creationTimestamp = "CreationTimestamp"
-            case version = "Version"
+            case associatedAt = "AssociatedAt"
         }
     }
 
-    public struct GetServiceRoleForAccountRequest: AWSShape {
-
-    }
-
-    public struct DeleteResourceDefinitionResponse: AWSShape {
-
-    }
-
-    public struct CreateResourceDefinitionRequest: AWSShape {
+    public struct AssociateServiceRoleToAccountRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InitialVersion", required: false, type: .structure), 
-            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "RoleArn", required: false, type: .string)
         ]
-        public let initialVersion: ResourceDefinitionVersion?
-        public let amznClientToken: String?
-        public let name: String?
+        /// The ARN of the service role you wish to associate with your account.
+        public let roleArn: String?
 
-        public init(initialVersion: ResourceDefinitionVersion? = nil, amznClientToken: String? = nil, name: String? = nil) {
-            self.initialVersion = initialVersion
-            self.amznClientToken = amznClientToken
-            self.name = name
+        public init(roleArn: String? = nil) {
+            self.roleArn = roleArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case initialVersion = "InitialVersion"
-            case amznClientToken = "X-Amzn-Client-Token"
-            case name = "Name"
+            case roleArn = "RoleArn"
         }
     }
 
-    public struct ListResourceDefinitionVersionsResponse: AWSShape {
+    public struct AssociateServiceRoleToAccountResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Versions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "AssociatedAt", required: false, type: .string)
         ]
-        public let versions: [VersionInformation]?
-        public let nextToken: String?
+        /// The time when the service role was associated with the account.
+        public let associatedAt: String?
 
-        public init(versions: [VersionInformation]? = nil, nextToken: String? = nil) {
-            self.versions = versions
-            self.nextToken = nextToken
+        public init(associatedAt: String? = nil) {
+            self.associatedAt = associatedAt
         }
 
         private enum CodingKeys: String, CodingKey {
-            case versions = "Versions"
-            case nextToken = "NextToken"
+            case associatedAt = "AssociatedAt"
         }
     }
 
-    public struct UpdateDeviceDefinitionResponse: AWSShape {
-
-    }
-
-    public struct CreateSubscriptionDefinitionVersionRequest: AWSShape {
+    public struct BulkDeployment: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string), 
-            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeMember(label: "Subscriptions", required: false, type: .list)
+            AWSShapeMember(label: "BulkDeploymentArn", required: false, type: .string), 
+            AWSShapeMember(label: "BulkDeploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .string)
         ]
-        public let subscriptionDefinitionId: String
-        public let amznClientToken: String?
-        public let subscriptions: [Subscription]?
+        /// The ARN of the bulk deployment.
+        public let bulkDeploymentArn: String?
+        /// The ID of the bulk deployment.
+        public let bulkDeploymentId: String?
+        /// The time, in ISO format, when the deployment was created.
+        public let createdAt: String?
 
-        public init(subscriptionDefinitionId: String, amznClientToken: String? = nil, subscriptions: [Subscription]? = nil) {
-            self.subscriptionDefinitionId = subscriptionDefinitionId
-            self.amznClientToken = amznClientToken
-            self.subscriptions = subscriptions
+        public init(bulkDeploymentArn: String? = nil, bulkDeploymentId: String? = nil, createdAt: String? = nil) {
+            self.bulkDeploymentArn = bulkDeploymentArn
+            self.bulkDeploymentId = bulkDeploymentId
+            self.createdAt = createdAt
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subscriptionDefinitionId = "SubscriptionDefinitionId"
-            case amznClientToken = "X-Amzn-Client-Token"
-            case subscriptions = "Subscriptions"
-        }
-    }
-
-    public struct DeviceDefinitionVersion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Devices", required: false, type: .list)
-        ]
-        /// A list of devices in the definition version.
-        public let devices: [Device]?
-
-        public init(devices: [Device]? = nil) {
-            self.devices = devices
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case devices = "Devices"
-        }
-    }
-
-    public struct GetConnectorDefinitionVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Definition", required: false, type: .structure), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .string)
-        ]
-        /// The ARN of the connector definition version.
-        public let arn: String?
-        /// The token for the next set of results, or ''null'' if there are no additional results.
-        public let nextToken: String?
-        /// Information about the connector definition version.
-        public let definition: ConnectorDefinitionVersion?
-        /// The ID of the connector definition version.
-        public let id: String?
-        /// The time, in milliseconds since the epoch, when the connector definition version was created.
-        public let creationTimestamp: String?
-        /// The version of the connector definition version.
-        public let version: String?
-
-        public init(arn: String? = nil, nextToken: String? = nil, definition: ConnectorDefinitionVersion? = nil, id: String? = nil, creationTimestamp: String? = nil, version: String? = nil) {
-            self.arn = arn
-            self.nextToken = nextToken
-            self.definition = definition
-            self.id = id
-            self.creationTimestamp = creationTimestamp
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case nextToken = "NextToken"
-            case definition = "Definition"
-            case id = "Id"
-            case creationTimestamp = "CreationTimestamp"
-            case version = "Version"
+            case bulkDeploymentArn = "BulkDeploymentArn"
+            case bulkDeploymentId = "BulkDeploymentId"
+            case createdAt = "CreatedAt"
         }
     }
 
@@ -346,865 +125,54 @@ extension Greengrass {
         }
     }
 
-    public struct UpdateFunctionDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string)
-        ]
-        public let name: String?
-        public let functionDefinitionId: String
-
-        public init(name: String? = nil, functionDefinitionId: String) {
-            self.name = name
-            self.functionDefinitionId = functionDefinitionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case functionDefinitionId = "FunctionDefinitionId"
-        }
-    }
-
-    public struct ListSubscriptionDefinitionVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Versions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        public let versions: [VersionInformation]?
-        public let nextToken: String?
-
-        public init(versions: [VersionInformation]? = nil, nextToken: String? = nil) {
-            self.versions = versions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case versions = "Versions"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetCoreDefinitionVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Definition", required: false, type: .structure), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .string)
-        ]
-        /// The ARN of the core definition version.
-        public let arn: String?
-        /// The token for the next set of results, or ''null'' if there are no additional results.
-        public let nextToken: String?
-        /// Information about the core definition version.
-        public let definition: CoreDefinitionVersion?
-        /// The ID of the core definition version.
-        public let id: String?
-        /// The time, in milliseconds since the epoch, when the core definition version was created.
-        public let creationTimestamp: String?
-        /// The version of the core definition version.
-        public let version: String?
-
-        public init(arn: String? = nil, nextToken: String? = nil, definition: CoreDefinitionVersion? = nil, id: String? = nil, creationTimestamp: String? = nil, version: String? = nil) {
-            self.arn = arn
-            self.nextToken = nextToken
-            self.definition = definition
-            self.id = id
-            self.creationTimestamp = creationTimestamp
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case nextToken = "NextToken"
-            case definition = "Definition"
-            case id = "Id"
-            case creationTimestamp = "CreationTimestamp"
-            case version = "Version"
-        }
-    }
-
-    public struct Deployment: AWSShape {
+    public struct BulkDeploymentResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
-            AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
             AWSShapeMember(label: "DeploymentArn", required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentStatus", required: false, type: .string), 
             AWSShapeMember(label: "DeploymentType", required: false, type: .enum), 
+            AWSShapeMember(label: "ErrorDetails", required: false, type: .list), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "GroupArn", required: false, type: .string)
         ]
-        /// The time, in milliseconds since the epoch, when the deployment was created.
+        /// The time, in ISO format, when the deployment was created.
         public let createdAt: String?
-        /// The ID of the deployment.
-        public let deploymentId: String?
-        /// The ARN of the deployment.
+        /// The ARN of the group deployment.
         public let deploymentArn: String?
+        /// The ID of the group deployment.
+        public let deploymentId: String?
+        /// The current status of the group deployment: ''Pending'', ''InProgress'', ''Success'', or ''Failure''.
+        public let deploymentStatus: String?
         /// The type of the deployment.
         public let deploymentType: DeploymentType?
-        /// The ARN of the group for this deployment.
+        /// Details about the error.
+        public let errorDetails: [ErrorDetail]?
+        /// The error message for a failed deployment
+        public let errorMessage: String?
+        /// The ARN of the Greengrass group.
         public let groupArn: String?
 
-        public init(createdAt: String? = nil, deploymentId: String? = nil, deploymentArn: String? = nil, deploymentType: DeploymentType? = nil, groupArn: String? = nil) {
+        public init(createdAt: String? = nil, deploymentArn: String? = nil, deploymentId: String? = nil, deploymentStatus: String? = nil, deploymentType: DeploymentType? = nil, errorDetails: [ErrorDetail]? = nil, errorMessage: String? = nil, groupArn: String? = nil) {
             self.createdAt = createdAt
-            self.deploymentId = deploymentId
             self.deploymentArn = deploymentArn
+            self.deploymentId = deploymentId
+            self.deploymentStatus = deploymentStatus
             self.deploymentType = deploymentType
+            self.errorDetails = errorDetails
+            self.errorMessage = errorMessage
             self.groupArn = groupArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "CreatedAt"
-            case deploymentId = "DeploymentId"
             case deploymentArn = "DeploymentArn"
+            case deploymentId = "DeploymentId"
+            case deploymentStatus = "DeploymentStatus"
             case deploymentType = "DeploymentType"
+            case errorDetails = "ErrorDetails"
+            case errorMessage = "ErrorMessage"
             case groupArn = "GroupArn"
-        }
-    }
-
-    public struct ListConnectorDefinitionVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "ConnectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId"), required: true, type: .string)
-        ]
-        public let nextToken: String?
-        public let maxResults: String?
-        public let connectorDefinitionId: String
-
-        public init(nextToken: String? = nil, maxResults: String? = nil, connectorDefinitionId: String) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.connectorDefinitionId = connectorDefinitionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case connectorDefinitionId = "ConnectorDefinitionId"
-        }
-    }
-
-    public struct UpdateResourceDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        public let resourceDefinitionId: String
-        public let name: String?
-
-        public init(resourceDefinitionId: String, name: String? = nil) {
-            self.resourceDefinitionId = resourceDefinitionId
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceDefinitionId = "ResourceDefinitionId"
-            case name = "Name"
-        }
-    }
-
-    public struct GetLoggerDefinitionVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Definition", required: false, type: .structure), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .string)
-        ]
-        /// The ARN of the logger definition version.
-        public let arn: String?
-        /// Information about the logger definition version.
-        public let definition: LoggerDefinitionVersion?
-        /// The ID of the logger definition version.
-        public let id: String?
-        /// The time, in milliseconds since the epoch, when the logger definition version was created.
-        public let creationTimestamp: String?
-        /// The version of the logger definition version.
-        public let version: String?
-
-        public init(arn: String? = nil, definition: LoggerDefinitionVersion? = nil, id: String? = nil, creationTimestamp: String? = nil, version: String? = nil) {
-            self.arn = arn
-            self.definition = definition
-            self.id = id
-            self.creationTimestamp = creationTimestamp
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case definition = "Definition"
-            case id = "Id"
-            case creationTimestamp = "CreationTimestamp"
-            case version = "Version"
-        }
-    }
-
-    public struct GetDeviceDefinitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string)
-        ]
-        public let creationTimestamp: String?
-        public let arn: String?
-        public let latestVersion: String?
-        public let id: String?
-        public let latestVersionArn: String?
-        public let name: String?
-        public let lastUpdatedTimestamp: String?
-
-        public init(creationTimestamp: String? = nil, arn: String? = nil, latestVersion: String? = nil, id: String? = nil, latestVersionArn: String? = nil, name: String? = nil, lastUpdatedTimestamp: String? = nil) {
-            self.creationTimestamp = creationTimestamp
-            self.arn = arn
-            self.latestVersion = latestVersion
-            self.id = id
-            self.latestVersionArn = latestVersionArn
-            self.name = name
-            self.lastUpdatedTimestamp = lastUpdatedTimestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationTimestamp = "CreationTimestamp"
-            case arn = "Arn"
-            case latestVersion = "LatestVersion"
-            case id = "Id"
-            case latestVersionArn = "LatestVersionArn"
-            case name = "Name"
-            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
-        }
-    }
-
-    public struct CreateCoreDefinitionVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string), 
-            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeMember(label: "Cores", required: false, type: .list)
-        ]
-        public let coreDefinitionId: String
-        public let amznClientToken: String?
-        public let cores: [Core]?
-
-        public init(coreDefinitionId: String, amznClientToken: String? = nil, cores: [Core]? = nil) {
-            self.coreDefinitionId = coreDefinitionId
-            self.amznClientToken = amznClientToken
-            self.cores = cores
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case coreDefinitionId = "CoreDefinitionId"
-            case amznClientToken = "X-Amzn-Client-Token"
-            case cores = "Cores"
-        }
-    }
-
-    public struct GetConnectorDefinitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string)
-        ]
-        public let creationTimestamp: String?
-        public let arn: String?
-        public let latestVersion: String?
-        public let id: String?
-        public let latestVersionArn: String?
-        public let name: String?
-        public let lastUpdatedTimestamp: String?
-
-        public init(creationTimestamp: String? = nil, arn: String? = nil, latestVersion: String? = nil, id: String? = nil, latestVersionArn: String? = nil, name: String? = nil, lastUpdatedTimestamp: String? = nil) {
-            self.creationTimestamp = creationTimestamp
-            self.arn = arn
-            self.latestVersion = latestVersion
-            self.id = id
-            self.latestVersionArn = latestVersionArn
-            self.name = name
-            self.lastUpdatedTimestamp = lastUpdatedTimestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationTimestamp = "CreationTimestamp"
-            case arn = "Arn"
-            case latestVersion = "LatestVersion"
-            case id = "Id"
-            case latestVersionArn = "LatestVersionArn"
-            case name = "Name"
-            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
-        }
-    }
-
-    public struct GetSubscriptionDefinitionVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Definition", required: false, type: .structure), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .string)
-        ]
-        /// The ARN of the subscription definition version.
-        public let arn: String?
-        /// The token for the next set of results, or ''null'' if there are no additional results.
-        public let nextToken: String?
-        /// Information about the subscription definition version.
-        public let definition: SubscriptionDefinitionVersion?
-        /// The ID of the subscription definition version.
-        public let id: String?
-        /// The time, in milliseconds since the epoch, when the subscription definition version was created.
-        public let creationTimestamp: String?
-        /// The version of the subscription definition version.
-        public let version: String?
-
-        public init(arn: String? = nil, nextToken: String? = nil, definition: SubscriptionDefinitionVersion? = nil, id: String? = nil, creationTimestamp: String? = nil, version: String? = nil) {
-            self.arn = arn
-            self.nextToken = nextToken
-            self.definition = definition
-            self.id = id
-            self.creationTimestamp = creationTimestamp
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case nextToken = "NextToken"
-            case definition = "Definition"
-            case id = "Id"
-            case creationTimestamp = "CreationTimestamp"
-            case version = "Version"
-        }
-    }
-
-    public struct StartBulkDeploymentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BulkDeploymentId", required: false, type: .string), 
-            AWSShapeMember(label: "BulkDeploymentArn", required: false, type: .string)
-        ]
-        /// The ID of the bulk deployment.
-        public let bulkDeploymentId: String?
-        /// The ARN of the bulk deployment.
-        public let bulkDeploymentArn: String?
-
-        public init(bulkDeploymentId: String? = nil, bulkDeploymentArn: String? = nil) {
-            self.bulkDeploymentId = bulkDeploymentId
-            self.bulkDeploymentArn = bulkDeploymentArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bulkDeploymentId = "BulkDeploymentId"
-            case bulkDeploymentArn = "BulkDeploymentArn"
-        }
-    }
-
-    public enum FunctionIsolationMode: String, CustomStringConvertible, Codable {
-        case greengrasscontainer = "GreengrassContainer"
-        case nocontainer = "NoContainer"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListFunctionDefinitionVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
-        ]
-        public let nextToken: String?
-        public let functionDefinitionId: String
-        public let maxResults: String?
-
-        public init(nextToken: String? = nil, functionDefinitionId: String, maxResults: String? = nil) {
-            self.nextToken = nextToken
-            self.functionDefinitionId = functionDefinitionId
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case functionDefinitionId = "FunctionDefinitionId"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct UpdateSubscriptionDefinitionResponse: AWSShape {
-
-    }
-
-    public struct Empty: AWSShape {
-
-    }
-
-    public struct CreateSoftwareUpdateJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IotJobId", required: false, type: .string), 
-            AWSShapeMember(label: "IotJobArn", required: false, type: .string)
-        ]
-        /// The IoT Job Id corresponding to this update.
-        public let iotJobId: String?
-        /// The IoT Job ARN corresponding to this update.
-        public let iotJobArn: String?
-
-        public init(iotJobId: String? = nil, iotJobArn: String? = nil) {
-            self.iotJobId = iotJobId
-            self.iotJobArn = iotJobArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case iotJobId = "IotJobId"
-            case iotJobArn = "IotJobArn"
-        }
-    }
-
-    public struct GetGroupCertificateConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
-        ]
-        public let groupId: String
-
-        public init(groupId: String) {
-            self.groupId = groupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-        }
-    }
-
-    public struct UpdateConnectorDefinitionResponse: AWSShape {
-
-    }
-
-    public struct Resource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceDataContainer", required: false, type: .structure)
-        ]
-        /// The resource ID, used to refer to a resource in the Lambda function configuration. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''. This must be unique within a Greengrass group.
-        public let id: String?
-        /// The descriptive resource name, which is displayed on the AWS IoT Greengrass console. Max length 128 characters with pattern ''[a-zA-Z0-9:_-]+''. This must be unique within a Greengrass group.
-        public let name: String?
-        /// A container of data for all resource types.
-        public let resourceDataContainer: ResourceDataContainer?
-
-        public init(id: String? = nil, name: String? = nil, resourceDataContainer: ResourceDataContainer? = nil) {
-            self.id = id
-            self.name = name
-            self.resourceDataContainer = resourceDataContainer
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case name = "Name"
-            case resourceDataContainer = "ResourceDataContainer"
-        }
-    }
-
-    public struct AssociateServiceRoleToAccountResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssociatedAt", required: false, type: .string)
-        ]
-        /// The time when the service role was associated with the account.
-        public let associatedAt: String?
-
-        public init(associatedAt: String? = nil) {
-            self.associatedAt = associatedAt
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case associatedAt = "AssociatedAt"
-        }
-    }
-
-    public struct GetCoreDefinitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string)
-        ]
-        public let creationTimestamp: String?
-        public let arn: String?
-        public let latestVersion: String?
-        public let id: String?
-        public let latestVersionArn: String?
-        public let name: String?
-        public let lastUpdatedTimestamp: String?
-
-        public init(creationTimestamp: String? = nil, arn: String? = nil, latestVersion: String? = nil, id: String? = nil, latestVersionArn: String? = nil, name: String? = nil, lastUpdatedTimestamp: String? = nil) {
-            self.creationTimestamp = creationTimestamp
-            self.arn = arn
-            self.latestVersion = latestVersion
-            self.id = id
-            self.latestVersionArn = latestVersionArn
-            self.name = name
-            self.lastUpdatedTimestamp = lastUpdatedTimestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationTimestamp = "CreationTimestamp"
-            case arn = "Arn"
-            case latestVersion = "LatestVersion"
-            case id = "Id"
-            case latestVersionArn = "LatestVersionArn"
-            case name = "Name"
-            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
-        }
-    }
-
-    public struct GetResourceDefinitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string)
-        ]
-        public let creationTimestamp: String?
-        public let arn: String?
-        public let latestVersion: String?
-        public let id: String?
-        public let latestVersionArn: String?
-        public let name: String?
-        public let lastUpdatedTimestamp: String?
-
-        public init(creationTimestamp: String? = nil, arn: String? = nil, latestVersion: String? = nil, id: String? = nil, latestVersionArn: String? = nil, name: String? = nil, lastUpdatedTimestamp: String? = nil) {
-            self.creationTimestamp = creationTimestamp
-            self.arn = arn
-            self.latestVersion = latestVersion
-            self.id = id
-            self.latestVersionArn = latestVersionArn
-            self.name = name
-            self.lastUpdatedTimestamp = lastUpdatedTimestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationTimestamp = "CreationTimestamp"
-            case arn = "Arn"
-            case latestVersion = "LatestVersion"
-            case id = "Id"
-            case latestVersionArn = "LatestVersionArn"
-            case name = "Name"
-            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
-        }
-    }
-
-    public struct CreateConnectorDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InitialVersion", required: false, type: .structure), 
-            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        public let initialVersion: ConnectorDefinitionVersion?
-        public let amznClientToken: String?
-        public let name: String?
-
-        public init(initialVersion: ConnectorDefinitionVersion? = nil, amznClientToken: String? = nil, name: String? = nil) {
-            self.initialVersion = initialVersion
-            self.amznClientToken = amznClientToken
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case initialVersion = "InitialVersion"
-            case amznClientToken = "X-Amzn-Client-Token"
-            case name = "Name"
-        }
-    }
-
-    public struct GetSubscriptionDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string)
-        ]
-        public let subscriptionDefinitionId: String
-
-        public init(subscriptionDefinitionId: String) {
-            self.subscriptionDefinitionId = subscriptionDefinitionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subscriptionDefinitionId = "SubscriptionDefinitionId"
-        }
-    }
-
-    public struct ListDeviceDefinitionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Definitions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        public let definitions: [DefinitionInformation]?
-        public let nextToken: String?
-
-        public init(definitions: [DefinitionInformation]? = nil, nextToken: String? = nil) {
-            self.definitions = definitions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case definitions = "Definitions"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetFunctionDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string)
-        ]
-        public let functionDefinitionId: String
-
-        public init(functionDefinitionId: String) {
-            self.functionDefinitionId = functionDefinitionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case functionDefinitionId = "FunctionDefinitionId"
-        }
-    }
-
-    public struct DeleteGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
-        ]
-        public let groupId: String
-
-        public init(groupId: String) {
-            self.groupId = groupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-        }
-    }
-
-    public struct GetDeviceDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string)
-        ]
-        public let deviceDefinitionId: String
-
-        public init(deviceDefinitionId: String) {
-            self.deviceDefinitionId = deviceDefinitionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deviceDefinitionId = "DeviceDefinitionId"
-        }
-    }
-
-    public struct ListCoreDefinitionVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Versions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        public let versions: [VersionInformation]?
-        public let nextToken: String?
-
-        public init(versions: [VersionInformation]? = nil, nextToken: String? = nil) {
-            self.versions = versions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case versions = "Versions"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct AssociateRoleToGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssociatedAt", required: false, type: .string)
-        ]
-        /// The time, in milliseconds since the epoch, when the role ARN was associated with the group.
-        public let associatedAt: String?
-
-        public init(associatedAt: String? = nil) {
-            self.associatedAt = associatedAt
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case associatedAt = "AssociatedAt"
-        }
-    }
-
-    public struct CreateGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InitialVersion", required: false, type: .structure), 
-            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        public let initialVersion: GroupVersion?
-        public let amznClientToken: String?
-        public let name: String?
-
-        public init(initialVersion: GroupVersion? = nil, amznClientToken: String? = nil, name: String? = nil) {
-            self.initialVersion = initialVersion
-            self.amznClientToken = amznClientToken
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case initialVersion = "InitialVersion"
-            case amznClientToken = "X-Amzn-Client-Token"
-            case name = "Name"
-        }
-    }
-
-    public struct DeleteSubscriptionDefinitionResponse: AWSShape {
-
-    }
-
-    public struct CreateConnectorDefinitionVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Connectors", required: false, type: .list), 
-            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeMember(label: "ConnectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId"), required: true, type: .string)
-        ]
-        public let connectors: [Connector]?
-        public let amznClientToken: String?
-        public let connectorDefinitionId: String
-
-        public init(connectors: [Connector]? = nil, amznClientToken: String? = nil, connectorDefinitionId: String) {
-            self.connectors = connectors
-            self.amznClientToken = amznClientToken
-            self.connectorDefinitionId = connectorDefinitionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectors = "Connectors"
-            case amznClientToken = "X-Amzn-Client-Token"
-            case connectorDefinitionId = "ConnectorDefinitionId"
-        }
-    }
-
-    public struct ListConnectorDefinitionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Definitions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        public let definitions: [DefinitionInformation]?
-        public let nextToken: String?
-
-        public init(definitions: [DefinitionInformation]? = nil, nextToken: String? = nil) {
-            self.definitions = definitions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case definitions = "Definitions"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public enum EncodingType: String, CustomStringConvertible, Codable {
-        case binary = "binary"
-        case json = "json"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct StopBulkDeploymentResponse: AWSShape {
-
-    }
-
-    public struct Connector: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectorArn", required: false, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .map), 
-            AWSShapeMember(label: "Id", required: false, type: .string)
-        ]
-        /// The ARN of the connector.
-        public let connectorArn: String?
-        /// The parameters or configuration that the connector uses.
-        public let parameters: [String: String]?
-        /// A descriptive or arbitrary ID for the connector. This value must be unique within the connector definition version. Max length is 128 characters with pattern [a-zA-Z0-9:_-]+.
-        public let id: String?
-
-        public init(connectorArn: String? = nil, parameters: [String: String]? = nil, id: String? = nil) {
-            self.connectorArn = connectorArn
-            self.parameters = parameters
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectorArn = "ConnectorArn"
-            case parameters = "Parameters"
-            case id = "Id"
-        }
-    }
-
-    public struct CreateDeploymentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
-            AWSShapeMember(label: "DeploymentArn", required: false, type: .string)
-        ]
-        /// The ID of the deployment.
-        public let deploymentId: String?
-        /// The ARN of the deployment.
-        public let deploymentArn: String?
-
-        public init(deploymentId: String? = nil, deploymentArn: String? = nil) {
-            self.deploymentId = deploymentId
-            self.deploymentArn = deploymentArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentId = "DeploymentId"
-            case deploymentArn = "DeploymentArn"
-        }
-    }
-
-    public struct CreateDeviceDefinitionVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .string)
-        ]
-        public let arn: String?
-        public let id: String?
-        public let creationTimestamp: String?
-        public let version: String?
-
-        public init(arn: String? = nil, id: String? = nil, creationTimestamp: String? = nil, version: String? = nil) {
-            self.arn = arn
-            self.id = id
-            self.creationTimestamp = creationTimestamp
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case id = "Id"
-            case creationTimestamp = "CreationTimestamp"
-            case version = "Version"
-        }
-    }
-
-    public struct ListBulkDeploymentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
-        ]
-        public let maxResults: String?
-        public let nextToken: String?
-
-        public init(maxResults: String? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
         }
     }
 
@@ -1216,511 +184,6 @@ extension Greengrass {
         case stopped = "Stopped"
         case failed = "Failed"
         public var description: String { return self.rawValue }
-    }
-
-    public struct ListCoreDefinitionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
-        ]
-        public let maxResults: String?
-        public let nextToken: String?
-
-        public init(maxResults: String? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct CreateSoftwareUpdateJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UpdateTargetsArchitecture", required: false, type: .enum), 
-            AWSShapeMember(label: "UpdateTargetsOperatingSystem", required: false, type: .enum), 
-            AWSShapeMember(label: "S3UrlSignerRole", required: false, type: .string), 
-            AWSShapeMember(label: "UpdateAgentLogLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "SoftwareToUpdate", required: false, type: .enum), 
-            AWSShapeMember(label: "UpdateTargets", required: false, type: .list), 
-            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string)
-        ]
-        public let updateTargetsArchitecture: UpdateTargetsArchitecture?
-        public let updateTargetsOperatingSystem: UpdateTargetsOperatingSystem?
-        public let s3UrlSignerRole: String?
-        public let updateAgentLogLevel: UpdateAgentLogLevel?
-        public let softwareToUpdate: SoftwareToUpdate?
-        public let updateTargets: [String]?
-        public let amznClientToken: String?
-
-        public init(updateTargetsArchitecture: UpdateTargetsArchitecture? = nil, updateTargetsOperatingSystem: UpdateTargetsOperatingSystem? = nil, s3UrlSignerRole: String? = nil, updateAgentLogLevel: UpdateAgentLogLevel? = nil, softwareToUpdate: SoftwareToUpdate? = nil, updateTargets: [String]? = nil, amznClientToken: String? = nil) {
-            self.updateTargetsArchitecture = updateTargetsArchitecture
-            self.updateTargetsOperatingSystem = updateTargetsOperatingSystem
-            self.s3UrlSignerRole = s3UrlSignerRole
-            self.updateAgentLogLevel = updateAgentLogLevel
-            self.softwareToUpdate = softwareToUpdate
-            self.updateTargets = updateTargets
-            self.amznClientToken = amznClientToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case updateTargetsArchitecture = "UpdateTargetsArchitecture"
-            case updateTargetsOperatingSystem = "UpdateTargetsOperatingSystem"
-            case s3UrlSignerRole = "S3UrlSignerRole"
-            case updateAgentLogLevel = "UpdateAgentLogLevel"
-            case softwareToUpdate = "SoftwareToUpdate"
-            case updateTargets = "UpdateTargets"
-            case amznClientToken = "X-Amzn-Client-Token"
-        }
-    }
-
-    public struct CreateSubscriptionDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InitialVersion", required: false, type: .structure), 
-            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        public let initialVersion: SubscriptionDefinitionVersion?
-        public let amznClientToken: String?
-        public let name: String?
-
-        public init(initialVersion: SubscriptionDefinitionVersion? = nil, amznClientToken: String? = nil, name: String? = nil) {
-            self.initialVersion = initialVersion
-            self.amznClientToken = amznClientToken
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case initialVersion = "InitialVersion"
-            case amznClientToken = "X-Amzn-Client-Token"
-            case name = "Name"
-        }
-    }
-
-    public enum SoftwareToUpdate: String, CustomStringConvertible, Codable {
-        case core = "core"
-        case otaAgent = "ota_agent"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string)
-        ]
-        public let creationTimestamp: String?
-        public let arn: String?
-        public let latestVersion: String?
-        public let id: String?
-        public let latestVersionArn: String?
-        public let name: String?
-        public let lastUpdatedTimestamp: String?
-
-        public init(creationTimestamp: String? = nil, arn: String? = nil, latestVersion: String? = nil, id: String? = nil, latestVersionArn: String? = nil, name: String? = nil, lastUpdatedTimestamp: String? = nil) {
-            self.creationTimestamp = creationTimestamp
-            self.arn = arn
-            self.latestVersion = latestVersion
-            self.id = id
-            self.latestVersionArn = latestVersionArn
-            self.name = name
-            self.lastUpdatedTimestamp = lastUpdatedTimestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationTimestamp = "CreationTimestamp"
-            case arn = "Arn"
-            case latestVersion = "LatestVersion"
-            case id = "Id"
-            case latestVersionArn = "LatestVersionArn"
-            case name = "Name"
-            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
-        }
-    }
-
-    public struct GetLoggerDefinitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string)
-        ]
-        public let creationTimestamp: String?
-        public let arn: String?
-        public let latestVersion: String?
-        public let id: String?
-        public let latestVersionArn: String?
-        public let name: String?
-        public let lastUpdatedTimestamp: String?
-
-        public init(creationTimestamp: String? = nil, arn: String? = nil, latestVersion: String? = nil, id: String? = nil, latestVersionArn: String? = nil, name: String? = nil, lastUpdatedTimestamp: String? = nil) {
-            self.creationTimestamp = creationTimestamp
-            self.arn = arn
-            self.latestVersion = latestVersion
-            self.id = id
-            self.latestVersionArn = latestVersionArn
-            self.name = name
-            self.lastUpdatedTimestamp = lastUpdatedTimestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationTimestamp = "CreationTimestamp"
-            case arn = "Arn"
-            case latestVersion = "LatestVersion"
-            case id = "Id"
-            case latestVersionArn = "LatestVersionArn"
-            case name = "Name"
-            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
-        }
-    }
-
-    public struct GetAssociatedRoleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "AssociatedAt", required: false, type: .string)
-        ]
-        /// The ARN of the role that is associated with the group.
-        public let roleArn: String?
-        /// The time when the role was associated with the group.
-        public let associatedAt: String?
-
-        public init(roleArn: String? = nil, associatedAt: String? = nil) {
-            self.roleArn = roleArn
-            self.associatedAt = associatedAt
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleArn = "RoleArn"
-            case associatedAt = "AssociatedAt"
-        }
-    }
-
-    public struct ListDeviceDefinitionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
-        ]
-        public let maxResults: String?
-        public let nextToken: String?
-
-        public init(maxResults: String? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
-        ]
-        public let groupId: String
-
-        public init(groupId: String) {
-            self.groupId = groupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-        }
-    }
-
-    public struct CreateDeviceDefinitionVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string), 
-            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeMember(label: "Devices", required: false, type: .list)
-        ]
-        public let deviceDefinitionId: String
-        public let amznClientToken: String?
-        public let devices: [Device]?
-
-        public init(deviceDefinitionId: String, amznClientToken: String? = nil, devices: [Device]? = nil) {
-            self.deviceDefinitionId = deviceDefinitionId
-            self.amznClientToken = amznClientToken
-            self.devices = devices
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deviceDefinitionId = "DeviceDefinitionId"
-            case amznClientToken = "X-Amzn-Client-Token"
-            case devices = "Devices"
-        }
-    }
-
-    public struct ListGroupCertificateAuthoritiesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupCertificateAuthorities", required: false, type: .list)
-        ]
-        /// A list of certificate authorities associated with the group.
-        public let groupCertificateAuthorities: [GroupCertificateAuthorityProperties]?
-
-        public init(groupCertificateAuthorities: [GroupCertificateAuthorityProperties]? = nil) {
-            self.groupCertificateAuthorities = groupCertificateAuthorities
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupCertificateAuthorities = "GroupCertificateAuthorities"
-        }
-    }
-
-    public struct UpdateGroupCertificateConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateExpiryInMilliseconds", required: false, type: .string), 
-            AWSShapeMember(label: "GroupId", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateAuthorityExpiryInMilliseconds", required: false, type: .string)
-        ]
-        public let certificateExpiryInMilliseconds: String?
-        public let groupId: String?
-        public let certificateAuthorityExpiryInMilliseconds: String?
-
-        public init(certificateExpiryInMilliseconds: String? = nil, groupId: String? = nil, certificateAuthorityExpiryInMilliseconds: String? = nil) {
-            self.certificateExpiryInMilliseconds = certificateExpiryInMilliseconds
-            self.groupId = groupId
-            self.certificateAuthorityExpiryInMilliseconds = certificateAuthorityExpiryInMilliseconds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateExpiryInMilliseconds = "CertificateExpiryInMilliseconds"
-            case groupId = "GroupId"
-            case certificateAuthorityExpiryInMilliseconds = "CertificateAuthorityExpiryInMilliseconds"
-        }
-    }
-
-    public struct Core: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SyncShadow", required: false, type: .boolean), 
-            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "ThingArn", required: false, type: .string)
-        ]
-        /// If true, the core's local shadow is automatically synced with the cloud.
-        public let syncShadow: Bool?
-        /// The ARN of the certificate associated with the core.
-        public let certificateArn: String?
-        /// A descriptive or arbitrary ID for the core. This value must be unique within the core definition version. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''.
-        public let id: String?
-        /// The ARN of the thing which is the core.
-        public let thingArn: String?
-
-        public init(syncShadow: Bool? = nil, certificateArn: String? = nil, id: String? = nil, thingArn: String? = nil) {
-            self.syncShadow = syncShadow
-            self.certificateArn = certificateArn
-            self.id = id
-            self.thingArn = thingArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case syncShadow = "SyncShadow"
-            case certificateArn = "CertificateArn"
-            case id = "Id"
-            case thingArn = "ThingArn"
-        }
-    }
-
-    public struct GetGroupCertificateAuthorityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupCertificateAuthorityId", required: false, type: .string), 
-            AWSShapeMember(label: "PemEncodedCertificate", required: false, type: .string), 
-            AWSShapeMember(label: "GroupCertificateAuthorityArn", required: false, type: .string)
-        ]
-        /// The ID of the certificate authority for the group.
-        public let groupCertificateAuthorityId: String?
-        /// The PEM encoded certificate for the group.
-        public let pemEncodedCertificate: String?
-        /// The ARN of the certificate authority for the group.
-        public let groupCertificateAuthorityArn: String?
-
-        public init(groupCertificateAuthorityId: String? = nil, pemEncodedCertificate: String? = nil, groupCertificateAuthorityArn: String? = nil) {
-            self.groupCertificateAuthorityId = groupCertificateAuthorityId
-            self.pemEncodedCertificate = pemEncodedCertificate
-            self.groupCertificateAuthorityArn = groupCertificateAuthorityArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupCertificateAuthorityId = "GroupCertificateAuthorityId"
-            case pemEncodedCertificate = "PemEncodedCertificate"
-            case groupCertificateAuthorityArn = "GroupCertificateAuthorityArn"
-        }
-    }
-
-    public struct GetFunctionDefinitionVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string), 
-            AWSShapeMember(label: "FunctionDefinitionVersionId", location: .uri(locationName: "FunctionDefinitionVersionId"), required: true, type: .string)
-        ]
-        public let nextToken: String?
-        public let functionDefinitionId: String
-        public let functionDefinitionVersionId: String
-
-        public init(nextToken: String? = nil, functionDefinitionId: String, functionDefinitionVersionId: String) {
-            self.nextToken = nextToken
-            self.functionDefinitionId = functionDefinitionId
-            self.functionDefinitionVersionId = functionDefinitionVersionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case functionDefinitionId = "FunctionDefinitionId"
-            case functionDefinitionVersionId = "FunctionDefinitionVersionId"
-        }
-    }
-
-    public struct AssociateServiceRoleToAccountRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleArn", required: false, type: .string)
-        ]
-        /// The ARN of the service role you wish to associate with your account.
-        public let roleArn: String?
-
-        public init(roleArn: String? = nil) {
-            self.roleArn = roleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleArn = "RoleArn"
-        }
-    }
-
-    public struct ListBulkDeploymentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BulkDeployments", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list of bulk deployments.
-        public let bulkDeployments: [BulkDeployment]?
-        /// The token for the next set of results, or ''null'' if there are no additional results.
-        public let nextToken: String?
-
-        public init(bulkDeployments: [BulkDeployment]? = nil, nextToken: String? = nil) {
-            self.bulkDeployments = bulkDeployments
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bulkDeployments = "BulkDeployments"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ResetDeploymentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
-            AWSShapeMember(label: "DeploymentArn", required: false, type: .string)
-        ]
-        /// The ID of the deployment.
-        public let deploymentId: String?
-        /// The ARN of the deployment.
-        public let deploymentArn: String?
-
-        public init(deploymentId: String? = nil, deploymentArn: String? = nil) {
-            self.deploymentId = deploymentId
-            self.deploymentArn = deploymentArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentId = "DeploymentId"
-            case deploymentArn = "DeploymentArn"
-        }
-    }
-
-    public struct GetGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string)
-        ]
-        public let creationTimestamp: String?
-        public let arn: String?
-        public let latestVersion: String?
-        public let id: String?
-        public let latestVersionArn: String?
-        public let name: String?
-        public let lastUpdatedTimestamp: String?
-
-        public init(creationTimestamp: String? = nil, arn: String? = nil, latestVersion: String? = nil, id: String? = nil, latestVersionArn: String? = nil, name: String? = nil, lastUpdatedTimestamp: String? = nil) {
-            self.creationTimestamp = creationTimestamp
-            self.arn = arn
-            self.latestVersion = latestVersion
-            self.id = id
-            self.latestVersionArn = latestVersionArn
-            self.name = name
-            self.lastUpdatedTimestamp = lastUpdatedTimestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationTimestamp = "CreationTimestamp"
-            case arn = "Arn"
-            case latestVersion = "LatestVersion"
-            case id = "Id"
-            case latestVersionArn = "LatestVersionArn"
-            case name = "Name"
-            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
-        }
-    }
-
-    public struct DefinitionInformation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string)
-        ]
-        /// The time, in milliseconds since the epoch, when the definition was created.
-        public let creationTimestamp: String?
-        /// The ARN of the definition.
-        public let arn: String?
-        /// The latest version of the definition.
-        public let latestVersion: String?
-        /// The ID of the definition.
-        public let id: String?
-        /// The ARN of the latest version of the definition.
-        public let latestVersionArn: String?
-        /// The name of the definition.
-        public let name: String?
-        /// The time, in milliseconds since the epoch, when the definition was last updated.
-        public let lastUpdatedTimestamp: String?
-
-        public init(creationTimestamp: String? = nil, arn: String? = nil, latestVersion: String? = nil, id: String? = nil, latestVersionArn: String? = nil, name: String? = nil, lastUpdatedTimestamp: String? = nil) {
-            self.creationTimestamp = creationTimestamp
-            self.arn = arn
-            self.latestVersion = latestVersion
-            self.id = id
-            self.latestVersionArn = latestVersionArn
-            self.name = name
-            self.lastUpdatedTimestamp = lastUpdatedTimestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationTimestamp = "CreationTimestamp"
-            case arn = "Arn"
-            case latestVersion = "LatestVersion"
-            case id = "Id"
-            case latestVersionArn = "LatestVersionArn"
-            case name = "Name"
-            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
-        }
     }
 
     public struct ConnectivityInfo: AWSShape {
@@ -1754,2379 +217,29 @@ extension Greengrass {
         }
     }
 
-    public struct CreateLoggerDefinitionResponse: AWSShape {
+    public struct Connector: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ConnectorArn", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string)
+            AWSShapeMember(label: "Parameters", required: false, type: .map)
         ]
-        public let creationTimestamp: String?
-        public let arn: String?
-        public let latestVersion: String?
+        /// The ARN of the connector.
+        public let connectorArn: String?
+        /// A descriptive or arbitrary ID for the connector. This value must be unique within the connector definition version. Max length is 128 characters with pattern [a-zA-Z0-9:_-]+.
         public let id: String?
-        public let latestVersionArn: String?
-        public let name: String?
-        public let lastUpdatedTimestamp: String?
+        /// The parameters or configuration that the connector uses.
+        public let parameters: [String: String]?
 
-        public init(creationTimestamp: String? = nil, arn: String? = nil, latestVersion: String? = nil, id: String? = nil, latestVersionArn: String? = nil, name: String? = nil, lastUpdatedTimestamp: String? = nil) {
-            self.creationTimestamp = creationTimestamp
-            self.arn = arn
-            self.latestVersion = latestVersion
+        public init(connectorArn: String? = nil, id: String? = nil, parameters: [String: String]? = nil) {
+            self.connectorArn = connectorArn
             self.id = id
-            self.latestVersionArn = latestVersionArn
-            self.name = name
-            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.parameters = parameters
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTimestamp = "CreationTimestamp"
-            case arn = "Arn"
-            case latestVersion = "LatestVersion"
+            case connectorArn = "ConnectorArn"
             case id = "Id"
-            case latestVersionArn = "LatestVersionArn"
-            case name = "Name"
-            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
-        }
-    }
-
-    public struct CreateResourceDefinitionVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"), required: true, type: .string), 
-            AWSShapeMember(label: "Resources", required: false, type: .list), 
-            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string)
-        ]
-        public let resourceDefinitionId: String
-        public let resources: [Resource]?
-        public let amznClientToken: String?
-
-        public init(resourceDefinitionId: String, resources: [Resource]? = nil, amznClientToken: String? = nil) {
-            self.resourceDefinitionId = resourceDefinitionId
-            self.resources = resources
-            self.amznClientToken = amznClientToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceDefinitionId = "ResourceDefinitionId"
-            case resources = "Resources"
-            case amznClientToken = "X-Amzn-Client-Token"
-        }
-    }
-
-    public struct ListLoggerDefinitionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Definitions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        public let definitions: [DefinitionInformation]?
-        public let nextToken: String?
-
-        public init(definitions: [DefinitionInformation]? = nil, nextToken: String? = nil) {
-            self.definitions = definitions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case definitions = "Definitions"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetAssociatedRoleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
-        ]
-        public let groupId: String
-
-        public init(groupId: String) {
-            self.groupId = groupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-        }
-    }
-
-    public struct CreateResourceDefinitionVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .string)
-        ]
-        public let arn: String?
-        public let id: String?
-        public let creationTimestamp: String?
-        public let version: String?
-
-        public init(arn: String? = nil, id: String? = nil, creationTimestamp: String? = nil, version: String? = nil) {
-            self.arn = arn
-            self.id = id
-            self.creationTimestamp = creationTimestamp
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case id = "Id"
-            case creationTimestamp = "CreationTimestamp"
-            case version = "Version"
-        }
-    }
-
-    public struct ResetDeploymentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Force", required: false, type: .boolean), 
-            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
-            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string)
-        ]
-        /// If true, performs a best-effort only core reset.
-        public let force: Bool?
-        public let groupId: String
-        public let amznClientToken: String?
-
-        public init(force: Bool? = nil, groupId: String, amznClientToken: String? = nil) {
-            self.force = force
-            self.groupId = groupId
-            self.amznClientToken = amznClientToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case force = "Force"
-            case groupId = "GroupId"
-            case amznClientToken = "X-Amzn-Client-Token"
-        }
-    }
-
-    public struct UpdateResourceDefinitionResponse: AWSShape {
-
-    }
-
-    public struct CreateGroupVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
-            AWSShapeMember(label: "DeviceDefinitionVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "ConnectorDefinitionVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "FunctionDefinitionVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "LoggerDefinitionVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "SubscriptionDefinitionVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeMember(label: "ResourceDefinitionVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "CoreDefinitionVersionArn", required: false, type: .string)
-        ]
-        public let groupId: String
-        public let deviceDefinitionVersionArn: String?
-        public let connectorDefinitionVersionArn: String?
-        public let functionDefinitionVersionArn: String?
-        public let loggerDefinitionVersionArn: String?
-        public let subscriptionDefinitionVersionArn: String?
-        public let amznClientToken: String?
-        public let resourceDefinitionVersionArn: String?
-        public let coreDefinitionVersionArn: String?
-
-        public init(groupId: String, deviceDefinitionVersionArn: String? = nil, connectorDefinitionVersionArn: String? = nil, functionDefinitionVersionArn: String? = nil, loggerDefinitionVersionArn: String? = nil, subscriptionDefinitionVersionArn: String? = nil, amznClientToken: String? = nil, resourceDefinitionVersionArn: String? = nil, coreDefinitionVersionArn: String? = nil) {
-            self.groupId = groupId
-            self.deviceDefinitionVersionArn = deviceDefinitionVersionArn
-            self.connectorDefinitionVersionArn = connectorDefinitionVersionArn
-            self.functionDefinitionVersionArn = functionDefinitionVersionArn
-            self.loggerDefinitionVersionArn = loggerDefinitionVersionArn
-            self.subscriptionDefinitionVersionArn = subscriptionDefinitionVersionArn
-            self.amznClientToken = amznClientToken
-            self.resourceDefinitionVersionArn = resourceDefinitionVersionArn
-            self.coreDefinitionVersionArn = coreDefinitionVersionArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-            case deviceDefinitionVersionArn = "DeviceDefinitionVersionArn"
-            case connectorDefinitionVersionArn = "ConnectorDefinitionVersionArn"
-            case functionDefinitionVersionArn = "FunctionDefinitionVersionArn"
-            case loggerDefinitionVersionArn = "LoggerDefinitionVersionArn"
-            case subscriptionDefinitionVersionArn = "SubscriptionDefinitionVersionArn"
-            case amznClientToken = "X-Amzn-Client-Token"
-            case resourceDefinitionVersionArn = "ResourceDefinitionVersionArn"
-            case coreDefinitionVersionArn = "CoreDefinitionVersionArn"
-        }
-    }
-
-    public struct GetLoggerDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string)
-        ]
-        public let loggerDefinitionId: String
-
-        public init(loggerDefinitionId: String) {
-            self.loggerDefinitionId = loggerDefinitionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loggerDefinitionId = "LoggerDefinitionId"
-        }
-    }
-
-    public struct CreateLoggerDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InitialVersion", required: false, type: .structure), 
-            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        public let initialVersion: LoggerDefinitionVersion?
-        public let amznClientToken: String?
-        public let name: String?
-
-        public init(initialVersion: LoggerDefinitionVersion? = nil, amznClientToken: String? = nil, name: String? = nil) {
-            self.initialVersion = initialVersion
-            self.amznClientToken = amznClientToken
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case initialVersion = "InitialVersion"
-            case amznClientToken = "X-Amzn-Client-Token"
-            case name = "Name"
-        }
-    }
-
-    public enum Permission: String, CustomStringConvertible, Codable {
-        case ro = "ro"
-        case rw = "rw"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct SageMakerMachineLearningModelResourceData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationPath", required: false, type: .string), 
-            AWSShapeMember(label: "SageMakerJobArn", required: false, type: .string)
-        ]
-        /// The absolute local path of the resource inside the Lambda environment.
-        public let destinationPath: String?
-        /// The ARN of the Amazon SageMaker training job that represents the source model.
-        public let sageMakerJobArn: String?
-
-        public init(destinationPath: String? = nil, sageMakerJobArn: String? = nil) {
-            self.destinationPath = destinationPath
-            self.sageMakerJobArn = sageMakerJobArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destinationPath = "DestinationPath"
-            case sageMakerJobArn = "SageMakerJobArn"
-        }
-    }
-
-    public struct UpdateLoggerDefinitionResponse: AWSShape {
-
-    }
-
-    public struct ResourceAccessPolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Permission", required: false, type: .enum), 
-            AWSShapeMember(label: "ResourceId", required: false, type: .string)
-        ]
-        /// The permissions that the Lambda function has to the resource. Can be one of ''rw'' (read/write) or ''ro'' (read-only).
-        public let permission: Permission?
-        /// The ID of the resource. (This ID is assigned to the resource when you create the resource definiton.)
-        public let resourceId: String?
-
-        public init(permission: Permission? = nil, resourceId: String? = nil) {
-            self.permission = permission
-            self.resourceId = resourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case permission = "Permission"
-            case resourceId = "ResourceId"
-        }
-    }
-
-    public struct DeleteLoggerDefinitionResponse: AWSShape {
-
-    }
-
-    public struct ListBulkDeploymentDetailedReportsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Deployments", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list of the individual group deployments in the bulk deployment operation.
-        public let deployments: [BulkDeploymentResult]?
-        /// The token for the next set of results, or ''null'' if there are no additional results.
-        public let nextToken: String?
-
-        public init(deployments: [BulkDeploymentResult]? = nil, nextToken: String? = nil) {
-            self.deployments = deployments
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deployments = "Deployments"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DisassociateRoleFromGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
-        ]
-        public let groupId: String
-
-        public init(groupId: String) {
-            self.groupId = groupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-        }
-    }
-
-    public struct AssociateRoleToGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string)
-        ]
-        public let groupId: String
-        /// The ARN of the role you wish to associate with this group.
-        public let roleArn: String?
-
-        public init(groupId: String, roleArn: String? = nil) {
-            self.groupId = groupId
-            self.roleArn = roleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-            case roleArn = "RoleArn"
-        }
-    }
-
-    public struct GeneralError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorDetails", required: false, type: .list), 
-            AWSShapeMember(label: "Message", required: false, type: .string)
-        ]
-        /// Details about the error.
-        public let errorDetails: [ErrorDetail]?
-        /// A message containing information about the error.
-        public let message: String?
-
-        public init(errorDetails: [ErrorDetail]? = nil, message: String? = nil) {
-            self.errorDetails = errorDetails
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorDetails = "ErrorDetails"
-            case message = "Message"
-        }
-    }
-
-    public struct DeleteResourceDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"), required: true, type: .string)
-        ]
-        public let resourceDefinitionId: String
-
-        public init(resourceDefinitionId: String) {
-            self.resourceDefinitionId = resourceDefinitionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceDefinitionId = "ResourceDefinitionId"
-        }
-    }
-
-    public enum LoggerType: String, CustomStringConvertible, Codable {
-        case filesystem = "FileSystem"
-        case awscloudwatch = "AWSCloudWatch"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListLoggerDefinitionVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string)
-        ]
-        public let nextToken: String?
-        public let maxResults: String?
-        public let loggerDefinitionId: String
-
-        public init(nextToken: String? = nil, maxResults: String? = nil, loggerDefinitionId: String) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.loggerDefinitionId = loggerDefinitionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case loggerDefinitionId = "LoggerDefinitionId"
-        }
-    }
-
-    public struct GetConnectivityInfoRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ThingName", location: .uri(locationName: "ThingName"), required: true, type: .string)
-        ]
-        public let thingName: String
-
-        public init(thingName: String) {
-            self.thingName = thingName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case thingName = "ThingName"
-        }
-    }
-
-    public struct ListCoreDefinitionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Definitions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        public let definitions: [DefinitionInformation]?
-        public let nextToken: String?
-
-        public init(definitions: [DefinitionInformation]? = nil, nextToken: String? = nil) {
-            self.definitions = definitions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case definitions = "Definitions"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListFunctionDefinitionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Definitions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        public let definitions: [DefinitionInformation]?
-        public let nextToken: String?
-
-        public init(definitions: [DefinitionInformation]? = nil, nextToken: String? = nil) {
-            self.definitions = definitions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case definitions = "Definitions"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct CreateGroupCertificateAuthorityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
-            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string)
-        ]
-        public let groupId: String
-        public let amznClientToken: String?
-
-        public init(groupId: String, amznClientToken: String? = nil) {
-            self.groupId = groupId
-            self.amznClientToken = amznClientToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-            case amznClientToken = "X-Amzn-Client-Token"
-        }
-    }
-
-    public struct CreateDeploymentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
-            AWSShapeMember(label: "GroupVersionId", required: false, type: .string), 
-            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
-            AWSShapeMember(label: "DeploymentType", required: false, type: .enum)
-        ]
-        /// The ID of the deployment if you wish to redeploy a previous deployment.
-        public let deploymentId: String?
-        /// The ID of the group version to be deployed.
-        public let groupVersionId: String?
-        public let amznClientToken: String?
-        public let groupId: String
-        /// The type of deployment. When used in ''CreateDeployment'', only ''NewDeployment'' and ''Redeployment'' are valid.
-        public let deploymentType: DeploymentType?
-
-        public init(deploymentId: String? = nil, groupVersionId: String? = nil, amznClientToken: String? = nil, groupId: String, deploymentType: DeploymentType? = nil) {
-            self.deploymentId = deploymentId
-            self.groupVersionId = groupVersionId
-            self.amznClientToken = amznClientToken
-            self.groupId = groupId
-            self.deploymentType = deploymentType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentId = "DeploymentId"
-            case groupVersionId = "GroupVersionId"
-            case amznClientToken = "X-Amzn-Client-Token"
-            case groupId = "GroupId"
-            case deploymentType = "DeploymentType"
-        }
-    }
-
-    public struct GetGroupVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
-            AWSShapeMember(label: "GroupVersionId", location: .uri(locationName: "GroupVersionId"), required: true, type: .string)
-        ]
-        public let groupId: String
-        public let groupVersionId: String
-
-        public init(groupId: String, groupVersionId: String) {
-            self.groupId = groupId
-            self.groupVersionId = groupVersionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-            case groupVersionId = "GroupVersionId"
-        }
-    }
-
-    public struct DeleteCoreDefinitionResponse: AWSShape {
-
-    }
-
-    public struct BulkDeployment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BulkDeploymentArn", required: false, type: .string), 
-            AWSShapeMember(label: "BulkDeploymentId", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .string)
-        ]
-        /// The ARN of the bulk deployment.
-        public let bulkDeploymentArn: String?
-        /// The ID of the bulk deployment.
-        public let bulkDeploymentId: String?
-        /// The time, in ISO format, when the deployment was created.
-        public let createdAt: String?
-
-        public init(bulkDeploymentArn: String? = nil, bulkDeploymentId: String? = nil, createdAt: String? = nil) {
-            self.bulkDeploymentArn = bulkDeploymentArn
-            self.bulkDeploymentId = bulkDeploymentId
-            self.createdAt = createdAt
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bulkDeploymentArn = "BulkDeploymentArn"
-            case bulkDeploymentId = "BulkDeploymentId"
-            case createdAt = "CreatedAt"
-        }
-    }
-
-    public struct FunctionConfigurationEnvironment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceAccessPolicies", required: false, type: .list), 
-            AWSShapeMember(label: "Variables", required: false, type: .map), 
-            AWSShapeMember(label: "AccessSysfs", required: false, type: .boolean), 
-            AWSShapeMember(label: "Execution", required: false, type: .structure)
-        ]
-        /// A list of the resources, with their permissions, to which the Lambda function will be granted access. A Lambda function can have at most 10 resources. ResourceAccessPolicies apply only when you run the Lambda function in a Greengrass container.
-        public let resourceAccessPolicies: [ResourceAccessPolicy]?
-        /// Environment variables for the Lambda function's configuration.
-        public let variables: [String: String]?
-        /// If true, the Lambda function is allowed to access the host's /sys folder. Use this when the Lambda function needs to read device information from /sys. This setting applies only when you run the Lambda function in a Greengrass container.
-        public let accessSysfs: Bool?
-        /// Configuration related to executing the Lambda function
-        public let execution: FunctionExecutionConfig?
-
-        public init(resourceAccessPolicies: [ResourceAccessPolicy]? = nil, variables: [String: String]? = nil, accessSysfs: Bool? = nil, execution: FunctionExecutionConfig? = nil) {
-            self.resourceAccessPolicies = resourceAccessPolicies
-            self.variables = variables
-            self.accessSysfs = accessSysfs
-            self.execution = execution
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceAccessPolicies = "ResourceAccessPolicies"
-            case variables = "Variables"
-            case accessSysfs = "AccessSysfs"
-            case execution = "Execution"
-        }
-    }
-
-    public struct ListGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Groups", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Information about a group.
-        public let groups: [GroupInformation]?
-        /// The token for the next set of results, or ''null'' if there are no additional results.
-        public let nextToken: String?
-
-        public init(groups: [GroupInformation]? = nil, nextToken: String? = nil) {
-            self.groups = groups
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groups = "Groups"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetLoggerDefinitionVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoggerDefinitionVersionId", location: .uri(locationName: "LoggerDefinitionVersionId"), required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string)
-        ]
-        public let loggerDefinitionVersionId: String
-        public let nextToken: String?
-        public let loggerDefinitionId: String
-
-        public init(loggerDefinitionVersionId: String, nextToken: String? = nil, loggerDefinitionId: String) {
-            self.loggerDefinitionVersionId = loggerDefinitionVersionId
-            self.nextToken = nextToken
-            self.loggerDefinitionId = loggerDefinitionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loggerDefinitionVersionId = "LoggerDefinitionVersionId"
-            case nextToken = "NextToken"
-            case loggerDefinitionId = "LoggerDefinitionId"
-        }
-    }
-
-    public struct GetBulkDeploymentStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BulkDeploymentId", location: .uri(locationName: "BulkDeploymentId"), required: true, type: .string)
-        ]
-        public let bulkDeploymentId: String
-
-        public init(bulkDeploymentId: String) {
-            self.bulkDeploymentId = bulkDeploymentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bulkDeploymentId = "BulkDeploymentId"
-        }
-    }
-
-    public struct Device: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SyncShadow", required: false, type: .boolean), 
-            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "ThingArn", required: false, type: .string)
-        ]
-        /// If true, the device's local shadow will be automatically synced with the cloud.
-        public let syncShadow: Bool?
-        /// The ARN of the certificate associated with the device.
-        public let certificateArn: String?
-        /// A descriptive or arbitrary ID for the device. This value must be unique within the device definition version. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''.
-        public let id: String?
-        /// The thing ARN of the device.
-        public let thingArn: String?
-
-        public init(syncShadow: Bool? = nil, certificateArn: String? = nil, id: String? = nil, thingArn: String? = nil) {
-            self.syncShadow = syncShadow
-            self.certificateArn = certificateArn
-            self.id = id
-            self.thingArn = thingArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case syncShadow = "SyncShadow"
-            case certificateArn = "CertificateArn"
-            case id = "Id"
-            case thingArn = "ThingArn"
-        }
-    }
-
-    public struct GetFunctionDefinitionVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Definition", required: false, type: .structure), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .string)
-        ]
-        /// The ARN of the function definition version.
-        public let arn: String?
-        /// The token for the next set of results, or ''null'' if there are no additional results.
-        public let nextToken: String?
-        /// Information on the definition.
-        public let definition: FunctionDefinitionVersion?
-        /// The ID of the function definition version.
-        public let id: String?
-        /// The time, in milliseconds since the epoch, when the function definition version was created.
-        public let creationTimestamp: String?
-        /// The version of the function definition version.
-        public let version: String?
-
-        public init(arn: String? = nil, nextToken: String? = nil, definition: FunctionDefinitionVersion? = nil, id: String? = nil, creationTimestamp: String? = nil, version: String? = nil) {
-            self.arn = arn
-            self.nextToken = nextToken
-            self.definition = definition
-            self.id = id
-            self.creationTimestamp = creationTimestamp
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case nextToken = "NextToken"
-            case definition = "Definition"
-            case id = "Id"
-            case creationTimestamp = "CreationTimestamp"
-            case version = "Version"
-        }
-    }
-
-    public struct ListDeviceDefinitionVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Versions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        public let versions: [VersionInformation]?
-        public let nextToken: String?
-
-        public init(versions: [VersionInformation]? = nil, nextToken: String? = nil) {
-            self.versions = versions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case versions = "Versions"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListResourceDefinitionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Definitions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        public let definitions: [DefinitionInformation]?
-        public let nextToken: String?
-
-        public init(definitions: [DefinitionInformation]? = nil, nextToken: String? = nil) {
-            self.definitions = definitions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case definitions = "Definitions"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct CreateFunctionDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InitialVersion", required: false, type: .structure), 
-            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        public let initialVersion: FunctionDefinitionVersion?
-        public let amznClientToken: String?
-        public let name: String?
-
-        public init(initialVersion: FunctionDefinitionVersion? = nil, amznClientToken: String? = nil, name: String? = nil) {
-            self.initialVersion = initialVersion
-            self.amznClientToken = amznClientToken
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case initialVersion = "InitialVersion"
-            case amznClientToken = "X-Amzn-Client-Token"
-            case name = "Name"
-        }
-    }
-
-    public struct GetConnectorDefinitionVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectorDefinitionVersionId", location: .uri(locationName: "ConnectorDefinitionVersionId"), required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "ConnectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId"), required: true, type: .string)
-        ]
-        public let connectorDefinitionVersionId: String
-        public let nextToken: String?
-        public let connectorDefinitionId: String
-
-        public init(connectorDefinitionVersionId: String, nextToken: String? = nil, connectorDefinitionId: String) {
-            self.connectorDefinitionVersionId = connectorDefinitionVersionId
-            self.nextToken = nextToken
-            self.connectorDefinitionId = connectorDefinitionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectorDefinitionVersionId = "ConnectorDefinitionVersionId"
-            case nextToken = "NextToken"
-            case connectorDefinitionId = "ConnectorDefinitionId"
-        }
-    }
-
-    public struct GetConnectorDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId"), required: true, type: .string)
-        ]
-        public let connectorDefinitionId: String
-
-        public init(connectorDefinitionId: String) {
-            self.connectorDefinitionId = connectorDefinitionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectorDefinitionId = "ConnectorDefinitionId"
-        }
-    }
-
-    public struct ListDeviceDefinitionVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
-        ]
-        public let maxResults: String?
-        public let deviceDefinitionId: String
-        public let nextToken: String?
-
-        public init(maxResults: String? = nil, deviceDefinitionId: String, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.deviceDefinitionId = deviceDefinitionId
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case deviceDefinitionId = "DeviceDefinitionId"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetConnectivityInfoResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectivityInfo", required: false, type: .list), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
-        ]
-        /// Connectivity info list.
-        public let connectivityInfo: [ConnectivityInfo]?
-        /// A message about the connectivity info request.
-        public let message: String?
-
-        public init(connectivityInfo: [ConnectivityInfo]? = nil, message: String? = nil) {
-            self.connectivityInfo = connectivityInfo
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectivityInfo = "ConnectivityInfo"
-            case message = "message"
-        }
-    }
-
-    public struct Logger: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "Component", required: false, type: .enum), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Level", required: false, type: .enum), 
-            AWSShapeMember(label: "Space", required: false, type: .integer)
-        ]
-        /// The type of log output which will be used.
-        public let `type`: LoggerType?
-        /// The component that will be subject to logging.
-        public let component: LoggerComponent?
-        /// A descriptive or arbitrary ID for the logger. This value must be unique within the logger definition version. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''.
-        public let id: String?
-        /// The level of the logs.
-        public let level: LoggerLevel?
-        /// The amount of file space, in KB, to use if the local file system is used for logging purposes.
-        public let space: Int32?
-
-        public init(type: LoggerType? = nil, component: LoggerComponent? = nil, id: String? = nil, level: LoggerLevel? = nil, space: Int32? = nil) {
-            self.`type` = `type`
-            self.component = component
-            self.id = id
-            self.level = level
-            self.space = space
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case component = "Component"
-            case id = "Id"
-            case level = "Level"
-            case space = "Space"
-        }
-    }
-
-    public struct GroupInformation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string)
-        ]
-        /// The time, in milliseconds since the epoch, when the group was created.
-        public let creationTimestamp: String?
-        /// The ARN of the group.
-        public let arn: String?
-        /// The latest version of the group.
-        public let latestVersion: String?
-        /// The ID of the group.
-        public let id: String?
-        /// The ARN of the latest version of the group.
-        public let latestVersionArn: String?
-        /// The name of the group.
-        public let name: String?
-        /// The time, in milliseconds since the epoch, when the group was last updated.
-        public let lastUpdatedTimestamp: String?
-
-        public init(creationTimestamp: String? = nil, arn: String? = nil, latestVersion: String? = nil, id: String? = nil, latestVersionArn: String? = nil, name: String? = nil, lastUpdatedTimestamp: String? = nil) {
-            self.creationTimestamp = creationTimestamp
-            self.arn = arn
-            self.latestVersion = latestVersion
-            self.id = id
-            self.latestVersionArn = latestVersionArn
-            self.name = name
-            self.lastUpdatedTimestamp = lastUpdatedTimestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationTimestamp = "CreationTimestamp"
-            case arn = "Arn"
-            case latestVersion = "LatestVersion"
-            case id = "Id"
-            case latestVersionArn = "LatestVersionArn"
-            case name = "Name"
-            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
-        }
-    }
-
-    public struct DisassociateServiceRoleFromAccountResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DisassociatedAt", required: false, type: .string)
-        ]
-        /// The time when the service role was disassociated from the account.
-        public let disassociatedAt: String?
-
-        public init(disassociatedAt: String? = nil) {
-            self.disassociatedAt = disassociatedAt
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case disassociatedAt = "DisassociatedAt"
-        }
-    }
-
-    public struct ListFunctionDefinitionVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Versions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        public let versions: [VersionInformation]?
-        public let nextToken: String?
-
-        public init(versions: [VersionInformation]? = nil, nextToken: String? = nil) {
-            self.versions = versions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case versions = "Versions"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DeleteDeviceDefinitionResponse: AWSShape {
-
-    }
-
-    public struct DeleteConnectorDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId"), required: true, type: .string)
-        ]
-        public let connectorDefinitionId: String
-
-        public init(connectorDefinitionId: String) {
-            self.connectorDefinitionId = connectorDefinitionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectorDefinitionId = "ConnectorDefinitionId"
-        }
-    }
-
-    public enum UpdateAgentLogLevel: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case trace = "TRACE"
-        case debug = "DEBUG"
-        case verbose = "VERBOSE"
-        case info = "INFO"
-        case warn = "WARN"
-        case error = "ERROR"
-        case fatal = "FATAL"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListSubscriptionDefinitionVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
-        ]
-        public let subscriptionDefinitionId: String
-        public let maxResults: String?
-        public let nextToken: String?
-
-        public init(subscriptionDefinitionId: String, maxResults: String? = nil, nextToken: String? = nil) {
-            self.subscriptionDefinitionId = subscriptionDefinitionId
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subscriptionDefinitionId = "SubscriptionDefinitionId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListGroupCertificateAuthoritiesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
-        ]
-        public let groupId: String
-
-        public init(groupId: String) {
-            self.groupId = groupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-        }
-    }
-
-    public struct CreateCoreDefinitionVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .string)
-        ]
-        public let arn: String?
-        public let id: String?
-        public let creationTimestamp: String?
-        public let version: String?
-
-        public init(arn: String? = nil, id: String? = nil, creationTimestamp: String? = nil, version: String? = nil) {
-            self.arn = arn
-            self.id = id
-            self.creationTimestamp = creationTimestamp
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case id = "Id"
-            case creationTimestamp = "CreationTimestamp"
-            case version = "Version"
-        }
-    }
-
-    public struct S3MachineLearningModelResourceData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationPath", required: false, type: .string), 
-            AWSShapeMember(label: "S3Uri", required: false, type: .string)
-        ]
-        /// The absolute local path of the resource inside the Lambda environment.
-        public let destinationPath: String?
-        /// The URI of the source model in an S3 bucket. The model package must be in tar.gz or .zip format.
-        public let s3Uri: String?
-
-        public init(destinationPath: String? = nil, s3Uri: String? = nil) {
-            self.destinationPath = destinationPath
-            self.s3Uri = s3Uri
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destinationPath = "DestinationPath"
-            case s3Uri = "S3Uri"
-        }
-    }
-
-    public struct DeleteLoggerDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string)
-        ]
-        public let loggerDefinitionId: String
-
-        public init(loggerDefinitionId: String) {
-            self.loggerDefinitionId = loggerDefinitionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loggerDefinitionId = "LoggerDefinitionId"
-        }
-    }
-
-    public struct GetDeploymentStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "DeploymentStatus", required: false, type: .string), 
-            AWSShapeMember(label: "UpdatedAt", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorDetails", required: false, type: .list), 
-            AWSShapeMember(label: "DeploymentType", required: false, type: .enum)
-        ]
-        /// Error message
-        public let errorMessage: String?
-        /// The status of the deployment: ''Pending'', ''InProgress'', ''Success'', or ''Failure''.
-        public let deploymentStatus: String?
-        /// The time, in milliseconds since the epoch, when the deployment status was updated.
-        public let updatedAt: String?
-        /// Error details
-        public let errorDetails: [ErrorDetail]?
-        /// The type of the deployment.
-        public let deploymentType: DeploymentType?
-
-        public init(errorMessage: String? = nil, deploymentStatus: String? = nil, updatedAt: String? = nil, errorDetails: [ErrorDetail]? = nil, deploymentType: DeploymentType? = nil) {
-            self.errorMessage = errorMessage
-            self.deploymentStatus = deploymentStatus
-            self.updatedAt = updatedAt
-            self.errorDetails = errorDetails
-            self.deploymentType = deploymentType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorMessage = "ErrorMessage"
-            case deploymentStatus = "DeploymentStatus"
-            case updatedAt = "UpdatedAt"
-            case errorDetails = "ErrorDetails"
-            case deploymentType = "DeploymentType"
-        }
-    }
-
-    public struct CreateDeviceDefinitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string)
-        ]
-        public let creationTimestamp: String?
-        public let arn: String?
-        public let latestVersion: String?
-        public let id: String?
-        public let latestVersionArn: String?
-        public let name: String?
-        public let lastUpdatedTimestamp: String?
-
-        public init(creationTimestamp: String? = nil, arn: String? = nil, latestVersion: String? = nil, id: String? = nil, latestVersionArn: String? = nil, name: String? = nil, lastUpdatedTimestamp: String? = nil) {
-            self.creationTimestamp = creationTimestamp
-            self.arn = arn
-            self.latestVersion = latestVersion
-            self.id = id
-            self.latestVersionArn = latestVersionArn
-            self.name = name
-            self.lastUpdatedTimestamp = lastUpdatedTimestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationTimestamp = "CreationTimestamp"
-            case arn = "Arn"
-            case latestVersion = "LatestVersion"
-            case id = "Id"
-            case latestVersionArn = "LatestVersionArn"
-            case name = "Name"
-            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
-        }
-    }
-
-    public struct LoggerDefinitionVersion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Loggers", required: false, type: .list)
-        ]
-        /// A list of loggers.
-        public let loggers: [Logger]?
-
-        public init(loggers: [Logger]? = nil) {
-            self.loggers = loggers
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loggers = "Loggers"
-        }
-    }
-
-    public struct GroupVersion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceDefinitionVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "ConnectorDefinitionVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "FunctionDefinitionVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "LoggerDefinitionVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "SubscriptionDefinitionVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceDefinitionVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "CoreDefinitionVersionArn", required: false, type: .string)
-        ]
-        /// The ARN of the device definition version for this group.
-        public let deviceDefinitionVersionArn: String?
-        /// The ARN of the connector definition version for this group.
-        public let connectorDefinitionVersionArn: String?
-        /// The ARN of the function definition version for this group.
-        public let functionDefinitionVersionArn: String?
-        /// The ARN of the logger definition version for this group.
-        public let loggerDefinitionVersionArn: String?
-        /// The ARN of the subscription definition version for this group.
-        public let subscriptionDefinitionVersionArn: String?
-        /// The ARN of the resource definition version for this group.
-        public let resourceDefinitionVersionArn: String?
-        /// The ARN of the core definition version for this group.
-        public let coreDefinitionVersionArn: String?
-
-        public init(deviceDefinitionVersionArn: String? = nil, connectorDefinitionVersionArn: String? = nil, functionDefinitionVersionArn: String? = nil, loggerDefinitionVersionArn: String? = nil, subscriptionDefinitionVersionArn: String? = nil, resourceDefinitionVersionArn: String? = nil, coreDefinitionVersionArn: String? = nil) {
-            self.deviceDefinitionVersionArn = deviceDefinitionVersionArn
-            self.connectorDefinitionVersionArn = connectorDefinitionVersionArn
-            self.functionDefinitionVersionArn = functionDefinitionVersionArn
-            self.loggerDefinitionVersionArn = loggerDefinitionVersionArn
-            self.subscriptionDefinitionVersionArn = subscriptionDefinitionVersionArn
-            self.resourceDefinitionVersionArn = resourceDefinitionVersionArn
-            self.coreDefinitionVersionArn = coreDefinitionVersionArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deviceDefinitionVersionArn = "DeviceDefinitionVersionArn"
-            case connectorDefinitionVersionArn = "ConnectorDefinitionVersionArn"
-            case functionDefinitionVersionArn = "FunctionDefinitionVersionArn"
-            case loggerDefinitionVersionArn = "LoggerDefinitionVersionArn"
-            case subscriptionDefinitionVersionArn = "SubscriptionDefinitionVersionArn"
-            case resourceDefinitionVersionArn = "ResourceDefinitionVersionArn"
-            case coreDefinitionVersionArn = "CoreDefinitionVersionArn"
-        }
-    }
-
-    public struct StartBulkDeploymentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputFileUri", required: false, type: .string), 
-            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeMember(label: "ExecutionRoleArn", required: false, type: .string)
-        ]
-        /// The URI of the input file contained in the S3 bucket. The execution role must have ''getObject'' permissions on this bucket to access the input file. The input file is a JSON-serialized, line delimited file with UTF-8 encoding that provides a list of group and version IDs and the deployment type. This file must be less than 100 MB. Currently, AWS IoT Greengrass supports only ''NewDeployment'' deployment types.
-        public let inputFileUri: String?
-        public let amznClientToken: String?
-        /// The ARN of the execution role to associate with the bulk deployment operation. This IAM role must allow the ''greengrass:CreateDeployment'' action for all group versions that are listed in the input file. This IAM role must have access to the S3 bucket containing the input file.
-        public let executionRoleArn: String?
-
-        public init(inputFileUri: String? = nil, amznClientToken: String? = nil, executionRoleArn: String? = nil) {
-            self.inputFileUri = inputFileUri
-            self.amznClientToken = amznClientToken
-            self.executionRoleArn = executionRoleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inputFileUri = "InputFileUri"
-            case amznClientToken = "X-Amzn-Client-Token"
-            case executionRoleArn = "ExecutionRoleArn"
-        }
-    }
-
-    public struct CreateCoreDefinitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string)
-        ]
-        public let creationTimestamp: String?
-        public let arn: String?
-        public let latestVersion: String?
-        public let id: String?
-        public let latestVersionArn: String?
-        public let name: String?
-        public let lastUpdatedTimestamp: String?
-
-        public init(creationTimestamp: String? = nil, arn: String? = nil, latestVersion: String? = nil, id: String? = nil, latestVersionArn: String? = nil, name: String? = nil, lastUpdatedTimestamp: String? = nil) {
-            self.creationTimestamp = creationTimestamp
-            self.arn = arn
-            self.latestVersion = latestVersion
-            self.id = id
-            self.latestVersionArn = latestVersionArn
-            self.name = name
-            self.lastUpdatedTimestamp = lastUpdatedTimestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationTimestamp = "CreationTimestamp"
-            case arn = "Arn"
-            case latestVersion = "LatestVersion"
-            case id = "Id"
-            case latestVersionArn = "LatestVersionArn"
-            case name = "Name"
-            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
-        }
-    }
-
-    public struct FunctionExecutionConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RunAs", required: false, type: .structure), 
-            AWSShapeMember(label: "IsolationMode", required: false, type: .enum)
-        ]
-        public let runAs: FunctionRunAsConfig?
-        public let isolationMode: FunctionIsolationMode?
-
-        public init(runAs: FunctionRunAsConfig? = nil, isolationMode: FunctionIsolationMode? = nil) {
-            self.runAs = runAs
-            self.isolationMode = isolationMode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case runAs = "RunAs"
-            case isolationMode = "IsolationMode"
-        }
-    }
-
-    public struct ListSubscriptionDefinitionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
-        ]
-        public let maxResults: String?
-        public let nextToken: String?
-
-        public init(maxResults: String? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetBulkDeploymentStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "BulkDeploymentMetrics", required: false, type: .structure), 
-            AWSShapeMember(label: "ErrorDetails", required: false, type: .list), 
-            AWSShapeMember(label: "BulkDeploymentStatus", required: false, type: .enum)
-        ]
-        /// The time, in ISO format, when the deployment was created.
-        public let createdAt: String?
-        /// Error message
-        public let errorMessage: String?
-        /// Relevant metrics on input records processed during bulk deployment.
-        public let bulkDeploymentMetrics: BulkDeploymentMetrics?
-        /// Error details
-        public let errorDetails: [ErrorDetail]?
-        /// The status of the bulk deployment.
-        public let bulkDeploymentStatus: BulkDeploymentStatus?
-
-        public init(createdAt: String? = nil, errorMessage: String? = nil, bulkDeploymentMetrics: BulkDeploymentMetrics? = nil, errorDetails: [ErrorDetail]? = nil, bulkDeploymentStatus: BulkDeploymentStatus? = nil) {
-            self.createdAt = createdAt
-            self.errorMessage = errorMessage
-            self.bulkDeploymentMetrics = bulkDeploymentMetrics
-            self.errorDetails = errorDetails
-            self.bulkDeploymentStatus = bulkDeploymentStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case createdAt = "CreatedAt"
-            case errorMessage = "ErrorMessage"
-            case bulkDeploymentMetrics = "BulkDeploymentMetrics"
-            case errorDetails = "ErrorDetails"
-            case bulkDeploymentStatus = "BulkDeploymentStatus"
-        }
-    }
-
-    public enum DeploymentType: String, CustomStringConvertible, Codable {
-        case newdeployment = "NewDeployment"
-        case redeployment = "Redeployment"
-        case resetdeployment = "ResetDeployment"
-        case forceresetdeployment = "ForceResetDeployment"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct VersionInformation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .string)
-        ]
-        /// The ARN of the version.
-        public let arn: String?
-        /// The ID of the version.
-        public let id: String?
-        /// The time, in milliseconds since the epoch, when the version was created.
-        public let creationTimestamp: String?
-        /// The unique ID of the version.
-        public let version: String?
-
-        public init(arn: String? = nil, id: String? = nil, creationTimestamp: String? = nil, version: String? = nil) {
-            self.arn = arn
-            self.id = id
-            self.creationTimestamp = creationTimestamp
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case id = "Id"
-            case creationTimestamp = "CreationTimestamp"
-            case version = "Version"
-        }
-    }
-
-    public struct CreateGroupVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .string)
-        ]
-        public let arn: String?
-        public let id: String?
-        public let creationTimestamp: String?
-        public let version: String?
-
-        public init(arn: String? = nil, id: String? = nil, creationTimestamp: String? = nil, version: String? = nil) {
-            self.arn = arn
-            self.id = id
-            self.creationTimestamp = creationTimestamp
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case id = "Id"
-            case creationTimestamp = "CreationTimestamp"
-            case version = "Version"
-        }
-    }
-
-    public struct CreateConnectorDefinitionVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .string)
-        ]
-        public let arn: String?
-        public let id: String?
-        public let creationTimestamp: String?
-        public let version: String?
-
-        public init(arn: String? = nil, id: String? = nil, creationTimestamp: String? = nil, version: String? = nil) {
-            self.arn = arn
-            self.id = id
-            self.creationTimestamp = creationTimestamp
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case id = "Id"
-            case creationTimestamp = "CreationTimestamp"
-            case version = "Version"
-        }
-    }
-
-    public struct UpdateConnectivityInfoRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectivityInfo", required: false, type: .list), 
-            AWSShapeMember(label: "ThingName", location: .uri(locationName: "ThingName"), required: true, type: .string)
-        ]
-        /// A list of connectivity info.
-        public let connectivityInfo: [ConnectivityInfo]?
-        public let thingName: String
-
-        public init(connectivityInfo: [ConnectivityInfo]? = nil, thingName: String) {
-            self.connectivityInfo = connectivityInfo
-            self.thingName = thingName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectivityInfo = "ConnectivityInfo"
-            case thingName = "ThingName"
-        }
-    }
-
-    public struct DeleteGroupResponse: AWSShape {
-
-    }
-
-    public struct ListConnectorDefinitionVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Versions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        public let versions: [VersionInformation]?
-        public let nextToken: String?
-
-        public init(versions: [VersionInformation]? = nil, nextToken: String? = nil) {
-            self.versions = versions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case versions = "Versions"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct UpdateCoreDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        public let coreDefinitionId: String
-        public let name: String?
-
-        public init(coreDefinitionId: String, name: String? = nil) {
-            self.coreDefinitionId = coreDefinitionId
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case coreDefinitionId = "CoreDefinitionId"
-            case name = "Name"
-        }
-    }
-
-    public struct UpdateDeviceDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        public let deviceDefinitionId: String
-        public let name: String?
-
-        public init(deviceDefinitionId: String, name: String? = nil) {
-            self.deviceDefinitionId = deviceDefinitionId
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deviceDefinitionId = "DeviceDefinitionId"
-            case name = "Name"
-        }
-    }
-
-    public struct CreateSubscriptionDefinitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string)
-        ]
-        public let creationTimestamp: String?
-        public let arn: String?
-        public let latestVersion: String?
-        public let id: String?
-        public let latestVersionArn: String?
-        public let name: String?
-        public let lastUpdatedTimestamp: String?
-
-        public init(creationTimestamp: String? = nil, arn: String? = nil, latestVersion: String? = nil, id: String? = nil, latestVersionArn: String? = nil, name: String? = nil, lastUpdatedTimestamp: String? = nil) {
-            self.creationTimestamp = creationTimestamp
-            self.arn = arn
-            self.latestVersion = latestVersion
-            self.id = id
-            self.latestVersionArn = latestVersionArn
-            self.name = name
-            self.lastUpdatedTimestamp = lastUpdatedTimestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationTimestamp = "CreationTimestamp"
-            case arn = "Arn"
-            case latestVersion = "LatestVersion"
-            case id = "Id"
-            case latestVersionArn = "LatestVersionArn"
-            case name = "Name"
-            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
-        }
-    }
-
-    public struct ListFunctionDefinitionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
-        ]
-        public let maxResults: String?
-        public let nextToken: String?
-
-        public init(maxResults: String? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DeleteFunctionDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string)
-        ]
-        public let functionDefinitionId: String
-
-        public init(functionDefinitionId: String) {
-            self.functionDefinitionId = functionDefinitionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case functionDefinitionId = "FunctionDefinitionId"
-        }
-    }
-
-    public struct UpdateConnectivityInfoResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Version", required: false, type: .string), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
-        ]
-        /// The new version of the connectivity info.
-        public let version: String?
-        /// A message about the connectivity info update request.
-        public let message: String?
-
-        public init(version: String? = nil, message: String? = nil) {
-            self.version = version
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case version = "Version"
-            case message = "message"
-        }
-    }
-
-    public struct LocalVolumeResourceData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationPath", required: false, type: .string), 
-            AWSShapeMember(label: "GroupOwnerSetting", required: false, type: .structure), 
-            AWSShapeMember(label: "SourcePath", required: false, type: .string)
-        ]
-        /// The absolute local path of the resource inside the Lambda environment.
-        public let destinationPath: String?
-        /// Allows you to configure additional group privileges for the Lambda process. This field is optional.
-        public let groupOwnerSetting: GroupOwnerSetting?
-        /// The local absolute path of the volume resource on the host. The source path for a volume resource type cannot start with ''/sys''.
-        public let sourcePath: String?
-
-        public init(destinationPath: String? = nil, groupOwnerSetting: GroupOwnerSetting? = nil, sourcePath: String? = nil) {
-            self.destinationPath = destinationPath
-            self.groupOwnerSetting = groupOwnerSetting
-            self.sourcePath = sourcePath
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destinationPath = "DestinationPath"
-            case groupOwnerSetting = "GroupOwnerSetting"
-            case sourcePath = "SourcePath"
-        }
-    }
-
-    public struct DisassociateServiceRoleFromAccountRequest: AWSShape {
-
-    }
-
-    public enum LoggerComponent: String, CustomStringConvertible, Codable {
-        case greengrasssystem = "GreengrassSystem"
-        case lambda = "Lambda"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CoreDefinitionVersion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Cores", required: false, type: .list)
-        ]
-        /// A list of cores in the core definition version.
-        public let cores: [Core]?
-
-        public init(cores: [Core]? = nil) {
-            self.cores = cores
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cores = "Cores"
-        }
-    }
-
-    public struct GetResourceDefinitionVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Definition", required: false, type: .structure), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .string)
-        ]
-        /// Arn of the resource definition version.
-        public let arn: String?
-        /// Information about the definition.
-        public let definition: ResourceDefinitionVersion?
-        /// The ID of the resource definition version.
-        public let id: String?
-        /// The time, in milliseconds since the epoch, when the resource definition version was created.
-        public let creationTimestamp: String?
-        /// The version of the resource definition version.
-        public let version: String?
-
-        public init(arn: String? = nil, definition: ResourceDefinitionVersion? = nil, id: String? = nil, creationTimestamp: String? = nil, version: String? = nil) {
-            self.arn = arn
-            self.definition = definition
-            self.id = id
-            self.creationTimestamp = creationTimestamp
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case definition = "Definition"
-            case id = "Id"
-            case creationTimestamp = "CreationTimestamp"
-            case version = "Version"
-        }
-    }
-
-    public struct DeleteConnectorDefinitionResponse: AWSShape {
-
-    }
-
-    public struct UpdateConnectorDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ConnectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId"), required: true, type: .string)
-        ]
-        public let name: String?
-        public let connectorDefinitionId: String
-
-        public init(name: String? = nil, connectorDefinitionId: String) {
-            self.name = name
-            self.connectorDefinitionId = connectorDefinitionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case connectorDefinitionId = "ConnectorDefinitionId"
-        }
-    }
-
-    public struct GetGroupCertificateAuthorityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
-            AWSShapeMember(label: "CertificateAuthorityId", location: .uri(locationName: "CertificateAuthorityId"), required: true, type: .string)
-        ]
-        public let groupId: String
-        public let certificateAuthorityId: String
-
-        public init(groupId: String, certificateAuthorityId: String) {
-            self.groupId = groupId
-            self.certificateAuthorityId = certificateAuthorityId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-            case certificateAuthorityId = "CertificateAuthorityId"
-        }
-    }
-
-    public struct ListGroupVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Versions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        public let versions: [VersionInformation]?
-        public let nextToken: String?
-
-        public init(versions: [VersionInformation]? = nil, nextToken: String? = nil) {
-            self.versions = versions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case versions = "Versions"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct FunctionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Pinned", required: false, type: .boolean), 
-            AWSShapeMember(label: "Environment", required: false, type: .structure), 
-            AWSShapeMember(label: "MemorySize", required: false, type: .integer), 
-            AWSShapeMember(label: "ExecArgs", required: false, type: .string), 
-            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
-            AWSShapeMember(label: "EncodingType", required: false, type: .enum), 
-            AWSShapeMember(label: "Executable", required: false, type: .string)
-        ]
-        /// True if the function is pinned. Pinned means the function is long-lived and starts when the core starts.
-        public let pinned: Bool?
-        /// The environment configuration of the function.
-        public let environment: FunctionConfigurationEnvironment?
-        /// The memory size, in KB, which the function requires. This setting is not applicable and should be cleared when you run the Lambda function without containerization.
-        public let memorySize: Int32?
-        /// The execution arguments.
-        public let execArgs: String?
-        /// The allowed function execution time, after which Lambda should terminate the function. This timeout still applies to pinned Lambda functions for each request.
-        public let timeout: Int32?
-        /// The expected encoding type of the input payload for the function. The default is ''json''.
-        public let encodingType: EncodingType?
-        /// The name of the function executable.
-        public let executable: String?
-
-        public init(pinned: Bool? = nil, environment: FunctionConfigurationEnvironment? = nil, memorySize: Int32? = nil, execArgs: String? = nil, timeout: Int32? = nil, encodingType: EncodingType? = nil, executable: String? = nil) {
-            self.pinned = pinned
-            self.environment = environment
-            self.memorySize = memorySize
-            self.execArgs = execArgs
-            self.timeout = timeout
-            self.encodingType = encodingType
-            self.executable = executable
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pinned = "Pinned"
-            case environment = "Environment"
-            case memorySize = "MemorySize"
-            case execArgs = "ExecArgs"
-            case timeout = "Timeout"
-            case encodingType = "EncodingType"
-            case executable = "Executable"
-        }
-    }
-
-    public struct FunctionRunAsConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Gid", required: false, type: .integer), 
-            AWSShapeMember(label: "Uid", required: false, type: .integer)
-        ]
-        /// The Group ID whose permissions are used to run a Lambda function.
-        public let gid: Int32?
-        /// The User ID whose permissions are used to run a Lambda function.
-        public let uid: Int32?
-
-        public init(gid: Int32? = nil, uid: Int32? = nil) {
-            self.gid = gid
-            self.uid = uid
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gid = "Gid"
-            case uid = "Uid"
-        }
-    }
-
-    public struct BulkDeploymentResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "DeploymentType", required: false, type: .enum), 
-            AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
-            AWSShapeMember(label: "GroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorDetails", required: false, type: .list), 
-            AWSShapeMember(label: "DeploymentStatus", required: false, type: .string), 
-            AWSShapeMember(label: "DeploymentArn", required: false, type: .string)
-        ]
-        /// The time, in ISO format, when the deployment was created.
-        public let createdAt: String?
-        /// The error message for a failed deployment
-        public let errorMessage: String?
-        /// The type of the deployment.
-        public let deploymentType: DeploymentType?
-        /// The ID of the group deployment.
-        public let deploymentId: String?
-        /// The ARN of the Greengrass group.
-        public let groupArn: String?
-        /// Details about the error.
-        public let errorDetails: [ErrorDetail]?
-        /// The current status of the group deployment: ''Pending'', ''InProgress'', ''Success'', or ''Failure''.
-        public let deploymentStatus: String?
-        /// The ARN of the group deployment.
-        public let deploymentArn: String?
-
-        public init(createdAt: String? = nil, errorMessage: String? = nil, deploymentType: DeploymentType? = nil, deploymentId: String? = nil, groupArn: String? = nil, errorDetails: [ErrorDetail]? = nil, deploymentStatus: String? = nil, deploymentArn: String? = nil) {
-            self.createdAt = createdAt
-            self.errorMessage = errorMessage
-            self.deploymentType = deploymentType
-            self.deploymentId = deploymentId
-            self.groupArn = groupArn
-            self.errorDetails = errorDetails
-            self.deploymentStatus = deploymentStatus
-            self.deploymentArn = deploymentArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case createdAt = "CreatedAt"
-            case errorMessage = "ErrorMessage"
-            case deploymentType = "DeploymentType"
-            case deploymentId = "DeploymentId"
-            case groupArn = "GroupArn"
-            case errorDetails = "ErrorDetails"
-            case deploymentStatus = "DeploymentStatus"
-            case deploymentArn = "DeploymentArn"
-        }
-    }
-
-    public struct FunctionDefaultConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Execution", required: false, type: .structure)
-        ]
-        public let execution: FunctionDefaultExecutionConfig?
-
-        public init(execution: FunctionDefaultExecutionConfig? = nil) {
-            self.execution = execution
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case execution = "Execution"
-        }
-    }
-
-    public struct UpdateGroupCertificateConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateExpiryInMilliseconds", required: false, type: .string), 
-            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
-        ]
-        /// The amount of time remaining before the certificate expires, in milliseconds.
-        public let certificateExpiryInMilliseconds: String?
-        public let groupId: String
-
-        public init(certificateExpiryInMilliseconds: String? = nil, groupId: String) {
-            self.certificateExpiryInMilliseconds = certificateExpiryInMilliseconds
-            self.groupId = groupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateExpiryInMilliseconds = "CertificateExpiryInMilliseconds"
-            case groupId = "GroupId"
-        }
-    }
-
-    public struct ListDefinitionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Definitions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Information about a definition.
-        public let definitions: [DefinitionInformation]?
-        /// The token for the next set of results, or ''null'' if there are no additional results.
-        public let nextToken: String?
-
-        public init(definitions: [DefinitionInformation]? = nil, nextToken: String? = nil) {
-            self.definitions = definitions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case definitions = "Definitions"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListLoggerDefinitionVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Versions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        public let versions: [VersionInformation]?
-        public let nextToken: String?
-
-        public init(versions: [VersionInformation]? = nil, nextToken: String? = nil) {
-            self.versions = versions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case versions = "Versions"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetDeviceDefinitionVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Definition", required: false, type: .structure), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .string)
-        ]
-        /// The ARN of the device definition version.
-        public let arn: String?
-        /// The token for the next set of results, or ''null'' if there are no additional results.
-        public let nextToken: String?
-        /// Information about the device definition version.
-        public let definition: DeviceDefinitionVersion?
-        /// The ID of the device definition version.
-        public let id: String?
-        /// The time, in milliseconds since the epoch, when the device definition version was created.
-        public let creationTimestamp: String?
-        /// The version of the device definition version.
-        public let version: String?
-
-        public init(arn: String? = nil, nextToken: String? = nil, definition: DeviceDefinitionVersion? = nil, id: String? = nil, creationTimestamp: String? = nil, version: String? = nil) {
-            self.arn = arn
-            self.nextToken = nextToken
-            self.definition = definition
-            self.id = id
-            self.creationTimestamp = creationTimestamp
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case nextToken = "NextToken"
-            case definition = "Definition"
-            case id = "Id"
-            case creationTimestamp = "CreationTimestamp"
-            case version = "Version"
-        }
-    }
-
-    public enum UpdateTargetsArchitecture: String, CustomStringConvertible, Codable {
-        case armv7l = "armv7l"
-        case x8664 = "x86_64"
-        case aarch64 = "aarch64"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateFunctionDefinitionVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string), 
-            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeMember(label: "Functions", required: false, type: .list)
-        ]
-        public let defaultConfig: FunctionDefaultConfig?
-        public let functionDefinitionId: String
-        public let amznClientToken: String?
-        public let functions: [Function]?
-
-        public init(defaultConfig: FunctionDefaultConfig? = nil, functionDefinitionId: String, amznClientToken: String? = nil, functions: [Function]? = nil) {
-            self.defaultConfig = defaultConfig
-            self.functionDefinitionId = functionDefinitionId
-            self.amznClientToken = amznClientToken
-            self.functions = functions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case defaultConfig = "DefaultConfig"
-            case functionDefinitionId = "FunctionDefinitionId"
-            case amznClientToken = "X-Amzn-Client-Token"
-            case functions = "Functions"
-        }
-    }
-
-    public struct CreateResourceDefinitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string)
-        ]
-        public let creationTimestamp: String?
-        public let arn: String?
-        public let latestVersion: String?
-        public let id: String?
-        public let latestVersionArn: String?
-        public let name: String?
-        public let lastUpdatedTimestamp: String?
-
-        public init(creationTimestamp: String? = nil, arn: String? = nil, latestVersion: String? = nil, id: String? = nil, latestVersionArn: String? = nil, name: String? = nil, lastUpdatedTimestamp: String? = nil) {
-            self.creationTimestamp = creationTimestamp
-            self.arn = arn
-            self.latestVersion = latestVersion
-            self.id = id
-            self.latestVersionArn = latestVersionArn
-            self.name = name
-            self.lastUpdatedTimestamp = lastUpdatedTimestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationTimestamp = "CreationTimestamp"
-            case arn = "Arn"
-            case latestVersion = "LatestVersion"
-            case id = "Id"
-            case latestVersionArn = "LatestVersionArn"
-            case name = "Name"
-            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
-        }
-    }
-
-    public struct ListGroupVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
-        ]
-        public let groupId: String
-        public let maxResults: String?
-        public let nextToken: String?
-
-        public init(groupId: String, maxResults: String? = nil, nextToken: String? = nil) {
-            self.groupId = groupId
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct LocalDeviceResourceData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupOwnerSetting", required: false, type: .structure), 
-            AWSShapeMember(label: "SourcePath", required: false, type: .string)
-        ]
-        /// Group/owner related settings for local resources.
-        public let groupOwnerSetting: GroupOwnerSetting?
-        /// The local absolute path of the device resource. The source path for a device resource can refer only to a character device or block device under ''/dev''.
-        public let sourcePath: String?
-
-        public init(groupOwnerSetting: GroupOwnerSetting? = nil, sourcePath: String? = nil) {
-            self.groupOwnerSetting = groupOwnerSetting
-            self.sourcePath = sourcePath
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupOwnerSetting = "GroupOwnerSetting"
-            case sourcePath = "SourcePath"
-        }
-    }
-
-    public struct ResourceDataContainer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocalVolumeResourceData", required: false, type: .structure), 
-            AWSShapeMember(label: "S3MachineLearningModelResourceData", required: false, type: .structure), 
-            AWSShapeMember(label: "SageMakerMachineLearningModelResourceData", required: false, type: .structure), 
-            AWSShapeMember(label: "SecretsManagerSecretResourceData", required: false, type: .structure), 
-            AWSShapeMember(label: "LocalDeviceResourceData", required: false, type: .structure)
-        ]
-        /// Attributes that define the local volume resource.
-        public let localVolumeResourceData: LocalVolumeResourceData?
-        /// Attributes that define an Amazon S3 machine learning resource.
-        public let s3MachineLearningModelResourceData: S3MachineLearningModelResourceData?
-        /// Attributes that define an Amazon SageMaker machine learning resource.
-        public let sageMakerMachineLearningModelResourceData: SageMakerMachineLearningModelResourceData?
-        /// Attributes that define a secret resource, which references a secret from AWS Secrets Manager.
-        public let secretsManagerSecretResourceData: SecretsManagerSecretResourceData?
-        /// Attributes that define the local device resource.
-        public let localDeviceResourceData: LocalDeviceResourceData?
-
-        public init(localVolumeResourceData: LocalVolumeResourceData? = nil, s3MachineLearningModelResourceData: S3MachineLearningModelResourceData? = nil, sageMakerMachineLearningModelResourceData: SageMakerMachineLearningModelResourceData? = nil, secretsManagerSecretResourceData: SecretsManagerSecretResourceData? = nil, localDeviceResourceData: LocalDeviceResourceData? = nil) {
-            self.localVolumeResourceData = localVolumeResourceData
-            self.s3MachineLearningModelResourceData = s3MachineLearningModelResourceData
-            self.sageMakerMachineLearningModelResourceData = sageMakerMachineLearningModelResourceData
-            self.secretsManagerSecretResourceData = secretsManagerSecretResourceData
-            self.localDeviceResourceData = localDeviceResourceData
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case localVolumeResourceData = "LocalVolumeResourceData"
-            case s3MachineLearningModelResourceData = "S3MachineLearningModelResourceData"
-            case sageMakerMachineLearningModelResourceData = "SageMakerMachineLearningModelResourceData"
-            case secretsManagerSecretResourceData = "SecretsManagerSecretResourceData"
-            case localDeviceResourceData = "LocalDeviceResourceData"
-        }
-    }
-
-    public struct CreateDeviceDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InitialVersion", required: false, type: .structure), 
-            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        public let initialVersion: DeviceDefinitionVersion?
-        public let amznClientToken: String?
-        public let name: String?
-
-        public init(initialVersion: DeviceDefinitionVersion? = nil, amznClientToken: String? = nil, name: String? = nil) {
-            self.initialVersion = initialVersion
-            self.amznClientToken = amznClientToken
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case initialVersion = "InitialVersion"
-            case amznClientToken = "X-Amzn-Client-Token"
-            case name = "Name"
-        }
-    }
-
-    public struct GroupCertificateConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateExpiryInMilliseconds", required: false, type: .string), 
-            AWSShapeMember(label: "GroupId", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateAuthorityExpiryInMilliseconds", required: false, type: .string)
-        ]
-        /// The amount of time remaining before the certificate expires, in milliseconds.
-        public let certificateExpiryInMilliseconds: String?
-        /// The ID of the group certificate configuration.
-        public let groupId: String?
-        /// The amount of time remaining before the certificate authority expires, in milliseconds.
-        public let certificateAuthorityExpiryInMilliseconds: String?
-
-        public init(certificateExpiryInMilliseconds: String? = nil, groupId: String? = nil, certificateAuthorityExpiryInMilliseconds: String? = nil) {
-            self.certificateExpiryInMilliseconds = certificateExpiryInMilliseconds
-            self.groupId = groupId
-            self.certificateAuthorityExpiryInMilliseconds = certificateAuthorityExpiryInMilliseconds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateExpiryInMilliseconds = "CertificateExpiryInMilliseconds"
-            case groupId = "GroupId"
-            case certificateAuthorityExpiryInMilliseconds = "CertificateAuthorityExpiryInMilliseconds"
-        }
-    }
-
-    public struct GetCoreDefinitionVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CoreDefinitionVersionId", location: .uri(locationName: "CoreDefinitionVersionId"), required: true, type: .string), 
-            AWSShapeMember(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string)
-        ]
-        public let coreDefinitionVersionId: String
-        public let coreDefinitionId: String
-
-        public init(coreDefinitionVersionId: String, coreDefinitionId: String) {
-            self.coreDefinitionVersionId = coreDefinitionVersionId
-            self.coreDefinitionId = coreDefinitionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case coreDefinitionVersionId = "CoreDefinitionVersionId"
-            case coreDefinitionId = "CoreDefinitionId"
-        }
-    }
-
-    public struct StopBulkDeploymentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BulkDeploymentId", location: .uri(locationName: "BulkDeploymentId"), required: true, type: .string)
-        ]
-        public let bulkDeploymentId: String
-
-        public init(bulkDeploymentId: String) {
-            self.bulkDeploymentId = bulkDeploymentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bulkDeploymentId = "BulkDeploymentId"
-        }
-    }
-
-    public struct CreateLoggerDefinitionVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string), 
-            AWSShapeMember(label: "Loggers", required: false, type: .list), 
-            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string)
-        ]
-        public let loggerDefinitionId: String
-        public let loggers: [Logger]?
-        public let amznClientToken: String?
-
-        public init(loggerDefinitionId: String, loggers: [Logger]? = nil, amznClientToken: String? = nil) {
-            self.loggerDefinitionId = loggerDefinitionId
-            self.loggers = loggers
-            self.amznClientToken = amznClientToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loggerDefinitionId = "LoggerDefinitionId"
-            case loggers = "Loggers"
-            case amznClientToken = "X-Amzn-Client-Token"
-        }
-    }
-
-    public struct GetDeploymentStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
-            AWSShapeMember(label: "DeploymentId", location: .uri(locationName: "DeploymentId"), required: true, type: .string)
-        ]
-        public let groupId: String
-        public let deploymentId: String
-
-        public init(groupId: String, deploymentId: String) {
-            self.groupId = groupId
-            self.deploymentId = deploymentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-            case deploymentId = "DeploymentId"
-        }
-    }
-
-    public struct UpdateGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        public let groupId: String
-        public let name: String?
-
-        public init(groupId: String, name: String? = nil) {
-            self.groupId = groupId
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-            case name = "Name"
-        }
-    }
-
-    public struct DisassociateRoleFromGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DisassociatedAt", required: false, type: .string)
-        ]
-        /// The time, in milliseconds since the epoch, when the role was disassociated from the group.
-        public let disassociatedAt: String?
-
-        public init(disassociatedAt: String? = nil) {
-            self.disassociatedAt = disassociatedAt
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case disassociatedAt = "DisassociatedAt"
-        }
-    }
-
-    public struct GetCoreDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string)
-        ]
-        public let coreDefinitionId: String
-
-        public init(coreDefinitionId: String) {
-            self.coreDefinitionId = coreDefinitionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case coreDefinitionId = "CoreDefinitionId"
+            case parameters = "Parameters"
         }
     }
 
@@ -4146,77 +259,576 @@ extension Greengrass {
         }
     }
 
-    public struct GetFunctionDefinitionResponse: AWSShape {
+    public struct Core: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string)
+            AWSShapeMember(label: "SyncShadow", required: false, type: .boolean), 
+            AWSShapeMember(label: "ThingArn", required: false, type: .string)
         ]
-        public let creationTimestamp: String?
-        public let arn: String?
-        public let latestVersion: String?
+        /// The ARN of the certificate associated with the core.
+        public let certificateArn: String?
+        /// A descriptive or arbitrary ID for the core. This value must be unique within the core definition version. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''.
         public let id: String?
+        /// If true, the core's local shadow is automatically synced with the cloud.
+        public let syncShadow: Bool?
+        /// The ARN of the thing which is the core.
+        public let thingArn: String?
+
+        public init(certificateArn: String? = nil, id: String? = nil, syncShadow: Bool? = nil, thingArn: String? = nil) {
+            self.certificateArn = certificateArn
+            self.id = id
+            self.syncShadow = syncShadow
+            self.thingArn = thingArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case id = "Id"
+            case syncShadow = "SyncShadow"
+            case thingArn = "ThingArn"
+        }
+    }
+
+    public struct CoreDefinitionVersion: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cores", required: false, type: .list)
+        ]
+        /// A list of cores in the core definition version.
+        public let cores: [Core]?
+
+        public init(cores: [Core]? = nil) {
+            self.cores = cores
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cores = "Cores"
+        }
+    }
+
+    public struct CreateConnectorDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "InitialVersion", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let amznClientToken: String?
+        public let initialVersion: ConnectorDefinitionVersion?
+        public let name: String?
+
+        public init(amznClientToken: String? = nil, initialVersion: ConnectorDefinitionVersion? = nil, name: String? = nil) {
+            self.amznClientToken = amznClientToken
+            self.initialVersion = initialVersion
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case initialVersion = "InitialVersion"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateConnectorDefinitionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let arn: String?
+        public let creationTimestamp: String?
+        public let id: String?
+        public let lastUpdatedTimestamp: String?
+        public let latestVersion: String?
         public let latestVersionArn: String?
         public let name: String?
-        public let lastUpdatedTimestamp: String?
 
-        public init(creationTimestamp: String? = nil, arn: String? = nil, latestVersion: String? = nil, id: String? = nil, latestVersionArn: String? = nil, name: String? = nil, lastUpdatedTimestamp: String? = nil) {
-            self.creationTimestamp = creationTimestamp
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
             self.arn = arn
-            self.latestVersion = latestVersion
+            self.creationTimestamp = creationTimestamp
             self.id = id
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.latestVersion = latestVersion
             self.latestVersionArn = latestVersionArn
             self.name = name
-            self.lastUpdatedTimestamp = lastUpdatedTimestamp
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTimestamp = "CreationTimestamp"
             case arn = "Arn"
-            case latestVersion = "LatestVersion"
+            case creationTimestamp = "CreationTimestamp"
             case id = "Id"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
-            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
         }
     }
 
-    public struct UpdateGroupResponse: AWSShape {
-
-    }
-
-    public struct UpdateCoreDefinitionResponse: AWSShape {
-
-    }
-
-    public struct DeleteFunctionDefinitionResponse: AWSShape {
-
-    }
-
-    public struct ListBulkDeploymentDetailedReportsRequest: AWSShape {
+    public struct CreateConnectorDefinitionVersionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "BulkDeploymentId", location: .uri(locationName: "BulkDeploymentId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "ConnectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "Connectors", required: false, type: .list)
         ]
-        public let nextToken: String?
-        public let bulkDeploymentId: String
-        public let maxResults: String?
+        public let amznClientToken: String?
+        public let connectorDefinitionId: String
+        public let connectors: [Connector]?
 
-        public init(nextToken: String? = nil, bulkDeploymentId: String, maxResults: String? = nil) {
-            self.nextToken = nextToken
-            self.bulkDeploymentId = bulkDeploymentId
-            self.maxResults = maxResults
+        public init(amznClientToken: String? = nil, connectorDefinitionId: String, connectors: [Connector]? = nil) {
+            self.amznClientToken = amznClientToken
+            self.connectorDefinitionId = connectorDefinitionId
+            self.connectors = connectors
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case bulkDeploymentId = "BulkDeploymentId"
-            case maxResults = "MaxResults"
+            case amznClientToken = "X-Amzn-Client-Token"
+            case connectorDefinitionId = "ConnectorDefinitionId"
+            case connectors = "Connectors"
+        }
+    }
+
+    public struct CreateConnectorDefinitionVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        public let arn: String?
+        public let creationTimestamp: String?
+        public let id: String?
+        public let version: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, version: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case version = "Version"
+        }
+    }
+
+    public struct CreateCoreDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "InitialVersion", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let amznClientToken: String?
+        public let initialVersion: CoreDefinitionVersion?
+        public let name: String?
+
+        public init(amznClientToken: String? = nil, initialVersion: CoreDefinitionVersion? = nil, name: String? = nil) {
+            self.amznClientToken = amznClientToken
+            self.initialVersion = initialVersion
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case initialVersion = "InitialVersion"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateCoreDefinitionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let arn: String?
+        public let creationTimestamp: String?
+        public let id: String?
+        public let lastUpdatedTimestamp: String?
+        public let latestVersion: String?
+        public let latestVersionArn: String?
+        public let name: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.latestVersion = latestVersion
+            self.latestVersionArn = latestVersionArn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersion = "LatestVersion"
+            case latestVersionArn = "LatestVersionArn"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateCoreDefinitionVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "Cores", required: false, type: .list)
+        ]
+        public let amznClientToken: String?
+        public let coreDefinitionId: String
+        public let cores: [Core]?
+
+        public init(amznClientToken: String? = nil, coreDefinitionId: String, cores: [Core]? = nil) {
+            self.amznClientToken = amznClientToken
+            self.coreDefinitionId = coreDefinitionId
+            self.cores = cores
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case coreDefinitionId = "CoreDefinitionId"
+            case cores = "Cores"
+        }
+    }
+
+    public struct CreateCoreDefinitionVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        public let arn: String?
+        public let creationTimestamp: String?
+        public let id: String?
+        public let version: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, version: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case version = "Version"
+        }
+    }
+
+    public struct CreateDeploymentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentType", required: false, type: .enum), 
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
+            AWSShapeMember(label: "GroupVersionId", required: false, type: .string)
+        ]
+        public let amznClientToken: String?
+        /// The ID of the deployment if you wish to redeploy a previous deployment.
+        public let deploymentId: String?
+        /// The type of deployment. When used in ''CreateDeployment'', only ''NewDeployment'' and ''Redeployment'' are valid.
+        public let deploymentType: DeploymentType?
+        public let groupId: String
+        /// The ID of the group version to be deployed.
+        public let groupVersionId: String?
+
+        public init(amznClientToken: String? = nil, deploymentId: String? = nil, deploymentType: DeploymentType? = nil, groupId: String, groupVersionId: String? = nil) {
+            self.amznClientToken = amznClientToken
+            self.deploymentId = deploymentId
+            self.deploymentType = deploymentType
+            self.groupId = groupId
+            self.groupVersionId = groupVersionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case deploymentId = "DeploymentId"
+            case deploymentType = "DeploymentType"
+            case groupId = "GroupId"
+            case groupVersionId = "GroupVersionId"
+        }
+    }
+
+    public struct CreateDeploymentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeploymentArn", required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentId", required: false, type: .string)
+        ]
+        /// The ARN of the deployment.
+        public let deploymentArn: String?
+        /// The ID of the deployment.
+        public let deploymentId: String?
+
+        public init(deploymentArn: String? = nil, deploymentId: String? = nil) {
+            self.deploymentArn = deploymentArn
+            self.deploymentId = deploymentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentArn = "DeploymentArn"
+            case deploymentId = "DeploymentId"
+        }
+    }
+
+    public struct CreateDeviceDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "InitialVersion", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let amznClientToken: String?
+        public let initialVersion: DeviceDefinitionVersion?
+        public let name: String?
+
+        public init(amznClientToken: String? = nil, initialVersion: DeviceDefinitionVersion? = nil, name: String? = nil) {
+            self.amznClientToken = amznClientToken
+            self.initialVersion = initialVersion
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case initialVersion = "InitialVersion"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateDeviceDefinitionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let arn: String?
+        public let creationTimestamp: String?
+        public let id: String?
+        public let lastUpdatedTimestamp: String?
+        public let latestVersion: String?
+        public let latestVersionArn: String?
+        public let name: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.latestVersion = latestVersion
+            self.latestVersionArn = latestVersionArn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersion = "LatestVersion"
+            case latestVersionArn = "LatestVersionArn"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateDeviceDefinitionVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "Devices", required: false, type: .list)
+        ]
+        public let amznClientToken: String?
+        public let deviceDefinitionId: String
+        public let devices: [Device]?
+
+        public init(amznClientToken: String? = nil, deviceDefinitionId: String, devices: [Device]? = nil) {
+            self.amznClientToken = amznClientToken
+            self.deviceDefinitionId = deviceDefinitionId
+            self.devices = devices
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case deviceDefinitionId = "DeviceDefinitionId"
+            case devices = "Devices"
+        }
+    }
+
+    public struct CreateDeviceDefinitionVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        public let arn: String?
+        public let creationTimestamp: String?
+        public let id: String?
+        public let version: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, version: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case version = "Version"
+        }
+    }
+
+    public struct CreateFunctionDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "InitialVersion", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let amznClientToken: String?
+        public let initialVersion: FunctionDefinitionVersion?
+        public let name: String?
+
+        public init(amznClientToken: String? = nil, initialVersion: FunctionDefinitionVersion? = nil, name: String? = nil) {
+            self.amznClientToken = amznClientToken
+            self.initialVersion = initialVersion
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case initialVersion = "InitialVersion"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateFunctionDefinitionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let arn: String?
+        public let creationTimestamp: String?
+        public let id: String?
+        public let lastUpdatedTimestamp: String?
+        public let latestVersion: String?
+        public let latestVersionArn: String?
+        public let name: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.latestVersion = latestVersion
+            self.latestVersionArn = latestVersionArn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersion = "LatestVersion"
+            case latestVersionArn = "LatestVersionArn"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateFunctionDefinitionVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "DefaultConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "Functions", required: false, type: .list)
+        ]
+        public let amznClientToken: String?
+        public let defaultConfig: FunctionDefaultConfig?
+        public let functionDefinitionId: String
+        public let functions: [Function]?
+
+        public init(amznClientToken: String? = nil, defaultConfig: FunctionDefaultConfig? = nil, functionDefinitionId: String, functions: [Function]? = nil) {
+            self.amznClientToken = amznClientToken
+            self.defaultConfig = defaultConfig
+            self.functionDefinitionId = functionDefinitionId
+            self.functions = functions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case defaultConfig = "DefaultConfig"
+            case functionDefinitionId = "FunctionDefinitionId"
+            case functions = "Functions"
+        }
+    }
+
+    public struct CreateFunctionDefinitionVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        public let arn: String?
+        public let creationTimestamp: String?
+        public let id: String?
+        public let version: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, version: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case version = "Version"
+        }
+    }
+
+    public struct CreateGroupCertificateAuthorityRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        ]
+        public let amznClientToken: String?
+        public let groupId: String
+
+        public init(amznClientToken: String? = nil, groupId: String) {
+            self.amznClientToken = amznClientToken
+            self.groupId = groupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case groupId = "GroupId"
         }
     }
 
@@ -4236,151 +848,916 @@ extension Greengrass {
         }
     }
 
-    public struct UpdateLoggerDefinitionRequest: AWSShape {
+    public struct CreateGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "InitialVersion", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let amznClientToken: String?
+        public let initialVersion: GroupVersion?
+        public let name: String?
+
+        public init(amznClientToken: String? = nil, initialVersion: GroupVersion? = nil, name: String? = nil) {
+            self.amznClientToken = amznClientToken
+            self.initialVersion = initialVersion
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case initialVersion = "InitialVersion"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let arn: String?
+        public let creationTimestamp: String?
+        public let id: String?
+        public let lastUpdatedTimestamp: String?
+        public let latestVersion: String?
+        public let latestVersionArn: String?
+        public let name: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.latestVersion = latestVersion
+            self.latestVersionArn = latestVersionArn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersion = "LatestVersion"
+            case latestVersionArn = "LatestVersionArn"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateGroupVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "ConnectorDefinitionVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "CoreDefinitionVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "DeviceDefinitionVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "FunctionDefinitionVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
+            AWSShapeMember(label: "LoggerDefinitionVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceDefinitionVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionDefinitionVersionArn", required: false, type: .string)
+        ]
+        public let amznClientToken: String?
+        public let connectorDefinitionVersionArn: String?
+        public let coreDefinitionVersionArn: String?
+        public let deviceDefinitionVersionArn: String?
+        public let functionDefinitionVersionArn: String?
+        public let groupId: String
+        public let loggerDefinitionVersionArn: String?
+        public let resourceDefinitionVersionArn: String?
+        public let subscriptionDefinitionVersionArn: String?
+
+        public init(amznClientToken: String? = nil, connectorDefinitionVersionArn: String? = nil, coreDefinitionVersionArn: String? = nil, deviceDefinitionVersionArn: String? = nil, functionDefinitionVersionArn: String? = nil, groupId: String, loggerDefinitionVersionArn: String? = nil, resourceDefinitionVersionArn: String? = nil, subscriptionDefinitionVersionArn: String? = nil) {
+            self.amznClientToken = amznClientToken
+            self.connectorDefinitionVersionArn = connectorDefinitionVersionArn
+            self.coreDefinitionVersionArn = coreDefinitionVersionArn
+            self.deviceDefinitionVersionArn = deviceDefinitionVersionArn
+            self.functionDefinitionVersionArn = functionDefinitionVersionArn
+            self.groupId = groupId
+            self.loggerDefinitionVersionArn = loggerDefinitionVersionArn
+            self.resourceDefinitionVersionArn = resourceDefinitionVersionArn
+            self.subscriptionDefinitionVersionArn = subscriptionDefinitionVersionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case connectorDefinitionVersionArn = "ConnectorDefinitionVersionArn"
+            case coreDefinitionVersionArn = "CoreDefinitionVersionArn"
+            case deviceDefinitionVersionArn = "DeviceDefinitionVersionArn"
+            case functionDefinitionVersionArn = "FunctionDefinitionVersionArn"
+            case groupId = "GroupId"
+            case loggerDefinitionVersionArn = "LoggerDefinitionVersionArn"
+            case resourceDefinitionVersionArn = "ResourceDefinitionVersionArn"
+            case subscriptionDefinitionVersionArn = "SubscriptionDefinitionVersionArn"
+        }
+    }
+
+    public struct CreateGroupVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        public let arn: String?
+        public let creationTimestamp: String?
+        public let id: String?
+        public let version: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, version: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case version = "Version"
+        }
+    }
+
+    public struct CreateLoggerDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "InitialVersion", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let amznClientToken: String?
+        public let initialVersion: LoggerDefinitionVersion?
+        public let name: String?
+
+        public init(amznClientToken: String? = nil, initialVersion: LoggerDefinitionVersion? = nil, name: String? = nil) {
+            self.amznClientToken = amznClientToken
+            self.initialVersion = initialVersion
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case initialVersion = "InitialVersion"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateLoggerDefinitionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let arn: String?
+        public let creationTimestamp: String?
+        public let id: String?
+        public let lastUpdatedTimestamp: String?
+        public let latestVersion: String?
+        public let latestVersionArn: String?
+        public let name: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.latestVersion = latestVersion
+            self.latestVersionArn = latestVersionArn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersion = "LatestVersion"
+            case latestVersionArn = "LatestVersionArn"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateLoggerDefinitionVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "Loggers", required: false, type: .list)
+        ]
+        public let amznClientToken: String?
+        public let loggerDefinitionId: String
+        public let loggers: [Logger]?
+
+        public init(amznClientToken: String? = nil, loggerDefinitionId: String, loggers: [Logger]? = nil) {
+            self.amznClientToken = amznClientToken
+            self.loggerDefinitionId = loggerDefinitionId
+            self.loggers = loggers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case loggerDefinitionId = "LoggerDefinitionId"
+            case loggers = "Loggers"
+        }
+    }
+
+    public struct CreateLoggerDefinitionVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        public let arn: String?
+        public let creationTimestamp: String?
+        public let id: String?
+        public let version: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, version: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case version = "Version"
+        }
+    }
+
+    public struct CreateResourceDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "InitialVersion", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let amznClientToken: String?
+        public let initialVersion: ResourceDefinitionVersion?
+        public let name: String?
+
+        public init(amznClientToken: String? = nil, initialVersion: ResourceDefinitionVersion? = nil, name: String? = nil) {
+            self.amznClientToken = amznClientToken
+            self.initialVersion = initialVersion
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case initialVersion = "InitialVersion"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateResourceDefinitionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let arn: String?
+        public let creationTimestamp: String?
+        public let id: String?
+        public let lastUpdatedTimestamp: String?
+        public let latestVersion: String?
+        public let latestVersionArn: String?
+        public let name: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.latestVersion = latestVersion
+            self.latestVersionArn = latestVersionArn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersion = "LatestVersion"
+            case latestVersionArn = "LatestVersionArn"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateResourceDefinitionVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "ResourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "Resources", required: false, type: .list)
+        ]
+        public let amznClientToken: String?
+        public let resourceDefinitionId: String
+        public let resources: [Resource]?
+
+        public init(amznClientToken: String? = nil, resourceDefinitionId: String, resources: [Resource]? = nil) {
+            self.amznClientToken = amznClientToken
+            self.resourceDefinitionId = resourceDefinitionId
+            self.resources = resources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case resourceDefinitionId = "ResourceDefinitionId"
+            case resources = "Resources"
+        }
+    }
+
+    public struct CreateResourceDefinitionVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        public let arn: String?
+        public let creationTimestamp: String?
+        public let id: String?
+        public let version: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, version: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case version = "Version"
+        }
+    }
+
+    public struct CreateSoftwareUpdateJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "S3UrlSignerRole", required: false, type: .string), 
+            AWSShapeMember(label: "SoftwareToUpdate", required: false, type: .enum), 
+            AWSShapeMember(label: "UpdateAgentLogLevel", required: false, type: .enum), 
+            AWSShapeMember(label: "UpdateTargets", required: false, type: .list), 
+            AWSShapeMember(label: "UpdateTargetsArchitecture", required: false, type: .enum), 
+            AWSShapeMember(label: "UpdateTargetsOperatingSystem", required: false, type: .enum)
+        ]
+        public let amznClientToken: String?
+        public let s3UrlSignerRole: String?
+        public let softwareToUpdate: SoftwareToUpdate?
+        public let updateAgentLogLevel: UpdateAgentLogLevel?
+        public let updateTargets: [String]?
+        public let updateTargetsArchitecture: UpdateTargetsArchitecture?
+        public let updateTargetsOperatingSystem: UpdateTargetsOperatingSystem?
+
+        public init(amznClientToken: String? = nil, s3UrlSignerRole: String? = nil, softwareToUpdate: SoftwareToUpdate? = nil, updateAgentLogLevel: UpdateAgentLogLevel? = nil, updateTargets: [String]? = nil, updateTargetsArchitecture: UpdateTargetsArchitecture? = nil, updateTargetsOperatingSystem: UpdateTargetsOperatingSystem? = nil) {
+            self.amznClientToken = amznClientToken
+            self.s3UrlSignerRole = s3UrlSignerRole
+            self.softwareToUpdate = softwareToUpdate
+            self.updateAgentLogLevel = updateAgentLogLevel
+            self.updateTargets = updateTargets
+            self.updateTargetsArchitecture = updateTargetsArchitecture
+            self.updateTargetsOperatingSystem = updateTargetsOperatingSystem
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case s3UrlSignerRole = "S3UrlSignerRole"
+            case softwareToUpdate = "SoftwareToUpdate"
+            case updateAgentLogLevel = "UpdateAgentLogLevel"
+            case updateTargets = "UpdateTargets"
+            case updateTargetsArchitecture = "UpdateTargetsArchitecture"
+            case updateTargetsOperatingSystem = "UpdateTargetsOperatingSystem"
+        }
+    }
+
+    public struct CreateSoftwareUpdateJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IotJobArn", required: false, type: .string), 
+            AWSShapeMember(label: "IotJobId", required: false, type: .string)
+        ]
+        /// The IoT Job ARN corresponding to this update.
+        public let iotJobArn: String?
+        /// The IoT Job Id corresponding to this update.
+        public let iotJobId: String?
+
+        public init(iotJobArn: String? = nil, iotJobId: String? = nil) {
+            self.iotJobArn = iotJobArn
+            self.iotJobId = iotJobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iotJobArn = "IotJobArn"
+            case iotJobId = "IotJobId"
+        }
+    }
+
+    public struct CreateSubscriptionDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "InitialVersion", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let amznClientToken: String?
+        public let initialVersion: SubscriptionDefinitionVersion?
+        public let name: String?
+
+        public init(amznClientToken: String? = nil, initialVersion: SubscriptionDefinitionVersion? = nil, name: String? = nil) {
+            self.amznClientToken = amznClientToken
+            self.initialVersion = initialVersion
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case initialVersion = "InitialVersion"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateSubscriptionDefinitionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let arn: String?
+        public let creationTimestamp: String?
+        public let id: String?
+        public let lastUpdatedTimestamp: String?
+        public let latestVersion: String?
+        public let latestVersionArn: String?
+        public let name: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.latestVersion = latestVersion
+            self.latestVersionArn = latestVersionArn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersion = "LatestVersion"
+            case latestVersionArn = "LatestVersionArn"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateSubscriptionDefinitionVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "Subscriptions", required: false, type: .list)
+        ]
+        public let amznClientToken: String?
+        public let subscriptionDefinitionId: String
+        public let subscriptions: [Subscription]?
+
+        public init(amznClientToken: String? = nil, subscriptionDefinitionId: String, subscriptions: [Subscription]? = nil) {
+            self.amznClientToken = amznClientToken
+            self.subscriptionDefinitionId = subscriptionDefinitionId
+            self.subscriptions = subscriptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case subscriptionDefinitionId = "SubscriptionDefinitionId"
+            case subscriptions = "Subscriptions"
+        }
+    }
+
+    public struct CreateSubscriptionDefinitionVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        public let arn: String?
+        public let creationTimestamp: String?
+        public let id: String?
+        public let version: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, version: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case version = "Version"
+        }
+    }
+
+    public struct DefinitionInformation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The ARN of the definition.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the definition was created.
+        public let creationTimestamp: String?
+        /// The ID of the definition.
+        public let id: String?
+        /// The time, in milliseconds since the epoch, when the definition was last updated.
+        public let lastUpdatedTimestamp: String?
+        /// The latest version of the definition.
+        public let latestVersion: String?
+        /// The ARN of the latest version of the definition.
+        public let latestVersionArn: String?
+        /// The name of the definition.
+        public let name: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.latestVersion = latestVersion
+            self.latestVersionArn = latestVersionArn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersion = "LatestVersion"
+            case latestVersionArn = "LatestVersionArn"
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteConnectorDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId"), required: true, type: .string)
+        ]
+        public let connectorDefinitionId: String
+
+        public init(connectorDefinitionId: String) {
+            self.connectorDefinitionId = connectorDefinitionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorDefinitionId = "ConnectorDefinitionId"
+        }
+    }
+
+    public struct DeleteConnectorDefinitionResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteCoreDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string)
+        ]
+        public let coreDefinitionId: String
+
+        public init(coreDefinitionId: String) {
+            self.coreDefinitionId = coreDefinitionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreDefinitionId = "CoreDefinitionId"
+        }
+    }
+
+    public struct DeleteCoreDefinitionResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteDeviceDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string)
+        ]
+        public let deviceDefinitionId: String
+
+        public init(deviceDefinitionId: String) {
+            self.deviceDefinitionId = deviceDefinitionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceDefinitionId = "DeviceDefinitionId"
+        }
+    }
+
+    public struct DeleteDeviceDefinitionResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteFunctionDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string)
+        ]
+        public let functionDefinitionId: String
+
+        public init(functionDefinitionId: String) {
+            self.functionDefinitionId = functionDefinitionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionDefinitionId = "FunctionDefinitionId"
+        }
+    }
+
+    public struct DeleteFunctionDefinitionResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        ]
+        public let groupId: String
+
+        public init(groupId: String) {
+            self.groupId = groupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
+        }
+    }
+
+    public struct DeleteGroupResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteLoggerDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string)
         ]
-        public let name: String?
         public let loggerDefinitionId: String
 
-        public init(name: String? = nil, loggerDefinitionId: String) {
-            self.name = name
+        public init(loggerDefinitionId: String) {
             self.loggerDefinitionId = loggerDefinitionId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "Name"
             case loggerDefinitionId = "LoggerDefinitionId"
         }
     }
 
-    public struct ListResourceDefinitionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
-        ]
-        public let maxResults: String?
-        public let nextToken: String?
+    public struct DeleteLoggerDefinitionResponse: AWSShape {
 
-        public init(maxResults: String? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
+        public init() {
+        }
+
+    }
+
+    public struct DeleteResourceDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"), required: true, type: .string)
+        ]
+        public let resourceDefinitionId: String
+
+        public init(resourceDefinitionId: String) {
+            self.resourceDefinitionId = resourceDefinitionId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
+            case resourceDefinitionId = "ResourceDefinitionId"
         }
     }
 
-    public struct ListGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
-        ]
-        public let maxResults: String?
-        public let nextToken: String?
+    public struct DeleteResourceDefinitionResponse: AWSShape {
 
-        public init(maxResults: String? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
+        public init() {
+        }
+
+    }
+
+    public struct DeleteSubscriptionDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string)
+        ]
+        public let subscriptionDefinitionId: String
+
+        public init(subscriptionDefinitionId: String) {
+            self.subscriptionDefinitionId = subscriptionDefinitionId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
+            case subscriptionDefinitionId = "SubscriptionDefinitionId"
         }
     }
 
-    public struct GetGroupCertificateConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateExpiryInMilliseconds", required: false, type: .string), 
-            AWSShapeMember(label: "GroupId", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateAuthorityExpiryInMilliseconds", required: false, type: .string)
-        ]
-        public let certificateExpiryInMilliseconds: String?
-        public let groupId: String?
-        public let certificateAuthorityExpiryInMilliseconds: String?
+    public struct DeleteSubscriptionDefinitionResponse: AWSShape {
 
-        public init(certificateExpiryInMilliseconds: String? = nil, groupId: String? = nil, certificateAuthorityExpiryInMilliseconds: String? = nil) {
-            self.certificateExpiryInMilliseconds = certificateExpiryInMilliseconds
-            self.groupId = groupId
-            self.certificateAuthorityExpiryInMilliseconds = certificateAuthorityExpiryInMilliseconds
+        public init() {
+        }
+
+    }
+
+    public struct Deployment: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentArn", required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentType", required: false, type: .enum), 
+            AWSShapeMember(label: "GroupArn", required: false, type: .string)
+        ]
+        /// The time, in milliseconds since the epoch, when the deployment was created.
+        public let createdAt: String?
+        /// The ARN of the deployment.
+        public let deploymentArn: String?
+        /// The ID of the deployment.
+        public let deploymentId: String?
+        /// The type of the deployment.
+        public let deploymentType: DeploymentType?
+        /// The ARN of the group for this deployment.
+        public let groupArn: String?
+
+        public init(createdAt: String? = nil, deploymentArn: String? = nil, deploymentId: String? = nil, deploymentType: DeploymentType? = nil, groupArn: String? = nil) {
+            self.createdAt = createdAt
+            self.deploymentArn = deploymentArn
+            self.deploymentId = deploymentId
+            self.deploymentType = deploymentType
+            self.groupArn = groupArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateExpiryInMilliseconds = "CertificateExpiryInMilliseconds"
-            case groupId = "GroupId"
-            case certificateAuthorityExpiryInMilliseconds = "CertificateAuthorityExpiryInMilliseconds"
+            case createdAt = "CreatedAt"
+            case deploymentArn = "DeploymentArn"
+            case deploymentId = "DeploymentId"
+            case deploymentType = "DeploymentType"
+            case groupArn = "GroupArn"
         }
     }
 
-    public struct UpdateFunctionDefinitionResponse: AWSShape {
-
-    }
-
-    public enum LoggerLevel: String, CustomStringConvertible, Codable {
-        case debug = "DEBUG"
-        case info = "INFO"
-        case warn = "WARN"
-        case error = "ERROR"
-        case fatal = "FATAL"
+    public enum DeploymentType: String, CustomStringConvertible, Codable {
+        case newdeployment = "NewDeployment"
+        case redeployment = "Redeployment"
+        case resetdeployment = "ResetDeployment"
+        case forceresetdeployment = "ForceResetDeployment"
         public var description: String { return self.rawValue }
     }
 
-    public struct Subscription: AWSShape {
+    public struct Device: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Subject", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Target", required: false, type: .string), 
-            AWSShapeMember(label: "Source", required: false, type: .string)
+            AWSShapeMember(label: "SyncShadow", required: false, type: .boolean), 
+            AWSShapeMember(label: "ThingArn", required: false, type: .string)
         ]
-        /// The subject of the message.
-        public let subject: String?
-        /// A descriptive or arbitrary ID for the subscription. This value must be unique within the subscription definition version. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''.
+        /// The ARN of the certificate associated with the device.
+        public let certificateArn: String?
+        /// A descriptive or arbitrary ID for the device. This value must be unique within the device definition version. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''.
         public let id: String?
-        /// Where the message is sent to. Can be a thing ARN, a Lambda function ARN, a connector ARN, 'cloud' (which represents the AWS IoT cloud), or 'GGShadowService'.
-        public let target: String?
-        /// The source of the subscription. Can be a thing ARN, a Lambda function ARN, a connector ARN, 'cloud' (which represents the AWS IoT cloud), or 'GGShadowService'.
-        public let source: String?
+        /// If true, the device's local shadow will be automatically synced with the cloud.
+        public let syncShadow: Bool?
+        /// The thing ARN of the device.
+        public let thingArn: String?
 
-        public init(subject: String? = nil, id: String? = nil, target: String? = nil, source: String? = nil) {
-            self.subject = subject
+        public init(certificateArn: String? = nil, id: String? = nil, syncShadow: Bool? = nil, thingArn: String? = nil) {
+            self.certificateArn = certificateArn
             self.id = id
-            self.target = target
-            self.source = source
+            self.syncShadow = syncShadow
+            self.thingArn = thingArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subject = "Subject"
+            case certificateArn = "CertificateArn"
             case id = "Id"
-            case target = "Target"
-            case source = "Source"
+            case syncShadow = "SyncShadow"
+            case thingArn = "ThingArn"
         }
     }
 
-    public struct GetDeviceDefinitionVersionRequest: AWSShape {
+    public struct DeviceDefinitionVersion: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceDefinitionVersionId", location: .uri(locationName: "DeviceDefinitionVersionId"), required: true, type: .string), 
-            AWSShapeMember(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+            AWSShapeMember(label: "Devices", required: false, type: .list)
         ]
-        public let deviceDefinitionVersionId: String
-        public let deviceDefinitionId: String
-        public let nextToken: String?
+        /// A list of devices in the definition version.
+        public let devices: [Device]?
 
-        public init(deviceDefinitionVersionId: String, deviceDefinitionId: String, nextToken: String? = nil) {
-            self.deviceDefinitionVersionId = deviceDefinitionVersionId
-            self.deviceDefinitionId = deviceDefinitionId
-            self.nextToken = nextToken
+        public init(devices: [Device]? = nil) {
+            self.devices = devices
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceDefinitionVersionId = "DeviceDefinitionVersionId"
-            case deviceDefinitionId = "DeviceDefinitionId"
-            case nextToken = "NextToken"
+            case devices = "Devices"
         }
+    }
+
+    public struct DisassociateRoleFromGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        ]
+        public let groupId: String
+
+        public init(groupId: String) {
+            self.groupId = groupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
+        }
+    }
+
+    public struct DisassociateRoleFromGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DisassociatedAt", required: false, type: .string)
+        ]
+        /// The time, in milliseconds since the epoch, when the role was disassociated from the group.
+        public let disassociatedAt: String?
+
+        public init(disassociatedAt: String? = nil) {
+            self.disassociatedAt = disassociatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case disassociatedAt = "DisassociatedAt"
+        }
+    }
+
+    public struct DisassociateServiceRoleFromAccountRequest: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DisassociateServiceRoleFromAccountResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DisassociatedAt", required: false, type: .string)
+        ]
+        /// The time when the service role was disassociated from the account.
+        public let disassociatedAt: String?
+
+        public init(disassociatedAt: String? = nil) {
+            self.disassociatedAt = disassociatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case disassociatedAt = "DisassociatedAt"
+        }
+    }
+
+    public struct Empty: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public enum EncodingType: String, CustomStringConvertible, Codable {
+        case binary = "binary"
+        case json = "json"
+        public var description: String { return self.rawValue }
     }
 
     public struct ErrorDetail: AWSShape {
@@ -4401,74 +1778,6 @@ extension Greengrass {
         private enum CodingKeys: String, CodingKey {
             case detailedErrorCode = "DetailedErrorCode"
             case detailedErrorMessage = "DetailedErrorMessage"
-        }
-    }
-
-    public struct CreateCoreDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InitialVersion", required: false, type: .structure), 
-            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        public let initialVersion: CoreDefinitionVersion?
-        public let amznClientToken: String?
-        public let name: String?
-
-        public init(initialVersion: CoreDefinitionVersion? = nil, amznClientToken: String? = nil, name: String? = nil) {
-            self.initialVersion = initialVersion
-            self.amznClientToken = amznClientToken
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case initialVersion = "InitialVersion"
-            case amznClientToken = "X-Amzn-Client-Token"
-            case name = "Name"
-        }
-    }
-
-    public struct DeleteSubscriptionDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string)
-        ]
-        public let subscriptionDefinitionId: String
-
-        public init(subscriptionDefinitionId: String) {
-            self.subscriptionDefinitionId = subscriptionDefinitionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subscriptionDefinitionId = "SubscriptionDefinitionId"
-        }
-    }
-
-    public struct GetResourceDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"), required: true, type: .string)
-        ]
-        public let resourceDefinitionId: String
-
-        public init(resourceDefinitionId: String) {
-            self.resourceDefinitionId = resourceDefinitionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceDefinitionId = "ResourceDefinitionId"
-        }
-    }
-
-    public struct DeleteCoreDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string)
-        ]
-        public let coreDefinitionId: String
-
-        public init(coreDefinitionId: String) {
-            self.coreDefinitionId = coreDefinitionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case coreDefinitionId = "CoreDefinitionId"
         }
     }
 
@@ -4498,7 +1807,1612 @@ extension Greengrass {
         }
     }
 
-    public struct ListLoggerDefinitionsRequest: AWSShape {
+    public struct FunctionConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncodingType", required: false, type: .enum), 
+            AWSShapeMember(label: "Environment", required: false, type: .structure), 
+            AWSShapeMember(label: "ExecArgs", required: false, type: .string), 
+            AWSShapeMember(label: "Executable", required: false, type: .string), 
+            AWSShapeMember(label: "MemorySize", required: false, type: .integer), 
+            AWSShapeMember(label: "Pinned", required: false, type: .boolean), 
+            AWSShapeMember(label: "Timeout", required: false, type: .integer)
+        ]
+        /// The expected encoding type of the input payload for the function. The default is ''json''.
+        public let encodingType: EncodingType?
+        /// The environment configuration of the function.
+        public let environment: FunctionConfigurationEnvironment?
+        /// The execution arguments.
+        public let execArgs: String?
+        /// The name of the function executable.
+        public let executable: String?
+        /// The memory size, in KB, which the function requires. This setting is not applicable and should be cleared when you run the Lambda function without containerization.
+        public let memorySize: Int32?
+        /// True if the function is pinned. Pinned means the function is long-lived and starts when the core starts.
+        public let pinned: Bool?
+        /// The allowed function execution time, after which Lambda should terminate the function. This timeout still applies to pinned Lambda functions for each request.
+        public let timeout: Int32?
+
+        public init(encodingType: EncodingType? = nil, environment: FunctionConfigurationEnvironment? = nil, execArgs: String? = nil, executable: String? = nil, memorySize: Int32? = nil, pinned: Bool? = nil, timeout: Int32? = nil) {
+            self.encodingType = encodingType
+            self.environment = environment
+            self.execArgs = execArgs
+            self.executable = executable
+            self.memorySize = memorySize
+            self.pinned = pinned
+            self.timeout = timeout
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encodingType = "EncodingType"
+            case environment = "Environment"
+            case execArgs = "ExecArgs"
+            case executable = "Executable"
+            case memorySize = "MemorySize"
+            case pinned = "Pinned"
+            case timeout = "Timeout"
+        }
+    }
+
+    public struct FunctionConfigurationEnvironment: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessSysfs", required: false, type: .boolean), 
+            AWSShapeMember(label: "Execution", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceAccessPolicies", required: false, type: .list), 
+            AWSShapeMember(label: "Variables", required: false, type: .map)
+        ]
+        /// If true, the Lambda function is allowed to access the host's /sys folder. Use this when the Lambda function needs to read device information from /sys. This setting applies only when you run the Lambda function in a Greengrass container.
+        public let accessSysfs: Bool?
+        /// Configuration related to executing the Lambda function
+        public let execution: FunctionExecutionConfig?
+        /// A list of the resources, with their permissions, to which the Lambda function will be granted access. A Lambda function can have at most 10 resources. ResourceAccessPolicies apply only when you run the Lambda function in a Greengrass container.
+        public let resourceAccessPolicies: [ResourceAccessPolicy]?
+        /// Environment variables for the Lambda function's configuration.
+        public let variables: [String: String]?
+
+        public init(accessSysfs: Bool? = nil, execution: FunctionExecutionConfig? = nil, resourceAccessPolicies: [ResourceAccessPolicy]? = nil, variables: [String: String]? = nil) {
+            self.accessSysfs = accessSysfs
+            self.execution = execution
+            self.resourceAccessPolicies = resourceAccessPolicies
+            self.variables = variables
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessSysfs = "AccessSysfs"
+            case execution = "Execution"
+            case resourceAccessPolicies = "ResourceAccessPolicies"
+            case variables = "Variables"
+        }
+    }
+
+    public struct FunctionDefaultConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Execution", required: false, type: .structure)
+        ]
+        public let execution: FunctionDefaultExecutionConfig?
+
+        public init(execution: FunctionDefaultExecutionConfig? = nil) {
+            self.execution = execution
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case execution = "Execution"
+        }
+    }
+
+    public struct FunctionDefaultExecutionConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsolationMode", required: false, type: .enum)
+        ]
+        public let isolationMode: FunctionIsolationMode?
+
+        public init(isolationMode: FunctionIsolationMode? = nil) {
+            self.isolationMode = isolationMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isolationMode = "IsolationMode"
+        }
+    }
+
+    public struct FunctionDefinitionVersion: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Functions", required: false, type: .list)
+        ]
+        /// Default configuration that will apply to all Lambda functions in this function definition version
+        public let defaultConfig: FunctionDefaultConfig?
+        /// A list of Lambda functions in this function definition version.
+        public let functions: [Function]?
+
+        public init(defaultConfig: FunctionDefaultConfig? = nil, functions: [Function]? = nil) {
+            self.defaultConfig = defaultConfig
+            self.functions = functions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultConfig = "DefaultConfig"
+            case functions = "Functions"
+        }
+    }
+
+    public struct FunctionExecutionConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsolationMode", required: false, type: .enum), 
+            AWSShapeMember(label: "RunAs", required: false, type: .structure)
+        ]
+        public let isolationMode: FunctionIsolationMode?
+        public let runAs: FunctionRunAsConfig?
+
+        public init(isolationMode: FunctionIsolationMode? = nil, runAs: FunctionRunAsConfig? = nil) {
+            self.isolationMode = isolationMode
+            self.runAs = runAs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isolationMode = "IsolationMode"
+            case runAs = "RunAs"
+        }
+    }
+
+    public enum FunctionIsolationMode: String, CustomStringConvertible, Codable {
+        case greengrasscontainer = "GreengrassContainer"
+        case nocontainer = "NoContainer"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct FunctionRunAsConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Gid", required: false, type: .integer), 
+            AWSShapeMember(label: "Uid", required: false, type: .integer)
+        ]
+        /// The Group ID whose permissions are used to run a Lambda function.
+        public let gid: Int32?
+        /// The User ID whose permissions are used to run a Lambda function.
+        public let uid: Int32?
+
+        public init(gid: Int32? = nil, uid: Int32? = nil) {
+            self.gid = gid
+            self.uid = uid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gid = "Gid"
+            case uid = "Uid"
+        }
+    }
+
+    public struct GeneralError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorDetails", required: false, type: .list), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
+        ]
+        /// Details about the error.
+        public let errorDetails: [ErrorDetail]?
+        /// A message containing information about the error.
+        public let message: String?
+
+        public init(errorDetails: [ErrorDetail]? = nil, message: String? = nil) {
+            self.errorDetails = errorDetails
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorDetails = "ErrorDetails"
+            case message = "Message"
+        }
+    }
+
+    public struct GetAssociatedRoleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        ]
+        public let groupId: String
+
+        public init(groupId: String) {
+            self.groupId = groupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
+        }
+    }
+
+    public struct GetAssociatedRoleResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssociatedAt", required: false, type: .string), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string)
+        ]
+        /// The time when the role was associated with the group.
+        public let associatedAt: String?
+        /// The ARN of the role that is associated with the group.
+        public let roleArn: String?
+
+        public init(associatedAt: String? = nil, roleArn: String? = nil) {
+            self.associatedAt = associatedAt
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedAt = "AssociatedAt"
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public struct GetBulkDeploymentStatusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BulkDeploymentId", location: .uri(locationName: "BulkDeploymentId"), required: true, type: .string)
+        ]
+        public let bulkDeploymentId: String
+
+        public init(bulkDeploymentId: String) {
+            self.bulkDeploymentId = bulkDeploymentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bulkDeploymentId = "BulkDeploymentId"
+        }
+    }
+
+    public struct GetBulkDeploymentStatusResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BulkDeploymentMetrics", required: false, type: .structure), 
+            AWSShapeMember(label: "BulkDeploymentStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorDetails", required: false, type: .list), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string)
+        ]
+        /// Relevant metrics on input records processed during bulk deployment.
+        public let bulkDeploymentMetrics: BulkDeploymentMetrics?
+        /// The status of the bulk deployment.
+        public let bulkDeploymentStatus: BulkDeploymentStatus?
+        /// The time, in ISO format, when the deployment was created.
+        public let createdAt: String?
+        /// Error details
+        public let errorDetails: [ErrorDetail]?
+        /// Error message
+        public let errorMessage: String?
+
+        public init(bulkDeploymentMetrics: BulkDeploymentMetrics? = nil, bulkDeploymentStatus: BulkDeploymentStatus? = nil, createdAt: String? = nil, errorDetails: [ErrorDetail]? = nil, errorMessage: String? = nil) {
+            self.bulkDeploymentMetrics = bulkDeploymentMetrics
+            self.bulkDeploymentStatus = bulkDeploymentStatus
+            self.createdAt = createdAt
+            self.errorDetails = errorDetails
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bulkDeploymentMetrics = "BulkDeploymentMetrics"
+            case bulkDeploymentStatus = "BulkDeploymentStatus"
+            case createdAt = "CreatedAt"
+            case errorDetails = "ErrorDetails"
+            case errorMessage = "ErrorMessage"
+        }
+    }
+
+    public struct GetConnectivityInfoRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ThingName", location: .uri(locationName: "ThingName"), required: true, type: .string)
+        ]
+        public let thingName: String
+
+        public init(thingName: String) {
+            self.thingName = thingName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingName = "ThingName"
+        }
+    }
+
+    public struct GetConnectivityInfoResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectivityInfo", required: false, type: .list), 
+            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
+        ]
+        /// Connectivity info list.
+        public let connectivityInfo: [ConnectivityInfo]?
+        /// A message about the connectivity info request.
+        public let message: String?
+
+        public init(connectivityInfo: [ConnectivityInfo]? = nil, message: String? = nil) {
+            self.connectivityInfo = connectivityInfo
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectivityInfo = "ConnectivityInfo"
+            case message = "message"
+        }
+    }
+
+    public struct GetConnectorDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId"), required: true, type: .string)
+        ]
+        public let connectorDefinitionId: String
+
+        public init(connectorDefinitionId: String) {
+            self.connectorDefinitionId = connectorDefinitionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorDefinitionId = "ConnectorDefinitionId"
+        }
+    }
+
+    public struct GetConnectorDefinitionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let arn: String?
+        public let creationTimestamp: String?
+        public let id: String?
+        public let lastUpdatedTimestamp: String?
+        public let latestVersion: String?
+        public let latestVersionArn: String?
+        public let name: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.latestVersion = latestVersion
+            self.latestVersionArn = latestVersionArn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersion = "LatestVersion"
+            case latestVersionArn = "LatestVersionArn"
+            case name = "Name"
+        }
+    }
+
+    public struct GetConnectorDefinitionVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "ConnectorDefinitionVersionId", location: .uri(locationName: "ConnectorDefinitionVersionId"), required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        ]
+        public let connectorDefinitionId: String
+        public let connectorDefinitionVersionId: String
+        public let nextToken: String?
+
+        public init(connectorDefinitionId: String, connectorDefinitionVersionId: String, nextToken: String? = nil) {
+            self.connectorDefinitionId = connectorDefinitionId
+            self.connectorDefinitionVersionId = connectorDefinitionVersionId
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorDefinitionId = "ConnectorDefinitionId"
+            case connectorDefinitionVersionId = "ConnectorDefinitionVersionId"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetConnectorDefinitionVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Definition", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        /// The ARN of the connector definition version.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the connector definition version was created.
+        public let creationTimestamp: String?
+        /// Information about the connector definition version.
+        public let definition: ConnectorDefinitionVersion?
+        /// The ID of the connector definition version.
+        public let id: String?
+        /// The token for the next set of results, or ''null'' if there are no additional results.
+        public let nextToken: String?
+        /// The version of the connector definition version.
+        public let version: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, definition: ConnectorDefinitionVersion? = nil, id: String? = nil, nextToken: String? = nil, version: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.definition = definition
+            self.id = id
+            self.nextToken = nextToken
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case definition = "Definition"
+            case id = "Id"
+            case nextToken = "NextToken"
+            case version = "Version"
+        }
+    }
+
+    public struct GetCoreDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string)
+        ]
+        public let coreDefinitionId: String
+
+        public init(coreDefinitionId: String) {
+            self.coreDefinitionId = coreDefinitionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreDefinitionId = "CoreDefinitionId"
+        }
+    }
+
+    public struct GetCoreDefinitionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let arn: String?
+        public let creationTimestamp: String?
+        public let id: String?
+        public let lastUpdatedTimestamp: String?
+        public let latestVersion: String?
+        public let latestVersionArn: String?
+        public let name: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.latestVersion = latestVersion
+            self.latestVersionArn = latestVersionArn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersion = "LatestVersion"
+            case latestVersionArn = "LatestVersionArn"
+            case name = "Name"
+        }
+    }
+
+    public struct GetCoreDefinitionVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "CoreDefinitionVersionId", location: .uri(locationName: "CoreDefinitionVersionId"), required: true, type: .string)
+        ]
+        public let coreDefinitionId: String
+        public let coreDefinitionVersionId: String
+
+        public init(coreDefinitionId: String, coreDefinitionVersionId: String) {
+            self.coreDefinitionId = coreDefinitionId
+            self.coreDefinitionVersionId = coreDefinitionVersionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreDefinitionId = "CoreDefinitionId"
+            case coreDefinitionVersionId = "CoreDefinitionVersionId"
+        }
+    }
+
+    public struct GetCoreDefinitionVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Definition", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        /// The ARN of the core definition version.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the core definition version was created.
+        public let creationTimestamp: String?
+        /// Information about the core definition version.
+        public let definition: CoreDefinitionVersion?
+        /// The ID of the core definition version.
+        public let id: String?
+        /// The token for the next set of results, or ''null'' if there are no additional results.
+        public let nextToken: String?
+        /// The version of the core definition version.
+        public let version: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, definition: CoreDefinitionVersion? = nil, id: String? = nil, nextToken: String? = nil, version: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.definition = definition
+            self.id = id
+            self.nextToken = nextToken
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case definition = "Definition"
+            case id = "Id"
+            case nextToken = "NextToken"
+            case version = "Version"
+        }
+    }
+
+    public struct GetDeploymentStatusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeploymentId", location: .uri(locationName: "DeploymentId"), required: true, type: .string), 
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        ]
+        public let deploymentId: String
+        public let groupId: String
+
+        public init(deploymentId: String, groupId: String) {
+            self.deploymentId = deploymentId
+            self.groupId = groupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId = "DeploymentId"
+            case groupId = "GroupId"
+        }
+    }
+
+    public struct GetDeploymentStatusResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeploymentStatus", required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentType", required: false, type: .enum), 
+            AWSShapeMember(label: "ErrorDetails", required: false, type: .list), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "UpdatedAt", required: false, type: .string)
+        ]
+        /// The status of the deployment: ''Pending'', ''InProgress'', ''Success'', or ''Failure''.
+        public let deploymentStatus: String?
+        /// The type of the deployment.
+        public let deploymentType: DeploymentType?
+        /// Error details
+        public let errorDetails: [ErrorDetail]?
+        /// Error message
+        public let errorMessage: String?
+        /// The time, in milliseconds since the epoch, when the deployment status was updated.
+        public let updatedAt: String?
+
+        public init(deploymentStatus: String? = nil, deploymentType: DeploymentType? = nil, errorDetails: [ErrorDetail]? = nil, errorMessage: String? = nil, updatedAt: String? = nil) {
+            self.deploymentStatus = deploymentStatus
+            self.deploymentType = deploymentType
+            self.errorDetails = errorDetails
+            self.errorMessage = errorMessage
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentStatus = "DeploymentStatus"
+            case deploymentType = "DeploymentType"
+            case errorDetails = "ErrorDetails"
+            case errorMessage = "ErrorMessage"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct GetDeviceDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string)
+        ]
+        public let deviceDefinitionId: String
+
+        public init(deviceDefinitionId: String) {
+            self.deviceDefinitionId = deviceDefinitionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceDefinitionId = "DeviceDefinitionId"
+        }
+    }
+
+    public struct GetDeviceDefinitionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let arn: String?
+        public let creationTimestamp: String?
+        public let id: String?
+        public let lastUpdatedTimestamp: String?
+        public let latestVersion: String?
+        public let latestVersionArn: String?
+        public let name: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.latestVersion = latestVersion
+            self.latestVersionArn = latestVersionArn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersion = "LatestVersion"
+            case latestVersionArn = "LatestVersionArn"
+            case name = "Name"
+        }
+    }
+
+    public struct GetDeviceDefinitionVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "DeviceDefinitionVersionId", location: .uri(locationName: "DeviceDefinitionVersionId"), required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        ]
+        public let deviceDefinitionId: String
+        public let deviceDefinitionVersionId: String
+        public let nextToken: String?
+
+        public init(deviceDefinitionId: String, deviceDefinitionVersionId: String, nextToken: String? = nil) {
+            self.deviceDefinitionId = deviceDefinitionId
+            self.deviceDefinitionVersionId = deviceDefinitionVersionId
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceDefinitionId = "DeviceDefinitionId"
+            case deviceDefinitionVersionId = "DeviceDefinitionVersionId"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetDeviceDefinitionVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Definition", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        /// The ARN of the device definition version.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the device definition version was created.
+        public let creationTimestamp: String?
+        /// Information about the device definition version.
+        public let definition: DeviceDefinitionVersion?
+        /// The ID of the device definition version.
+        public let id: String?
+        /// The token for the next set of results, or ''null'' if there are no additional results.
+        public let nextToken: String?
+        /// The version of the device definition version.
+        public let version: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, definition: DeviceDefinitionVersion? = nil, id: String? = nil, nextToken: String? = nil, version: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.definition = definition
+            self.id = id
+            self.nextToken = nextToken
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case definition = "Definition"
+            case id = "Id"
+            case nextToken = "NextToken"
+            case version = "Version"
+        }
+    }
+
+    public struct GetFunctionDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string)
+        ]
+        public let functionDefinitionId: String
+
+        public init(functionDefinitionId: String) {
+            self.functionDefinitionId = functionDefinitionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionDefinitionId = "FunctionDefinitionId"
+        }
+    }
+
+    public struct GetFunctionDefinitionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let arn: String?
+        public let creationTimestamp: String?
+        public let id: String?
+        public let lastUpdatedTimestamp: String?
+        public let latestVersion: String?
+        public let latestVersionArn: String?
+        public let name: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.latestVersion = latestVersion
+            self.latestVersionArn = latestVersionArn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersion = "LatestVersion"
+            case latestVersionArn = "LatestVersionArn"
+            case name = "Name"
+        }
+    }
+
+    public struct GetFunctionDefinitionVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "FunctionDefinitionVersionId", location: .uri(locationName: "FunctionDefinitionVersionId"), required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        ]
+        public let functionDefinitionId: String
+        public let functionDefinitionVersionId: String
+        public let nextToken: String?
+
+        public init(functionDefinitionId: String, functionDefinitionVersionId: String, nextToken: String? = nil) {
+            self.functionDefinitionId = functionDefinitionId
+            self.functionDefinitionVersionId = functionDefinitionVersionId
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionDefinitionId = "FunctionDefinitionId"
+            case functionDefinitionVersionId = "FunctionDefinitionVersionId"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetFunctionDefinitionVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Definition", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        /// The ARN of the function definition version.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the function definition version was created.
+        public let creationTimestamp: String?
+        /// Information on the definition.
+        public let definition: FunctionDefinitionVersion?
+        /// The ID of the function definition version.
+        public let id: String?
+        /// The token for the next set of results, or ''null'' if there are no additional results.
+        public let nextToken: String?
+        /// The version of the function definition version.
+        public let version: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, definition: FunctionDefinitionVersion? = nil, id: String? = nil, nextToken: String? = nil, version: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.definition = definition
+            self.id = id
+            self.nextToken = nextToken
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case definition = "Definition"
+            case id = "Id"
+            case nextToken = "NextToken"
+            case version = "Version"
+        }
+    }
+
+    public struct GetGroupCertificateAuthorityRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateAuthorityId", location: .uri(locationName: "CertificateAuthorityId"), required: true, type: .string), 
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        ]
+        public let certificateAuthorityId: String
+        public let groupId: String
+
+        public init(certificateAuthorityId: String, groupId: String) {
+            self.certificateAuthorityId = certificateAuthorityId
+            self.groupId = groupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthorityId = "CertificateAuthorityId"
+            case groupId = "GroupId"
+        }
+    }
+
+    public struct GetGroupCertificateAuthorityResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupCertificateAuthorityArn", required: false, type: .string), 
+            AWSShapeMember(label: "GroupCertificateAuthorityId", required: false, type: .string), 
+            AWSShapeMember(label: "PemEncodedCertificate", required: false, type: .string)
+        ]
+        /// The ARN of the certificate authority for the group.
+        public let groupCertificateAuthorityArn: String?
+        /// The ID of the certificate authority for the group.
+        public let groupCertificateAuthorityId: String?
+        /// The PEM encoded certificate for the group.
+        public let pemEncodedCertificate: String?
+
+        public init(groupCertificateAuthorityArn: String? = nil, groupCertificateAuthorityId: String? = nil, pemEncodedCertificate: String? = nil) {
+            self.groupCertificateAuthorityArn = groupCertificateAuthorityArn
+            self.groupCertificateAuthorityId = groupCertificateAuthorityId
+            self.pemEncodedCertificate = pemEncodedCertificate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupCertificateAuthorityArn = "GroupCertificateAuthorityArn"
+            case groupCertificateAuthorityId = "GroupCertificateAuthorityId"
+            case pemEncodedCertificate = "PemEncodedCertificate"
+        }
+    }
+
+    public struct GetGroupCertificateConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        ]
+        public let groupId: String
+
+        public init(groupId: String) {
+            self.groupId = groupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
+        }
+    }
+
+    public struct GetGroupCertificateConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateAuthorityExpiryInMilliseconds", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateExpiryInMilliseconds", required: false, type: .string), 
+            AWSShapeMember(label: "GroupId", required: false, type: .string)
+        ]
+        public let certificateAuthorityExpiryInMilliseconds: String?
+        public let certificateExpiryInMilliseconds: String?
+        public let groupId: String?
+
+        public init(certificateAuthorityExpiryInMilliseconds: String? = nil, certificateExpiryInMilliseconds: String? = nil, groupId: String? = nil) {
+            self.certificateAuthorityExpiryInMilliseconds = certificateAuthorityExpiryInMilliseconds
+            self.certificateExpiryInMilliseconds = certificateExpiryInMilliseconds
+            self.groupId = groupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthorityExpiryInMilliseconds = "CertificateAuthorityExpiryInMilliseconds"
+            case certificateExpiryInMilliseconds = "CertificateExpiryInMilliseconds"
+            case groupId = "GroupId"
+        }
+    }
+
+    public struct GetGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        ]
+        public let groupId: String
+
+        public init(groupId: String) {
+            self.groupId = groupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
+        }
+    }
+
+    public struct GetGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let arn: String?
+        public let creationTimestamp: String?
+        public let id: String?
+        public let lastUpdatedTimestamp: String?
+        public let latestVersion: String?
+        public let latestVersionArn: String?
+        public let name: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.latestVersion = latestVersion
+            self.latestVersionArn = latestVersionArn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersion = "LatestVersion"
+            case latestVersionArn = "LatestVersionArn"
+            case name = "Name"
+        }
+    }
+
+    public struct GetGroupVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
+            AWSShapeMember(label: "GroupVersionId", location: .uri(locationName: "GroupVersionId"), required: true, type: .string)
+        ]
+        public let groupId: String
+        public let groupVersionId: String
+
+        public init(groupId: String, groupVersionId: String) {
+            self.groupId = groupId
+            self.groupVersionId = groupVersionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
+            case groupVersionId = "GroupVersionId"
+        }
+    }
+
+    public struct GetGroupVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Definition", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        /// The ARN of the group version.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the group version was created.
+        public let creationTimestamp: String?
+        /// Information about the group version definition.
+        public let definition: GroupVersion?
+        /// The ID of the group version.
+        public let id: String?
+        /// The unique ID for the version of the group.
+        public let version: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, definition: GroupVersion? = nil, id: String? = nil, version: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.definition = definition
+            self.id = id
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case definition = "Definition"
+            case id = "Id"
+            case version = "Version"
+        }
+    }
+
+    public struct GetLoggerDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string)
+        ]
+        public let loggerDefinitionId: String
+
+        public init(loggerDefinitionId: String) {
+            self.loggerDefinitionId = loggerDefinitionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loggerDefinitionId = "LoggerDefinitionId"
+        }
+    }
+
+    public struct GetLoggerDefinitionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let arn: String?
+        public let creationTimestamp: String?
+        public let id: String?
+        public let lastUpdatedTimestamp: String?
+        public let latestVersion: String?
+        public let latestVersionArn: String?
+        public let name: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.latestVersion = latestVersion
+            self.latestVersionArn = latestVersionArn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersion = "LatestVersion"
+            case latestVersionArn = "LatestVersionArn"
+            case name = "Name"
+        }
+    }
+
+    public struct GetLoggerDefinitionVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "LoggerDefinitionVersionId", location: .uri(locationName: "LoggerDefinitionVersionId"), required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        ]
+        public let loggerDefinitionId: String
+        public let loggerDefinitionVersionId: String
+        public let nextToken: String?
+
+        public init(loggerDefinitionId: String, loggerDefinitionVersionId: String, nextToken: String? = nil) {
+            self.loggerDefinitionId = loggerDefinitionId
+            self.loggerDefinitionVersionId = loggerDefinitionVersionId
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loggerDefinitionId = "LoggerDefinitionId"
+            case loggerDefinitionVersionId = "LoggerDefinitionVersionId"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetLoggerDefinitionVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Definition", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        /// The ARN of the logger definition version.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the logger definition version was created.
+        public let creationTimestamp: String?
+        /// Information about the logger definition version.
+        public let definition: LoggerDefinitionVersion?
+        /// The ID of the logger definition version.
+        public let id: String?
+        /// The version of the logger definition version.
+        public let version: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, definition: LoggerDefinitionVersion? = nil, id: String? = nil, version: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.definition = definition
+            self.id = id
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case definition = "Definition"
+            case id = "Id"
+            case version = "Version"
+        }
+    }
+
+    public struct GetResourceDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"), required: true, type: .string)
+        ]
+        public let resourceDefinitionId: String
+
+        public init(resourceDefinitionId: String) {
+            self.resourceDefinitionId = resourceDefinitionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceDefinitionId = "ResourceDefinitionId"
+        }
+    }
+
+    public struct GetResourceDefinitionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let arn: String?
+        public let creationTimestamp: String?
+        public let id: String?
+        public let lastUpdatedTimestamp: String?
+        public let latestVersion: String?
+        public let latestVersionArn: String?
+        public let name: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.latestVersion = latestVersion
+            self.latestVersionArn = latestVersionArn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersion = "LatestVersion"
+            case latestVersionArn = "LatestVersionArn"
+            case name = "Name"
+        }
+    }
+
+    public struct GetResourceDefinitionVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "ResourceDefinitionVersionId", location: .uri(locationName: "ResourceDefinitionVersionId"), required: true, type: .string)
+        ]
+        public let resourceDefinitionId: String
+        public let resourceDefinitionVersionId: String
+
+        public init(resourceDefinitionId: String, resourceDefinitionVersionId: String) {
+            self.resourceDefinitionId = resourceDefinitionId
+            self.resourceDefinitionVersionId = resourceDefinitionVersionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceDefinitionId = "ResourceDefinitionId"
+            case resourceDefinitionVersionId = "ResourceDefinitionVersionId"
+        }
+    }
+
+    public struct GetResourceDefinitionVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Definition", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        /// Arn of the resource definition version.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the resource definition version was created.
+        public let creationTimestamp: String?
+        /// Information about the definition.
+        public let definition: ResourceDefinitionVersion?
+        /// The ID of the resource definition version.
+        public let id: String?
+        /// The version of the resource definition version.
+        public let version: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, definition: ResourceDefinitionVersion? = nil, id: String? = nil, version: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.definition = definition
+            self.id = id
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case definition = "Definition"
+            case id = "Id"
+            case version = "Version"
+        }
+    }
+
+    public struct GetServiceRoleForAccountRequest: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct GetServiceRoleForAccountResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssociatedAt", required: false, type: .string), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string)
+        ]
+        /// The time when the service role was associated with the account.
+        public let associatedAt: String?
+        /// The ARN of the role which is associated with the account.
+        public let roleArn: String?
+
+        public init(associatedAt: String? = nil, roleArn: String? = nil) {
+            self.associatedAt = associatedAt
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedAt = "AssociatedAt"
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public struct GetSubscriptionDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string)
+        ]
+        public let subscriptionDefinitionId: String
+
+        public init(subscriptionDefinitionId: String) {
+            self.subscriptionDefinitionId = subscriptionDefinitionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionDefinitionId = "SubscriptionDefinitionId"
+        }
+    }
+
+    public struct GetSubscriptionDefinitionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let arn: String?
+        public let creationTimestamp: String?
+        public let id: String?
+        public let lastUpdatedTimestamp: String?
+        public let latestVersion: String?
+        public let latestVersionArn: String?
+        public let name: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.latestVersion = latestVersion
+            self.latestVersionArn = latestVersionArn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersion = "LatestVersion"
+            case latestVersionArn = "LatestVersionArn"
+            case name = "Name"
+        }
+    }
+
+    public struct GetSubscriptionDefinitionVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "SubscriptionDefinitionVersionId", location: .uri(locationName: "SubscriptionDefinitionVersionId"), required: true, type: .string)
+        ]
+        public let nextToken: String?
+        public let subscriptionDefinitionId: String
+        public let subscriptionDefinitionVersionId: String
+
+        public init(nextToken: String? = nil, subscriptionDefinitionId: String, subscriptionDefinitionVersionId: String) {
+            self.nextToken = nextToken
+            self.subscriptionDefinitionId = subscriptionDefinitionId
+            self.subscriptionDefinitionVersionId = subscriptionDefinitionVersionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case subscriptionDefinitionId = "SubscriptionDefinitionId"
+            case subscriptionDefinitionVersionId = "SubscriptionDefinitionVersionId"
+        }
+    }
+
+    public struct GetSubscriptionDefinitionVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Definition", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        /// The ARN of the subscription definition version.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the subscription definition version was created.
+        public let creationTimestamp: String?
+        /// Information about the subscription definition version.
+        public let definition: SubscriptionDefinitionVersion?
+        /// The ID of the subscription definition version.
+        public let id: String?
+        /// The token for the next set of results, or ''null'' if there are no additional results.
+        public let nextToken: String?
+        /// The version of the subscription definition version.
+        public let version: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, definition: SubscriptionDefinitionVersion? = nil, id: String? = nil, nextToken: String? = nil, version: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.definition = definition
+            self.id = id
+            self.nextToken = nextToken
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case definition = "Definition"
+            case id = "Id"
+            case nextToken = "NextToken"
+            case version = "Version"
+        }
+    }
+
+    public struct GroupCertificateAuthorityProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupCertificateAuthorityArn", required: false, type: .string), 
+            AWSShapeMember(label: "GroupCertificateAuthorityId", required: false, type: .string)
+        ]
+        /// The ARN of the certificate authority for the group.
+        public let groupCertificateAuthorityArn: String?
+        /// The ID of the certificate authority for the group.
+        public let groupCertificateAuthorityId: String?
+
+        public init(groupCertificateAuthorityArn: String? = nil, groupCertificateAuthorityId: String? = nil) {
+            self.groupCertificateAuthorityArn = groupCertificateAuthorityArn
+            self.groupCertificateAuthorityId = groupCertificateAuthorityId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupCertificateAuthorityArn = "GroupCertificateAuthorityArn"
+            case groupCertificateAuthorityId = "GroupCertificateAuthorityId"
+        }
+    }
+
+    public struct GroupCertificateConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateAuthorityExpiryInMilliseconds", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateExpiryInMilliseconds", required: false, type: .string), 
+            AWSShapeMember(label: "GroupId", required: false, type: .string)
+        ]
+        /// The amount of time remaining before the certificate authority expires, in milliseconds.
+        public let certificateAuthorityExpiryInMilliseconds: String?
+        /// The amount of time remaining before the certificate expires, in milliseconds.
+        public let certificateExpiryInMilliseconds: String?
+        /// The ID of the group certificate configuration.
+        public let groupId: String?
+
+        public init(certificateAuthorityExpiryInMilliseconds: String? = nil, certificateExpiryInMilliseconds: String? = nil, groupId: String? = nil) {
+            self.certificateAuthorityExpiryInMilliseconds = certificateAuthorityExpiryInMilliseconds
+            self.certificateExpiryInMilliseconds = certificateExpiryInMilliseconds
+            self.groupId = groupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthorityExpiryInMilliseconds = "CertificateAuthorityExpiryInMilliseconds"
+            case certificateExpiryInMilliseconds = "CertificateExpiryInMilliseconds"
+            case groupId = "GroupId"
+        }
+    }
+
+    public struct GroupInformation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The ARN of the group.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the group was created.
+        public let creationTimestamp: String?
+        /// The ID of the group.
+        public let id: String?
+        /// The time, in milliseconds since the epoch, when the group was last updated.
+        public let lastUpdatedTimestamp: String?
+        /// The latest version of the group.
+        public let latestVersion: String?
+        /// The ARN of the latest version of the group.
+        public let latestVersionArn: String?
+        /// The name of the group.
+        public let name: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.latestVersion = latestVersion
+            self.latestVersionArn = latestVersionArn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersion = "LatestVersion"
+            case latestVersionArn = "LatestVersionArn"
+            case name = "Name"
+        }
+    }
+
+    public struct GroupOwnerSetting: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoAddGroupOwner", required: false, type: .boolean), 
+            AWSShapeMember(label: "GroupOwner", required: false, type: .string)
+        ]
+        /// If true, AWS IoT Greengrass automatically adds the specified Linux OS group owner of the resource to the Lambda process privileges. Thus the Lambda process will have the file access permissions of the added Linux group.
+        public let autoAddGroupOwner: Bool?
+        /// The name of the Linux OS group whose privileges will be added to the Lambda process. This field is optional.
+        public let groupOwner: String?
+
+        public init(autoAddGroupOwner: Bool? = nil, groupOwner: String? = nil) {
+            self.autoAddGroupOwner = autoAddGroupOwner
+            self.groupOwner = groupOwner
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoAddGroupOwner = "AutoAddGroupOwner"
+            case groupOwner = "GroupOwner"
+        }
+    }
+
+    public struct GroupVersion: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectorDefinitionVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "CoreDefinitionVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "DeviceDefinitionVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "FunctionDefinitionVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "LoggerDefinitionVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceDefinitionVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionDefinitionVersionArn", required: false, type: .string)
+        ]
+        /// The ARN of the connector definition version for this group.
+        public let connectorDefinitionVersionArn: String?
+        /// The ARN of the core definition version for this group.
+        public let coreDefinitionVersionArn: String?
+        /// The ARN of the device definition version for this group.
+        public let deviceDefinitionVersionArn: String?
+        /// The ARN of the function definition version for this group.
+        public let functionDefinitionVersionArn: String?
+        /// The ARN of the logger definition version for this group.
+        public let loggerDefinitionVersionArn: String?
+        /// The ARN of the resource definition version for this group.
+        public let resourceDefinitionVersionArn: String?
+        /// The ARN of the subscription definition version for this group.
+        public let subscriptionDefinitionVersionArn: String?
+
+        public init(connectorDefinitionVersionArn: String? = nil, coreDefinitionVersionArn: String? = nil, deviceDefinitionVersionArn: String? = nil, functionDefinitionVersionArn: String? = nil, loggerDefinitionVersionArn: String? = nil, resourceDefinitionVersionArn: String? = nil, subscriptionDefinitionVersionArn: String? = nil) {
+            self.connectorDefinitionVersionArn = connectorDefinitionVersionArn
+            self.coreDefinitionVersionArn = coreDefinitionVersionArn
+            self.deviceDefinitionVersionArn = deviceDefinitionVersionArn
+            self.functionDefinitionVersionArn = functionDefinitionVersionArn
+            self.loggerDefinitionVersionArn = loggerDefinitionVersionArn
+            self.resourceDefinitionVersionArn = resourceDefinitionVersionArn
+            self.subscriptionDefinitionVersionArn = subscriptionDefinitionVersionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorDefinitionVersionArn = "ConnectorDefinitionVersionArn"
+            case coreDefinitionVersionArn = "CoreDefinitionVersionArn"
+            case deviceDefinitionVersionArn = "DeviceDefinitionVersionArn"
+            case functionDefinitionVersionArn = "FunctionDefinitionVersionArn"
+            case loggerDefinitionVersionArn = "LoggerDefinitionVersionArn"
+            case resourceDefinitionVersionArn = "ResourceDefinitionVersionArn"
+            case subscriptionDefinitionVersionArn = "SubscriptionDefinitionVersionArn"
+        }
+    }
+
+    public struct ListBulkDeploymentDetailedReportsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BulkDeploymentId", location: .uri(locationName: "BulkDeploymentId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        ]
+        public let bulkDeploymentId: String
+        public let maxResults: String?
+        public let nextToken: String?
+
+        public init(bulkDeploymentId: String, maxResults: String? = nil, nextToken: String? = nil) {
+            self.bulkDeploymentId = bulkDeploymentId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bulkDeploymentId = "BulkDeploymentId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListBulkDeploymentDetailedReportsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Deployments", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of the individual group deployments in the bulk deployment operation.
+        public let deployments: [BulkDeploymentResult]?
+        /// The token for the next set of results, or ''null'' if there are no additional results.
+        public let nextToken: String?
+
+        public init(deployments: [BulkDeploymentResult]? = nil, nextToken: String? = nil) {
+            self.deployments = deployments
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deployments = "Deployments"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListBulkDeploymentsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
@@ -4517,63 +3431,228 @@ extension Greengrass {
         }
     }
 
-    public struct GetSubscriptionDefinitionResponse: AWSShape {
+    public struct ListBulkDeploymentsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string)
+            AWSShapeMember(label: "BulkDeployments", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        public let creationTimestamp: String?
-        public let arn: String?
-        public let latestVersion: String?
-        public let id: String?
-        public let latestVersionArn: String?
-        public let name: String?
-        public let lastUpdatedTimestamp: String?
+        /// A list of bulk deployments.
+        public let bulkDeployments: [BulkDeployment]?
+        /// The token for the next set of results, or ''null'' if there are no additional results.
+        public let nextToken: String?
 
-        public init(creationTimestamp: String? = nil, arn: String? = nil, latestVersion: String? = nil, id: String? = nil, latestVersionArn: String? = nil, name: String? = nil, lastUpdatedTimestamp: String? = nil) {
-            self.creationTimestamp = creationTimestamp
-            self.arn = arn
-            self.latestVersion = latestVersion
-            self.id = id
-            self.latestVersionArn = latestVersionArn
-            self.name = name
-            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+        public init(bulkDeployments: [BulkDeployment]? = nil, nextToken: String? = nil) {
+            self.bulkDeployments = bulkDeployments
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTimestamp = "CreationTimestamp"
-            case arn = "Arn"
-            case latestVersion = "LatestVersion"
-            case id = "Id"
-            case latestVersionArn = "LatestVersionArn"
-            case name = "Name"
-            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case bulkDeployments = "BulkDeployments"
+            case nextToken = "NextToken"
         }
     }
 
-    public struct GetServiceRoleForAccountResponse: AWSShape {
+    public struct ListConnectorDefinitionVersionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "AssociatedAt", required: false, type: .string)
+            AWSShapeMember(label: "ConnectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
-        /// The ARN of the role which is associated with the account.
-        public let roleArn: String?
-        /// The time when the service role was associated with the account.
-        public let associatedAt: String?
+        public let connectorDefinitionId: String
+        public let maxResults: String?
+        public let nextToken: String?
 
-        public init(roleArn: String? = nil, associatedAt: String? = nil) {
-            self.roleArn = roleArn
-            self.associatedAt = associatedAt
+        public init(connectorDefinitionId: String, maxResults: String? = nil, nextToken: String? = nil) {
+            self.connectorDefinitionId = connectorDefinitionId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case roleArn = "RoleArn"
-            case associatedAt = "AssociatedAt"
+            case connectorDefinitionId = "ConnectorDefinitionId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListConnectorDefinitionVersionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Versions", required: false, type: .list)
+        ]
+        public let nextToken: String?
+        public let versions: [VersionInformation]?
+
+        public init(nextToken: String? = nil, versions: [VersionInformation]? = nil) {
+            self.nextToken = nextToken
+            self.versions = versions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case versions = "Versions"
+        }
+    }
+
+    public struct ListConnectorDefinitionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        ]
+        public let maxResults: String?
+        public let nextToken: String?
+
+        public init(maxResults: String? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListConnectorDefinitionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Definitions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        public let definitions: [DefinitionInformation]?
+        public let nextToken: String?
+
+        public init(definitions: [DefinitionInformation]? = nil, nextToken: String? = nil) {
+            self.definitions = definitions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case definitions = "Definitions"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCoreDefinitionVersionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        ]
+        public let coreDefinitionId: String
+        public let maxResults: String?
+        public let nextToken: String?
+
+        public init(coreDefinitionId: String, maxResults: String? = nil, nextToken: String? = nil) {
+            self.coreDefinitionId = coreDefinitionId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreDefinitionId = "CoreDefinitionId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCoreDefinitionVersionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Versions", required: false, type: .list)
+        ]
+        public let nextToken: String?
+        public let versions: [VersionInformation]?
+
+        public init(nextToken: String? = nil, versions: [VersionInformation]? = nil) {
+            self.nextToken = nextToken
+            self.versions = versions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case versions = "Versions"
+        }
+    }
+
+    public struct ListCoreDefinitionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        ]
+        public let maxResults: String?
+        public let nextToken: String?
+
+        public init(maxResults: String? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCoreDefinitionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Definitions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        public let definitions: [DefinitionInformation]?
+        public let nextToken: String?
+
+        public init(definitions: [DefinitionInformation]? = nil, nextToken: String? = nil) {
+            self.definitions = definitions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case definitions = "Definitions"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDefinitionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Definitions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Information about a definition.
+        public let definitions: [DefinitionInformation]?
+        /// The token for the next set of results, or ''null'' if there are no additional results.
+        public let nextToken: String?
+
+        public init(definitions: [DefinitionInformation]? = nil, nextToken: String? = nil) {
+            self.definitions = definitions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case definitions = "Definitions"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDeploymentsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        ]
+        public let groupId: String
+        public let maxResults: String?
+        public let nextToken: String?
+
+        public init(groupId: String, maxResults: String? = nil, nextToken: String? = nil) {
+            self.groupId = groupId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
         }
     }
 
@@ -4598,128 +3677,497 @@ extension Greengrass {
         }
     }
 
-    public struct ListVersionsResponse: AWSShape {
+    public struct ListDeviceDefinitionVersionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Versions", required: false, type: .list), 
+            AWSShapeMember(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        ]
+        public let deviceDefinitionId: String
+        public let maxResults: String?
+        public let nextToken: String?
+
+        public init(deviceDefinitionId: String, maxResults: String? = nil, nextToken: String? = nil) {
+            self.deviceDefinitionId = deviceDefinitionId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceDefinitionId = "DeviceDefinitionId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDeviceDefinitionVersionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Versions", required: false, type: .list)
+        ]
+        public let nextToken: String?
+        public let versions: [VersionInformation]?
+
+        public init(nextToken: String? = nil, versions: [VersionInformation]? = nil) {
+            self.nextToken = nextToken
+            self.versions = versions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case versions = "Versions"
+        }
+    }
+
+    public struct ListDeviceDefinitionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        ]
+        public let maxResults: String?
+        public let nextToken: String?
+
+        public init(maxResults: String? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDeviceDefinitionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Definitions", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// Information about a version.
+        public let definitions: [DefinitionInformation]?
+        public let nextToken: String?
+
+        public init(definitions: [DefinitionInformation]? = nil, nextToken: String? = nil) {
+            self.definitions = definitions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case definitions = "Definitions"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListFunctionDefinitionVersionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        ]
+        public let functionDefinitionId: String
+        public let maxResults: String?
+        public let nextToken: String?
+
+        public init(functionDefinitionId: String, maxResults: String? = nil, nextToken: String? = nil) {
+            self.functionDefinitionId = functionDefinitionId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionDefinitionId = "FunctionDefinitionId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListFunctionDefinitionVersionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Versions", required: false, type: .list)
+        ]
+        public let nextToken: String?
         public let versions: [VersionInformation]?
+
+        public init(nextToken: String? = nil, versions: [VersionInformation]? = nil) {
+            self.nextToken = nextToken
+            self.versions = versions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case versions = "Versions"
+        }
+    }
+
+    public struct ListFunctionDefinitionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        ]
+        public let maxResults: String?
+        public let nextToken: String?
+
+        public init(maxResults: String? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListFunctionDefinitionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Definitions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        public let definitions: [DefinitionInformation]?
+        public let nextToken: String?
+
+        public init(definitions: [DefinitionInformation]? = nil, nextToken: String? = nil) {
+            self.definitions = definitions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case definitions = "Definitions"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListGroupCertificateAuthoritiesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        ]
+        public let groupId: String
+
+        public init(groupId: String) {
+            self.groupId = groupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
+        }
+    }
+
+    public struct ListGroupCertificateAuthoritiesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupCertificateAuthorities", required: false, type: .list)
+        ]
+        /// A list of certificate authorities associated with the group.
+        public let groupCertificateAuthorities: [GroupCertificateAuthorityProperties]?
+
+        public init(groupCertificateAuthorities: [GroupCertificateAuthorityProperties]? = nil) {
+            self.groupCertificateAuthorities = groupCertificateAuthorities
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupCertificateAuthorities = "GroupCertificateAuthorities"
+        }
+    }
+
+    public struct ListGroupVersionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        ]
+        public let groupId: String
+        public let maxResults: String?
+        public let nextToken: String?
+
+        public init(groupId: String, maxResults: String? = nil, nextToken: String? = nil) {
+            self.groupId = groupId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListGroupVersionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Versions", required: false, type: .list)
+        ]
+        public let nextToken: String?
+        public let versions: [VersionInformation]?
+
+        public init(nextToken: String? = nil, versions: [VersionInformation]? = nil) {
+            self.nextToken = nextToken
+            self.versions = versions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case versions = "Versions"
+        }
+    }
+
+    public struct ListGroupsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        ]
+        public let maxResults: String?
+        public let nextToken: String?
+
+        public init(maxResults: String? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListGroupsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Groups", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Information about a group.
+        public let groups: [GroupInformation]?
         /// The token for the next set of results, or ''null'' if there are no additional results.
         public let nextToken: String?
 
-        public init(versions: [VersionInformation]? = nil, nextToken: String? = nil) {
-            self.versions = versions
+        public init(groups: [GroupInformation]? = nil, nextToken: String? = nil) {
+            self.groups = groups
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case versions = "Versions"
+            case groups = "Groups"
             case nextToken = "NextToken"
         }
     }
 
-    public struct ResourceDefinitionVersion: AWSShape {
+    public struct ListLoggerDefinitionVersionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Resources", required: false, type: .list)
-        ]
-        /// A list of resources.
-        public let resources: [Resource]?
-
-        public init(resources: [Resource]? = nil) {
-            self.resources = resources
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resources = "Resources"
-        }
-    }
-
-    public enum UpdateTargetsOperatingSystem: String, CustomStringConvertible, Codable {
-        case ubuntu = "ubuntu"
-        case raspbian = "raspbian"
-        case amazonLinux = "amazon_linux"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateFunctionDefinitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string)
-        ]
-        public let creationTimestamp: String?
-        public let arn: String?
-        public let latestVersion: String?
-        public let id: String?
-        public let latestVersionArn: String?
-        public let name: String?
-        public let lastUpdatedTimestamp: String?
-
-        public init(creationTimestamp: String? = nil, arn: String? = nil, latestVersion: String? = nil, id: String? = nil, latestVersionArn: String? = nil, name: String? = nil, lastUpdatedTimestamp: String? = nil) {
-            self.creationTimestamp = creationTimestamp
-            self.arn = arn
-            self.latestVersion = latestVersion
-            self.id = id
-            self.latestVersionArn = latestVersionArn
-            self.name = name
-            self.lastUpdatedTimestamp = lastUpdatedTimestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationTimestamp = "CreationTimestamp"
-            case arn = "Arn"
-            case latestVersion = "LatestVersion"
-            case id = "Id"
-            case latestVersionArn = "LatestVersionArn"
-            case name = "Name"
-            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
-        }
-    }
-
-    public struct GetSubscriptionDefinitionVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string), 
-            AWSShapeMember(label: "SubscriptionDefinitionVersionId", location: .uri(locationName: "SubscriptionDefinitionVersionId"), required: true, type: .string), 
+            AWSShapeMember(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
-        public let subscriptionDefinitionId: String
-        public let subscriptionDefinitionVersionId: String
+        public let loggerDefinitionId: String
+        public let maxResults: String?
         public let nextToken: String?
 
-        public init(subscriptionDefinitionId: String, subscriptionDefinitionVersionId: String, nextToken: String? = nil) {
-            self.subscriptionDefinitionId = subscriptionDefinitionId
-            self.subscriptionDefinitionVersionId = subscriptionDefinitionVersionId
+        public init(loggerDefinitionId: String, maxResults: String? = nil, nextToken: String? = nil) {
+            self.loggerDefinitionId = loggerDefinitionId
+            self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subscriptionDefinitionId = "SubscriptionDefinitionId"
-            case subscriptionDefinitionVersionId = "SubscriptionDefinitionVersionId"
+            case loggerDefinitionId = "LoggerDefinitionId"
+            case maxResults = "MaxResults"
             case nextToken = "NextToken"
         }
     }
 
-    public struct UpdateSubscriptionDefinitionRequest: AWSShape {
+    public struct ListLoggerDefinitionVersionsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Versions", required: false, type: .list)
         ]
-        public let subscriptionDefinitionId: String
-        public let name: String?
+        public let nextToken: String?
+        public let versions: [VersionInformation]?
 
-        public init(subscriptionDefinitionId: String, name: String? = nil) {
-            self.subscriptionDefinitionId = subscriptionDefinitionId
-            self.name = name
+        public init(nextToken: String? = nil, versions: [VersionInformation]? = nil) {
+            self.nextToken = nextToken
+            self.versions = versions
         }
 
         private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case versions = "Versions"
+        }
+    }
+
+    public struct ListLoggerDefinitionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        ]
+        public let maxResults: String?
+        public let nextToken: String?
+
+        public init(maxResults: String? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListLoggerDefinitionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Definitions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        public let definitions: [DefinitionInformation]?
+        public let nextToken: String?
+
+        public init(definitions: [DefinitionInformation]? = nil, nextToken: String? = nil) {
+            self.definitions = definitions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case definitions = "Definitions"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListResourceDefinitionVersionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "ResourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"), required: true, type: .string)
+        ]
+        public let maxResults: String?
+        public let nextToken: String?
+        public let resourceDefinitionId: String
+
+        public init(maxResults: String? = nil, nextToken: String? = nil, resourceDefinitionId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceDefinitionId = resourceDefinitionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case resourceDefinitionId = "ResourceDefinitionId"
+        }
+    }
+
+    public struct ListResourceDefinitionVersionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Versions", required: false, type: .list)
+        ]
+        public let nextToken: String?
+        public let versions: [VersionInformation]?
+
+        public init(nextToken: String? = nil, versions: [VersionInformation]? = nil) {
+            self.nextToken = nextToken
+            self.versions = versions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case versions = "Versions"
+        }
+    }
+
+    public struct ListResourceDefinitionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        ]
+        public let maxResults: String?
+        public let nextToken: String?
+
+        public init(maxResults: String? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListResourceDefinitionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Definitions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        public let definitions: [DefinitionInformation]?
+        public let nextToken: String?
+
+        public init(definitions: [DefinitionInformation]? = nil, nextToken: String? = nil) {
+            self.definitions = definitions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case definitions = "Definitions"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListSubscriptionDefinitionVersionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string)
+        ]
+        public let maxResults: String?
+        public let nextToken: String?
+        public let subscriptionDefinitionId: String
+
+        public init(maxResults: String? = nil, nextToken: String? = nil, subscriptionDefinitionId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.subscriptionDefinitionId = subscriptionDefinitionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
             case subscriptionDefinitionId = "SubscriptionDefinitionId"
-            case name = "Name"
+        }
+    }
+
+    public struct ListSubscriptionDefinitionVersionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Versions", required: false, type: .list)
+        ]
+        public let nextToken: String?
+        public let versions: [VersionInformation]?
+
+        public init(nextToken: String? = nil, versions: [VersionInformation]? = nil) {
+            self.nextToken = nextToken
+            self.versions = versions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case versions = "Versions"
+        }
+    }
+
+    public struct ListSubscriptionDefinitionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        ]
+        public let maxResults: String?
+        public let nextToken: String?
+
+        public init(maxResults: String? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
         }
     }
 
@@ -4742,178 +4190,462 @@ extension Greengrass {
         }
     }
 
-    public struct ListResourceDefinitionVersionsRequest: AWSShape {
+    public struct ListVersionsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "ResourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"), required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Versions", required: false, type: .list)
         ]
-        public let maxResults: String?
-        public let resourceDefinitionId: String
+        /// The token for the next set of results, or ''null'' if there are no additional results.
         public let nextToken: String?
+        /// Information about a version.
+        public let versions: [VersionInformation]?
 
-        public init(maxResults: String? = nil, resourceDefinitionId: String, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.resourceDefinitionId = resourceDefinitionId
+        public init(nextToken: String? = nil, versions: [VersionInformation]? = nil) {
             self.nextToken = nextToken
+            self.versions = versions
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case resourceDefinitionId = "ResourceDefinitionId"
             case nextToken = "NextToken"
+            case versions = "Versions"
         }
     }
 
-    public struct GetResourceDefinitionVersionRequest: AWSShape {
+    public struct LocalDeviceResourceData: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceDefinitionVersionId", location: .uri(locationName: "ResourceDefinitionVersionId"), required: true, type: .string), 
-            AWSShapeMember(label: "ResourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"), required: true, type: .string)
+            AWSShapeMember(label: "GroupOwnerSetting", required: false, type: .structure), 
+            AWSShapeMember(label: "SourcePath", required: false, type: .string)
         ]
-        public let resourceDefinitionVersionId: String
-        public let resourceDefinitionId: String
+        /// Group/owner related settings for local resources.
+        public let groupOwnerSetting: GroupOwnerSetting?
+        /// The local absolute path of the device resource. The source path for a device resource can refer only to a character device or block device under ''/dev''.
+        public let sourcePath: String?
 
-        public init(resourceDefinitionVersionId: String, resourceDefinitionId: String) {
-            self.resourceDefinitionVersionId = resourceDefinitionVersionId
-            self.resourceDefinitionId = resourceDefinitionId
+        public init(groupOwnerSetting: GroupOwnerSetting? = nil, sourcePath: String? = nil) {
+            self.groupOwnerSetting = groupOwnerSetting
+            self.sourcePath = sourcePath
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceDefinitionVersionId = "ResourceDefinitionVersionId"
-            case resourceDefinitionId = "ResourceDefinitionId"
+            case groupOwnerSetting = "GroupOwnerSetting"
+            case sourcePath = "SourcePath"
         }
     }
 
-    public struct FunctionDefaultExecutionConfig: AWSShape {
+    public struct LocalVolumeResourceData: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IsolationMode", required: false, type: .enum)
+            AWSShapeMember(label: "DestinationPath", required: false, type: .string), 
+            AWSShapeMember(label: "GroupOwnerSetting", required: false, type: .structure), 
+            AWSShapeMember(label: "SourcePath", required: false, type: .string)
         ]
-        public let isolationMode: FunctionIsolationMode?
+        /// The absolute local path of the resource inside the Lambda environment.
+        public let destinationPath: String?
+        /// Allows you to configure additional group privileges for the Lambda process. This field is optional.
+        public let groupOwnerSetting: GroupOwnerSetting?
+        /// The local absolute path of the volume resource on the host. The source path for a volume resource type cannot start with ''/sys''.
+        public let sourcePath: String?
 
-        public init(isolationMode: FunctionIsolationMode? = nil) {
-            self.isolationMode = isolationMode
+        public init(destinationPath: String? = nil, groupOwnerSetting: GroupOwnerSetting? = nil, sourcePath: String? = nil) {
+            self.destinationPath = destinationPath
+            self.groupOwnerSetting = groupOwnerSetting
+            self.sourcePath = sourcePath
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isolationMode = "IsolationMode"
+            case destinationPath = "DestinationPath"
+            case groupOwnerSetting = "GroupOwnerSetting"
+            case sourcePath = "SourcePath"
         }
     }
 
-    public struct GetGroupVersionResponse: AWSShape {
+    public struct Logger: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Definition", required: false, type: .structure), 
+            AWSShapeMember(label: "Component", required: false, type: .enum), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .string)
+            AWSShapeMember(label: "Level", required: false, type: .enum), 
+            AWSShapeMember(label: "Space", required: false, type: .integer), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
-        /// The ARN of the group version.
-        public let arn: String?
-        /// Information about the group version definition.
-        public let definition: GroupVersion?
-        /// The ID of the group version.
+        /// The component that will be subject to logging.
+        public let component: LoggerComponent?
+        /// A descriptive or arbitrary ID for the logger. This value must be unique within the logger definition version. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''.
         public let id: String?
-        /// The time, in milliseconds since the epoch, when the group version was created.
-        public let creationTimestamp: String?
-        /// The unique ID for the version of the group.
-        public let version: String?
+        /// The level of the logs.
+        public let level: LoggerLevel?
+        /// The amount of file space, in KB, to use if the local file system is used for logging purposes.
+        public let space: Int32?
+        /// The type of log output which will be used.
+        public let `type`: LoggerType?
 
-        public init(arn: String? = nil, definition: GroupVersion? = nil, id: String? = nil, creationTimestamp: String? = nil, version: String? = nil) {
-            self.arn = arn
-            self.definition = definition
+        public init(component: LoggerComponent? = nil, id: String? = nil, level: LoggerLevel? = nil, space: Int32? = nil, type: LoggerType? = nil) {
+            self.component = component
             self.id = id
-            self.creationTimestamp = creationTimestamp
-            self.version = version
+            self.level = level
+            self.space = space
+            self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case definition = "Definition"
+            case component = "Component"
             case id = "Id"
-            case creationTimestamp = "CreationTimestamp"
-            case version = "Version"
+            case level = "Level"
+            case space = "Space"
+            case `type` = "Type"
         }
     }
 
-    public struct ListConnectorDefinitionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
-        ]
-        public let maxResults: String?
-        public let nextToken: String?
+    public enum LoggerComponent: String, CustomStringConvertible, Codable {
+        case greengrasssystem = "GreengrassSystem"
+        case lambda = "Lambda"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(maxResults: String? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
+    public struct LoggerDefinitionVersion: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Loggers", required: false, type: .list)
+        ]
+        /// A list of loggers.
+        public let loggers: [Logger]?
+
+        public init(loggers: [Logger]? = nil) {
+            self.loggers = loggers
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
+            case loggers = "Loggers"
         }
     }
 
-    public struct DeleteDeviceDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string)
-        ]
-        public let deviceDefinitionId: String
+    public enum LoggerLevel: String, CustomStringConvertible, Codable {
+        case debug = "DEBUG"
+        case info = "INFO"
+        case warn = "WARN"
+        case error = "ERROR"
+        case fatal = "FATAL"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(deviceDefinitionId: String) {
-            self.deviceDefinitionId = deviceDefinitionId
+    public enum LoggerType: String, CustomStringConvertible, Codable {
+        case filesystem = "FileSystem"
+        case awscloudwatch = "AWSCloudWatch"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Permission: String, CustomStringConvertible, Codable {
+        case ro = "ro"
+        case rw = "rw"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ResetDeploymentsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "Force", required: false, type: .boolean), 
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        ]
+        public let amznClientToken: String?
+        /// If true, performs a best-effort only core reset.
+        public let force: Bool?
+        public let groupId: String
+
+        public init(amznClientToken: String? = nil, force: Bool? = nil, groupId: String) {
+            self.amznClientToken = amznClientToken
+            self.force = force
+            self.groupId = groupId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceDefinitionId = "DeviceDefinitionId"
+            case amznClientToken = "X-Amzn-Client-Token"
+            case force = "Force"
+            case groupId = "GroupId"
         }
     }
 
-    public struct CreateSubscriptionDefinitionVersionResponse: AWSShape {
+    public struct ResetDeploymentsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentArn", required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentId", required: false, type: .string)
+        ]
+        /// The ARN of the deployment.
+        public let deploymentArn: String?
+        /// The ID of the deployment.
+        public let deploymentId: String?
+
+        public init(deploymentArn: String? = nil, deploymentId: String? = nil) {
+            self.deploymentArn = deploymentArn
+            self.deploymentId = deploymentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentArn = "DeploymentArn"
+            case deploymentId = "DeploymentId"
+        }
+    }
+
+    public struct Resource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceDataContainer", required: false, type: .structure)
         ]
-        public let arn: String?
+        /// The resource ID, used to refer to a resource in the Lambda function configuration. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''. This must be unique within a Greengrass group.
         public let id: String?
-        public let creationTimestamp: String?
-        public let version: String?
+        /// The descriptive resource name, which is displayed on the AWS IoT Greengrass console. Max length 128 characters with pattern ''[a-zA-Z0-9:_-]+''. This must be unique within a Greengrass group.
+        public let name: String?
+        /// A container of data for all resource types.
+        public let resourceDataContainer: ResourceDataContainer?
 
-        public init(arn: String? = nil, id: String? = nil, creationTimestamp: String? = nil, version: String? = nil) {
-            self.arn = arn
+        public init(id: String? = nil, name: String? = nil, resourceDataContainer: ResourceDataContainer? = nil) {
             self.id = id
-            self.creationTimestamp = creationTimestamp
-            self.version = version
+            self.name = name
+            self.resourceDataContainer = resourceDataContainer
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
             case id = "Id"
-            case creationTimestamp = "CreationTimestamp"
-            case version = "Version"
+            case name = "Name"
+            case resourceDataContainer = "ResourceDataContainer"
         }
     }
 
-    public struct GroupCertificateAuthorityProperties: AWSShape {
+    public struct ResourceAccessPolicy: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupCertificateAuthorityId", required: false, type: .string), 
-            AWSShapeMember(label: "GroupCertificateAuthorityArn", required: false, type: .string)
+            AWSShapeMember(label: "Permission", required: false, type: .enum), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .string)
         ]
-        /// The ID of the certificate authority for the group.
-        public let groupCertificateAuthorityId: String?
-        /// The ARN of the certificate authority for the group.
-        public let groupCertificateAuthorityArn: String?
+        /// The permissions that the Lambda function has to the resource. Can be one of ''rw'' (read/write) or ''ro'' (read-only).
+        public let permission: Permission?
+        /// The ID of the resource. (This ID is assigned to the resource when you create the resource definiton.)
+        public let resourceId: String?
 
-        public init(groupCertificateAuthorityId: String? = nil, groupCertificateAuthorityArn: String? = nil) {
-            self.groupCertificateAuthorityId = groupCertificateAuthorityId
-            self.groupCertificateAuthorityArn = groupCertificateAuthorityArn
+        public init(permission: Permission? = nil, resourceId: String? = nil) {
+            self.permission = permission
+            self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupCertificateAuthorityId = "GroupCertificateAuthorityId"
-            case groupCertificateAuthorityArn = "GroupCertificateAuthorityArn"
+            case permission = "Permission"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct ResourceDataContainer: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LocalDeviceResourceData", required: false, type: .structure), 
+            AWSShapeMember(label: "LocalVolumeResourceData", required: false, type: .structure), 
+            AWSShapeMember(label: "S3MachineLearningModelResourceData", required: false, type: .structure), 
+            AWSShapeMember(label: "SageMakerMachineLearningModelResourceData", required: false, type: .structure), 
+            AWSShapeMember(label: "SecretsManagerSecretResourceData", required: false, type: .structure)
+        ]
+        /// Attributes that define the local device resource.
+        public let localDeviceResourceData: LocalDeviceResourceData?
+        /// Attributes that define the local volume resource.
+        public let localVolumeResourceData: LocalVolumeResourceData?
+        /// Attributes that define an Amazon S3 machine learning resource.
+        public let s3MachineLearningModelResourceData: S3MachineLearningModelResourceData?
+        /// Attributes that define an Amazon SageMaker machine learning resource.
+        public let sageMakerMachineLearningModelResourceData: SageMakerMachineLearningModelResourceData?
+        /// Attributes that define a secret resource, which references a secret from AWS Secrets Manager.
+        public let secretsManagerSecretResourceData: SecretsManagerSecretResourceData?
+
+        public init(localDeviceResourceData: LocalDeviceResourceData? = nil, localVolumeResourceData: LocalVolumeResourceData? = nil, s3MachineLearningModelResourceData: S3MachineLearningModelResourceData? = nil, sageMakerMachineLearningModelResourceData: SageMakerMachineLearningModelResourceData? = nil, secretsManagerSecretResourceData: SecretsManagerSecretResourceData? = nil) {
+            self.localDeviceResourceData = localDeviceResourceData
+            self.localVolumeResourceData = localVolumeResourceData
+            self.s3MachineLearningModelResourceData = s3MachineLearningModelResourceData
+            self.sageMakerMachineLearningModelResourceData = sageMakerMachineLearningModelResourceData
+            self.secretsManagerSecretResourceData = secretsManagerSecretResourceData
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case localDeviceResourceData = "LocalDeviceResourceData"
+            case localVolumeResourceData = "LocalVolumeResourceData"
+            case s3MachineLearningModelResourceData = "S3MachineLearningModelResourceData"
+            case sageMakerMachineLearningModelResourceData = "SageMakerMachineLearningModelResourceData"
+            case secretsManagerSecretResourceData = "SecretsManagerSecretResourceData"
+        }
+    }
+
+    public struct ResourceDefinitionVersion: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Resources", required: false, type: .list)
+        ]
+        /// A list of resources.
+        public let resources: [Resource]?
+
+        public init(resources: [Resource]? = nil) {
+            self.resources = resources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resources = "Resources"
+        }
+    }
+
+    public struct S3MachineLearningModelResourceData: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationPath", required: false, type: .string), 
+            AWSShapeMember(label: "S3Uri", required: false, type: .string)
+        ]
+        /// The absolute local path of the resource inside the Lambda environment.
+        public let destinationPath: String?
+        /// The URI of the source model in an S3 bucket. The model package must be in tar.gz or .zip format.
+        public let s3Uri: String?
+
+        public init(destinationPath: String? = nil, s3Uri: String? = nil) {
+            self.destinationPath = destinationPath
+            self.s3Uri = s3Uri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationPath = "DestinationPath"
+            case s3Uri = "S3Uri"
+        }
+    }
+
+    public struct SageMakerMachineLearningModelResourceData: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationPath", required: false, type: .string), 
+            AWSShapeMember(label: "SageMakerJobArn", required: false, type: .string)
+        ]
+        /// The absolute local path of the resource inside the Lambda environment.
+        public let destinationPath: String?
+        /// The ARN of the Amazon SageMaker training job that represents the source model.
+        public let sageMakerJobArn: String?
+
+        public init(destinationPath: String? = nil, sageMakerJobArn: String? = nil) {
+            self.destinationPath = destinationPath
+            self.sageMakerJobArn = sageMakerJobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationPath = "DestinationPath"
+            case sageMakerJobArn = "SageMakerJobArn"
+        }
+    }
+
+    public struct SecretsManagerSecretResourceData: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ARN", required: false, type: .string), 
+            AWSShapeMember(label: "AdditionalStagingLabelsToDownload", required: false, type: .list)
+        ]
+        /// The ARN of the Secrets Manager secret to make available on the core. The value of the secret's latest version (represented by the ''AWSCURRENT'' staging label) is included by default.
+        public let arn: String?
+        /// Optional. The staging labels whose values you want to make available on the core, in addition to ''AWSCURRENT''.
+        public let additionalStagingLabelsToDownload: [String]?
+
+        public init(additionalStagingLabelsToDownload: [String]? = nil, arn: String? = nil) {
+            self.arn = arn
+            self.additionalStagingLabelsToDownload = additionalStagingLabelsToDownload
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case additionalStagingLabelsToDownload = "AdditionalStagingLabelsToDownload"
+        }
+    }
+
+    public enum SoftwareToUpdate: String, CustomStringConvertible, Codable {
+        case core = "core"
+        case otaAgent = "ota_agent"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct StartBulkDeploymentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "ExecutionRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "InputFileUri", required: false, type: .string)
+        ]
+        public let amznClientToken: String?
+        /// The ARN of the execution role to associate with the bulk deployment operation. This IAM role must allow the ''greengrass:CreateDeployment'' action for all group versions that are listed in the input file. This IAM role must have access to the S3 bucket containing the input file.
+        public let executionRoleArn: String?
+        /// The URI of the input file contained in the S3 bucket. The execution role must have ''getObject'' permissions on this bucket to access the input file. The input file is a JSON-serialized, line delimited file with UTF-8 encoding that provides a list of group and version IDs and the deployment type. This file must be less than 100 MB. Currently, AWS IoT Greengrass supports only ''NewDeployment'' deployment types.
+        public let inputFileUri: String?
+
+        public init(amznClientToken: String? = nil, executionRoleArn: String? = nil, inputFileUri: String? = nil) {
+            self.amznClientToken = amznClientToken
+            self.executionRoleArn = executionRoleArn
+            self.inputFileUri = inputFileUri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case executionRoleArn = "ExecutionRoleArn"
+            case inputFileUri = "InputFileUri"
+        }
+    }
+
+    public struct StartBulkDeploymentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BulkDeploymentArn", required: false, type: .string), 
+            AWSShapeMember(label: "BulkDeploymentId", required: false, type: .string)
+        ]
+        /// The ARN of the bulk deployment.
+        public let bulkDeploymentArn: String?
+        /// The ID of the bulk deployment.
+        public let bulkDeploymentId: String?
+
+        public init(bulkDeploymentArn: String? = nil, bulkDeploymentId: String? = nil) {
+            self.bulkDeploymentArn = bulkDeploymentArn
+            self.bulkDeploymentId = bulkDeploymentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bulkDeploymentArn = "BulkDeploymentArn"
+            case bulkDeploymentId = "BulkDeploymentId"
+        }
+    }
+
+    public struct StopBulkDeploymentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BulkDeploymentId", location: .uri(locationName: "BulkDeploymentId"), required: true, type: .string)
+        ]
+        public let bulkDeploymentId: String
+
+        public init(bulkDeploymentId: String) {
+            self.bulkDeploymentId = bulkDeploymentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bulkDeploymentId = "BulkDeploymentId"
+        }
+    }
+
+    public struct StopBulkDeploymentResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct Subscription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Source", required: false, type: .string), 
+            AWSShapeMember(label: "Subject", required: false, type: .string), 
+            AWSShapeMember(label: "Target", required: false, type: .string)
+        ]
+        /// A descriptive or arbitrary ID for the subscription. This value must be unique within the subscription definition version. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''.
+        public let id: String?
+        /// The source of the subscription. Can be a thing ARN, a Lambda function ARN, a connector ARN, 'cloud' (which represents the AWS IoT cloud), or 'GGShadowService'.
+        public let source: String?
+        /// The subject of the message.
+        public let subject: String?
+        /// Where the message is sent to. Can be a thing ARN, a Lambda function ARN, a connector ARN, 'cloud' (which represents the AWS IoT cloud), or 'GGShadowService'.
+        public let target: String?
+
+        public init(id: String? = nil, source: String? = nil, subject: String? = nil, target: String? = nil) {
+            self.id = id
+            self.source = source
+            self.subject = subject
+            self.target = target
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case source = "Source"
+            case subject = "Subject"
+            case target = "Target"
         }
     }
 
@@ -4933,24 +4665,352 @@ extension Greengrass {
         }
     }
 
-    public struct GroupOwnerSetting: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupOwner", required: false, type: .string), 
-            AWSShapeMember(label: "AutoAddGroupOwner", required: false, type: .boolean)
-        ]
-        /// The name of the Linux OS group whose privileges will be added to the Lambda process. This field is optional.
-        public let groupOwner: String?
-        /// If true, AWS IoT Greengrass automatically adds the specified Linux OS group owner of the resource to the Lambda process privileges. Thus the Lambda process will have the file access permissions of the added Linux group.
-        public let autoAddGroupOwner: Bool?
+    public enum UpdateAgentLogLevel: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case trace = "TRACE"
+        case debug = "DEBUG"
+        case verbose = "VERBOSE"
+        case info = "INFO"
+        case warn = "WARN"
+        case error = "ERROR"
+        case fatal = "FATAL"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(groupOwner: String? = nil, autoAddGroupOwner: Bool? = nil) {
-            self.groupOwner = groupOwner
-            self.autoAddGroupOwner = autoAddGroupOwner
+    public struct UpdateConnectivityInfoRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectivityInfo", required: false, type: .list), 
+            AWSShapeMember(label: "ThingName", location: .uri(locationName: "ThingName"), required: true, type: .string)
+        ]
+        /// A list of connectivity info.
+        public let connectivityInfo: [ConnectivityInfo]?
+        public let thingName: String
+
+        public init(connectivityInfo: [ConnectivityInfo]? = nil, thingName: String) {
+            self.connectivityInfo = connectivityInfo
+            self.thingName = thingName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupOwner = "GroupOwner"
-            case autoAddGroupOwner = "AutoAddGroupOwner"
+            case connectivityInfo = "ConnectivityInfo"
+            case thingName = "ThingName"
+        }
+    }
+
+    public struct UpdateConnectivityInfoResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        /// A message about the connectivity info update request.
+        public let message: String?
+        /// The new version of the connectivity info.
+        public let version: String?
+
+        public init(message: String? = nil, version: String? = nil) {
+            self.message = message
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case version = "Version"
+        }
+    }
+
+    public struct UpdateConnectorDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let connectorDefinitionId: String
+        public let name: String?
+
+        public init(connectorDefinitionId: String, name: String? = nil) {
+            self.connectorDefinitionId = connectorDefinitionId
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorDefinitionId = "ConnectorDefinitionId"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateConnectorDefinitionResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateCoreDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let coreDefinitionId: String
+        public let name: String?
+
+        public init(coreDefinitionId: String, name: String? = nil) {
+            self.coreDefinitionId = coreDefinitionId
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreDefinitionId = "CoreDefinitionId"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateCoreDefinitionResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateDeviceDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let deviceDefinitionId: String
+        public let name: String?
+
+        public init(deviceDefinitionId: String, name: String? = nil) {
+            self.deviceDefinitionId = deviceDefinitionId
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceDefinitionId = "DeviceDefinitionId"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateDeviceDefinitionResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateFunctionDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let functionDefinitionId: String
+        public let name: String?
+
+        public init(functionDefinitionId: String, name: String? = nil) {
+            self.functionDefinitionId = functionDefinitionId
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionDefinitionId = "FunctionDefinitionId"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateFunctionDefinitionResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateGroupCertificateConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateExpiryInMilliseconds", required: false, type: .string), 
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        ]
+        /// The amount of time remaining before the certificate expires, in milliseconds.
+        public let certificateExpiryInMilliseconds: String?
+        public let groupId: String
+
+        public init(certificateExpiryInMilliseconds: String? = nil, groupId: String) {
+            self.certificateExpiryInMilliseconds = certificateExpiryInMilliseconds
+            self.groupId = groupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateExpiryInMilliseconds = "CertificateExpiryInMilliseconds"
+            case groupId = "GroupId"
+        }
+    }
+
+    public struct UpdateGroupCertificateConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateAuthorityExpiryInMilliseconds", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateExpiryInMilliseconds", required: false, type: .string), 
+            AWSShapeMember(label: "GroupId", required: false, type: .string)
+        ]
+        public let certificateAuthorityExpiryInMilliseconds: String?
+        public let certificateExpiryInMilliseconds: String?
+        public let groupId: String?
+
+        public init(certificateAuthorityExpiryInMilliseconds: String? = nil, certificateExpiryInMilliseconds: String? = nil, groupId: String? = nil) {
+            self.certificateAuthorityExpiryInMilliseconds = certificateAuthorityExpiryInMilliseconds
+            self.certificateExpiryInMilliseconds = certificateExpiryInMilliseconds
+            self.groupId = groupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthorityExpiryInMilliseconds = "CertificateAuthorityExpiryInMilliseconds"
+            case certificateExpiryInMilliseconds = "CertificateExpiryInMilliseconds"
+            case groupId = "GroupId"
+        }
+    }
+
+    public struct UpdateGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let groupId: String
+        public let name: String?
+
+        public init(groupId: String, name: String? = nil) {
+            self.groupId = groupId
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateGroupResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateLoggerDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let loggerDefinitionId: String
+        public let name: String?
+
+        public init(loggerDefinitionId: String, name: String? = nil) {
+            self.loggerDefinitionId = loggerDefinitionId
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loggerDefinitionId = "LoggerDefinitionId"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateLoggerDefinitionResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateResourceDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"), required: true, type: .string)
+        ]
+        public let name: String?
+        public let resourceDefinitionId: String
+
+        public init(name: String? = nil, resourceDefinitionId: String) {
+            self.name = name
+            self.resourceDefinitionId = resourceDefinitionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case resourceDefinitionId = "ResourceDefinitionId"
+        }
+    }
+
+    public struct UpdateResourceDefinitionResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateSubscriptionDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string)
+        ]
+        public let name: String?
+        public let subscriptionDefinitionId: String
+
+        public init(name: String? = nil, subscriptionDefinitionId: String) {
+            self.name = name
+            self.subscriptionDefinitionId = subscriptionDefinitionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case subscriptionDefinitionId = "SubscriptionDefinitionId"
+        }
+    }
+
+    public struct UpdateSubscriptionDefinitionResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public enum UpdateTargetsArchitecture: String, CustomStringConvertible, Codable {
+        case armv7l = "armv7l"
+        case x8664 = "x86_64"
+        case aarch64 = "aarch64"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UpdateTargetsOperatingSystem: String, CustomStringConvertible, Codable {
+        case ubuntu = "ubuntu"
+        case raspbian = "raspbian"
+        case amazonLinux = "amazon_linux"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct VersionInformation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        /// The ARN of the version.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the version was created.
+        public let creationTimestamp: String?
+        /// The ID of the version.
+        public let id: String?
+        /// The unique ID of the version.
+        public let version: String?
+
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, version: String? = nil) {
+            self.arn = arn
+            self.creationTimestamp = creationTimestamp
+            self.id = id
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
+            case version = "Version"
         }
     }
 

@@ -5,32 +5,6 @@ import AWSSDKSwiftCore
 
 extension ApplicationAutoScaling {
 
-    public struct DeregisterScalableTargetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string)
-        ]
-        /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
-        public let scalableDimension: ScalableDimension
-        /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
-        public let serviceNamespace: ServiceNamespace
-        /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider.  
-        public let resourceId: String
-
-        public init(scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, resourceId: String) {
-            self.scalableDimension = scalableDimension
-            self.serviceNamespace = serviceNamespace
-            self.resourceId = resourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scalableDimension = "ScalableDimension"
-            case serviceNamespace = "ServiceNamespace"
-            case resourceId = "ResourceId"
-        }
-    }
-
     public enum AdjustmentType: String, CustomStringConvertible, Codable {
         case changeincapacity = "ChangeInCapacity"
         case percentchangeincapacity = "PercentChangeInCapacity"
@@ -38,54 +12,444 @@ extension ApplicationAutoScaling {
         public var description: String { return self.rawValue }
     }
 
-    public struct DescribeScheduledActionsRequest: AWSShape {
+    public struct Alarm: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalableDimension", required: false, type: .enum), 
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeMember(label: "ScheduledActionNames", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+            AWSShapeMember(label: "AlarmARN", required: true, type: .string), 
+            AWSShapeMember(label: "AlarmName", required: true, type: .string)
         ]
-        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
-        public let scalableDimension: ScalableDimension?
-        /// The identifier of the resource associated with the scheduled action. This string consists of the resource type and unique identifier. If you specify a scalable dimension, you must also specify a resource ID.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider.  
-        public let resourceId: String?
-        /// The token for the next set of results.
-        public let nextToken: String?
-        /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
-        public let serviceNamespace: ServiceNamespace
-        /// The names of the scheduled actions to describe.
-        public let scheduledActionNames: [String]?
-        /// The maximum number of scheduled action results. This value can be between 1 and 50. The default value is 50. If this parameter is used, the operation returns up to MaxResults results at a time, along with a NextToken value. To get the next set of results, include the NextToken value in a subsequent call. If this parameter is not used, the operation returns up to 50 results and a NextToken value, if applicable.
-        public let maxResults: Int32?
+        /// The Amazon Resource Name (ARN) of the alarm.
+        public let alarmARN: String
+        /// The name of the alarm.
+        public let alarmName: String
 
-        public init(scalableDimension: ScalableDimension? = nil, resourceId: String? = nil, nextToken: String? = nil, serviceNamespace: ServiceNamespace, scheduledActionNames: [String]? = nil, maxResults: Int32? = nil) {
-            self.scalableDimension = scalableDimension
-            self.resourceId = resourceId
-            self.nextToken = nextToken
-            self.serviceNamespace = serviceNamespace
-            self.scheduledActionNames = scheduledActionNames
-            self.maxResults = maxResults
+        public init(alarmARN: String, alarmName: String) {
+            self.alarmARN = alarmARN
+            self.alarmName = alarmName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scalableDimension = "ScalableDimension"
-            case resourceId = "ResourceId"
-            case nextToken = "NextToken"
-            case serviceNamespace = "ServiceNamespace"
-            case scheduledActionNames = "ScheduledActionNames"
-            case maxResults = "MaxResults"
+            case alarmARN = "AlarmARN"
+            case alarmName = "AlarmName"
         }
     }
 
-    public struct RegisterScalableTargetResponse: AWSShape {
+    public struct CustomizedMetricSpecification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
+            AWSShapeMember(label: "MetricName", required: true, type: .string), 
+            AWSShapeMember(label: "Namespace", required: true, type: .string), 
+            AWSShapeMember(label: "Statistic", required: true, type: .enum), 
+            AWSShapeMember(label: "Unit", required: false, type: .string)
+        ]
+        /// The dimensions of the metric.
+        public let dimensions: [MetricDimension]?
+        /// The name of the metric.
+        public let metricName: String
+        /// The namespace of the metric.
+        public let namespace: String
+        /// The statistic of the metric.
+        public let statistic: MetricStatistic
+        /// The unit of the metric.
+        public let unit: String?
+
+        public init(dimensions: [MetricDimension]? = nil, metricName: String, namespace: String, statistic: MetricStatistic, unit: String? = nil) {
+            self.dimensions = dimensions
+            self.metricName = metricName
+            self.namespace = namespace
+            self.statistic = statistic
+            self.unit = unit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+            case metricName = "MetricName"
+            case namespace = "Namespace"
+            case statistic = "Statistic"
+            case unit = "Unit"
+        }
+    }
+
+    public struct DeleteScalingPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum)
+        ]
+        /// The name of the scaling policy.
+        public let policyName: String
+        /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider.  
+        public let resourceId: String
+        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
+        public let scalableDimension: ScalableDimension
+        /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
+        public let serviceNamespace: ServiceNamespace
+
+        public init(policyName: String, resourceId: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace) {
+            self.policyName = policyName
+            self.resourceId = resourceId
+            self.scalableDimension = scalableDimension
+            self.serviceNamespace = serviceNamespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "PolicyName"
+            case resourceId = "ResourceId"
+            case scalableDimension = "ScalableDimension"
+            case serviceNamespace = "ServiceNamespace"
+        }
+    }
+
+    public struct DeleteScalingPolicyResponse: AWSShape {
+
+        public init() {
+        }
 
     }
 
-    public enum PolicyType: String, CustomStringConvertible, Codable {
-        case stepscaling = "StepScaling"
-        case targettrackingscaling = "TargetTrackingScaling"
+    public struct DeleteScheduledActionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ScalableDimension", required: false, type: .enum), 
+            AWSShapeMember(label: "ScheduledActionName", required: true, type: .string), 
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum)
+        ]
+        /// The identifier of the resource associated with the scheduled action. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider.  
+        public let resourceId: String
+        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
+        public let scalableDimension: ScalableDimension?
+        /// The name of the scheduled action.
+        public let scheduledActionName: String
+        /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
+        public let serviceNamespace: ServiceNamespace
+
+        public init(resourceId: String, scalableDimension: ScalableDimension? = nil, scheduledActionName: String, serviceNamespace: ServiceNamespace) {
+            self.resourceId = resourceId
+            self.scalableDimension = scalableDimension
+            self.scheduledActionName = scheduledActionName
+            self.serviceNamespace = serviceNamespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case scalableDimension = "ScalableDimension"
+            case scheduledActionName = "ScheduledActionName"
+            case serviceNamespace = "ServiceNamespace"
+        }
+    }
+
+    public struct DeleteScheduledActionResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeregisterScalableTargetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum)
+        ]
+        /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider.  
+        public let resourceId: String
+        /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
+        public let scalableDimension: ScalableDimension
+        /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
+        public let serviceNamespace: ServiceNamespace
+
+        public init(resourceId: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace) {
+            self.resourceId = resourceId
+            self.scalableDimension = scalableDimension
+            self.serviceNamespace = serviceNamespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case scalableDimension = "ScalableDimension"
+            case serviceNamespace = "ServiceNamespace"
+        }
+    }
+
+    public struct DeregisterScalableTargetResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DescribeScalableTargetsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceIds", required: false, type: .list), 
+            AWSShapeMember(label: "ScalableDimension", required: false, type: .enum), 
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum)
+        ]
+        /// The maximum number of scalable targets. This value can be between 1 and 50. The default value is 50. If this parameter is used, the operation returns up to MaxResults results at a time, along with a NextToken value. To get the next set of results, include the NextToken value in a subsequent call. If this parameter is not used, the operation returns up to 50 results and a NextToken value, if applicable.
+        public let maxResults: Int32?
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier. If you specify a scalable dimension, you must also specify a resource ID.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider.  
+        public let resourceIds: [String]?
+        /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
+        public let scalableDimension: ScalableDimension?
+        /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
+        public let serviceNamespace: ServiceNamespace
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceIds: [String]? = nil, scalableDimension: ScalableDimension? = nil, serviceNamespace: ServiceNamespace) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceIds = resourceIds
+            self.scalableDimension = scalableDimension
+            self.serviceNamespace = serviceNamespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case resourceIds = "ResourceIds"
+            case scalableDimension = "ScalableDimension"
+            case serviceNamespace = "ServiceNamespace"
+        }
+    }
+
+    public struct DescribeScalableTargetsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ScalableTargets", required: false, type: .list)
+        ]
+        /// The token required to get the next set of results. This value is null if there are no more results to return.
+        public let nextToken: String?
+        /// The scalable targets that match the request parameters.
+        public let scalableTargets: [ScalableTarget]?
+
+        public init(nextToken: String? = nil, scalableTargets: [ScalableTarget]? = nil) {
+            self.nextToken = nextToken
+            self.scalableTargets = scalableTargets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case scalableTargets = "ScalableTargets"
+        }
+    }
+
+    public struct DescribeScalingActivitiesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "ScalableDimension", required: false, type: .enum), 
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum)
+        ]
+        /// The maximum number of scalable targets. This value can be between 1 and 50. The default value is 50. If this parameter is used, the operation returns up to MaxResults results at a time, along with a NextToken value. To get the next set of results, include the NextToken value in a subsequent call. If this parameter is not used, the operation returns up to 50 results and a NextToken value, if applicable.
+        public let maxResults: Int32?
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// The identifier of the resource associated with the scaling activity. This string consists of the resource type and unique identifier. If you specify a scalable dimension, you must also specify a resource ID.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider.  
+        public let resourceId: String?
+        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
+        public let scalableDimension: ScalableDimension?
+        /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
+        public let serviceNamespace: ServiceNamespace
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceId: String? = nil, scalableDimension: ScalableDimension? = nil, serviceNamespace: ServiceNamespace) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceId = resourceId
+            self.scalableDimension = scalableDimension
+            self.serviceNamespace = serviceNamespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case resourceId = "ResourceId"
+            case scalableDimension = "ScalableDimension"
+            case serviceNamespace = "ServiceNamespace"
+        }
+    }
+
+    public struct DescribeScalingActivitiesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ScalingActivities", required: false, type: .list)
+        ]
+        /// The token required to get the next set of results. This value is null if there are no more results to return.
+        public let nextToken: String?
+        /// A list of scaling activity objects.
+        public let scalingActivities: [ScalingActivity]?
+
+        public init(nextToken: String? = nil, scalingActivities: [ScalingActivity]? = nil) {
+            self.nextToken = nextToken
+            self.scalingActivities = scalingActivities
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case scalingActivities = "ScalingActivities"
+        }
+    }
+
+    public struct DescribeScalingPoliciesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyNames", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "ScalableDimension", required: false, type: .enum), 
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum)
+        ]
+        /// The maximum number of scalable targets. This value can be between 1 and 50. The default value is 50. If this parameter is used, the operation returns up to MaxResults results at a time, along with a NextToken value. To get the next set of results, include the NextToken value in a subsequent call. If this parameter is not used, the operation returns up to 50 results and a NextToken value, if applicable.
+        public let maxResults: Int32?
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// The names of the scaling policies to describe.
+        public let policyNames: [String]?
+        /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier. If you specify a scalable dimension, you must also specify a resource ID.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider.  
+        public let resourceId: String?
+        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
+        public let scalableDimension: ScalableDimension?
+        /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
+        public let serviceNamespace: ServiceNamespace
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, policyNames: [String]? = nil, resourceId: String? = nil, scalableDimension: ScalableDimension? = nil, serviceNamespace: ServiceNamespace) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.policyNames = policyNames
+            self.resourceId = resourceId
+            self.scalableDimension = scalableDimension
+            self.serviceNamespace = serviceNamespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case policyNames = "PolicyNames"
+            case resourceId = "ResourceId"
+            case scalableDimension = "ScalableDimension"
+            case serviceNamespace = "ServiceNamespace"
+        }
+    }
+
+    public struct DescribeScalingPoliciesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ScalingPolicies", required: false, type: .list)
+        ]
+        /// The token required to get the next set of results. This value is null if there are no more results to return.
+        public let nextToken: String?
+        /// Information about the scaling policies.
+        public let scalingPolicies: [ScalingPolicy]?
+
+        public init(nextToken: String? = nil, scalingPolicies: [ScalingPolicy]? = nil) {
+            self.nextToken = nextToken
+            self.scalingPolicies = scalingPolicies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case scalingPolicies = "ScalingPolicies"
+        }
+    }
+
+    public struct DescribeScheduledActionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "ScalableDimension", required: false, type: .enum), 
+            AWSShapeMember(label: "ScheduledActionNames", required: false, type: .list), 
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum)
+        ]
+        /// The maximum number of scheduled action results. This value can be between 1 and 50. The default value is 50. If this parameter is used, the operation returns up to MaxResults results at a time, along with a NextToken value. To get the next set of results, include the NextToken value in a subsequent call. If this parameter is not used, the operation returns up to 50 results and a NextToken value, if applicable.
+        public let maxResults: Int32?
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// The identifier of the resource associated with the scheduled action. This string consists of the resource type and unique identifier. If you specify a scalable dimension, you must also specify a resource ID.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider.  
+        public let resourceId: String?
+        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
+        public let scalableDimension: ScalableDimension?
+        /// The names of the scheduled actions to describe.
+        public let scheduledActionNames: [String]?
+        /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
+        public let serviceNamespace: ServiceNamespace
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceId: String? = nil, scalableDimension: ScalableDimension? = nil, scheduledActionNames: [String]? = nil, serviceNamespace: ServiceNamespace) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceId = resourceId
+            self.scalableDimension = scalableDimension
+            self.scheduledActionNames = scheduledActionNames
+            self.serviceNamespace = serviceNamespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case resourceId = "ResourceId"
+            case scalableDimension = "ScalableDimension"
+            case scheduledActionNames = "ScheduledActionNames"
+            case serviceNamespace = "ServiceNamespace"
+        }
+    }
+
+    public struct DescribeScheduledActionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduledActions", required: false, type: .list)
+        ]
+        /// The token required to get the next set of results. This value is null if there are no more results to return.
+        public let nextToken: String?
+        /// Information about the scheduled actions.
+        public let scheduledActions: [ScheduledAction]?
+
+        public init(nextToken: String? = nil, scheduledActions: [ScheduledAction]? = nil) {
+            self.nextToken = nextToken
+            self.scheduledActions = scheduledActions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case scheduledActions = "ScheduledActions"
+        }
+    }
+
+    public enum MetricAggregationType: String, CustomStringConvertible, Codable {
+        case average = "Average"
+        case minimum = "Minimum"
+        case maximum = "Maximum"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct MetricDimension: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+        /// The name of the dimension.
+        public let name: String
+        /// The value of the dimension.
+        public let value: String
+
+        public init(name: String, value: String) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
+    public enum MetricStatistic: String, CustomStringConvertible, Codable {
+        case average = "Average"
+        case minimum = "Minimum"
+        case maximum = "Maximum"
+        case samplecount = "SampleCount"
+        case sum = "Sum"
         public var description: String { return self.rawValue }
     }
 
@@ -104,199 +468,10 @@ extension ApplicationAutoScaling {
         public var description: String { return self.rawValue }
     }
 
-    public struct DescribeScalableTargetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalableTargets", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The scalable targets that match the request parameters.
-        public let scalableTargets: [ScalableTarget]?
-        /// The token required to get the next set of results. This value is null if there are no more results to return.
-        public let nextToken: String?
-
-        public init(scalableTargets: [ScalableTarget]? = nil, nextToken: String? = nil) {
-            self.scalableTargets = scalableTargets
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scalableTargets = "ScalableTargets"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct RegisterScalableTargetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MinCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "MaxCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string)
-        ]
-        /// The minimum value to scale to in response to a scale in event. This parameter is required if you are registering a scalable target.
-        public let minCapacity: Int32?
-        /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider.  
-        public let resourceId: String
-        /// The maximum value to scale to in response to a scale out event. This parameter is required if you are registering a scalable target.
-        public let maxCapacity: Int32?
-        /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
-        public let scalableDimension: ScalableDimension
-        /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
-        public let serviceNamespace: ServiceNamespace
-        /// Application Auto Scaling creates a service-linked role that grants it permissions to modify the scalable target on your behalf. For more information, see Service-Linked Roles for Application Auto Scaling. For resources that are not supported using a service-linked role, this parameter is required and must specify the ARN of an IAM role that allows Application Auto Scaling to modify the scalable target on your behalf.
-        public let roleARN: String?
-
-        public init(minCapacity: Int32? = nil, resourceId: String, maxCapacity: Int32? = nil, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, roleARN: String? = nil) {
-            self.minCapacity = minCapacity
-            self.resourceId = resourceId
-            self.maxCapacity = maxCapacity
-            self.scalableDimension = scalableDimension
-            self.serviceNamespace = serviceNamespace
-            self.roleARN = roleARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case minCapacity = "MinCapacity"
-            case resourceId = "ResourceId"
-            case maxCapacity = "MaxCapacity"
-            case scalableDimension = "ScalableDimension"
-            case serviceNamespace = "ServiceNamespace"
-            case roleARN = "RoleARN"
-        }
-    }
-
-    public struct ScalingPolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetTrackingScalingPolicyConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeMember(label: "PolicyType", required: true, type: .enum), 
-            AWSShapeMember(label: "PolicyARN", required: true, type: .string), 
-            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
-            AWSShapeMember(label: "Alarms", required: false, type: .list), 
-            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeMember(label: "StepScalingPolicyConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string)
-        ]
-        /// A target tracking policy.
-        public let targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration?
-        /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
-        public let serviceNamespace: ServiceNamespace
-        /// The scaling policy type.
-        public let policyType: PolicyType
-        /// The Amazon Resource Name (ARN) of the scaling policy.
-        public let policyARN: String
-        /// The name of the scaling policy.
-        public let policyName: String
-        /// The CloudWatch alarms associated with the scaling policy.
-        public let alarms: [Alarm]?
-        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
-        public let scalableDimension: ScalableDimension
-        /// A step scaling policy.
-        public let stepScalingPolicyConfiguration: StepScalingPolicyConfiguration?
-        /// The Unix timestamp for when the scaling policy was created.
-        public let creationTime: TimeStamp
-        /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider.  
-        public let resourceId: String
-
-        public init(targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration? = nil, serviceNamespace: ServiceNamespace, policyType: PolicyType, policyARN: String, policyName: String, alarms: [Alarm]? = nil, scalableDimension: ScalableDimension, stepScalingPolicyConfiguration: StepScalingPolicyConfiguration? = nil, creationTime: TimeStamp, resourceId: String) {
-            self.targetTrackingScalingPolicyConfiguration = targetTrackingScalingPolicyConfiguration
-            self.serviceNamespace = serviceNamespace
-            self.policyType = policyType
-            self.policyARN = policyARN
-            self.policyName = policyName
-            self.alarms = alarms
-            self.scalableDimension = scalableDimension
-            self.stepScalingPolicyConfiguration = stepScalingPolicyConfiguration
-            self.creationTime = creationTime
-            self.resourceId = resourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetTrackingScalingPolicyConfiguration = "TargetTrackingScalingPolicyConfiguration"
-            case serviceNamespace = "ServiceNamespace"
-            case policyType = "PolicyType"
-            case policyARN = "PolicyARN"
-            case policyName = "PolicyName"
-            case alarms = "Alarms"
-            case scalableDimension = "ScalableDimension"
-            case stepScalingPolicyConfiguration = "StepScalingPolicyConfiguration"
-            case creationTime = "CreationTime"
-            case resourceId = "ResourceId"
-        }
-    }
-
-    public struct DescribeScalableTargetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalableDimension", required: false, type: .enum), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeMember(label: "ResourceIds", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
-        public let scalableDimension: ScalableDimension?
-        /// The token for the next set of results.
-        public let nextToken: String?
-        /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
-        public let serviceNamespace: ServiceNamespace
-        /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier. If you specify a scalable dimension, you must also specify a resource ID.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider.  
-        public let resourceIds: [String]?
-        /// The maximum number of scalable targets. This value can be between 1 and 50. The default value is 50. If this parameter is used, the operation returns up to MaxResults results at a time, along with a NextToken value. To get the next set of results, include the NextToken value in a subsequent call. If this parameter is not used, the operation returns up to 50 results and a NextToken value, if applicable.
-        public let maxResults: Int32?
-
-        public init(scalableDimension: ScalableDimension? = nil, nextToken: String? = nil, serviceNamespace: ServiceNamespace, resourceIds: [String]? = nil, maxResults: Int32? = nil) {
-            self.scalableDimension = scalableDimension
-            self.nextToken = nextToken
-            self.serviceNamespace = serviceNamespace
-            self.resourceIds = resourceIds
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scalableDimension = "ScalableDimension"
-            case nextToken = "NextToken"
-            case serviceNamespace = "ServiceNamespace"
-            case resourceIds = "ResourceIds"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct CustomizedMetricSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Unit", required: false, type: .string), 
-            AWSShapeMember(label: "MetricName", required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", required: true, type: .string), 
-            AWSShapeMember(label: "Statistic", required: true, type: .enum), 
-            AWSShapeMember(label: "Dimensions", required: false, type: .list)
-        ]
-        /// The unit of the metric.
-        public let unit: String?
-        /// The name of the metric.
-        public let metricName: String
-        /// The namespace of the metric.
-        public let namespace: String
-        /// The statistic of the metric.
-        public let statistic: MetricStatistic
-        /// The dimensions of the metric.
-        public let dimensions: [MetricDimension]?
-
-        public init(unit: String? = nil, metricName: String, namespace: String, statistic: MetricStatistic, dimensions: [MetricDimension]? = nil) {
-            self.unit = unit
-            self.metricName = metricName
-            self.namespace = namespace
-            self.statistic = statistic
-            self.dimensions = dimensions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case unit = "Unit"
-            case metricName = "MetricName"
-            case namespace = "Namespace"
-            case statistic = "Statistic"
-            case dimensions = "Dimensions"
-        }
+    public enum PolicyType: String, CustomStringConvertible, Codable {
+        case stepscaling = "StepScaling"
+        case targettrackingscaling = "TargetTrackingScaling"
+        public var description: String { return self.rawValue }
     }
 
     public struct PredefinedMetricSpecification: AWSShape {
@@ -322,264 +497,175 @@ extension ApplicationAutoScaling {
 
     public struct PutScalingPolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetTrackingScalingPolicyConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
             AWSShapeMember(label: "PolicyName", required: true, type: .string), 
             AWSShapeMember(label: "PolicyType", required: false, type: .enum), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
             AWSShapeMember(label: "StepScalingPolicyConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string)
+            AWSShapeMember(label: "TargetTrackingScalingPolicyConfiguration", required: false, type: .structure)
         ]
-        /// A target tracking policy. This parameter is required if you are creating a policy and the policy type is TargetTrackingScaling.
-        public let targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration?
-        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
-        public let scalableDimension: ScalableDimension
-        /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
-        public let serviceNamespace: ServiceNamespace
         /// The name of the scaling policy.
         public let policyName: String
         /// The policy type. This parameter is required if you are creating a policy. For DynamoDB, only TargetTrackingScaling is supported. For Amazon ECS, Spot Fleet, and Amazon RDS, both StepScaling and TargetTrackingScaling are supported. For any other service, only StepScaling is supported.
         public let policyType: PolicyType?
+        /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider.  
+        public let resourceId: String
+        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
+        public let scalableDimension: ScalableDimension
+        /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
+        public let serviceNamespace: ServiceNamespace
         /// A step scaling policy. This parameter is required if you are creating a policy and the policy type is StepScaling.
         public let stepScalingPolicyConfiguration: StepScalingPolicyConfiguration?
-        /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider.  
-        public let resourceId: String
+        /// A target tracking policy. This parameter is required if you are creating a policy and the policy type is TargetTrackingScaling.
+        public let targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration?
 
-        public init(targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration? = nil, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, policyName: String, policyType: PolicyType? = nil, stepScalingPolicyConfiguration: StepScalingPolicyConfiguration? = nil, resourceId: String) {
-            self.targetTrackingScalingPolicyConfiguration = targetTrackingScalingPolicyConfiguration
-            self.scalableDimension = scalableDimension
-            self.serviceNamespace = serviceNamespace
+        public init(policyName: String, policyType: PolicyType? = nil, resourceId: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, stepScalingPolicyConfiguration: StepScalingPolicyConfiguration? = nil, targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration? = nil) {
             self.policyName = policyName
             self.policyType = policyType
-            self.stepScalingPolicyConfiguration = stepScalingPolicyConfiguration
             self.resourceId = resourceId
+            self.scalableDimension = scalableDimension
+            self.serviceNamespace = serviceNamespace
+            self.stepScalingPolicyConfiguration = stepScalingPolicyConfiguration
+            self.targetTrackingScalingPolicyConfiguration = targetTrackingScalingPolicyConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
-            case targetTrackingScalingPolicyConfiguration = "TargetTrackingScalingPolicyConfiguration"
-            case scalableDimension = "ScalableDimension"
-            case serviceNamespace = "ServiceNamespace"
             case policyName = "PolicyName"
             case policyType = "PolicyType"
-            case stepScalingPolicyConfiguration = "StepScalingPolicyConfiguration"
             case resourceId = "ResourceId"
-        }
-    }
-
-    public struct ScheduledAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalableDimension", required: false, type: .enum), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeMember(label: "Schedule", required: true, type: .string), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ScheduledActionName", required: true, type: .string), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ScheduledActionARN", required: true, type: .string), 
-            AWSShapeMember(label: "ScalableTargetAction", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string)
-        ]
-        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
-        public let scalableDimension: ScalableDimension?
-        /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
-        public let serviceNamespace: ServiceNamespace
-        /// The schedule for this action. The following formats are supported:   At expressions - at(yyyy-mm-ddThh:mm:ss)    Rate expressions - rate(value unit)    Cron expressions - cron(fields)    At expressions are useful for one-time schedules. Specify the time, in UTC. For rate expressions, value is a positive integer and unit is minute | minutes | hour | hours | day | days. For more information about cron expressions, see Cron Expressions in the Amazon CloudWatch Events User Guide.
-        public let schedule: String
-        /// The date and time that the action is scheduled to begin.
-        public let startTime: TimeStamp?
-        /// The name of the scheduled action.
-        public let scheduledActionName: String
-        /// The date and time that the action is scheduled to end.
-        public let endTime: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the scheduled action.
-        public let scheduledActionARN: String
-        /// The new minimum and maximum capacity. You can set both values or just one. During the scheduled time, if the current capacity is below the minimum capacity, Application Auto Scaling scales out to the minimum capacity. If the current capacity is above the maximum capacity, Application Auto Scaling scales in to the maximum capacity.
-        public let scalableTargetAction: ScalableTargetAction?
-        /// The date and time that the scheduled action was created.
-        public let creationTime: TimeStamp
-        /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider.  
-        public let resourceId: String
-
-        public init(scalableDimension: ScalableDimension? = nil, serviceNamespace: ServiceNamespace, schedule: String, startTime: TimeStamp? = nil, scheduledActionName: String, endTime: TimeStamp? = nil, scheduledActionARN: String, scalableTargetAction: ScalableTargetAction? = nil, creationTime: TimeStamp, resourceId: String) {
-            self.scalableDimension = scalableDimension
-            self.serviceNamespace = serviceNamespace
-            self.schedule = schedule
-            self.startTime = startTime
-            self.scheduledActionName = scheduledActionName
-            self.endTime = endTime
-            self.scheduledActionARN = scheduledActionARN
-            self.scalableTargetAction = scalableTargetAction
-            self.creationTime = creationTime
-            self.resourceId = resourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
             case scalableDimension = "ScalableDimension"
             case serviceNamespace = "ServiceNamespace"
-            case schedule = "Schedule"
-            case startTime = "StartTime"
-            case scheduledActionName = "ScheduledActionName"
-            case endTime = "EndTime"
-            case scheduledActionARN = "ScheduledActionARN"
-            case scalableTargetAction = "ScalableTargetAction"
-            case creationTime = "CreationTime"
-            case resourceId = "ResourceId"
+            case stepScalingPolicyConfiguration = "StepScalingPolicyConfiguration"
+            case targetTrackingScalingPolicyConfiguration = "TargetTrackingScalingPolicyConfiguration"
         }
     }
 
-    public struct DescribeScheduledActionsResponse: AWSShape {
+    public struct PutScalingPolicyResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScheduledActions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "Alarms", required: false, type: .list), 
+            AWSShapeMember(label: "PolicyARN", required: true, type: .string)
         ]
-        /// Information about the scheduled actions.
-        public let scheduledActions: [ScheduledAction]?
-        /// The token required to get the next set of results. This value is null if there are no more results to return.
-        public let nextToken: String?
+        /// The CloudWatch alarms created for the target tracking policy.
+        public let alarms: [Alarm]?
+        /// The Amazon Resource Name (ARN) of the resulting scaling policy.
+        public let policyARN: String
 
-        public init(scheduledActions: [ScheduledAction]? = nil, nextToken: String? = nil) {
-            self.scheduledActions = scheduledActions
-            self.nextToken = nextToken
+        public init(alarms: [Alarm]? = nil, policyARN: String) {
+            self.alarms = alarms
+            self.policyARN = policyARN
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scheduledActions = "ScheduledActions"
-            case nextToken = "NextToken"
+            case alarms = "Alarms"
+            case policyARN = "PolicyARN"
         }
     }
 
-    public struct StepScalingPolicyConfiguration: AWSShape {
+    public struct PutScheduledActionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StepAdjustments", required: false, type: .list), 
-            AWSShapeMember(label: "MinAdjustmentMagnitude", required: false, type: .integer), 
-            AWSShapeMember(label: "Cooldown", required: false, type: .integer), 
-            AWSShapeMember(label: "AdjustmentType", required: false, type: .enum), 
-            AWSShapeMember(label: "MetricAggregationType", required: false, type: .enum)
-        ]
-        /// A set of adjustments that enable you to scale based on the size of the alarm breach.
-        public let stepAdjustments: [StepAdjustment]?
-        /// The minimum number to adjust your scalable dimension as a result of a scaling activity. If the adjustment type is PercentChangeInCapacity, the scaling policy changes the scalable dimension of the scalable target by this amount.
-        public let minAdjustmentMagnitude: Int32?
-        /// The amount of time, in seconds, after a scaling activity completes where previous trigger-related scaling activities can influence future scaling events. For scale out policies, while the cooldown period is in effect, the capacity that has been added by the previous scale out event that initiated the cooldown is calculated as part of the desired capacity for the next scale out. The intention is to continuously (but not excessively) scale out. For example, an alarm triggers a step scaling policy to scale out an Amazon ECS service by 2 tasks, the scaling activity completes successfully, and a cooldown period of 5 minutes starts. During the Cooldown period, if the alarm triggers the same policy again but at a more aggressive step adjustment to scale out the service by 3 tasks, the 2 tasks that were added in the previous scale out event are considered part of that capacity and only 1 additional task is added to the desired count. For scale in policies, the cooldown period is used to block subsequent scale in requests until it has expired. The intention is to scale in conservatively to protect your application's availability. However, if another alarm triggers a scale out policy during the cooldown period after a scale-in, Application Auto Scaling scales out your scalable target immediately.
-        public let cooldown: Int32?
-        /// The adjustment type, which specifies how the ScalingAdjustment parameter in a StepAdjustment is interpreted.
-        public let adjustmentType: AdjustmentType?
-        /// The aggregation type for the CloudWatch metrics. Valid values are Minimum, Maximum, and Average.
-        public let metricAggregationType: MetricAggregationType?
-
-        public init(stepAdjustments: [StepAdjustment]? = nil, minAdjustmentMagnitude: Int32? = nil, cooldown: Int32? = nil, adjustmentType: AdjustmentType? = nil, metricAggregationType: MetricAggregationType? = nil) {
-            self.stepAdjustments = stepAdjustments
-            self.minAdjustmentMagnitude = minAdjustmentMagnitude
-            self.cooldown = cooldown
-            self.adjustmentType = adjustmentType
-            self.metricAggregationType = metricAggregationType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stepAdjustments = "StepAdjustments"
-            case minAdjustmentMagnitude = "MinAdjustmentMagnitude"
-            case cooldown = "Cooldown"
-            case adjustmentType = "AdjustmentType"
-            case metricAggregationType = "MetricAggregationType"
-        }
-    }
-
-    public struct DeleteScheduledActionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalableDimension", required: false, type: .enum), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ScalableDimension", required: false, type: .enum), 
+            AWSShapeMember(label: "ScalableTargetAction", required: false, type: .structure), 
+            AWSShapeMember(label: "Schedule", required: false, type: .string), 
             AWSShapeMember(label: "ScheduledActionName", required: true, type: .string), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum)
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
         ]
-        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
-        public let scalableDimension: ScalableDimension?
+        /// The date and time for the scheduled action to end.
+        public let endTime: TimeStamp?
         /// The identifier of the resource associated with the scheduled action. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider.  
         public let resourceId: String
+        /// The scalable dimension. This parameter is required if you are creating a scheduled action. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
+        public let scalableDimension: ScalableDimension?
+        /// The new minimum and maximum capacity. You can set both values or just one. During the scheduled time, if the current capacity is below the minimum capacity, Application Auto Scaling scales out to the minimum capacity. If the current capacity is above the maximum capacity, Application Auto Scaling scales in to the maximum capacity.
+        public let scalableTargetAction: ScalableTargetAction?
+        /// The schedule for this action. The following formats are supported:   At expressions - at(yyyy-mm-ddThh:mm:ss)    Rate expressions - rate(value unit)    Cron expressions - cron(fields)    At expressions are useful for one-time schedules. Specify the time, in UTC. For rate expressions, value is a positive integer and unit is minute | minutes | hour | hours | day | days. For more information about cron expressions, see Cron Expressions in the Amazon CloudWatch Events User Guide.
+        public let schedule: String?
         /// The name of the scheduled action.
         public let scheduledActionName: String
         /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
+        /// The date and time for the scheduled action to start.
+        public let startTime: TimeStamp?
 
-        public init(scalableDimension: ScalableDimension? = nil, resourceId: String, scheduledActionName: String, serviceNamespace: ServiceNamespace) {
-            self.scalableDimension = scalableDimension
+        public init(endTime: TimeStamp? = nil, resourceId: String, scalableDimension: ScalableDimension? = nil, scalableTargetAction: ScalableTargetAction? = nil, schedule: String? = nil, scheduledActionName: String, serviceNamespace: ServiceNamespace, startTime: TimeStamp? = nil) {
+            self.endTime = endTime
             self.resourceId = resourceId
+            self.scalableDimension = scalableDimension
+            self.scalableTargetAction = scalableTargetAction
+            self.schedule = schedule
             self.scheduledActionName = scheduledActionName
             self.serviceNamespace = serviceNamespace
+            self.startTime = startTime
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scalableDimension = "ScalableDimension"
+            case endTime = "EndTime"
             case resourceId = "ResourceId"
+            case scalableDimension = "ScalableDimension"
+            case scalableTargetAction = "ScalableTargetAction"
+            case schedule = "Schedule"
             case scheduledActionName = "ScheduledActionName"
             case serviceNamespace = "ServiceNamespace"
+            case startTime = "StartTime"
         }
     }
 
-    public enum ScalingActivityStatusCode: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case inprogress = "InProgress"
-        case successful = "Successful"
-        case overridden = "Overridden"
-        case unfulfilled = "Unfulfilled"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
+    public struct PutScheduledActionResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
-    public struct DescribeScalingActivitiesRequest: AWSShape {
+    public struct RegisterScalableTargetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalableDimension", required: false, type: .enum), 
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+            AWSShapeMember(label: "MaxCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "MinCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum)
         ]
-        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
-        public let scalableDimension: ScalableDimension?
-        /// The identifier of the resource associated with the scaling activity. This string consists of the resource type and unique identifier. If you specify a scalable dimension, you must also specify a resource ID.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider.  
-        public let resourceId: String?
-        /// The token for the next set of results.
-        public let nextToken: String?
+        /// The maximum value to scale to in response to a scale out event. This parameter is required if you are registering a scalable target.
+        public let maxCapacity: Int32?
+        /// The minimum value to scale to in response to a scale in event. This parameter is required if you are registering a scalable target.
+        public let minCapacity: Int32?
+        /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider.  
+        public let resourceId: String
+        /// Application Auto Scaling creates a service-linked role that grants it permissions to modify the scalable target on your behalf. For more information, see Service-Linked Roles for Application Auto Scaling. For resources that are not supported using a service-linked role, this parameter is required and must specify the ARN of an IAM role that allows Application Auto Scaling to modify the scalable target on your behalf.
+        public let roleARN: String?
+        /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
+        public let scalableDimension: ScalableDimension
         /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
-        /// The maximum number of scalable targets. This value can be between 1 and 50. The default value is 50. If this parameter is used, the operation returns up to MaxResults results at a time, along with a NextToken value. To get the next set of results, include the NextToken value in a subsequent call. If this parameter is not used, the operation returns up to 50 results and a NextToken value, if applicable.
-        public let maxResults: Int32?
 
-        public init(scalableDimension: ScalableDimension? = nil, resourceId: String? = nil, nextToken: String? = nil, serviceNamespace: ServiceNamespace, maxResults: Int32? = nil) {
-            self.scalableDimension = scalableDimension
+        public init(maxCapacity: Int32? = nil, minCapacity: Int32? = nil, resourceId: String, roleARN: String? = nil, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace) {
+            self.maxCapacity = maxCapacity
+            self.minCapacity = minCapacity
             self.resourceId = resourceId
-            self.nextToken = nextToken
+            self.roleARN = roleARN
+            self.scalableDimension = scalableDimension
             self.serviceNamespace = serviceNamespace
-            self.maxResults = maxResults
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scalableDimension = "ScalableDimension"
+            case maxCapacity = "MaxCapacity"
+            case minCapacity = "MinCapacity"
             case resourceId = "ResourceId"
-            case nextToken = "NextToken"
+            case roleARN = "RoleARN"
+            case scalableDimension = "ScalableDimension"
             case serviceNamespace = "ServiceNamespace"
-            case maxResults = "MaxResults"
         }
     }
 
-    public struct DescribeScalingActivitiesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalingActivities", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list of scaling activity objects.
-        public let scalingActivities: [ScalingActivity]?
-        /// The token required to get the next set of results. This value is null if there are no more results to return.
-        public let nextToken: String?
+    public struct RegisterScalableTargetResponse: AWSShape {
 
-        public init(scalingActivities: [ScalingActivity]? = nil, nextToken: String? = nil) {
-            self.scalingActivities = scalingActivities
-            self.nextToken = nextToken
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case scalingActivities = "ScalingActivities"
-            case nextToken = "NextToken"
-        }
     }
 
     public enum ScalableDimension: String, CustomStringConvertible, Codable {
@@ -597,263 +683,281 @@ extension ApplicationAutoScaling {
         public var description: String { return self.rawValue }
     }
 
-    public struct DescribeScalingPoliciesResponse: AWSShape {
+    public struct ScalableTarget: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalingPolicies", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Information about the scaling policies.
-        public let scalingPolicies: [ScalingPolicy]?
-        /// The token required to get the next set of results. This value is null if there are no more results to return.
-        public let nextToken: String?
-
-        public init(scalingPolicies: [ScalingPolicy]? = nil, nextToken: String? = nil) {
-            self.scalingPolicies = scalingPolicies
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scalingPolicies = "ScalingPolicies"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public enum MetricAggregationType: String, CustomStringConvertible, Codable {
-        case average = "Average"
-        case minimum = "Minimum"
-        case maximum = "Maximum"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteScheduledActionResponse: AWSShape {
-
-    }
-
-    public struct DeleteScalingPolicyResponse: AWSShape {
-
-    }
-
-    public struct PutScheduledActionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalableDimension", required: false, type: .enum), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeMember(label: "Schedule", required: false, type: .string), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ScheduledActionName", required: true, type: .string), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ScalableTargetAction", required: false, type: .structure), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string)
-        ]
-        /// The scalable dimension. This parameter is required if you are creating a scheduled action. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
-        public let scalableDimension: ScalableDimension?
-        /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
-        public let serviceNamespace: ServiceNamespace
-        /// The schedule for this action. The following formats are supported:   At expressions - at(yyyy-mm-ddThh:mm:ss)    Rate expressions - rate(value unit)    Cron expressions - cron(fields)    At expressions are useful for one-time schedules. Specify the time, in UTC. For rate expressions, value is a positive integer and unit is minute | minutes | hour | hours | day | days. For more information about cron expressions, see Cron Expressions in the Amazon CloudWatch Events User Guide.
-        public let schedule: String?
-        /// The date and time for the scheduled action to start.
-        public let startTime: TimeStamp?
-        /// The name of the scheduled action.
-        public let scheduledActionName: String
-        /// The date and time for the scheduled action to end.
-        public let endTime: TimeStamp?
-        /// The new minimum and maximum capacity. You can set both values or just one. During the scheduled time, if the current capacity is below the minimum capacity, Application Auto Scaling scales out to the minimum capacity. If the current capacity is above the maximum capacity, Application Auto Scaling scales in to the maximum capacity.
-        public let scalableTargetAction: ScalableTargetAction?
-        /// The identifier of the resource associated with the scheduled action. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider.  
-        public let resourceId: String
-
-        public init(scalableDimension: ScalableDimension? = nil, serviceNamespace: ServiceNamespace, schedule: String? = nil, startTime: TimeStamp? = nil, scheduledActionName: String, endTime: TimeStamp? = nil, scalableTargetAction: ScalableTargetAction? = nil, resourceId: String) {
-            self.scalableDimension = scalableDimension
-            self.serviceNamespace = serviceNamespace
-            self.schedule = schedule
-            self.startTime = startTime
-            self.scheduledActionName = scheduledActionName
-            self.endTime = endTime
-            self.scalableTargetAction = scalableTargetAction
-            self.resourceId = resourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scalableDimension = "ScalableDimension"
-            case serviceNamespace = "ServiceNamespace"
-            case schedule = "Schedule"
-            case startTime = "StartTime"
-            case scheduledActionName = "ScheduledActionName"
-            case endTime = "EndTime"
-            case scalableTargetAction = "ScalableTargetAction"
-            case resourceId = "ResourceId"
-        }
-    }
-
-    public struct PutScalingPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyARN", required: true, type: .string), 
-            AWSShapeMember(label: "Alarms", required: false, type: .list)
-        ]
-        /// The Amazon Resource Name (ARN) of the resulting scaling policy.
-        public let policyARN: String
-        /// The CloudWatch alarms created for the target tracking policy.
-        public let alarms: [Alarm]?
-
-        public init(policyARN: String, alarms: [Alarm]? = nil) {
-            self.policyARN = policyARN
-            self.alarms = alarms
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyARN = "PolicyARN"
-            case alarms = "Alarms"
-        }
-    }
-
-    public struct DeregisterScalableTargetResponse: AWSShape {
-
-    }
-
-    public struct DeleteScalingPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "MaxCapacity", required: true, type: .integer), 
+            AWSShapeMember(label: "MinCapacity", required: true, type: .integer), 
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeMember(label: "PolicyName", required: true, type: .string)
+            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
+            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum)
         ]
-        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
-        public let scalableDimension: ScalableDimension
+        /// The Unix timestamp for when the scalable target was created.
+        public let creationTime: TimeStamp
+        /// The maximum value to scale to in response to a scale out event.
+        public let maxCapacity: Int32
+        /// The minimum value to scale to in response to a scale in event.
+        public let minCapacity: Int32
         /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider.  
         public let resourceId: String
+        /// The ARN of an IAM role that allows Application Auto Scaling to modify the scalable target on your behalf.
+        public let roleARN: String
+        /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
+        public let scalableDimension: ScalableDimension
         /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
-        /// The name of the scaling policy.
-        public let policyName: String
 
-        public init(scalableDimension: ScalableDimension, resourceId: String, serviceNamespace: ServiceNamespace, policyName: String) {
-            self.scalableDimension = scalableDimension
+        public init(creationTime: TimeStamp, maxCapacity: Int32, minCapacity: Int32, resourceId: String, roleARN: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace) {
+            self.creationTime = creationTime
+            self.maxCapacity = maxCapacity
+            self.minCapacity = minCapacity
             self.resourceId = resourceId
+            self.roleARN = roleARN
+            self.scalableDimension = scalableDimension
             self.serviceNamespace = serviceNamespace
-            self.policyName = policyName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scalableDimension = "ScalableDimension"
+            case creationTime = "CreationTime"
+            case maxCapacity = "MaxCapacity"
+            case minCapacity = "MinCapacity"
             case resourceId = "ResourceId"
+            case roleARN = "RoleARN"
+            case scalableDimension = "ScalableDimension"
             case serviceNamespace = "ServiceNamespace"
-            case policyName = "PolicyName"
+        }
+    }
+
+    public struct ScalableTargetAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "MinCapacity", required: false, type: .integer)
+        ]
+        /// The maximum capacity.
+        public let maxCapacity: Int32?
+        /// The minimum capacity.
+        public let minCapacity: Int32?
+
+        public init(maxCapacity: Int32? = nil, minCapacity: Int32? = nil) {
+            self.maxCapacity = maxCapacity
+            self.minCapacity = minCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxCapacity = "MaxCapacity"
+            case minCapacity = "MinCapacity"
         }
     }
 
     public struct ScalingActivity: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
+            AWSShapeMember(label: "ActivityId", required: true, type: .string), 
             AWSShapeMember(label: "Cause", required: true, type: .string), 
             AWSShapeMember(label: "Description", required: true, type: .string), 
-            AWSShapeMember(label: "ActivityId", required: true, type: .string), 
-            AWSShapeMember(label: "StatusCode", required: true, type: .enum), 
             AWSShapeMember(label: "Details", required: false, type: .string), 
             AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string)
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
+            AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "StatusCode", required: true, type: .enum), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string)
         ]
-        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
-        public let scalableDimension: ScalableDimension
-        /// A simple message about the current status of the scaling activity.
-        public let statusMessage: String?
-        /// The Unix timestamp for when the scaling activity began.
-        public let startTime: TimeStamp
-        /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
-        public let serviceNamespace: ServiceNamespace
+        /// The unique identifier of the scaling activity.
+        public let activityId: String
         /// A simple description of what caused the scaling activity to happen.
         public let cause: String
         /// A simple description of what action the scaling activity intends to accomplish.
         public let description: String
-        /// The unique identifier of the scaling activity.
-        public let activityId: String
-        /// Indicates the status of the scaling activity.
-        public let statusCode: ScalingActivityStatusCode
         /// The details about the scaling activity.
         public let details: String?
         /// The Unix timestamp for when the scaling activity ended.
         public let endTime: TimeStamp?
         /// The identifier of the resource associated with the scaling activity. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider.  
         public let resourceId: String
+        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
+        public let scalableDimension: ScalableDimension
+        /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
+        public let serviceNamespace: ServiceNamespace
+        /// The Unix timestamp for when the scaling activity began.
+        public let startTime: TimeStamp
+        /// Indicates the status of the scaling activity.
+        public let statusCode: ScalingActivityStatusCode
+        /// A simple message about the current status of the scaling activity.
+        public let statusMessage: String?
 
-        public init(scalableDimension: ScalableDimension, statusMessage: String? = nil, startTime: TimeStamp, serviceNamespace: ServiceNamespace, cause: String, description: String, activityId: String, statusCode: ScalingActivityStatusCode, details: String? = nil, endTime: TimeStamp? = nil, resourceId: String) {
-            self.scalableDimension = scalableDimension
-            self.statusMessage = statusMessage
-            self.startTime = startTime
-            self.serviceNamespace = serviceNamespace
+        public init(activityId: String, cause: String, description: String, details: String? = nil, endTime: TimeStamp? = nil, resourceId: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, startTime: TimeStamp, statusCode: ScalingActivityStatusCode, statusMessage: String? = nil) {
+            self.activityId = activityId
             self.cause = cause
             self.description = description
-            self.activityId = activityId
-            self.statusCode = statusCode
             self.details = details
             self.endTime = endTime
             self.resourceId = resourceId
+            self.scalableDimension = scalableDimension
+            self.serviceNamespace = serviceNamespace
+            self.startTime = startTime
+            self.statusCode = statusCode
+            self.statusMessage = statusMessage
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scalableDimension = "ScalableDimension"
-            case statusMessage = "StatusMessage"
-            case startTime = "StartTime"
-            case serviceNamespace = "ServiceNamespace"
+            case activityId = "ActivityId"
             case cause = "Cause"
             case description = "Description"
-            case activityId = "ActivityId"
-            case statusCode = "StatusCode"
             case details = "Details"
             case endTime = "EndTime"
             case resourceId = "ResourceId"
+            case scalableDimension = "ScalableDimension"
+            case serviceNamespace = "ServiceNamespace"
+            case startTime = "StartTime"
+            case statusCode = "StatusCode"
+            case statusMessage = "StatusMessage"
         }
     }
 
-    public enum MetricStatistic: String, CustomStringConvertible, Codable {
-        case average = "Average"
-        case minimum = "Minimum"
-        case maximum = "Maximum"
-        case samplecount = "SampleCount"
-        case sum = "Sum"
+    public enum ScalingActivityStatusCode: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case inprogress = "InProgress"
+        case successful = "Successful"
+        case overridden = "Overridden"
+        case unfulfilled = "Unfulfilled"
+        case failed = "Failed"
         public var description: String { return self.rawValue }
     }
 
-    public struct DescribeScalingPoliciesRequest: AWSShape {
+    public struct ScalingPolicy: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalableDimension", required: false, type: .enum), 
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyNames", required: false, type: .list), 
+            AWSShapeMember(label: "Alarms", required: false, type: .list), 
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "PolicyARN", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyType", required: true, type: .enum), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
             AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+            AWSShapeMember(label: "StepScalingPolicyConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "TargetTrackingScalingPolicyConfiguration", required: false, type: .structure)
         ]
-        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
-        public let scalableDimension: ScalableDimension?
-        /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier. If you specify a scalable dimension, you must also specify a resource ID.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider.  
-        public let resourceId: String?
-        /// The token for the next set of results.
-        public let nextToken: String?
-        /// The names of the scaling policies to describe.
-        public let policyNames: [String]?
+        /// The CloudWatch alarms associated with the scaling policy.
+        public let alarms: [Alarm]?
+        /// The Unix timestamp for when the scaling policy was created.
+        public let creationTime: TimeStamp
+        /// The Amazon Resource Name (ARN) of the scaling policy.
+        public let policyARN: String
+        /// The name of the scaling policy.
+        public let policyName: String
+        /// The scaling policy type.
+        public let policyType: PolicyType
+        /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider.  
+        public let resourceId: String
+        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
+        public let scalableDimension: ScalableDimension
         /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
-        /// The maximum number of scalable targets. This value can be between 1 and 50. The default value is 50. If this parameter is used, the operation returns up to MaxResults results at a time, along with a NextToken value. To get the next set of results, include the NextToken value in a subsequent call. If this parameter is not used, the operation returns up to 50 results and a NextToken value, if applicable.
-        public let maxResults: Int32?
+        /// A step scaling policy.
+        public let stepScalingPolicyConfiguration: StepScalingPolicyConfiguration?
+        /// A target tracking policy.
+        public let targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration?
 
-        public init(scalableDimension: ScalableDimension? = nil, resourceId: String? = nil, nextToken: String? = nil, policyNames: [String]? = nil, serviceNamespace: ServiceNamespace, maxResults: Int32? = nil) {
-            self.scalableDimension = scalableDimension
+        public init(alarms: [Alarm]? = nil, creationTime: TimeStamp, policyARN: String, policyName: String, policyType: PolicyType, resourceId: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, stepScalingPolicyConfiguration: StepScalingPolicyConfiguration? = nil, targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration? = nil) {
+            self.alarms = alarms
+            self.creationTime = creationTime
+            self.policyARN = policyARN
+            self.policyName = policyName
+            self.policyType = policyType
             self.resourceId = resourceId
-            self.nextToken = nextToken
-            self.policyNames = policyNames
+            self.scalableDimension = scalableDimension
             self.serviceNamespace = serviceNamespace
-            self.maxResults = maxResults
+            self.stepScalingPolicyConfiguration = stepScalingPolicyConfiguration
+            self.targetTrackingScalingPolicyConfiguration = targetTrackingScalingPolicyConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scalableDimension = "ScalableDimension"
+            case alarms = "Alarms"
+            case creationTime = "CreationTime"
+            case policyARN = "PolicyARN"
+            case policyName = "PolicyName"
+            case policyType = "PolicyType"
             case resourceId = "ResourceId"
-            case nextToken = "NextToken"
-            case policyNames = "PolicyNames"
+            case scalableDimension = "ScalableDimension"
             case serviceNamespace = "ServiceNamespace"
-            case maxResults = "MaxResults"
+            case stepScalingPolicyConfiguration = "StepScalingPolicyConfiguration"
+            case targetTrackingScalingPolicyConfiguration = "TargetTrackingScalingPolicyConfiguration"
         }
+    }
+
+    public struct ScheduledAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ScalableDimension", required: false, type: .enum), 
+            AWSShapeMember(label: "ScalableTargetAction", required: false, type: .structure), 
+            AWSShapeMember(label: "Schedule", required: true, type: .string), 
+            AWSShapeMember(label: "ScheduledActionARN", required: true, type: .string), 
+            AWSShapeMember(label: "ScheduledActionName", required: true, type: .string), 
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
+        ]
+        /// The date and time that the scheduled action was created.
+        public let creationTime: TimeStamp
+        /// The date and time that the action is scheduled to end.
+        public let endTime: TimeStamp?
+        /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider.  
+        public let resourceId: String
+        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
+        public let scalableDimension: ScalableDimension?
+        /// The new minimum and maximum capacity. You can set both values or just one. During the scheduled time, if the current capacity is below the minimum capacity, Application Auto Scaling scales out to the minimum capacity. If the current capacity is above the maximum capacity, Application Auto Scaling scales in to the maximum capacity.
+        public let scalableTargetAction: ScalableTargetAction?
+        /// The schedule for this action. The following formats are supported:   At expressions - at(yyyy-mm-ddThh:mm:ss)    Rate expressions - rate(value unit)    Cron expressions - cron(fields)    At expressions are useful for one-time schedules. Specify the time, in UTC. For rate expressions, value is a positive integer and unit is minute | minutes | hour | hours | day | days. For more information about cron expressions, see Cron Expressions in the Amazon CloudWatch Events User Guide.
+        public let schedule: String
+        /// The Amazon Resource Name (ARN) of the scheduled action.
+        public let scheduledActionARN: String
+        /// The name of the scheduled action.
+        public let scheduledActionName: String
+        /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
+        public let serviceNamespace: ServiceNamespace
+        /// The date and time that the action is scheduled to begin.
+        public let startTime: TimeStamp?
+
+        public init(creationTime: TimeStamp, endTime: TimeStamp? = nil, resourceId: String, scalableDimension: ScalableDimension? = nil, scalableTargetAction: ScalableTargetAction? = nil, schedule: String, scheduledActionARN: String, scheduledActionName: String, serviceNamespace: ServiceNamespace, startTime: TimeStamp? = nil) {
+            self.creationTime = creationTime
+            self.endTime = endTime
+            self.resourceId = resourceId
+            self.scalableDimension = scalableDimension
+            self.scalableTargetAction = scalableTargetAction
+            self.schedule = schedule
+            self.scheduledActionARN = scheduledActionARN
+            self.scheduledActionName = scheduledActionName
+            self.serviceNamespace = serviceNamespace
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case endTime = "EndTime"
+            case resourceId = "ResourceId"
+            case scalableDimension = "ScalableDimension"
+            case scalableTargetAction = "ScalableTargetAction"
+            case schedule = "Schedule"
+            case scheduledActionARN = "ScheduledActionARN"
+            case scheduledActionName = "ScheduledActionName"
+            case serviceNamespace = "ServiceNamespace"
+            case startTime = "StartTime"
+        }
+    }
+
+    public enum ServiceNamespace: String, CustomStringConvertible, Codable {
+        case ecs = "ecs"
+        case elasticmapreduce = "elasticmapreduce"
+        case ec2 = "ec2"
+        case appstream = "appstream"
+        case dynamodb = "dynamodb"
+        case rds = "rds"
+        case sagemaker = "sagemaker"
+        case customResource = "custom-resource"
+        public var description: String { return self.rawValue }
     }
 
     public struct StepAdjustment: AWSShape {
@@ -882,169 +986,80 @@ extension ApplicationAutoScaling {
         }
     }
 
-    public struct MetricDimension: AWSShape {
+    public struct StepScalingPolicyConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
+            AWSShapeMember(label: "AdjustmentType", required: false, type: .enum), 
+            AWSShapeMember(label: "Cooldown", required: false, type: .integer), 
+            AWSShapeMember(label: "MetricAggregationType", required: false, type: .enum), 
+            AWSShapeMember(label: "MinAdjustmentMagnitude", required: false, type: .integer), 
+            AWSShapeMember(label: "StepAdjustments", required: false, type: .list)
         ]
-        /// The value of the dimension.
-        public let value: String
-        /// The name of the dimension.
-        public let name: String
+        /// The adjustment type, which specifies how the ScalingAdjustment parameter in a StepAdjustment is interpreted.
+        public let adjustmentType: AdjustmentType?
+        /// The amount of time, in seconds, after a scaling activity completes where previous trigger-related scaling activities can influence future scaling events. For scale out policies, while the cooldown period is in effect, the capacity that has been added by the previous scale out event that initiated the cooldown is calculated as part of the desired capacity for the next scale out. The intention is to continuously (but not excessively) scale out. For example, an alarm triggers a step scaling policy to scale out an Amazon ECS service by 2 tasks, the scaling activity completes successfully, and a cooldown period of 5 minutes starts. During the Cooldown period, if the alarm triggers the same policy again but at a more aggressive step adjustment to scale out the service by 3 tasks, the 2 tasks that were added in the previous scale out event are considered part of that capacity and only 1 additional task is added to the desired count. For scale in policies, the cooldown period is used to block subsequent scale in requests until it has expired. The intention is to scale in conservatively to protect your application's availability. However, if another alarm triggers a scale out policy during the cooldown period after a scale-in, Application Auto Scaling scales out your scalable target immediately.
+        public let cooldown: Int32?
+        /// The aggregation type for the CloudWatch metrics. Valid values are Minimum, Maximum, and Average.
+        public let metricAggregationType: MetricAggregationType?
+        /// The minimum number to adjust your scalable dimension as a result of a scaling activity. If the adjustment type is PercentChangeInCapacity, the scaling policy changes the scalable dimension of the scalable target by this amount.
+        public let minAdjustmentMagnitude: Int32?
+        /// A set of adjustments that enable you to scale based on the size of the alarm breach.
+        public let stepAdjustments: [StepAdjustment]?
 
-        public init(value: String, name: String) {
-            self.value = value
-            self.name = name
+        public init(adjustmentType: AdjustmentType? = nil, cooldown: Int32? = nil, metricAggregationType: MetricAggregationType? = nil, minAdjustmentMagnitude: Int32? = nil, stepAdjustments: [StepAdjustment]? = nil) {
+            self.adjustmentType = adjustmentType
+            self.cooldown = cooldown
+            self.metricAggregationType = metricAggregationType
+            self.minAdjustmentMagnitude = minAdjustmentMagnitude
+            self.stepAdjustments = stepAdjustments
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case name = "Name"
-        }
-    }
-
-    public struct Alarm: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlarmName", required: true, type: .string), 
-            AWSShapeMember(label: "AlarmARN", required: true, type: .string)
-        ]
-        /// The name of the alarm.
-        public let alarmName: String
-        /// The Amazon Resource Name (ARN) of the alarm.
-        public let alarmARN: String
-
-        public init(alarmName: String, alarmARN: String) {
-            self.alarmName = alarmName
-            self.alarmARN = alarmARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case alarmName = "AlarmName"
-            case alarmARN = "AlarmARN"
+            case adjustmentType = "AdjustmentType"
+            case cooldown = "Cooldown"
+            case metricAggregationType = "MetricAggregationType"
+            case minAdjustmentMagnitude = "MinAdjustmentMagnitude"
+            case stepAdjustments = "StepAdjustments"
         }
     }
 
     public struct TargetTrackingScalingPolicyConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetValue", required: true, type: .double), 
             AWSShapeMember(label: "CustomizedMetricSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "ScaleOutCooldown", required: false, type: .integer), 
-            AWSShapeMember(label: "ScaleInCooldown", required: false, type: .integer), 
             AWSShapeMember(label: "DisableScaleIn", required: false, type: .boolean), 
-            AWSShapeMember(label: "PredefinedMetricSpecification", required: false, type: .structure)
+            AWSShapeMember(label: "PredefinedMetricSpecification", required: false, type: .structure), 
+            AWSShapeMember(label: "ScaleInCooldown", required: false, type: .integer), 
+            AWSShapeMember(label: "ScaleOutCooldown", required: false, type: .integer), 
+            AWSShapeMember(label: "TargetValue", required: true, type: .double)
         ]
-        /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2).
-        public let targetValue: Double
         /// A customized metric.
         public let customizedMetricSpecification: CustomizedMetricSpecification?
-        /// The amount of time, in seconds, after a scale out activity completes before another scale out activity can start. While the cooldown period is in effect, the capacity that has been added by the previous scale out event that initiated the cooldown is calculated as part of the desired capacity for the next scale out. The intention is to continuously (but not excessively) scale out.
-        public let scaleOutCooldown: Int32?
-        /// The amount of time, in seconds, after a scale in activity completes before another scale in activity can start. The cooldown period is used to block subsequent scale in requests until it has expired. The intention is to scale in conservatively to protect your application's availability. However, if another alarm triggers a scale out policy during the cooldown period after a scale-in, Application Auto Scaling scales out your scalable target immediately.
-        public let scaleInCooldown: Int32?
         /// Indicates whether scale in by the target tracking policy is disabled. If the value is true, scale in is disabled and the target tracking policy won't remove capacity from the scalable resource. Otherwise, scale in is enabled and the target tracking policy can remove capacity from the scalable resource. The default value is false.
         public let disableScaleIn: Bool?
         /// A predefined metric.
         public let predefinedMetricSpecification: PredefinedMetricSpecification?
+        /// The amount of time, in seconds, after a scale in activity completes before another scale in activity can start. The cooldown period is used to block subsequent scale in requests until it has expired. The intention is to scale in conservatively to protect your application's availability. However, if another alarm triggers a scale out policy during the cooldown period after a scale-in, Application Auto Scaling scales out your scalable target immediately.
+        public let scaleInCooldown: Int32?
+        /// The amount of time, in seconds, after a scale out activity completes before another scale out activity can start. While the cooldown period is in effect, the capacity that has been added by the previous scale out event that initiated the cooldown is calculated as part of the desired capacity for the next scale out. The intention is to continuously (but not excessively) scale out.
+        public let scaleOutCooldown: Int32?
+        /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2).
+        public let targetValue: Double
 
-        public init(targetValue: Double, customizedMetricSpecification: CustomizedMetricSpecification? = nil, scaleOutCooldown: Int32? = nil, scaleInCooldown: Int32? = nil, disableScaleIn: Bool? = nil, predefinedMetricSpecification: PredefinedMetricSpecification? = nil) {
-            self.targetValue = targetValue
+        public init(customizedMetricSpecification: CustomizedMetricSpecification? = nil, disableScaleIn: Bool? = nil, predefinedMetricSpecification: PredefinedMetricSpecification? = nil, scaleInCooldown: Int32? = nil, scaleOutCooldown: Int32? = nil, targetValue: Double) {
             self.customizedMetricSpecification = customizedMetricSpecification
-            self.scaleOutCooldown = scaleOutCooldown
-            self.scaleInCooldown = scaleInCooldown
             self.disableScaleIn = disableScaleIn
             self.predefinedMetricSpecification = predefinedMetricSpecification
+            self.scaleInCooldown = scaleInCooldown
+            self.scaleOutCooldown = scaleOutCooldown
+            self.targetValue = targetValue
         }
 
         private enum CodingKeys: String, CodingKey {
-            case targetValue = "TargetValue"
             case customizedMetricSpecification = "CustomizedMetricSpecification"
-            case scaleOutCooldown = "ScaleOutCooldown"
-            case scaleInCooldown = "ScaleInCooldown"
             case disableScaleIn = "DisableScaleIn"
             case predefinedMetricSpecification = "PredefinedMetricSpecification"
-        }
-    }
-
-    public struct ScalableTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
-            AWSShapeMember(label: "MinCapacity", required: true, type: .integer), 
-            AWSShapeMember(label: "MaxCapacity", required: true, type: .integer), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string)
-        ]
-        /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.  
-        public let scalableDimension: ScalableDimension
-        /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
-        public let serviceNamespace: ServiceNamespace
-        /// The ARN of an IAM role that allows Application Auto Scaling to modify the scalable target on your behalf.
-        public let roleARN: String
-        /// The minimum value to scale to in response to a scale in event.
-        public let minCapacity: Int32
-        /// The maximum value to scale to in response to a scale out event.
-        public let maxCapacity: Int32
-        /// The Unix timestamp for when the scalable target was created.
-        public let creationTime: TimeStamp
-        /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider.  
-        public let resourceId: String
-
-        public init(scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, roleARN: String, minCapacity: Int32, maxCapacity: Int32, creationTime: TimeStamp, resourceId: String) {
-            self.scalableDimension = scalableDimension
-            self.serviceNamespace = serviceNamespace
-            self.roleARN = roleARN
-            self.minCapacity = minCapacity
-            self.maxCapacity = maxCapacity
-            self.creationTime = creationTime
-            self.resourceId = resourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scalableDimension = "ScalableDimension"
-            case serviceNamespace = "ServiceNamespace"
-            case roleARN = "RoleARN"
-            case minCapacity = "MinCapacity"
-            case maxCapacity = "MaxCapacity"
-            case creationTime = "CreationTime"
-            case resourceId = "ResourceId"
-        }
-    }
-
-    public struct PutScheduledActionResponse: AWSShape {
-
-    }
-
-    public enum ServiceNamespace: String, CustomStringConvertible, Codable {
-        case ecs = "ecs"
-        case elasticmapreduce = "elasticmapreduce"
-        case ec2 = "ec2"
-        case appstream = "appstream"
-        case dynamodb = "dynamodb"
-        case rds = "rds"
-        case sagemaker = "sagemaker"
-        case customResource = "custom-resource"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ScalableTargetAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "MinCapacity", required: false, type: .integer)
-        ]
-        /// The maximum capacity.
-        public let maxCapacity: Int32?
-        /// The minimum capacity.
-        public let minCapacity: Int32?
-
-        public init(maxCapacity: Int32? = nil, minCapacity: Int32? = nil) {
-            self.maxCapacity = maxCapacity
-            self.minCapacity = minCapacity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxCapacity = "MaxCapacity"
-            case minCapacity = "MinCapacity"
+            case scaleInCooldown = "ScaleInCooldown"
+            case scaleOutCooldown = "ScaleOutCooldown"
+            case targetValue = "TargetValue"
         }
     }
 

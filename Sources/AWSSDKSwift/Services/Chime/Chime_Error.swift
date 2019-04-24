@@ -4,14 +4,14 @@ import AWSSDKSwiftCore
 
 /// Error enum for Chime
 public enum ChimeErrorType: AWSErrorType {
-    case unauthorizedClientException(message: String?)
-    case notFoundException(message: String?)
-    case forbiddenException(message: String?)
     case badRequestException(message: String?)
-    case throttledClientException(message: String?)
-    case serviceUnavailableException(message: String?)
-    case serviceFailureException(message: String?)
     case conflictException(message: String?)
+    case forbiddenException(message: String?)
+    case notFoundException(message: String?)
+    case serviceFailureException(message: String?)
+    case serviceUnavailableException(message: String?)
+    case throttledClientException(message: String?)
+    case unauthorizedClientException(message: String?)
     case unprocessableEntityException(message: String?)
 }
 
@@ -22,22 +22,22 @@ extension ChimeErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "UnauthorizedClientException":
-            self = .unauthorizedClientException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "ForbiddenException":
-            self = .forbiddenException(message: message)
         case "BadRequestException":
             self = .badRequestException(message: message)
-        case "ThrottledClientException":
-            self = .throttledClientException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        case "ServiceFailureException":
-            self = .serviceFailureException(message: message)
         case "ConflictException":
             self = .conflictException(message: message)
+        case "ForbiddenException":
+            self = .forbiddenException(message: message)
+        case "NotFoundException":
+            self = .notFoundException(message: message)
+        case "ServiceFailureException":
+            self = .serviceFailureException(message: message)
+        case "ServiceUnavailableException":
+            self = .serviceUnavailableException(message: message)
+        case "ThrottledClientException":
+            self = .throttledClientException(message: message)
+        case "UnauthorizedClientException":
+            self = .unauthorizedClientException(message: message)
         case "UnprocessableEntityException":
             self = .unprocessableEntityException(message: message)
         default:

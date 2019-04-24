@@ -4,14 +4,14 @@ import AWSSDKSwiftCore
 
 /// Error enum for Mobile
 public enum MobileErrorType: AWSErrorType {
-    case internalFailureException(message: String?)
-    case serviceUnavailableException(message: String?)
-    case unauthorizedException(message: String?)
-    case tooManyRequestsException(message: String?)
-    case badRequestException(message: String?)
-    case notFoundException(message: String?)
     case accountActionRequiredException(message: String?)
+    case badRequestException(message: String?)
+    case internalFailureException(message: String?)
     case limitExceededException(message: String?)
+    case notFoundException(message: String?)
+    case serviceUnavailableException(message: String?)
+    case tooManyRequestsException(message: String?)
+    case unauthorizedException(message: String?)
 }
 
 extension MobileErrorType {
@@ -21,22 +21,22 @@ extension MobileErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "InternalFailureException":
-            self = .internalFailureException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        case "UnauthorizedException":
-            self = .unauthorizedException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
         case "AccountActionRequiredException":
             self = .accountActionRequiredException(message: message)
+        case "BadRequestException":
+            self = .badRequestException(message: message)
+        case "InternalFailureException":
+            self = .internalFailureException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
+        case "NotFoundException":
+            self = .notFoundException(message: message)
+        case "ServiceUnavailableException":
+            self = .serviceUnavailableException(message: message)
+        case "TooManyRequestsException":
+            self = .tooManyRequestsException(message: message)
+        case "UnauthorizedException":
+            self = .unauthorizedException(message: message)
         default:
             return nil
         }

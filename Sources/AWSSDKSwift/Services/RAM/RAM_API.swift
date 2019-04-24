@@ -24,24 +24,9 @@ public struct RAM {
         )
     }
 
-    ///  Creates a resource share.
-    public func createResourceShare(_ input: CreateResourceShareRequest) throws -> CreateResourceShareResponse {
-        return try client.send(operation: "CreateResourceShare", path: "/createresourceshare", httpMethod: "POST", input: input)
-    }
-
-    ///  Enables resource sharing within your organization.
-    public func enableSharingWithAwsOrganization(_ input: EnableSharingWithAwsOrganizationRequest) throws -> EnableSharingWithAwsOrganizationResponse {
-        return try client.send(operation: "EnableSharingWithAwsOrganization", path: "/enablesharingwithawsorganization", httpMethod: "POST", input: input)
-    }
-
-    ///  Adds the specified tags to the specified resource share.
-    public func tagResource(_ input: TagResourceRequest) throws -> TagResourceResponse {
-        return try client.send(operation: "TagResource", path: "/tagresource", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes the specified resource share.
-    public func deleteResourceShare(_ input: DeleteResourceShareRequest) throws -> DeleteResourceShareResponse {
-        return try client.send(operation: "DeleteResourceShare", path: "/deleteresourceshare", httpMethod: "DELETE", input: input)
+    ///  Accepts an invitation to a resource share from another AWS account.
+    public func acceptResourceShareInvitation(_ input: AcceptResourceShareInvitationRequest) throws -> AcceptResourceShareInvitationResponse {
+        return try client.send(operation: "AcceptResourceShareInvitation", path: "/acceptresourceshareinvitation", httpMethod: "POST", input: input)
     }
 
     ///  Associates the specified resource share with the specified principals and resources.
@@ -49,34 +34,24 @@ public struct RAM {
         return try client.send(operation: "AssociateResourceShare", path: "/associateresourceshare", httpMethod: "POST", input: input)
     }
 
-    ///  Gets the associations for the specified resource share.
-    public func getResourceShareAssociations(_ input: GetResourceShareAssociationsRequest) throws -> GetResourceShareAssociationsResponse {
-        return try client.send(operation: "GetResourceShareAssociations", path: "/getresourceshareassociations", httpMethod: "POST", input: input)
+    ///  Creates a resource share.
+    public func createResourceShare(_ input: CreateResourceShareRequest) throws -> CreateResourceShareResponse {
+        return try client.send(operation: "CreateResourceShare", path: "/createresourceshare", httpMethod: "POST", input: input)
     }
 
-    ///  Accepts an invitation to a resource share from another AWS account.
-    public func acceptResourceShareInvitation(_ input: AcceptResourceShareInvitationRequest) throws -> AcceptResourceShareInvitationResponse {
-        return try client.send(operation: "AcceptResourceShareInvitation", path: "/acceptresourceshareinvitation", httpMethod: "POST", input: input)
+    ///  Deletes the specified resource share.
+    public func deleteResourceShare(_ input: DeleteResourceShareRequest) throws -> DeleteResourceShareResponse {
+        return try client.send(operation: "DeleteResourceShare", path: "/deleteresourceshare", httpMethod: "DELETE", input: input)
     }
 
-    ///  Removes the specified tags from the specified resource share.
-    public func untagResource(_ input: UntagResourceRequest) throws -> UntagResourceResponse {
-        return try client.send(operation: "UntagResource", path: "/untagresource", httpMethod: "POST", input: input)
+    ///  Disassociates the specified principals or resources from the specified resource share.
+    public func disassociateResourceShare(_ input: DisassociateResourceShareRequest) throws -> DisassociateResourceShareResponse {
+        return try client.send(operation: "DisassociateResourceShare", path: "/disassociateresourceshare", httpMethod: "POST", input: input)
     }
 
-    ///  Rejects an invitation to a resource share from another AWS account.
-    public func rejectResourceShareInvitation(_ input: RejectResourceShareInvitationRequest) throws -> RejectResourceShareInvitationResponse {
-        return try client.send(operation: "RejectResourceShareInvitation", path: "/rejectresourceshareinvitation", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets the specified resource shares or all of your resource shares.
-    public func getResourceShares(_ input: GetResourceSharesRequest) throws -> GetResourceSharesResponse {
-        return try client.send(operation: "GetResourceShares", path: "/getresourceshares", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets the specified invitations for resource sharing.
-    public func getResourceShareInvitations(_ input: GetResourceShareInvitationsRequest) throws -> GetResourceShareInvitationsResponse {
-        return try client.send(operation: "GetResourceShareInvitations", path: "/getresourceshareinvitations", httpMethod: "POST", input: input)
+    ///  Enables resource sharing within your organization.
+    public func enableSharingWithAwsOrganization(_ input: EnableSharingWithAwsOrganizationRequest) throws -> EnableSharingWithAwsOrganizationResponse {
+        return try client.send(operation: "EnableSharingWithAwsOrganization", path: "/enablesharingwithawsorganization", httpMethod: "POST", input: input)
     }
 
     ///  Gets the policies for the specifies resources.
@@ -84,14 +59,19 @@ public struct RAM {
         return try client.send(operation: "GetResourcePolicies", path: "/getresourcepolicies", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the specified resource share.
-    public func updateResourceShare(_ input: UpdateResourceShareRequest) throws -> UpdateResourceShareResponse {
-        return try client.send(operation: "UpdateResourceShare", path: "/updateresourceshare", httpMethod: "POST", input: input)
+    ///  Gets the associations for the specified resource share.
+    public func getResourceShareAssociations(_ input: GetResourceShareAssociationsRequest) throws -> GetResourceShareAssociationsResponse {
+        return try client.send(operation: "GetResourceShareAssociations", path: "/getresourceshareassociations", httpMethod: "POST", input: input)
     }
 
-    ///  Disassociates the specified principals or resources from the specified resource share.
-    public func disassociateResourceShare(_ input: DisassociateResourceShareRequest) throws -> DisassociateResourceShareResponse {
-        return try client.send(operation: "DisassociateResourceShare", path: "/disassociateresourceshare", httpMethod: "POST", input: input)
+    ///  Gets the specified invitations for resource sharing.
+    public func getResourceShareInvitations(_ input: GetResourceShareInvitationsRequest) throws -> GetResourceShareInvitationsResponse {
+        return try client.send(operation: "GetResourceShareInvitations", path: "/getresourceshareinvitations", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets the specified resource shares or all of your resource shares.
+    public func getResourceShares(_ input: GetResourceSharesRequest) throws -> GetResourceSharesResponse {
+        return try client.send(operation: "GetResourceShares", path: "/getresourceshares", httpMethod: "POST", input: input)
     }
 
     ///  Lists the principals with access to the specified resource.
@@ -102,6 +82,26 @@ public struct RAM {
     ///  Lists the resources that the specified principal can access.
     public func listResources(_ input: ListResourcesRequest) throws -> ListResourcesResponse {
         return try client.send(operation: "ListResources", path: "/listresources", httpMethod: "POST", input: input)
+    }
+
+    ///  Rejects an invitation to a resource share from another AWS account.
+    public func rejectResourceShareInvitation(_ input: RejectResourceShareInvitationRequest) throws -> RejectResourceShareInvitationResponse {
+        return try client.send(operation: "RejectResourceShareInvitation", path: "/rejectresourceshareinvitation", httpMethod: "POST", input: input)
+    }
+
+    ///  Adds the specified tags to the specified resource share.
+    public func tagResource(_ input: TagResourceRequest) throws -> TagResourceResponse {
+        return try client.send(operation: "TagResource", path: "/tagresource", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes the specified tags from the specified resource share.
+    public func untagResource(_ input: UntagResourceRequest) throws -> UntagResourceResponse {
+        return try client.send(operation: "UntagResource", path: "/untagresource", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the specified resource share.
+    public func updateResourceShare(_ input: UpdateResourceShareRequest) throws -> UpdateResourceShareResponse {
+        return try client.send(operation: "UpdateResourceShare", path: "/updateresourceshare", httpMethod: "POST", input: input)
     }
 
 

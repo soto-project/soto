@@ -5,10 +5,10 @@ import AWSSDKSwiftCore
 /// Error enum for TranscribeService
 public enum TranscribeServiceErrorType: AWSErrorType {
     case badRequestException(message: String?)
-    case limitExceededException(message: String?)
-    case internalFailureException(message: String?)
-    case notFoundException(message: String?)
     case conflictException(message: String?)
+    case internalFailureException(message: String?)
+    case limitExceededException(message: String?)
+    case notFoundException(message: String?)
 }
 
 extension TranscribeServiceErrorType {
@@ -20,14 +20,14 @@ extension TranscribeServiceErrorType {
         switch errorCode {
         case "BadRequestException":
             self = .badRequestException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "InternalFailureException":
-            self = .internalFailureException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
         case "ConflictException":
             self = .conflictException(message: message)
+        case "InternalFailureException":
+            self = .internalFailureException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
+        case "NotFoundException":
+            self = .notFoundException(message: message)
         default:
             return nil
         }

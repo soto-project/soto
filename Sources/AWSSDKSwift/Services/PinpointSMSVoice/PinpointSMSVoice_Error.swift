@@ -4,12 +4,12 @@ import AWSSDKSwiftCore
 
 /// Error enum for PinpointSMSVoice
 public enum PinpointSMSVoiceErrorType: AWSErrorType {
-    case notFoundException(message: String?)
-    case tooManyRequestsException(message: String?)
+    case alreadyExistsException(message: String?)
     case badRequestException(message: String?)
     case internalServiceErrorException(message: String?)
     case limitExceededException(message: String?)
-    case alreadyExistsException(message: String?)
+    case notFoundException(message: String?)
+    case tooManyRequestsException(message: String?)
 }
 
 extension PinpointSMSVoiceErrorType {
@@ -19,18 +19,18 @@ extension PinpointSMSVoiceErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
+        case "AlreadyExistsException":
+            self = .alreadyExistsException(message: message)
         case "BadRequestException":
             self = .badRequestException(message: message)
         case "InternalServiceErrorException":
             self = .internalServiceErrorException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
-        case "AlreadyExistsException":
-            self = .alreadyExistsException(message: message)
+        case "NotFoundException":
+            self = .notFoundException(message: message)
+        case "TooManyRequestsException":
+            self = .tooManyRequestsException(message: message)
         default:
             return nil
         }

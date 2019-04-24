@@ -50,7 +50,7 @@ struct AWSService {
     var serviceName: String {
         return apiJSON["serviceName"].stringValue.toSwiftClassCase()
     }
-    
+
     var serviceErrorName: String {
         return serviceName+"ErrorType"
     }
@@ -163,7 +163,7 @@ struct AWSService {
                     xmlNamespace: XMLNamespace(dictionary: memberDict),
                     isStreaming: memberJSON["streaming"].bool ?? false
                 )
-            }
+            }.sorted{ $0.name < $1.name }
 
             let shape = StructureShape(members: members, payload: json["payload"].string)
             type = .structure(shape)
@@ -245,7 +245,7 @@ struct AWSService {
                 throw error
             }
         }
-        return shapes
+        return shapes.sorted{ $0.name < $1.name }
     }
 
     private func parseOperation(shapes: [Shape]) throws -> ([AWSSDKSwiftCore.Operation], [String])  {
@@ -284,6 +284,6 @@ struct AWSService {
             operations.append(operation)
         }
 
-        return (operations, errorShapeNames)
+        return (operations.sorted { $0.name < $1.name }, errorShapeNames.sorted { $0 < $1 })
     }
 }

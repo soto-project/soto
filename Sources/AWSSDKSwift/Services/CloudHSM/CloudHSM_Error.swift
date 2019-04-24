@@ -4,8 +4,8 @@ import AWSSDKSwiftCore
 
 /// Error enum for CloudHSM
 public enum CloudHSMErrorType: AWSErrorType {
-    case cloudHsmServiceException(message: String?)
     case cloudHsmInternalException(message: String?)
+    case cloudHsmServiceException(message: String?)
     case invalidRequestException(message: String?)
 }
 
@@ -16,10 +16,10 @@ extension CloudHSMErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "CloudHsmServiceException":
-            self = .cloudHsmServiceException(message: message)
         case "CloudHsmInternalException":
             self = .cloudHsmInternalException(message: message)
+        case "CloudHsmServiceException":
+            self = .cloudHsmServiceException(message: message)
         case "InvalidRequestException":
             self = .invalidRequestException(message: message)
         default:

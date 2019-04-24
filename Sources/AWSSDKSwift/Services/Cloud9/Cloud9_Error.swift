@@ -6,11 +6,11 @@ import AWSSDKSwiftCore
 public enum Cloud9ErrorType: AWSErrorType {
     case badRequestException(message: String?)
     case conflictException(message: String?)
-    case notFoundException(message: String?)
     case forbiddenException(message: String?)
-    case tooManyRequestsException(message: String?)
-    case limitExceededException(message: String?)
     case internalServerErrorException(message: String?)
+    case limitExceededException(message: String?)
+    case notFoundException(message: String?)
+    case tooManyRequestsException(message: String?)
 }
 
 extension Cloud9ErrorType {
@@ -24,16 +24,16 @@ extension Cloud9ErrorType {
             self = .badRequestException(message: message)
         case "ConflictException":
             self = .conflictException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
         case "ForbiddenException":
             self = .forbiddenException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
         case "InternalServerErrorException":
             self = .internalServerErrorException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
+        case "NotFoundException":
+            self = .notFoundException(message: message)
+        case "TooManyRequestsException":
+            self = .tooManyRequestsException(message: message)
         default:
             return nil
         }

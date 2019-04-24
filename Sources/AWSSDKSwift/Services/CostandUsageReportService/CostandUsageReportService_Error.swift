@@ -5,8 +5,8 @@ import AWSSDKSwiftCore
 /// Error enum for CostandUsageReportService
 public enum CostandUsageReportServiceErrorType: AWSErrorType {
     case duplicateReportNameException(message: String?)
-    case reportLimitReachedException(message: String?)
     case internalErrorException(message: String?)
+    case reportLimitReachedException(message: String?)
     case validationException(message: String?)
 }
 
@@ -19,10 +19,10 @@ extension CostandUsageReportServiceErrorType {
         switch errorCode {
         case "DuplicateReportNameException":
             self = .duplicateReportNameException(message: message)
-        case "ReportLimitReachedException":
-            self = .reportLimitReachedException(message: message)
         case "InternalErrorException":
             self = .internalErrorException(message: message)
+        case "ReportLimitReachedException":
+            self = .reportLimitReachedException(message: message)
         case "ValidationException":
             self = .validationException(message: message)
         default:

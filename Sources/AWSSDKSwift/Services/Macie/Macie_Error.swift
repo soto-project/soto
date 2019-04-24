@@ -4,9 +4,9 @@ import AWSSDKSwiftCore
 
 /// Error enum for Macie
 public enum MacieErrorType: AWSErrorType {
-    case invalidInputException(message: String?)
     case accessDeniedException(message: String?)
     case internalException(message: String?)
+    case invalidInputException(message: String?)
     case limitExceededException(message: String?)
 }
 
@@ -17,12 +17,12 @@ extension MacieErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "InvalidInputException":
-            self = .invalidInputException(message: message)
         case "AccessDeniedException":
             self = .accessDeniedException(message: message)
         case "InternalException":
             self = .internalException(message: message)
+        case "InvalidInputException":
+            self = .invalidInputException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
         default:

@@ -5,34 +5,86 @@ import AWSSDKSwiftCore
 
 extension LicenseManager {
 
-    public struct ListUsageForLicenseConfigurationRequest: AWSShape {
+    public struct ConsumedLicenseSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "LicenseConfigurationArn", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .list)
+            AWSShapeMember(label: "ConsumedLicenses", required: false, type: .long), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .enum)
         ]
-        /// Token for the next set of results.
-        public let nextToken: String?
-        /// ARN of the targeted LicenseConfiguration object.
-        public let licenseConfigurationArn: String
-        /// Maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
-        public let maxResults: Int32?
-        /// List of filters to apply.
-        public let filters: [Filter]?
+        /// Number of licenses consumed by a resource.
+        public let consumedLicenses: Int64?
+        /// Resource type of the resource consuming a license (instance, host, or AMI).
+        public let resourceType: ResourceType?
 
-        public init(nextToken: String? = nil, licenseConfigurationArn: String, maxResults: Int32? = nil, filters: [Filter]? = nil) {
-            self.nextToken = nextToken
-            self.licenseConfigurationArn = licenseConfigurationArn
-            self.maxResults = maxResults
-            self.filters = filters
+        public init(consumedLicenses: Int64? = nil, resourceType: ResourceType? = nil) {
+            self.consumedLicenses = consumedLicenses
+            self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
+            case consumedLicenses = "ConsumedLicenses"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct CreateLicenseConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "LicenseCount", required: false, type: .long), 
+            AWSShapeMember(label: "LicenseCountHardLimit", required: false, type: .boolean), 
+            AWSShapeMember(label: "LicenseCountingType", required: true, type: .enum), 
+            AWSShapeMember(label: "LicenseRules", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// Human-friendly description of the license configuration.
+        public let description: String?
+        /// Number of licenses managed by the license configuration.
+        public let licenseCount: Int64?
+        /// Flag indicating whether hard or soft license enforcement is used. Exceeding a hard limit results in the blocked deployment of new instances.
+        public let licenseCountHardLimit: Bool?
+        /// Dimension to use to track the license inventory.
+        public let licenseCountingType: LicenseCountingType
+        /// Array of configured License Manager rules.
+        public let licenseRules: [String]?
+        /// Name of the license configuration.
+        public let name: String
+        /// The tags to apply to the resources during launch. You can only tag instances and volumes on launch. The specified tags are applied to all instances or volumes that are created during launch. To tag a resource after it has been created, see CreateTags . 
+        public let tags: [Tag]?
+
+        public init(description: String? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseCountingType: LicenseCountingType, licenseRules: [String]? = nil, name: String, tags: [Tag]? = nil) {
+            self.description = description
+            self.licenseCount = licenseCount
+            self.licenseCountHardLimit = licenseCountHardLimit
+            self.licenseCountingType = licenseCountingType
+            self.licenseRules = licenseRules
+            self.name = name
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case licenseCount = "LicenseCount"
+            case licenseCountHardLimit = "LicenseCountHardLimit"
+            case licenseCountingType = "LicenseCountingType"
+            case licenseRules = "LicenseRules"
+            case name = "Name"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateLicenseConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LicenseConfigurationArn", required: false, type: .string)
+        ]
+        /// ARN of the license configuration object after its creation.
+        public let licenseConfigurationArn: String?
+
+        public init(licenseConfigurationArn: String? = nil) {
+            self.licenseConfigurationArn = licenseConfigurationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case licenseConfigurationArn = "LicenseConfigurationArn"
-            case maxResults = "MaxResults"
-            case filters = "Filters"
         }
     }
 
@@ -52,48 +104,32 @@ extension LicenseManager {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct DeleteLicenseConfigurationResponse: AWSShape {
+
+        public init() {
+        }
 
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct Filter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagKeys", required: true, type: .list), 
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
         ]
-        /// List keys identifying tags to remove.
-        public let tagKeys: [String]
-        /// ARN of the resource.
-        public let resourceArn: String
+        /// Name of the filter. Filter names are case-sensitive.
+        public let name: String?
+        /// One or more filter values. Filter values are case-sensitive.
+        public let values: [String]?
 
-        public init(tagKeys: [String], resourceArn: String) {
-            self.tagKeys = tagKeys
-            self.resourceArn = resourceArn
+        public init(name: String? = nil, values: [String]? = nil) {
+            self.name = name
+            self.values = values
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tagKeys = "TagKeys"
-            case resourceArn = "ResourceArn"
+            case name = "Name"
+            case values = "Values"
         }
-    }
-
-    public struct UntagResourceResponse: AWSShape {
-
-    }
-
-    public enum LicenseCountingType: String, CustomStringConvertible, Codable {
-        case vcpu = "vCPU"
-        case instance = "Instance"
-        case core = "Core"
-        case socket = "Socket"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ResourceType: String, CustomStringConvertible, Codable {
-        case ec2Instance = "EC2_INSTANCE"
-        case ec2Host = "EC2_HOST"
-        case ec2Ami = "EC2_AMI"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetLicenseConfigurationRequest: AWSShape {
@@ -112,302 +148,148 @@ extension LicenseManager {
         }
     }
 
-    public struct LicenseConfigurationAssociation: AWSShape {
+    public struct GetLicenseConfigurationResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceOwnerId", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "AssociationTime", required: false, type: .timestamp)
-        ]
-        /// ID of the AWS account that owns the resource consuming licenses.
-        public let resourceOwnerId: String?
-        /// Type of server resource.
-        public let resourceType: ResourceType?
-        /// ARN of the resource associated with the license configuration.
-        public let resourceArn: String?
-        /// Time when the license configuration was associated with the resource.
-        public let associationTime: TimeStamp?
-
-        public init(resourceOwnerId: String? = nil, resourceType: ResourceType? = nil, resourceArn: String? = nil, associationTime: TimeStamp? = nil) {
-            self.resourceOwnerId = resourceOwnerId
-            self.resourceType = resourceType
-            self.resourceArn = resourceArn
-            self.associationTime = associationTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceOwnerId = "ResourceOwnerId"
-            case resourceType = "ResourceType"
-            case resourceArn = "ResourceArn"
-            case associationTime = "AssociationTime"
-        }
-    }
-
-    public struct UpdateLicenseSpecificationsForResourceResponse: AWSShape {
-
-    }
-
-    public struct InventoryFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Condition", required: true, type: .enum)
-        ]
-        /// Value of the filter.
-        public let value: String?
-        /// The name of the filter.
-        public let name: String
-        /// The condition of the filter.
-        public let condition: InventoryFilterCondition
-
-        public init(value: String? = nil, name: String, condition: InventoryFilterCondition) {
-            self.value = value
-            self.name = name
-            self.condition = condition
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case name = "Name"
-            case condition = "Condition"
-        }
-    }
-
-    public struct UpdateLicenseConfigurationResponse: AWSShape {
-
-    }
-
-    public struct ManagedResourceSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "AssociationCount", required: false, type: .long)
-        ]
-        /// Type of resource associated with a license (instance, host, or AMI).
-        public let resourceType: ResourceType?
-        /// Number of resources associated with licenses.
-        public let associationCount: Int64?
-
-        public init(resourceType: ResourceType? = nil, associationCount: Int64? = nil) {
-            self.resourceType = resourceType
-            self.associationCount = associationCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceType = "ResourceType"
-            case associationCount = "AssociationCount"
-        }
-    }
-
-    public struct LicenseConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConsumedLicenseSummaryList", required: false, type: .list), 
+            AWSShapeMember(label: "ConsumedLicenses", required: false, type: .long), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "LicenseConfigurationArn", required: false, type: .string), 
+            AWSShapeMember(label: "LicenseConfigurationId", required: false, type: .string), 
+            AWSShapeMember(label: "LicenseCount", required: false, type: .long), 
             AWSShapeMember(label: "LicenseCountHardLimit", required: false, type: .boolean), 
             AWSShapeMember(label: "LicenseCountingType", required: false, type: .enum), 
             AWSShapeMember(label: "LicenseRules", required: false, type: .list), 
-            AWSShapeMember(label: "OwnerAccountId", required: false, type: .string), 
             AWSShapeMember(label: "ManagedResourceSummaryList", required: false, type: .list), 
-            AWSShapeMember(label: "ConsumedLicenseSummaryList", required: false, type: .list), 
-            AWSShapeMember(label: "LicenseConfigurationId", required: false, type: .string), 
-            AWSShapeMember(label: "ConsumedLicenses", required: false, type: .long), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "LicenseCount", required: false, type: .long), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "LicenseConfigurationArn", required: false, type: .string)
+            AWSShapeMember(label: "OwnerAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
-        /// Sets the number of available licenses as a hard limit.
-        public let licenseCountHardLimit: Bool?
-        /// Dimension to use to track license inventory.
-        public let licenseCountingType: LicenseCountingType?
-        /// Array of configured License Manager rules.
-        public let licenseRules: [String]?
-        /// Account ID of the license configuration's owner.
-        public let ownerAccountId: String?
-        /// List of summaries for managed resources.
-        public let managedResourceSummaryList: [ManagedResourceSummary]?
-        /// List of summaries for licenses consumed by various resources.
+        /// List of summaries for consumed licenses used by various resources.
         public let consumedLicenseSummaryList: [ConsumedLicenseSummary]?
-        /// Unique ID of the LicenseConfiguration object.
-        public let licenseConfigurationId: String?
-        /// Number of licenses consumed. 
+        /// Number of licenses assigned to resources.
         public let consumedLicenses: Int64?
         /// Description of the license configuration.
         public let description: String?
-        /// Number of licenses managed by the license configuration.
-        public let licenseCount: Int64?
-        /// Status of the license configuration.
-        public let status: String?
-        /// Name of the license configuration.
-        public let name: String?
-        /// ARN of the LicenseConfiguration object.
+        /// ARN of the license configuration requested.
         public let licenseConfigurationArn: String?
-
-        public init(licenseCountHardLimit: Bool? = nil, licenseCountingType: LicenseCountingType? = nil, licenseRules: [String]? = nil, ownerAccountId: String? = nil, managedResourceSummaryList: [ManagedResourceSummary]? = nil, consumedLicenseSummaryList: [ConsumedLicenseSummary]? = nil, licenseConfigurationId: String? = nil, consumedLicenses: Int64? = nil, description: String? = nil, licenseCount: Int64? = nil, status: String? = nil, name: String? = nil, licenseConfigurationArn: String? = nil) {
-            self.licenseCountHardLimit = licenseCountHardLimit
-            self.licenseCountingType = licenseCountingType
-            self.licenseRules = licenseRules
-            self.ownerAccountId = ownerAccountId
-            self.managedResourceSummaryList = managedResourceSummaryList
-            self.consumedLicenseSummaryList = consumedLicenseSummaryList
-            self.licenseConfigurationId = licenseConfigurationId
-            self.consumedLicenses = consumedLicenses
-            self.description = description
-            self.licenseCount = licenseCount
-            self.status = status
-            self.name = name
-            self.licenseConfigurationArn = licenseConfigurationArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case licenseCountHardLimit = "LicenseCountHardLimit"
-            case licenseCountingType = "LicenseCountingType"
-            case licenseRules = "LicenseRules"
-            case ownerAccountId = "OwnerAccountId"
-            case managedResourceSummaryList = "ManagedResourceSummaryList"
-            case consumedLicenseSummaryList = "ConsumedLicenseSummaryList"
-            case licenseConfigurationId = "LicenseConfigurationId"
-            case consumedLicenses = "ConsumedLicenses"
-            case description = "Description"
-            case licenseCount = "LicenseCount"
-            case status = "Status"
-            case name = "Name"
-            case licenseConfigurationArn = "LicenseConfigurationArn"
-        }
-    }
-
-    public struct ListLicenseSpecificationsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
-        /// Token for the next set of results.
-        public let nextToken: String?
-        /// Maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
-        public let maxResults: Int32?
-        /// ARN of an AMI or Amazon EC2 instance that has an associated license configuration.
-        public let resourceArn: String
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, resourceArn: String) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.resourceArn = resourceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case resourceArn = "ResourceArn"
-        }
-    }
-
-    public struct GetLicenseConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LicenseCountHardLimit", required: false, type: .boolean), 
-            AWSShapeMember(label: "LicenseCountingType", required: false, type: .enum), 
-            AWSShapeMember(label: "LicenseRules", required: false, type: .list), 
-            AWSShapeMember(label: "OwnerAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "ManagedResourceSummaryList", required: false, type: .list), 
-            AWSShapeMember(label: "ConsumedLicenseSummaryList", required: false, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "LicenseConfigurationId", required: false, type: .string), 
-            AWSShapeMember(label: "ConsumedLicenses", required: false, type: .long), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "LicenseCount", required: false, type: .long), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "LicenseConfigurationArn", required: false, type: .string)
-        ]
+        /// Unique ID for the license configuration.
+        public let licenseConfigurationId: String?
+        /// Number of available licenses.
+        public let licenseCount: Int64?
         /// Sets the number of available licenses as a hard limit.
         public let licenseCountHardLimit: Bool?
         /// Dimension on which the licenses are counted (for example, instances, cores, sockets, or VCPUs).
         public let licenseCountingType: LicenseCountingType?
         /// List of flexible text strings designating license rules.
         public let licenseRules: [String]?
-        /// Owner account ID for the license configuration.
-        public let ownerAccountId: String?
         /// List of summaries of managed resources.
         public let managedResourceSummaryList: [ManagedResourceSummary]?
-        /// List of summaries for consumed licenses used by various resources.
-        public let consumedLicenseSummaryList: [ConsumedLicenseSummary]?
-        /// List of tags attached to the license configuration.
-        public let tags: [Tag]?
-        /// Unique ID for the license configuration.
-        public let licenseConfigurationId: String?
-        /// Number of licenses assigned to resources.
-        public let consumedLicenses: Int64?
-        /// Description of the license configuration.
-        public let description: String?
-        /// Number of available licenses.
-        public let licenseCount: Int64?
-        /// License configuration status (active, etc.).
-        public let status: String?
         /// Name of the license configuration.
         public let name: String?
-        /// ARN of the license configuration requested.
-        public let licenseConfigurationArn: String?
+        /// Owner account ID for the license configuration.
+        public let ownerAccountId: String?
+        /// License configuration status (active, etc.).
+        public let status: String?
+        /// List of tags attached to the license configuration.
+        public let tags: [Tag]?
 
-        public init(licenseCountHardLimit: Bool? = nil, licenseCountingType: LicenseCountingType? = nil, licenseRules: [String]? = nil, ownerAccountId: String? = nil, managedResourceSummaryList: [ManagedResourceSummary]? = nil, consumedLicenseSummaryList: [ConsumedLicenseSummary]? = nil, tags: [Tag]? = nil, licenseConfigurationId: String? = nil, consumedLicenses: Int64? = nil, description: String? = nil, licenseCount: Int64? = nil, status: String? = nil, name: String? = nil, licenseConfigurationArn: String? = nil) {
+        public init(consumedLicenseSummaryList: [ConsumedLicenseSummary]? = nil, consumedLicenses: Int64? = nil, description: String? = nil, licenseConfigurationArn: String? = nil, licenseConfigurationId: String? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseCountingType: LicenseCountingType? = nil, licenseRules: [String]? = nil, managedResourceSummaryList: [ManagedResourceSummary]? = nil, name: String? = nil, ownerAccountId: String? = nil, status: String? = nil, tags: [Tag]? = nil) {
+            self.consumedLicenseSummaryList = consumedLicenseSummaryList
+            self.consumedLicenses = consumedLicenses
+            self.description = description
+            self.licenseConfigurationArn = licenseConfigurationArn
+            self.licenseConfigurationId = licenseConfigurationId
+            self.licenseCount = licenseCount
             self.licenseCountHardLimit = licenseCountHardLimit
             self.licenseCountingType = licenseCountingType
             self.licenseRules = licenseRules
-            self.ownerAccountId = ownerAccountId
             self.managedResourceSummaryList = managedResourceSummaryList
-            self.consumedLicenseSummaryList = consumedLicenseSummaryList
-            self.tags = tags
-            self.licenseConfigurationId = licenseConfigurationId
-            self.consumedLicenses = consumedLicenses
-            self.description = description
-            self.licenseCount = licenseCount
-            self.status = status
             self.name = name
-            self.licenseConfigurationArn = licenseConfigurationArn
+            self.ownerAccountId = ownerAccountId
+            self.status = status
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
+            case consumedLicenseSummaryList = "ConsumedLicenseSummaryList"
+            case consumedLicenses = "ConsumedLicenses"
+            case description = "Description"
+            case licenseConfigurationArn = "LicenseConfigurationArn"
+            case licenseConfigurationId = "LicenseConfigurationId"
+            case licenseCount = "LicenseCount"
             case licenseCountHardLimit = "LicenseCountHardLimit"
             case licenseCountingType = "LicenseCountingType"
             case licenseRules = "LicenseRules"
-            case ownerAccountId = "OwnerAccountId"
             case managedResourceSummaryList = "ManagedResourceSummaryList"
-            case consumedLicenseSummaryList = "ConsumedLicenseSummaryList"
-            case tags = "Tags"
-            case licenseConfigurationId = "LicenseConfigurationId"
-            case consumedLicenses = "ConsumedLicenses"
-            case description = "Description"
-            case licenseCount = "LicenseCount"
-            case status = "Status"
             case name = "Name"
-            case licenseConfigurationArn = "LicenseConfigurationArn"
+            case ownerAccountId = "OwnerAccountId"
+            case status = "Status"
+            case tags = "Tags"
         }
     }
 
-    public struct DeleteLicenseConfigurationResponse: AWSShape {
+    public struct GetServiceSettingsRequest: AWSShape {
+
+        public init() {
+        }
 
     }
 
-    public struct ListResourceInventoryRequest: AWSShape {
+    public struct GetServiceSettingsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "EnableCrossAccountsDiscovery", required: false, type: .boolean), 
+            AWSShapeMember(label: "OrganizationConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "S3BucketArn", required: false, type: .string), 
+            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string)
         ]
-        /// Maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
-        public let maxResults: Int32?
-        /// One or more filters.
-        public let filters: [InventoryFilter]?
-        /// Token for the next set of results.
-        public let nextToken: String?
+        /// Indicates whether cross-account discovery has been enabled.
+        public let enableCrossAccountsDiscovery: Bool?
+        /// Indicates whether AWS Organizations has been integrated with License Manager for cross-account discovery.
+        public let organizationConfiguration: OrganizationConfiguration?
+        /// Regional S3 bucket path for storing reports, license trail event data, discovery data, etc.
+        public let s3BucketArn: String?
+        /// SNS topic configured to receive notifications from License Manager.
+        public let snsTopicArn: String?
 
-        public init(maxResults: Int32? = nil, filters: [InventoryFilter]? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.filters = filters
-            self.nextToken = nextToken
+        public init(enableCrossAccountsDiscovery: Bool? = nil, organizationConfiguration: OrganizationConfiguration? = nil, s3BucketArn: String? = nil, snsTopicArn: String? = nil) {
+            self.enableCrossAccountsDiscovery = enableCrossAccountsDiscovery
+            self.organizationConfiguration = organizationConfiguration
+            self.s3BucketArn = s3BucketArn
+            self.snsTopicArn = snsTopicArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case filters = "Filters"
-            case nextToken = "NextToken"
+            case enableCrossAccountsDiscovery = "EnableCrossAccountsDiscovery"
+            case organizationConfiguration = "OrganizationConfiguration"
+            case s3BucketArn = "S3BucketArn"
+            case snsTopicArn = "SnsTopicArn"
+        }
+    }
+
+    public struct InventoryFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Condition", required: true, type: .enum), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The condition of the filter.
+        public let condition: InventoryFilterCondition
+        /// The name of the filter.
+        public let name: String
+        /// Value of the filter.
+        public let value: String?
+
+        public init(condition: InventoryFilterCondition, name: String, value: String? = nil) {
+            self.condition = condition
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case condition = "Condition"
+            case name = "Name"
+            case value = "Value"
         }
     }
 
@@ -419,54 +301,206 @@ extension LicenseManager {
         public var description: String { return self.rawValue }
     }
 
-    public struct GetServiceSettingsResponse: AWSShape {
+    public struct LicenseConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnableCrossAccountsDiscovery", required: false, type: .boolean), 
-            AWSShapeMember(label: "S3BucketArn", required: false, type: .string), 
-            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationConfiguration", required: false, type: .structure)
+            AWSShapeMember(label: "ConsumedLicenseSummaryList", required: false, type: .list), 
+            AWSShapeMember(label: "ConsumedLicenses", required: false, type: .long), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "LicenseConfigurationArn", required: false, type: .string), 
+            AWSShapeMember(label: "LicenseConfigurationId", required: false, type: .string), 
+            AWSShapeMember(label: "LicenseCount", required: false, type: .long), 
+            AWSShapeMember(label: "LicenseCountHardLimit", required: false, type: .boolean), 
+            AWSShapeMember(label: "LicenseCountingType", required: false, type: .enum), 
+            AWSShapeMember(label: "LicenseRules", required: false, type: .list), 
+            AWSShapeMember(label: "ManagedResourceSummaryList", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "OwnerAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string)
         ]
-        /// Indicates whether cross-account discovery has been enabled.
-        public let enableCrossAccountsDiscovery: Bool?
-        /// Regional S3 bucket path for storing reports, license trail event data, discovery data, etc.
-        public let s3BucketArn: String?
-        /// SNS topic configured to receive notifications from License Manager.
-        public let snsTopicArn: String?
-        /// Indicates whether AWS Organizations has been integrated with License Manager for cross-account discovery.
-        public let organizationConfiguration: OrganizationConfiguration?
+        /// List of summaries for licenses consumed by various resources.
+        public let consumedLicenseSummaryList: [ConsumedLicenseSummary]?
+        /// Number of licenses consumed. 
+        public let consumedLicenses: Int64?
+        /// Description of the license configuration.
+        public let description: String?
+        /// ARN of the LicenseConfiguration object.
+        public let licenseConfigurationArn: String?
+        /// Unique ID of the LicenseConfiguration object.
+        public let licenseConfigurationId: String?
+        /// Number of licenses managed by the license configuration.
+        public let licenseCount: Int64?
+        /// Sets the number of available licenses as a hard limit.
+        public let licenseCountHardLimit: Bool?
+        /// Dimension to use to track license inventory.
+        public let licenseCountingType: LicenseCountingType?
+        /// Array of configured License Manager rules.
+        public let licenseRules: [String]?
+        /// List of summaries for managed resources.
+        public let managedResourceSummaryList: [ManagedResourceSummary]?
+        /// Name of the license configuration.
+        public let name: String?
+        /// Account ID of the license configuration's owner.
+        public let ownerAccountId: String?
+        /// Status of the license configuration.
+        public let status: String?
 
-        public init(enableCrossAccountsDiscovery: Bool? = nil, s3BucketArn: String? = nil, snsTopicArn: String? = nil, organizationConfiguration: OrganizationConfiguration? = nil) {
-            self.enableCrossAccountsDiscovery = enableCrossAccountsDiscovery
-            self.s3BucketArn = s3BucketArn
-            self.snsTopicArn = snsTopicArn
-            self.organizationConfiguration = organizationConfiguration
+        public init(consumedLicenseSummaryList: [ConsumedLicenseSummary]? = nil, consumedLicenses: Int64? = nil, description: String? = nil, licenseConfigurationArn: String? = nil, licenseConfigurationId: String? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseCountingType: LicenseCountingType? = nil, licenseRules: [String]? = nil, managedResourceSummaryList: [ManagedResourceSummary]? = nil, name: String? = nil, ownerAccountId: String? = nil, status: String? = nil) {
+            self.consumedLicenseSummaryList = consumedLicenseSummaryList
+            self.consumedLicenses = consumedLicenses
+            self.description = description
+            self.licenseConfigurationArn = licenseConfigurationArn
+            self.licenseConfigurationId = licenseConfigurationId
+            self.licenseCount = licenseCount
+            self.licenseCountHardLimit = licenseCountHardLimit
+            self.licenseCountingType = licenseCountingType
+            self.licenseRules = licenseRules
+            self.managedResourceSummaryList = managedResourceSummaryList
+            self.name = name
+            self.ownerAccountId = ownerAccountId
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enableCrossAccountsDiscovery = "EnableCrossAccountsDiscovery"
-            case s3BucketArn = "S3BucketArn"
-            case snsTopicArn = "SnsTopicArn"
-            case organizationConfiguration = "OrganizationConfiguration"
+            case consumedLicenseSummaryList = "ConsumedLicenseSummaryList"
+            case consumedLicenses = "ConsumedLicenses"
+            case description = "Description"
+            case licenseConfigurationArn = "LicenseConfigurationArn"
+            case licenseConfigurationId = "LicenseConfigurationId"
+            case licenseCount = "LicenseCount"
+            case licenseCountHardLimit = "LicenseCountHardLimit"
+            case licenseCountingType = "LicenseCountingType"
+            case licenseRules = "LicenseRules"
+            case managedResourceSummaryList = "ManagedResourceSummaryList"
+            case name = "Name"
+            case ownerAccountId = "OwnerAccountId"
+            case status = "Status"
         }
     }
 
-    public struct ListResourceInventoryResponse: AWSShape {
+    public struct LicenseConfigurationAssociation: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceInventoryList", required: false, type: .list), 
+            AWSShapeMember(label: "AssociationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceOwnerId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .enum)
+        ]
+        /// Time when the license configuration was associated with the resource.
+        public let associationTime: TimeStamp?
+        /// ARN of the resource associated with the license configuration.
+        public let resourceArn: String?
+        /// ID of the AWS account that owns the resource consuming licenses.
+        public let resourceOwnerId: String?
+        /// Type of server resource.
+        public let resourceType: ResourceType?
+
+        public init(associationTime: TimeStamp? = nil, resourceArn: String? = nil, resourceOwnerId: String? = nil, resourceType: ResourceType? = nil) {
+            self.associationTime = associationTime
+            self.resourceArn = resourceArn
+            self.resourceOwnerId = resourceOwnerId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationTime = "AssociationTime"
+            case resourceArn = "ResourceArn"
+            case resourceOwnerId = "ResourceOwnerId"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public enum LicenseConfigurationStatus: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct LicenseConfigurationUsage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssociationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ConsumedLicenses", required: false, type: .long), 
+            AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceOwnerId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceStatus", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .enum)
+        ]
+        /// Time when the license configuration was initially associated with a resource.
+        public let associationTime: TimeStamp?
+        /// Number of licenses consumed out of the total provisioned in the license configuration.
+        public let consumedLicenses: Int64?
+        /// ARN of the resource associated with a license configuration.
+        public let resourceArn: String?
+        /// ID of the account that owns a resource that is associated with the license configuration.
+        public let resourceOwnerId: String?
+        /// Status of a resource associated with the license configuration.
+        public let resourceStatus: String?
+        /// Type of resource associated with athe license configuration.
+        public let resourceType: ResourceType?
+
+        public init(associationTime: TimeStamp? = nil, consumedLicenses: Int64? = nil, resourceArn: String? = nil, resourceOwnerId: String? = nil, resourceStatus: String? = nil, resourceType: ResourceType? = nil) {
+            self.associationTime = associationTime
+            self.consumedLicenses = consumedLicenses
+            self.resourceArn = resourceArn
+            self.resourceOwnerId = resourceOwnerId
+            self.resourceStatus = resourceStatus
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationTime = "AssociationTime"
+            case consumedLicenses = "ConsumedLicenses"
+            case resourceArn = "ResourceArn"
+            case resourceOwnerId = "ResourceOwnerId"
+            case resourceStatus = "ResourceStatus"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public enum LicenseCountingType: String, CustomStringConvertible, Codable {
+        case vcpu = "vCPU"
+        case instance = "Instance"
+        case core = "Core"
+        case socket = "Socket"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct LicenseSpecification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LicenseConfigurationArn", required: true, type: .string)
+        ]
+        /// ARN of the LicenseConfiguration object.
+        public let licenseConfigurationArn: String
+
+        public init(licenseConfigurationArn: String) {
+            self.licenseConfigurationArn = licenseConfigurationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseConfigurationArn = "LicenseConfigurationArn"
+        }
+    }
+
+    public struct ListAssociationsForLicenseConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LicenseConfigurationArn", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The detailed list of resources.
-        public let resourceInventoryList: [ResourceInventory]?
+        /// ARN of a LicenseConfiguration object.
+        public let licenseConfigurationArn: String
+        /// Maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
+        public let maxResults: Int32?
         /// Token for the next set of results.
         public let nextToken: String?
 
-        public init(resourceInventoryList: [ResourceInventory]? = nil, nextToken: String? = nil) {
-            self.resourceInventoryList = resourceInventoryList
+        public init(licenseConfigurationArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.licenseConfigurationArn = licenseConfigurationArn
+            self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceInventoryList = "ResourceInventoryList"
+            case licenseConfigurationArn = "LicenseConfigurationArn"
+            case maxResults = "MaxResults"
             case nextToken = "NextToken"
         }
     }
@@ -492,6 +526,37 @@ extension LicenseManager {
         }
     }
 
+    public struct ListLicenseConfigurationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "LicenseConfigurationArns", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// One or more filters.
+        public let filters: [Filter]?
+        /// An array of ARNs for the calling account’s license configurations.
+        public let licenseConfigurationArns: [String]?
+        /// Maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
+        public let maxResults: Int32?
+        /// Token for the next set of results.
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, licenseConfigurationArns: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.licenseConfigurationArns = licenseConfigurationArns
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case licenseConfigurationArns = "LicenseConfigurationArns"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListLicenseConfigurationsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LicenseConfigurations", required: false, type: .list), 
@@ -513,87 +578,29 @@ extension LicenseManager {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct ListLicenseSpecificationsForResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: true, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
-        /// Names of the tags to attach to the resource.
-        public let tags: [Tag]
-        /// Resource of the ARN to be tagged.
+        /// Maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
+        public let maxResults: Int32?
+        /// Token for the next set of results.
+        public let nextToken: String?
+        /// ARN of an AMI or Amazon EC2 instance that has an associated license configuration.
         public let resourceArn: String
 
-        public init(tags: [Tag], resourceArn: String) {
-            self.tags = tags
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
             self.resourceArn = resourceArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
             case resourceArn = "ResourceArn"
-        }
-    }
-
-    public struct UpdateServiceSettingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnableCrossAccountsDiscovery", required: false, type: .boolean), 
-            AWSShapeMember(label: "S3BucketArn", required: false, type: .string), 
-            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationConfiguration", required: false, type: .structure)
-        ]
-        /// Activates cross-account discovery.
-        public let enableCrossAccountsDiscovery: Bool?
-        /// ARN of the Amazon S3 bucket where License Manager information is stored.
-        public let s3BucketArn: String?
-        /// ARN of the Amazon SNS topic used for License Manager alerts.
-        public let snsTopicArn: String?
-        /// Integrates AWS Organizations with License Manager for cross-account discovery.
-        public let organizationConfiguration: OrganizationConfiguration?
-
-        public init(enableCrossAccountsDiscovery: Bool? = nil, s3BucketArn: String? = nil, snsTopicArn: String? = nil, organizationConfiguration: OrganizationConfiguration? = nil) {
-            self.enableCrossAccountsDiscovery = enableCrossAccountsDiscovery
-            self.s3BucketArn = s3BucketArn
-            self.snsTopicArn = snsTopicArn
-            self.organizationConfiguration = organizationConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case enableCrossAccountsDiscovery = "EnableCrossAccountsDiscovery"
-            case s3BucketArn = "S3BucketArn"
-            case snsTopicArn = "SnsTopicArn"
-            case organizationConfiguration = "OrganizationConfiguration"
-        }
-    }
-
-    public struct OrganizationConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnableIntegration", required: true, type: .boolean)
-        ]
-        /// Flag to activate AWS Organization integration.
-        public let enableIntegration: Bool
-
-        public init(enableIntegration: Bool) {
-            self.enableIntegration = enableIntegration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case enableIntegration = "EnableIntegration"
-        }
-    }
-
-    public struct CreateLicenseConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LicenseConfigurationArn", required: false, type: .string)
-        ]
-        /// ARN of the license configuration object after its creation.
-        public let licenseConfigurationArn: String?
-
-        public init(licenseConfigurationArn: String? = nil) {
-            self.licenseConfigurationArn = licenseConfigurationArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case licenseConfigurationArn = "LicenseConfigurationArn"
         }
     }
 
@@ -618,133 +625,51 @@ extension LicenseManager {
         }
     }
 
-    public struct LicenseSpecification: AWSShape {
+    public struct ListResourceInventoryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LicenseConfigurationArn", required: true, type: .string)
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// ARN of the LicenseConfiguration object.
-        public let licenseConfigurationArn: String
+        /// One or more filters.
+        public let filters: [InventoryFilter]?
+        /// Maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
+        public let maxResults: Int32?
+        /// Token for the next set of results.
+        public let nextToken: String?
 
-        public init(licenseConfigurationArn: String) {
-            self.licenseConfigurationArn = licenseConfigurationArn
+        public init(filters: [InventoryFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case licenseConfigurationArn = "LicenseConfigurationArn"
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
         }
     }
 
-    public struct CreateLicenseConfigurationRequest: AWSShape {
+    public struct ListResourceInventoryResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LicenseCountHardLimit", required: false, type: .boolean), 
-            AWSShapeMember(label: "LicenseCountingType", required: true, type: .enum), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "LicenseRules", required: false, type: .list), 
-            AWSShapeMember(label: "LicenseCount", required: false, type: .long), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceInventoryList", required: false, type: .list)
         ]
-        /// Flag indicating whether hard or soft license enforcement is used. Exceeding a hard limit results in the blocked deployment of new instances.
-        public let licenseCountHardLimit: Bool?
-        /// Dimension to use to track the license inventory.
-        public let licenseCountingType: LicenseCountingType
-        /// Human-friendly description of the license configuration.
-        public let description: String?
-        /// Array of configured License Manager rules.
-        public let licenseRules: [String]?
-        /// Number of licenses managed by the license configuration.
-        public let licenseCount: Int64?
-        /// Name of the license configuration.
-        public let name: String
-        /// The tags to apply to the resources during launch. You can only tag instances and volumes on launch. The specified tags are applied to all instances or volumes that are created during launch. To tag a resource after it has been created, see CreateTags . 
-        public let tags: [Tag]?
+        /// Token for the next set of results.
+        public let nextToken: String?
+        /// The detailed list of resources.
+        public let resourceInventoryList: [ResourceInventory]?
 
-        public init(licenseCountHardLimit: Bool? = nil, licenseCountingType: LicenseCountingType, description: String? = nil, licenseRules: [String]? = nil, licenseCount: Int64? = nil, name: String, tags: [Tag]? = nil) {
-            self.licenseCountHardLimit = licenseCountHardLimit
-            self.licenseCountingType = licenseCountingType
-            self.description = description
-            self.licenseRules = licenseRules
-            self.licenseCount = licenseCount
-            self.name = name
-            self.tags = tags
+        public init(nextToken: String? = nil, resourceInventoryList: [ResourceInventory]? = nil) {
+            self.nextToken = nextToken
+            self.resourceInventoryList = resourceInventoryList
         }
 
         private enum CodingKeys: String, CodingKey {
-            case licenseCountHardLimit = "LicenseCountHardLimit"
-            case licenseCountingType = "LicenseCountingType"
-            case description = "Description"
-            case licenseRules = "LicenseRules"
-            case licenseCount = "LicenseCount"
-            case name = "Name"
-            case tags = "Tags"
+            case nextToken = "NextToken"
+            case resourceInventoryList = "ResourceInventoryList"
         }
-    }
-
-    public enum LicenseConfigurationStatus: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
-        /// List of tags attached to the resource.
-        public let tags: [Tag]?
-
-        public init(tags: [Tag]? = nil) {
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-        }
-    }
-
-    public struct ResourceInventory: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "PlatformVersion", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceOwningAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "Platform", required: false, type: .string)
-        ]
-        /// Unique ID of the resource.
-        public let resourceId: String?
-        /// The type of resource.
-        public let resourceType: ResourceType?
-        /// The ARN of the resource.
-        public let resourceArn: String?
-        /// Platform version of the resource in the inventory.
-        public let platformVersion: String?
-        /// Unique ID of the account that owns the resource.
-        public let resourceOwningAccountId: String?
-        /// The platform of the resource.
-        public let platform: String?
-
-        public init(resourceId: String? = nil, resourceType: ResourceType? = nil, resourceArn: String? = nil, platformVersion: String? = nil, resourceOwningAccountId: String? = nil, platform: String? = nil) {
-            self.resourceId = resourceId
-            self.resourceType = resourceType
-            self.resourceArn = resourceArn
-            self.platformVersion = platformVersion
-            self.resourceOwningAccountId = resourceOwningAccountId
-            self.platform = platform
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case resourceType = "ResourceType"
-            case resourceArn = "ResourceArn"
-            case platformVersion = "PlatformVersion"
-            case resourceOwningAccountId = "ResourceOwningAccountId"
-            case platform = "Platform"
-        }
-    }
-
-    public struct UpdateServiceSettingsResponse: AWSShape {
-
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
@@ -763,189 +688,287 @@ extension LicenseManager {
         }
     }
 
-    public struct Filter: AWSShape {
+    public struct ListTagsForResourceResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Values", required: false, type: .list)
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
-        /// Name of the filter. Filter names are case-sensitive.
-        public let name: String?
-        /// One or more filter values. Filter values are case-sensitive.
-        public let values: [String]?
+        /// List of tags attached to the resource.
+        public let tags: [Tag]?
 
-        public init(name: String? = nil, values: [String]? = nil) {
-            self.name = name
-            self.values = values
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case values = "Values"
+            case tags = "Tags"
         }
     }
 
-    public struct UpdateLicenseConfigurationRequest: AWSShape {
+    public struct ListUsageForLicenseConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LicenseCountHardLimit", required: false, type: .boolean), 
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
             AWSShapeMember(label: "LicenseConfigurationArn", required: true, type: .string), 
-            AWSShapeMember(label: "LicenseRules", required: false, type: .list), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "LicenseConfigurationStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "LicenseCount", required: false, type: .long), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// Sets the number of available licenses as a hard limit.
-        public let licenseCountHardLimit: Bool?
-        /// ARN for a license configuration.
+        /// List of filters to apply.
+        public let filters: [Filter]?
+        /// ARN of the targeted LicenseConfiguration object.
         public let licenseConfigurationArn: String
-        /// List of flexible text strings designating license rules.
-        public let licenseRules: [String]?
-        /// New human-friendly description of the license configuration.
-        public let description: String?
-        /// New status of the license configuration (ACTIVE or INACTIVE).
-        public let licenseConfigurationStatus: LicenseConfigurationStatus?
-        /// New number of licenses managed by the license configuration.
-        public let licenseCount: Int64?
-        /// New name of the license configuration.
-        public let name: String?
+        /// Maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
+        public let maxResults: Int32?
+        /// Token for the next set of results.
+        public let nextToken: String?
 
-        public init(licenseCountHardLimit: Bool? = nil, licenseConfigurationArn: String, licenseRules: [String]? = nil, description: String? = nil, licenseConfigurationStatus: LicenseConfigurationStatus? = nil, licenseCount: Int64? = nil, name: String? = nil) {
-            self.licenseCountHardLimit = licenseCountHardLimit
+        public init(filters: [Filter]? = nil, licenseConfigurationArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.filters = filters
             self.licenseConfigurationArn = licenseConfigurationArn
-            self.licenseRules = licenseRules
-            self.description = description
-            self.licenseConfigurationStatus = licenseConfigurationStatus
-            self.licenseCount = licenseCount
-            self.name = name
+            self.maxResults = maxResults
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case licenseCountHardLimit = "LicenseCountHardLimit"
+            case filters = "Filters"
             case licenseConfigurationArn = "LicenseConfigurationArn"
-            case licenseRules = "LicenseRules"
-            case description = "Description"
-            case licenseConfigurationStatus = "LicenseConfigurationStatus"
-            case licenseCount = "LicenseCount"
-            case name = "Name"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
         }
     }
 
     public struct ListUsageForLicenseConfigurationResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "LicenseConfigurationUsageList", required: false, type: .list)
+            AWSShapeMember(label: "LicenseConfigurationUsageList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// Token for the next set of results.
-        public let nextToken: String?
         /// An array of LicenseConfigurationUsage objects.
         public let licenseConfigurationUsageList: [LicenseConfigurationUsage]?
-
-        public init(nextToken: String? = nil, licenseConfigurationUsageList: [LicenseConfigurationUsage]? = nil) {
-            self.nextToken = nextToken
-            self.licenseConfigurationUsageList = licenseConfigurationUsageList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case licenseConfigurationUsageList = "LicenseConfigurationUsageList"
-        }
-    }
-
-    public struct GetServiceSettingsRequest: AWSShape {
-
-    }
-
-    public struct ConsumedLicenseSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsumedLicenses", required: false, type: .long), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .enum)
-        ]
-        /// Number of licenses consumed by a resource.
-        public let consumedLicenses: Int64?
-        /// Resource type of the resource consuming a license (instance, host, or AMI).
-        public let resourceType: ResourceType?
-
-        public init(consumedLicenses: Int64? = nil, resourceType: ResourceType? = nil) {
-            self.consumedLicenses = consumedLicenses
-            self.resourceType = resourceType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case consumedLicenses = "ConsumedLicenses"
-            case resourceType = "ResourceType"
-        }
-    }
-
-    public struct ListLicenseConfigurationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "LicenseConfigurationArns", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .list)
-        ]
         /// Token for the next set of results.
         public let nextToken: String?
-        /// An array of ARNs for the calling account’s license configurations.
-        public let licenseConfigurationArns: [String]?
-        /// Maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
-        public let maxResults: Int32?
-        /// One or more filters.
-        public let filters: [Filter]?
 
-        public init(nextToken: String? = nil, licenseConfigurationArns: [String]? = nil, maxResults: Int32? = nil, filters: [Filter]? = nil) {
+        public init(licenseConfigurationUsageList: [LicenseConfigurationUsage]? = nil, nextToken: String? = nil) {
+            self.licenseConfigurationUsageList = licenseConfigurationUsageList
             self.nextToken = nextToken
-            self.licenseConfigurationArns = licenseConfigurationArns
-            self.maxResults = maxResults
-            self.filters = filters
         }
 
         private enum CodingKeys: String, CodingKey {
+            case licenseConfigurationUsageList = "LicenseConfigurationUsageList"
             case nextToken = "NextToken"
-            case licenseConfigurationArns = "LicenseConfigurationArns"
-            case maxResults = "MaxResults"
-            case filters = "Filters"
         }
     }
 
-    public struct LicenseConfigurationUsage: AWSShape {
+    public struct ManagedResourceSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceOwnerId", required: false, type: .string), 
-            AWSShapeMember(label: "ConsumedLicenses", required: false, type: .long), 
-            AWSShapeMember(label: "AssociationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "ResourceStatus", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceArn", required: false, type: .string)
+            AWSShapeMember(label: "AssociationCount", required: false, type: .long), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .enum)
         ]
-        /// ID of the account that owns a resource that is associated with the license configuration.
-        public let resourceOwnerId: String?
-        /// Number of licenses consumed out of the total provisioned in the license configuration.
-        public let consumedLicenses: Int64?
-        /// Time when the license configuration was initially associated with a resource.
-        public let associationTime: TimeStamp?
-        /// Type of resource associated with athe license configuration.
+        /// Number of resources associated with licenses.
+        public let associationCount: Int64?
+        /// Type of resource associated with a license (instance, host, or AMI).
         public let resourceType: ResourceType?
-        /// Status of a resource associated with the license configuration.
-        public let resourceStatus: String?
-        /// ARN of the resource associated with a license configuration.
-        public let resourceArn: String?
 
-        public init(resourceOwnerId: String? = nil, consumedLicenses: Int64? = nil, associationTime: TimeStamp? = nil, resourceType: ResourceType? = nil, resourceStatus: String? = nil, resourceArn: String? = nil) {
-            self.resourceOwnerId = resourceOwnerId
-            self.consumedLicenses = consumedLicenses
-            self.associationTime = associationTime
+        public init(associationCount: Int64? = nil, resourceType: ResourceType? = nil) {
+            self.associationCount = associationCount
             self.resourceType = resourceType
-            self.resourceStatus = resourceStatus
-            self.resourceArn = resourceArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceOwnerId = "ResourceOwnerId"
-            case consumedLicenses = "ConsumedLicenses"
-            case associationTime = "AssociationTime"
+            case associationCount = "AssociationCount"
             case resourceType = "ResourceType"
-            case resourceStatus = "ResourceStatus"
-            case resourceArn = "ResourceArn"
         }
+    }
+
+    public struct OrganizationConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnableIntegration", required: true, type: .boolean)
+        ]
+        /// Flag to activate AWS Organization integration.
+        public let enableIntegration: Bool
+
+        public init(enableIntegration: Bool) {
+            self.enableIntegration = enableIntegration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableIntegration = "EnableIntegration"
+        }
+    }
+
+    public struct ResourceInventory: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Platform", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceOwningAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .enum)
+        ]
+        /// The platform of the resource.
+        public let platform: String?
+        /// Platform version of the resource in the inventory.
+        public let platformVersion: String?
+        /// The ARN of the resource.
+        public let resourceArn: String?
+        /// Unique ID of the resource.
+        public let resourceId: String?
+        /// Unique ID of the account that owns the resource.
+        public let resourceOwningAccountId: String?
+        /// The type of resource.
+        public let resourceType: ResourceType?
+
+        public init(platform: String? = nil, platformVersion: String? = nil, resourceArn: String? = nil, resourceId: String? = nil, resourceOwningAccountId: String? = nil, resourceType: ResourceType? = nil) {
+            self.platform = platform
+            self.platformVersion = platformVersion
+            self.resourceArn = resourceArn
+            self.resourceId = resourceId
+            self.resourceOwningAccountId = resourceOwningAccountId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case platform = "Platform"
+            case platformVersion = "PlatformVersion"
+            case resourceArn = "ResourceArn"
+            case resourceId = "ResourceId"
+            case resourceOwningAccountId = "ResourceOwningAccountId"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case ec2Instance = "EC2_INSTANCE"
+        case ec2Host = "EC2_HOST"
+        case ec2Ami = "EC2_AMI"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// Key for the resource tag.
+        public let key: String?
+        /// Value for the resource tag.
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+        /// Resource of the ARN to be tagged.
+        public let resourceArn: String
+        /// Names of the tags to attach to the resource.
+        public let tags: [Tag]
+
+        public init(resourceArn: String, tags: [Tag]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+        ]
+        /// ARN of the resource.
+        public let resourceArn: String
+        /// List keys identifying tags to remove.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateLicenseConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "LicenseConfigurationArn", required: true, type: .string), 
+            AWSShapeMember(label: "LicenseConfigurationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "LicenseCount", required: false, type: .long), 
+            AWSShapeMember(label: "LicenseCountHardLimit", required: false, type: .boolean), 
+            AWSShapeMember(label: "LicenseRules", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// New human-friendly description of the license configuration.
+        public let description: String?
+        /// ARN for a license configuration.
+        public let licenseConfigurationArn: String
+        /// New status of the license configuration (ACTIVE or INACTIVE).
+        public let licenseConfigurationStatus: LicenseConfigurationStatus?
+        /// New number of licenses managed by the license configuration.
+        public let licenseCount: Int64?
+        /// Sets the number of available licenses as a hard limit.
+        public let licenseCountHardLimit: Bool?
+        /// List of flexible text strings designating license rules.
+        public let licenseRules: [String]?
+        /// New name of the license configuration.
+        public let name: String?
+
+        public init(description: String? = nil, licenseConfigurationArn: String, licenseConfigurationStatus: LicenseConfigurationStatus? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseRules: [String]? = nil, name: String? = nil) {
+            self.description = description
+            self.licenseConfigurationArn = licenseConfigurationArn
+            self.licenseConfigurationStatus = licenseConfigurationStatus
+            self.licenseCount = licenseCount
+            self.licenseCountHardLimit = licenseCountHardLimit
+            self.licenseRules = licenseRules
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case licenseConfigurationArn = "LicenseConfigurationArn"
+            case licenseConfigurationStatus = "LicenseConfigurationStatus"
+            case licenseCount = "LicenseCount"
+            case licenseCountHardLimit = "LicenseCountHardLimit"
+            case licenseRules = "LicenseRules"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateLicenseConfigurationResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct UpdateLicenseSpecificationsForResourceRequest: AWSShape {
@@ -974,51 +997,49 @@ extension LicenseManager {
         }
     }
 
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: false, type: .string)
-        ]
-        /// Value for the resource tag.
-        public let value: String?
-        /// Key for the resource tag.
-        public let key: String?
+    public struct UpdateLicenseSpecificationsForResourceResponse: AWSShape {
 
-        public init(value: String? = nil, key: String? = nil) {
-            self.value = value
-            self.key = key
+        public init() {
+        }
+
+    }
+
+    public struct UpdateServiceSettingsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnableCrossAccountsDiscovery", required: false, type: .boolean), 
+            AWSShapeMember(label: "OrganizationConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "S3BucketArn", required: false, type: .string), 
+            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string)
+        ]
+        /// Activates cross-account discovery.
+        public let enableCrossAccountsDiscovery: Bool?
+        /// Integrates AWS Organizations with License Manager for cross-account discovery.
+        public let organizationConfiguration: OrganizationConfiguration?
+        /// ARN of the Amazon S3 bucket where License Manager information is stored.
+        public let s3BucketArn: String?
+        /// ARN of the Amazon SNS topic used for License Manager alerts.
+        public let snsTopicArn: String?
+
+        public init(enableCrossAccountsDiscovery: Bool? = nil, organizationConfiguration: OrganizationConfiguration? = nil, s3BucketArn: String? = nil, snsTopicArn: String? = nil) {
+            self.enableCrossAccountsDiscovery = enableCrossAccountsDiscovery
+            self.organizationConfiguration = organizationConfiguration
+            self.s3BucketArn = s3BucketArn
+            self.snsTopicArn = snsTopicArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case key = "Key"
+            case enableCrossAccountsDiscovery = "EnableCrossAccountsDiscovery"
+            case organizationConfiguration = "OrganizationConfiguration"
+            case s3BucketArn = "S3BucketArn"
+            case snsTopicArn = "SnsTopicArn"
         }
     }
 
-    public struct ListAssociationsForLicenseConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LicenseConfigurationArn", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// ARN of a LicenseConfiguration object.
-        public let licenseConfigurationArn: String
-        /// Maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
-        public let maxResults: Int32?
-        /// Token for the next set of results.
-        public let nextToken: String?
+    public struct UpdateServiceSettingsResponse: AWSShape {
 
-        public init(licenseConfigurationArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.licenseConfigurationArn = licenseConfigurationArn
-            self.maxResults = maxResults
-            self.nextToken = nextToken
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case licenseConfigurationArn = "LicenseConfigurationArn"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
     }
 
 }

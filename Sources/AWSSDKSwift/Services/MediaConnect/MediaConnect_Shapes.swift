@@ -5,6 +5,429 @@ import AWSSDKSwiftCore
 
 extension MediaConnect {
 
+    public struct AddFlowOutputsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string), 
+            AWSShapeMember(label: "Outputs", location: .body(locationName: "outputs"), required: true, type: .list)
+        ]
+        public let flowArn: String
+        /// A list of outputs that you want to add.
+        public let outputs: [AddOutputRequest]
+
+        public init(flowArn: String, outputs: [AddOutputRequest]) {
+            self.flowArn = flowArn
+            self.outputs = outputs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowArn = "flowArn"
+            case outputs = "outputs"
+        }
+    }
+
+    public struct AddFlowOutputsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string), 
+            AWSShapeMember(label: "Outputs", location: .body(locationName: "outputs"), required: false, type: .list)
+        ]
+        /// The ARN of the flow that these outputs were added to.
+        public let flowArn: String?
+        /// The details of the newly added outputs.
+        public let outputs: [Output]?
+
+        public init(flowArn: String? = nil, outputs: [Output]? = nil) {
+            self.flowArn = flowArn
+            self.outputs = outputs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowArn = "flowArn"
+            case outputs = "outputs"
+        }
+    }
+
+    public struct AddOutputRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: true, type: .string), 
+            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
+            AWSShapeMember(label: "MaxLatency", location: .body(locationName: "maxLatency"), required: false, type: .integer), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "Port", location: .body(locationName: "port"), required: true, type: .integer), 
+            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"), required: true, type: .enum), 
+            AWSShapeMember(label: "SmoothingLatency", location: .body(locationName: "smoothingLatency"), required: false, type: .integer), 
+            AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"), required: false, type: .string)
+        ]
+        /// A description of the output. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the end user.
+        public let description: String?
+        /// The IP address from which video will be sent to output destinations.
+        public let destination: String
+        /// The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
+        public let encryption: Encryption?
+        /// The maximum latency in milliseconds for Zixi-based streams.
+        public let maxLatency: Int32?
+        /// The name of the output. This value must be unique within the current flow.
+        public let name: String?
+        /// The port to use when content is distributed to this output.
+        public let port: Int32
+        /// The protocol to use for the output.
+        public let `protocol`: Protocol
+        /// The smoothing latency in milliseconds for RTP and RTP-FEC streams.
+        public let smoothingLatency: Int32?
+        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
+        public let streamId: String?
+
+        public init(description: String? = nil, destination: String, encryption: Encryption? = nil, maxLatency: Int32? = nil, name: String? = nil, port: Int32, protocol: Protocol, smoothingLatency: Int32? = nil, streamId: String? = nil) {
+            self.description = description
+            self.destination = destination
+            self.encryption = encryption
+            self.maxLatency = maxLatency
+            self.name = name
+            self.port = port
+            self.`protocol` = `protocol`
+            self.smoothingLatency = smoothingLatency
+            self.streamId = streamId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case destination = "destination"
+            case encryption = "encryption"
+            case maxLatency = "maxLatency"
+            case name = "name"
+            case port = "port"
+            case `protocol` = "protocol"
+            case smoothingLatency = "smoothingLatency"
+            case streamId = "streamId"
+        }
+    }
+
+    public enum Algorithm: String, CustomStringConvertible, Codable {
+        case aes128 = "aes128"
+        case aes192 = "aes192"
+        case aes256 = "aes256"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateFlowRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string), 
+            AWSShapeMember(label: "Entitlements", location: .body(locationName: "entitlements"), required: false, type: .list), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "Outputs", location: .body(locationName: "outputs"), required: false, type: .list), 
+            AWSShapeMember(label: "Source", location: .body(locationName: "source"), required: true, type: .structure)
+        ]
+        /// The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current AWS Region.
+        public let availabilityZone: String?
+        /// The entitlements that you want to grant on a flow.
+        public let entitlements: [GrantEntitlementRequest]?
+        /// The name of the flow.
+        public let name: String
+        /// The outputs that you want to add to this flow.
+        public let outputs: [AddOutputRequest]?
+        public let source: SetSourceRequest
+
+        public init(availabilityZone: String? = nil, entitlements: [GrantEntitlementRequest]? = nil, name: String, outputs: [AddOutputRequest]? = nil, source: SetSourceRequest) {
+            self.availabilityZone = availabilityZone
+            self.entitlements = entitlements
+            self.name = name
+            self.outputs = outputs
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "availabilityZone"
+            case entitlements = "entitlements"
+            case name = "name"
+            case outputs = "outputs"
+            case source = "source"
+        }
+    }
+
+    public struct CreateFlowResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Flow", location: .body(locationName: "flow"), required: false, type: .structure)
+        ]
+        public let flow: Flow?
+
+        public init(flow: Flow? = nil) {
+            self.flow = flow
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flow = "flow"
+        }
+    }
+
+    public struct DeleteFlowRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string)
+        ]
+        public let flowArn: String
+
+        public init(flowArn: String) {
+            self.flowArn = flowArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowArn = "flowArn"
+        }
+    }
+
+    public struct DeleteFlowResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string), 
+            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum)
+        ]
+        /// The ARN of the flow that was deleted.
+        public let flowArn: String?
+        /// The status of the flow when the DeleteFlow process begins.
+        public let status: Status?
+
+        public init(flowArn: String? = nil, status: Status? = nil) {
+            self.flowArn = flowArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowArn = "flowArn"
+            case status = "status"
+        }
+    }
+
+    public struct DescribeFlowRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string)
+        ]
+        public let flowArn: String
+
+        public init(flowArn: String) {
+            self.flowArn = flowArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowArn = "flowArn"
+        }
+    }
+
+    public struct DescribeFlowResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Flow", location: .body(locationName: "flow"), required: false, type: .structure), 
+            AWSShapeMember(label: "Messages", location: .body(locationName: "messages"), required: false, type: .structure)
+        ]
+        public let flow: Flow?
+        public let messages: Messages?
+
+        public init(flow: Flow? = nil, messages: Messages? = nil) {
+            self.flow = flow
+            self.messages = messages
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flow = "flow"
+            case messages = "messages"
+        }
+    }
+
+    public struct Encryption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Algorithm", location: .body(locationName: "algorithm"), required: true, type: .enum), 
+            AWSShapeMember(label: "KeyType", location: .body(locationName: "keyType"), required: false, type: .enum), 
+            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: true, type: .string), 
+            AWSShapeMember(label: "SecretArn", location: .body(locationName: "secretArn"), required: true, type: .string)
+        ]
+        /// The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256).
+        public let algorithm: Algorithm
+        /// The type of key that is used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
+        public let keyType: KeyType?
+        /// The ARN of the role that you created during setup (when you set up AWS Elemental MediaConnect as a trusted entity).
+        public let roleArn: String
+        /// The ARN that was assigned to the secret that you created in AWS Secrets Manager to store the encryption key.
+        public let secretArn: String
+
+        public init(algorithm: Algorithm, keyType: KeyType? = nil, roleArn: String, secretArn: String) {
+            self.algorithm = algorithm
+            self.keyType = keyType
+            self.roleArn = roleArn
+            self.secretArn = secretArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case algorithm = "algorithm"
+            case keyType = "keyType"
+            case roleArn = "roleArn"
+            case secretArn = "secretArn"
+        }
+    }
+
+    public struct Entitlement: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
+            AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "Subscribers", location: .body(locationName: "subscribers"), required: true, type: .list)
+        ]
+        /// A description of the entitlement.
+        public let description: String?
+        /// The type of encryption that will be used on the output that is associated with this entitlement.
+        public let encryption: Encryption?
+        /// The ARN of the entitlement.
+        public let entitlementArn: String
+        /// The name of the entitlement.
+        public let name: String
+        /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source.
+        public let subscribers: [String]
+
+        public init(description: String? = nil, encryption: Encryption? = nil, entitlementArn: String, name: String, subscribers: [String]) {
+            self.description = description
+            self.encryption = encryption
+            self.entitlementArn = entitlementArn
+            self.name = name
+            self.subscribers = subscribers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case encryption = "encryption"
+            case entitlementArn = "entitlementArn"
+            case name = "name"
+            case subscribers = "subscribers"
+        }
+    }
+
+    public struct Flow: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: true, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "EgressIp", location: .body(locationName: "egressIp"), required: false, type: .string), 
+            AWSShapeMember(label: "Entitlements", location: .body(locationName: "entitlements"), required: true, type: .list), 
+            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "Outputs", location: .body(locationName: "outputs"), required: true, type: .list), 
+            AWSShapeMember(label: "Source", location: .body(locationName: "source"), required: true, type: .structure), 
+            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: true, type: .enum)
+        ]
+        /// The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current AWS.
+        public let availabilityZone: String
+        /// A description of the flow. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
+        public let description: String?
+        /// The IP address from which video will be sent to output destinations.
+        public let egressIp: String?
+        /// The entitlements in this flow.
+        public let entitlements: [Entitlement]
+        /// The Amazon Resource Name (ARN), a unique identifier for any AWS resource, of the flow.
+        public let flowArn: String
+        /// The name of the flow.
+        public let name: String
+        /// The outputs in this flow.
+        public let outputs: [Output]
+        public let source: Source
+        /// The current status of the flow.
+        public let status: Status
+
+        public init(availabilityZone: String, description: String? = nil, egressIp: String? = nil, entitlements: [Entitlement], flowArn: String, name: String, outputs: [Output], source: Source, status: Status) {
+            self.availabilityZone = availabilityZone
+            self.description = description
+            self.egressIp = egressIp
+            self.entitlements = entitlements
+            self.flowArn = flowArn
+            self.name = name
+            self.outputs = outputs
+            self.source = source
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "availabilityZone"
+            case description = "description"
+            case egressIp = "egressIp"
+            case entitlements = "entitlements"
+            case flowArn = "flowArn"
+            case name = "name"
+            case outputs = "outputs"
+            case source = "source"
+            case status = "status"
+        }
+    }
+
+    public struct GrantEntitlementRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "Subscribers", location: .body(locationName: "subscribers"), required: true, type: .list)
+        ]
+        /// A description of the entitlement. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the subscriber or end user.
+        public let description: String?
+        /// The type of encryption that will be used on the output that is associated with this entitlement.
+        public let encryption: Encryption?
+        /// The name of the entitlement. This value must be unique within the current flow.
+        public let name: String?
+        /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flows using your content as the source.
+        public let subscribers: [String]
+
+        public init(description: String? = nil, encryption: Encryption? = nil, name: String? = nil, subscribers: [String]) {
+            self.description = description
+            self.encryption = encryption
+            self.name = name
+            self.subscribers = subscribers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case encryption = "encryption"
+            case name = "name"
+            case subscribers = "subscribers"
+        }
+    }
+
+    public struct GrantFlowEntitlementsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Entitlements", location: .body(locationName: "entitlements"), required: true, type: .list), 
+            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string)
+        ]
+        /// The list of entitlements that you want to grant.
+        public let entitlements: [GrantEntitlementRequest]
+        public let flowArn: String
+
+        public init(entitlements: [GrantEntitlementRequest], flowArn: String) {
+            self.entitlements = entitlements
+            self.flowArn = flowArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entitlements = "entitlements"
+            case flowArn = "flowArn"
+        }
+    }
+
+    public struct GrantFlowEntitlementsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Entitlements", location: .body(locationName: "entitlements"), required: false, type: .list), 
+            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string)
+        ]
+        /// The entitlements that were just granted.
+        public let entitlements: [Entitlement]?
+        /// The ARN of the flow that these entitlements were granted to.
+        public let flowArn: String?
+
+        public init(entitlements: [Entitlement]? = nil, flowArn: String? = nil) {
+            self.entitlements = entitlements
+            self.flowArn = flowArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entitlements = "entitlements"
+            case flowArn = "flowArn"
+        }
+    }
+
+    public enum KeyType: String, CustomStringConvertible, Codable {
+        case staticKey = "static-key"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListEntitlementsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
@@ -45,93 +468,6 @@ extension MediaConnect {
         }
     }
 
-    public struct UpdateFlowOutputRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxLatency", location: .body(locationName: "maxLatency"), required: false, type: .integer), 
-            AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"), required: false, type: .string), 
-            AWSShapeMember(label: "Port", location: .body(locationName: "port"), required: false, type: .integer), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "OutputArn", location: .uri(locationName: "outputArn"), required: true, type: .string), 
-            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"), required: false, type: .enum), 
-            AWSShapeMember(label: "SmoothingLatency", location: .body(locationName: "smoothingLatency"), required: false, type: .integer), 
-            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string), 
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure)
-        ]
-        /// The IP address where you want to send the output.
-        public let destination: String?
-        /// The maximum latency in milliseconds for Zixi-based streams.
-        public let maxLatency: Int32?
-        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
-        public let streamId: String?
-        /// The port to use when content is distributed to this output.
-        public let port: Int32?
-        /// A description of the output. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the end user.
-        public let description: String?
-        public let outputArn: String
-        /// The protocol to use for the output.
-        public let `protocol`: Protocol?
-        /// The smoothing latency in milliseconds for RTP and RTP-FEC streams.
-        public let smoothingLatency: Int32?
-        public let flowArn: String
-        /// The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
-        public let encryption: UpdateEncryption?
-
-        public init(destination: String? = nil, maxLatency: Int32? = nil, streamId: String? = nil, port: Int32? = nil, description: String? = nil, outputArn: String, protocol: Protocol? = nil, smoothingLatency: Int32? = nil, flowArn: String, encryption: UpdateEncryption? = nil) {
-            self.destination = destination
-            self.maxLatency = maxLatency
-            self.streamId = streamId
-            self.port = port
-            self.description = description
-            self.outputArn = outputArn
-            self.`protocol` = `protocol`
-            self.smoothingLatency = smoothingLatency
-            self.flowArn = flowArn
-            self.encryption = encryption
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destination = "destination"
-            case maxLatency = "maxLatency"
-            case streamId = "streamId"
-            case port = "port"
-            case description = "description"
-            case outputArn = "outputArn"
-            case `protocol` = "protocol"
-            case smoothingLatency = "smoothingLatency"
-            case flowArn = "flowArn"
-            case encryption = "encryption"
-        }
-    }
-
-    public enum `Protocol`: String, CustomStringConvertible, Codable {
-        case zixiPush = "zixi-push"
-        case rtpFec = "rtp-fec"
-        case rtp = "rtp"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListedEntitlement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EntitlementName", location: .body(locationName: "entitlementName"), required: true, type: .string), 
-            AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn"), required: true, type: .string)
-        ]
-        /// The name of the entitlement.
-        public let entitlementName: String
-        /// The ARN of the entitlement.
-        public let entitlementArn: String
-
-        public init(entitlementName: String, entitlementArn: String) {
-            self.entitlementName = entitlementName
-            self.entitlementArn = entitlementArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case entitlementName = "entitlementName"
-            case entitlementArn = "entitlementArn"
-        }
-    }
-
     public struct ListFlowsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
@@ -148,377 +484,6 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
-        }
-    }
-
-    public struct AddFlowOutputsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string), 
-            AWSShapeMember(label: "Outputs", location: .body(locationName: "outputs"), required: false, type: .list)
-        ]
-        /// The ARN of the flow that these outputs were added to.
-        public let flowArn: String?
-        /// The details of the newly added outputs.
-        public let outputs: [Output]?
-
-        public init(flowArn: String? = nil, outputs: [Output]? = nil) {
-            self.flowArn = flowArn
-            self.outputs = outputs
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case flowArn = "flowArn"
-            case outputs = "outputs"
-        }
-    }
-
-    public struct GrantEntitlementRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Subscribers", location: .body(locationName: "subscribers"), required: true, type: .list)
-        ]
-        /// The name of the entitlement. This value must be unique within the current flow.
-        public let name: String?
-        /// The type of encryption that will be used on the output that is associated with this entitlement.
-        public let encryption: Encryption?
-        /// A description of the entitlement. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the subscriber or end user.
-        public let description: String?
-        /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flows using your content as the source.
-        public let subscribers: [String]
-
-        public init(name: String? = nil, encryption: Encryption? = nil, description: String? = nil, subscribers: [String]) {
-            self.name = name
-            self.encryption = encryption
-            self.description = description
-            self.subscribers = subscribers
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case encryption = "encryption"
-            case description = "description"
-            case subscribers = "subscribers"
-        }
-    }
-
-    public struct UpdateEncryption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KeyType", location: .body(locationName: "keyType"), required: false, type: .enum), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
-            AWSShapeMember(label: "Algorithm", location: .body(locationName: "algorithm"), required: false, type: .enum), 
-            AWSShapeMember(label: "SecretArn", location: .body(locationName: "secretArn"), required: false, type: .string)
-        ]
-        /// The type of key that is used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
-        public let keyType: KeyType?
-        /// The ARN of the role that you created during setup (when you set up AWS Elemental MediaConnect as a trusted entity).
-        public let roleArn: String?
-        /// The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256).
-        public let algorithm: Algorithm?
-        /// The ARN that was assigned to the secret that you created in AWS Secrets Manager to store the encryption key.
-        public let secretArn: String?
-
-        public init(keyType: KeyType? = nil, roleArn: String? = nil, algorithm: Algorithm? = nil, secretArn: String? = nil) {
-            self.keyType = keyType
-            self.roleArn = roleArn
-            self.algorithm = algorithm
-            self.secretArn = secretArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case keyType = "keyType"
-            case roleArn = "roleArn"
-            case algorithm = "algorithm"
-            case secretArn = "secretArn"
-        }
-    }
-
-    public struct Source: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn"), required: false, type: .string), 
-            AWSShapeMember(label: "WhitelistCidr", location: .body(locationName: "whitelistCidr"), required: false, type: .string), 
-            AWSShapeMember(label: "Decryption", location: .body(locationName: "decryption"), required: false, type: .structure), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Transport", location: .body(locationName: "transport"), required: false, type: .structure), 
-            AWSShapeMember(label: "IngestPort", location: .body(locationName: "ingestPort"), required: false, type: .integer), 
-            AWSShapeMember(label: "SourceArn", location: .body(locationName: "sourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "IngestIp", location: .body(locationName: "ingestIp"), required: false, type: .string)
-        ]
-        /// The ARN of the entitlement that allows you to subscribe to content that comes from another AWS account. The entitlement is set by the content originator and the ARN is generated as part of the originator's flow.
-        public let entitlementArn: String?
-        /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
-        public let whitelistCidr: String?
-        /// The type of encryption that is used on the content ingested from this source.
-        public let decryption: Encryption?
-        /// A description for the source. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
-        public let description: String?
-        /// Attributes related to the transport stream that are used in the source.
-        public let transport: Transport?
-        /// The port that the flow will be listening on for incoming content.
-        public let ingestPort: Int32?
-        /// The ARN of the source.
-        public let sourceArn: String
-        /// The name of the source.
-        public let name: String
-        /// The IP address that the flow will be listening on for incoming content.
-        public let ingestIp: String?
-
-        public init(entitlementArn: String? = nil, whitelistCidr: String? = nil, decryption: Encryption? = nil, description: String? = nil, transport: Transport? = nil, ingestPort: Int32? = nil, sourceArn: String, name: String, ingestIp: String? = nil) {
-            self.entitlementArn = entitlementArn
-            self.whitelistCidr = whitelistCidr
-            self.decryption = decryption
-            self.description = description
-            self.transport = transport
-            self.ingestPort = ingestPort
-            self.sourceArn = sourceArn
-            self.name = name
-            self.ingestIp = ingestIp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case entitlementArn = "entitlementArn"
-            case whitelistCidr = "whitelistCidr"
-            case decryption = "decryption"
-            case description = "description"
-            case transport = "transport"
-            case ingestPort = "ingestPort"
-            case sourceArn = "sourceArn"
-            case name = "name"
-            case ingestIp = "ingestIp"
-        }
-    }
-
-    public struct AddOutputRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxLatency", location: .body(locationName: "maxLatency"), required: false, type: .integer), 
-            AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"), required: false, type: .string), 
-            AWSShapeMember(label: "Port", location: .body(locationName: "port"), required: true, type: .integer), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"), required: true, type: .enum), 
-            AWSShapeMember(label: "SmoothingLatency", location: .body(locationName: "smoothingLatency"), required: false, type: .integer), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure)
-        ]
-        /// The IP address from which video will be sent to output destinations.
-        public let destination: String
-        /// The maximum latency in milliseconds for Zixi-based streams.
-        public let maxLatency: Int32?
-        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
-        public let streamId: String?
-        /// The port to use when content is distributed to this output.
-        public let port: Int32
-        /// A description of the output. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the end user.
-        public let description: String?
-        /// The protocol to use for the output.
-        public let `protocol`: Protocol
-        /// The smoothing latency in milliseconds for RTP and RTP-FEC streams.
-        public let smoothingLatency: Int32?
-        /// The name of the output. This value must be unique within the current flow.
-        public let name: String?
-        /// The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
-        public let encryption: Encryption?
-
-        public init(destination: String, maxLatency: Int32? = nil, streamId: String? = nil, port: Int32, description: String? = nil, protocol: Protocol, smoothingLatency: Int32? = nil, name: String? = nil, encryption: Encryption? = nil) {
-            self.destination = destination
-            self.maxLatency = maxLatency
-            self.streamId = streamId
-            self.port = port
-            self.description = description
-            self.`protocol` = `protocol`
-            self.smoothingLatency = smoothingLatency
-            self.name = name
-            self.encryption = encryption
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destination = "destination"
-            case maxLatency = "maxLatency"
-            case streamId = "streamId"
-            case port = "port"
-            case description = "description"
-            case `protocol` = "protocol"
-            case smoothingLatency = "smoothingLatency"
-            case name = "name"
-            case encryption = "encryption"
-        }
-    }
-
-    public struct RevokeFlowEntitlementRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string), 
-            AWSShapeMember(label: "EntitlementArn", location: .uri(locationName: "entitlementArn"), required: true, type: .string)
-        ]
-        public let flowArn: String
-        public let entitlementArn: String
-
-        public init(flowArn: String, entitlementArn: String) {
-            self.flowArn = flowArn
-            self.entitlementArn = entitlementArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case flowArn = "flowArn"
-            case entitlementArn = "entitlementArn"
-        }
-    }
-
-    public struct RemoveFlowOutputResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string), 
-            AWSShapeMember(label: "OutputArn", location: .body(locationName: "outputArn"), required: false, type: .string)
-        ]
-        /// The ARN of the flow that is associated with the output you removed.
-        public let flowArn: String?
-        /// The ARN of the output that was removed.
-        public let outputArn: String?
-
-        public init(flowArn: String? = nil, outputArn: String? = nil) {
-            self.flowArn = flowArn
-            self.outputArn = outputArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case flowArn = "flowArn"
-            case outputArn = "outputArn"
-        }
-    }
-
-    public struct UpdateFlowEntitlementResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Entitlement", location: .body(locationName: "entitlement"), required: false, type: .structure), 
-            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string)
-        ]
-        public let entitlement: Entitlement?
-        /// The ARN of the flow that this entitlement was granted on.
-        public let flowArn: String?
-
-        public init(entitlement: Entitlement? = nil, flowArn: String? = nil) {
-            self.entitlement = entitlement
-            self.flowArn = flowArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case entitlement = "entitlement"
-            case flowArn = "flowArn"
-        }
-    }
-
-    public struct SetSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxBitrate", location: .body(locationName: "maxBitrate"), required: false, type: .integer), 
-            AWSShapeMember(label: "WhitelistCidr", location: .body(locationName: "whitelistCidr"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxLatency", location: .body(locationName: "maxLatency"), required: false, type: .integer), 
-            AWSShapeMember(label: "Decryption", location: .body(locationName: "decryption"), required: false, type: .structure), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"), required: false, type: .string), 
-            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"), required: false, type: .enum), 
-            AWSShapeMember(label: "IngestPort", location: .body(locationName: "ingestPort"), required: false, type: .integer), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
-        ]
-        /// The ARN of the entitlement that allows you to subscribe to this flow. The entitlement is set by the flow originator, and the ARN is generated as part of the originator's flow.
-        public let entitlementArn: String?
-        /// The smoothing max bitrate for RTP and RTP-FEC streams.
-        public let maxBitrate: Int32?
-        /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
-        public let whitelistCidr: String?
-        /// The maximum latency in milliseconds for Zixi-based streams.
-        public let maxLatency: Int32?
-        /// The type of encryption that is used on the content ingested from this source.
-        public let decryption: Encryption?
-        /// A description for the source. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
-        public let description: String?
-        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
-        public let streamId: String?
-        /// The protocol that is used by the source.
-        public let `protocol`: Protocol?
-        /// The port that the flow will be listening on for incoming content.
-        public let ingestPort: Int32?
-        /// The name of the source.
-        public let name: String?
-
-        public init(entitlementArn: String? = nil, maxBitrate: Int32? = nil, whitelistCidr: String? = nil, maxLatency: Int32? = nil, decryption: Encryption? = nil, description: String? = nil, streamId: String? = nil, protocol: Protocol? = nil, ingestPort: Int32? = nil, name: String? = nil) {
-            self.entitlementArn = entitlementArn
-            self.maxBitrate = maxBitrate
-            self.whitelistCidr = whitelistCidr
-            self.maxLatency = maxLatency
-            self.decryption = decryption
-            self.description = description
-            self.streamId = streamId
-            self.`protocol` = `protocol`
-            self.ingestPort = ingestPort
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case entitlementArn = "entitlementArn"
-            case maxBitrate = "maxBitrate"
-            case whitelistCidr = "whitelistCidr"
-            case maxLatency = "maxLatency"
-            case decryption = "decryption"
-            case description = "description"
-            case streamId = "streamId"
-            case `protocol` = "protocol"
-            case ingestPort = "ingestPort"
-            case name = "name"
-        }
-    }
-
-    public struct StopFlowRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string)
-        ]
-        public let flowArn: String
-
-        public init(flowArn: String) {
-            self.flowArn = flowArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case flowArn = "flowArn"
-        }
-    }
-
-    public struct DescribeFlowResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Messages", location: .body(locationName: "messages"), required: false, type: .structure), 
-            AWSShapeMember(label: "Flow", location: .body(locationName: "flow"), required: false, type: .structure)
-        ]
-        public let messages: Messages?
-        public let flow: Flow?
-
-        public init(messages: Messages? = nil, flow: Flow? = nil) {
-            self.messages = messages
-            self.flow = flow
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case messages = "messages"
-            case flow = "flow"
-        }
-    }
-
-    public struct StopFlowResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum)
-        ]
-        /// The ARN of the flow that you stopped.
-        public let flowArn: String?
-        /// The status of the flow when the StopFlow process begins.
-        public let status: Status?
-
-        public init(flowArn: String? = nil, status: Status? = nil) {
-            self.flowArn = flowArn
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case flowArn = "flowArn"
-            case status = "status"
         }
     }
 
@@ -543,79 +508,144 @@ extension MediaConnect {
         }
     }
 
-    public struct UpdateFlowEntitlementRequest: AWSShape {
+    public struct ListedEntitlement: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Subscribers", location: .body(locationName: "subscribers"), required: false, type: .list), 
-            AWSShapeMember(label: "EntitlementArn", location: .uri(locationName: "entitlementArn"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string), 
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure)
+            AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn"), required: true, type: .string), 
+            AWSShapeMember(label: "EntitlementName", location: .body(locationName: "entitlementName"), required: true, type: .string)
         ]
-        /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source.
-        public let subscribers: [String]?
+        /// The ARN of the entitlement.
         public let entitlementArn: String
-        /// A description of the entitlement. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the subscriber or end user.
-        public let description: String?
-        public let flowArn: String
-        /// The type of encryption that will be used on the output associated with this entitlement.
-        public let encryption: UpdateEncryption?
+        /// The name of the entitlement.
+        public let entitlementName: String
 
-        public init(subscribers: [String]? = nil, entitlementArn: String, description: String? = nil, flowArn: String, encryption: UpdateEncryption? = nil) {
-            self.subscribers = subscribers
+        public init(entitlementArn: String, entitlementName: String) {
             self.entitlementArn = entitlementArn
+            self.entitlementName = entitlementName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entitlementArn = "entitlementArn"
+            case entitlementName = "entitlementName"
+        }
+    }
+
+    public struct ListedFlow: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: true, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: true, type: .string), 
+            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "SourceType", location: .body(locationName: "sourceType"), required: true, type: .enum), 
+            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: true, type: .enum)
+        ]
+        /// The Availability Zone that the flow was created in.
+        public let availabilityZone: String
+        /// A description of the flow.
+        public let description: String
+        /// The ARN of the flow.
+        public let flowArn: String
+        /// The name of the flow.
+        public let name: String
+        /// The type of source. This value is either owned (originated somewhere other than an AWS Elemental MediaConnect flow owned by another AWS account) or entitled (originated at an AWS Elemental MediaConnect flow owned by another AWS account).
+        public let sourceType: SourceType
+        /// The current status of the flow.
+        public let status: Status
+
+        public init(availabilityZone: String, description: String, flowArn: String, name: String, sourceType: SourceType, status: Status) {
+            self.availabilityZone = availabilityZone
             self.description = description
             self.flowArn = flowArn
-            self.encryption = encryption
+            self.name = name
+            self.sourceType = sourceType
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subscribers = "subscribers"
-            case entitlementArn = "entitlementArn"
+            case availabilityZone = "availabilityZone"
             case description = "description"
             case flowArn = "flowArn"
-            case encryption = "encryption"
+            case name = "name"
+            case sourceType = "sourceType"
+            case status = "status"
         }
     }
 
-    public struct Transport: AWSShape {
+    public struct Messages: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SmoothingLatency", location: .body(locationName: "smoothingLatency"), required: false, type: .integer), 
-            AWSShapeMember(label: "MaxLatency", location: .body(locationName: "maxLatency"), required: false, type: .integer), 
-            AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"), required: false, type: .string), 
-            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"), required: true, type: .enum), 
-            AWSShapeMember(label: "MaxBitrate", location: .body(locationName: "maxBitrate"), required: false, type: .integer)
+            AWSShapeMember(label: "Errors", location: .body(locationName: "errors"), required: true, type: .list)
         ]
-        /// The smoothing latency in milliseconds for RTP and RTP-FEC streams.
-        public let smoothingLatency: Int32?
-        /// The maximum latency in milliseconds for Zixi-based streams.
-        public let maxLatency: Int32?
-        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
-        public let streamId: String?
-        /// The protocol that is used by the source or output.
-        public let `protocol`: Protocol
-        /// The smoothing max bitrate for RTP and RTP-FEC streams.
-        public let maxBitrate: Int32?
+        /// A list of errors that might have been generated from processes on this flow.
+        public let errors: [String]
 
-        public init(smoothingLatency: Int32? = nil, maxLatency: Int32? = nil, streamId: String? = nil, protocol: Protocol, maxBitrate: Int32? = nil) {
-            self.smoothingLatency = smoothingLatency
-            self.maxLatency = maxLatency
-            self.streamId = streamId
-            self.`protocol` = `protocol`
-            self.maxBitrate = maxBitrate
+        public init(errors: [String]) {
+            self.errors = errors
         }
 
         private enum CodingKeys: String, CodingKey {
-            case smoothingLatency = "smoothingLatency"
-            case maxLatency = "maxLatency"
-            case streamId = "streamId"
-            case `protocol` = "protocol"
-            case maxBitrate = "maxBitrate"
+            case errors = "errors"
         }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable {
-        case owned = "OWNED"
-        case entitled = "ENTITLED"
+    public struct Output: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: false, type: .string), 
+            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
+            AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn"), required: false, type: .string), 
+            AWSShapeMember(label: "MediaLiveInputArn", location: .body(locationName: "mediaLiveInputArn"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "OutputArn", location: .body(locationName: "outputArn"), required: true, type: .string), 
+            AWSShapeMember(label: "Port", location: .body(locationName: "port"), required: false, type: .integer), 
+            AWSShapeMember(label: "Transport", location: .body(locationName: "transport"), required: false, type: .structure)
+        ]
+        /// A description of the output.
+        public let description: String?
+        /// The address where you want to send the output.
+        public let destination: String?
+        /// The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
+        public let encryption: Encryption?
+        /// The ARN of the entitlement on the originator''s flow. This value is relevant only on entitled flows.
+        public let entitlementArn: String?
+        /// The input ARN of the AWS Elemental MediaLive channel. This parameter is relevant only for outputs that were added by creating a MediaLive input.
+        public let mediaLiveInputArn: String?
+        /// The name of the output. This value must be unique within the current flow.
+        public let name: String
+        /// The ARN of the output.
+        public let outputArn: String
+        /// The port to use when content is distributed to this output.
+        public let port: Int32?
+        /// Attributes related to the transport stream that are used in the output.
+        public let transport: Transport?
+
+        public init(description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, entitlementArn: String? = nil, mediaLiveInputArn: String? = nil, name: String, outputArn: String, port: Int32? = nil, transport: Transport? = nil) {
+            self.description = description
+            self.destination = destination
+            self.encryption = encryption
+            self.entitlementArn = entitlementArn
+            self.mediaLiveInputArn = mediaLiveInputArn
+            self.name = name
+            self.outputArn = outputArn
+            self.port = port
+            self.transport = transport
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case destination = "destination"
+            case encryption = "encryption"
+            case entitlementArn = "entitlementArn"
+            case mediaLiveInputArn = "mediaLiveInputArn"
+            case name = "name"
+            case outputArn = "outputArn"
+            case port = "port"
+            case transport = "transport"
+        }
+    }
+
+    public enum `Protocol`: String, CustomStringConvertible, Codable {
+        case zixiPush = "zixi-push"
+        case rtpFec = "rtp-fec"
+        case rtp = "rtp"
         public var description: String { return self.rawValue }
     }
 
@@ -638,6 +668,242 @@ extension MediaConnect {
         }
     }
 
+    public struct RemoveFlowOutputResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string), 
+            AWSShapeMember(label: "OutputArn", location: .body(locationName: "outputArn"), required: false, type: .string)
+        ]
+        /// The ARN of the flow that is associated with the output you removed.
+        public let flowArn: String?
+        /// The ARN of the output that was removed.
+        public let outputArn: String?
+
+        public init(flowArn: String? = nil, outputArn: String? = nil) {
+            self.flowArn = flowArn
+            self.outputArn = outputArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowArn = "flowArn"
+            case outputArn = "outputArn"
+        }
+    }
+
+    public struct ResponseError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: true, type: .string)
+        ]
+        /// The error message returned by AWS Elemental MediaConnect.
+        public let message: String
+
+        public init(message: String) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
+    public struct RevokeFlowEntitlementRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EntitlementArn", location: .uri(locationName: "entitlementArn"), required: true, type: .string), 
+            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string)
+        ]
+        public let entitlementArn: String
+        public let flowArn: String
+
+        public init(entitlementArn: String, flowArn: String) {
+            self.entitlementArn = entitlementArn
+            self.flowArn = flowArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entitlementArn = "entitlementArn"
+            case flowArn = "flowArn"
+        }
+    }
+
+    public struct RevokeFlowEntitlementResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn"), required: false, type: .string), 
+            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string)
+        ]
+        /// The ARN of the entitlement that was revoked.
+        public let entitlementArn: String?
+        /// The ARN of the flow that the entitlement was revoked from.
+        public let flowArn: String?
+
+        public init(entitlementArn: String? = nil, flowArn: String? = nil) {
+            self.entitlementArn = entitlementArn
+            self.flowArn = flowArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entitlementArn = "entitlementArn"
+            case flowArn = "flowArn"
+        }
+    }
+
+    public struct SetSourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Decryption", location: .body(locationName: "decryption"), required: false, type: .structure), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn"), required: false, type: .string), 
+            AWSShapeMember(label: "IngestPort", location: .body(locationName: "ingestPort"), required: false, type: .integer), 
+            AWSShapeMember(label: "MaxBitrate", location: .body(locationName: "maxBitrate"), required: false, type: .integer), 
+            AWSShapeMember(label: "MaxLatency", location: .body(locationName: "maxLatency"), required: false, type: .integer), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"), required: false, type: .enum), 
+            AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"), required: false, type: .string), 
+            AWSShapeMember(label: "WhitelistCidr", location: .body(locationName: "whitelistCidr"), required: false, type: .string)
+        ]
+        /// The type of encryption that is used on the content ingested from this source.
+        public let decryption: Encryption?
+        /// A description for the source. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
+        public let description: String?
+        /// The ARN of the entitlement that allows you to subscribe to this flow. The entitlement is set by the flow originator, and the ARN is generated as part of the originator's flow.
+        public let entitlementArn: String?
+        /// The port that the flow will be listening on for incoming content.
+        public let ingestPort: Int32?
+        /// The smoothing max bitrate for RTP and RTP-FEC streams.
+        public let maxBitrate: Int32?
+        /// The maximum latency in milliseconds for Zixi-based streams.
+        public let maxLatency: Int32?
+        /// The name of the source.
+        public let name: String?
+        /// The protocol that is used by the source.
+        public let `protocol`: Protocol?
+        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
+        public let streamId: String?
+        /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+        public let whitelistCidr: String?
+
+        public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestPort: Int32? = nil, maxBitrate: Int32? = nil, maxLatency: Int32? = nil, name: String? = nil, protocol: Protocol? = nil, streamId: String? = nil, whitelistCidr: String? = nil) {
+            self.decryption = decryption
+            self.description = description
+            self.entitlementArn = entitlementArn
+            self.ingestPort = ingestPort
+            self.maxBitrate = maxBitrate
+            self.maxLatency = maxLatency
+            self.name = name
+            self.`protocol` = `protocol`
+            self.streamId = streamId
+            self.whitelistCidr = whitelistCidr
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case decryption = "decryption"
+            case description = "description"
+            case entitlementArn = "entitlementArn"
+            case ingestPort = "ingestPort"
+            case maxBitrate = "maxBitrate"
+            case maxLatency = "maxLatency"
+            case name = "name"
+            case `protocol` = "protocol"
+            case streamId = "streamId"
+            case whitelistCidr = "whitelistCidr"
+        }
+    }
+
+    public struct Source: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Decryption", location: .body(locationName: "decryption"), required: false, type: .structure), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn"), required: false, type: .string), 
+            AWSShapeMember(label: "IngestIp", location: .body(locationName: "ingestIp"), required: false, type: .string), 
+            AWSShapeMember(label: "IngestPort", location: .body(locationName: "ingestPort"), required: false, type: .integer), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "SourceArn", location: .body(locationName: "sourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "Transport", location: .body(locationName: "transport"), required: false, type: .structure), 
+            AWSShapeMember(label: "WhitelistCidr", location: .body(locationName: "whitelistCidr"), required: false, type: .string)
+        ]
+        /// The type of encryption that is used on the content ingested from this source.
+        public let decryption: Encryption?
+        /// A description for the source. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
+        public let description: String?
+        /// The ARN of the entitlement that allows you to subscribe to content that comes from another AWS account. The entitlement is set by the content originator and the ARN is generated as part of the originator's flow.
+        public let entitlementArn: String?
+        /// The IP address that the flow will be listening on for incoming content.
+        public let ingestIp: String?
+        /// The port that the flow will be listening on for incoming content.
+        public let ingestPort: Int32?
+        /// The name of the source.
+        public let name: String
+        /// The ARN of the source.
+        public let sourceArn: String
+        /// Attributes related to the transport stream that are used in the source.
+        public let transport: Transport?
+        /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+        public let whitelistCidr: String?
+
+        public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestIp: String? = nil, ingestPort: Int32? = nil, name: String, sourceArn: String, transport: Transport? = nil, whitelistCidr: String? = nil) {
+            self.decryption = decryption
+            self.description = description
+            self.entitlementArn = entitlementArn
+            self.ingestIp = ingestIp
+            self.ingestPort = ingestPort
+            self.name = name
+            self.sourceArn = sourceArn
+            self.transport = transport
+            self.whitelistCidr = whitelistCidr
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case decryption = "decryption"
+            case description = "description"
+            case entitlementArn = "entitlementArn"
+            case ingestIp = "ingestIp"
+            case ingestPort = "ingestPort"
+            case name = "name"
+            case sourceArn = "sourceArn"
+            case transport = "transport"
+            case whitelistCidr = "whitelistCidr"
+        }
+    }
+
+    public enum SourceType: String, CustomStringConvertible, Codable {
+        case owned = "OWNED"
+        case entitled = "ENTITLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct StartFlowRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string)
+        ]
+        public let flowArn: String
+
+        public init(flowArn: String) {
+            self.flowArn = flowArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowArn = "flowArn"
+        }
+    }
+
+    public struct StartFlowResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string), 
+            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum)
+        ]
+        /// The ARN of the flow that you started.
+        public let flowArn: String?
+        /// The status of the flow when the StartFlow process begins.
+        public let status: Status?
+
+        public init(flowArn: String? = nil, status: Status? = nil) {
+            self.flowArn = flowArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowArn = "flowArn"
+            case status = "status"
+        }
+    }
+
     public enum Status: String, CustomStringConvertible, Codable {
         case standby = "STANDBY"
         case active = "ACTIVE"
@@ -649,79 +915,219 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
-    public struct UpdateFlowSourceResponse: AWSShape {
+    public struct StopFlowRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string), 
-            AWSShapeMember(label: "Source", location: .body(locationName: "source"), required: false, type: .structure)
-        ]
-        /// The ARN of the flow that you want to update.
-        public let flowArn: String?
-        /// The settings for the source of the flow.
-        public let source: Source?
-
-        public init(flowArn: String? = nil, source: Source? = nil) {
-            self.flowArn = flowArn
-            self.source = source
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case flowArn = "flowArn"
-            case source = "source"
-        }
-    }
-
-    public struct AddFlowOutputsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string), 
-            AWSShapeMember(label: "Outputs", location: .body(locationName: "outputs"), required: true, type: .list)
+            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string)
         ]
         public let flowArn: String
-        /// A list of outputs that you want to add.
-        public let outputs: [AddOutputRequest]
 
-        public init(flowArn: String, outputs: [AddOutputRequest]) {
+        public init(flowArn: String) {
             self.flowArn = flowArn
-            self.outputs = outputs
         }
 
         private enum CodingKeys: String, CodingKey {
             case flowArn = "flowArn"
-            case outputs = "outputs"
         }
     }
 
-    public struct CreateFlowRequest: AWSShape {
+    public struct StopFlowResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string), 
-            AWSShapeMember(label: "Source", location: .body(locationName: "source"), required: true, type: .structure), 
-            AWSShapeMember(label: "Entitlements", location: .body(locationName: "entitlements"), required: false, type: .list), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "Outputs", location: .body(locationName: "outputs"), required: false, type: .list)
+            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string), 
+            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum)
         ]
-        /// The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current AWS Region.
-        public let availabilityZone: String?
-        public let source: SetSourceRequest
-        /// The entitlements that you want to grant on a flow.
-        public let entitlements: [GrantEntitlementRequest]?
-        /// The name of the flow.
-        public let name: String
-        /// The outputs that you want to add to this flow.
-        public let outputs: [AddOutputRequest]?
+        /// The ARN of the flow that you stopped.
+        public let flowArn: String?
+        /// The status of the flow when the StopFlow process begins.
+        public let status: Status?
 
-        public init(availabilityZone: String? = nil, source: SetSourceRequest, entitlements: [GrantEntitlementRequest]? = nil, name: String, outputs: [AddOutputRequest]? = nil) {
-            self.availabilityZone = availabilityZone
-            self.source = source
-            self.entitlements = entitlements
-            self.name = name
-            self.outputs = outputs
+        public init(flowArn: String? = nil, status: Status? = nil) {
+            self.flowArn = flowArn
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZone = "availabilityZone"
-            case source = "source"
-            case entitlements = "entitlements"
-            case name = "name"
-            case outputs = "outputs"
+            case flowArn = "flowArn"
+            case status = "status"
+        }
+    }
+
+    public struct Transport: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxBitrate", location: .body(locationName: "maxBitrate"), required: false, type: .integer), 
+            AWSShapeMember(label: "MaxLatency", location: .body(locationName: "maxLatency"), required: false, type: .integer), 
+            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"), required: true, type: .enum), 
+            AWSShapeMember(label: "SmoothingLatency", location: .body(locationName: "smoothingLatency"), required: false, type: .integer), 
+            AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"), required: false, type: .string)
+        ]
+        /// The smoothing max bitrate for RTP and RTP-FEC streams.
+        public let maxBitrate: Int32?
+        /// The maximum latency in milliseconds for Zixi-based streams.
+        public let maxLatency: Int32?
+        /// The protocol that is used by the source or output.
+        public let `protocol`: Protocol
+        /// The smoothing latency in milliseconds for RTP and RTP-FEC streams.
+        public let smoothingLatency: Int32?
+        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
+        public let streamId: String?
+
+        public init(maxBitrate: Int32? = nil, maxLatency: Int32? = nil, protocol: Protocol, smoothingLatency: Int32? = nil, streamId: String? = nil) {
+            self.maxBitrate = maxBitrate
+            self.maxLatency = maxLatency
+            self.`protocol` = `protocol`
+            self.smoothingLatency = smoothingLatency
+            self.streamId = streamId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxBitrate = "maxBitrate"
+            case maxLatency = "maxLatency"
+            case `protocol` = "protocol"
+            case smoothingLatency = "smoothingLatency"
+            case streamId = "streamId"
+        }
+    }
+
+    public struct UpdateEncryption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Algorithm", location: .body(locationName: "algorithm"), required: false, type: .enum), 
+            AWSShapeMember(label: "KeyType", location: .body(locationName: "keyType"), required: false, type: .enum), 
+            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
+            AWSShapeMember(label: "SecretArn", location: .body(locationName: "secretArn"), required: false, type: .string)
+        ]
+        /// The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256).
+        public let algorithm: Algorithm?
+        /// The type of key that is used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
+        public let keyType: KeyType?
+        /// The ARN of the role that you created during setup (when you set up AWS Elemental MediaConnect as a trusted entity).
+        public let roleArn: String?
+        /// The ARN that was assigned to the secret that you created in AWS Secrets Manager to store the encryption key.
+        public let secretArn: String?
+
+        public init(algorithm: Algorithm? = nil, keyType: KeyType? = nil, roleArn: String? = nil, secretArn: String? = nil) {
+            self.algorithm = algorithm
+            self.keyType = keyType
+            self.roleArn = roleArn
+            self.secretArn = secretArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case algorithm = "algorithm"
+            case keyType = "keyType"
+            case roleArn = "roleArn"
+            case secretArn = "secretArn"
+        }
+    }
+
+    public struct UpdateFlowEntitlementRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
+            AWSShapeMember(label: "EntitlementArn", location: .uri(locationName: "entitlementArn"), required: true, type: .string), 
+            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string), 
+            AWSShapeMember(label: "Subscribers", location: .body(locationName: "subscribers"), required: false, type: .list)
+        ]
+        /// A description of the entitlement. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the subscriber or end user.
+        public let description: String?
+        /// The type of encryption that will be used on the output associated with this entitlement.
+        public let encryption: UpdateEncryption?
+        public let entitlementArn: String
+        public let flowArn: String
+        /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source.
+        public let subscribers: [String]?
+
+        public init(description: String? = nil, encryption: UpdateEncryption? = nil, entitlementArn: String, flowArn: String, subscribers: [String]? = nil) {
+            self.description = description
+            self.encryption = encryption
+            self.entitlementArn = entitlementArn
+            self.flowArn = flowArn
+            self.subscribers = subscribers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case encryption = "encryption"
+            case entitlementArn = "entitlementArn"
+            case flowArn = "flowArn"
+            case subscribers = "subscribers"
+        }
+    }
+
+    public struct UpdateFlowEntitlementResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Entitlement", location: .body(locationName: "entitlement"), required: false, type: .structure), 
+            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string)
+        ]
+        public let entitlement: Entitlement?
+        /// The ARN of the flow that this entitlement was granted on.
+        public let flowArn: String?
+
+        public init(entitlement: Entitlement? = nil, flowArn: String? = nil) {
+            self.entitlement = entitlement
+            self.flowArn = flowArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entitlement = "entitlement"
+            case flowArn = "flowArn"
+        }
+    }
+
+    public struct UpdateFlowOutputRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: false, type: .string), 
+            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
+            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxLatency", location: .body(locationName: "maxLatency"), required: false, type: .integer), 
+            AWSShapeMember(label: "OutputArn", location: .uri(locationName: "outputArn"), required: true, type: .string), 
+            AWSShapeMember(label: "Port", location: .body(locationName: "port"), required: false, type: .integer), 
+            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"), required: false, type: .enum), 
+            AWSShapeMember(label: "SmoothingLatency", location: .body(locationName: "smoothingLatency"), required: false, type: .integer), 
+            AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"), required: false, type: .string)
+        ]
+        /// A description of the output. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the end user.
+        public let description: String?
+        /// The IP address where you want to send the output.
+        public let destination: String?
+        /// The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
+        public let encryption: UpdateEncryption?
+        public let flowArn: String
+        /// The maximum latency in milliseconds for Zixi-based streams.
+        public let maxLatency: Int32?
+        public let outputArn: String
+        /// The port to use when content is distributed to this output.
+        public let port: Int32?
+        /// The protocol to use for the output.
+        public let `protocol`: Protocol?
+        /// The smoothing latency in milliseconds for RTP and RTP-FEC streams.
+        public let smoothingLatency: Int32?
+        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
+        public let streamId: String?
+
+        public init(description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int32? = nil, outputArn: String, port: Int32? = nil, protocol: Protocol? = nil, smoothingLatency: Int32? = nil, streamId: String? = nil) {
+            self.description = description
+            self.destination = destination
+            self.encryption = encryption
+            self.flowArn = flowArn
+            self.maxLatency = maxLatency
+            self.outputArn = outputArn
+            self.port = port
+            self.`protocol` = `protocol`
+            self.smoothingLatency = smoothingLatency
+            self.streamId = streamId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case destination = "destination"
+            case encryption = "encryption"
+            case flowArn = "flowArn"
+            case maxLatency = "maxLatency"
+            case outputArn = "outputArn"
+            case port = "port"
+            case `protocol` = "protocol"
+            case smoothingLatency = "smoothingLatency"
+            case streamId = "streamId"
         }
     }
 
@@ -745,494 +1151,88 @@ extension MediaConnect {
         }
     }
 
-    public enum Algorithm: String, CustomStringConvertible, Codable {
-        case aes128 = "aes128"
-        case aes192 = "aes192"
-        case aes256 = "aes256"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Encryption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KeyType", location: .body(locationName: "keyType"), required: false, type: .enum), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: true, type: .string), 
-            AWSShapeMember(label: "Algorithm", location: .body(locationName: "algorithm"), required: true, type: .enum), 
-            AWSShapeMember(label: "SecretArn", location: .body(locationName: "secretArn"), required: true, type: .string)
-        ]
-        /// The type of key that is used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
-        public let keyType: KeyType?
-        /// The ARN of the role that you created during setup (when you set up AWS Elemental MediaConnect as a trusted entity).
-        public let roleArn: String
-        /// The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256).
-        public let algorithm: Algorithm
-        /// The ARN that was assigned to the secret that you created in AWS Secrets Manager to store the encryption key.
-        public let secretArn: String
-
-        public init(keyType: KeyType? = nil, roleArn: String, algorithm: Algorithm, secretArn: String) {
-            self.keyType = keyType
-            self.roleArn = roleArn
-            self.algorithm = algorithm
-            self.secretArn = secretArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case keyType = "keyType"
-            case roleArn = "roleArn"
-            case algorithm = "algorithm"
-            case secretArn = "secretArn"
-        }
-    }
-
-    public struct Flow: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EgressIp", location: .body(locationName: "egressIp"), required: false, type: .string), 
-            AWSShapeMember(label: "Source", location: .body(locationName: "source"), required: true, type: .structure), 
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: true, type: .string), 
-            AWSShapeMember(label: "Entitlements", location: .body(locationName: "entitlements"), required: true, type: .list), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: true, type: .enum), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Outputs", location: .body(locationName: "outputs"), required: true, type: .list), 
-            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string)
-        ]
-        /// The IP address from which video will be sent to output destinations.
-        public let egressIp: String?
-        public let source: Source
-        /// The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current AWS.
-        public let availabilityZone: String
-        /// The entitlements in this flow.
-        public let entitlements: [Entitlement]
-        /// The current status of the flow.
-        public let status: Status
-        /// A description of the flow. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
-        public let description: String?
-        /// The outputs in this flow.
-        public let outputs: [Output]
-        /// The Amazon Resource Name (ARN), a unique identifier for any AWS resource, of the flow.
-        public let flowArn: String
-        /// The name of the flow.
-        public let name: String
-
-        public init(egressIp: String? = nil, source: Source, availabilityZone: String, entitlements: [Entitlement], status: Status, description: String? = nil, outputs: [Output], flowArn: String, name: String) {
-            self.egressIp = egressIp
-            self.source = source
-            self.availabilityZone = availabilityZone
-            self.entitlements = entitlements
-            self.status = status
-            self.description = description
-            self.outputs = outputs
-            self.flowArn = flowArn
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case egressIp = "egressIp"
-            case source = "source"
-            case availabilityZone = "availabilityZone"
-            case entitlements = "entitlements"
-            case status = "status"
-            case description = "description"
-            case outputs = "outputs"
-            case flowArn = "flowArn"
-            case name = "name"
-        }
-    }
-
-    public struct ResponseError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: true, type: .string)
-        ]
-        /// The error message returned by AWS Elemental MediaConnect.
-        public let message: String
-
-        public init(message: String) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
-    }
-
-    public struct GrantFlowEntitlementsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string), 
-            AWSShapeMember(label: "Entitlements", location: .body(locationName: "entitlements"), required: false, type: .list)
-        ]
-        /// The ARN of the flow that these entitlements were granted to.
-        public let flowArn: String?
-        /// The entitlements that were just granted.
-        public let entitlements: [Entitlement]?
-
-        public init(flowArn: String? = nil, entitlements: [Entitlement]? = nil) {
-            self.flowArn = flowArn
-            self.entitlements = entitlements
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case flowArn = "flowArn"
-            case entitlements = "entitlements"
-        }
-    }
-
-    public struct CreateFlowResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Flow", location: .body(locationName: "flow"), required: false, type: .structure)
-        ]
-        public let flow: Flow?
-
-        public init(flow: Flow? = nil) {
-            self.flow = flow
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case flow = "flow"
-        }
-    }
-
-    public struct DeleteFlowRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string)
-        ]
-        public let flowArn: String
-
-        public init(flowArn: String) {
-            self.flowArn = flowArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case flowArn = "flowArn"
-        }
-    }
-
     public struct UpdateFlowSourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxBitrate", location: .body(locationName: "maxBitrate"), required: false, type: .integer), 
-            AWSShapeMember(label: "WhitelistCidr", location: .body(locationName: "whitelistCidr"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxLatency", location: .body(locationName: "maxLatency"), required: false, type: .integer), 
-            AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"), required: false, type: .string), 
             AWSShapeMember(label: "Decryption", location: .body(locationName: "decryption"), required: false, type: .structure), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"), required: false, type: .enum), 
+            AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn"), required: false, type: .string), 
+            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string), 
             AWSShapeMember(label: "IngestPort", location: .body(locationName: "ingestPort"), required: false, type: .integer), 
+            AWSShapeMember(label: "MaxBitrate", location: .body(locationName: "maxBitrate"), required: false, type: .integer), 
+            AWSShapeMember(label: "MaxLatency", location: .body(locationName: "maxLatency"), required: false, type: .integer), 
+            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"), required: false, type: .enum), 
             AWSShapeMember(label: "SourceArn", location: .uri(locationName: "sourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string)
+            AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"), required: false, type: .string), 
+            AWSShapeMember(label: "WhitelistCidr", location: .body(locationName: "whitelistCidr"), required: false, type: .string)
         ]
-        /// The ARN of the entitlement that allows you to subscribe to this flow. The entitlement is set by the flow originator, and the ARN is generated as part of the originator's flow.
-        public let entitlementArn: String?
-        /// The smoothing max bitrate for RTP and RTP-FEC streams.
-        public let maxBitrate: Int32?
-        /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
-        public let whitelistCidr: String?
-        /// The maximum latency in milliseconds for Zixi-based streams.
-        public let maxLatency: Int32?
-        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
-        public let streamId: String?
         /// The type of encryption used on the content ingested from this source.
         public let decryption: UpdateEncryption?
         /// A description for the source. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
         public let description: String?
-        /// The protocol that is used by the source.
-        public let `protocol`: Protocol?
+        /// The ARN of the entitlement that allows you to subscribe to this flow. The entitlement is set by the flow originator, and the ARN is generated as part of the originator's flow.
+        public let entitlementArn: String?
+        public let flowArn: String
         /// The port that the flow will be listening on for incoming content.
         public let ingestPort: Int32?
+        /// The smoothing max bitrate for RTP and RTP-FEC streams.
+        public let maxBitrate: Int32?
+        /// The maximum latency in milliseconds for Zixi-based streams.
+        public let maxLatency: Int32?
+        /// The protocol that is used by the source.
+        public let `protocol`: Protocol?
         public let sourceArn: String
-        public let flowArn: String
+        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
+        public let streamId: String?
+        /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+        public let whitelistCidr: String?
 
-        public init(entitlementArn: String? = nil, maxBitrate: Int32? = nil, whitelistCidr: String? = nil, maxLatency: Int32? = nil, streamId: String? = nil, decryption: UpdateEncryption? = nil, description: String? = nil, protocol: Protocol? = nil, ingestPort: Int32? = nil, sourceArn: String, flowArn: String) {
-            self.entitlementArn = entitlementArn
-            self.maxBitrate = maxBitrate
-            self.whitelistCidr = whitelistCidr
-            self.maxLatency = maxLatency
-            self.streamId = streamId
+        public init(decryption: UpdateEncryption? = nil, description: String? = nil, entitlementArn: String? = nil, flowArn: String, ingestPort: Int32? = nil, maxBitrate: Int32? = nil, maxLatency: Int32? = nil, protocol: Protocol? = nil, sourceArn: String, streamId: String? = nil, whitelistCidr: String? = nil) {
             self.decryption = decryption
             self.description = description
-            self.`protocol` = `protocol`
-            self.ingestPort = ingestPort
-            self.sourceArn = sourceArn
+            self.entitlementArn = entitlementArn
             self.flowArn = flowArn
+            self.ingestPort = ingestPort
+            self.maxBitrate = maxBitrate
+            self.maxLatency = maxLatency
+            self.`protocol` = `protocol`
+            self.sourceArn = sourceArn
+            self.streamId = streamId
+            self.whitelistCidr = whitelistCidr
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entitlementArn = "entitlementArn"
-            case maxBitrate = "maxBitrate"
-            case whitelistCidr = "whitelistCidr"
-            case maxLatency = "maxLatency"
-            case streamId = "streamId"
             case decryption = "decryption"
             case description = "description"
-            case `protocol` = "protocol"
+            case entitlementArn = "entitlementArn"
+            case flowArn = "flowArn"
             case ingestPort = "ingestPort"
+            case maxBitrate = "maxBitrate"
+            case maxLatency = "maxLatency"
+            case `protocol` = "protocol"
             case sourceArn = "sourceArn"
-            case flowArn = "flowArn"
+            case streamId = "streamId"
+            case whitelistCidr = "whitelistCidr"
         }
     }
 
-    public struct DeleteFlowResponse: AWSShape {
+    public struct UpdateFlowSourceResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum)
+            AWSShapeMember(label: "Source", location: .body(locationName: "source"), required: false, type: .structure)
         ]
-        /// The ARN of the flow that was deleted.
+        /// The ARN of the flow that you want to update.
         public let flowArn: String?
-        /// The status of the flow when the DeleteFlow process begins.
-        public let status: Status?
+        /// The settings for the source of the flow.
+        public let source: Source?
 
-        public init(flowArn: String? = nil, status: Status? = nil) {
+        public init(flowArn: String? = nil, source: Source? = nil) {
             self.flowArn = flowArn
-            self.status = status
+            self.source = source
         }
 
         private enum CodingKeys: String, CodingKey {
             case flowArn = "flowArn"
-            case status = "status"
-        }
-    }
-
-    public struct StartFlowRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string)
-        ]
-        public let flowArn: String
-
-        public init(flowArn: String) {
-            self.flowArn = flowArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case flowArn = "flowArn"
-        }
-    }
-
-    public struct GrantFlowEntitlementsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string), 
-            AWSShapeMember(label: "Entitlements", location: .body(locationName: "entitlements"), required: true, type: .list)
-        ]
-        public let flowArn: String
-        /// The list of entitlements that you want to grant.
-        public let entitlements: [GrantEntitlementRequest]
-
-        public init(flowArn: String, entitlements: [GrantEntitlementRequest]) {
-            self.flowArn = flowArn
-            self.entitlements = entitlements
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case flowArn = "flowArn"
-            case entitlements = "entitlements"
-        }
-    }
-
-    public struct RevokeFlowEntitlementResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string), 
-            AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn"), required: false, type: .string)
-        ]
-        /// The ARN of the flow that the entitlement was revoked from.
-        public let flowArn: String?
-        /// The ARN of the entitlement that was revoked.
-        public let entitlementArn: String?
-
-        public init(flowArn: String? = nil, entitlementArn: String? = nil) {
-            self.flowArn = flowArn
-            self.entitlementArn = entitlementArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case flowArn = "flowArn"
-            case entitlementArn = "entitlementArn"
-        }
-    }
-
-    public struct ListedFlow: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: true, type: .string), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: true, type: .enum), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: true, type: .string), 
-            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: true, type: .string), 
-            AWSShapeMember(label: "SourceType", location: .body(locationName: "sourceType"), required: true, type: .enum)
-        ]
-        /// The Availability Zone that the flow was created in.
-        public let availabilityZone: String
-        /// The current status of the flow.
-        public let status: Status
-        /// The name of the flow.
-        public let name: String
-        /// A description of the flow.
-        public let description: String
-        /// The ARN of the flow.
-        public let flowArn: String
-        /// The type of source. This value is either owned (originated somewhere other than an AWS Elemental MediaConnect flow owned by another AWS account) or entitled (originated at an AWS Elemental MediaConnect flow owned by another AWS account).
-        public let sourceType: SourceType
-
-        public init(availabilityZone: String, status: Status, name: String, description: String, flowArn: String, sourceType: SourceType) {
-            self.availabilityZone = availabilityZone
-            self.status = status
-            self.name = name
-            self.description = description
-            self.flowArn = flowArn
-            self.sourceType = sourceType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case availabilityZone = "availabilityZone"
-            case status = "status"
-            case name = "name"
-            case description = "description"
-            case flowArn = "flowArn"
-            case sourceType = "sourceType"
-        }
-    }
-
-    public struct DescribeFlowRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string)
-        ]
-        public let flowArn: String
-
-        public init(flowArn: String) {
-            self.flowArn = flowArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case flowArn = "flowArn"
-        }
-    }
-
-    public struct Messages: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Errors", location: .body(locationName: "errors"), required: true, type: .list)
-        ]
-        /// A list of errors that might have been generated from processes on this flow.
-        public let errors: [String]
-
-        public init(errors: [String]) {
-            self.errors = errors
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errors = "errors"
-        }
-    }
-
-    public struct Entitlement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Subscribers", location: .body(locationName: "subscribers"), required: true, type: .list), 
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure)
-        ]
-        /// The name of the entitlement.
-        public let name: String
-        /// The ARN of the entitlement.
-        public let entitlementArn: String
-        /// A description of the entitlement.
-        public let description: String?
-        /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source.
-        public let subscribers: [String]
-        /// The type of encryption that will be used on the output that is associated with this entitlement.
-        public let encryption: Encryption?
-
-        public init(name: String, entitlementArn: String, description: String? = nil, subscribers: [String], encryption: Encryption? = nil) {
-            self.name = name
-            self.entitlementArn = entitlementArn
-            self.description = description
-            self.subscribers = subscribers
-            self.encryption = encryption
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case entitlementArn = "entitlementArn"
-            case description = "description"
-            case subscribers = "subscribers"
-            case encryption = "encryption"
-        }
-    }
-
-    public struct Output: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: false, type: .string), 
-            AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Port", location: .body(locationName: "port"), required: false, type: .integer), 
-            AWSShapeMember(label: "MediaLiveInputArn", location: .body(locationName: "mediaLiveInputArn"), required: false, type: .string), 
-            AWSShapeMember(label: "Transport", location: .body(locationName: "transport"), required: false, type: .structure), 
-            AWSShapeMember(label: "OutputArn", location: .body(locationName: "outputArn"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure)
-        ]
-        /// The address where you want to send the output.
-        public let destination: String?
-        /// The ARN of the entitlement on the originator''s flow. This value is relevant only on entitled flows.
-        public let entitlementArn: String?
-        /// A description of the output.
-        public let description: String?
-        /// The port to use when content is distributed to this output.
-        public let port: Int32?
-        /// The input ARN of the AWS Elemental MediaLive channel. This parameter is relevant only for outputs that were added by creating a MediaLive input.
-        public let mediaLiveInputArn: String?
-        /// Attributes related to the transport stream that are used in the output.
-        public let transport: Transport?
-        /// The ARN of the output.
-        public let outputArn: String
-        /// The name of the output. This value must be unique within the current flow.
-        public let name: String
-        /// The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
-        public let encryption: Encryption?
-
-        public init(destination: String? = nil, entitlementArn: String? = nil, description: String? = nil, port: Int32? = nil, mediaLiveInputArn: String? = nil, transport: Transport? = nil, outputArn: String, name: String, encryption: Encryption? = nil) {
-            self.destination = destination
-            self.entitlementArn = entitlementArn
-            self.description = description
-            self.port = port
-            self.mediaLiveInputArn = mediaLiveInputArn
-            self.transport = transport
-            self.outputArn = outputArn
-            self.name = name
-            self.encryption = encryption
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destination = "destination"
-            case entitlementArn = "entitlementArn"
-            case description = "description"
-            case port = "port"
-            case mediaLiveInputArn = "mediaLiveInputArn"
-            case transport = "transport"
-            case outputArn = "outputArn"
-            case name = "name"
-            case encryption = "encryption"
-        }
-    }
-
-    public enum KeyType: String, CustomStringConvertible, Codable {
-        case staticKey = "static-key"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct StartFlowResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum)
-        ]
-        /// The ARN of the flow that you started.
-        public let flowArn: String?
-        /// The status of the flow when the StartFlow process begins.
-        public let status: Status?
-
-        public init(flowArn: String? = nil, status: Status? = nil) {
-            self.flowArn = flowArn
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case flowArn = "flowArn"
-            case status = "status"
+            case source = "source"
         }
     }
 

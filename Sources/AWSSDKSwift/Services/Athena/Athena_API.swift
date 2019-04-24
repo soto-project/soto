@@ -30,19 +30,9 @@ public struct Athena {
         return try client.send(operation: "BatchGetNamedQuery", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about a single execution of a query. Each time a query executes, information about the query execution is saved with a unique ID.
-    public func getQueryExecution(_ input: GetQueryExecutionInput) throws -> GetQueryExecutionOutput {
-        return try client.send(operation: "GetQueryExecution", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns information about a single query.
-    public func getNamedQuery(_ input: GetNamedQueryInput) throws -> GetNamedQueryOutput {
-        return try client.send(operation: "GetNamedQuery", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Stops a query execution. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
-    public func stopQueryExecution(_ input: StopQueryExecutionInput) throws -> StopQueryExecutionOutput {
-        return try client.send(operation: "StopQueryExecution", path: "/", httpMethod: "POST", input: input)
+    ///  Returns the details of a single query execution or a list of up to 50 query executions, which you provide as an array of query execution ID strings. To get a list of query execution IDs, use ListQueryExecutions. Query executions are different from named (saved) queries. Use BatchGetNamedQuery to get details about named queries.
+    public func batchGetQueryExecution(_ input: BatchGetQueryExecutionInput) throws -> BatchGetQueryExecutionOutput {
+        return try client.send(operation: "BatchGetQueryExecution", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a named query. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
@@ -55,9 +45,14 @@ public struct Athena {
         return try client.send(operation: "DeleteNamedQuery", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the details of a single query execution or a list of up to 50 query executions, which you provide as an array of query execution ID strings. To get a list of query execution IDs, use ListQueryExecutions. Query executions are different from named (saved) queries. Use BatchGetNamedQuery to get details about named queries.
-    public func batchGetQueryExecution(_ input: BatchGetQueryExecutionInput) throws -> BatchGetQueryExecutionOutput {
-        return try client.send(operation: "BatchGetQueryExecution", path: "/", httpMethod: "POST", input: input)
+    ///  Returns information about a single query.
+    public func getNamedQuery(_ input: GetNamedQueryInput) throws -> GetNamedQueryOutput {
+        return try client.send(operation: "GetNamedQuery", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about a single execution of a query. Each time a query executes, information about the query execution is saved with a unique ID.
+    public func getQueryExecution(_ input: GetQueryExecutionInput) throws -> GetQueryExecutionOutput {
+        return try client.send(operation: "GetQueryExecution", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the results of a single query execution specified by QueryExecutionId. This request does not execute the query but returns results. Use StartQueryExecution to run a query.
@@ -78,6 +73,11 @@ public struct Athena {
     ///  Runs (executes) the SQL query statements contained in the Query string. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     public func startQueryExecution(_ input: StartQueryExecutionInput) throws -> StartQueryExecutionOutput {
         return try client.send(operation: "StartQueryExecution", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Stops a query execution. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+    public func stopQueryExecution(_ input: StopQueryExecutionInput) throws -> StopQueryExecutionOutput {
+        return try client.send(operation: "StopQueryExecution", path: "/", httpMethod: "POST", input: input)
     }
 
 

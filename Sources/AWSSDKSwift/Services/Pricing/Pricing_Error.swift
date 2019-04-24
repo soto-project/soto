@@ -4,11 +4,11 @@ import AWSSDKSwiftCore
 
 /// Error enum for Pricing
 public enum PricingErrorType: AWSErrorType {
+    case expiredNextTokenException(message: String?)
     case internalErrorException(message: String?)
+    case invalidNextTokenException(message: String?)
     case invalidParameterException(message: String?)
     case notFoundException(message: String?)
-    case invalidNextTokenException(message: String?)
-    case expiredNextTokenException(message: String?)
 }
 
 extension PricingErrorType {
@@ -18,16 +18,16 @@ extension PricingErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "ExpiredNextTokenException":
+            self = .expiredNextTokenException(message: message)
         case "InternalErrorException":
             self = .internalErrorException(message: message)
+        case "InvalidNextTokenException":
+            self = .invalidNextTokenException(message: message)
         case "InvalidParameterException":
             self = .invalidParameterException(message: message)
         case "NotFoundException":
             self = .notFoundException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
-        case "ExpiredNextTokenException":
-            self = .expiredNextTokenException(message: message)
         default:
             return nil
         }

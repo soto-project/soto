@@ -5,41 +5,123 @@ import AWSSDKSwiftCore
 
 extension GlobalAccelerator {
 
-    public struct DescribeListenerResponse: AWSShape {
+    public struct Accelerator: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Listener", required: false, type: .structure)
+            AWSShapeMember(label: "AcceleratorArn", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "IpAddressType", required: false, type: .enum), 
+            AWSShapeMember(label: "IpSets", required: false, type: .list), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
-        /// The description of a listener.
-        public let listener: Listener?
+        /// The Amazon Resource Name (ARN) of the accelerator.
+        public let acceleratorArn: String?
+        /// The date and time that the accelerator was created.
+        public let createdTime: TimeStamp?
+        /// Indicates whether theaccelerator is enabled. The value is true or false. The default value is true.  If the value is set to true, the accelerator cannot be deleted. If set to false, accelerator can be deleted.
+        public let enabled: Bool?
+        /// The value for the address type must be IPv4. 
+        public let ipAddressType: IpAddressType?
+        /// IP address set associated with the accelerator.
+        public let ipSets: [IpSet]?
+        /// The date and time that the accelerator was last modified.
+        public let lastModifiedTime: TimeStamp?
+        /// The name of the accelerator. The name can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens (-), and must not begin or end with a hyphen.
+        public let name: String?
+        /// Describes the deployment status of the accelerator.
+        public let status: AcceleratorStatus?
 
-        public init(listener: Listener? = nil) {
-            self.listener = listener
+        public init(acceleratorArn: String? = nil, createdTime: TimeStamp? = nil, enabled: Bool? = nil, ipAddressType: IpAddressType? = nil, ipSets: [IpSet]? = nil, lastModifiedTime: TimeStamp? = nil, name: String? = nil, status: AcceleratorStatus? = nil) {
+            self.acceleratorArn = acceleratorArn
+            self.createdTime = createdTime
+            self.enabled = enabled
+            self.ipAddressType = ipAddressType
+            self.ipSets = ipSets
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case listener = "Listener"
+            case acceleratorArn = "AcceleratorArn"
+            case createdTime = "CreatedTime"
+            case enabled = "Enabled"
+            case ipAddressType = "IpAddressType"
+            case ipSets = "IpSets"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case status = "Status"
         }
     }
 
-    public enum `Protocol`: String, CustomStringConvertible, Codable {
-        case tcp = "TCP"
-        case udp = "UDP"
+    public struct AcceleratorAttributes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FlowLogsEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "FlowLogsS3Bucket", required: false, type: .string), 
+            AWSShapeMember(label: "FlowLogsS3Prefix", required: false, type: .string)
+        ]
+        /// Indicates whether flow logs are enabled. The value is true or false. The default value is false. If the value is true, FlowLogsS3Bucket and FlowLogsS3Prefix must be specified.
+        public let flowLogsEnabled: Bool?
+        /// The name of the Amazon S3 bucket for the flow logs. This attribute is required if flow logs are enabled. The bucket must exist and have a bucket policy that grants AWS Global Accelerator permission to write to the bucket.
+        public let flowLogsS3Bucket: String?
+        /// The prefix for the location in the Amazon S3 bucket for the flow logs. If you don’t specify a prefix, the flow logs are stored in the root of the bucket.
+        public let flowLogsS3Prefix: String?
+
+        public init(flowLogsEnabled: Bool? = nil, flowLogsS3Bucket: String? = nil, flowLogsS3Prefix: String? = nil) {
+            self.flowLogsEnabled = flowLogsEnabled
+            self.flowLogsS3Bucket = flowLogsS3Bucket
+            self.flowLogsS3Prefix = flowLogsS3Prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowLogsEnabled = "FlowLogsEnabled"
+            case flowLogsS3Bucket = "FlowLogsS3Bucket"
+            case flowLogsS3Prefix = "FlowLogsS3Prefix"
+        }
+    }
+
+    public enum AcceleratorStatus: String, CustomStringConvertible, Codable {
+        case deployed = "DEPLOYED"
+        case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public struct DescribeEndpointGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointGroupArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the endpoint group to describe.
-        public let endpointGroupArn: String
+    public enum ClientAffinity: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case sourceIp = "SOURCE_IP"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(endpointGroupArn: String) {
-            self.endpointGroupArn = endpointGroupArn
+    public struct CreateAcceleratorRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
+            AWSShapeMember(label: "IpAddressType", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// Indicates whether an accelerator is enabled. The value is true or false. The default value is true.  If the value is set to true, an accelerator cannot be deleted. If set to false, the accelerator can be deleted.
+        public let enabled: Bool?
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency—that is, the uniqueness—of an accelerator.
+        public let idempotencyToken: String
+        /// The value for the address type must be IPv4. 
+        public let ipAddressType: IpAddressType?
+        /// The name of an accelerator. The name can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens (-), and must not begin or end with a hyphen.
+        public let name: String
+
+        public init(enabled: Bool? = nil, idempotencyToken: String, ipAddressType: IpAddressType? = nil, name: String) {
+            self.enabled = enabled
+            self.idempotencyToken = idempotencyToken
+            self.ipAddressType = ipAddressType
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpointGroupArn = "EndpointGroupArn"
+            case enabled = "Enabled"
+            case idempotencyToken = "IdempotencyToken"
+            case ipAddressType = "IpAddressType"
+            case name = "Name"
         }
     }
 
@@ -59,352 +141,124 @@ extension GlobalAccelerator {
         }
     }
 
-    public struct PortRange: AWSShape {
+    public struct CreateEndpointGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ToPort", required: false, type: .integer), 
-            AWSShapeMember(label: "FromPort", required: false, type: .integer)
-        ]
-        /// The last port in the range of ports, inclusive.
-        public let toPort: Int32?
-        /// The first port in the range of ports, inclusive.
-        public let fromPort: Int32?
-
-        public init(toPort: Int32? = nil, fromPort: Int32? = nil) {
-            self.toPort = toPort
-            self.fromPort = fromPort
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case toPort = "ToPort"
-            case fromPort = "FromPort"
-        }
-    }
-
-    public struct AcceleratorAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowLogsS3Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "FlowLogsS3Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "FlowLogsEnabled", required: false, type: .boolean)
-        ]
-        /// The prefix for the location in the Amazon S3 bucket for the flow logs. If you don’t specify a prefix, the flow logs are stored in the root of the bucket.
-        public let flowLogsS3Prefix: String?
-        /// The name of the Amazon S3 bucket for the flow logs. This attribute is required if flow logs are enabled. The bucket must exist and have a bucket policy that grants AWS Global Accelerator permission to write to the bucket.
-        public let flowLogsS3Bucket: String?
-        /// Indicates whether flow logs are enabled. The value is true or false. The default value is false. If the value is true, FlowLogsS3Bucket and FlowLogsS3Prefix must be specified.
-        public let flowLogsEnabled: Bool?
-
-        public init(flowLogsS3Prefix: String? = nil, flowLogsS3Bucket: String? = nil, flowLogsEnabled: Bool? = nil) {
-            self.flowLogsS3Prefix = flowLogsS3Prefix
-            self.flowLogsS3Bucket = flowLogsS3Bucket
-            self.flowLogsEnabled = flowLogsEnabled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case flowLogsS3Prefix = "FlowLogsS3Prefix"
-            case flowLogsS3Bucket = "FlowLogsS3Bucket"
-            case flowLogsEnabled = "FlowLogsEnabled"
-        }
-    }
-
-    public struct EndpointGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrafficDialPercentage", required: false, type: .float), 
-            AWSShapeMember(label: "ThresholdCount", required: false, type: .integer), 
-            AWSShapeMember(label: "HealthCheckProtocol", required: false, type: .enum), 
-            AWSShapeMember(label: "EndpointDescriptions", required: false, type: .list), 
-            AWSShapeMember(label: "HealthCheckPort", required: false, type: .integer), 
-            AWSShapeMember(label: "EndpointGroupRegion", required: false, type: .string), 
-            AWSShapeMember(label: "EndpointGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointConfigurations", required: false, type: .list), 
+            AWSShapeMember(label: "EndpointGroupRegion", required: true, type: .string), 
+            AWSShapeMember(label: "HealthCheckIntervalSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "HealthCheckPath", required: false, type: .string), 
-            AWSShapeMember(label: "HealthCheckIntervalSeconds", required: false, type: .integer)
+            AWSShapeMember(label: "HealthCheckPort", required: false, type: .integer), 
+            AWSShapeMember(label: "HealthCheckProtocol", required: false, type: .enum), 
+            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
+            AWSShapeMember(label: "ListenerArn", required: true, type: .string), 
+            AWSShapeMember(label: "ThresholdCount", required: false, type: .integer), 
+            AWSShapeMember(label: "TrafficDialPercentage", required: false, type: .float)
         ]
-        /// The percentage of traffic to send to an AWS Region. Additional traffic is distributed to other endpoint groups for this listener.  Use this action to increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is applied to the traffic that would otherwise have been routed to the Region based on optimal routing. The default value is 100.
-        public let trafficDialPercentage: Float?
+        /// The list of endpoint objects.
+        public let endpointConfigurations: [EndpointConfiguration]?
+        /// The name of the AWS Region where the endpoint group is located. A listener can have only one endpoint group in a specific Region.
+        public let endpointGroupRegion: String
+        /// The time, in seconds, between each health check for an endpoint. The default value is 30.
+        public let healthCheckIntervalSeconds: Int32?
+        /// If the protocol is HTTP/S, then this specifies the path that is the destination for health check targets. The default value is slash (/).
+        public let healthCheckPath: String?
+        /// The port that AWS Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default port is the listener port that this endpoint group is associated with. If listener port is a list of ports, Global Accelerator uses the first port in the list.
+        public let healthCheckPort: Int32?
+        /// The protocol that AWS Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default value is TCP.
+        public let healthCheckProtocol: HealthCheckProtocol?
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency—that is, the uniqueness—of the request.
+        public let idempotencyToken: String
+        /// The Amazon Resource Name (ARN) of the listener.
+        public let listenerArn: String
         /// The number of consecutive health checks required to set the state of a healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The default value is 3.
         public let thresholdCount: Int32?
-        /// The protocol that Global Accelerator uses to perform health checks on endpoints that are part of this endpoint group. The default value is TCP.
-        public let healthCheckProtocol: HealthCheckProtocol?
-        /// The list of endpoint objects.
-        public let endpointDescriptions: [EndpointDescription]?
-        /// The port that Global Accelerator uses to perform health checks on endpoints that are part of this endpoint group.  The default port is the port for the listener that this endpoint group is associated with. If the listener port is a list, Global Accelerator uses the first specified port in the list of ports.
-        public let healthCheckPort: Int32?
-        /// The AWS Region that this endpoint group belongs.
-        public let endpointGroupRegion: String?
-        /// The Amazon Resource Name (ARN) of the endpoint group.
-        public let endpointGroupArn: String?
-        /// If the protocol is HTTP/S, then this value provides the ping path that Global Accelerator uses for the destination on the endpoints for health checks. The default is slash (/).
-        public let healthCheckPath: String?
-        /// The elapsed time, in seconds, between health checks for each endpoint. The default value is 30.
-        public let healthCheckIntervalSeconds: Int32?
+        /// The percentage of traffic to send to an AWS Region. Additional traffic is distributed to other endpoint groups for this listener.  Use this action to increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is applied to the traffic that would otherwise have been routed to the Region based on optimal routing. The default value is 100.
+        public let trafficDialPercentage: Float?
 
-        public init(trafficDialPercentage: Float? = nil, thresholdCount: Int32? = nil, healthCheckProtocol: HealthCheckProtocol? = nil, endpointDescriptions: [EndpointDescription]? = nil, healthCheckPort: Int32? = nil, endpointGroupRegion: String? = nil, endpointGroupArn: String? = nil, healthCheckPath: String? = nil, healthCheckIntervalSeconds: Int32? = nil) {
-            self.trafficDialPercentage = trafficDialPercentage
-            self.thresholdCount = thresholdCount
-            self.healthCheckProtocol = healthCheckProtocol
-            self.endpointDescriptions = endpointDescriptions
-            self.healthCheckPort = healthCheckPort
+        public init(endpointConfigurations: [EndpointConfiguration]? = nil, endpointGroupRegion: String, healthCheckIntervalSeconds: Int32? = nil, healthCheckPath: String? = nil, healthCheckPort: Int32? = nil, healthCheckProtocol: HealthCheckProtocol? = nil, idempotencyToken: String, listenerArn: String, thresholdCount: Int32? = nil, trafficDialPercentage: Float? = nil) {
+            self.endpointConfigurations = endpointConfigurations
             self.endpointGroupRegion = endpointGroupRegion
-            self.endpointGroupArn = endpointGroupArn
-            self.healthCheckPath = healthCheckPath
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case trafficDialPercentage = "TrafficDialPercentage"
-            case thresholdCount = "ThresholdCount"
-            case healthCheckProtocol = "HealthCheckProtocol"
-            case endpointDescriptions = "EndpointDescriptions"
-            case healthCheckPort = "HealthCheckPort"
-            case endpointGroupRegion = "EndpointGroupRegion"
-            case endpointGroupArn = "EndpointGroupArn"
-            case healthCheckPath = "HealthCheckPath"
-            case healthCheckIntervalSeconds = "HealthCheckIntervalSeconds"
-        }
-    }
-
-    public struct ListAcceleratorsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The number of Global Accelerator objects that you want to return with this call. The default value is 10.
-        public let maxResults: Int32?
-        /// The token for the next set of results. You receive this token from a previous call.
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DescribeEndpointGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointGroup", required: false, type: .structure)
-        ]
-        /// The description of an endpoint group.
-        public let endpointGroup: EndpointGroup?
-
-        public init(endpointGroup: EndpointGroup? = nil) {
-            self.endpointGroup = endpointGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endpointGroup = "EndpointGroup"
-        }
-    }
-
-    public enum HealthCheckProtocol: String, CustomStringConvertible, Codable {
-        case tcp = "TCP"
-        case http = "HTTP"
-        case https = "HTTPS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateEndpointGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointGroup", required: false, type: .structure)
-        ]
-        /// The information about the endpoint group that was updated.
-        public let endpointGroup: EndpointGroup?
-
-        public init(endpointGroup: EndpointGroup? = nil) {
-            self.endpointGroup = endpointGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endpointGroup = "EndpointGroup"
-        }
-    }
-
-    public struct DescribeAcceleratorAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceleratorArn", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the accelerator with the attributes that you want to describe.
-        public let acceleratorArn: String?
-
-        public init(acceleratorArn: String? = nil) {
-            self.acceleratorArn = acceleratorArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case acceleratorArn = "AcceleratorArn"
-        }
-    }
-
-    public enum IpAddressType: String, CustomStringConvertible, Codable {
-        case ipv4 = "IPV4"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeListenerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ListenerArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the listener to describe.
-        public let listenerArn: String
-
-        public init(listenerArn: String) {
+            self.healthCheckPath = healthCheckPath
+            self.healthCheckPort = healthCheckPort
+            self.healthCheckProtocol = healthCheckProtocol
+            self.idempotencyToken = idempotencyToken
             self.listenerArn = listenerArn
+            self.thresholdCount = thresholdCount
+            self.trafficDialPercentage = trafficDialPercentage
         }
 
         private enum CodingKeys: String, CodingKey {
+            case endpointConfigurations = "EndpointConfigurations"
+            case endpointGroupRegion = "EndpointGroupRegion"
+            case healthCheckIntervalSeconds = "HealthCheckIntervalSeconds"
+            case healthCheckPath = "HealthCheckPath"
+            case healthCheckPort = "HealthCheckPort"
+            case healthCheckProtocol = "HealthCheckProtocol"
+            case idempotencyToken = "IdempotencyToken"
             case listenerArn = "ListenerArn"
+            case thresholdCount = "ThresholdCount"
+            case trafficDialPercentage = "TrafficDialPercentage"
+        }
+    }
+
+    public struct CreateEndpointGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointGroup", required: false, type: .structure)
+        ]
+        /// The information about the endpoint group that was created.
+        public let endpointGroup: EndpointGroup?
+
+        public init(endpointGroup: EndpointGroup? = nil) {
+            self.endpointGroup = endpointGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointGroup = "EndpointGroup"
         }
     }
 
     public struct CreateListenerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientAffinity", required: false, type: .enum), 
             AWSShapeMember(label: "AcceleratorArn", required: true, type: .string), 
-            AWSShapeMember(label: "Protocol", required: true, type: .enum), 
+            AWSShapeMember(label: "ClientAffinity", required: false, type: .enum), 
             AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
-            AWSShapeMember(label: "PortRanges", required: true, type: .list)
+            AWSShapeMember(label: "PortRanges", required: true, type: .list), 
+            AWSShapeMember(label: "Protocol", required: true, type: .enum)
         ]
-        /// Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications, regardless of the port and protocol of the client request. Clienty affinity gives you control over whether to always route each client to the same specific endpoint. AWS Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client affinity is NONE, Global Accelerator uses the "five-tuple" (5-tuple) properties—client IP address, client port, destination IP address, destination port, and protocol—to select the hash value, and then chooses the best endpoint. However, with this setting, if someone uses different ports to connect to Global Accelerator, their connections might not be always routed to the same endpoint because the hash value changes.  If you want a given client to always be routed to the same endpoint, set client affinity to CLIENT_IP instead. When you use the CLIENT_IP setting, Global Accelerator uses the "two-tuple" (2-tuple) properties— client IP address and destination IP address—to select the hash value. For UDP, Global Accelerator always uses two-tuple properties to select the hash value. The default value is NONE.
-        public let clientAffinity: ClientAffinity?
         /// The Amazon Resource Name (ARN) of your accelerator.
         public let acceleratorArn: String
-        /// The protocol for connections from clients to your accelerator.
-        public let `protocol`: Protocol
+        /// Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications, regardless of the port and protocol of the client request. Clienty affinity gives you control over whether to always route each client to the same specific endpoint. AWS Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client affinity is NONE, Global Accelerator uses the "five-tuple" (5-tuple) properties—client IP address, client port, destination IP address, destination port, and protocol—to select the hash value, and then chooses the best endpoint. However, with this setting, if someone uses different ports to connect to Global Accelerator, their connections might not be always routed to the same endpoint because the hash value changes.  If you want a given client to always be routed to the same endpoint, set client affinity to CLIENT_IP instead. When you use the CLIENT_IP setting, Global Accelerator uses the "two-tuple" (2-tuple) properties— client IP address and destination IP address—to select the hash value. For UDP, Global Accelerator always uses two-tuple properties to select the hash value. The default value is NONE.
+        public let clientAffinity: ClientAffinity?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency—that is, the uniqueness—of the request.
         public let idempotencyToken: String
         /// The list of port ranges to support for connections from clients to your accelerator.
         public let portRanges: [PortRange]
+        /// The protocol for connections from clients to your accelerator.
+        public let `protocol`: Protocol
 
-        public init(clientAffinity: ClientAffinity? = nil, acceleratorArn: String, protocol: Protocol, idempotencyToken: String, portRanges: [PortRange]) {
-            self.clientAffinity = clientAffinity
+        public init(acceleratorArn: String, clientAffinity: ClientAffinity? = nil, idempotencyToken: String, portRanges: [PortRange], protocol: Protocol) {
             self.acceleratorArn = acceleratorArn
-            self.`protocol` = `protocol`
+            self.clientAffinity = clientAffinity
             self.idempotencyToken = idempotencyToken
             self.portRanges = portRanges
+            self.`protocol` = `protocol`
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientAffinity = "ClientAffinity"
             case acceleratorArn = "AcceleratorArn"
-            case `protocol` = "Protocol"
+            case clientAffinity = "ClientAffinity"
             case idempotencyToken = "IdempotencyToken"
             case portRanges = "PortRanges"
-        }
-    }
-
-    public struct ListListenersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Listeners", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The list of listeners for an accelerator.
-        public let listeners: [Listener]?
-        /// The token for the next set of results. You receive this token from a previous call.
-        public let nextToken: String?
-
-        public init(listeners: [Listener]? = nil, nextToken: String? = nil) {
-            self.listeners = listeners
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case listeners = "Listeners"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DescribeAcceleratorAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceleratorAttributes", required: false, type: .structure)
-        ]
-        /// The attributes of the accelerator.
-        public let acceleratorAttributes: AcceleratorAttributes?
-
-        public init(acceleratorAttributes: AcceleratorAttributes? = nil) {
-            self.acceleratorAttributes = acceleratorAttributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case acceleratorAttributes = "AcceleratorAttributes"
-        }
-    }
-
-    public struct UpdateAcceleratorAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceleratorAttributes", required: false, type: .structure)
-        ]
-        /// Updated attributes for the accelerator.
-        public let acceleratorAttributes: AcceleratorAttributes?
-
-        public init(acceleratorAttributes: AcceleratorAttributes? = nil) {
-            self.acceleratorAttributes = acceleratorAttributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case acceleratorAttributes = "AcceleratorAttributes"
-        }
-    }
-
-    public struct UpdateListenerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientAffinity", required: false, type: .enum), 
-            AWSShapeMember(label: "ListenerArn", required: true, type: .string), 
-            AWSShapeMember(label: "Protocol", required: false, type: .enum), 
-            AWSShapeMember(label: "PortRanges", required: false, type: .list)
-        ]
-        /// Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications, regardless of the source port and protocol of the user request. This gives you control over whether and how to maintain client affinity to a given endpoint. The default value is NONE.
-        public let clientAffinity: ClientAffinity?
-        /// The Amazon Resource Name (ARN) of the listener to update.
-        public let listenerArn: String
-        /// The updated protocol for the connections from clients to the accelerator.
-        public let `protocol`: Protocol?
-        /// The updated list of port ranges for the connections from clients to the accelerator.
-        public let portRanges: [PortRange]?
-
-        public init(clientAffinity: ClientAffinity? = nil, listenerArn: String, protocol: Protocol? = nil, portRanges: [PortRange]? = nil) {
-            self.clientAffinity = clientAffinity
-            self.listenerArn = listenerArn
-            self.`protocol` = `protocol`
-            self.portRanges = portRanges
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clientAffinity = "ClientAffinity"
-            case listenerArn = "ListenerArn"
             case `protocol` = "Protocol"
-            case portRanges = "PortRanges"
         }
     }
 
-    public struct EndpointConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointId", required: false, type: .string), 
-            AWSShapeMember(label: "Weight", required: false, type: .integer)
-        ]
-        /// An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID.
-        public let endpointId: String?
-        /// The weight associated with the endpoint. When you add weights to endpoints, you configure AWS Global Accelerator to route traffic based on proportions that you specify. For example, you might specify endpoint weights of 4, 5, 5, and 6 (sum=20). The result is that 4/20 of your traffic, on average, is routed to the first endpoint, 5/20 is routed both to the second and third endpoints, and 6/20 is routed to the last endpoint. For more information, see Endpoint Weights in the AWS Global Accelerator Developer Guide.
-        public let weight: Int32?
-
-        public init(endpointId: String? = nil, weight: Int32? = nil) {
-            self.endpointId = endpointId
-            self.weight = weight
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endpointId = "EndpointId"
-            case weight = "Weight"
-        }
-    }
-
-    public struct UpdateListenerResponse: AWSShape {
+    public struct CreateListenerResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Listener", required: false, type: .structure)
         ]
-        /// Information for the updated listener.
+        /// The listener that you've created.
         public let listener: Listener?
 
         public init(listener: Listener? = nil) {
@@ -413,6 +267,22 @@ extension GlobalAccelerator {
 
         private enum CodingKeys: String, CodingKey {
             case listener = "Listener"
+        }
+    }
+
+    public struct DeleteAcceleratorRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceleratorArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of an accelerator.
+        public let acceleratorArn: String
+
+        public init(acceleratorArn: String) {
+            self.acceleratorArn = acceleratorArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratorArn = "AcceleratorArn"
         }
     }
 
@@ -448,50 +318,51 @@ extension GlobalAccelerator {
         }
     }
 
-    public struct CreateAcceleratorRequest: AWSShape {
+    public struct DescribeAcceleratorAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
-            AWSShapeMember(label: "IpAddressType", required: false, type: .enum)
+            AWSShapeMember(label: "AcceleratorArn", required: false, type: .string)
         ]
-        /// Indicates whether an accelerator is enabled. The value is true or false. The default value is true.  If the value is set to true, an accelerator cannot be deleted. If set to false, the accelerator can be deleted.
-        public let enabled: Bool?
-        /// The name of an accelerator. The name can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens (-), and must not begin or end with a hyphen.
-        public let name: String
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency—that is, the uniqueness—of an accelerator.
-        public let idempotencyToken: String
-        /// The value for the address type must be IPv4. 
-        public let ipAddressType: IpAddressType?
+        /// The Amazon Resource Name (ARN) of the accelerator with the attributes that you want to describe.
+        public let acceleratorArn: String?
 
-        public init(enabled: Bool? = nil, name: String, idempotencyToken: String, ipAddressType: IpAddressType? = nil) {
-            self.enabled = enabled
-            self.name = name
-            self.idempotencyToken = idempotencyToken
-            self.ipAddressType = ipAddressType
+        public init(acceleratorArn: String? = nil) {
+            self.acceleratorArn = acceleratorArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled = "Enabled"
-            case name = "Name"
-            case idempotencyToken = "IdempotencyToken"
-            case ipAddressType = "IpAddressType"
+            case acceleratorArn = "AcceleratorArn"
         }
     }
 
-    public struct CreateListenerResponse: AWSShape {
+    public struct DescribeAcceleratorAttributesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Listener", required: false, type: .structure)
+            AWSShapeMember(label: "AcceleratorAttributes", required: false, type: .structure)
         ]
-        /// The listener that you've created.
-        public let listener: Listener?
+        /// The attributes of the accelerator.
+        public let acceleratorAttributes: AcceleratorAttributes?
 
-        public init(listener: Listener? = nil) {
-            self.listener = listener
+        public init(acceleratorAttributes: AcceleratorAttributes? = nil) {
+            self.acceleratorAttributes = acceleratorAttributes
         }
 
         private enum CodingKeys: String, CodingKey {
-            case listener = "Listener"
+            case acceleratorAttributes = "AcceleratorAttributes"
+        }
+    }
+
+    public struct DescribeAcceleratorRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceleratorArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the accelerator to describe.
+        public let acceleratorArn: String
+
+        public init(acceleratorArn: String) {
+            self.acceleratorArn = acceleratorArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratorArn = "AcceleratorArn"
         }
     }
 
@@ -511,29 +382,236 @@ extension GlobalAccelerator {
         }
     }
 
-    public struct ListListenersRequest: AWSShape {
+    public struct DescribeEndpointGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "AcceleratorArn", required: true, type: .string)
+            AWSShapeMember(label: "EndpointGroupArn", required: true, type: .string)
         ]
-        /// The token for the next set of results. You receive this token from a previous call.
-        public let nextToken: String?
-        /// The number of listener objects that you want to return with this call. The default value is 10.
-        public let maxResults: Int32?
-        /// The Amazon Resource Name (ARN) of the accelerator for which you want to list listener objects.
-        public let acceleratorArn: String
+        /// The Amazon Resource Name (ARN) of the endpoint group to describe.
+        public let endpointGroupArn: String
 
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, acceleratorArn: String) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.acceleratorArn = acceleratorArn
+        public init(endpointGroupArn: String) {
+            self.endpointGroupArn = endpointGroupArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
+            case endpointGroupArn = "EndpointGroupArn"
+        }
+    }
+
+    public struct DescribeEndpointGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointGroup", required: false, type: .structure)
+        ]
+        /// The description of an endpoint group.
+        public let endpointGroup: EndpointGroup?
+
+        public init(endpointGroup: EndpointGroup? = nil) {
+            self.endpointGroup = endpointGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointGroup = "EndpointGroup"
+        }
+    }
+
+    public struct DescribeListenerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ListenerArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the listener to describe.
+        public let listenerArn: String
+
+        public init(listenerArn: String) {
+            self.listenerArn = listenerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listenerArn = "ListenerArn"
+        }
+    }
+
+    public struct DescribeListenerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Listener", required: false, type: .structure)
+        ]
+        /// The description of a listener.
+        public let listener: Listener?
+
+        public init(listener: Listener? = nil) {
+            self.listener = listener
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listener = "Listener"
+        }
+    }
+
+    public struct EndpointConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointId", required: false, type: .string), 
+            AWSShapeMember(label: "Weight", required: false, type: .integer)
+        ]
+        /// An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID.
+        public let endpointId: String?
+        /// The weight associated with the endpoint. When you add weights to endpoints, you configure AWS Global Accelerator to route traffic based on proportions that you specify. For example, you might specify endpoint weights of 4, 5, 5, and 6 (sum=20). The result is that 4/20 of your traffic, on average, is routed to the first endpoint, 5/20 is routed both to the second and third endpoints, and 6/20 is routed to the last endpoint. For more information, see Endpoint Weights in the AWS Global Accelerator Developer Guide.
+        public let weight: Int32?
+
+        public init(endpointId: String? = nil, weight: Int32? = nil) {
+            self.endpointId = endpointId
+            self.weight = weight
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointId = "EndpointId"
+            case weight = "Weight"
+        }
+    }
+
+    public struct EndpointDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointId", required: false, type: .string), 
+            AWSShapeMember(label: "HealthReason", required: false, type: .string), 
+            AWSShapeMember(label: "HealthState", required: false, type: .enum), 
+            AWSShapeMember(label: "Weight", required: false, type: .integer)
+        ]
+        /// An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID.
+        public let endpointId: String?
+        /// The reason code associated with why the endpoint is not healthy. If the endpoint state is healthy, a reason code is not provided. If the endpoint state is unhealthy, the reason code can be one of the following values:    Timeout: The health check requests to the endpoint are timing out before returning a status.    Failed: The health check failed, for example because the endpoint response was invalid (malformed).   If the endpoint state is initial, the reason code can be one of the following values:    ProvisioningInProgress: The endpoint is in the process of being provisioned.    InitialHealthChecking: Global Accelerator is still setting up the minimum number of health checks for the endpoint that are required to determine its health status.  
+        public let healthReason: String?
+        /// The health status of the endpoint.
+        public let healthState: HealthState?
+        /// The weight associated with the endpoint. When you add weights to endpoints, you configure AWS Global Accelerator to route traffic based on proportions that you specify. For example, you might specify endpoint weights of 4, 5, 5, and 6 (sum=20). The result is that 4/20 of your traffic, on average, is routed to the first endpoint, 5/20 is routed both to the second and third endpoints, and 6/20 is routed to the last endpoint. For more information, see Endpoint Weights in the AWS Global Accelerator Developer Guide. 
+        public let weight: Int32?
+
+        public init(endpointId: String? = nil, healthReason: String? = nil, healthState: HealthState? = nil, weight: Int32? = nil) {
+            self.endpointId = endpointId
+            self.healthReason = healthReason
+            self.healthState = healthState
+            self.weight = weight
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointId = "EndpointId"
+            case healthReason = "HealthReason"
+            case healthState = "HealthState"
+            case weight = "Weight"
+        }
+    }
+
+    public struct EndpointGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointDescriptions", required: false, type: .list), 
+            AWSShapeMember(label: "EndpointGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointGroupRegion", required: false, type: .string), 
+            AWSShapeMember(label: "HealthCheckIntervalSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "HealthCheckPath", required: false, type: .string), 
+            AWSShapeMember(label: "HealthCheckPort", required: false, type: .integer), 
+            AWSShapeMember(label: "HealthCheckProtocol", required: false, type: .enum), 
+            AWSShapeMember(label: "ThresholdCount", required: false, type: .integer), 
+            AWSShapeMember(label: "TrafficDialPercentage", required: false, type: .float)
+        ]
+        /// The list of endpoint objects.
+        public let endpointDescriptions: [EndpointDescription]?
+        /// The Amazon Resource Name (ARN) of the endpoint group.
+        public let endpointGroupArn: String?
+        /// The AWS Region that this endpoint group belongs.
+        public let endpointGroupRegion: String?
+        /// The elapsed time, in seconds, between health checks for each endpoint. The default value is 30.
+        public let healthCheckIntervalSeconds: Int32?
+        /// If the protocol is HTTP/S, then this value provides the ping path that Global Accelerator uses for the destination on the endpoints for health checks. The default is slash (/).
+        public let healthCheckPath: String?
+        /// The port that Global Accelerator uses to perform health checks on endpoints that are part of this endpoint group.  The default port is the port for the listener that this endpoint group is associated with. If the listener port is a list, Global Accelerator uses the first specified port in the list of ports.
+        public let healthCheckPort: Int32?
+        /// The protocol that Global Accelerator uses to perform health checks on endpoints that are part of this endpoint group. The default value is TCP.
+        public let healthCheckProtocol: HealthCheckProtocol?
+        /// The number of consecutive health checks required to set the state of a healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The default value is 3.
+        public let thresholdCount: Int32?
+        /// The percentage of traffic to send to an AWS Region. Additional traffic is distributed to other endpoint groups for this listener.  Use this action to increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is applied to the traffic that would otherwise have been routed to the Region based on optimal routing. The default value is 100.
+        public let trafficDialPercentage: Float?
+
+        public init(endpointDescriptions: [EndpointDescription]? = nil, endpointGroupArn: String? = nil, endpointGroupRegion: String? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckPath: String? = nil, healthCheckPort: Int32? = nil, healthCheckProtocol: HealthCheckProtocol? = nil, thresholdCount: Int32? = nil, trafficDialPercentage: Float? = nil) {
+            self.endpointDescriptions = endpointDescriptions
+            self.endpointGroupArn = endpointGroupArn
+            self.endpointGroupRegion = endpointGroupRegion
+            self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
+            self.healthCheckPath = healthCheckPath
+            self.healthCheckPort = healthCheckPort
+            self.healthCheckProtocol = healthCheckProtocol
+            self.thresholdCount = thresholdCount
+            self.trafficDialPercentage = trafficDialPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointDescriptions = "EndpointDescriptions"
+            case endpointGroupArn = "EndpointGroupArn"
+            case endpointGroupRegion = "EndpointGroupRegion"
+            case healthCheckIntervalSeconds = "HealthCheckIntervalSeconds"
+            case healthCheckPath = "HealthCheckPath"
+            case healthCheckPort = "HealthCheckPort"
+            case healthCheckProtocol = "HealthCheckProtocol"
+            case thresholdCount = "ThresholdCount"
+            case trafficDialPercentage = "TrafficDialPercentage"
+        }
+    }
+
+    public enum HealthCheckProtocol: String, CustomStringConvertible, Codable {
+        case tcp = "TCP"
+        case http = "HTTP"
+        case https = "HTTPS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HealthState: String, CustomStringConvertible, Codable {
+        case initial = "INITIAL"
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpAddressType: String, CustomStringConvertible, Codable {
+        case ipv4 = "IPV4"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct IpSet: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IpAddresses", required: false, type: .list), 
+            AWSShapeMember(label: "IpFamily", required: false, type: .string)
+        ]
+        /// The array of IP addresses in the IP address set. An IP address set can have a maximum of two IP addresses.
+        public let ipAddresses: [String]?
+        /// The types of IP addresses included in this IP set.
+        public let ipFamily: String?
+
+        public init(ipAddresses: [String]? = nil, ipFamily: String? = nil) {
+            self.ipAddresses = ipAddresses
+            self.ipFamily = ipFamily
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipAddresses = "IpAddresses"
+            case ipFamily = "IpFamily"
+        }
+    }
+
+    public struct ListAcceleratorsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The number of Global Accelerator objects that you want to return with this call. The default value is 10.
+        public let maxResults: Int32?
+        /// The token for the next set of results. You receive this token from a previous call.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
-            case acceleratorArn = "AcceleratorArn"
+            case nextToken = "NextToken"
         }
     }
 
@@ -558,10 +636,30 @@ extension GlobalAccelerator {
         }
     }
 
-    public enum AcceleratorStatus: String, CustomStringConvertible, Codable {
-        case deployed = "DEPLOYED"
-        case inProgress = "IN_PROGRESS"
-        public var description: String { return self.rawValue }
+    public struct ListEndpointGroupsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ListenerArn", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the listener.
+        public let listenerArn: String
+        /// The number of endpoint group objects that you want to return with this call. The default value is 10.
+        public let maxResults: Int32?
+        /// The token for the next set of results. You receive this token from a previous call.
+        public let nextToken: String?
+
+        public init(listenerArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.listenerArn = listenerArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listenerArn = "ListenerArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
     }
 
     public struct ListEndpointGroupsResponse: AWSShape {
@@ -585,71 +683,187 @@ extension GlobalAccelerator {
         }
     }
 
-    public struct CreateEndpointGroupRequest: AWSShape {
+    public struct ListListenersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrafficDialPercentage", required: false, type: .float), 
-            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
-            AWSShapeMember(label: "ThresholdCount", required: false, type: .integer), 
-            AWSShapeMember(label: "EndpointConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "HealthCheckProtocol", required: false, type: .enum), 
-            AWSShapeMember(label: "HealthCheckPort", required: false, type: .integer), 
-            AWSShapeMember(label: "HealthCheckPath", required: false, type: .string), 
-            AWSShapeMember(label: "EndpointGroupRegion", required: true, type: .string), 
-            AWSShapeMember(label: "HealthCheckIntervalSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "ListenerArn", required: true, type: .string)
+            AWSShapeMember(label: "AcceleratorArn", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The percentage of traffic to send to an AWS Region. Additional traffic is distributed to other endpoint groups for this listener.  Use this action to increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is applied to the traffic that would otherwise have been routed to the Region based on optimal routing. The default value is 100.
-        public let trafficDialPercentage: Float?
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency—that is, the uniqueness—of the request.
-        public let idempotencyToken: String
-        /// The number of consecutive health checks required to set the state of a healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The default value is 3.
-        public let thresholdCount: Int32?
-        /// The list of endpoint objects.
-        public let endpointConfigurations: [EndpointConfiguration]?
-        /// The protocol that AWS Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default value is TCP.
-        public let healthCheckProtocol: HealthCheckProtocol?
-        /// The port that AWS Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default port is the listener port that this endpoint group is associated with. If listener port is a list of ports, Global Accelerator uses the first port in the list.
-        public let healthCheckPort: Int32?
-        /// If the protocol is HTTP/S, then this specifies the path that is the destination for health check targets. The default value is slash (/).
-        public let healthCheckPath: String?
-        /// The name of the AWS Region where the endpoint group is located. A listener can have only one endpoint group in a specific Region.
-        public let endpointGroupRegion: String
-        /// The time, in seconds, between each health check for an endpoint. The default value is 30.
-        public let healthCheckIntervalSeconds: Int32?
-        /// The Amazon Resource Name (ARN) of the listener.
-        public let listenerArn: String
+        /// The Amazon Resource Name (ARN) of the accelerator for which you want to list listener objects.
+        public let acceleratorArn: String
+        /// The number of listener objects that you want to return with this call. The default value is 10.
+        public let maxResults: Int32?
+        /// The token for the next set of results. You receive this token from a previous call.
+        public let nextToken: String?
 
-        public init(trafficDialPercentage: Float? = nil, idempotencyToken: String, thresholdCount: Int32? = nil, endpointConfigurations: [EndpointConfiguration]? = nil, healthCheckProtocol: HealthCheckProtocol? = nil, healthCheckPort: Int32? = nil, healthCheckPath: String? = nil, endpointGroupRegion: String, healthCheckIntervalSeconds: Int32? = nil, listenerArn: String) {
-            self.trafficDialPercentage = trafficDialPercentage
-            self.idempotencyToken = idempotencyToken
-            self.thresholdCount = thresholdCount
-            self.endpointConfigurations = endpointConfigurations
-            self.healthCheckProtocol = healthCheckProtocol
-            self.healthCheckPort = healthCheckPort
-            self.healthCheckPath = healthCheckPath
-            self.endpointGroupRegion = endpointGroupRegion
-            self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
-            self.listenerArn = listenerArn
+        public init(acceleratorArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.acceleratorArn = acceleratorArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case trafficDialPercentage = "TrafficDialPercentage"
-            case idempotencyToken = "IdempotencyToken"
-            case thresholdCount = "ThresholdCount"
-            case endpointConfigurations = "EndpointConfigurations"
-            case healthCheckProtocol = "HealthCheckProtocol"
-            case healthCheckPort = "HealthCheckPort"
-            case healthCheckPath = "HealthCheckPath"
-            case endpointGroupRegion = "EndpointGroupRegion"
-            case healthCheckIntervalSeconds = "HealthCheckIntervalSeconds"
-            case listenerArn = "ListenerArn"
+            case acceleratorArn = "AcceleratorArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
         }
     }
 
-    public enum ClientAffinity: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case sourceIp = "SOURCE_IP"
+    public struct ListListenersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Listeners", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The list of listeners for an accelerator.
+        public let listeners: [Listener]?
+        /// The token for the next set of results. You receive this token from a previous call.
+        public let nextToken: String?
+
+        public init(listeners: [Listener]? = nil, nextToken: String? = nil) {
+            self.listeners = listeners
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listeners = "Listeners"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct Listener: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientAffinity", required: false, type: .enum), 
+            AWSShapeMember(label: "ListenerArn", required: false, type: .string), 
+            AWSShapeMember(label: "PortRanges", required: false, type: .list), 
+            AWSShapeMember(label: "Protocol", required: false, type: .enum)
+        ]
+        /// The client properties that Global Accelerator uses to select an endpoint so that you can choose to route traffic from users to their original endpoint. The default value is NONE.
+        public let clientAffinity: ClientAffinity?
+        /// The Amazon Resource Name (ARN) of the listener.
+        public let listenerArn: String?
+        /// The list of port ranges for the connections from clients to the accelerator.
+        public let portRanges: [PortRange]?
+        /// The protocol for the connections from clients to the accelerator.
+        public let `protocol`: Protocol?
+
+        public init(clientAffinity: ClientAffinity? = nil, listenerArn: String? = nil, portRanges: [PortRange]? = nil, protocol: Protocol? = nil) {
+            self.clientAffinity = clientAffinity
+            self.listenerArn = listenerArn
+            self.portRanges = portRanges
+            self.`protocol` = `protocol`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientAffinity = "ClientAffinity"
+            case listenerArn = "ListenerArn"
+            case portRanges = "PortRanges"
+            case `protocol` = "Protocol"
+        }
+    }
+
+    public struct PortRange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FromPort", required: false, type: .integer), 
+            AWSShapeMember(label: "ToPort", required: false, type: .integer)
+        ]
+        /// The first port in the range of ports, inclusive.
+        public let fromPort: Int32?
+        /// The last port in the range of ports, inclusive.
+        public let toPort: Int32?
+
+        public init(fromPort: Int32? = nil, toPort: Int32? = nil) {
+            self.fromPort = fromPort
+            self.toPort = toPort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fromPort = "FromPort"
+            case toPort = "ToPort"
+        }
+    }
+
+    public enum `Protocol`: String, CustomStringConvertible, Codable {
+        case tcp = "TCP"
+        case udp = "UDP"
         public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateAcceleratorAttributesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceleratorArn", required: false, type: .string), 
+            AWSShapeMember(label: "FlowLogsEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "FlowLogsS3Bucket", required: false, type: .string), 
+            AWSShapeMember(label: "FlowLogsS3Prefix", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the accelerator that you want to update.
+        public let acceleratorArn: String?
+        /// Update whether flow logs are enabled.
+        public let flowLogsEnabled: Bool?
+        /// Update the name of the Amazon S3 bucket for the flow logs.
+        public let flowLogsS3Bucket: String?
+        /// Update the prefix for the location in the Amazon S3 bucket for the flow logs.
+        public let flowLogsS3Prefix: String?
+
+        public init(acceleratorArn: String? = nil, flowLogsEnabled: Bool? = nil, flowLogsS3Bucket: String? = nil, flowLogsS3Prefix: String? = nil) {
+            self.acceleratorArn = acceleratorArn
+            self.flowLogsEnabled = flowLogsEnabled
+            self.flowLogsS3Bucket = flowLogsS3Bucket
+            self.flowLogsS3Prefix = flowLogsS3Prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratorArn = "AcceleratorArn"
+            case flowLogsEnabled = "FlowLogsEnabled"
+            case flowLogsS3Bucket = "FlowLogsS3Bucket"
+            case flowLogsS3Prefix = "FlowLogsS3Prefix"
+        }
+    }
+
+    public struct UpdateAcceleratorAttributesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceleratorAttributes", required: false, type: .structure)
+        ]
+        /// Updated attributes for the accelerator.
+        public let acceleratorAttributes: AcceleratorAttributes?
+
+        public init(acceleratorAttributes: AcceleratorAttributes? = nil) {
+            self.acceleratorAttributes = acceleratorAttributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratorAttributes = "AcceleratorAttributes"
+        }
+    }
+
+    public struct UpdateAcceleratorRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceleratorArn", required: true, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "IpAddressType", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the accelerator to update.
+        public let acceleratorArn: String
+        /// Indicates whether an accelerator is enabled. The value is true or false. The default value is true.  If the value is set to true, the accelerator cannot be deleted. If set to false, the accelerator can be deleted.
+        public let enabled: Bool?
+        /// The value for the address type must be IPv4. 
+        public let ipAddressType: IpAddressType?
+        /// The name of the accelerator. The name can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens (-), and must not begin or end with a hyphen.
+        public let name: String?
+
+        public init(acceleratorArn: String, enabled: Bool? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil) {
+            self.acceleratorArn = acceleratorArn
+            self.enabled = enabled
+            self.ipAddressType = ipAddressType
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratorArn = "AcceleratorArn"
+            case enabled = "Enabled"
+            case ipAddressType = "IpAddressType"
+            case name = "Name"
+        }
     }
 
     public struct UpdateAcceleratorResponse: AWSShape {
@@ -668,323 +882,62 @@ extension GlobalAccelerator {
         }
     }
 
-    public enum HealthState: String, CustomStringConvertible, Codable {
-        case initial = "INITIAL"
-        case healthy = "HEALTHY"
-        case unhealthy = "UNHEALTHY"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeAcceleratorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceleratorArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the accelerator to describe.
-        public let acceleratorArn: String
-
-        public init(acceleratorArn: String) {
-            self.acceleratorArn = acceleratorArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case acceleratorArn = "AcceleratorArn"
-        }
-    }
-
-    public struct Listener: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientAffinity", required: false, type: .enum), 
-            AWSShapeMember(label: "ListenerArn", required: false, type: .string), 
-            AWSShapeMember(label: "Protocol", required: false, type: .enum), 
-            AWSShapeMember(label: "PortRanges", required: false, type: .list)
-        ]
-        /// The client properties that Global Accelerator uses to select an endpoint so that you can choose to route traffic from users to their original endpoint. The default value is NONE.
-        public let clientAffinity: ClientAffinity?
-        /// The Amazon Resource Name (ARN) of the listener.
-        public let listenerArn: String?
-        /// The protocol for the connections from clients to the accelerator.
-        public let `protocol`: Protocol?
-        /// The list of port ranges for the connections from clients to the accelerator.
-        public let portRanges: [PortRange]?
-
-        public init(clientAffinity: ClientAffinity? = nil, listenerArn: String? = nil, protocol: Protocol? = nil, portRanges: [PortRange]? = nil) {
-            self.clientAffinity = clientAffinity
-            self.listenerArn = listenerArn
-            self.`protocol` = `protocol`
-            self.portRanges = portRanges
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clientAffinity = "ClientAffinity"
-            case listenerArn = "ListenerArn"
-            case `protocol` = "Protocol"
-            case portRanges = "PortRanges"
-        }
-    }
-
-    public struct ListEndpointGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ListenerArn", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The token for the next set of results. You receive this token from a previous call.
-        public let nextToken: String?
-        /// The Amazon Resource Name (ARN) of the listener.
-        public let listenerArn: String
-        /// The number of endpoint group objects that you want to return with this call. The default value is 10.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, listenerArn: String, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.listenerArn = listenerArn
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case listenerArn = "ListenerArn"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct IpSet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IpAddresses", required: false, type: .list), 
-            AWSShapeMember(label: "IpFamily", required: false, type: .string)
-        ]
-        /// The array of IP addresses in the IP address set. An IP address set can have a maximum of two IP addresses.
-        public let ipAddresses: [String]?
-        /// The types of IP addresses included in this IP set.
-        public let ipFamily: String?
-
-        public init(ipAddresses: [String]? = nil, ipFamily: String? = nil) {
-            self.ipAddresses = ipAddresses
-            self.ipFamily = ipFamily
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ipAddresses = "IpAddresses"
-            case ipFamily = "IpFamily"
-        }
-    }
-
-    public struct Accelerator: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "IpSets", required: false, type: .list), 
-            AWSShapeMember(label: "IpAddressType", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "AcceleratorArn", required: false, type: .string)
-        ]
-        /// The date and time that the accelerator was last modified.
-        public let lastModifiedTime: TimeStamp?
-        /// Describes the deployment status of the accelerator.
-        public let status: AcceleratorStatus?
-        /// The date and time that the accelerator was created.
-        public let createdTime: TimeStamp?
-        /// Indicates whether theaccelerator is enabled. The value is true or false. The default value is true.  If the value is set to true, the accelerator cannot be deleted. If set to false, accelerator can be deleted.
-        public let enabled: Bool?
-        /// IP address set associated with the accelerator.
-        public let ipSets: [IpSet]?
-        /// The value for the address type must be IPv4. 
-        public let ipAddressType: IpAddressType?
-        /// The name of the accelerator. The name can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens (-), and must not begin or end with a hyphen.
-        public let name: String?
-        /// The Amazon Resource Name (ARN) of the accelerator.
-        public let acceleratorArn: String?
-
-        public init(lastModifiedTime: TimeStamp? = nil, status: AcceleratorStatus? = nil, createdTime: TimeStamp? = nil, enabled: Bool? = nil, ipSets: [IpSet]? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil, acceleratorArn: String? = nil) {
-            self.lastModifiedTime = lastModifiedTime
-            self.status = status
-            self.createdTime = createdTime
-            self.enabled = enabled
-            self.ipSets = ipSets
-            self.ipAddressType = ipAddressType
-            self.name = name
-            self.acceleratorArn = acceleratorArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastModifiedTime = "LastModifiedTime"
-            case status = "Status"
-            case createdTime = "CreatedTime"
-            case enabled = "Enabled"
-            case ipSets = "IpSets"
-            case ipAddressType = "IpAddressType"
-            case name = "Name"
-            case acceleratorArn = "AcceleratorArn"
-        }
-    }
-
-    public struct EndpointDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HealthState", required: false, type: .enum), 
-            AWSShapeMember(label: "HealthReason", required: false, type: .string), 
-            AWSShapeMember(label: "Weight", required: false, type: .integer), 
-            AWSShapeMember(label: "EndpointId", required: false, type: .string)
-        ]
-        /// The health status of the endpoint.
-        public let healthState: HealthState?
-        /// The reason code associated with why the endpoint is not healthy. If the endpoint state is healthy, a reason code is not provided. If the endpoint state is unhealthy, the reason code can be one of the following values:    Timeout: The health check requests to the endpoint are timing out before returning a status.    Failed: The health check failed, for example because the endpoint response was invalid (malformed).   If the endpoint state is initial, the reason code can be one of the following values:    ProvisioningInProgress: The endpoint is in the process of being provisioned.    InitialHealthChecking: Global Accelerator is still setting up the minimum number of health checks for the endpoint that are required to determine its health status.  
-        public let healthReason: String?
-        /// The weight associated with the endpoint. When you add weights to endpoints, you configure AWS Global Accelerator to route traffic based on proportions that you specify. For example, you might specify endpoint weights of 4, 5, 5, and 6 (sum=20). The result is that 4/20 of your traffic, on average, is routed to the first endpoint, 5/20 is routed both to the second and third endpoints, and 6/20 is routed to the last endpoint. For more information, see Endpoint Weights in the AWS Global Accelerator Developer Guide. 
-        public let weight: Int32?
-        /// An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID.
-        public let endpointId: String?
-
-        public init(healthState: HealthState? = nil, healthReason: String? = nil, weight: Int32? = nil, endpointId: String? = nil) {
-            self.healthState = healthState
-            self.healthReason = healthReason
-            self.weight = weight
-            self.endpointId = endpointId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case healthState = "HealthState"
-            case healthReason = "HealthReason"
-            case weight = "Weight"
-            case endpointId = "EndpointId"
-        }
-    }
-
-    public struct DeleteAcceleratorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceleratorArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of an accelerator.
-        public let acceleratorArn: String
-
-        public init(acceleratorArn: String) {
-            self.acceleratorArn = acceleratorArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case acceleratorArn = "AcceleratorArn"
-        }
-    }
-
     public struct UpdateEndpointGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrafficDialPercentage", required: false, type: .float), 
-            AWSShapeMember(label: "ThresholdCount", required: false, type: .integer), 
             AWSShapeMember(label: "EndpointConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "HealthCheckProtocol", required: false, type: .enum), 
-            AWSShapeMember(label: "HealthCheckPort", required: false, type: .integer), 
-            AWSShapeMember(label: "HealthCheckPath", required: false, type: .string), 
             AWSShapeMember(label: "EndpointGroupArn", required: true, type: .string), 
-            AWSShapeMember(label: "HealthCheckIntervalSeconds", required: false, type: .integer)
+            AWSShapeMember(label: "HealthCheckIntervalSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "HealthCheckPath", required: false, type: .string), 
+            AWSShapeMember(label: "HealthCheckPort", required: false, type: .integer), 
+            AWSShapeMember(label: "HealthCheckProtocol", required: false, type: .enum), 
+            AWSShapeMember(label: "ThresholdCount", required: false, type: .integer), 
+            AWSShapeMember(label: "TrafficDialPercentage", required: false, type: .float)
         ]
-        /// The percentage of traffic to send to an AWS Region. Additional traffic is distributed to other endpoint groups for this listener.  Use this action to increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is applied to the traffic that would otherwise have been routed to the Region based on optimal routing. The default value is 100.
-        public let trafficDialPercentage: Float?
-        /// The number of consecutive health checks required to set the state of a healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The default value is 3.
-        public let thresholdCount: Int32?
         /// The list of endpoint objects.
         public let endpointConfigurations: [EndpointConfiguration]?
-        /// The protocol that AWS Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default value is TCP.
-        public let healthCheckProtocol: HealthCheckProtocol?
-        /// The port that AWS Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default port is the listener port that this endpoint group is associated with. If the listener port is a list of ports, Global Accelerator uses the first port in the list.
-        public let healthCheckPort: Int32?
-        /// If the protocol is HTTP/S, then this specifies the path that is the destination for health check targets. The default value is slash (/).
-        public let healthCheckPath: String?
         /// The Amazon Resource Name (ARN) of the endpoint group.
         public let endpointGroupArn: String
         /// The time, in seconds, between each health check for an endpoint. The default value is 30.
         public let healthCheckIntervalSeconds: Int32?
+        /// If the protocol is HTTP/S, then this specifies the path that is the destination for health check targets. The default value is slash (/).
+        public let healthCheckPath: String?
+        /// The port that AWS Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default port is the listener port that this endpoint group is associated with. If the listener port is a list of ports, Global Accelerator uses the first port in the list.
+        public let healthCheckPort: Int32?
+        /// The protocol that AWS Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default value is TCP.
+        public let healthCheckProtocol: HealthCheckProtocol?
+        /// The number of consecutive health checks required to set the state of a healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The default value is 3.
+        public let thresholdCount: Int32?
+        /// The percentage of traffic to send to an AWS Region. Additional traffic is distributed to other endpoint groups for this listener.  Use this action to increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is applied to the traffic that would otherwise have been routed to the Region based on optimal routing. The default value is 100.
+        public let trafficDialPercentage: Float?
 
-        public init(trafficDialPercentage: Float? = nil, thresholdCount: Int32? = nil, endpointConfigurations: [EndpointConfiguration]? = nil, healthCheckProtocol: HealthCheckProtocol? = nil, healthCheckPort: Int32? = nil, healthCheckPath: String? = nil, endpointGroupArn: String, healthCheckIntervalSeconds: Int32? = nil) {
-            self.trafficDialPercentage = trafficDialPercentage
-            self.thresholdCount = thresholdCount
+        public init(endpointConfigurations: [EndpointConfiguration]? = nil, endpointGroupArn: String, healthCheckIntervalSeconds: Int32? = nil, healthCheckPath: String? = nil, healthCheckPort: Int32? = nil, healthCheckProtocol: HealthCheckProtocol? = nil, thresholdCount: Int32? = nil, trafficDialPercentage: Float? = nil) {
             self.endpointConfigurations = endpointConfigurations
-            self.healthCheckProtocol = healthCheckProtocol
-            self.healthCheckPort = healthCheckPort
-            self.healthCheckPath = healthCheckPath
             self.endpointGroupArn = endpointGroupArn
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
+            self.healthCheckPath = healthCheckPath
+            self.healthCheckPort = healthCheckPort
+            self.healthCheckProtocol = healthCheckProtocol
+            self.thresholdCount = thresholdCount
+            self.trafficDialPercentage = trafficDialPercentage
         }
 
         private enum CodingKeys: String, CodingKey {
-            case trafficDialPercentage = "TrafficDialPercentage"
-            case thresholdCount = "ThresholdCount"
             case endpointConfigurations = "EndpointConfigurations"
-            case healthCheckProtocol = "HealthCheckProtocol"
-            case healthCheckPort = "HealthCheckPort"
-            case healthCheckPath = "HealthCheckPath"
             case endpointGroupArn = "EndpointGroupArn"
             case healthCheckIntervalSeconds = "HealthCheckIntervalSeconds"
+            case healthCheckPath = "HealthCheckPath"
+            case healthCheckPort = "HealthCheckPort"
+            case healthCheckProtocol = "HealthCheckProtocol"
+            case thresholdCount = "ThresholdCount"
+            case trafficDialPercentage = "TrafficDialPercentage"
         }
     }
 
-    public struct UpdateAcceleratorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "AcceleratorArn", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "IpAddressType", required: false, type: .enum)
-        ]
-        /// Indicates whether an accelerator is enabled. The value is true or false. The default value is true.  If the value is set to true, the accelerator cannot be deleted. If set to false, the accelerator can be deleted.
-        public let enabled: Bool?
-        /// The Amazon Resource Name (ARN) of the accelerator to update.
-        public let acceleratorArn: String
-        /// The name of the accelerator. The name can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens (-), and must not begin or end with a hyphen.
-        public let name: String?
-        /// The value for the address type must be IPv4. 
-        public let ipAddressType: IpAddressType?
-
-        public init(enabled: Bool? = nil, acceleratorArn: String, name: String? = nil, ipAddressType: IpAddressType? = nil) {
-            self.enabled = enabled
-            self.acceleratorArn = acceleratorArn
-            self.name = name
-            self.ipAddressType = ipAddressType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case enabled = "Enabled"
-            case acceleratorArn = "AcceleratorArn"
-            case name = "Name"
-            case ipAddressType = "IpAddressType"
-        }
-    }
-
-    public struct UpdateAcceleratorAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowLogsS3Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "FlowLogsS3Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "AcceleratorArn", required: false, type: .string), 
-            AWSShapeMember(label: "FlowLogsEnabled", required: false, type: .boolean)
-        ]
-        /// Update the name of the Amazon S3 bucket for the flow logs.
-        public let flowLogsS3Bucket: String?
-        /// Update the prefix for the location in the Amazon S3 bucket for the flow logs.
-        public let flowLogsS3Prefix: String?
-        /// The Amazon Resource Name (ARN) of the accelerator that you want to update.
-        public let acceleratorArn: String?
-        /// Update whether flow logs are enabled.
-        public let flowLogsEnabled: Bool?
-
-        public init(flowLogsS3Bucket: String? = nil, flowLogsS3Prefix: String? = nil, acceleratorArn: String? = nil, flowLogsEnabled: Bool? = nil) {
-            self.flowLogsS3Bucket = flowLogsS3Bucket
-            self.flowLogsS3Prefix = flowLogsS3Prefix
-            self.acceleratorArn = acceleratorArn
-            self.flowLogsEnabled = flowLogsEnabled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case flowLogsS3Bucket = "FlowLogsS3Bucket"
-            case flowLogsS3Prefix = "FlowLogsS3Prefix"
-            case acceleratorArn = "AcceleratorArn"
-            case flowLogsEnabled = "FlowLogsEnabled"
-        }
-    }
-
-    public struct CreateEndpointGroupResponse: AWSShape {
+    public struct UpdateEndpointGroupResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndpointGroup", required: false, type: .structure)
         ]
-        /// The information about the endpoint group that was created.
+        /// The information about the endpoint group that was updated.
         public let endpointGroup: EndpointGroup?
 
         public init(endpointGroup: EndpointGroup? = nil) {
@@ -993,6 +946,53 @@ extension GlobalAccelerator {
 
         private enum CodingKeys: String, CodingKey {
             case endpointGroup = "EndpointGroup"
+        }
+    }
+
+    public struct UpdateListenerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientAffinity", required: false, type: .enum), 
+            AWSShapeMember(label: "ListenerArn", required: true, type: .string), 
+            AWSShapeMember(label: "PortRanges", required: false, type: .list), 
+            AWSShapeMember(label: "Protocol", required: false, type: .enum)
+        ]
+        /// Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications, regardless of the source port and protocol of the user request. This gives you control over whether and how to maintain client affinity to a given endpoint. The default value is NONE.
+        public let clientAffinity: ClientAffinity?
+        /// The Amazon Resource Name (ARN) of the listener to update.
+        public let listenerArn: String
+        /// The updated list of port ranges for the connections from clients to the accelerator.
+        public let portRanges: [PortRange]?
+        /// The updated protocol for the connections from clients to the accelerator.
+        public let `protocol`: Protocol?
+
+        public init(clientAffinity: ClientAffinity? = nil, listenerArn: String, portRanges: [PortRange]? = nil, protocol: Protocol? = nil) {
+            self.clientAffinity = clientAffinity
+            self.listenerArn = listenerArn
+            self.portRanges = portRanges
+            self.`protocol` = `protocol`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientAffinity = "ClientAffinity"
+            case listenerArn = "ListenerArn"
+            case portRanges = "PortRanges"
+            case `protocol` = "Protocol"
+        }
+    }
+
+    public struct UpdateListenerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Listener", required: false, type: .structure)
+        ]
+        /// Information for the updated listener.
+        public let listener: Listener?
+
+        public init(listener: Listener? = nil) {
+            self.listener = listener
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listener = "Listener"
         }
     }
 

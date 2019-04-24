@@ -4,22 +4,22 @@ import AWSSDKSwiftCore
 
 /// Error enum for CloudFormation
 public enum CloudFormationErrorType: AWSErrorType {
-    case changeSetNotFoundException(message: String?)
-    case stackSetNotFoundException(message: String?)
     case alreadyExistsException(message: String?)
-    case insufficientCapabilitiesException(message: String?)
-    case limitExceededException(message: String?)
-    case operationNotFoundException(message: String?)
-    case invalidOperationException(message: String?)
-    case nameAlreadyExistsException(message: String?)
+    case changeSetNotFoundException(message: String?)
     case createdButModifiedException(message: String?)
-    case stackInstanceNotFoundException(message: String?)
-    case operationInProgressException(message: String?)
+    case insufficientCapabilitiesException(message: String?)
+    case invalidChangeSetStatusException(message: String?)
+    case invalidOperationException(message: String?)
+    case limitExceededException(message: String?)
+    case nameAlreadyExistsException(message: String?)
     case operationIdAlreadyExistsException(message: String?)
+    case operationInProgressException(message: String?)
+    case operationNotFoundException(message: String?)
+    case stackInstanceNotFoundException(message: String?)
+    case stackSetNotEmptyException(message: String?)
+    case stackSetNotFoundException(message: String?)
     case staleRequestException(message: String?)
     case tokenAlreadyExistsException(message: String?)
-    case stackSetNotEmptyException(message: String?)
-    case invalidChangeSetStatusException(message: String?)
 }
 
 extension CloudFormationErrorType {
@@ -29,38 +29,38 @@ extension CloudFormationErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "ChangeSetNotFoundException":
-            self = .changeSetNotFoundException(message: message)
-        case "StackSetNotFoundException":
-            self = .stackSetNotFoundException(message: message)
         case "AlreadyExistsException":
             self = .alreadyExistsException(message: message)
-        case "InsufficientCapabilitiesException":
-            self = .insufficientCapabilitiesException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "OperationNotFoundException":
-            self = .operationNotFoundException(message: message)
-        case "InvalidOperationException":
-            self = .invalidOperationException(message: message)
-        case "NameAlreadyExistsException":
-            self = .nameAlreadyExistsException(message: message)
+        case "ChangeSetNotFoundException":
+            self = .changeSetNotFoundException(message: message)
         case "CreatedButModifiedException":
             self = .createdButModifiedException(message: message)
-        case "StackInstanceNotFoundException":
-            self = .stackInstanceNotFoundException(message: message)
-        case "OperationInProgressException":
-            self = .operationInProgressException(message: message)
+        case "InsufficientCapabilitiesException":
+            self = .insufficientCapabilitiesException(message: message)
+        case "InvalidChangeSetStatusException":
+            self = .invalidChangeSetStatusException(message: message)
+        case "InvalidOperationException":
+            self = .invalidOperationException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
+        case "NameAlreadyExistsException":
+            self = .nameAlreadyExistsException(message: message)
         case "OperationIdAlreadyExistsException":
             self = .operationIdAlreadyExistsException(message: message)
+        case "OperationInProgressException":
+            self = .operationInProgressException(message: message)
+        case "OperationNotFoundException":
+            self = .operationNotFoundException(message: message)
+        case "StackInstanceNotFoundException":
+            self = .stackInstanceNotFoundException(message: message)
+        case "StackSetNotEmptyException":
+            self = .stackSetNotEmptyException(message: message)
+        case "StackSetNotFoundException":
+            self = .stackSetNotFoundException(message: message)
         case "StaleRequestException":
             self = .staleRequestException(message: message)
         case "TokenAlreadyExistsException":
             self = .tokenAlreadyExistsException(message: message)
-        case "StackSetNotEmptyException":
-            self = .stackSetNotEmptyException(message: message)
-        case "InvalidChangeSetStatusException":
-            self = .invalidChangeSetStatusException(message: message)
         default:
             return nil
         }

@@ -17,7 +17,7 @@ class DynamoDBTests: XCTestCase {
             ("testGetObject", testGetObject),
         ]
     }
-    
+
     var client: DynamoDB {
         return DynamoDB(
             accessKeyId: "key",
@@ -33,19 +33,19 @@ class DynamoDBTests: XCTestCase {
 
     func prepare() throws {
         let createTableInput = DynamoDB.CreateTableInput(
-            provisionedThroughput: DynamoDB.ProvisionedThroughput(readCapacityUnits: 10, writeCapacityUnits: 10),
-            tableName: tableName,
             attributeDefinitions: [
                 DynamoDB.AttributeDefinition(attributeName: "hashKey", attributeType: .s),
                 DynamoDB.AttributeDefinition(attributeName: "rangeKey", attributeType: .s)
             ],
             keySchema: [
-                DynamoDB.KeySchemaElement(keyType: .hash, attributeName: "hashKey"),
-                DynamoDB.KeySchemaElement(keyType: .range, attributeName: "rangeKey")
-            ]
+                DynamoDB.KeySchemaElement(attributeName: "hashKey", keyType: .hash),
+                DynamoDB.KeySchemaElement(attributeName: "rangeKey", keyType: .range)
+            ],
+            provisionedThroughput: DynamoDB.ProvisionedThroughput(readCapacityUnits: 10, writeCapacityUnits: 10),
+            tableName: tableName
         )
         _ = try client.createTable(createTableInput)
-        
+
         let putItemInput = DynamoDB.PutItemInput(
             item: [
                 "hashKey": DynamoDB.AttributeValue(s: "hello"),
@@ -55,7 +55,7 @@ class DynamoDBTests: XCTestCase {
         )
         _ = try client.putItem(putItemInput)
     }
-    
+
     override func tearDown() {
         do {
             let input = DynamoDB.DeleteTableInput(tableName: tableName)
@@ -64,7 +64,7 @@ class DynamoDBTests: XCTestCase {
             print(error)
         }
     }
-    
+
     func testGetObject() {
         do {
             try prepare()
@@ -75,7 +75,7 @@ class DynamoDBTests: XCTestCase {
                 ],
                 tableName: tableName
             )
-            
+
             let output = try client.getItem(input)
             XCTAssertEqual(output.item?["hashKey"]?.s, "hello")
             XCTAssertEqual(output.item?["rangeKey"]?.s, "world")
@@ -84,4 +84,3 @@ class DynamoDBTests: XCTestCase {
         }
     }
 }
-

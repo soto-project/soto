@@ -5,275 +5,191 @@ import AWSSDKSwiftCore
 
 extension AlexaForBusiness {
 
-    public struct SearchAddressBooksRequest: AWSShape {
+    public struct AddressBook: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "SortCriteria", required: false, type: .list), 
-            AWSShapeMember(label: "Filters", required: false, type: .list)
+            AWSShapeMember(label: "AddressBookArn", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
-        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response only includes results beyond the token, up to the value specified by MaxResults.
-        public let nextToken: String?
-        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
-        public let maxResults: Int32?
-        /// The sort order to use in listing the specified set of address books. The supported sort key is AddressBookName.
-        public let sortCriteria: [Sort]?
-        /// The filters to use to list a specified set of address books. The supported filter key is AddressBookName.
-        public let filters: [Filter]?
+        /// The ARN of the address book.
+        public let addressBookArn: String?
+        /// The description of the address book.
+        public let description: String?
+        /// The name of the address book.
+        public let name: String?
 
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, sortCriteria: [Sort]? = nil, filters: [Filter]? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.sortCriteria = sortCriteria
-            self.filters = filters
+        public init(addressBookArn: String? = nil, description: String? = nil, name: String? = nil) {
+            self.addressBookArn = addressBookArn
+            self.description = description
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case sortCriteria = "SortCriteria"
-            case filters = "Filters"
+            case addressBookArn = "AddressBookArn"
+            case description = "Description"
+            case name = "Name"
         }
     }
 
-    public struct RevokeInvitationRequest: AWSShape {
+    public struct AddressBookData: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserArn", required: false, type: .string), 
-            AWSShapeMember(label: "EnrollmentId", required: false, type: .string)
+            AWSShapeMember(label: "AddressBookArn", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
-        /// The ARN of the user for whom to revoke an enrollment invitation. Required.
-        public let userArn: String?
-        /// The ARN of the enrollment invitation to revoke. Required.
-        public let enrollmentId: String?
+        /// The ARN of the address book.
+        public let addressBookArn: String?
+        /// The description of the address book.
+        public let description: String?
+        /// The name of the address book.
+        public let name: String?
 
-        public init(userArn: String? = nil, enrollmentId: String? = nil) {
-            self.userArn = userArn
-            self.enrollmentId = enrollmentId
+        public init(addressBookArn: String? = nil, description: String? = nil, name: String? = nil) {
+            self.addressBookArn = addressBookArn
+            self.description = description
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userArn = "UserArn"
-            case enrollmentId = "EnrollmentId"
+            case addressBookArn = "AddressBookArn"
+            case description = "Description"
+            case name = "Name"
         }
     }
 
-    public struct ContactData: AWSShape {
+    public struct ApproveSkillRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastName", required: false, type: .string), 
-            AWSShapeMember(label: "PhoneNumber", required: false, type: .string), 
-            AWSShapeMember(label: "ContactArn", required: false, type: .string), 
-            AWSShapeMember(label: "FirstName", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string)
+            AWSShapeMember(label: "SkillId", required: true, type: .string)
         ]
-        /// The last name of the contact, used to call the contact on the device.
-        public let lastName: String?
-        /// The phone number of the contact.
-        public let phoneNumber: String?
-        /// The ARN of the contact.
-        public let contactArn: String?
-        /// The first name of the contact, used to call the contact on the device.
-        public let firstName: String?
-        /// The name of the contact to display on the console.
-        public let displayName: String?
+        /// The unique identifier of the skill.
+        public let skillId: String
 
-        public init(lastName: String? = nil, phoneNumber: String? = nil, contactArn: String? = nil, firstName: String? = nil, displayName: String? = nil) {
-            self.lastName = lastName
-            self.phoneNumber = phoneNumber
+        public init(skillId: String) {
+            self.skillId = skillId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case skillId = "SkillId"
+        }
+    }
+
+    public struct ApproveSkillResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct AssociateContactWithAddressBookRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AddressBookArn", required: true, type: .string), 
+            AWSShapeMember(label: "ContactArn", required: true, type: .string)
+        ]
+        /// The ARN of the address book with which to associate the contact.
+        public let addressBookArn: String
+        /// The ARN of the contact to associate with an address book.
+        public let contactArn: String
+
+        public init(addressBookArn: String, contactArn: String) {
+            self.addressBookArn = addressBookArn
             self.contactArn = contactArn
-            self.firstName = firstName
-            self.displayName = displayName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastName = "LastName"
-            case phoneNumber = "PhoneNumber"
+            case addressBookArn = "AddressBookArn"
             case contactArn = "ContactArn"
-            case firstName = "FirstName"
-            case displayName = "DisplayName"
         }
     }
 
-    public struct Sort: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: true, type: .enum), 
-            AWSShapeMember(label: "Key", required: true, type: .string)
-        ]
-        /// The sort value of a sort object.
-        public let value: SortValue
-        /// The sort key of a sort object.
-        public let key: String
+    public struct AssociateContactWithAddressBookResponse: AWSShape {
 
-        public init(value: SortValue, key: String) {
-            self.value = value
-            self.key = key
+        public init() {
+        }
+
+    }
+
+    public struct AssociateDeviceWithRoomRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceArn", required: false, type: .string), 
+            AWSShapeMember(label: "RoomArn", required: false, type: .string)
+        ]
+        /// The ARN of the device to associate to a room. Required.
+        public let deviceArn: String?
+        /// The ARN of the room with which to associate the device. Required.
+        public let roomArn: String?
+
+        public init(deviceArn: String? = nil, roomArn: String? = nil) {
+            self.deviceArn = deviceArn
+            self.roomArn = roomArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case key = "Key"
+            case deviceArn = "DeviceArn"
+            case roomArn = "RoomArn"
         }
     }
 
-    public struct SendInvitationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserArn", required: false, type: .string)
-        ]
-        /// The ARN of the user to whom to send an invitation. Required.
-        public let userArn: String?
+    public struct AssociateDeviceWithRoomResponse: AWSShape {
 
-        public init(userArn: String? = nil) {
-            self.userArn = userArn
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case userArn = "UserArn"
-        }
     }
 
-    public struct StartDeviceSyncRequest: AWSShape {
+    public struct AssociateSkillGroupWithRoomRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceArn", required: false, type: .string), 
-            AWSShapeMember(label: "Features", required: true, type: .list)
+            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string)
         ]
-        /// The ARN of the room with which the device to sync is associated. Required.
+        /// The ARN of the room with which to associate the skill group. Required.
         public let roomArn: String?
-        /// The ARN of the device to sync. Required.
-        public let deviceArn: String?
-        /// Request structure to start the device sync. Required.
-        public let features: [Feature]
+        /// The ARN of the skill group to associate with a room. Required.
+        public let skillGroupArn: String?
 
-        public init(roomArn: String? = nil, deviceArn: String? = nil, features: [Feature]) {
+        public init(roomArn: String? = nil, skillGroupArn: String? = nil) {
             self.roomArn = roomArn
-            self.deviceArn = deviceArn
-            self.features = features
+            self.skillGroupArn = skillGroupArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case roomArn = "RoomArn"
-            case deviceArn = "DeviceArn"
-            case features = "Features"
+            case skillGroupArn = "SkillGroupArn"
         }
     }
 
-    public struct PutSkillAuthorizationResponse: AWSShape {
+    public struct AssociateSkillGroupWithRoomResponse: AWSShape {
+
+        public init() {
+        }
 
     }
 
-    public struct DeleteRoomResponse: AWSShape {
-
-    }
-
-    public struct ProfileData: AWSShape {
+    public struct AssociateSkillWithSkillGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Timezone", required: false, type: .string), 
-            AWSShapeMember(label: "TemperatureUnit", required: false, type: .enum), 
-            AWSShapeMember(label: "ProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "Address", required: false, type: .string), 
-            AWSShapeMember(label: "ProfileName", required: false, type: .string), 
-            AWSShapeMember(label: "DistanceUnit", required: false, type: .enum), 
-            AWSShapeMember(label: "WakeWord", required: false, type: .enum), 
-            AWSShapeMember(label: "IsDefault", required: false, type: .boolean)
+            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "SkillId", required: true, type: .string)
         ]
-        /// The timezone of a room profile.
-        public let timezone: String?
-        /// The temperature unit of a room profile.
-        public let temperatureUnit: TemperatureUnit?
-        /// The ARN of a room profile.
-        public let profileArn: String?
-        /// The address of a room profile.
-        public let address: String?
-        /// The name of a room profile.
-        public let profileName: String?
-        /// The distance unit of a room profile.
-        public let distanceUnit: DistanceUnit?
-        /// The wake word of a room profile.
-        public let wakeWord: WakeWord?
-        /// Retrieves if the profile data is default or not.
-        public let isDefault: Bool?
+        /// The ARN of the skill group to associate the skill to. Required.
+        public let skillGroupArn: String?
+        /// The unique identifier of the skill.
+        public let skillId: String
 
-        public init(timezone: String? = nil, temperatureUnit: TemperatureUnit? = nil, profileArn: String? = nil, address: String? = nil, profileName: String? = nil, distanceUnit: DistanceUnit? = nil, wakeWord: WakeWord? = nil, isDefault: Bool? = nil) {
-            self.timezone = timezone
-            self.temperatureUnit = temperatureUnit
-            self.profileArn = profileArn
-            self.address = address
-            self.profileName = profileName
-            self.distanceUnit = distanceUnit
-            self.wakeWord = wakeWord
-            self.isDefault = isDefault
+        public init(skillGroupArn: String? = nil, skillId: String) {
+            self.skillGroupArn = skillGroupArn
+            self.skillId = skillId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case timezone = "Timezone"
-            case temperatureUnit = "TemperatureUnit"
-            case profileArn = "ProfileArn"
-            case address = "Address"
-            case profileName = "ProfileName"
-            case distanceUnit = "DistanceUnit"
-            case wakeWord = "WakeWord"
-            case isDefault = "IsDefault"
+            case skillGroupArn = "SkillGroupArn"
+            case skillId = "SkillId"
         }
     }
 
-    public struct CreateProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PSTNEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "Timezone", required: true, type: .string), 
-            AWSShapeMember(label: "TemperatureUnit", required: true, type: .enum), 
-            AWSShapeMember(label: "Address", required: true, type: .string), 
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxVolumeLimit", required: false, type: .integer), 
-            AWSShapeMember(label: "ProfileName", required: true, type: .string), 
-            AWSShapeMember(label: "DistanceUnit", required: true, type: .enum), 
-            AWSShapeMember(label: "WakeWord", required: true, type: .enum), 
-            AWSShapeMember(label: "SetupModeDisabled", required: false, type: .boolean)
-        ]
-        /// Whether PSTN calling is enabled.
-        public let pSTNEnabled: Bool?
-        /// The time zone used by a room profile.
-        public let timezone: String
-        /// The temperature unit to be used by devices in the profile.
-        public let temperatureUnit: TemperatureUnit
-        /// The valid address for the room.
-        public let address: String
-        /// The user-specified token that is used during the creation of a profile.
-        public let clientRequestToken: String?
-        /// The maximum volume limit for a room profile.
-        public let maxVolumeLimit: Int32?
-        /// The name of a room profile.
-        public let profileName: String
-        /// The distance unit to be used by devices in the profile.
-        public let distanceUnit: DistanceUnit
-        /// A wake word for Alexa, Echo, Amazon, or a computer.
-        public let wakeWord: WakeWord
-        /// Whether room profile setup is enabled.
-        public let setupModeDisabled: Bool?
+    public struct AssociateSkillWithSkillGroupResponse: AWSShape {
 
-        public init(pSTNEnabled: Bool? = nil, timezone: String, temperatureUnit: TemperatureUnit, address: String, clientRequestToken: String? = nil, maxVolumeLimit: Int32? = nil, profileName: String, distanceUnit: DistanceUnit, wakeWord: WakeWord, setupModeDisabled: Bool? = nil) {
-            self.pSTNEnabled = pSTNEnabled
-            self.timezone = timezone
-            self.temperatureUnit = temperatureUnit
-            self.address = address
-            self.clientRequestToken = clientRequestToken
-            self.maxVolumeLimit = maxVolumeLimit
-            self.profileName = profileName
-            self.distanceUnit = distanceUnit
-            self.wakeWord = wakeWord
-            self.setupModeDisabled = setupModeDisabled
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case pSTNEnabled = "PSTNEnabled"
-            case timezone = "Timezone"
-            case temperatureUnit = "TemperatureUnit"
-            case address = "Address"
-            case clientRequestToken = "ClientRequestToken"
-            case maxVolumeLimit = "MaxVolumeLimit"
-            case profileName = "ProfileName"
-            case distanceUnit = "DistanceUnit"
-            case wakeWord = "WakeWord"
-            case setupModeDisabled = "SetupModeDisabled"
-        }
     }
 
     public struct Category: AWSShape {
@@ -297,94 +213,527 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct UpdateContactResponse: AWSShape {
-
+    public enum CommsProtocol: String, CustomStringConvertible, Codable {
+        case sip = "SIP"
+        case sips = "SIPS"
+        case h323 = "H323"
+        public var description: String { return self.rawValue }
     }
 
-    public struct PutRoomSkillParameterRequest: AWSShape {
+    public struct ConferencePreference: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "RoomSkillParameter", required: true, type: .structure), 
-            AWSShapeMember(label: "SkillId", required: true, type: .string)
+            AWSShapeMember(label: "DefaultConferenceProviderArn", required: false, type: .string)
         ]
-        /// The ARN of the room associated with the room skill parameter. Required.
-        public let roomArn: String?
-        /// The updated room skill parameter. Required.
-        public let roomSkillParameter: RoomSkillParameter
-        /// The ARN of the skill associated with the room skill parameter. Required.
-        public let skillId: String
+        /// The ARN of the default conference provider.
+        public let defaultConferenceProviderArn: String?
 
-        public init(roomArn: String? = nil, roomSkillParameter: RoomSkillParameter, skillId: String) {
-            self.roomArn = roomArn
-            self.roomSkillParameter = roomSkillParameter
-            self.skillId = skillId
+        public init(defaultConferenceProviderArn: String? = nil) {
+            self.defaultConferenceProviderArn = defaultConferenceProviderArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case roomArn = "RoomArn"
-            case roomSkillParameter = "RoomSkillParameter"
-            case skillId = "SkillId"
+            case defaultConferenceProviderArn = "DefaultConferenceProviderArn"
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct ConferenceProvider: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "IPDialIn", required: false, type: .structure), 
+            AWSShapeMember(label: "MeetingSetting", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "PSTNDialIn", required: false, type: .structure), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
-        /// The ARN of the resource to which to add metadata tags. Required. 
-        public let arn: String
-        /// The tags to be added to the specified resource. Do not provide system tags. Required. 
-        public let tags: [Tag]
+        /// The ARN of the newly created conference provider.
+        public let arn: String?
+        /// The IP endpoint and protocol for calling.
+        public let iPDialIn: IPDialIn?
+        /// The meeting settings for the conference provider.
+        public let meetingSetting: MeetingSetting?
+        /// The name of the conference provider.
+        public let name: String?
+        /// The information for PSTN conferencing.
+        public let pSTNDialIn: PSTNDialIn?
+        /// The type of conference providers.
+        public let `type`: ConferenceProviderType?
 
-        public init(arn: String, tags: [Tag]) {
+        public init(arn: String? = nil, iPDialIn: IPDialIn? = nil, meetingSetting: MeetingSetting? = nil, name: String? = nil, pSTNDialIn: PSTNDialIn? = nil, type: ConferenceProviderType? = nil) {
             self.arn = arn
-            self.tags = tags
+            self.iPDialIn = iPDialIn
+            self.meetingSetting = meetingSetting
+            self.name = name
+            self.pSTNDialIn = pSTNDialIn
+            self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case iPDialIn = "IPDialIn"
+            case meetingSetting = "MeetingSetting"
+            case name = "Name"
+            case pSTNDialIn = "PSTNDialIn"
+            case `type` = "Type"
+        }
+    }
+
+    public enum ConferenceProviderType: String, CustomStringConvertible, Codable {
+        case chime = "CHIME"
+        case bluejeans = "BLUEJEANS"
+        case fuze = "FUZE"
+        case googleHangouts = "GOOGLE_HANGOUTS"
+        case polycom = "POLYCOM"
+        case ringcentral = "RINGCENTRAL"
+        case skypeForBusiness = "SKYPE_FOR_BUSINESS"
+        case webex = "WEBEX"
+        case zoom = "ZOOM"
+        case custom = "CUSTOM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionStatus: String, CustomStringConvertible, Codable {
+        case online = "ONLINE"
+        case offline = "OFFLINE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Contact: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContactArn", required: false, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "FirstName", required: false, type: .string), 
+            AWSShapeMember(label: "LastName", required: false, type: .string), 
+            AWSShapeMember(label: "PhoneNumber", required: false, type: .string)
+        ]
+        /// The ARN of the contact.
+        public let contactArn: String?
+        /// The name of the contact to display on the console.
+        public let displayName: String?
+        /// The first name of the contact, used to call the contact on the device.
+        public let firstName: String?
+        /// The last name of the contact, used to call the contact on the device.
+        public let lastName: String?
+        /// The phone number of the contact.
+        public let phoneNumber: String?
+
+        public init(contactArn: String? = nil, displayName: String? = nil, firstName: String? = nil, lastName: String? = nil, phoneNumber: String? = nil) {
+            self.contactArn = contactArn
+            self.displayName = displayName
+            self.firstName = firstName
+            self.lastName = lastName
+            self.phoneNumber = phoneNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactArn = "ContactArn"
+            case displayName = "DisplayName"
+            case firstName = "FirstName"
+            case lastName = "LastName"
+            case phoneNumber = "PhoneNumber"
+        }
+    }
+
+    public struct ContactData: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContactArn", required: false, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "FirstName", required: false, type: .string), 
+            AWSShapeMember(label: "LastName", required: false, type: .string), 
+            AWSShapeMember(label: "PhoneNumber", required: false, type: .string)
+        ]
+        /// The ARN of the contact.
+        public let contactArn: String?
+        /// The name of the contact to display on the console.
+        public let displayName: String?
+        /// The first name of the contact, used to call the contact on the device.
+        public let firstName: String?
+        /// The last name of the contact, used to call the contact on the device.
+        public let lastName: String?
+        /// The phone number of the contact.
+        public let phoneNumber: String?
+
+        public init(contactArn: String? = nil, displayName: String? = nil, firstName: String? = nil, lastName: String? = nil, phoneNumber: String? = nil) {
+            self.contactArn = contactArn
+            self.displayName = displayName
+            self.firstName = firstName
+            self.lastName = lastName
+            self.phoneNumber = phoneNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactArn = "ContactArn"
+            case displayName = "DisplayName"
+            case firstName = "FirstName"
+            case lastName = "LastName"
+            case phoneNumber = "PhoneNumber"
+        }
+    }
+
+    public struct CreateAddressBookRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// A unique, user-specified identifier for the request that ensures idempotency.
+        public let clientRequestToken: String?
+        /// The description of the address book.
+        public let description: String?
+        /// The name of the address book.
+        public let name: String
+
+        public init(clientRequestToken: String? = nil, description: String? = nil, name: String) {
+            self.clientRequestToken = clientRequestToken
+            self.description = description
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case description = "Description"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateAddressBookResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AddressBookArn", required: false, type: .string)
+        ]
+        /// The ARN of the newly created address book.
+        public let addressBookArn: String?
+
+        public init(addressBookArn: String? = nil) {
+            self.addressBookArn = addressBookArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressBookArn = "AddressBookArn"
+        }
+    }
+
+    public struct CreateConferenceProviderRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "ConferenceProviderName", required: true, type: .string), 
+            AWSShapeMember(label: "ConferenceProviderType", required: true, type: .enum), 
+            AWSShapeMember(label: "IPDialIn", required: false, type: .structure), 
+            AWSShapeMember(label: "MeetingSetting", required: true, type: .structure), 
+            AWSShapeMember(label: "PSTNDialIn", required: false, type: .structure)
+        ]
+        /// The request token of the client.
+        public let clientRequestToken: String?
+        /// The name of the conference provider.
+        public let conferenceProviderName: String
+        /// Represents a type within a list of predefined types.
+        public let conferenceProviderType: ConferenceProviderType
+        /// The IP endpoint and protocol for calling.
+        public let iPDialIn: IPDialIn?
+        /// The meeting settings for the conference provider.
+        public let meetingSetting: MeetingSetting
+        /// The information for PSTN conferencing.
+        public let pSTNDialIn: PSTNDialIn?
+
+        public init(clientRequestToken: String? = nil, conferenceProviderName: String, conferenceProviderType: ConferenceProviderType, iPDialIn: IPDialIn? = nil, meetingSetting: MeetingSetting, pSTNDialIn: PSTNDialIn? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.conferenceProviderName = conferenceProviderName
+            self.conferenceProviderType = conferenceProviderType
+            self.iPDialIn = iPDialIn
+            self.meetingSetting = meetingSetting
+            self.pSTNDialIn = pSTNDialIn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case conferenceProviderName = "ConferenceProviderName"
+            case conferenceProviderType = "ConferenceProviderType"
+            case iPDialIn = "IPDialIn"
+            case meetingSetting = "MeetingSetting"
+            case pSTNDialIn = "PSTNDialIn"
+        }
+    }
+
+    public struct CreateConferenceProviderResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConferenceProviderArn", required: false, type: .string)
+        ]
+        /// The ARN of the newly-created conference provider.
+        public let conferenceProviderArn: String?
+
+        public init(conferenceProviderArn: String? = nil) {
+            self.conferenceProviderArn = conferenceProviderArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conferenceProviderArn = "ConferenceProviderArn"
+        }
+    }
+
+    public struct CreateContactRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "FirstName", required: true, type: .string), 
+            AWSShapeMember(label: "LastName", required: false, type: .string), 
+            AWSShapeMember(label: "PhoneNumber", required: true, type: .string)
+        ]
+        /// A unique, user-specified identifier for this request that ensures idempotency.
+        public let clientRequestToken: String?
+        /// The name of the contact to display on the console.
+        public let displayName: String?
+        /// The first name of the contact that is used to call the contact on the device.
+        public let firstName: String
+        /// The last name of the contact that is used to call the contact on the device.
+        public let lastName: String?
+        /// The phone number of the contact in E.164 format.
+        public let phoneNumber: String
+
+        public init(clientRequestToken: String? = nil, displayName: String? = nil, firstName: String, lastName: String? = nil, phoneNumber: String) {
+            self.clientRequestToken = clientRequestToken
+            self.displayName = displayName
+            self.firstName = firstName
+            self.lastName = lastName
+            self.phoneNumber = phoneNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case displayName = "DisplayName"
+            case firstName = "FirstName"
+            case lastName = "LastName"
+            case phoneNumber = "PhoneNumber"
+        }
+    }
+
+    public struct CreateContactResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContactArn", required: false, type: .string)
+        ]
+        /// The ARN of the newly created address book.
+        public let contactArn: String?
+
+        public init(contactArn: String? = nil) {
+            self.contactArn = contactArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactArn = "ContactArn"
+        }
+    }
+
+    public struct CreateProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Address", required: true, type: .string), 
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "DistanceUnit", required: true, type: .enum), 
+            AWSShapeMember(label: "MaxVolumeLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "PSTNEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "ProfileName", required: true, type: .string), 
+            AWSShapeMember(label: "SetupModeDisabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "TemperatureUnit", required: true, type: .enum), 
+            AWSShapeMember(label: "Timezone", required: true, type: .string), 
+            AWSShapeMember(label: "WakeWord", required: true, type: .enum)
+        ]
+        /// The valid address for the room.
+        public let address: String
+        /// The user-specified token that is used during the creation of a profile.
+        public let clientRequestToken: String?
+        /// The distance unit to be used by devices in the profile.
+        public let distanceUnit: DistanceUnit
+        /// The maximum volume limit for a room profile.
+        public let maxVolumeLimit: Int32?
+        /// Whether PSTN calling is enabled.
+        public let pSTNEnabled: Bool?
+        /// The name of a room profile.
+        public let profileName: String
+        /// Whether room profile setup is enabled.
+        public let setupModeDisabled: Bool?
+        /// The temperature unit to be used by devices in the profile.
+        public let temperatureUnit: TemperatureUnit
+        /// The time zone used by a room profile.
+        public let timezone: String
+        /// A wake word for Alexa, Echo, Amazon, or a computer.
+        public let wakeWord: WakeWord
+
+        public init(address: String, clientRequestToken: String? = nil, distanceUnit: DistanceUnit, maxVolumeLimit: Int32? = nil, pSTNEnabled: Bool? = nil, profileName: String, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit, timezone: String, wakeWord: WakeWord) {
+            self.address = address
+            self.clientRequestToken = clientRequestToken
+            self.distanceUnit = distanceUnit
+            self.maxVolumeLimit = maxVolumeLimit
+            self.pSTNEnabled = pSTNEnabled
+            self.profileName = profileName
+            self.setupModeDisabled = setupModeDisabled
+            self.temperatureUnit = temperatureUnit
+            self.timezone = timezone
+            self.wakeWord = wakeWord
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case clientRequestToken = "ClientRequestToken"
+            case distanceUnit = "DistanceUnit"
+            case maxVolumeLimit = "MaxVolumeLimit"
+            case pSTNEnabled = "PSTNEnabled"
+            case profileName = "ProfileName"
+            case setupModeDisabled = "SetupModeDisabled"
+            case temperatureUnit = "TemperatureUnit"
+            case timezone = "Timezone"
+            case wakeWord = "WakeWord"
+        }
+    }
+
+    public struct CreateProfileResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProfileArn", required: false, type: .string)
+        ]
+        /// The ARN of the newly created room profile in the response.
+        public let profileArn: String?
+
+        public init(profileArn: String? = nil) {
+            self.profileArn = profileArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileArn = "ProfileArn"
+        }
+    }
+
+    public struct CreateRoomRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "ProviderCalendarId", required: false, type: .string), 
+            AWSShapeMember(label: "RoomName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// A unique, user-specified identifier for this request that ensures idempotency. 
+        public let clientRequestToken: String?
+        /// The description for the room.
+        public let description: String?
+        /// The profile ARN for the room.
+        public let profileArn: String?
+        /// The calendar ARN for the room.
+        public let providerCalendarId: String?
+        /// The name for the room.
+        public let roomName: String
+        /// The tags for the room.
+        public let tags: [Tag]?
+
+        public init(clientRequestToken: String? = nil, description: String? = nil, profileArn: String? = nil, providerCalendarId: String? = nil, roomName: String, tags: [Tag]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.description = description
+            self.profileArn = profileArn
+            self.providerCalendarId = providerCalendarId
+            self.roomName = roomName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case description = "Description"
+            case profileArn = "ProfileArn"
+            case providerCalendarId = "ProviderCalendarId"
+            case roomName = "RoomName"
             case tags = "Tags"
         }
     }
 
-    public struct DeleteSkillGroupResponse: AWSShape {
-
-    }
-
-    public struct UpdateConferenceProviderRequest: AWSShape {
+    public struct CreateRoomResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PSTNDialIn", required: false, type: .structure), 
-            AWSShapeMember(label: "ConferenceProviderArn", required: true, type: .string), 
-            AWSShapeMember(label: "MeetingSetting", required: true, type: .structure), 
-            AWSShapeMember(label: "ConferenceProviderType", required: true, type: .enum), 
-            AWSShapeMember(label: "IPDialIn", required: false, type: .structure)
+            AWSShapeMember(label: "RoomArn", required: false, type: .string)
         ]
-        /// The information for PSTN conferencing.
-        public let pSTNDialIn: PSTNDialIn?
-        /// The ARN of the conference provider.
-        public let conferenceProviderArn: String
-        /// The meeting settings for the conference provider.
-        public let meetingSetting: MeetingSetting
-        /// The type of the conference provider.
-        public let conferenceProviderType: ConferenceProviderType
-        /// The IP endpoint and protocol for calling.
-        public let iPDialIn: IPDialIn?
+        /// The ARN of the newly created room in the response.
+        public let roomArn: String?
 
-        public init(pSTNDialIn: PSTNDialIn? = nil, conferenceProviderArn: String, meetingSetting: MeetingSetting, conferenceProviderType: ConferenceProviderType, iPDialIn: IPDialIn? = nil) {
-            self.pSTNDialIn = pSTNDialIn
-            self.conferenceProviderArn = conferenceProviderArn
-            self.meetingSetting = meetingSetting
-            self.conferenceProviderType = conferenceProviderType
-            self.iPDialIn = iPDialIn
+        public init(roomArn: String? = nil) {
+            self.roomArn = roomArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pSTNDialIn = "PSTNDialIn"
-            case conferenceProviderArn = "ConferenceProviderArn"
-            case meetingSetting = "MeetingSetting"
-            case conferenceProviderType = "ConferenceProviderType"
-            case iPDialIn = "IPDialIn"
+            case roomArn = "RoomArn"
+        }
+    }
+
+    public struct CreateSkillGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "SkillGroupName", required: true, type: .string)
+        ]
+        /// A unique, user-specified identifier for this request that ensures idempotency. 
+        public let clientRequestToken: String?
+        /// The description for the skill group.
+        public let description: String?
+        /// The name for the skill group.
+        public let skillGroupName: String
+
+        public init(clientRequestToken: String? = nil, description: String? = nil, skillGroupName: String) {
+            self.clientRequestToken = clientRequestToken
+            self.description = description
+            self.skillGroupName = skillGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case description = "Description"
+            case skillGroupName = "SkillGroupName"
+        }
+    }
+
+    public struct CreateSkillGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string)
+        ]
+        /// The ARN of the newly created skill group in the response.
+        public let skillGroupArn: String?
+
+        public init(skillGroupArn: String? = nil) {
+            self.skillGroupArn = skillGroupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case skillGroupArn = "SkillGroupArn"
+        }
+    }
+
+    public struct CreateUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "Email", required: false, type: .string), 
+            AWSShapeMember(label: "FirstName", required: false, type: .string), 
+            AWSShapeMember(label: "LastName", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "UserId", required: true, type: .string)
+        ]
+        /// A unique, user-specified identifier for this request that ensures idempotency. 
+        public let clientRequestToken: String?
+        /// The email address for the user.
+        public let email: String?
+        /// The first name for the user.
+        public let firstName: String?
+        /// The last name for the user.
+        public let lastName: String?
+        /// The tags for the user.
+        public let tags: [Tag]?
+        /// The ARN for the user.
+        public let userId: String
+
+        public init(clientRequestToken: String? = nil, email: String? = nil, firstName: String? = nil, lastName: String? = nil, tags: [Tag]? = nil, userId: String) {
+            self.clientRequestToken = clientRequestToken
+            self.email = email
+            self.firstName = firstName
+            self.lastName = lastName
+            self.tags = tags
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case email = "Email"
+            case firstName = "FirstName"
+            case lastName = "LastName"
+            case tags = "Tags"
+            case userId = "UserId"
         }
     }
 
@@ -404,216 +753,11 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateSkillGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// The name for the skill group.
-        public let skillGroupName: String
-        /// A unique, user-specified identifier for this request that ensures idempotency. 
-        public let clientRequestToken: String?
-        /// The description for the skill group.
-        public let description: String?
-
-        public init(skillGroupName: String, clientRequestToken: String? = nil, description: String? = nil) {
-            self.skillGroupName = skillGroupName
-            self.clientRequestToken = clientRequestToken
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case skillGroupName = "SkillGroupName"
-            case clientRequestToken = "ClientRequestToken"
-            case description = "Description"
-        }
-    }
-
-    public enum EnablementTypeFilter: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ApproveSkillResponse: AWSShape {
-
-    }
-
-    public struct ListSkillsStoreCategoriesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The maximum number of categories returned, per paginated calls.
-        public let maxResults: Int32?
-        /// The tokens used for pagination.
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DeleteSkillAuthorizationResponse: AWSShape {
-
-    }
-
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: true, type: .string), 
-            AWSShapeMember(label: "Key", required: true, type: .string)
-        ]
-        /// The value of a tag. Tag values are case-sensitive and can be null.
-        public let value: String
-        /// The key of a tag. Tag keys are case-sensitive. 
-        public let key: String
-
-        public init(value: String, key: String) {
-            self.value = value
-            self.key = key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case key = "Key"
-        }
-    }
-
-    public struct GetSkillGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillGroup", required: false, type: .structure)
-        ]
-        /// The details of the skill group requested. Required.
-        public let skillGroup: SkillGroup?
-
-        public init(skillGroup: SkillGroup? = nil) {
-            self.skillGroup = skillGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case skillGroup = "SkillGroup"
-        }
-    }
-
-    public struct UpdateConferenceProviderResponse: AWSShape {
-
-    }
-
-    public struct GetRoomRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: false, type: .string)
-        ]
-        /// The ARN of the room for which to request details. Required.
-        public let roomArn: String?
-
-        public init(roomArn: String? = nil) {
-            self.roomArn = roomArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roomArn = "RoomArn"
-        }
-    }
-
-    public struct UpdateSkillGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string)
-        ]
-        /// The updated name for the skill group.
-        public let skillGroupName: String?
-        /// The updated description for the skill group.
-        public let description: String?
-        /// The ARN of the skill group to update. 
-        public let skillGroupArn: String?
-
-        public init(skillGroupName: String? = nil, description: String? = nil, skillGroupArn: String? = nil) {
-            self.skillGroupName = skillGroupName
-            self.description = description
-            self.skillGroupArn = skillGroupArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case skillGroupName = "SkillGroupName"
-            case description = "Description"
-            case skillGroupArn = "SkillGroupArn"
-        }
-    }
-
-    public struct UpdateDeviceResponse: AWSShape {
-
-    }
-
-    public struct UserData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserArn", required: false, type: .string), 
-            AWSShapeMember(label: "LastName", required: false, type: .string), 
-            AWSShapeMember(label: "Email", required: false, type: .string), 
-            AWSShapeMember(label: "EnrollmentStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "FirstName", required: false, type: .string), 
-            AWSShapeMember(label: "EnrollmentId", required: false, type: .string)
-        ]
-        /// The ARN of a user.
-        public let userArn: String?
-        /// The last name of a user.
-        public let lastName: String?
-        /// The email of a user.
-        public let email: String?
-        /// The enrollment status of a user.
-        public let enrollmentStatus: EnrollmentStatus?
-        /// The first name of a user.
-        public let firstName: String?
-        /// The enrollment ARN of a user.
-        public let enrollmentId: String?
-
-        public init(userArn: String? = nil, lastName: String? = nil, email: String? = nil, enrollmentStatus: EnrollmentStatus? = nil, firstName: String? = nil, enrollmentId: String? = nil) {
-            self.userArn = userArn
-            self.lastName = lastName
-            self.email = email
-            self.enrollmentStatus = enrollmentStatus
-            self.firstName = firstName
-            self.enrollmentId = enrollmentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userArn = "UserArn"
-            case lastName = "LastName"
-            case email = "Email"
-            case enrollmentStatus = "EnrollmentStatus"
-            case firstName = "FirstName"
-            case enrollmentId = "EnrollmentId"
-        }
-    }
-
-    public struct GetConferenceProviderResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConferenceProvider", required: false, type: .structure)
-        ]
-        /// The conference provider.
-        public let conferenceProvider: ConferenceProvider?
-
-        public init(conferenceProvider: ConferenceProvider? = nil) {
-            self.conferenceProvider = conferenceProvider
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case conferenceProvider = "ConferenceProvider"
-        }
-    }
-
-    public struct GetAddressBookRequest: AWSShape {
+    public struct DeleteAddressBookRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AddressBookArn", required: true, type: .string)
         ]
-        /// The ARN of the address book for which to request details.
+        /// The ARN of the address book to delete.
         public let addressBookArn: String
 
         public init(addressBookArn: String) {
@@ -623,6 +767,59 @@ extension AlexaForBusiness {
         private enum CodingKeys: String, CodingKey {
             case addressBookArn = "AddressBookArn"
         }
+    }
+
+    public struct DeleteAddressBookResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteConferenceProviderRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConferenceProviderArn", required: true, type: .string)
+        ]
+        /// The ARN of the conference provider.
+        public let conferenceProviderArn: String
+
+        public init(conferenceProviderArn: String) {
+            self.conferenceProviderArn = conferenceProviderArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conferenceProviderArn = "ConferenceProviderArn"
+        }
+    }
+
+    public struct DeleteConferenceProviderResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteContactRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContactArn", required: true, type: .string)
+        ]
+        /// The ARN of the contact to delete.
+        public let contactArn: String
+
+        public init(contactArn: String) {
+            self.contactArn = contactArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactArn = "ContactArn"
+        }
+    }
+
+    public struct DeleteContactResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct DeleteDeviceRequest: AWSShape {
@@ -641,69 +838,379 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SkillDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReleaseDate", required: false, type: .string), 
-            AWSShapeMember(label: "SkillTypes", required: false, type: .list), 
-            AWSShapeMember(label: "DeveloperInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "NewInThisVersionBulletPoints", required: false, type: .list), 
-            AWSShapeMember(label: "ProductDescription", required: false, type: .string), 
-            AWSShapeMember(label: "BulletPoints", required: false, type: .list), 
-            AWSShapeMember(label: "Reviews", required: false, type: .map), 
-            AWSShapeMember(label: "GenericKeywords", required: false, type: .list), 
-            AWSShapeMember(label: "InvocationPhrase", required: false, type: .string), 
-            AWSShapeMember(label: "EndUserLicenseAgreement", required: false, type: .string)
-        ]
-        /// The date when the skill was released.
-        public let releaseDate: String?
-        /// The types of skills.
-        public let skillTypes: [String]?
-        /// The details about the developer that published the skill.
-        public let developerInfo: DeveloperInfo?
-        /// The updates added in bullet points.
-        public let newInThisVersionBulletPoints: [String]?
-        /// The description of the product.
-        public let productDescription: String?
-        /// The details about what the skill supports organized as bullet points.
-        public let bulletPoints: [String]?
-        /// The list of reviews for the skill, including Key and Value pair.
-        public let reviews: [String: String]?
-        /// The generic keywords associated with the skill that can be used to find a skill.
-        public let genericKeywords: [String]?
-        /// The phrase used to trigger the skill.
-        public let invocationPhrase: String?
-        /// The URL of the end user license agreement.
-        public let endUserLicenseAgreement: String?
+    public struct DeleteDeviceResponse: AWSShape {
 
-        public init(releaseDate: String? = nil, skillTypes: [String]? = nil, developerInfo: DeveloperInfo? = nil, newInThisVersionBulletPoints: [String]? = nil, productDescription: String? = nil, bulletPoints: [String]? = nil, reviews: [String: String]? = nil, genericKeywords: [String]? = nil, invocationPhrase: String? = nil, endUserLicenseAgreement: String? = nil) {
-            self.releaseDate = releaseDate
-            self.skillTypes = skillTypes
-            self.developerInfo = developerInfo
-            self.newInThisVersionBulletPoints = newInThisVersionBulletPoints
-            self.productDescription = productDescription
-            self.bulletPoints = bulletPoints
-            self.reviews = reviews
-            self.genericKeywords = genericKeywords
-            self.invocationPhrase = invocationPhrase
-            self.endUserLicenseAgreement = endUserLicenseAgreement
+        public init() {
+        }
+
+    }
+
+    public struct DeleteProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProfileArn", required: false, type: .string)
+        ]
+        /// The ARN of the room profile to delete. Required.
+        public let profileArn: String?
+
+        public init(profileArn: String? = nil) {
+            self.profileArn = profileArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case releaseDate = "ReleaseDate"
-            case skillTypes = "SkillTypes"
-            case developerInfo = "DeveloperInfo"
-            case newInThisVersionBulletPoints = "NewInThisVersionBulletPoints"
-            case productDescription = "ProductDescription"
-            case bulletPoints = "BulletPoints"
-            case reviews = "Reviews"
-            case genericKeywords = "GenericKeywords"
-            case invocationPhrase = "InvocationPhrase"
-            case endUserLicenseAgreement = "EndUserLicenseAgreement"
+            case profileArn = "ProfileArn"
         }
     }
 
-    public struct UpdateRoomResponse: AWSShape {
+    public struct DeleteProfileResponse: AWSShape {
 
+        public init() {
+        }
+
+    }
+
+    public struct DeleteRoomRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoomArn", required: false, type: .string)
+        ]
+        /// The ARN of the room to delete. Required.
+        public let roomArn: String?
+
+        public init(roomArn: String? = nil) {
+            self.roomArn = roomArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roomArn = "RoomArn"
+        }
+    }
+
+    public struct DeleteRoomResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteRoomSkillParameterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterKey", required: true, type: .string), 
+            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
+            AWSShapeMember(label: "SkillId", required: true, type: .string)
+        ]
+        /// The room skill parameter key for which to remove details.
+        public let parameterKey: String
+        /// The ARN of the room from which to remove the room skill parameter details.
+        public let roomArn: String?
+        /// The ID of the skill from which to remove the room skill parameter details.
+        public let skillId: String
+
+        public init(parameterKey: String, roomArn: String? = nil, skillId: String) {
+            self.parameterKey = parameterKey
+            self.roomArn = roomArn
+            self.skillId = skillId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameterKey = "ParameterKey"
+            case roomArn = "RoomArn"
+            case skillId = "SkillId"
+        }
+    }
+
+    public struct DeleteRoomSkillParameterResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteSkillAuthorizationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
+            AWSShapeMember(label: "SkillId", required: true, type: .string)
+        ]
+        /// The room that the skill is authorized for.
+        public let roomArn: String?
+        /// The unique identifier of a skill.
+        public let skillId: String
+
+        public init(roomArn: String? = nil, skillId: String) {
+            self.roomArn = roomArn
+            self.skillId = skillId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roomArn = "RoomArn"
+            case skillId = "SkillId"
+        }
+    }
+
+    public struct DeleteSkillAuthorizationResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteSkillGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string)
+        ]
+        /// The ARN of the skill group to delete. Required.
+        public let skillGroupArn: String?
+
+        public init(skillGroupArn: String? = nil) {
+            self.skillGroupArn = skillGroupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case skillGroupArn = "SkillGroupArn"
+        }
+    }
+
+    public struct DeleteSkillGroupResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnrollmentId", required: true, type: .string), 
+            AWSShapeMember(label: "UserArn", required: false, type: .string)
+        ]
+        /// The ARN of the user's enrollment in the organization. Required.
+        public let enrollmentId: String
+        /// The ARN of the user to delete in the organization. Required.
+        public let userArn: String?
+
+        public init(enrollmentId: String, userArn: String? = nil) {
+            self.enrollmentId = enrollmentId
+            self.userArn = userArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enrollmentId = "EnrollmentId"
+            case userArn = "UserArn"
+        }
+    }
+
+    public struct DeleteUserResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeveloperInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeveloperName", required: false, type: .string), 
+            AWSShapeMember(label: "Email", required: false, type: .string), 
+            AWSShapeMember(label: "PrivacyPolicy", required: false, type: .string), 
+            AWSShapeMember(label: "Url", required: false, type: .string)
+        ]
+        /// The name of the developer.
+        public let developerName: String?
+        /// The email of the developer.
+        public let email: String?
+        /// The URL of the privacy policy.
+        public let privacyPolicy: String?
+        /// The website of the developer.
+        public let url: String?
+
+        public init(developerName: String? = nil, email: String? = nil, privacyPolicy: String? = nil, url: String? = nil) {
+            self.developerName = developerName
+            self.email = email
+            self.privacyPolicy = privacyPolicy
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case developerName = "DeveloperName"
+            case email = "Email"
+            case privacyPolicy = "PrivacyPolicy"
+            case url = "Url"
+        }
+    }
+
+    public struct Device: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceArn", required: false, type: .string), 
+            AWSShapeMember(label: "DeviceName", required: false, type: .string), 
+            AWSShapeMember(label: "DeviceSerialNumber", required: false, type: .string), 
+            AWSShapeMember(label: "DeviceStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "DeviceStatusInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "DeviceType", required: false, type: .string), 
+            AWSShapeMember(label: "MacAddress", required: false, type: .string), 
+            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
+            AWSShapeMember(label: "SoftwareVersion", required: false, type: .string)
+        ]
+        /// The ARN of a device.
+        public let deviceArn: String?
+        /// The name of a device.
+        public let deviceName: String?
+        /// The serial number of a device.
+        public let deviceSerialNumber: String?
+        /// The status of a device. If the status is not READY, check the DeviceStatusInfo value for details.
+        public let deviceStatus: DeviceStatus?
+        /// Detailed information about a device's status.
+        public let deviceStatusInfo: DeviceStatusInfo?
+        /// The type of a device.
+        public let deviceType: String?
+        /// The MAC address of a device.
+        public let macAddress: String?
+        /// The room ARN of a device.
+        public let roomArn: String?
+        /// The software version of a device.
+        public let softwareVersion: String?
+
+        public init(deviceArn: String? = nil, deviceName: String? = nil, deviceSerialNumber: String? = nil, deviceStatus: DeviceStatus? = nil, deviceStatusInfo: DeviceStatusInfo? = nil, deviceType: String? = nil, macAddress: String? = nil, roomArn: String? = nil, softwareVersion: String? = nil) {
+            self.deviceArn = deviceArn
+            self.deviceName = deviceName
+            self.deviceSerialNumber = deviceSerialNumber
+            self.deviceStatus = deviceStatus
+            self.deviceStatusInfo = deviceStatusInfo
+            self.deviceType = deviceType
+            self.macAddress = macAddress
+            self.roomArn = roomArn
+            self.softwareVersion = softwareVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceArn = "DeviceArn"
+            case deviceName = "DeviceName"
+            case deviceSerialNumber = "DeviceSerialNumber"
+            case deviceStatus = "DeviceStatus"
+            case deviceStatusInfo = "DeviceStatusInfo"
+            case deviceType = "DeviceType"
+            case macAddress = "MacAddress"
+            case roomArn = "RoomArn"
+            case softwareVersion = "SoftwareVersion"
+        }
+    }
+
+    public struct DeviceData: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceArn", required: false, type: .string), 
+            AWSShapeMember(label: "DeviceName", required: false, type: .string), 
+            AWSShapeMember(label: "DeviceSerialNumber", required: false, type: .string), 
+            AWSShapeMember(label: "DeviceStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "DeviceStatusInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "DeviceType", required: false, type: .string), 
+            AWSShapeMember(label: "MacAddress", required: false, type: .string), 
+            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
+            AWSShapeMember(label: "RoomName", required: false, type: .string), 
+            AWSShapeMember(label: "SoftwareVersion", required: false, type: .string)
+        ]
+        /// The ARN of a device.
+        public let deviceArn: String?
+        /// The name of a device.
+        public let deviceName: String?
+        /// The serial number of a device.
+        public let deviceSerialNumber: String?
+        /// The status of a device.
+        public let deviceStatus: DeviceStatus?
+        /// Detailed information about a device's status.
+        public let deviceStatusInfo: DeviceStatusInfo?
+        /// The type of a device.
+        public let deviceType: String?
+        /// The MAC address of a device.
+        public let macAddress: String?
+        /// The room ARN associated with a device.
+        public let roomArn: String?
+        /// The name of the room associated with a device.
+        public let roomName: String?
+        /// The software version of a device.
+        public let softwareVersion: String?
+
+        public init(deviceArn: String? = nil, deviceName: String? = nil, deviceSerialNumber: String? = nil, deviceStatus: DeviceStatus? = nil, deviceStatusInfo: DeviceStatusInfo? = nil, deviceType: String? = nil, macAddress: String? = nil, roomArn: String? = nil, roomName: String? = nil, softwareVersion: String? = nil) {
+            self.deviceArn = deviceArn
+            self.deviceName = deviceName
+            self.deviceSerialNumber = deviceSerialNumber
+            self.deviceStatus = deviceStatus
+            self.deviceStatusInfo = deviceStatusInfo
+            self.deviceType = deviceType
+            self.macAddress = macAddress
+            self.roomArn = roomArn
+            self.roomName = roomName
+            self.softwareVersion = softwareVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceArn = "DeviceArn"
+            case deviceName = "DeviceName"
+            case deviceSerialNumber = "DeviceSerialNumber"
+            case deviceStatus = "DeviceStatus"
+            case deviceStatusInfo = "DeviceStatusInfo"
+            case deviceType = "DeviceType"
+            case macAddress = "MacAddress"
+            case roomArn = "RoomArn"
+            case roomName = "RoomName"
+            case softwareVersion = "SoftwareVersion"
+        }
+    }
+
+    public struct DeviceEvent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The time (in epoch) when the event occurred. 
+        public let timestamp: TimeStamp?
+        /// The type of device event.
+        public let `type`: DeviceEventType?
+        /// The value of the event.
+        public let value: String?
+
+        public init(timestamp: TimeStamp? = nil, type: DeviceEventType? = nil, value: String? = nil) {
+            self.timestamp = timestamp
+            self.`type` = `type`
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timestamp = "Timestamp"
+            case `type` = "Type"
+            case value = "Value"
+        }
+    }
+
+    public enum DeviceEventType: String, CustomStringConvertible, Codable {
+        case connectionStatus = "CONNECTION_STATUS"
+        case deviceStatus = "DEVICE_STATUS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeviceStatus: String, CustomStringConvertible, Codable {
+        case ready = "READY"
+        case pending = "PENDING"
+        case wasOffline = "WAS_OFFLINE"
+        case deregistered = "DEREGISTERED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeviceStatusDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Code", required: false, type: .enum)
+        ]
+        /// The device status detail code.
+        public let code: DeviceStatusDetailCode?
+
+        public init(code: DeviceStatusDetailCode? = nil) {
+            self.code = code
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+        }
+    }
+
+    public enum DeviceStatusDetailCode: String, CustomStringConvertible, Codable {
+        case deviceSoftwareUpdateNeeded = "DEVICE_SOFTWARE_UPDATE_NEEDED"
+        case deviceWasOffline = "DEVICE_WAS_OFFLINE"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeviceStatusInfo: AWSShape {
@@ -727,77 +1234,32 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetProfileRequest: AWSShape {
+    public struct DisassociateContactFromAddressBookRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProfileArn", required: false, type: .string)
+            AWSShapeMember(label: "AddressBookArn", required: true, type: .string), 
+            AWSShapeMember(label: "ContactArn", required: true, type: .string)
         ]
-        /// The ARN of the room profile for which to request details. Required.
-        public let profileArn: String?
+        /// The ARN of the address from which to disassociate the contact.
+        public let addressBookArn: String
+        /// The ARN of the contact to disassociate from an address book.
+        public let contactArn: String
 
-        public init(profileArn: String? = nil) {
-            self.profileArn = profileArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case profileArn = "ProfileArn"
-        }
-    }
-
-    public struct CreateAddressBookResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddressBookArn", required: false, type: .string)
-        ]
-        /// The ARN of the newly created address book.
-        public let addressBookArn: String?
-
-        public init(addressBookArn: String? = nil) {
+        public init(addressBookArn: String, contactArn: String) {
             self.addressBookArn = addressBookArn
+            self.contactArn = contactArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case addressBookArn = "AddressBookArn"
+            case contactArn = "ContactArn"
         }
     }
 
-    public struct CreateConferenceProviderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PSTNDialIn", required: false, type: .structure), 
-            AWSShapeMember(label: "ConferenceProviderName", required: true, type: .string), 
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "MeetingSetting", required: true, type: .structure), 
-            AWSShapeMember(label: "ConferenceProviderType", required: true, type: .enum), 
-            AWSShapeMember(label: "IPDialIn", required: false, type: .structure)
-        ]
-        /// The information for PSTN conferencing.
-        public let pSTNDialIn: PSTNDialIn?
-        /// The name of the conference provider.
-        public let conferenceProviderName: String
-        /// The request token of the client.
-        public let clientRequestToken: String?
-        /// The meeting settings for the conference provider.
-        public let meetingSetting: MeetingSetting
-        /// Represents a type within a list of predefined types.
-        public let conferenceProviderType: ConferenceProviderType
-        /// The IP endpoint and protocol for calling.
-        public let iPDialIn: IPDialIn?
+    public struct DisassociateContactFromAddressBookResponse: AWSShape {
 
-        public init(pSTNDialIn: PSTNDialIn? = nil, conferenceProviderName: String, clientRequestToken: String? = nil, meetingSetting: MeetingSetting, conferenceProviderType: ConferenceProviderType, iPDialIn: IPDialIn? = nil) {
-            self.pSTNDialIn = pSTNDialIn
-            self.conferenceProviderName = conferenceProviderName
-            self.clientRequestToken = clientRequestToken
-            self.meetingSetting = meetingSetting
-            self.conferenceProviderType = conferenceProviderType
-            self.iPDialIn = iPDialIn
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case pSTNDialIn = "PSTNDialIn"
-            case conferenceProviderName = "ConferenceProviderName"
-            case clientRequestToken = "ClientRequestToken"
-            case meetingSetting = "MeetingSetting"
-            case conferenceProviderType = "ConferenceProviderType"
-            case iPDialIn = "IPDialIn"
-        }
     }
 
     public struct DisassociateDeviceFromRoomRequest: AWSShape {
@@ -816,29 +1278,163 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SkillGroup: AWSShape {
+    public struct DisassociateDeviceFromRoomResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DisassociateSkillFromSkillGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "SkillId", required: true, type: .string)
+        ]
+        /// The unique identifier of a skill. Required.
+        public let skillGroupArn: String?
+        /// The ARN of a skill group to associate to a skill.
+        public let skillId: String
+
+        public init(skillGroupArn: String? = nil, skillId: String) {
+            self.skillGroupArn = skillGroupArn
+            self.skillId = skillId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case skillGroupArn = "SkillGroupArn"
+            case skillId = "SkillId"
+        }
+    }
+
+    public struct DisassociateSkillFromSkillGroupResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DisassociateSkillGroupFromRoomRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
             AWSShapeMember(label: "SkillGroupArn", required: false, type: .string)
         ]
-        /// The name of a skill group.
-        public let skillGroupName: String?
-        /// The description of a skill group.
-        public let description: String?
-        /// The ARN of a skill group.
+        /// The ARN of the room from which the skill group is to be disassociated. Required.
+        public let roomArn: String?
+        /// The ARN of the skill group to disassociate from a room. Required.
         public let skillGroupArn: String?
 
-        public init(skillGroupName: String? = nil, description: String? = nil, skillGroupArn: String? = nil) {
-            self.skillGroupName = skillGroupName
-            self.description = description
+        public init(roomArn: String? = nil, skillGroupArn: String? = nil) {
+            self.roomArn = roomArn
             self.skillGroupArn = skillGroupArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case skillGroupName = "SkillGroupName"
-            case description = "Description"
+            case roomArn = "RoomArn"
             case skillGroupArn = "SkillGroupArn"
+        }
+    }
+
+    public struct DisassociateSkillGroupFromRoomResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public enum DistanceUnit: String, CustomStringConvertible, Codable {
+        case metric = "METRIC"
+        case imperial = "IMPERIAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnablementType: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnablementTypeFilter: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnrollmentStatus: String, CustomStringConvertible, Codable {
+        case initialized = "INITIALIZED"
+        case pending = "PENDING"
+        case registered = "REGISTERED"
+        case disassociating = "DISASSOCIATING"
+        case deregistering = "DEREGISTERING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Feature: String, CustomStringConvertible, Codable {
+        case bluetooth = "BLUETOOTH"
+        case volume = "VOLUME"
+        case notifications = "NOTIFICATIONS"
+        case lists = "LISTS"
+        case skills = "SKILLS"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Filter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Values", required: true, type: .list)
+        ]
+        /// The key of a filter.
+        public let key: String
+        /// The values of a filter.
+        public let values: [String]
+
+        public init(key: String, values: [String]) {
+            self.key = key
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case values = "Values"
+        }
+    }
+
+    public struct ForgetSmartHomeAppliancesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoomArn", required: true, type: .string)
+        ]
+        /// The room that the appliances are associated with.
+        public let roomArn: String
+
+        public init(roomArn: String) {
+            self.roomArn = roomArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roomArn = "RoomArn"
+        }
+    }
+
+    public struct ForgetSmartHomeAppliancesResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct GetAddressBookRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AddressBookArn", required: true, type: .string)
+        ]
+        /// The ARN of the address book for which to request details.
+        public let addressBookArn: String
+
+        public init(addressBookArn: String) {
+            self.addressBookArn = addressBookArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressBookArn = "AddressBookArn"
         }
     }
 
@@ -858,6 +1454,61 @@ extension AlexaForBusiness {
         }
     }
 
+    public struct GetConferencePreferenceRequest: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct GetConferencePreferenceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Preference", required: false, type: .structure)
+        ]
+        /// The conference preference.
+        public let preference: ConferencePreference?
+
+        public init(preference: ConferencePreference? = nil) {
+            self.preference = preference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case preference = "Preference"
+        }
+    }
+
+    public struct GetConferenceProviderRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConferenceProviderArn", required: true, type: .string)
+        ]
+        /// The ARN of the newly created conference provider.
+        public let conferenceProviderArn: String
+
+        public init(conferenceProviderArn: String) {
+            self.conferenceProviderArn = conferenceProviderArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conferenceProviderArn = "ConferenceProviderArn"
+        }
+    }
+
+    public struct GetConferenceProviderResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConferenceProvider", required: false, type: .structure)
+        ]
+        /// The conference provider.
+        public let conferenceProvider: ConferenceProvider?
+
+        public init(conferenceProvider: ConferenceProvider? = nil) {
+            self.conferenceProvider = conferenceProvider
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conferenceProvider = "ConferenceProvider"
+        }
+    }
+
     public struct GetContactRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContactArn", required: true, type: .string)
@@ -872,190 +1523,6 @@ extension AlexaForBusiness {
         private enum CodingKeys: String, CodingKey {
             case contactArn = "ContactArn"
         }
-    }
-
-    public struct DisassociateContactFromAddressBookRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContactArn", required: true, type: .string), 
-            AWSShapeMember(label: "AddressBookArn", required: true, type: .string)
-        ]
-        /// The ARN of the contact to disassociate from an address book.
-        public let contactArn: String
-        /// The ARN of the address from which to disassociate the contact.
-        public let addressBookArn: String
-
-        public init(contactArn: String, addressBookArn: String) {
-            self.contactArn = contactArn
-            self.addressBookArn = addressBookArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case contactArn = "ContactArn"
-            case addressBookArn = "AddressBookArn"
-        }
-    }
-
-    public struct TagResourceResponse: AWSShape {
-
-    }
-
-    public struct ListSmartHomeAppliancesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The room that the appliances are associated with.
-        public let roomArn: String
-        /// The maximum number of appliances to be returned, per paginated calls.
-        public let maxResults: Int32?
-        /// The tokens used for pagination.
-        public let nextToken: String?
-
-        public init(roomArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.roomArn = roomArn
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roomArn = "RoomArn"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct UpdateContactRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastName", required: false, type: .string), 
-            AWSShapeMember(label: "PhoneNumber", required: false, type: .string), 
-            AWSShapeMember(label: "ContactArn", required: true, type: .string), 
-            AWSShapeMember(label: "FirstName", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string)
-        ]
-        /// The updated last name of the contact.
-        public let lastName: String?
-        /// The updated phone number of the contact.
-        public let phoneNumber: String?
-        /// The ARN of the contact to update.
-        public let contactArn: String
-        /// The updated first name of the contact.
-        public let firstName: String?
-        /// The updated display name of the contact.
-        public let displayName: String?
-
-        public init(lastName: String? = nil, phoneNumber: String? = nil, contactArn: String, firstName: String? = nil, displayName: String? = nil) {
-            self.lastName = lastName
-            self.phoneNumber = phoneNumber
-            self.contactArn = contactArn
-            self.firstName = firstName
-            self.displayName = displayName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastName = "LastName"
-            case phoneNumber = "PhoneNumber"
-            case contactArn = "ContactArn"
-            case firstName = "FirstName"
-            case displayName = "DisplayName"
-        }
-    }
-
-    public enum DistanceUnit: String, CustomStringConvertible, Codable {
-        case metric = "METRIC"
-        case imperial = "IMPERIAL"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RejectSkillResponse: AWSShape {
-
-    }
-
-    public struct UpdateProfileResponse: AWSShape {
-
-    }
-
-    public enum CommsProtocol: String, CustomStringConvertible, Codable {
-        case sip = "SIP"
-        case sips = "SIPS"
-        case h323 = "H323"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AssociateDeviceWithRoomRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceArn", required: false, type: .string)
-        ]
-        /// The ARN of the room with which to associate the device. Required.
-        public let roomArn: String?
-        /// The ARN of the device to associate to a room. Required.
-        public let deviceArn: String?
-
-        public init(roomArn: String? = nil, deviceArn: String? = nil) {
-            self.roomArn = roomArn
-            self.deviceArn = deviceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roomArn = "RoomArn"
-            case deviceArn = "DeviceArn"
-        }
-    }
-
-    public struct PutRoomSkillParameterResponse: AWSShape {
-
-    }
-
-    public struct SearchDevicesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "SortCriteria", required: false, type: .list), 
-            AWSShapeMember(label: "Filters", required: false, type: .list)
-        ]
-        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
-        public let nextToken: String?
-        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
-        public let maxResults: Int32?
-        /// The sort order to use in listing the specified set of devices. Supported sort keys are DeviceName, DeviceStatus, RoomName, DeviceType, DeviceSerialNumber, and ConnectionStatus.
-        public let sortCriteria: [Sort]?
-        /// The filters to use to list a specified set of devices. Supported filter keys are DeviceName, DeviceStatus, DeviceStatusDetailCode, RoomName, DeviceType, DeviceSerialNumber, UnassociatedOnly, and ConnectionStatus (ONLINE and OFFLINE).
-        public let filters: [Filter]?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, sortCriteria: [Sort]? = nil, filters: [Filter]? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.sortCriteria = sortCriteria
-            self.filters = filters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case sortCriteria = "SortCriteria"
-            case filters = "Filters"
-        }
-    }
-
-    public struct DeviceStatusDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", required: false, type: .enum)
-        ]
-        /// The device status detail code.
-        public let code: DeviceStatusDetailCode?
-
-        public init(code: DeviceStatusDetailCode? = nil) {
-            self.code = code
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case code = "Code"
-        }
-    }
-
-    public struct DeleteConferenceProviderResponse: AWSShape {
-
     }
 
     public struct GetContactResponse: AWSShape {
@@ -1074,29 +1541,387 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetRoomSkillParameterRequest: AWSShape {
+    public struct GetDeviceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "ParameterKey", required: true, type: .string), 
-            AWSShapeMember(label: "SkillId", required: true, type: .string)
+            AWSShapeMember(label: "DeviceArn", required: false, type: .string)
         ]
-        /// The ARN of the room from which to get the room skill parameter details. 
-        public let roomArn: String?
-        /// The room skill parameter key for which to get details. Required.
-        public let parameterKey: String
-        /// The ARN of the skill from which to get the room skill parameter details. Required.
-        public let skillId: String
+        /// The ARN of the device for which to request details. Required.
+        public let deviceArn: String?
 
-        public init(roomArn: String? = nil, parameterKey: String, skillId: String) {
+        public init(deviceArn: String? = nil) {
+            self.deviceArn = deviceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceArn = "DeviceArn"
+        }
+    }
+
+    public struct GetDeviceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Device", required: false, type: .structure)
+        ]
+        /// The details of the device requested. Required.
+        public let device: Device?
+
+        public init(device: Device? = nil) {
+            self.device = device
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case device = "Device"
+        }
+    }
+
+    public struct GetProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProfileArn", required: false, type: .string)
+        ]
+        /// The ARN of the room profile for which to request details. Required.
+        public let profileArn: String?
+
+        public init(profileArn: String? = nil) {
+            self.profileArn = profileArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileArn = "ProfileArn"
+        }
+    }
+
+    public struct GetProfileResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Profile", required: false, type: .structure)
+        ]
+        /// The details of the room profile requested. Required.
+        public let profile: Profile?
+
+        public init(profile: Profile? = nil) {
+            self.profile = profile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profile = "Profile"
+        }
+    }
+
+    public struct GetRoomRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoomArn", required: false, type: .string)
+        ]
+        /// The ARN of the room for which to request details. Required.
+        public let roomArn: String?
+
+        public init(roomArn: String? = nil) {
             self.roomArn = roomArn
-            self.parameterKey = parameterKey
-            self.skillId = skillId
         }
 
         private enum CodingKeys: String, CodingKey {
             case roomArn = "RoomArn"
+        }
+    }
+
+    public struct GetRoomResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Room", required: false, type: .structure)
+        ]
+        /// The details of the room requested.
+        public let room: Room?
+
+        public init(room: Room? = nil) {
+            self.room = room
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case room = "Room"
+        }
+    }
+
+    public struct GetRoomSkillParameterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterKey", required: true, type: .string), 
+            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
+            AWSShapeMember(label: "SkillId", required: true, type: .string)
+        ]
+        /// The room skill parameter key for which to get details. Required.
+        public let parameterKey: String
+        /// The ARN of the room from which to get the room skill parameter details. 
+        public let roomArn: String?
+        /// The ARN of the skill from which to get the room skill parameter details. Required.
+        public let skillId: String
+
+        public init(parameterKey: String, roomArn: String? = nil, skillId: String) {
+            self.parameterKey = parameterKey
+            self.roomArn = roomArn
+            self.skillId = skillId
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case parameterKey = "ParameterKey"
+            case roomArn = "RoomArn"
             case skillId = "SkillId"
+        }
+    }
+
+    public struct GetRoomSkillParameterResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoomSkillParameter", required: false, type: .structure)
+        ]
+        /// The details of the room skill parameter requested. Required.
+        public let roomSkillParameter: RoomSkillParameter?
+
+        public init(roomSkillParameter: RoomSkillParameter? = nil) {
+            self.roomSkillParameter = roomSkillParameter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roomSkillParameter = "RoomSkillParameter"
+        }
+    }
+
+    public struct GetSkillGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string)
+        ]
+        /// The ARN of the skill group for which to get details. Required.
+        public let skillGroupArn: String?
+
+        public init(skillGroupArn: String? = nil) {
+            self.skillGroupArn = skillGroupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case skillGroupArn = "SkillGroupArn"
+        }
+    }
+
+    public struct GetSkillGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SkillGroup", required: false, type: .structure)
+        ]
+        /// The details of the skill group requested. Required.
+        public let skillGroup: SkillGroup?
+
+        public init(skillGroup: SkillGroup? = nil) {
+            self.skillGroup = skillGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case skillGroup = "SkillGroup"
+        }
+    }
+
+    public struct IPDialIn: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CommsProtocol", required: true, type: .enum), 
+            AWSShapeMember(label: "Endpoint", required: true, type: .string)
+        ]
+        /// The protocol, including SIP, SIPS, and H323.
+        public let commsProtocol: CommsProtocol
+        /// The IP address.
+        public let endpoint: String
+
+        public init(commsProtocol: CommsProtocol, endpoint: String) {
+            self.commsProtocol = commsProtocol
+            self.endpoint = endpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commsProtocol = "CommsProtocol"
+            case endpoint = "Endpoint"
+        }
+    }
+
+    public struct ListConferenceProvidersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of conference providers to be returned, per paginated calls.
+        public let maxResults: Int32?
+        /// The tokens used for pagination.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListConferenceProvidersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConferenceProviders", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The conference providers.
+        public let conferenceProviders: [ConferenceProvider]?
+        /// The tokens used for pagination.
+        public let nextToken: String?
+
+        public init(conferenceProviders: [ConferenceProvider]? = nil, nextToken: String? = nil) {
+            self.conferenceProviders = conferenceProviders
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conferenceProviders = "ConferenceProviders"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDeviceEventsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceArn", required: true, type: .string), 
+            AWSShapeMember(label: "EventType", required: false, type: .enum), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The ARN of a device.
+        public let deviceArn: String
+        /// The event type to filter device events. If EventType isn't specified, this returns a list of all device events in reverse chronological order. If EventType is specified, this returns a list of device events for that EventType in reverse chronological order. 
+        public let eventType: DeviceEventType?
+        /// The maximum number of results to include in the response. The default value is 50. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. 
+        public let maxResults: Int32?
+        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response only includes results beyond the token, up to the value specified by MaxResults. When the end of results is reached, the response has a value of null.
+        public let nextToken: String?
+
+        public init(deviceArn: String, eventType: DeviceEventType? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.deviceArn = deviceArn
+            self.eventType = eventType
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceArn = "DeviceArn"
+            case eventType = "EventType"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDeviceEventsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceEvents", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The device events requested for the device ARN.
+        public let deviceEvents: [DeviceEvent]?
+        /// The token returned to indicate that there is more data available.
+        public let nextToken: String?
+
+        public init(deviceEvents: [DeviceEvent]? = nil, nextToken: String? = nil) {
+            self.deviceEvents = deviceEvents
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceEvents = "DeviceEvents"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListSkillsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnablementType", required: false, type: .enum), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "SkillType", required: false, type: .enum)
+        ]
+        /// Whether the skill is enabled under the user's account, or if it requires linking to be used.
+        public let enablementType: EnablementTypeFilter?
+        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. Required.
+        public let maxResults: Int32?
+        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults. Required.
+        public let nextToken: String?
+        /// The ARN of the skill group for which to list enabled skills. Required.
+        public let skillGroupArn: String?
+        /// Whether the skill is publicly available or is a private skill.
+        public let skillType: SkillTypeFilter?
+
+        public init(enablementType: EnablementTypeFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil, skillGroupArn: String? = nil, skillType: SkillTypeFilter? = nil) {
+            self.enablementType = enablementType
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.skillGroupArn = skillGroupArn
+            self.skillType = skillType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enablementType = "EnablementType"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case skillGroupArn = "SkillGroupArn"
+            case skillType = "SkillType"
+        }
+    }
+
+    public struct ListSkillsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SkillSummaries", required: false, type: .list)
+        ]
+        /// The token returned to indicate that there is more data available.
+        public let nextToken: String?
+        /// The list of enabled skills requested. Required.
+        public let skillSummaries: [SkillSummary]?
+
+        public init(nextToken: String? = nil, skillSummaries: [SkillSummary]? = nil) {
+            self.nextToken = nextToken
+            self.skillSummaries = skillSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case skillSummaries = "SkillSummaries"
+        }
+    }
+
+    public struct ListSkillsStoreCategoriesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of categories returned, per paginated calls.
+        public let maxResults: Int32?
+        /// The tokens used for pagination.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListSkillsStoreCategoriesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CategoryList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The list of categories.
+        public let categoryList: [Category]?
+        /// The tokens used for pagination.
+        public let nextToken: String?
+
+        public init(categoryList: [Category]? = nil, nextToken: String? = nil) {
+            self.categoryList = categoryList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoryList = "CategoryList"
+            case nextToken = "NextToken"
         }
     }
 
@@ -1126,1579 +1951,72 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ListConferenceProvidersRequest: AWSShape {
+    public struct ListSkillsStoreSkillsByCategoryResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SkillsStoreSkills", required: false, type: .list)
+        ]
+        /// The tokens used for pagination.
+        public let nextToken: String?
+        /// The skill store skills.
+        public let skillsStoreSkills: [SkillsStoreSkill]?
+
+        public init(nextToken: String? = nil, skillsStoreSkills: [SkillsStoreSkill]? = nil) {
+            self.nextToken = nextToken
+            self.skillsStoreSkills = skillsStoreSkills
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case skillsStoreSkills = "SkillsStoreSkills"
+        }
+    }
+
+    public struct ListSmartHomeAppliancesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RoomArn", required: true, type: .string)
         ]
-        /// The maximum number of conference providers to be returned, per paginated calls.
+        /// The maximum number of appliances to be returned, per paginated calls.
         public let maxResults: Int32?
         /// The tokens used for pagination.
         public let nextToken: String?
+        /// The room that the appliances are associated with.
+        public let roomArn: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, roomArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.roomArn = roomArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
-        }
-    }
-
-    public struct DeleteContactRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContactArn", required: true, type: .string)
-        ]
-        /// The ARN of the contact to delete.
-        public let contactArn: String
-
-        public init(contactArn: String) {
-            self.contactArn = contactArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case contactArn = "ContactArn"
+            case roomArn = "RoomArn"
         }
     }
 
     public struct ListSmartHomeAppliancesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SmartHomeAppliances", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SmartHomeAppliances", required: false, type: .list)
         ]
+        /// The tokens used for pagination.
+        public let nextToken: String?
         /// The smart home appliances.
         public let smartHomeAppliances: [SmartHomeAppliance]?
-        /// The tokens used for pagination.
-        public let nextToken: String?
 
-        public init(smartHomeAppliances: [SmartHomeAppliance]? = nil, nextToken: String? = nil) {
+        public init(nextToken: String? = nil, smartHomeAppliances: [SmartHomeAppliance]? = nil) {
+            self.nextToken = nextToken
             self.smartHomeAppliances = smartHomeAppliances
-            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
             case smartHomeAppliances = "SmartHomeAppliances"
-            case nextToken = "NextToken"
         }
-    }
-
-    public struct ForgetSmartHomeAppliancesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: true, type: .string)
-        ]
-        /// The room that the appliances are associated with.
-        public let roomArn: String
-
-        public init(roomArn: String) {
-            self.roomArn = roomArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roomArn = "RoomArn"
-        }
-    }
-
-    public struct SendInvitationResponse: AWSShape {
-
-    }
-
-    public struct RoomSkillParameter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParameterKey", required: true, type: .string), 
-            AWSShapeMember(label: "ParameterValue", required: true, type: .string)
-        ]
-        /// The parameter key of a room skill parameter. ParameterKey is an enumerated type that only takes “DEFAULT” or “SCOPE” as valid values.
-        public let parameterKey: String
-        /// The parameter value of a room skill parameter.
-        public let parameterValue: String
-
-        public init(parameterKey: String, parameterValue: String) {
-            self.parameterKey = parameterKey
-            self.parameterValue = parameterValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case parameterKey = "ParameterKey"
-            case parameterValue = "ParameterValue"
-        }
-    }
-
-    public struct ListSkillsStoreCategoriesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CategoryList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The list of categories.
-        public let categoryList: [Category]?
-        /// The tokens used for pagination.
-        public let nextToken: String?
-
-        public init(categoryList: [Category]? = nil, nextToken: String? = nil) {
-            self.categoryList = categoryList
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case categoryList = "CategoryList"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct SearchAddressBooksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TotalCount", required: false, type: .integer), 
-            AWSShapeMember(label: "AddressBooks", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The total number of address books returned.
-        public let totalCount: Int32?
-        /// The address books that meet the specified set of filter criteria, in sort order.
-        public let addressBooks: [AddressBookData]?
-        /// The token returned to indicate that there is more data available.
-        public let nextToken: String?
-
-        public init(totalCount: Int32? = nil, addressBooks: [AddressBookData]? = nil, nextToken: String? = nil) {
-            self.totalCount = totalCount
-            self.addressBooks = addressBooks
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case totalCount = "TotalCount"
-            case addressBooks = "AddressBooks"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct PutConferencePreferenceResponse: AWSShape {
-
-    }
-
-    public struct GetRoomResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Room", required: false, type: .structure)
-        ]
-        /// The details of the room requested.
-        public let room: Room?
-
-        public init(room: Room? = nil) {
-            self.room = room
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case room = "Room"
-        }
-    }
-
-    public struct DeleteUserResponse: AWSShape {
-
-    }
-
-    public struct Contact: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastName", required: false, type: .string), 
-            AWSShapeMember(label: "PhoneNumber", required: false, type: .string), 
-            AWSShapeMember(label: "ContactArn", required: false, type: .string), 
-            AWSShapeMember(label: "FirstName", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string)
-        ]
-        /// The last name of the contact, used to call the contact on the device.
-        public let lastName: String?
-        /// The phone number of the contact.
-        public let phoneNumber: String?
-        /// The ARN of the contact.
-        public let contactArn: String?
-        /// The first name of the contact, used to call the contact on the device.
-        public let firstName: String?
-        /// The name of the contact to display on the console.
-        public let displayName: String?
-
-        public init(lastName: String? = nil, phoneNumber: String? = nil, contactArn: String? = nil, firstName: String? = nil, displayName: String? = nil) {
-            self.lastName = lastName
-            self.phoneNumber = phoneNumber
-            self.contactArn = contactArn
-            self.firstName = firstName
-            self.displayName = displayName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastName = "LastName"
-            case phoneNumber = "PhoneNumber"
-            case contactArn = "ContactArn"
-            case firstName = "FirstName"
-            case displayName = "DisplayName"
-        }
-    }
-
-    public struct PutSkillAuthorizationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "SkillId", required: true, type: .string), 
-            AWSShapeMember(label: "AuthorizationResult", required: true, type: .map)
-        ]
-        /// The room that the skill is authorized for.
-        public let roomArn: String?
-        /// The unique identifier of a skill.
-        public let skillId: String
-        /// The authorization result specific to OAUTH code grant output. "Code” must be populated in the AuthorizationResult map to establish the authorization.
-        public let authorizationResult: [String: String]
-
-        public init(roomArn: String? = nil, skillId: String, authorizationResult: [String: String]) {
-            self.roomArn = roomArn
-            self.skillId = skillId
-            self.authorizationResult = authorizationResult
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roomArn = "RoomArn"
-            case skillId = "SkillId"
-            case authorizationResult = "AuthorizationResult"
-        }
-    }
-
-    public struct DeleteRoomSkillParameterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "ParameterKey", required: true, type: .string), 
-            AWSShapeMember(label: "SkillId", required: true, type: .string)
-        ]
-        /// The ARN of the room from which to remove the room skill parameter details.
-        public let roomArn: String?
-        /// The room skill parameter key for which to remove details.
-        public let parameterKey: String
-        /// The ID of the skill from which to remove the room skill parameter details.
-        public let skillId: String
-
-        public init(roomArn: String? = nil, parameterKey: String, skillId: String) {
-            self.roomArn = roomArn
-            self.parameterKey = parameterKey
-            self.skillId = skillId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roomArn = "RoomArn"
-            case parameterKey = "ParameterKey"
-            case skillId = "SkillId"
-        }
-    }
-
-    public struct Filter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Values", required: true, type: .list)
-        ]
-        /// The key of a filter.
-        public let key: String
-        /// The values of a filter.
-        public let values: [String]
-
-        public init(key: String, values: [String]) {
-            self.key = key
-            self.values = values
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case values = "Values"
-        }
-    }
-
-    public enum EnrollmentStatus: String, CustomStringConvertible, Codable {
-        case initialized = "INITIALIZED"
-        case pending = "PENDING"
-        case registered = "REGISTERED"
-        case disassociating = "DISASSOCIATING"
-        case deregistering = "DEREGISTERING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListDeviceEventsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "EventType", required: false, type: .enum), 
-            AWSShapeMember(label: "DeviceArn", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response only includes results beyond the token, up to the value specified by MaxResults. When the end of results is reached, the response has a value of null.
-        public let nextToken: String?
-        /// The event type to filter device events. If EventType isn't specified, this returns a list of all device events in reverse chronological order. If EventType is specified, this returns a list of device events for that EventType in reverse chronological order. 
-        public let eventType: DeviceEventType?
-        /// The ARN of a device.
-        public let deviceArn: String
-        /// The maximum number of results to include in the response. The default value is 50. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. 
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, eventType: DeviceEventType? = nil, deviceArn: String, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.eventType = eventType
-            self.deviceArn = deviceArn
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case eventType = "EventType"
-            case deviceArn = "DeviceArn"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct CreateConferenceProviderResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConferenceProviderArn", required: false, type: .string)
-        ]
-        /// The ARN of the newly-created conference provider.
-        public let conferenceProviderArn: String?
-
-        public init(conferenceProviderArn: String? = nil) {
-            self.conferenceProviderArn = conferenceProviderArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case conferenceProviderArn = "ConferenceProviderArn"
-        }
-    }
-
-    public struct SearchUsersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Users", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TotalCount", required: false, type: .integer)
-        ]
-        /// The users that meet the specified set of filter criteria, in sort order.
-        public let users: [UserData]?
-        /// The token returned to indicate that there is more data available.
-        public let nextToken: String?
-        /// The total number of users returned.
-        public let totalCount: Int32?
-
-        public init(users: [UserData]? = nil, nextToken: String? = nil, totalCount: Int32? = nil) {
-            self.users = users
-            self.nextToken = nextToken
-            self.totalCount = totalCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case users = "Users"
-            case nextToken = "NextToken"
-            case totalCount = "TotalCount"
-        }
-    }
-
-    public enum TemperatureUnit: String, CustomStringConvertible, Codable {
-        case fahrenheit = "FAHRENHEIT"
-        case celsius = "CELSIUS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateContactRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastName", required: false, type: .string), 
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "PhoneNumber", required: true, type: .string), 
-            AWSShapeMember(label: "FirstName", required: true, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string)
-        ]
-        /// The last name of the contact that is used to call the contact on the device.
-        public let lastName: String?
-        /// A unique, user-specified identifier for this request that ensures idempotency.
-        public let clientRequestToken: String?
-        /// The phone number of the contact in E.164 format.
-        public let phoneNumber: String
-        /// The first name of the contact that is used to call the contact on the device.
-        public let firstName: String
-        /// The name of the contact to display on the console.
-        public let displayName: String?
-
-        public init(lastName: String? = nil, clientRequestToken: String? = nil, phoneNumber: String, firstName: String, displayName: String? = nil) {
-            self.lastName = lastName
-            self.clientRequestToken = clientRequestToken
-            self.phoneNumber = phoneNumber
-            self.firstName = firstName
-            self.displayName = displayName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastName = "LastName"
-            case clientRequestToken = "ClientRequestToken"
-            case phoneNumber = "PhoneNumber"
-            case firstName = "FirstName"
-            case displayName = "DisplayName"
-        }
-    }
-
-    public struct DeleteDeviceResponse: AWSShape {
-
-    }
-
-    public struct DisassociateContactFromAddressBookResponse: AWSShape {
-
-    }
-
-    public struct SearchRoomsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Rooms", required: false, type: .list), 
-            AWSShapeMember(label: "TotalCount", required: false, type: .integer)
-        ]
-        /// The token returned to indicate that there is more data available.
-        public let nextToken: String?
-        /// The rooms that meet the specified set of filter criteria, in sort order.
-        public let rooms: [RoomData]?
-        /// The total number of rooms returned.
-        public let totalCount: Int32?
-
-        public init(nextToken: String? = nil, rooms: [RoomData]? = nil, totalCount: Int32? = nil) {
-            self.nextToken = nextToken
-            self.rooms = rooms
-            self.totalCount = totalCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case rooms = "Rooms"
-            case totalCount = "TotalCount"
-        }
-    }
-
-    public struct GetConferenceProviderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConferenceProviderArn", required: true, type: .string)
-        ]
-        /// The ARN of the newly created conference provider.
-        public let conferenceProviderArn: String
-
-        public init(conferenceProviderArn: String) {
-            self.conferenceProviderArn = conferenceProviderArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case conferenceProviderArn = "ConferenceProviderArn"
-        }
-    }
-
-    public struct GetDeviceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Device", required: false, type: .structure)
-        ]
-        /// The details of the device requested. Required.
-        public let device: Device?
-
-        public init(device: Device? = nil) {
-            self.device = device
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case device = "Device"
-        }
-    }
-
-    public struct DisassociateSkillGroupFromRoomRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string)
-        ]
-        /// The ARN of the room from which the skill group is to be disassociated. Required.
-        public let roomArn: String?
-        /// The ARN of the skill group to disassociate from a room. Required.
-        public let skillGroupArn: String?
-
-        public init(roomArn: String? = nil, skillGroupArn: String? = nil) {
-            self.roomArn = roomArn
-            self.skillGroupArn = skillGroupArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roomArn = "RoomArn"
-            case skillGroupArn = "SkillGroupArn"
-        }
-    }
-
-    public struct AssociateContactWithAddressBookResponse: AWSShape {
-
-    }
-
-    public struct UpdateAddressBookResponse: AWSShape {
-
-    }
-
-    public struct GetDeviceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceArn", required: false, type: .string)
-        ]
-        /// The ARN of the device for which to request details. Required.
-        public let deviceArn: String?
-
-        public init(deviceArn: String? = nil) {
-            self.deviceArn = deviceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deviceArn = "DeviceArn"
-        }
-    }
-
-    public enum WakeWord: String, CustomStringConvertible, Codable {
-        case alexa = "ALEXA"
-        case amazon = "AMAZON"
-        case echo = "ECHO"
-        case computer = "COMPUTER"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SkillType: String, CustomStringConvertible, Codable {
-        case `public` = "PUBLIC"
-        case `private` = "PRIVATE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DisassociateSkillGroupFromRoomResponse: AWSShape {
-
-    }
-
-    public struct DeleteRoomRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: false, type: .string)
-        ]
-        /// The ARN of the room to delete. Required.
-        public let roomArn: String?
-
-        public init(roomArn: String? = nil) {
-            self.roomArn = roomArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roomArn = "RoomArn"
-        }
-    }
-
-    public enum RequirePin: String, CustomStringConvertible, Codable {
-        case yes = "YES"
-        case no = "NO"
-        case optional = "OPTIONAL"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Device: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceArn", required: false, type: .string), 
-            AWSShapeMember(label: "MacAddress", required: false, type: .string), 
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceName", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceSerialNumber", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceStatusInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "DeviceStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "SoftwareVersion", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceType", required: false, type: .string)
-        ]
-        /// The ARN of a device.
-        public let deviceArn: String?
-        /// The MAC address of a device.
-        public let macAddress: String?
-        /// The room ARN of a device.
-        public let roomArn: String?
-        /// The name of a device.
-        public let deviceName: String?
-        /// The serial number of a device.
-        public let deviceSerialNumber: String?
-        /// Detailed information about a device's status.
-        public let deviceStatusInfo: DeviceStatusInfo?
-        /// The status of a device. If the status is not READY, check the DeviceStatusInfo value for details.
-        public let deviceStatus: DeviceStatus?
-        /// The software version of a device.
-        public let softwareVersion: String?
-        /// The type of a device.
-        public let deviceType: String?
-
-        public init(deviceArn: String? = nil, macAddress: String? = nil, roomArn: String? = nil, deviceName: String? = nil, deviceSerialNumber: String? = nil, deviceStatusInfo: DeviceStatusInfo? = nil, deviceStatus: DeviceStatus? = nil, softwareVersion: String? = nil, deviceType: String? = nil) {
-            self.deviceArn = deviceArn
-            self.macAddress = macAddress
-            self.roomArn = roomArn
-            self.deviceName = deviceName
-            self.deviceSerialNumber = deviceSerialNumber
-            self.deviceStatusInfo = deviceStatusInfo
-            self.deviceStatus = deviceStatus
-            self.softwareVersion = softwareVersion
-            self.deviceType = deviceType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deviceArn = "DeviceArn"
-            case macAddress = "MacAddress"
-            case roomArn = "RoomArn"
-            case deviceName = "DeviceName"
-            case deviceSerialNumber = "DeviceSerialNumber"
-            case deviceStatusInfo = "DeviceStatusInfo"
-            case deviceStatus = "DeviceStatus"
-            case softwareVersion = "SoftwareVersion"
-            case deviceType = "DeviceType"
-        }
-    }
-
-    public struct StartSmartHomeApplianceDiscoveryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: true, type: .string)
-        ]
-        /// The room where smart home appliance discovery was initiated.
-        public let roomArn: String
-
-        public init(roomArn: String) {
-            self.roomArn = roomArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roomArn = "RoomArn"
-        }
-    }
-
-    public struct UpdateRoomRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "ProviderCalendarId", required: false, type: .string), 
-            AWSShapeMember(label: "RoomName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ProfileArn", required: false, type: .string)
-        ]
-        /// The ARN of the room to update. 
-        public let roomArn: String?
-        /// The updated provider calendar ARN for the room.
-        public let providerCalendarId: String?
-        /// The updated name for the room.
-        public let roomName: String?
-        /// The updated description for the room.
-        public let description: String?
-        /// The updated profile ARN for the room.
-        public let profileArn: String?
-
-        public init(roomArn: String? = nil, providerCalendarId: String? = nil, roomName: String? = nil, description: String? = nil, profileArn: String? = nil) {
-            self.roomArn = roomArn
-            self.providerCalendarId = providerCalendarId
-            self.roomName = roomName
-            self.description = description
-            self.profileArn = profileArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roomArn = "RoomArn"
-            case providerCalendarId = "ProviderCalendarId"
-            case roomName = "RoomName"
-            case description = "Description"
-            case profileArn = "ProfileArn"
-        }
-    }
-
-    public struct SkillGroupData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string)
-        ]
-        /// The skill group name of a skill group.
-        public let skillGroupName: String?
-        /// The description of a skill group.
-        public let description: String?
-        /// The skill group ARN of a skill group.
-        public let skillGroupArn: String?
-
-        public init(skillGroupName: String? = nil, description: String? = nil, skillGroupArn: String? = nil) {
-            self.skillGroupName = skillGroupName
-            self.description = description
-            self.skillGroupArn = skillGroupArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case skillGroupName = "SkillGroupName"
-            case description = "Description"
-            case skillGroupArn = "SkillGroupArn"
-        }
-    }
-
-    public struct SearchContactsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TotalCount", required: false, type: .integer), 
-            AWSShapeMember(label: "Contacts", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The total number of contacts returned.
-        public let totalCount: Int32?
-        /// The contacts that meet the specified set of filter criteria, in sort order.
-        public let contacts: [ContactData]?
-        /// The token returned to indicate that there is more data available.
-        public let nextToken: String?
-
-        public init(totalCount: Int32? = nil, contacts: [ContactData]? = nil, nextToken: String? = nil) {
-            self.totalCount = totalCount
-            self.contacts = contacts
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case totalCount = "TotalCount"
-            case contacts = "Contacts"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DeleteAddressBookResponse: AWSShape {
-
-    }
-
-    public struct SkillSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillName", required: false, type: .string), 
-            AWSShapeMember(label: "EnablementType", required: false, type: .enum), 
-            AWSShapeMember(label: "SupportsLinking", required: false, type: .boolean), 
-            AWSShapeMember(label: "SkillType", required: false, type: .enum), 
-            AWSShapeMember(label: "SkillId", required: false, type: .string)
-        ]
-        /// The name of the skill.
-        public let skillName: String?
-        /// Whether the skill is enabled under the user's account, or if it requires linking to be used.
-        public let enablementType: EnablementType?
-        /// Linking support for a skill.
-        public let supportsLinking: Bool?
-        /// Whether the skill is publicly available or is a private skill.
-        public let skillType: SkillType?
-        /// The ARN of the skill summary.
-        public let skillId: String?
-
-        public init(skillName: String? = nil, enablementType: EnablementType? = nil, supportsLinking: Bool? = nil, skillType: SkillType? = nil, skillId: String? = nil) {
-            self.skillName = skillName
-            self.enablementType = enablementType
-            self.supportsLinking = supportsLinking
-            self.skillType = skillType
-            self.skillId = skillId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case skillName = "SkillName"
-            case enablementType = "EnablementType"
-            case supportsLinking = "SupportsLinking"
-            case skillType = "SkillType"
-            case skillId = "SkillId"
-        }
-    }
-
-    public struct AssociateSkillWithSkillGroupResponse: AWSShape {
-
-    }
-
-    public enum ConferenceProviderType: String, CustomStringConvertible, Codable {
-        case chime = "CHIME"
-        case bluejeans = "BLUEJEANS"
-        case fuze = "FUZE"
-        case googleHangouts = "GOOGLE_HANGOUTS"
-        case polycom = "POLYCOM"
-        case ringcentral = "RINGCENTRAL"
-        case skypeForBusiness = "SKYPE_FOR_BUSINESS"
-        case webex = "WEBEX"
-        case zoom = "ZOOM"
-        case custom = "CUSTOM"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct PSTNDialIn: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CountryCode", required: true, type: .string), 
-            AWSShapeMember(label: "OneClickIdDelay", required: true, type: .string), 
-            AWSShapeMember(label: "PhoneNumber", required: true, type: .string), 
-            AWSShapeMember(label: "OneClickPinDelay", required: true, type: .string)
-        ]
-        /// The zip code.
-        public let countryCode: String
-        /// The delay duration before Alexa enters the conference ID with dual-tone multi-frequency (DTMF). Each number on the dial pad corresponds to a DTMF tone, which is how we send data over the telephone network.
-        public let oneClickIdDelay: String
-        /// The phone number to call to join the conference.
-        public let phoneNumber: String
-        /// The delay duration before Alexa enters the conference pin with dual-tone multi-frequency (DTMF). Each number on the dial pad corresponds to a DTMF tone, which is how we send data over the telephone network.
-        public let oneClickPinDelay: String
-
-        public init(countryCode: String, oneClickIdDelay: String, phoneNumber: String, oneClickPinDelay: String) {
-            self.countryCode = countryCode
-            self.oneClickIdDelay = oneClickIdDelay
-            self.phoneNumber = phoneNumber
-            self.oneClickPinDelay = oneClickPinDelay
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case countryCode = "CountryCode"
-            case oneClickIdDelay = "OneClickIdDelay"
-            case phoneNumber = "PhoneNumber"
-            case oneClickPinDelay = "OneClickPinDelay"
-        }
-    }
-
-    public struct AssociateSkillGroupWithRoomRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string)
-        ]
-        /// The ARN of the room with which to associate the skill group. Required.
-        public let roomArn: String?
-        /// The ARN of the skill group to associate with a room. Required.
-        public let skillGroupArn: String?
-
-        public init(roomArn: String? = nil, skillGroupArn: String? = nil) {
-            self.roomArn = roomArn
-            self.skillGroupArn = skillGroupArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roomArn = "RoomArn"
-            case skillGroupArn = "SkillGroupArn"
-        }
-    }
-
-    public struct StartSmartHomeApplianceDiscoveryResponse: AWSShape {
-
-    }
-
-    public struct CreateProfileResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProfileArn", required: false, type: .string)
-        ]
-        /// The ARN of the newly created room profile in the response.
-        public let profileArn: String?
-
-        public init(profileArn: String? = nil) {
-            self.profileArn = profileArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case profileArn = "ProfileArn"
-        }
-    }
-
-    public struct GetProfileResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Profile", required: false, type: .structure)
-        ]
-        /// The details of the room profile requested. Required.
-        public let profile: Profile?
-
-        public init(profile: Profile? = nil) {
-            self.profile = profile
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case profile = "Profile"
-        }
-    }
-
-    public struct ListConferenceProvidersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConferenceProviders", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The conference providers.
-        public let conferenceProviders: [ConferenceProvider]?
-        /// The tokens used for pagination.
-        public let nextToken: String?
-
-        public init(conferenceProviders: [ConferenceProvider]? = nil, nextToken: String? = nil) {
-            self.conferenceProviders = conferenceProviders
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case conferenceProviders = "ConferenceProviders"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DeviceData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomName", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceArn", required: false, type: .string), 
-            AWSShapeMember(label: "MacAddress", required: false, type: .string), 
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceName", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceSerialNumber", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceStatusInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "DeviceStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "SoftwareVersion", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceType", required: false, type: .string)
-        ]
-        /// The name of the room associated with a device.
-        public let roomName: String?
-        /// The ARN of a device.
-        public let deviceArn: String?
-        /// The MAC address of a device.
-        public let macAddress: String?
-        /// The room ARN associated with a device.
-        public let roomArn: String?
-        /// The name of a device.
-        public let deviceName: String?
-        /// The serial number of a device.
-        public let deviceSerialNumber: String?
-        /// Detailed information about a device's status.
-        public let deviceStatusInfo: DeviceStatusInfo?
-        /// The status of a device.
-        public let deviceStatus: DeviceStatus?
-        /// The software version of a device.
-        public let softwareVersion: String?
-        /// The type of a device.
-        public let deviceType: String?
-
-        public init(roomName: String? = nil, deviceArn: String? = nil, macAddress: String? = nil, roomArn: String? = nil, deviceName: String? = nil, deviceSerialNumber: String? = nil, deviceStatusInfo: DeviceStatusInfo? = nil, deviceStatus: DeviceStatus? = nil, softwareVersion: String? = nil, deviceType: String? = nil) {
-            self.roomName = roomName
-            self.deviceArn = deviceArn
-            self.macAddress = macAddress
-            self.roomArn = roomArn
-            self.deviceName = deviceName
-            self.deviceSerialNumber = deviceSerialNumber
-            self.deviceStatusInfo = deviceStatusInfo
-            self.deviceStatus = deviceStatus
-            self.softwareVersion = softwareVersion
-            self.deviceType = deviceType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roomName = "RoomName"
-            case deviceArn = "DeviceArn"
-            case macAddress = "MacAddress"
-            case roomArn = "RoomArn"
-            case deviceName = "DeviceName"
-            case deviceSerialNumber = "DeviceSerialNumber"
-            case deviceStatusInfo = "DeviceStatusInfo"
-            case deviceStatus = "DeviceStatus"
-            case softwareVersion = "SoftwareVersion"
-            case deviceType = "DeviceType"
-        }
-    }
-
-    public struct SearchUsersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "SortCriteria", required: false, type: .list), 
-            AWSShapeMember(label: "Filters", required: false, type: .list)
-        ]
-        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults. Required.
-        public let nextToken: String?
-        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. Required.
-        public let maxResults: Int32?
-        /// The sort order to use in listing the filtered set of users. Required. Supported sort keys are UserId, FirstName, LastName, Email, and EnrollmentStatus.
-        public let sortCriteria: [Sort]?
-        /// The filters to use for listing a specific set of users. Required. Supported filter keys are UserId, FirstName, LastName, Email, and EnrollmentStatus.
-        public let filters: [Filter]?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, sortCriteria: [Sort]? = nil, filters: [Filter]? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.sortCriteria = sortCriteria
-            self.filters = filters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case sortCriteria = "SortCriteria"
-            case filters = "Filters"
-        }
-    }
-
-    public struct AssociateDeviceWithRoomResponse: AWSShape {
-
-    }
-
-    public struct DisassociateSkillFromSkillGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "SkillId", required: true, type: .string)
-        ]
-        /// The unique identifier of a skill. Required.
-        public let skillGroupArn: String?
-        /// The ARN of a skill group to associate to a skill.
-        public let skillId: String
-
-        public init(skillGroupArn: String? = nil, skillId: String) {
-            self.skillGroupArn = skillGroupArn
-            self.skillId = skillId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case skillGroupArn = "SkillGroupArn"
-            case skillId = "SkillId"
-        }
-    }
-
-    public struct SmartHomeAppliance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FriendlyName", required: false, type: .string), 
-            AWSShapeMember(label: "ManufacturerName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// The friendly name of the smart home appliance.
-        public let friendlyName: String?
-        /// The name of the manufacturer of the smart home appliance.
-        public let manufacturerName: String?
-        /// The description of the smart home appliance.
-        public let description: String?
-
-        public init(friendlyName: String? = nil, manufacturerName: String? = nil, description: String? = nil) {
-            self.friendlyName = friendlyName
-            self.manufacturerName = manufacturerName
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case friendlyName = "FriendlyName"
-            case manufacturerName = "ManufacturerName"
-            case description = "Description"
-        }
-    }
-
-    public enum ConnectionStatus: String, CustomStringConvertible, Codable {
-        case online = "ONLINE"
-        case offline = "OFFLINE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PSTNEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "Timezone", required: false, type: .string), 
-            AWSShapeMember(label: "TemperatureUnit", required: false, type: .enum), 
-            AWSShapeMember(label: "ProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "Address", required: false, type: .string), 
-            AWSShapeMember(label: "MaxVolumeLimit", required: false, type: .integer), 
-            AWSShapeMember(label: "ProfileName", required: false, type: .string), 
-            AWSShapeMember(label: "DistanceUnit", required: false, type: .enum), 
-            AWSShapeMember(label: "WakeWord", required: false, type: .enum), 
-            AWSShapeMember(label: "IsDefault", required: false, type: .boolean), 
-            AWSShapeMember(label: "SetupModeDisabled", required: false, type: .boolean)
-        ]
-        /// Whether the PSTN setting of the room profile is enabled.
-        public let pSTNEnabled: Bool?
-        /// The updated timezone for the room profile.
-        public let timezone: String?
-        /// The updated temperature unit for the room profile.
-        public let temperatureUnit: TemperatureUnit?
-        /// The ARN of the room profile to update. Required.
-        public let profileArn: String?
-        /// The updated address for the room profile.
-        public let address: String?
-        /// The updated maximum volume limit for the room profile.
-        public let maxVolumeLimit: Int32?
-        /// The updated name for the room profile.
-        public let profileName: String?
-        /// The updated distance unit for the room profile.
-        public let distanceUnit: DistanceUnit?
-        /// The updated wake word for the room profile.
-        public let wakeWord: WakeWord?
-        /// Sets the profile as default if selected. If this is missing, no update is done to the default status.
-        public let isDefault: Bool?
-        /// Whether the setup mode of the profile is enabled.
-        public let setupModeDisabled: Bool?
-
-        public init(pSTNEnabled: Bool? = nil, timezone: String? = nil, temperatureUnit: TemperatureUnit? = nil, profileArn: String? = nil, address: String? = nil, maxVolumeLimit: Int32? = nil, profileName: String? = nil, distanceUnit: DistanceUnit? = nil, wakeWord: WakeWord? = nil, isDefault: Bool? = nil, setupModeDisabled: Bool? = nil) {
-            self.pSTNEnabled = pSTNEnabled
-            self.timezone = timezone
-            self.temperatureUnit = temperatureUnit
-            self.profileArn = profileArn
-            self.address = address
-            self.maxVolumeLimit = maxVolumeLimit
-            self.profileName = profileName
-            self.distanceUnit = distanceUnit
-            self.wakeWord = wakeWord
-            self.isDefault = isDefault
-            self.setupModeDisabled = setupModeDisabled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pSTNEnabled = "PSTNEnabled"
-            case timezone = "Timezone"
-            case temperatureUnit = "TemperatureUnit"
-            case profileArn = "ProfileArn"
-            case address = "Address"
-            case maxVolumeLimit = "MaxVolumeLimit"
-            case profileName = "ProfileName"
-            case distanceUnit = "DistanceUnit"
-            case wakeWord = "WakeWord"
-            case isDefault = "IsDefault"
-            case setupModeDisabled = "SetupModeDisabled"
-        }
-    }
-
-    public struct DeviceEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
-        /// The value of the event.
-        public let value: String?
-        /// The time (in epoch) when the event occurred. 
-        public let timestamp: TimeStamp?
-        /// The type of device event.
-        public let `type`: DeviceEventType?
-
-        public init(value: String? = nil, timestamp: TimeStamp? = nil, type: DeviceEventType? = nil) {
-            self.value = value
-            self.timestamp = timestamp
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case timestamp = "Timestamp"
-            case `type` = "Type"
-        }
-    }
-
-    public struct CreateUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastName", required: false, type: .string), 
-            AWSShapeMember(label: "Email", required: false, type: .string), 
-            AWSShapeMember(label: "UserId", required: true, type: .string), 
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "FirstName", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
-        /// The last name for the user.
-        public let lastName: String?
-        /// The email address for the user.
-        public let email: String?
-        /// The ARN for the user.
-        public let userId: String
-        /// A unique, user-specified identifier for this request that ensures idempotency. 
-        public let clientRequestToken: String?
-        /// The first name for the user.
-        public let firstName: String?
-        /// The tags for the user.
-        public let tags: [Tag]?
-
-        public init(lastName: String? = nil, email: String? = nil, userId: String, clientRequestToken: String? = nil, firstName: String? = nil, tags: [Tag]? = nil) {
-            self.lastName = lastName
-            self.email = email
-            self.userId = userId
-            self.clientRequestToken = clientRequestToken
-            self.firstName = firstName
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastName = "LastName"
-            case email = "Email"
-            case userId = "UserId"
-            case clientRequestToken = "ClientRequestToken"
-            case firstName = "FirstName"
-            case tags = "Tags"
-        }
-    }
-
-    public struct UntagResourceResponse: AWSShape {
-
-    }
-
-    public struct DeleteSkillGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string)
-        ]
-        /// The ARN of the skill group to delete. Required.
-        public let skillGroupArn: String?
-
-        public init(skillGroupArn: String? = nil) {
-            self.skillGroupArn = skillGroupArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case skillGroupArn = "SkillGroupArn"
-        }
-    }
-
-    public struct RejectSkillRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillId", required: true, type: .string)
-        ]
-        /// The unique identifier of the skill.
-        public let skillId: String
-
-        public init(skillId: String) {
-            self.skillId = skillId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case skillId = "SkillId"
-        }
-    }
-
-    public struct DeleteUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserArn", required: false, type: .string), 
-            AWSShapeMember(label: "EnrollmentId", required: true, type: .string)
-        ]
-        /// The ARN of the user to delete in the organization. Required.
-        public let userArn: String?
-        /// The ARN of the user's enrollment in the organization. Required.
-        public let enrollmentId: String
-
-        public init(userArn: String? = nil, enrollmentId: String) {
-            self.userArn = userArn
-            self.enrollmentId = enrollmentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userArn = "UserArn"
-            case enrollmentId = "EnrollmentId"
-        }
-    }
-
-    public struct ListSkillsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "EnablementType", required: false, type: .enum), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "SkillType", required: false, type: .enum), 
-            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string)
-        ]
-        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults. Required.
-        public let nextToken: String?
-        /// Whether the skill is enabled under the user's account, or if it requires linking to be used.
-        public let enablementType: EnablementTypeFilter?
-        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. Required.
-        public let maxResults: Int32?
-        /// Whether the skill is publicly available or is a private skill.
-        public let skillType: SkillTypeFilter?
-        /// The ARN of the skill group for which to list enabled skills. Required.
-        public let skillGroupArn: String?
-
-        public init(nextToken: String? = nil, enablementType: EnablementTypeFilter? = nil, maxResults: Int32? = nil, skillType: SkillTypeFilter? = nil, skillGroupArn: String? = nil) {
-            self.nextToken = nextToken
-            self.enablementType = enablementType
-            self.maxResults = maxResults
-            self.skillType = skillType
-            self.skillGroupArn = skillGroupArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case enablementType = "EnablementType"
-            case maxResults = "MaxResults"
-            case skillType = "SkillType"
-            case skillGroupArn = "SkillGroupArn"
-        }
-    }
-
-    public struct CreateSkillGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string)
-        ]
-        /// The ARN of the newly created skill group in the response.
-        public let skillGroupArn: String?
-
-        public init(skillGroupArn: String? = nil) {
-            self.skillGroupArn = skillGroupArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case skillGroupArn = "SkillGroupArn"
-        }
-    }
-
-    public enum Feature: String, CustomStringConvertible, Codable {
-        case bluetooth = "BLUETOOTH"
-        case volume = "VOLUME"
-        case notifications = "NOTIFICATIONS"
-        case lists = "LISTS"
-        case skills = "SKILLS"
-        case all = "ALL"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct SearchSkillGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SkillGroups", required: false, type: .list), 
-            AWSShapeMember(label: "TotalCount", required: false, type: .integer)
-        ]
-        /// The token returned to indicate that there is more data available.
-        public let nextToken: String?
-        /// The skill groups that meet the filter criteria, in sort order.
-        public let skillGroups: [SkillGroupData]?
-        /// The total number of skill groups returned.
-        public let totalCount: Int32?
-
-        public init(nextToken: String? = nil, skillGroups: [SkillGroupData]? = nil, totalCount: Int32? = nil) {
-            self.nextToken = nextToken
-            self.skillGroups = skillGroups
-            self.totalCount = totalCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case skillGroups = "SkillGroups"
-            case totalCount = "TotalCount"
-        }
-    }
-
-    public struct ResolveRoomRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserId", required: true, type: .string), 
-            AWSShapeMember(label: "SkillId", required: true, type: .string)
-        ]
-        /// The ARN of the user. Required.
-        public let userId: String
-        /// The ARN of the skill that was requested. Required.
-        public let skillId: String
-
-        public init(userId: String, skillId: String) {
-            self.userId = userId
-            self.skillId = skillId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userId = "UserId"
-            case skillId = "SkillId"
-        }
-    }
-
-    public struct PutConferencePreferenceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConferencePreference", required: true, type: .structure)
-        ]
-        /// The conference preference of a specific conference provider.
-        public let conferencePreference: ConferencePreference
-
-        public init(conferencePreference: ConferencePreference) {
-            self.conferencePreference = conferencePreference
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case conferencePreference = "ConferencePreference"
-        }
-    }
-
-    public struct DeleteSkillAuthorizationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "SkillId", required: true, type: .string)
-        ]
-        /// The room that the skill is authorized for.
-        public let roomArn: String?
-        /// The unique identifier of a skill.
-        public let skillId: String
-
-        public init(roomArn: String? = nil, skillId: String) {
-            self.roomArn = roomArn
-            self.skillId = skillId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roomArn = "RoomArn"
-            case skillId = "SkillId"
-        }
-    }
-
-    public struct SearchRoomsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "SortCriteria", required: false, type: .list), 
-            AWSShapeMember(label: "Filters", required: false, type: .list)
-        ]
-        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
-        public let nextToken: String?
-        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. 
-        public let maxResults: Int32?
-        /// The sort order to use in listing the specified set of rooms. The supported sort keys are RoomName and ProfileName.
-        public let sortCriteria: [Sort]?
-        /// The filters to use to list a specified set of rooms. The supported filter keys are RoomName and ProfileName.
-        public let filters: [Filter]?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, sortCriteria: [Sort]? = nil, filters: [Filter]? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.sortCriteria = sortCriteria
-            self.filters = filters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case sortCriteria = "SortCriteria"
-            case filters = "Filters"
-        }
-    }
-
-    public struct CreateAddressBookRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string)
-        ]
-        /// The name of the address book.
-        public let name: String
-        /// The description of the address book.
-        public let description: String?
-        /// A unique, user-specified identifier for the request that ensures idempotency.
-        public let clientRequestToken: String?
-
-        public init(name: String, description: String? = nil, clientRequestToken: String? = nil) {
-            self.name = name
-            self.description = description
-            self.clientRequestToken = clientRequestToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case description = "Description"
-            case clientRequestToken = "ClientRequestToken"
-        }
-    }
-
-    public struct CreateContactResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContactArn", required: false, type: .string)
-        ]
-        /// The ARN of the newly created address book.
-        public let contactArn: String?
-
-        public init(contactArn: String? = nil) {
-            self.contactArn = contactArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case contactArn = "ContactArn"
-        }
-    }
-
-    public struct DeleteRoomSkillParameterResponse: AWSShape {
-
-    }
-
-    public struct DeleteContactResponse: AWSShape {
-
-    }
-
-    public struct RegisterAVSDeviceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientId", required: true, type: .string), 
-            AWSShapeMember(label: "UserCode", required: true, type: .string), 
-            AWSShapeMember(label: "ProductId", required: true, type: .string), 
-            AWSShapeMember(label: "AmazonId", required: true, type: .string), 
-            AWSShapeMember(label: "DeviceSerialNumber", required: true, type: .string)
-        ]
-        /// The client ID of the OEM used for code-based linking authorization on an AVS device.
-        public let clientId: String
-        /// The code that is obtained after your AVS device has made a POST request to LWA as a part of the Device Authorization Request component of the OAuth code-based linking specification.
-        public let userCode: String
-        /// The product ID used to identify your AVS device during authorization.
-        public let productId: String
-        /// The device type ID for your AVS device generated by Amazon when the OEM creates a new product on Amazon's Developer Console.
-        public let amazonId: String
-        /// The key generated by the OEM that uniquely identifies a specified instance of your AVS device.
-        public let deviceSerialNumber: String
-
-        public init(clientId: String, userCode: String, productId: String, amazonId: String, deviceSerialNumber: String) {
-            self.clientId = clientId
-            self.userCode = userCode
-            self.productId = productId
-            self.amazonId = amazonId
-            self.deviceSerialNumber = deviceSerialNumber
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clientId = "ClientId"
-            case userCode = "UserCode"
-            case productId = "ProductId"
-            case amazonId = "AmazonId"
-            case deviceSerialNumber = "DeviceSerialNumber"
-        }
-    }
-
-    public struct DeleteAddressBookRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddressBookArn", required: true, type: .string)
-        ]
-        /// The ARN of the address book to delete.
-        public let addressBookArn: String
-
-        public init(addressBookArn: String) {
-            self.addressBookArn = addressBookArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case addressBookArn = "AddressBookArn"
-        }
-    }
-
-    public struct DeleteProfileResponse: AWSShape {
-
-    }
-
-    public struct AssociateContactWithAddressBookRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContactArn", required: true, type: .string), 
-            AWSShapeMember(label: "AddressBookArn", required: true, type: .string)
-        ]
-        /// The ARN of the contact to associate with an address book.
-        public let contactArn: String
-        /// The ARN of the address book with which to associate the contact.
-        public let addressBookArn: String
-
-        public init(contactArn: String, addressBookArn: String) {
-            self.contactArn = contactArn
-            self.addressBookArn = addressBookArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case contactArn = "ContactArn"
-            case addressBookArn = "AddressBookArn"
-        }
-    }
-
-    public enum SortValue: String, CustomStringConvertible, Codable {
-        case asc = "ASC"
-        case desc = "DESC"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Room: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "ProviderCalendarId", required: false, type: .string), 
-            AWSShapeMember(label: "RoomName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ProfileArn", required: false, type: .string)
-        ]
-        /// The ARN of a room.
-        public let roomArn: String?
-        /// The provider calendar ARN of a room.
-        public let providerCalendarId: String?
-        /// The name of a room.
-        public let roomName: String?
-        /// The description of a room.
-        public let description: String?
-        /// The profile ARN of a room.
-        public let profileArn: String?
-
-        public init(roomArn: String? = nil, providerCalendarId: String? = nil, roomName: String? = nil, description: String? = nil, profileArn: String? = nil) {
-            self.roomArn = roomArn
-            self.providerCalendarId = providerCalendarId
-            self.roomName = roomName
-            self.description = description
-            self.profileArn = profileArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roomArn = "RoomArn"
-            case providerCalendarId = "ProviderCalendarId"
-            case roomName = "RoomName"
-            case description = "Description"
-            case profileArn = "ProfileArn"
-        }
-    }
-
-    public enum DeviceStatus: String, CustomStringConvertible, Codable {
-        case ready = "READY"
-        case pending = "PENDING"
-        case wasOffline = "WAS_OFFLINE"
-        case deregistered = "DEREGISTERED"
-        public var description: String { return self.rawValue }
     }
 
     public struct ListTagsRequest: AWSShape {
@@ -2727,10 +2045,25 @@ extension AlexaForBusiness {
         }
     }
 
-    public enum DeviceStatusDetailCode: String, CustomStringConvertible, Codable {
-        case deviceSoftwareUpdateNeeded = "DEVICE_SOFTWARE_UPDATE_NEEDED"
-        case deviceWasOffline = "DEVICE_WAS_OFFLINE"
-        public var description: String { return self.rawValue }
+    public struct ListTagsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// The token returned to indicate that there is more data available.
+        public let nextToken: String?
+        /// The tags requested for the specified resource.
+        public let tags: [Tag]?
+
+        public init(nextToken: String? = nil, tags: [Tag]? = nil) {
+            self.nextToken = nextToken
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tags = "Tags"
+        }
     }
 
     public struct MeetingSetting: AWSShape {
@@ -2749,313 +2082,301 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SearchContactsRequest: AWSShape {
+    public struct PSTNDialIn: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "SortCriteria", required: false, type: .list), 
-            AWSShapeMember(label: "Filters", required: false, type: .list)
+            AWSShapeMember(label: "CountryCode", required: true, type: .string), 
+            AWSShapeMember(label: "OneClickIdDelay", required: true, type: .string), 
+            AWSShapeMember(label: "OneClickPinDelay", required: true, type: .string), 
+            AWSShapeMember(label: "PhoneNumber", required: true, type: .string)
         ]
-        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response only includes results beyond the token, up to the value specified by MaxResults.
-        public let nextToken: String?
-        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
-        public let maxResults: Int32?
-        /// The sort order to use in listing the specified set of contacts. The supported sort keys are DisplayName, FirstName, and LastName.
-        public let sortCriteria: [Sort]?
-        /// The filters to use to list a specified set of address books. The supported filter keys are DisplayName, FirstName, LastName, and AddressBookArns.
-        public let filters: [Filter]?
+        /// The zip code.
+        public let countryCode: String
+        /// The delay duration before Alexa enters the conference ID with dual-tone multi-frequency (DTMF). Each number on the dial pad corresponds to a DTMF tone, which is how we send data over the telephone network.
+        public let oneClickIdDelay: String
+        /// The delay duration before Alexa enters the conference pin with dual-tone multi-frequency (DTMF). Each number on the dial pad corresponds to a DTMF tone, which is how we send data over the telephone network.
+        public let oneClickPinDelay: String
+        /// The phone number to call to join the conference.
+        public let phoneNumber: String
 
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, sortCriteria: [Sort]? = nil, filters: [Filter]? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.sortCriteria = sortCriteria
-            self.filters = filters
+        public init(countryCode: String, oneClickIdDelay: String, oneClickPinDelay: String, phoneNumber: String) {
+            self.countryCode = countryCode
+            self.oneClickIdDelay = oneClickIdDelay
+            self.oneClickPinDelay = oneClickPinDelay
+            self.phoneNumber = phoneNumber
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case sortCriteria = "SortCriteria"
-            case filters = "Filters"
+            case countryCode = "CountryCode"
+            case oneClickIdDelay = "OneClickIdDelay"
+            case oneClickPinDelay = "OneClickPinDelay"
+            case phoneNumber = "PhoneNumber"
         }
     }
 
-    public struct UpdateAddressBookRequest: AWSShape {
+    public struct Profile: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddressBookArn", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// The ARN of the room to update.
-        public let addressBookArn: String
-        /// The updated name of the room.
-        public let name: String?
-        /// The updated description of the room.
-        public let description: String?
-
-        public init(addressBookArn: String, name: String? = nil, description: String? = nil) {
-            self.addressBookArn = addressBookArn
-            self.name = name
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case addressBookArn = "AddressBookArn"
-            case name = "Name"
-            case description = "Description"
-        }
-    }
-
-    public struct ResolveRoomResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "RoomSkillParameters", required: false, type: .list), 
-            AWSShapeMember(label: "RoomName", required: false, type: .string)
-        ]
-        /// The ARN of the room from which the skill request was invoked.
-        public let roomArn: String?
-        /// Response to get the room profile request. Required.
-        public let roomSkillParameters: [RoomSkillParameter]?
-        /// The name of the room from which the skill request was invoked.
-        public let roomName: String?
-
-        public init(roomArn: String? = nil, roomSkillParameters: [RoomSkillParameter]? = nil, roomName: String? = nil) {
-            self.roomArn = roomArn
-            self.roomSkillParameters = roomSkillParameters
-            self.roomName = roomName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roomArn = "RoomArn"
-            case roomSkillParameters = "RoomSkillParameters"
-            case roomName = "RoomName"
-        }
-    }
-
-    public struct CreateRoomResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: false, type: .string)
-        ]
-        /// The ARN of the newly created room in the response.
-        public let roomArn: String?
-
-        public init(roomArn: String? = nil) {
-            self.roomArn = roomArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roomArn = "RoomArn"
-        }
-    }
-
-    public struct ListSkillsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The list of enabled skills requested. Required.
-        public let skillSummaries: [SkillSummary]?
-        /// The token returned to indicate that there is more data available.
-        public let nextToken: String?
-
-        public init(skillSummaries: [SkillSummary]? = nil, nextToken: String? = nil) {
-            self.skillSummaries = skillSummaries
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case skillSummaries = "SkillSummaries"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public enum SkillTypeFilter: String, CustomStringConvertible, Codable {
-        case `public` = "PUBLIC"
-        case `private` = "PRIVATE"
-        case all = "ALL"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListSkillsStoreSkillsByCategoryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillsStoreSkills", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The skill store skills.
-        public let skillsStoreSkills: [SkillsStoreSkill]?
-        /// The tokens used for pagination.
-        public let nextToken: String?
-
-        public init(skillsStoreSkills: [SkillsStoreSkill]? = nil, nextToken: String? = nil) {
-            self.skillsStoreSkills = skillsStoreSkills
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case skillsStoreSkills = "SkillsStoreSkills"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct UpdateDeviceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceArn", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceName", required: false, type: .string)
-        ]
-        /// The ARN of the device to update. Required.
-        public let deviceArn: String?
-        /// The updated device name. Required.
-        public let deviceName: String?
-
-        public init(deviceArn: String? = nil, deviceName: String? = nil) {
-            self.deviceArn = deviceArn
-            self.deviceName = deviceName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deviceArn = "DeviceArn"
-            case deviceName = "DeviceName"
-        }
-    }
-
-    public struct AddressBook: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Address", required: false, type: .string), 
             AWSShapeMember(label: "AddressBookArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
+            AWSShapeMember(label: "DistanceUnit", required: false, type: .enum), 
+            AWSShapeMember(label: "IsDefault", required: false, type: .boolean), 
+            AWSShapeMember(label: "MaxVolumeLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "PSTNEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "ProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "ProfileName", required: false, type: .string), 
+            AWSShapeMember(label: "SetupModeDisabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "TemperatureUnit", required: false, type: .enum), 
+            AWSShapeMember(label: "Timezone", required: false, type: .string), 
+            AWSShapeMember(label: "WakeWord", required: false, type: .enum)
         ]
+        /// The address of a room profile.
+        public let address: String?
         /// The ARN of the address book.
         public let addressBookArn: String?
-        /// The name of the address book.
-        public let name: String?
-        /// The description of the address book.
-        public let description: String?
+        /// The distance unit of a room profile.
+        public let distanceUnit: DistanceUnit?
+        /// Retrieves if the profile is default or not.
+        public let isDefault: Bool?
+        /// The max volume limit of a room profile.
+        public let maxVolumeLimit: Int32?
+        /// The PSTN setting of a room profile.
+        public let pSTNEnabled: Bool?
+        /// The ARN of a room profile.
+        public let profileArn: String?
+        /// The name of a room profile.
+        public let profileName: String?
+        /// The setup mode of a room profile.
+        public let setupModeDisabled: Bool?
+        /// The temperature unit of a room profile.
+        public let temperatureUnit: TemperatureUnit?
+        /// The time zone of a room profile.
+        public let timezone: String?
+        /// The wake word of a room profile.
+        public let wakeWord: WakeWord?
 
-        public init(addressBookArn: String? = nil, name: String? = nil, description: String? = nil) {
+        public init(address: String? = nil, addressBookArn: String? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, maxVolumeLimit: Int32? = nil, pSTNEnabled: Bool? = nil, profileArn: String? = nil, profileName: String? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
+            self.address = address
             self.addressBookArn = addressBookArn
-            self.name = name
-            self.description = description
+            self.distanceUnit = distanceUnit
+            self.isDefault = isDefault
+            self.maxVolumeLimit = maxVolumeLimit
+            self.pSTNEnabled = pSTNEnabled
+            self.profileArn = profileArn
+            self.profileName = profileName
+            self.setupModeDisabled = setupModeDisabled
+            self.temperatureUnit = temperatureUnit
+            self.timezone = timezone
+            self.wakeWord = wakeWord
         }
 
         private enum CodingKeys: String, CodingKey {
+            case address = "Address"
             case addressBookArn = "AddressBookArn"
-            case name = "Name"
-            case description = "Description"
+            case distanceUnit = "DistanceUnit"
+            case isDefault = "IsDefault"
+            case maxVolumeLimit = "MaxVolumeLimit"
+            case pSTNEnabled = "PSTNEnabled"
+            case profileArn = "ProfileArn"
+            case profileName = "ProfileName"
+            case setupModeDisabled = "SetupModeDisabled"
+            case temperatureUnit = "TemperatureUnit"
+            case timezone = "Timezone"
+            case wakeWord = "WakeWord"
         }
     }
 
-    public struct GetConferencePreferenceRequest: AWSShape {
-
-    }
-
-    public struct SearchProfilesRequest: AWSShape {
+    public struct ProfileData: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "SortCriteria", required: false, type: .list), 
-            AWSShapeMember(label: "Filters", required: false, type: .list)
+            AWSShapeMember(label: "Address", required: false, type: .string), 
+            AWSShapeMember(label: "DistanceUnit", required: false, type: .enum), 
+            AWSShapeMember(label: "IsDefault", required: false, type: .boolean), 
+            AWSShapeMember(label: "ProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "ProfileName", required: false, type: .string), 
+            AWSShapeMember(label: "TemperatureUnit", required: false, type: .enum), 
+            AWSShapeMember(label: "Timezone", required: false, type: .string), 
+            AWSShapeMember(label: "WakeWord", required: false, type: .enum)
         ]
-        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
-        public let nextToken: String?
-        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
-        public let maxResults: Int32?
-        /// The sort order to use in listing the specified set of room profiles. Supported sort keys are ProfileName and Address.
-        public let sortCriteria: [Sort]?
-        /// The filters to use to list a specified set of room profiles. Supported filter keys are ProfileName and Address. Required. 
-        public let filters: [Filter]?
+        /// The address of a room profile.
+        public let address: String?
+        /// The distance unit of a room profile.
+        public let distanceUnit: DistanceUnit?
+        /// Retrieves if the profile data is default or not.
+        public let isDefault: Bool?
+        /// The ARN of a room profile.
+        public let profileArn: String?
+        /// The name of a room profile.
+        public let profileName: String?
+        /// The temperature unit of a room profile.
+        public let temperatureUnit: TemperatureUnit?
+        /// The timezone of a room profile.
+        public let timezone: String?
+        /// The wake word of a room profile.
+        public let wakeWord: WakeWord?
 
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, sortCriteria: [Sort]? = nil, filters: [Filter]? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.sortCriteria = sortCriteria
-            self.filters = filters
+        public init(address: String? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, profileArn: String? = nil, profileName: String? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
+            self.address = address
+            self.distanceUnit = distanceUnit
+            self.isDefault = isDefault
+            self.profileArn = profileArn
+            self.profileName = profileName
+            self.temperatureUnit = temperatureUnit
+            self.timezone = timezone
+            self.wakeWord = wakeWord
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case sortCriteria = "SortCriteria"
-            case filters = "Filters"
+            case address = "Address"
+            case distanceUnit = "DistanceUnit"
+            case isDefault = "IsDefault"
+            case profileArn = "ProfileArn"
+            case profileName = "ProfileName"
+            case temperatureUnit = "TemperatureUnit"
+            case timezone = "Timezone"
+            case wakeWord = "WakeWord"
         }
     }
 
-    public struct DeveloperInfo: AWSShape {
+    public struct PutConferencePreferenceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeveloperName", required: false, type: .string), 
-            AWSShapeMember(label: "PrivacyPolicy", required: false, type: .string), 
-            AWSShapeMember(label: "Url", required: false, type: .string), 
-            AWSShapeMember(label: "Email", required: false, type: .string)
+            AWSShapeMember(label: "ConferencePreference", required: true, type: .structure)
         ]
-        /// The name of the developer.
-        public let developerName: String?
-        /// The URL of the privacy policy.
-        public let privacyPolicy: String?
-        /// The website of the developer.
-        public let url: String?
-        /// The email of the developer.
-        public let email: String?
+        /// The conference preference of a specific conference provider.
+        public let conferencePreference: ConferencePreference
 
-        public init(developerName: String? = nil, privacyPolicy: String? = nil, url: String? = nil, email: String? = nil) {
-            self.developerName = developerName
-            self.privacyPolicy = privacyPolicy
-            self.url = url
-            self.email = email
+        public init(conferencePreference: ConferencePreference) {
+            self.conferencePreference = conferencePreference
         }
 
         private enum CodingKeys: String, CodingKey {
-            case developerName = "DeveloperName"
-            case privacyPolicy = "PrivacyPolicy"
-            case url = "Url"
-            case email = "Email"
+            case conferencePreference = "ConferencePreference"
         }
     }
 
-    public struct RevokeInvitationResponse: AWSShape {
+    public struct PutConferencePreferenceResponse: AWSShape {
+
+        public init() {
+        }
 
     }
 
-    public enum DeviceEventType: String, CustomStringConvertible, Codable {
-        case connectionStatus = "CONNECTION_STATUS"
-        case deviceStatus = "DEVICE_STATUS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AssociateSkillWithSkillGroupRequest: AWSShape {
+    public struct PutRoomSkillParameterRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
+            AWSShapeMember(label: "RoomSkillParameter", required: true, type: .structure), 
             AWSShapeMember(label: "SkillId", required: true, type: .string)
         ]
-        /// The ARN of the skill group to associate the skill to. Required.
-        public let skillGroupArn: String?
-        /// The unique identifier of the skill.
+        /// The ARN of the room associated with the room skill parameter. Required.
+        public let roomArn: String?
+        /// The updated room skill parameter. Required.
+        public let roomSkillParameter: RoomSkillParameter
+        /// The ARN of the skill associated with the room skill parameter. Required.
         public let skillId: String
 
-        public init(skillGroupArn: String? = nil, skillId: String) {
-            self.skillGroupArn = skillGroupArn
+        public init(roomArn: String? = nil, roomSkillParameter: RoomSkillParameter, skillId: String) {
+            self.roomArn = roomArn
+            self.roomSkillParameter = roomSkillParameter
             self.skillId = skillId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case skillGroupArn = "SkillGroupArn"
+            case roomArn = "RoomArn"
+            case roomSkillParameter = "RoomSkillParameter"
             case skillId = "SkillId"
         }
     }
 
-    public enum EnablementType: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
-    }
+    public struct PutRoomSkillParameterResponse: AWSShape {
 
-    public struct DisassociateSkillFromSkillGroupResponse: AWSShape {
+        public init() {
+        }
 
     }
 
-    public struct ForgetSmartHomeAppliancesResponse: AWSShape {
+    public struct PutSkillAuthorizationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthorizationResult", required: true, type: .map), 
+            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
+            AWSShapeMember(label: "SkillId", required: true, type: .string)
+        ]
+        /// The authorization result specific to OAUTH code grant output. "Code” must be populated in the AuthorizationResult map to establish the authorization.
+        public let authorizationResult: [String: String]
+        /// The room that the skill is authorized for.
+        public let roomArn: String?
+        /// The unique identifier of a skill.
+        public let skillId: String
+
+        public init(authorizationResult: [String: String], roomArn: String? = nil, skillId: String) {
+            self.authorizationResult = authorizationResult
+            self.roomArn = roomArn
+            self.skillId = skillId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationResult = "AuthorizationResult"
+            case roomArn = "RoomArn"
+            case skillId = "SkillId"
+        }
+    }
+
+    public struct PutSkillAuthorizationResponse: AWSShape {
+
+        public init() {
+        }
 
     }
 
-    public struct ApproveSkillRequest: AWSShape {
+    public struct RegisterAVSDeviceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmazonId", required: true, type: .string), 
+            AWSShapeMember(label: "ClientId", required: true, type: .string), 
+            AWSShapeMember(label: "DeviceSerialNumber", required: true, type: .string), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "UserCode", required: true, type: .string)
+        ]
+        /// The device type ID for your AVS device generated by Amazon when the OEM creates a new product on Amazon's Developer Console.
+        public let amazonId: String
+        /// The client ID of the OEM used for code-based linking authorization on an AVS device.
+        public let clientId: String
+        /// The key generated by the OEM that uniquely identifies a specified instance of your AVS device.
+        public let deviceSerialNumber: String
+        /// The product ID used to identify your AVS device during authorization.
+        public let productId: String
+        /// The code that is obtained after your AVS device has made a POST request to LWA as a part of the Device Authorization Request component of the OAuth code-based linking specification.
+        public let userCode: String
+
+        public init(amazonId: String, clientId: String, deviceSerialNumber: String, productId: String, userCode: String) {
+            self.amazonId = amazonId
+            self.clientId = clientId
+            self.deviceSerialNumber = deviceSerialNumber
+            self.productId = productId
+            self.userCode = userCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amazonId = "AmazonId"
+            case clientId = "ClientId"
+            case deviceSerialNumber = "DeviceSerialNumber"
+            case productId = "ProductId"
+            case userCode = "UserCode"
+        }
+    }
+
+    public struct RegisterAVSDeviceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceArn", required: false, type: .string)
+        ]
+        /// The ARN of the device.
+        public let deviceArn: String?
+
+        public init(deviceArn: String? = nil) {
+            self.deviceArn = deviceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceArn = "DeviceArn"
+        }
+    }
+
+    public struct RejectSkillRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SkillId", required: true, type: .string)
         ]
@@ -3071,201 +2392,985 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SkillsStoreSkill: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "SkillName", required: false, type: .string), 
-            AWSShapeMember(label: "IconUrl", required: false, type: .string), 
-            AWSShapeMember(label: "ShortDescription", required: false, type: .string), 
-            AWSShapeMember(label: "SampleUtterances", required: false, type: .list), 
-            AWSShapeMember(label: "SupportsLinking", required: false, type: .boolean), 
-            AWSShapeMember(label: "SkillId", required: false, type: .string)
-        ]
-        /// Information about the skill.
-        public let skillDetails: SkillDetails?
-        /// The name of the skill.
-        public let skillName: String?
-        /// The URL where the skill icon resides.
-        public let iconUrl: String?
-        /// Short description about the skill.
-        public let shortDescription: String?
-        /// Sample utterances that interact with the skill.
-        public let sampleUtterances: [String]?
-        /// Linking support for a skill.
-        public let supportsLinking: Bool?
-        /// The ARN of the skill.
-        public let skillId: String?
+    public struct RejectSkillResponse: AWSShape {
 
-        public init(skillDetails: SkillDetails? = nil, skillName: String? = nil, iconUrl: String? = nil, shortDescription: String? = nil, sampleUtterances: [String]? = nil, supportsLinking: Bool? = nil, skillId: String? = nil) {
-            self.skillDetails = skillDetails
-            self.skillName = skillName
-            self.iconUrl = iconUrl
-            self.shortDescription = shortDescription
-            self.sampleUtterances = sampleUtterances
-            self.supportsLinking = supportsLinking
+        public init() {
+        }
+
+    }
+
+    public enum RequirePin: String, CustomStringConvertible, Codable {
+        case yes = "YES"
+        case no = "NO"
+        case optional = "OPTIONAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ResolveRoomRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SkillId", required: true, type: .string), 
+            AWSShapeMember(label: "UserId", required: true, type: .string)
+        ]
+        /// The ARN of the skill that was requested. Required.
+        public let skillId: String
+        /// The ARN of the user. Required.
+        public let userId: String
+
+        public init(skillId: String, userId: String) {
             self.skillId = skillId
+            self.userId = userId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case skillDetails = "SkillDetails"
-            case skillName = "SkillName"
-            case iconUrl = "IconUrl"
-            case shortDescription = "ShortDescription"
-            case sampleUtterances = "SampleUtterances"
-            case supportsLinking = "SupportsLinking"
             case skillId = "SkillId"
+            case userId = "UserId"
         }
     }
 
-    public struct UpdateSkillGroupResponse: AWSShape {
+    public struct ResolveRoomResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
+            AWSShapeMember(label: "RoomName", required: false, type: .string), 
+            AWSShapeMember(label: "RoomSkillParameters", required: false, type: .list)
+        ]
+        /// The ARN of the room from which the skill request was invoked.
+        public let roomArn: String?
+        /// The name of the room from which the skill request was invoked.
+        public let roomName: String?
+        /// Response to get the room profile request. Required.
+        public let roomSkillParameters: [RoomSkillParameter]?
+
+        public init(roomArn: String? = nil, roomName: String? = nil, roomSkillParameters: [RoomSkillParameter]? = nil) {
+            self.roomArn = roomArn
+            self.roomName = roomName
+            self.roomSkillParameters = roomSkillParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roomArn = "RoomArn"
+            case roomName = "RoomName"
+            case roomSkillParameters = "RoomSkillParameters"
+        }
+    }
+
+    public struct RevokeInvitationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnrollmentId", required: false, type: .string), 
+            AWSShapeMember(label: "UserArn", required: false, type: .string)
+        ]
+        /// The ARN of the enrollment invitation to revoke. Required.
+        public let enrollmentId: String?
+        /// The ARN of the user for whom to revoke an enrollment invitation. Required.
+        public let userArn: String?
+
+        public init(enrollmentId: String? = nil, userArn: String? = nil) {
+            self.enrollmentId = enrollmentId
+            self.userArn = userArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enrollmentId = "EnrollmentId"
+            case userArn = "UserArn"
+        }
+    }
+
+    public struct RevokeInvitationResponse: AWSShape {
+
+        public init() {
+        }
 
     }
 
-    public struct ListDeviceEventsResponse: AWSShape {
+    public struct Room: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceEvents", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "ProviderCalendarId", required: false, type: .string), 
+            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
+            AWSShapeMember(label: "RoomName", required: false, type: .string)
         ]
-        /// The device events requested for the device ARN.
-        public let deviceEvents: [DeviceEvent]?
+        /// The description of a room.
+        public let description: String?
+        /// The profile ARN of a room.
+        public let profileArn: String?
+        /// The provider calendar ARN of a room.
+        public let providerCalendarId: String?
+        /// The ARN of a room.
+        public let roomArn: String?
+        /// The name of a room.
+        public let roomName: String?
+
+        public init(description: String? = nil, profileArn: String? = nil, providerCalendarId: String? = nil, roomArn: String? = nil, roomName: String? = nil) {
+            self.description = description
+            self.profileArn = profileArn
+            self.providerCalendarId = providerCalendarId
+            self.roomArn = roomArn
+            self.roomName = roomName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case profileArn = "ProfileArn"
+            case providerCalendarId = "ProviderCalendarId"
+            case roomArn = "RoomArn"
+            case roomName = "RoomName"
+        }
+    }
+
+    public struct RoomData: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "ProfileName", required: false, type: .string), 
+            AWSShapeMember(label: "ProviderCalendarId", required: false, type: .string), 
+            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
+            AWSShapeMember(label: "RoomName", required: false, type: .string)
+        ]
+        /// The description of a room.
+        public let description: String?
+        /// The profile ARN of a room.
+        public let profileArn: String?
+        /// The profile name of a room.
+        public let profileName: String?
+        /// The provider calendar ARN of a room.
+        public let providerCalendarId: String?
+        /// The ARN of a room.
+        public let roomArn: String?
+        /// The name of a room.
+        public let roomName: String?
+
+        public init(description: String? = nil, profileArn: String? = nil, profileName: String? = nil, providerCalendarId: String? = nil, roomArn: String? = nil, roomName: String? = nil) {
+            self.description = description
+            self.profileArn = profileArn
+            self.profileName = profileName
+            self.providerCalendarId = providerCalendarId
+            self.roomArn = roomArn
+            self.roomName = roomName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case profileArn = "ProfileArn"
+            case profileName = "ProfileName"
+            case providerCalendarId = "ProviderCalendarId"
+            case roomArn = "RoomArn"
+            case roomName = "RoomName"
+        }
+    }
+
+    public struct RoomSkillParameter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterKey", required: true, type: .string), 
+            AWSShapeMember(label: "ParameterValue", required: true, type: .string)
+        ]
+        /// The parameter key of a room skill parameter. ParameterKey is an enumerated type that only takes “DEFAULT” or “SCOPE” as valid values.
+        public let parameterKey: String
+        /// The parameter value of a room skill parameter.
+        public let parameterValue: String
+
+        public init(parameterKey: String, parameterValue: String) {
+            self.parameterKey = parameterKey
+            self.parameterValue = parameterValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameterKey = "ParameterKey"
+            case parameterValue = "ParameterValue"
+        }
+    }
+
+    public struct SearchAddressBooksRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortCriteria", required: false, type: .list)
+        ]
+        /// The filters to use to list a specified set of address books. The supported filter key is AddressBookName.
+        public let filters: [Filter]?
+        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+        public let maxResults: Int32?
+        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response only includes results beyond the token, up to the value specified by MaxResults.
+        public let nextToken: String?
+        /// The sort order to use in listing the specified set of address books. The supported sort key is AddressBookName.
+        public let sortCriteria: [Sort]?
+
+        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortCriteria = sortCriteria
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortCriteria = "SortCriteria"
+        }
+    }
+
+    public struct SearchAddressBooksResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AddressBooks", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TotalCount", required: false, type: .integer)
+        ]
+        /// The address books that meet the specified set of filter criteria, in sort order.
+        public let addressBooks: [AddressBookData]?
         /// The token returned to indicate that there is more data available.
         public let nextToken: String?
+        /// The total number of address books returned.
+        public let totalCount: Int32?
 
-        public init(deviceEvents: [DeviceEvent]? = nil, nextToken: String? = nil) {
-            self.deviceEvents = deviceEvents
+        public init(addressBooks: [AddressBookData]? = nil, nextToken: String? = nil, totalCount: Int32? = nil) {
+            self.addressBooks = addressBooks
             self.nextToken = nextToken
+            self.totalCount = totalCount
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceEvents = "DeviceEvents"
+            case addressBooks = "AddressBooks"
             case nextToken = "NextToken"
+            case totalCount = "TotalCount"
+        }
+    }
+
+    public struct SearchContactsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortCriteria", required: false, type: .list)
+        ]
+        /// The filters to use to list a specified set of address books. The supported filter keys are DisplayName, FirstName, LastName, and AddressBookArns.
+        public let filters: [Filter]?
+        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+        public let maxResults: Int32?
+        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response only includes results beyond the token, up to the value specified by MaxResults.
+        public let nextToken: String?
+        /// The sort order to use in listing the specified set of contacts. The supported sort keys are DisplayName, FirstName, and LastName.
+        public let sortCriteria: [Sort]?
+
+        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortCriteria = sortCriteria
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortCriteria = "SortCriteria"
+        }
+    }
+
+    public struct SearchContactsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Contacts", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TotalCount", required: false, type: .integer)
+        ]
+        /// The contacts that meet the specified set of filter criteria, in sort order.
+        public let contacts: [ContactData]?
+        /// The token returned to indicate that there is more data available.
+        public let nextToken: String?
+        /// The total number of contacts returned.
+        public let totalCount: Int32?
+
+        public init(contacts: [ContactData]? = nil, nextToken: String? = nil, totalCount: Int32? = nil) {
+            self.contacts = contacts
+            self.nextToken = nextToken
+            self.totalCount = totalCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contacts = "Contacts"
+            case nextToken = "NextToken"
+            case totalCount = "TotalCount"
+        }
+    }
+
+    public struct SearchDevicesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortCriteria", required: false, type: .list)
+        ]
+        /// The filters to use to list a specified set of devices. Supported filter keys are DeviceName, DeviceStatus, DeviceStatusDetailCode, RoomName, DeviceType, DeviceSerialNumber, UnassociatedOnly, and ConnectionStatus (ONLINE and OFFLINE).
+        public let filters: [Filter]?
+        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+        public let maxResults: Int32?
+        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
+        public let nextToken: String?
+        /// The sort order to use in listing the specified set of devices. Supported sort keys are DeviceName, DeviceStatus, RoomName, DeviceType, DeviceSerialNumber, and ConnectionStatus.
+        public let sortCriteria: [Sort]?
+
+        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortCriteria = sortCriteria
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortCriteria = "SortCriteria"
+        }
+    }
+
+    public struct SearchDevicesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Devices", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TotalCount", required: false, type: .integer)
+        ]
+        /// The devices that meet the specified set of filter criteria, in sort order.
+        public let devices: [DeviceData]?
+        /// The token returned to indicate that there is more data available.
+        public let nextToken: String?
+        /// The total number of devices returned.
+        public let totalCount: Int32?
+
+        public init(devices: [DeviceData]? = nil, nextToken: String? = nil, totalCount: Int32? = nil) {
+            self.devices = devices
+            self.nextToken = nextToken
+            self.totalCount = totalCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case devices = "Devices"
+            case nextToken = "NextToken"
+            case totalCount = "TotalCount"
+        }
+    }
+
+    public struct SearchProfilesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortCriteria", required: false, type: .list)
+        ]
+        /// The filters to use to list a specified set of room profiles. Supported filter keys are ProfileName and Address. Required. 
+        public let filters: [Filter]?
+        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+        public let maxResults: Int32?
+        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
+        public let nextToken: String?
+        /// The sort order to use in listing the specified set of room profiles. Supported sort keys are ProfileName and Address.
+        public let sortCriteria: [Sort]?
+
+        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortCriteria = sortCriteria
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortCriteria = "SortCriteria"
         }
     }
 
     public struct SearchProfilesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TotalCount", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Profiles", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "TotalCount", required: false, type: .integer)
         ]
-        /// The total number of room profiles returned.
-        public let totalCount: Int32?
-        /// The profiles that meet the specified set of filter criteria, in sort order.
-        public let profiles: [ProfileData]?
         /// The token returned to indicate that there is more data available.
         public let nextToken: String?
+        /// The profiles that meet the specified set of filter criteria, in sort order.
+        public let profiles: [ProfileData]?
+        /// The total number of room profiles returned.
+        public let totalCount: Int32?
 
-        public init(totalCount: Int32? = nil, profiles: [ProfileData]? = nil, nextToken: String? = nil) {
-            self.totalCount = totalCount
-            self.profiles = profiles
+        public init(nextToken: String? = nil, profiles: [ProfileData]? = nil, totalCount: Int32? = nil) {
             self.nextToken = nextToken
+            self.profiles = profiles
+            self.totalCount = totalCount
         }
 
         private enum CodingKeys: String, CodingKey {
-            case totalCount = "TotalCount"
-            case profiles = "Profiles"
             case nextToken = "NextToken"
+            case profiles = "Profiles"
+            case totalCount = "TotalCount"
         }
     }
 
-    public struct GetRoomSkillParameterResponse: AWSShape {
+    public struct SearchRoomsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomSkillParameter", required: false, type: .structure)
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortCriteria", required: false, type: .list)
         ]
-        /// The details of the room skill parameter requested. Required.
-        public let roomSkillParameter: RoomSkillParameter?
+        /// The filters to use to list a specified set of rooms. The supported filter keys are RoomName and ProfileName.
+        public let filters: [Filter]?
+        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. 
+        public let maxResults: Int32?
+        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
+        public let nextToken: String?
+        /// The sort order to use in listing the specified set of rooms. The supported sort keys are RoomName and ProfileName.
+        public let sortCriteria: [Sort]?
 
-        public init(roomSkillParameter: RoomSkillParameter? = nil) {
-            self.roomSkillParameter = roomSkillParameter
+        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortCriteria = sortCriteria
         }
 
         private enum CodingKeys: String, CodingKey {
-            case roomSkillParameter = "RoomSkillParameter"
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortCriteria = "SortCriteria"
         }
     }
 
-    public struct IPDialIn: AWSShape {
+    public struct SearchRoomsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CommsProtocol", required: true, type: .enum), 
-            AWSShapeMember(label: "Endpoint", required: true, type: .string)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Rooms", required: false, type: .list), 
+            AWSShapeMember(label: "TotalCount", required: false, type: .integer)
         ]
-        /// The protocol, including SIP, SIPS, and H323.
-        public let commsProtocol: CommsProtocol
-        /// The IP address.
-        public let endpoint: String
+        /// The token returned to indicate that there is more data available.
+        public let nextToken: String?
+        /// The rooms that meet the specified set of filter criteria, in sort order.
+        public let rooms: [RoomData]?
+        /// The total number of rooms returned.
+        public let totalCount: Int32?
 
-        public init(commsProtocol: CommsProtocol, endpoint: String) {
-            self.commsProtocol = commsProtocol
-            self.endpoint = endpoint
+        public init(nextToken: String? = nil, rooms: [RoomData]? = nil, totalCount: Int32? = nil) {
+            self.nextToken = nextToken
+            self.rooms = rooms
+            self.totalCount = totalCount
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commsProtocol = "CommsProtocol"
-            case endpoint = "Endpoint"
+            case nextToken = "NextToken"
+            case rooms = "Rooms"
+            case totalCount = "TotalCount"
         }
     }
 
     public struct SearchSkillGroupsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "SortCriteria", required: false, type: .list), 
-            AWSShapeMember(label: "Filters", required: false, type: .list)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortCriteria", required: false, type: .list)
         ]
-        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults. Required.
-        public let nextToken: String?
-        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. 
-        public let maxResults: Int32?
-        /// The sort order to use in listing the specified set of skill groups. The supported sort key is SkillGroupName. 
-        public let sortCriteria: [Sort]?
         /// The filters to use to list a specified set of skill groups. The supported filter key is SkillGroupName. 
         public let filters: [Filter]?
+        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. 
+        public let maxResults: Int32?
+        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults. Required.
+        public let nextToken: String?
+        /// The sort order to use in listing the specified set of skill groups. The supported sort key is SkillGroupName. 
+        public let sortCriteria: [Sort]?
 
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, sortCriteria: [Sort]? = nil, filters: [Filter]? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.sortCriteria = sortCriteria
+        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
             self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortCriteria = sortCriteria
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortCriteria = "SortCriteria"
+        }
+    }
+
+    public struct SearchSkillGroupsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SkillGroups", required: false, type: .list), 
+            AWSShapeMember(label: "TotalCount", required: false, type: .integer)
+        ]
+        /// The token returned to indicate that there is more data available.
+        public let nextToken: String?
+        /// The skill groups that meet the filter criteria, in sort order.
+        public let skillGroups: [SkillGroupData]?
+        /// The total number of skill groups returned.
+        public let totalCount: Int32?
+
+        public init(nextToken: String? = nil, skillGroups: [SkillGroupData]? = nil, totalCount: Int32? = nil) {
+            self.nextToken = nextToken
+            self.skillGroups = skillGroups
+            self.totalCount = totalCount
         }
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case sortCriteria = "SortCriteria"
+            case skillGroups = "SkillGroups"
+            case totalCount = "TotalCount"
+        }
+    }
+
+    public struct SearchUsersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortCriteria", required: false, type: .list)
+        ]
+        /// The filters to use for listing a specific set of users. Required. Supported filter keys are UserId, FirstName, LastName, Email, and EnrollmentStatus.
+        public let filters: [Filter]?
+        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. Required.
+        public let maxResults: Int32?
+        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults. Required.
+        public let nextToken: String?
+        /// The sort order to use in listing the filtered set of users. Required. Supported sort keys are UserId, FirstName, LastName, Email, and EnrollmentStatus.
+        public let sortCriteria: [Sort]?
+
+        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortCriteria = sortCriteria
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortCriteria = "SortCriteria"
         }
     }
 
-    public struct GetConferencePreferenceResponse: AWSShape {
+    public struct SearchUsersResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Preference", required: false, type: .structure)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TotalCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Users", required: false, type: .list)
         ]
-        /// The conference preference.
-        public let preference: ConferencePreference?
+        /// The token returned to indicate that there is more data available.
+        public let nextToken: String?
+        /// The total number of users returned.
+        public let totalCount: Int32?
+        /// The users that meet the specified set of filter criteria, in sort order.
+        public let users: [UserData]?
 
-        public init(preference: ConferencePreference? = nil) {
-            self.preference = preference
+        public init(nextToken: String? = nil, totalCount: Int32? = nil, users: [UserData]? = nil) {
+            self.nextToken = nextToken
+            self.totalCount = totalCount
+            self.users = users
         }
 
         private enum CodingKeys: String, CodingKey {
-            case preference = "Preference"
+            case nextToken = "NextToken"
+            case totalCount = "TotalCount"
+            case users = "Users"
         }
     }
 
-    public struct ConferencePreference: AWSShape {
+    public struct SendInvitationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultConferenceProviderArn", required: false, type: .string)
+            AWSShapeMember(label: "UserArn", required: false, type: .string)
         ]
-        /// The ARN of the default conference provider.
-        public let defaultConferenceProviderArn: String?
+        /// The ARN of the user to whom to send an invitation. Required.
+        public let userArn: String?
 
-        public init(defaultConferenceProviderArn: String? = nil) {
-            self.defaultConferenceProviderArn = defaultConferenceProviderArn
+        public init(userArn: String? = nil) {
+            self.userArn = userArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultConferenceProviderArn = "DefaultConferenceProviderArn"
+            case userArn = "UserArn"
         }
+    }
+
+    public struct SendInvitationResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct SkillDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BulletPoints", required: false, type: .list), 
+            AWSShapeMember(label: "DeveloperInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "EndUserLicenseAgreement", required: false, type: .string), 
+            AWSShapeMember(label: "GenericKeywords", required: false, type: .list), 
+            AWSShapeMember(label: "InvocationPhrase", required: false, type: .string), 
+            AWSShapeMember(label: "NewInThisVersionBulletPoints", required: false, type: .list), 
+            AWSShapeMember(label: "ProductDescription", required: false, type: .string), 
+            AWSShapeMember(label: "ReleaseDate", required: false, type: .string), 
+            AWSShapeMember(label: "Reviews", required: false, type: .map), 
+            AWSShapeMember(label: "SkillTypes", required: false, type: .list)
+        ]
+        /// The details about what the skill supports organized as bullet points.
+        public let bulletPoints: [String]?
+        /// The details about the developer that published the skill.
+        public let developerInfo: DeveloperInfo?
+        /// The URL of the end user license agreement.
+        public let endUserLicenseAgreement: String?
+        /// The generic keywords associated with the skill that can be used to find a skill.
+        public let genericKeywords: [String]?
+        /// The phrase used to trigger the skill.
+        public let invocationPhrase: String?
+        /// The updates added in bullet points.
+        public let newInThisVersionBulletPoints: [String]?
+        /// The description of the product.
+        public let productDescription: String?
+        /// The date when the skill was released.
+        public let releaseDate: String?
+        /// The list of reviews for the skill, including Key and Value pair.
+        public let reviews: [String: String]?
+        /// The types of skills.
+        public let skillTypes: [String]?
+
+        public init(bulletPoints: [String]? = nil, developerInfo: DeveloperInfo? = nil, endUserLicenseAgreement: String? = nil, genericKeywords: [String]? = nil, invocationPhrase: String? = nil, newInThisVersionBulletPoints: [String]? = nil, productDescription: String? = nil, releaseDate: String? = nil, reviews: [String: String]? = nil, skillTypes: [String]? = nil) {
+            self.bulletPoints = bulletPoints
+            self.developerInfo = developerInfo
+            self.endUserLicenseAgreement = endUserLicenseAgreement
+            self.genericKeywords = genericKeywords
+            self.invocationPhrase = invocationPhrase
+            self.newInThisVersionBulletPoints = newInThisVersionBulletPoints
+            self.productDescription = productDescription
+            self.releaseDate = releaseDate
+            self.reviews = reviews
+            self.skillTypes = skillTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bulletPoints = "BulletPoints"
+            case developerInfo = "DeveloperInfo"
+            case endUserLicenseAgreement = "EndUserLicenseAgreement"
+            case genericKeywords = "GenericKeywords"
+            case invocationPhrase = "InvocationPhrase"
+            case newInThisVersionBulletPoints = "NewInThisVersionBulletPoints"
+            case productDescription = "ProductDescription"
+            case releaseDate = "ReleaseDate"
+            case reviews = "Reviews"
+            case skillTypes = "SkillTypes"
+        }
+    }
+
+    public struct SkillGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "SkillGroupName", required: false, type: .string)
+        ]
+        /// The description of a skill group.
+        public let description: String?
+        /// The ARN of a skill group.
+        public let skillGroupArn: String?
+        /// The name of a skill group.
+        public let skillGroupName: String?
+
+        public init(description: String? = nil, skillGroupArn: String? = nil, skillGroupName: String? = nil) {
+            self.description = description
+            self.skillGroupArn = skillGroupArn
+            self.skillGroupName = skillGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case skillGroupArn = "SkillGroupArn"
+            case skillGroupName = "SkillGroupName"
+        }
+    }
+
+    public struct SkillGroupData: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "SkillGroupName", required: false, type: .string)
+        ]
+        /// The description of a skill group.
+        public let description: String?
+        /// The skill group ARN of a skill group.
+        public let skillGroupArn: String?
+        /// The skill group name of a skill group.
+        public let skillGroupName: String?
+
+        public init(description: String? = nil, skillGroupArn: String? = nil, skillGroupName: String? = nil) {
+            self.description = description
+            self.skillGroupArn = skillGroupArn
+            self.skillGroupName = skillGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case skillGroupArn = "SkillGroupArn"
+            case skillGroupName = "SkillGroupName"
+        }
+    }
+
+    public struct SkillSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnablementType", required: false, type: .enum), 
+            AWSShapeMember(label: "SkillId", required: false, type: .string), 
+            AWSShapeMember(label: "SkillName", required: false, type: .string), 
+            AWSShapeMember(label: "SkillType", required: false, type: .enum), 
+            AWSShapeMember(label: "SupportsLinking", required: false, type: .boolean)
+        ]
+        /// Whether the skill is enabled under the user's account, or if it requires linking to be used.
+        public let enablementType: EnablementType?
+        /// The ARN of the skill summary.
+        public let skillId: String?
+        /// The name of the skill.
+        public let skillName: String?
+        /// Whether the skill is publicly available or is a private skill.
+        public let skillType: SkillType?
+        /// Linking support for a skill.
+        public let supportsLinking: Bool?
+
+        public init(enablementType: EnablementType? = nil, skillId: String? = nil, skillName: String? = nil, skillType: SkillType? = nil, supportsLinking: Bool? = nil) {
+            self.enablementType = enablementType
+            self.skillId = skillId
+            self.skillName = skillName
+            self.skillType = skillType
+            self.supportsLinking = supportsLinking
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enablementType = "EnablementType"
+            case skillId = "SkillId"
+            case skillName = "SkillName"
+            case skillType = "SkillType"
+            case supportsLinking = "SupportsLinking"
+        }
+    }
+
+    public enum SkillType: String, CustomStringConvertible, Codable {
+        case `public` = "PUBLIC"
+        case `private` = "PRIVATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SkillTypeFilter: String, CustomStringConvertible, Codable {
+        case `public` = "PUBLIC"
+        case `private` = "PRIVATE"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct SkillsStoreSkill: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IconUrl", required: false, type: .string), 
+            AWSShapeMember(label: "SampleUtterances", required: false, type: .list), 
+            AWSShapeMember(label: "ShortDescription", required: false, type: .string), 
+            AWSShapeMember(label: "SkillDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "SkillId", required: false, type: .string), 
+            AWSShapeMember(label: "SkillName", required: false, type: .string), 
+            AWSShapeMember(label: "SupportsLinking", required: false, type: .boolean)
+        ]
+        /// The URL where the skill icon resides.
+        public let iconUrl: String?
+        /// Sample utterances that interact with the skill.
+        public let sampleUtterances: [String]?
+        /// Short description about the skill.
+        public let shortDescription: String?
+        /// Information about the skill.
+        public let skillDetails: SkillDetails?
+        /// The ARN of the skill.
+        public let skillId: String?
+        /// The name of the skill.
+        public let skillName: String?
+        /// Linking support for a skill.
+        public let supportsLinking: Bool?
+
+        public init(iconUrl: String? = nil, sampleUtterances: [String]? = nil, shortDescription: String? = nil, skillDetails: SkillDetails? = nil, skillId: String? = nil, skillName: String? = nil, supportsLinking: Bool? = nil) {
+            self.iconUrl = iconUrl
+            self.sampleUtterances = sampleUtterances
+            self.shortDescription = shortDescription
+            self.skillDetails = skillDetails
+            self.skillId = skillId
+            self.skillName = skillName
+            self.supportsLinking = supportsLinking
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iconUrl = "IconUrl"
+            case sampleUtterances = "SampleUtterances"
+            case shortDescription = "ShortDescription"
+            case skillDetails = "SkillDetails"
+            case skillId = "SkillId"
+            case skillName = "SkillName"
+            case supportsLinking = "SupportsLinking"
+        }
+    }
+
+    public struct SmartHomeAppliance: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "FriendlyName", required: false, type: .string), 
+            AWSShapeMember(label: "ManufacturerName", required: false, type: .string)
+        ]
+        /// The description of the smart home appliance.
+        public let description: String?
+        /// The friendly name of the smart home appliance.
+        public let friendlyName: String?
+        /// The name of the manufacturer of the smart home appliance.
+        public let manufacturerName: String?
+
+        public init(description: String? = nil, friendlyName: String? = nil, manufacturerName: String? = nil) {
+            self.description = description
+            self.friendlyName = friendlyName
+            self.manufacturerName = manufacturerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case friendlyName = "FriendlyName"
+            case manufacturerName = "ManufacturerName"
+        }
+    }
+
+    public struct Sort: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .enum)
+        ]
+        /// The sort key of a sort object.
+        public let key: String
+        /// The sort value of a sort object.
+        public let value: SortValue
+
+        public init(key: String, value: SortValue) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public enum SortValue: String, CustomStringConvertible, Codable {
+        case asc = "ASC"
+        case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct StartDeviceSyncRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceArn", required: false, type: .string), 
+            AWSShapeMember(label: "Features", required: true, type: .list), 
+            AWSShapeMember(label: "RoomArn", required: false, type: .string)
+        ]
+        /// The ARN of the device to sync. Required.
+        public let deviceArn: String?
+        /// Request structure to start the device sync. Required.
+        public let features: [Feature]
+        /// The ARN of the room with which the device to sync is associated. Required.
+        public let roomArn: String?
+
+        public init(deviceArn: String? = nil, features: [Feature], roomArn: String? = nil) {
+            self.deviceArn = deviceArn
+            self.features = features
+            self.roomArn = roomArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceArn = "DeviceArn"
+            case features = "Features"
+            case roomArn = "RoomArn"
+        }
+    }
+
+    public struct StartDeviceSyncResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct StartSmartHomeApplianceDiscoveryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoomArn", required: true, type: .string)
+        ]
+        /// The room where smart home appliance discovery was initiated.
+        public let roomArn: String
+
+        public init(roomArn: String) {
+            self.roomArn = roomArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roomArn = "RoomArn"
+        }
+    }
+
+    public struct StartSmartHomeApplianceDiscoveryResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+        /// The key of a tag. Tag keys are case-sensitive. 
+        public let key: String
+        /// The value of a tag. Tag values are case-sensitive and can be null.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+        /// The ARN of the resource to which to add metadata tags. Required. 
+        public let arn: String
+        /// The tags to be added to the specified resource. Do not provide system tags. Required. 
+        public let tags: [Tag]
+
+        public init(arn: String, tags: [Tag]) {
+            self.arn = arn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public enum TemperatureUnit: String, CustomStringConvertible, Codable {
+        case fahrenheit = "FAHRENHEIT"
+        case celsius = "CELSIUS"
+        public var description: String { return self.rawValue }
     }
 
     public struct UntagResourceRequest: AWSShape {
@@ -3289,347 +3394,356 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateRoomRequest: AWSShape {
+    public struct UntagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateAddressBookRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomName", required: true, type: .string), 
-            AWSShapeMember(label: "ProviderCalendarId", required: false, type: .string), 
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "AddressBookArn", required: true, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
-        /// The name for the room.
-        public let roomName: String
-        /// The calendar ARN for the room.
-        public let providerCalendarId: String?
-        /// A unique, user-specified identifier for this request that ensures idempotency. 
-        public let clientRequestToken: String?
-        /// The description for the room.
+        /// The ARN of the room to update.
+        public let addressBookArn: String
+        /// The updated description of the room.
         public let description: String?
-        /// The profile ARN for the room.
-        public let profileArn: String?
-        /// The tags for the room.
-        public let tags: [Tag]?
-
-        public init(roomName: String, providerCalendarId: String? = nil, clientRequestToken: String? = nil, description: String? = nil, profileArn: String? = nil, tags: [Tag]? = nil) {
-            self.roomName = roomName
-            self.providerCalendarId = providerCalendarId
-            self.clientRequestToken = clientRequestToken
-            self.description = description
-            self.profileArn = profileArn
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roomName = "RoomName"
-            case providerCalendarId = "ProviderCalendarId"
-            case clientRequestToken = "ClientRequestToken"
-            case description = "Description"
-            case profileArn = "ProfileArn"
-            case tags = "Tags"
-        }
-    }
-
-    public struct Profile: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PSTNEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "Timezone", required: false, type: .string), 
-            AWSShapeMember(label: "TemperatureUnit", required: false, type: .enum), 
-            AWSShapeMember(label: "ProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "Address", required: false, type: .string), 
-            AWSShapeMember(label: "MaxVolumeLimit", required: false, type: .integer), 
-            AWSShapeMember(label: "ProfileName", required: false, type: .string), 
-            AWSShapeMember(label: "WakeWord", required: false, type: .enum), 
-            AWSShapeMember(label: "IsDefault", required: false, type: .boolean), 
-            AWSShapeMember(label: "DistanceUnit", required: false, type: .enum), 
-            AWSShapeMember(label: "AddressBookArn", required: false, type: .string), 
-            AWSShapeMember(label: "SetupModeDisabled", required: false, type: .boolean)
-        ]
-        /// The PSTN setting of a room profile.
-        public let pSTNEnabled: Bool?
-        /// The time zone of a room profile.
-        public let timezone: String?
-        /// The temperature unit of a room profile.
-        public let temperatureUnit: TemperatureUnit?
-        /// The ARN of a room profile.
-        public let profileArn: String?
-        /// The address of a room profile.
-        public let address: String?
-        /// The max volume limit of a room profile.
-        public let maxVolumeLimit: Int32?
-        /// The name of a room profile.
-        public let profileName: String?
-        /// The wake word of a room profile.
-        public let wakeWord: WakeWord?
-        /// Retrieves if the profile is default or not.
-        public let isDefault: Bool?
-        /// The distance unit of a room profile.
-        public let distanceUnit: DistanceUnit?
-        /// The ARN of the address book.
-        public let addressBookArn: String?
-        /// The setup mode of a room profile.
-        public let setupModeDisabled: Bool?
-
-        public init(pSTNEnabled: Bool? = nil, timezone: String? = nil, temperatureUnit: TemperatureUnit? = nil, profileArn: String? = nil, address: String? = nil, maxVolumeLimit: Int32? = nil, profileName: String? = nil, wakeWord: WakeWord? = nil, isDefault: Bool? = nil, distanceUnit: DistanceUnit? = nil, addressBookArn: String? = nil, setupModeDisabled: Bool? = nil) {
-            self.pSTNEnabled = pSTNEnabled
-            self.timezone = timezone
-            self.temperatureUnit = temperatureUnit
-            self.profileArn = profileArn
-            self.address = address
-            self.maxVolumeLimit = maxVolumeLimit
-            self.profileName = profileName
-            self.wakeWord = wakeWord
-            self.isDefault = isDefault
-            self.distanceUnit = distanceUnit
-            self.addressBookArn = addressBookArn
-            self.setupModeDisabled = setupModeDisabled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pSTNEnabled = "PSTNEnabled"
-            case timezone = "Timezone"
-            case temperatureUnit = "TemperatureUnit"
-            case profileArn = "ProfileArn"
-            case address = "Address"
-            case maxVolumeLimit = "MaxVolumeLimit"
-            case profileName = "ProfileName"
-            case wakeWord = "WakeWord"
-            case isDefault = "IsDefault"
-            case distanceUnit = "DistanceUnit"
-            case addressBookArn = "AddressBookArn"
-            case setupModeDisabled = "SetupModeDisabled"
-        }
-    }
-
-    public struct StartDeviceSyncResponse: AWSShape {
-
-    }
-
-    public struct ConferenceProvider: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "PSTNDialIn", required: false, type: .structure), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "MeetingSetting", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "IPDialIn", required: false, type: .structure)
-        ]
-        /// The ARN of the newly created conference provider.
-        public let arn: String?
-        /// The information for PSTN conferencing.
-        public let pSTNDialIn: PSTNDialIn?
-        /// The type of conference providers.
-        public let `type`: ConferenceProviderType?
-        /// The meeting settings for the conference provider.
-        public let meetingSetting: MeetingSetting?
-        /// The name of the conference provider.
+        /// The updated name of the room.
         public let name: String?
-        /// The IP endpoint and protocol for calling.
-        public let iPDialIn: IPDialIn?
 
-        public init(arn: String? = nil, pSTNDialIn: PSTNDialIn? = nil, type: ConferenceProviderType? = nil, meetingSetting: MeetingSetting? = nil, name: String? = nil, iPDialIn: IPDialIn? = nil) {
-            self.arn = arn
-            self.pSTNDialIn = pSTNDialIn
-            self.`type` = `type`
-            self.meetingSetting = meetingSetting
-            self.name = name
-            self.iPDialIn = iPDialIn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case pSTNDialIn = "PSTNDialIn"
-            case `type` = "Type"
-            case meetingSetting = "MeetingSetting"
-            case name = "Name"
-            case iPDialIn = "IPDialIn"
-        }
-    }
-
-    public struct RegisterAVSDeviceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceArn", required: false, type: .string)
-        ]
-        /// The ARN of the device.
-        public let deviceArn: String?
-
-        public init(deviceArn: String? = nil) {
-            self.deviceArn = deviceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deviceArn = "DeviceArn"
-        }
-    }
-
-    public struct SearchDevicesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TotalCount", required: false, type: .integer), 
-            AWSShapeMember(label: "Devices", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The total number of devices returned.
-        public let totalCount: Int32?
-        /// The devices that meet the specified set of filter criteria, in sort order.
-        public let devices: [DeviceData]?
-        /// The token returned to indicate that there is more data available.
-        public let nextToken: String?
-
-        public init(totalCount: Int32? = nil, devices: [DeviceData]? = nil, nextToken: String? = nil) {
-            self.totalCount = totalCount
-            self.devices = devices
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case totalCount = "TotalCount"
-            case devices = "Devices"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetSkillGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string)
-        ]
-        /// The ARN of the skill group for which to get details. Required.
-        public let skillGroupArn: String?
-
-        public init(skillGroupArn: String? = nil) {
-            self.skillGroupArn = skillGroupArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case skillGroupArn = "SkillGroupArn"
-        }
-    }
-
-    public struct DisassociateDeviceFromRoomResponse: AWSShape {
-
-    }
-
-    public struct RoomData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "ProviderCalendarId", required: false, type: .string), 
-            AWSShapeMember(label: "RoomName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "ProfileName", required: false, type: .string)
-        ]
-        /// The ARN of a room.
-        public let roomArn: String?
-        /// The provider calendar ARN of a room.
-        public let providerCalendarId: String?
-        /// The name of a room.
-        public let roomName: String?
-        /// The description of a room.
-        public let description: String?
-        /// The profile ARN of a room.
-        public let profileArn: String?
-        /// The profile name of a room.
-        public let profileName: String?
-
-        public init(roomArn: String? = nil, providerCalendarId: String? = nil, roomName: String? = nil, description: String? = nil, profileArn: String? = nil, profileName: String? = nil) {
-            self.roomArn = roomArn
-            self.providerCalendarId = providerCalendarId
-            self.roomName = roomName
-            self.description = description
-            self.profileArn = profileArn
-            self.profileName = profileName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roomArn = "RoomArn"
-            case providerCalendarId = "ProviderCalendarId"
-            case roomName = "RoomName"
-            case description = "Description"
-            case profileArn = "ProfileArn"
-            case profileName = "ProfileName"
-        }
-    }
-
-    public struct AddressBookData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddressBookArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// The ARN of the address book.
-        public let addressBookArn: String?
-        /// The name of the address book.
-        public let name: String?
-        /// The description of the address book.
-        public let description: String?
-
-        public init(addressBookArn: String? = nil, name: String? = nil, description: String? = nil) {
+        public init(addressBookArn: String, description: String? = nil, name: String? = nil) {
             self.addressBookArn = addressBookArn
-            self.name = name
             self.description = description
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
             case addressBookArn = "AddressBookArn"
-            case name = "Name"
             case description = "Description"
+            case name = "Name"
         }
     }
 
-    public struct ListTagsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The tags requested for the specified resource.
-        public let tags: [Tag]?
-        /// The token returned to indicate that there is more data available.
-        public let nextToken: String?
+    public struct UpdateAddressBookResponse: AWSShape {
 
-        public init(tags: [Tag]? = nil, nextToken: String? = nil) {
-            self.tags = tags
-            self.nextToken = nextToken
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case nextToken = "NextToken"
-        }
     }
 
-    public struct DeleteProfileRequest: AWSShape {
+    public struct UpdateConferenceProviderRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProfileArn", required: false, type: .string)
-        ]
-        /// The ARN of the room profile to delete. Required.
-        public let profileArn: String?
-
-        public init(profileArn: String? = nil) {
-            self.profileArn = profileArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case profileArn = "ProfileArn"
-        }
-    }
-
-    public struct DeleteConferenceProviderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConferenceProviderArn", required: true, type: .string)
+            AWSShapeMember(label: "ConferenceProviderArn", required: true, type: .string), 
+            AWSShapeMember(label: "ConferenceProviderType", required: true, type: .enum), 
+            AWSShapeMember(label: "IPDialIn", required: false, type: .structure), 
+            AWSShapeMember(label: "MeetingSetting", required: true, type: .structure), 
+            AWSShapeMember(label: "PSTNDialIn", required: false, type: .structure)
         ]
         /// The ARN of the conference provider.
         public let conferenceProviderArn: String
+        /// The type of the conference provider.
+        public let conferenceProviderType: ConferenceProviderType
+        /// The IP endpoint and protocol for calling.
+        public let iPDialIn: IPDialIn?
+        /// The meeting settings for the conference provider.
+        public let meetingSetting: MeetingSetting
+        /// The information for PSTN conferencing.
+        public let pSTNDialIn: PSTNDialIn?
 
-        public init(conferenceProviderArn: String) {
+        public init(conferenceProviderArn: String, conferenceProviderType: ConferenceProviderType, iPDialIn: IPDialIn? = nil, meetingSetting: MeetingSetting, pSTNDialIn: PSTNDialIn? = nil) {
             self.conferenceProviderArn = conferenceProviderArn
+            self.conferenceProviderType = conferenceProviderType
+            self.iPDialIn = iPDialIn
+            self.meetingSetting = meetingSetting
+            self.pSTNDialIn = pSTNDialIn
         }
 
         private enum CodingKeys: String, CodingKey {
             case conferenceProviderArn = "ConferenceProviderArn"
+            case conferenceProviderType = "ConferenceProviderType"
+            case iPDialIn = "IPDialIn"
+            case meetingSetting = "MeetingSetting"
+            case pSTNDialIn = "PSTNDialIn"
         }
     }
 
-    public struct AssociateSkillGroupWithRoomResponse: AWSShape {
+    public struct UpdateConferenceProviderResponse: AWSShape {
 
+        public init() {
+        }
+
+    }
+
+    public struct UpdateContactRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContactArn", required: true, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "FirstName", required: false, type: .string), 
+            AWSShapeMember(label: "LastName", required: false, type: .string), 
+            AWSShapeMember(label: "PhoneNumber", required: false, type: .string)
+        ]
+        /// The ARN of the contact to update.
+        public let contactArn: String
+        /// The updated display name of the contact.
+        public let displayName: String?
+        /// The updated first name of the contact.
+        public let firstName: String?
+        /// The updated last name of the contact.
+        public let lastName: String?
+        /// The updated phone number of the contact.
+        public let phoneNumber: String?
+
+        public init(contactArn: String, displayName: String? = nil, firstName: String? = nil, lastName: String? = nil, phoneNumber: String? = nil) {
+            self.contactArn = contactArn
+            self.displayName = displayName
+            self.firstName = firstName
+            self.lastName = lastName
+            self.phoneNumber = phoneNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactArn = "ContactArn"
+            case displayName = "DisplayName"
+            case firstName = "FirstName"
+            case lastName = "LastName"
+            case phoneNumber = "PhoneNumber"
+        }
+    }
+
+    public struct UpdateContactResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateDeviceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceArn", required: false, type: .string), 
+            AWSShapeMember(label: "DeviceName", required: false, type: .string)
+        ]
+        /// The ARN of the device to update. Required.
+        public let deviceArn: String?
+        /// The updated device name. Required.
+        public let deviceName: String?
+
+        public init(deviceArn: String? = nil, deviceName: String? = nil) {
+            self.deviceArn = deviceArn
+            self.deviceName = deviceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceArn = "DeviceArn"
+            case deviceName = "DeviceName"
+        }
+    }
+
+    public struct UpdateDeviceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Address", required: false, type: .string), 
+            AWSShapeMember(label: "DistanceUnit", required: false, type: .enum), 
+            AWSShapeMember(label: "IsDefault", required: false, type: .boolean), 
+            AWSShapeMember(label: "MaxVolumeLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "PSTNEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "ProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "ProfileName", required: false, type: .string), 
+            AWSShapeMember(label: "SetupModeDisabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "TemperatureUnit", required: false, type: .enum), 
+            AWSShapeMember(label: "Timezone", required: false, type: .string), 
+            AWSShapeMember(label: "WakeWord", required: false, type: .enum)
+        ]
+        /// The updated address for the room profile.
+        public let address: String?
+        /// The updated distance unit for the room profile.
+        public let distanceUnit: DistanceUnit?
+        /// Sets the profile as default if selected. If this is missing, no update is done to the default status.
+        public let isDefault: Bool?
+        /// The updated maximum volume limit for the room profile.
+        public let maxVolumeLimit: Int32?
+        /// Whether the PSTN setting of the room profile is enabled.
+        public let pSTNEnabled: Bool?
+        /// The ARN of the room profile to update. Required.
+        public let profileArn: String?
+        /// The updated name for the room profile.
+        public let profileName: String?
+        /// Whether the setup mode of the profile is enabled.
+        public let setupModeDisabled: Bool?
+        /// The updated temperature unit for the room profile.
+        public let temperatureUnit: TemperatureUnit?
+        /// The updated timezone for the room profile.
+        public let timezone: String?
+        /// The updated wake word for the room profile.
+        public let wakeWord: WakeWord?
+
+        public init(address: String? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, maxVolumeLimit: Int32? = nil, pSTNEnabled: Bool? = nil, profileArn: String? = nil, profileName: String? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
+            self.address = address
+            self.distanceUnit = distanceUnit
+            self.isDefault = isDefault
+            self.maxVolumeLimit = maxVolumeLimit
+            self.pSTNEnabled = pSTNEnabled
+            self.profileArn = profileArn
+            self.profileName = profileName
+            self.setupModeDisabled = setupModeDisabled
+            self.temperatureUnit = temperatureUnit
+            self.timezone = timezone
+            self.wakeWord = wakeWord
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case distanceUnit = "DistanceUnit"
+            case isDefault = "IsDefault"
+            case maxVolumeLimit = "MaxVolumeLimit"
+            case pSTNEnabled = "PSTNEnabled"
+            case profileArn = "ProfileArn"
+            case profileName = "ProfileName"
+            case setupModeDisabled = "SetupModeDisabled"
+            case temperatureUnit = "TemperatureUnit"
+            case timezone = "Timezone"
+            case wakeWord = "WakeWord"
+        }
+    }
+
+    public struct UpdateProfileResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateRoomRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "ProviderCalendarId", required: false, type: .string), 
+            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
+            AWSShapeMember(label: "RoomName", required: false, type: .string)
+        ]
+        /// The updated description for the room.
+        public let description: String?
+        /// The updated profile ARN for the room.
+        public let profileArn: String?
+        /// The updated provider calendar ARN for the room.
+        public let providerCalendarId: String?
+        /// The ARN of the room to update. 
+        public let roomArn: String?
+        /// The updated name for the room.
+        public let roomName: String?
+
+        public init(description: String? = nil, profileArn: String? = nil, providerCalendarId: String? = nil, roomArn: String? = nil, roomName: String? = nil) {
+            self.description = description
+            self.profileArn = profileArn
+            self.providerCalendarId = providerCalendarId
+            self.roomArn = roomArn
+            self.roomName = roomName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case profileArn = "ProfileArn"
+            case providerCalendarId = "ProviderCalendarId"
+            case roomArn = "RoomArn"
+            case roomName = "RoomName"
+        }
+    }
+
+    public struct UpdateRoomResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateSkillGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "SkillGroupName", required: false, type: .string)
+        ]
+        /// The updated description for the skill group.
+        public let description: String?
+        /// The ARN of the skill group to update. 
+        public let skillGroupArn: String?
+        /// The updated name for the skill group.
+        public let skillGroupName: String?
+
+        public init(description: String? = nil, skillGroupArn: String? = nil, skillGroupName: String? = nil) {
+            self.description = description
+            self.skillGroupArn = skillGroupArn
+            self.skillGroupName = skillGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case skillGroupArn = "SkillGroupArn"
+            case skillGroupName = "SkillGroupName"
+        }
+    }
+
+    public struct UpdateSkillGroupResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UserData: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Email", required: false, type: .string), 
+            AWSShapeMember(label: "EnrollmentId", required: false, type: .string), 
+            AWSShapeMember(label: "EnrollmentStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "FirstName", required: false, type: .string), 
+            AWSShapeMember(label: "LastName", required: false, type: .string), 
+            AWSShapeMember(label: "UserArn", required: false, type: .string)
+        ]
+        /// The email of a user.
+        public let email: String?
+        /// The enrollment ARN of a user.
+        public let enrollmentId: String?
+        /// The enrollment status of a user.
+        public let enrollmentStatus: EnrollmentStatus?
+        /// The first name of a user.
+        public let firstName: String?
+        /// The last name of a user.
+        public let lastName: String?
+        /// The ARN of a user.
+        public let userArn: String?
+
+        public init(email: String? = nil, enrollmentId: String? = nil, enrollmentStatus: EnrollmentStatus? = nil, firstName: String? = nil, lastName: String? = nil, userArn: String? = nil) {
+            self.email = email
+            self.enrollmentId = enrollmentId
+            self.enrollmentStatus = enrollmentStatus
+            self.firstName = firstName
+            self.lastName = lastName
+            self.userArn = userArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case email = "Email"
+            case enrollmentId = "EnrollmentId"
+            case enrollmentStatus = "EnrollmentStatus"
+            case firstName = "FirstName"
+            case lastName = "LastName"
+            case userArn = "UserArn"
+        }
+    }
+
+    public enum WakeWord: String, CustomStringConvertible, Codable {
+        case alexa = "ALEXA"
+        case amazon = "AMAZON"
+        case echo = "ECHO"
+        case computer = "COMPUTER"
+        public var description: String { return self.rawValue }
     }
 
 }
