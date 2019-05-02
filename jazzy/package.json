@@ -1,6 +1,6 @@
 {
   "dependencies": {
     "globby": "^7.1.1",
-    "lodash": "^4.17.5"
+    "lodash": "^4.17.11"
   }
 }
