@@ -4,32 +4,32 @@ import AWSSDKSwiftCore
 
 /// Error enum for IAM
 public enum IAMErrorType: AWSErrorType {
-    case invalidInputException(message: String?)
-    case noSuchEntityException(message: String?)
-    case serviceFailureException(message: String?)
-    case limitExceededException(message: String?)
+    case concurrentModificationException(message: String?)
+    case credentialReportExpiredException(message: String?)
+    case credentialReportNotPresentException(message: String?)
+    case credentialReportNotReadyException(message: String?)
+    case deleteConflictException(message: String?)
+    case duplicateCertificateException(message: String?)
+    case duplicateSSHPublicKeyException(message: String?)
     case entityAlreadyExistsException(message: String?)
     case entityTemporarilyUnmodifiableException(message: String?)
-    case concurrentModificationException(message: String?)
-    case passwordPolicyViolationException(message: String?)
     case invalidAuthenticationCodeException(message: String?)
-    case unmodifiableEntityException(message: String?)
-    case malformedPolicyDocumentException(message: String?)
-    case policyNotAttachableException(message: String?)
-    case deleteConflictException(message: String?)
-    case unrecognizedPublicKeyEncodingException(message: String?)
-    case invalidPublicKeyException(message: String?)
-    case duplicateSSHPublicKeyException(message: String?)
-    case malformedCertificateException(message: String?)
-    case keyPairMismatchException(message: String?)
-    case policyEvaluationException(message: String?)
-    case invalidUserTypeException(message: String?)
     case invalidCertificateException(message: String?)
-    case duplicateCertificateException(message: String?)
+    case invalidInputException(message: String?)
+    case invalidPublicKeyException(message: String?)
+    case invalidUserTypeException(message: String?)
+    case keyPairMismatchException(message: String?)
+    case limitExceededException(message: String?)
+    case malformedCertificateException(message: String?)
+    case malformedPolicyDocumentException(message: String?)
+    case noSuchEntityException(message: String?)
+    case passwordPolicyViolationException(message: String?)
+    case policyEvaluationException(message: String?)
+    case policyNotAttachableException(message: String?)
+    case serviceFailureException(message: String?)
     case serviceNotSupportedException(message: String?)
-    case credentialReportNotPresentException(message: String?)
-    case credentialReportExpiredException(message: String?)
-    case credentialReportNotReadyException(message: String?)
+    case unmodifiableEntityException(message: String?)
+    case unrecognizedPublicKeyEncodingException(message: String?)
 }
 
 extension IAMErrorType {
@@ -39,58 +39,58 @@ extension IAMErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "InvalidInputException":
-            self = .invalidInputException(message: message)
-        case "NoSuchEntityException":
-            self = .noSuchEntityException(message: message)
-        case "ServiceFailureException":
-            self = .serviceFailureException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
+        case "ConcurrentModificationException":
+            self = .concurrentModificationException(message: message)
+        case "CredentialReportExpiredException":
+            self = .credentialReportExpiredException(message: message)
+        case "CredentialReportNotPresentException":
+            self = .credentialReportNotPresentException(message: message)
+        case "CredentialReportNotReadyException":
+            self = .credentialReportNotReadyException(message: message)
+        case "DeleteConflictException":
+            self = .deleteConflictException(message: message)
+        case "DuplicateCertificateException":
+            self = .duplicateCertificateException(message: message)
+        case "DuplicateSSHPublicKeyException":
+            self = .duplicateSSHPublicKeyException(message: message)
         case "EntityAlreadyExistsException":
             self = .entityAlreadyExistsException(message: message)
         case "EntityTemporarilyUnmodifiableException":
             self = .entityTemporarilyUnmodifiableException(message: message)
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
-        case "PasswordPolicyViolationException":
-            self = .passwordPolicyViolationException(message: message)
         case "InvalidAuthenticationCodeException":
             self = .invalidAuthenticationCodeException(message: message)
-        case "UnmodifiableEntityException":
-            self = .unmodifiableEntityException(message: message)
-        case "MalformedPolicyDocumentException":
-            self = .malformedPolicyDocumentException(message: message)
-        case "PolicyNotAttachableException":
-            self = .policyNotAttachableException(message: message)
-        case "DeleteConflictException":
-            self = .deleteConflictException(message: message)
-        case "UnrecognizedPublicKeyEncodingException":
-            self = .unrecognizedPublicKeyEncodingException(message: message)
-        case "InvalidPublicKeyException":
-            self = .invalidPublicKeyException(message: message)
-        case "DuplicateSSHPublicKeyException":
-            self = .duplicateSSHPublicKeyException(message: message)
-        case "MalformedCertificateException":
-            self = .malformedCertificateException(message: message)
-        case "KeyPairMismatchException":
-            self = .keyPairMismatchException(message: message)
-        case "PolicyEvaluationException":
-            self = .policyEvaluationException(message: message)
-        case "InvalidUserTypeException":
-            self = .invalidUserTypeException(message: message)
         case "InvalidCertificateException":
             self = .invalidCertificateException(message: message)
-        case "DuplicateCertificateException":
-            self = .duplicateCertificateException(message: message)
+        case "InvalidInputException":
+            self = .invalidInputException(message: message)
+        case "InvalidPublicKeyException":
+            self = .invalidPublicKeyException(message: message)
+        case "InvalidUserTypeException":
+            self = .invalidUserTypeException(message: message)
+        case "KeyPairMismatchException":
+            self = .keyPairMismatchException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
+        case "MalformedCertificateException":
+            self = .malformedCertificateException(message: message)
+        case "MalformedPolicyDocumentException":
+            self = .malformedPolicyDocumentException(message: message)
+        case "NoSuchEntityException":
+            self = .noSuchEntityException(message: message)
+        case "PasswordPolicyViolationException":
+            self = .passwordPolicyViolationException(message: message)
+        case "PolicyEvaluationException":
+            self = .policyEvaluationException(message: message)
+        case "PolicyNotAttachableException":
+            self = .policyNotAttachableException(message: message)
+        case "ServiceFailureException":
+            self = .serviceFailureException(message: message)
         case "ServiceNotSupportedException":
             self = .serviceNotSupportedException(message: message)
-        case "CredentialReportNotPresentException":
-            self = .credentialReportNotPresentException(message: message)
-        case "CredentialReportExpiredException":
-            self = .credentialReportExpiredException(message: message)
-        case "CredentialReportNotReadyException":
-            self = .credentialReportNotReadyException(message: message)
+        case "UnmodifiableEntityException":
+            self = .unmodifiableEntityException(message: message)
+        case "UnrecognizedPublicKeyEncodingException":
+            self = .unrecognizedPublicKeyEncodingException(message: message)
         default:
             return nil
         }

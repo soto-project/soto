@@ -5,928 +5,81 @@ import AWSSDKSwiftCore
 
 extension Glue {
 
-    public struct Predecessor: AWSShape {
+    public struct Action: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arguments", required: false, type: .map), 
             AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "RunId", required: false, type: .string)
-        ]
-        /// The name of the job definition used by the predecessor job run.
-        public let jobName: String?
-        /// The job-run ID of the predecessor job run.
-        public let runId: String?
-
-        public init(jobName: String? = nil, runId: String? = nil) {
-            self.jobName = jobName
-            self.runId = runId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobName = "JobName"
-            case runId = "RunId"
-        }
-    }
-
-    public struct GetJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Job", required: false, type: .structure)
-        ]
-        /// The requested job definition.
-        public let job: Job?
-
-        public init(job: Job? = nil) {
-            self.job = job
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case job = "Job"
-        }
-    }
-
-    public struct GetUserDefinedFunctionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FunctionName", required: true, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string)
-        ]
-        /// The name of the function.
-        public let functionName: String
-        /// The name of the catalog database where the function is located.
-        public let databaseName: String
-        /// The ID of the Data Catalog where the function to be retrieved is located. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-
-        public init(functionName: String, databaseName: String, catalogId: String? = nil) {
-            self.functionName = functionName
-            self.databaseName = databaseName
-            self.catalogId = catalogId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case functionName = "FunctionName"
-            case databaseName = "DatabaseName"
-            case catalogId = "CatalogId"
-        }
-    }
-
-    public struct GetDataCatalogEncryptionSettingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string)
-        ]
-        /// The ID of the Data Catalog for which to retrieve the security configuration. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-
-        public init(catalogId: String? = nil) {
-            self.catalogId = catalogId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case catalogId = "CatalogId"
-        }
-    }
-
-    public struct UpdateClassifierResponse: AWSShape {
-
-    }
-
-    public struct CreateTriggerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Actions", required: true, type: .list), 
-            AWSShapeMember(label: "Type", required: true, type: .enum), 
-            AWSShapeMember(label: "StartOnCreation", required: false, type: .boolean), 
-            AWSShapeMember(label: "Schedule", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Predicate", required: false, type: .structure)
-        ]
-        /// The actions initiated by this trigger when it fires.
-        public let actions: [Action]
-        /// The type of the new trigger.
-        public let `type`: TriggerType
-        /// Set to true to start SCHEDULED and CONDITIONAL triggers when created. True not supported for ON_DEMAND triggers.
-        public let startOnCreation: Bool?
-        /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *). This field is required when the trigger type is SCHEDULED.
-        public let schedule: String?
-        /// A description of the new trigger.
-        public let description: String?
-        /// The name of the trigger.
-        public let name: String
-        /// A predicate to specify when the new trigger should fire. This field is required when the trigger type is CONDITIONAL.
-        public let predicate: Predicate?
-
-        public init(actions: [Action], type: TriggerType, startOnCreation: Bool? = nil, schedule: String? = nil, description: String? = nil, name: String, predicate: Predicate? = nil) {
-            self.actions = actions
-            self.`type` = `type`
-            self.startOnCreation = startOnCreation
-            self.schedule = schedule
-            self.description = description
-            self.name = name
-            self.predicate = predicate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case actions = "Actions"
-            case `type` = "Type"
-            case startOnCreation = "StartOnCreation"
-            case schedule = "Schedule"
-            case description = "Description"
-            case name = "Name"
-            case predicate = "Predicate"
-        }
-    }
-
-    public enum LogicalOperator: String, CustomStringConvertible, Codable {
-        case equals = "EQUALS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteTableResponse: AWSShape {
-
-    }
-
-    public struct GetJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Jobs", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list of job definitions.
-        public let jobs: [Job]?
-        /// A continuation token, if not all job definitions have yet been returned.
-        public let nextToken: String?
-
-        public init(jobs: [Job]? = nil, nextToken: String? = nil) {
-            self.jobs = jobs
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobs = "Jobs"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ErrorDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string)
-        ]
-        /// A message describing the error.
-        public let errorMessage: String?
-        /// The code associated with this error.
-        public let errorCode: String?
-
-        public init(errorMessage: String? = nil, errorCode: String? = nil) {
-            self.errorMessage = errorMessage
-            self.errorCode = errorCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorMessage = "ErrorMessage"
-            case errorCode = "ErrorCode"
-        }
-    }
-
-    public struct SkewedInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkewedColumnNames", required: false, type: .list), 
-            AWSShapeMember(label: "SkewedColumnValues", required: false, type: .list), 
-            AWSShapeMember(label: "SkewedColumnValueLocationMaps", required: false, type: .map)
-        ]
-        /// A list of names of columns that contain skewed values.
-        public let skewedColumnNames: [String]?
-        /// A list of values that appear so frequently as to be considered skewed.
-        public let skewedColumnValues: [String]?
-        /// A mapping of skewed values to the columns that contain them.
-        public let skewedColumnValueLocationMaps: [String: String]?
-
-        public init(skewedColumnNames: [String]? = nil, skewedColumnValues: [String]? = nil, skewedColumnValueLocationMaps: [String: String]? = nil) {
-            self.skewedColumnNames = skewedColumnNames
-            self.skewedColumnValues = skewedColumnValues
-            self.skewedColumnValueLocationMaps = skewedColumnValueLocationMaps
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case skewedColumnNames = "SkewedColumnNames"
-            case skewedColumnValues = "SkewedColumnValues"
-            case skewedColumnValueLocationMaps = "SkewedColumnValueLocationMaps"
-        }
-    }
-
-    public struct GetJobRunResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobRun", required: false, type: .structure)
-        ]
-        /// The requested job-run metadata.
-        public let jobRun: JobRun?
-
-        public init(jobRun: JobRun? = nil) {
-            self.jobRun = jobRun
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobRun = "JobRun"
-        }
-    }
-
-    public struct Crawler: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CrawlElapsedTime", required: false, type: .long), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "LastCrawl", required: false, type: .structure), 
-            AWSShapeMember(label: "Schedule", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Targets", required: false, type: .structure), 
-            AWSShapeMember(label: "TablePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "Configuration", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .long), 
-            AWSShapeMember(label: "SchemaChangePolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Classifiers", required: false, type: .list), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "CrawlerSecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "Role", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdated", required: false, type: .timestamp)
-        ]
-        /// If the crawler is running, contains the total time elapsed since the last crawl began.
-        public let crawlElapsedTime: Int64?
-        /// The crawler name.
-        public let name: String?
-        /// The status of the last crawl, and potentially error information if an error occurred.
-        public let lastCrawl: LastCrawlInfo?
-        /// For scheduled crawlers, the schedule when the crawler runs.
-        public let schedule: Schedule?
-        /// The time when the crawler was created.
-        public let creationTime: TimeStamp?
-        /// A collection of targets to crawl.
-        public let targets: CrawlerTargets?
-        /// The prefix added to the names of tables that are created.
-        public let tablePrefix: String?
-        /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Configuring a Crawler.
-        public let configuration: String?
-        /// The version of the crawler.
-        public let version: Int64?
-        /// Sets the behavior when the crawler finds a changed or deleted object.
-        public let schemaChangePolicy: SchemaChangePolicy?
-        /// A description of the crawler.
-        public let description: String?
-        /// A list of custom classifiers associated with the crawler.
-        public let classifiers: [String]?
-        /// Indicates whether the crawler is running, or whether a run is pending.
-        public let state: CrawlerState?
-        /// The name of the SecurityConfiguration structure to be used by this Crawler.
-        public let crawlerSecurityConfiguration: String?
-        /// The database where metadata is written by this crawler.
-        public let databaseName: String?
-        /// The IAM role (or ARN of an IAM role) used to access customer resources, such as data in Amazon S3.
-        public let role: String?
-        /// The time the crawler was last updated.
-        public let lastUpdated: TimeStamp?
-
-        public init(crawlElapsedTime: Int64? = nil, name: String? = nil, lastCrawl: LastCrawlInfo? = nil, schedule: Schedule? = nil, creationTime: TimeStamp? = nil, targets: CrawlerTargets? = nil, tablePrefix: String? = nil, configuration: String? = nil, version: Int64? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, description: String? = nil, classifiers: [String]? = nil, state: CrawlerState? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, role: String? = nil, lastUpdated: TimeStamp? = nil) {
-            self.crawlElapsedTime = crawlElapsedTime
-            self.name = name
-            self.lastCrawl = lastCrawl
-            self.schedule = schedule
-            self.creationTime = creationTime
-            self.targets = targets
-            self.tablePrefix = tablePrefix
-            self.configuration = configuration
-            self.version = version
-            self.schemaChangePolicy = schemaChangePolicy
-            self.description = description
-            self.classifiers = classifiers
-            self.state = state
-            self.crawlerSecurityConfiguration = crawlerSecurityConfiguration
-            self.databaseName = databaseName
-            self.role = role
-            self.lastUpdated = lastUpdated
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case crawlElapsedTime = "CrawlElapsedTime"
-            case name = "Name"
-            case lastCrawl = "LastCrawl"
-            case schedule = "Schedule"
-            case creationTime = "CreationTime"
-            case targets = "Targets"
-            case tablePrefix = "TablePrefix"
-            case configuration = "Configuration"
-            case version = "Version"
-            case schemaChangePolicy = "SchemaChangePolicy"
-            case description = "Description"
-            case classifiers = "Classifiers"
-            case state = "State"
-            case crawlerSecurityConfiguration = "CrawlerSecurityConfiguration"
-            case databaseName = "DatabaseName"
-            case role = "Role"
-            case lastUpdated = "LastUpdated"
-        }
-    }
-
-    public struct UpdateCrawlerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Role", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "TablePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "Classifiers", required: false, type: .list), 
-            AWSShapeMember(label: "Configuration", required: false, type: .string), 
-            AWSShapeMember(label: "Targets", required: false, type: .structure), 
-            AWSShapeMember(label: "Schedule", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "SchemaChangePolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "CrawlerSecurityConfiguration", required: false, type: .string)
-        ]
-        /// The IAM role (or ARN of an IAM role) used by the new crawler to access customer resources.
-        public let role: String?
-        /// The AWS Glue database where results are stored, such as: arn:aws:daylight:us-east-1::database/sometable/*.
-        public let databaseName: String?
-        /// The table prefix used for catalog tables that are created.
-        public let tablePrefix: String?
-        /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
-        public let classifiers: [String]?
-        /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Configuring a Crawler.
-        public let configuration: String?
-        /// A list of targets to crawl.
-        public let targets: CrawlerTargets?
-        /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
-        public let schedule: String?
-        /// A description of the new crawler.
-        public let description: String?
-        /// Name of the new crawler.
-        public let name: String
-        /// Policy for the crawler's update and deletion behavior.
-        public let schemaChangePolicy: SchemaChangePolicy?
-        /// The name of the SecurityConfiguration structure to be used by this Crawler.
-        public let crawlerSecurityConfiguration: String?
-
-        public init(role: String? = nil, databaseName: String? = nil, tablePrefix: String? = nil, classifiers: [String]? = nil, configuration: String? = nil, targets: CrawlerTargets? = nil, schedule: String? = nil, description: String? = nil, name: String, schemaChangePolicy: SchemaChangePolicy? = nil, crawlerSecurityConfiguration: String? = nil) {
-            self.role = role
-            self.databaseName = databaseName
-            self.tablePrefix = tablePrefix
-            self.classifiers = classifiers
-            self.configuration = configuration
-            self.targets = targets
-            self.schedule = schedule
-            self.description = description
-            self.name = name
-            self.schemaChangePolicy = schemaChangePolicy
-            self.crawlerSecurityConfiguration = crawlerSecurityConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case role = "Role"
-            case databaseName = "DatabaseName"
-            case tablePrefix = "TablePrefix"
-            case classifiers = "Classifiers"
-            case configuration = "Configuration"
-            case targets = "Targets"
-            case schedule = "Schedule"
-            case description = "Description"
-            case name = "Name"
-            case schemaChangePolicy = "SchemaChangePolicy"
-            case crawlerSecurityConfiguration = "CrawlerSecurityConfiguration"
-        }
-    }
-
-    public struct CloudWatchEncryption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchEncryptionMode", required: false, type: .enum), 
-            AWSShapeMember(label: "KmsKeyArn", required: false, type: .string)
-        ]
-        /// The encryption mode to use for CloudWatch data.
-        public let cloudWatchEncryptionMode: CloudWatchEncryptionMode?
-        /// The AWS ARN of the KMS key to be used to encrypt the data.
-        public let kmsKeyArn: String?
-
-        public init(cloudWatchEncryptionMode: CloudWatchEncryptionMode? = nil, kmsKeyArn: String? = nil) {
-            self.cloudWatchEncryptionMode = cloudWatchEncryptionMode
-            self.kmsKeyArn = kmsKeyArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cloudWatchEncryptionMode = "CloudWatchEncryptionMode"
-            case kmsKeyArn = "KmsKeyArn"
-        }
-    }
-
-    public struct SchemaChangePolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UpdateBehavior", required: false, type: .enum), 
-            AWSShapeMember(label: "DeleteBehavior", required: false, type: .enum)
-        ]
-        /// The update behavior when the crawler finds a changed schema.
-        public let updateBehavior: UpdateBehavior?
-        /// The deletion behavior when the crawler finds a deleted object.
-        public let deleteBehavior: DeleteBehavior?
-
-        public init(updateBehavior: UpdateBehavior? = nil, deleteBehavior: DeleteBehavior? = nil) {
-            self.updateBehavior = updateBehavior
-            self.deleteBehavior = deleteBehavior
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case updateBehavior = "UpdateBehavior"
-            case deleteBehavior = "DeleteBehavior"
-        }
-    }
-
-    public struct CreateScriptRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DagEdges", required: false, type: .list), 
-            AWSShapeMember(label: "Language", required: false, type: .enum), 
-            AWSShapeMember(label: "DagNodes", required: false, type: .list)
-        ]
-        /// A list of the edges in the DAG.
-        public let dagEdges: [CodeGenEdge]?
-        /// The programming language of the resulting code from the DAG.
-        public let language: Language?
-        /// A list of the nodes in the DAG.
-        public let dagNodes: [CodeGenNode]?
-
-        public init(dagEdges: [CodeGenEdge]? = nil, language: Language? = nil, dagNodes: [CodeGenNode]? = nil) {
-            self.dagEdges = dagEdges
-            self.language = language
-            self.dagNodes = dagNodes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dagEdges = "DagEdges"
-            case language = "Language"
-            case dagNodes = "DagNodes"
-        }
-    }
-
-    public struct DeleteClassifierRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// Name of the classifier to remove.
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public struct GetMappingResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Mapping", required: true, type: .list)
-        ]
-        /// A list of mappings to the specified targets.
-        public let mapping: [MappingEntry]
-
-        public init(mapping: [MappingEntry]) {
-            self.mapping = mapping
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mapping = "Mapping"
-        }
-    }
-
-    public struct GetClassifierResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Classifier", required: false, type: .structure)
-        ]
-        /// The requested classifier.
-        public let classifier: Classifier?
-
-        public init(classifier: Classifier? = nil) {
-            self.classifier = classifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case classifier = "Classifier"
-        }
-    }
-
-    public struct UpdateCrawlerScheduleResponse: AWSShape {
-
-    }
-
-    public struct JobBookmarksEncryption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobBookmarksEncryptionMode", required: false, type: .enum), 
-            AWSShapeMember(label: "KmsKeyArn", required: false, type: .string)
-        ]
-        /// The encryption mode to use for Job bookmarks data.
-        public let jobBookmarksEncryptionMode: JobBookmarksEncryptionMode?
-        /// The AWS ARN of the KMS key to be used to encrypt the data.
-        public let kmsKeyArn: String?
-
-        public init(jobBookmarksEncryptionMode: JobBookmarksEncryptionMode? = nil, kmsKeyArn: String? = nil) {
-            self.jobBookmarksEncryptionMode = jobBookmarksEncryptionMode
-            self.kmsKeyArn = kmsKeyArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobBookmarksEncryptionMode = "JobBookmarksEncryptionMode"
-            case kmsKeyArn = "KmsKeyArn"
-        }
-    }
-
-    public enum PrincipalType: String, CustomStringConvertible, Codable {
-        case user = "USER"
-        case role = "ROLE"
-        case group = "GROUP"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CrawlerTargets: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JdbcTargets", required: false, type: .list), 
-            AWSShapeMember(label: "DynamoDBTargets", required: false, type: .list), 
-            AWSShapeMember(label: "S3Targets", required: false, type: .list)
-        ]
-        /// Specifies JDBC targets.
-        public let jdbcTargets: [JdbcTarget]?
-        /// Specifies DynamoDB targets.
-        public let dynamoDBTargets: [DynamoDBTarget]?
-        /// Specifies Amazon S3 targets.
-        public let s3Targets: [S3Target]?
-
-        public init(jdbcTargets: [JdbcTarget]? = nil, dynamoDBTargets: [DynamoDBTarget]? = nil, s3Targets: [S3Target]? = nil) {
-            self.jdbcTargets = jdbcTargets
-            self.dynamoDBTargets = dynamoDBTargets
-            self.s3Targets = s3Targets
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jdbcTargets = "JdbcTargets"
-            case dynamoDBTargets = "DynamoDBTargets"
-            case s3Targets = "S3Targets"
-        }
-    }
-
-    public struct UpdatePartitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "TableName", required: true, type: .string), 
-            AWSShapeMember(label: "PartitionInput", required: true, type: .structure), 
-            AWSShapeMember(label: "PartitionValueList", required: true, type: .list)
-        ]
-        /// The name of the catalog database in which the table in question resides.
-        public let databaseName: String
-        /// The ID of the Data Catalog where the partition to be updated resides. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-        /// The name of the table where the partition to be updated is located.
-        public let tableName: String
-        /// The new partition object to which to update the partition.
-        public let partitionInput: PartitionInput
-        /// A list of the values defining the partition.
-        public let partitionValueList: [String]
-
-        public init(databaseName: String, catalogId: String? = nil, tableName: String, partitionInput: PartitionInput, partitionValueList: [String]) {
-            self.databaseName = databaseName
-            self.catalogId = catalogId
-            self.tableName = tableName
-            self.partitionInput = partitionInput
-            self.partitionValueList = partitionValueList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case databaseName = "DatabaseName"
-            case catalogId = "CatalogId"
-            case tableName = "TableName"
-            case partitionInput = "PartitionInput"
-            case partitionValueList = "PartitionValueList"
-        }
-    }
-
-    public struct CrawlerMetrics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TimeLeftSeconds", required: false, type: .double), 
-            AWSShapeMember(label: "TablesUpdated", required: false, type: .integer), 
-            AWSShapeMember(label: "StillEstimating", required: false, type: .boolean), 
-            AWSShapeMember(label: "CrawlerName", required: false, type: .string), 
-            AWSShapeMember(label: "MedianRuntimeSeconds", required: false, type: .double), 
-            AWSShapeMember(label: "TablesCreated", required: false, type: .integer), 
-            AWSShapeMember(label: "TablesDeleted", required: false, type: .integer), 
-            AWSShapeMember(label: "LastRuntimeSeconds", required: false, type: .double)
-        ]
-        /// The estimated time left to complete a running crawl.
-        public let timeLeftSeconds: Double?
-        /// The number of tables updated by this crawler.
-        public let tablesUpdated: Int32?
-        /// True if the crawler is still estimating how long it will take to complete this run.
-        public let stillEstimating: Bool?
-        /// The name of the crawler.
-        public let crawlerName: String?
-        /// The median duration of this crawler's runs, in seconds.
-        public let medianRuntimeSeconds: Double?
-        /// The number of tables created by this crawler.
-        public let tablesCreated: Int32?
-        /// The number of tables deleted by this crawler.
-        public let tablesDeleted: Int32?
-        /// The duration of the crawler's most recent run, in seconds.
-        public let lastRuntimeSeconds: Double?
-
-        public init(timeLeftSeconds: Double? = nil, tablesUpdated: Int32? = nil, stillEstimating: Bool? = nil, crawlerName: String? = nil, medianRuntimeSeconds: Double? = nil, tablesCreated: Int32? = nil, tablesDeleted: Int32? = nil, lastRuntimeSeconds: Double? = nil) {
-            self.timeLeftSeconds = timeLeftSeconds
-            self.tablesUpdated = tablesUpdated
-            self.stillEstimating = stillEstimating
-            self.crawlerName = crawlerName
-            self.medianRuntimeSeconds = medianRuntimeSeconds
-            self.tablesCreated = tablesCreated
-            self.tablesDeleted = tablesDeleted
-            self.lastRuntimeSeconds = lastRuntimeSeconds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case timeLeftSeconds = "TimeLeftSeconds"
-            case tablesUpdated = "TablesUpdated"
-            case stillEstimating = "StillEstimating"
-            case crawlerName = "CrawlerName"
-            case medianRuntimeSeconds = "MedianRuntimeSeconds"
-            case tablesCreated = "TablesCreated"
-            case tablesDeleted = "TablesDeleted"
-            case lastRuntimeSeconds = "LastRuntimeSeconds"
-        }
-    }
-
-    public struct UpdateConnectionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionInput", required: true, type: .structure), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// A ConnectionInput object that redefines the connection in question.
-        public let connectionInput: ConnectionInput
-        /// The ID of the Data Catalog in which the connection resides. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-        /// The name of the connection definition to update.
-        public let name: String
-
-        public init(connectionInput: ConnectionInput, catalogId: String? = nil, name: String) {
-            self.connectionInput = connectionInput
-            self.catalogId = catalogId
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectionInput = "ConnectionInput"
-            case catalogId = "CatalogId"
-            case name = "Name"
-        }
-    }
-
-    public struct CreateDevEndpointResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ZeppelinRemoteSparkInterpreterPort", required: false, type: .integer), 
-            AWSShapeMember(label: "ExtraJarsS3Path", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationProperty", required: false, type: .structure), 
             AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "YarnEndpointAddress", required: false, type: .string), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "ExtraPythonLibsS3Path", required: false, type: .string), 
-            AWSShapeMember(label: "EndpointName", required: false, type: .string), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string)
+            AWSShapeMember(label: "Timeout", required: false, type: .integer)
         ]
-        /// The Apache Zeppelin port for the remote Apache Spark interpreter.
-        public let zeppelinRemoteSparkInterpreterPort: Int32?
-        /// Path to one or more Java Jars in an S3 bucket that will be loaded in your DevEndpoint.
-        public let extraJarsS3Path: String?
-        /// The name of the SecurityConfiguration structure being used with this DevEndpoint.
+        /// Arguments to be passed to the job run. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
+        public let arguments: [String: String]?
+        /// The name of a job to be executed.
+        public let jobName: String?
+        /// Specifies configuration properties of a job run notification.
+        public let notificationProperty: NotificationProperty?
+        /// The name of the SecurityConfiguration structure to be used with this action.
         public let securityConfiguration: String?
-        /// The security groups assigned to the new DevEndpoint.
-        public let securityGroupIds: [String]?
-        /// The number of AWS Glue Data Processing Units (DPUs) allocated to this DevEndpoint.
-        public let numberOfNodes: Int32?
-        /// The current status of the new DevEndpoint.
-        public let status: String?
-        /// The address of the YARN endpoint used by this DevEndpoint.
-        public let yarnEndpointAddress: String?
-        /// The reason for a current failure in this DevEndpoint.
-        public let failureReason: String?
-        /// The AWS ARN of the role assigned to the new DevEndpoint.
-        public let roleArn: String?
-        /// The point in time at which this DevEndpoint was created.
-        public let createdTimestamp: TimeStamp?
-        /// The subnet ID assigned to the new DevEndpoint.
-        public let subnetId: String?
-        /// The AWS availability zone where this DevEndpoint is located.
-        public let availabilityZone: String?
-        /// Path(s) to one or more Python libraries in an S3 bucket that will be loaded in your DevEndpoint.
-        public let extraPythonLibsS3Path: String?
-        /// The name assigned to the new DevEndpoint.
-        public let endpointName: String?
-        /// The ID of the VPC used by this DevEndpoint.
-        public let vpcId: String?
+        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours). This overrides the timeout value set in the parent job.
+        public let timeout: Int32?
 
-        public init(zeppelinRemoteSparkInterpreterPort: Int32? = nil, extraJarsS3Path: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, numberOfNodes: Int32? = nil, status: String? = nil, yarnEndpointAddress: String? = nil, failureReason: String? = nil, roleArn: String? = nil, createdTimestamp: TimeStamp? = nil, subnetId: String? = nil, availabilityZone: String? = nil, extraPythonLibsS3Path: String? = nil, endpointName: String? = nil, vpcId: String? = nil) {
-            self.zeppelinRemoteSparkInterpreterPort = zeppelinRemoteSparkInterpreterPort
-            self.extraJarsS3Path = extraJarsS3Path
+        public init(arguments: [String: String]? = nil, jobName: String? = nil, notificationProperty: NotificationProperty? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil) {
+            self.arguments = arguments
+            self.jobName = jobName
+            self.notificationProperty = notificationProperty
             self.securityConfiguration = securityConfiguration
-            self.securityGroupIds = securityGroupIds
-            self.numberOfNodes = numberOfNodes
-            self.status = status
-            self.yarnEndpointAddress = yarnEndpointAddress
-            self.failureReason = failureReason
-            self.roleArn = roleArn
-            self.createdTimestamp = createdTimestamp
-            self.subnetId = subnetId
-            self.availabilityZone = availabilityZone
-            self.extraPythonLibsS3Path = extraPythonLibsS3Path
-            self.endpointName = endpointName
-            self.vpcId = vpcId
+            self.timeout = timeout
         }
 
         private enum CodingKeys: String, CodingKey {
-            case zeppelinRemoteSparkInterpreterPort = "ZeppelinRemoteSparkInterpreterPort"
-            case extraJarsS3Path = "ExtraJarsS3Path"
+            case arguments = "Arguments"
+            case jobName = "JobName"
+            case notificationProperty = "NotificationProperty"
             case securityConfiguration = "SecurityConfiguration"
-            case securityGroupIds = "SecurityGroupIds"
-            case numberOfNodes = "NumberOfNodes"
-            case status = "Status"
-            case yarnEndpointAddress = "YarnEndpointAddress"
-            case failureReason = "FailureReason"
-            case roleArn = "RoleArn"
-            case createdTimestamp = "CreatedTimestamp"
-            case subnetId = "SubnetId"
-            case availabilityZone = "AvailabilityZone"
-            case extraPythonLibsS3Path = "ExtraPythonLibsS3Path"
-            case endpointName = "EndpointName"
-            case vpcId = "VpcId"
-        }
-    }
-
-    public struct PartitionError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PartitionValues", required: false, type: .list), 
-            AWSShapeMember(label: "ErrorDetail", required: false, type: .structure)
-        ]
-        /// The values that define the partition.
-        public let partitionValues: [String]?
-        /// Details about the partition error.
-        public let errorDetail: ErrorDetail?
-
-        public init(partitionValues: [String]? = nil, errorDetail: ErrorDetail? = nil) {
-            self.partitionValues = partitionValues
-            self.errorDetail = errorDetail
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case partitionValues = "PartitionValues"
-            case errorDetail = "ErrorDetail"
-        }
-    }
-
-    public struct DeleteResourcePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyHashCondition", required: false, type: .string)
-        ]
-        /// The hash value returned when this policy was set.
-        public let policyHashCondition: String?
-
-        public init(policyHashCondition: String? = nil) {
-            self.policyHashCondition = policyHashCondition
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyHashCondition = "PolicyHashCondition"
-        }
-    }
-
-    public struct StopTriggerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The name of the trigger that was stopped.
-        public let name: String?
-
-        public init(name: String? = nil) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
+            case timeout = "Timeout"
         }
     }
 
     public struct BatchCreatePartitionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
             AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "TableName", required: true, type: .string), 
-            AWSShapeMember(label: "PartitionInputList", required: true, type: .list)
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "PartitionInputList", required: true, type: .list), 
+            AWSShapeMember(label: "TableName", required: true, type: .string)
         ]
-        /// The name of the metadata database in which the partition is to be created.
-        public let databaseName: String
         /// The ID of the catalog in which the partion is to be created. Currently, this should be the AWS account ID.
         public let catalogId: String?
-        /// The name of the metadata table in which the partition is to be created.
-        public let tableName: String
+        /// The name of the metadata database in which the partition is to be created.
+        public let databaseName: String
         /// A list of PartitionInput structures that define the partitions to be created.
         public let partitionInputList: [PartitionInput]
+        /// The name of the metadata table in which the partition is to be created.
+        public let tableName: String
 
-        public init(databaseName: String, catalogId: String? = nil, tableName: String, partitionInputList: [PartitionInput]) {
-            self.databaseName = databaseName
+        public init(catalogId: String? = nil, databaseName: String, partitionInputList: [PartitionInput], tableName: String) {
             self.catalogId = catalogId
-            self.tableName = tableName
+            self.databaseName = databaseName
             self.partitionInputList = partitionInputList
+            self.tableName = tableName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case databaseName = "DatabaseName"
             case catalogId = "CatalogId"
-            case tableName = "TableName"
+            case databaseName = "DatabaseName"
             case partitionInputList = "PartitionInputList"
+            case tableName = "TableName"
         }
     }
 
-    public struct XMLClassifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Version", required: false, type: .long), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Classification", required: true, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "RowTag", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdated", required: false, type: .timestamp)
-        ]
-        /// The version of this classifier.
-        public let version: Int64?
-        /// The name of the classifier.
-        public let name: String
-        /// An identifier of the data format that the classifier matches.
-        public let classification: String
-        /// The time this classifier was registered.
-        public let creationTime: TimeStamp?
-        /// The XML tag designating the element that contains each record in an XML document being parsed. Note that this cannot identify a self-closing element (closed by /&gt;). An empty row element that contains only attributes can be parsed as long as it ends with a closing tag (for example, &lt;row item_a="A" item_b="B"&gt;&lt;/row&gt; is okay, but &lt;row item_a="A" item_b="B" /&gt; is not).
-        public let rowTag: String?
-        /// The time this classifier was last updated.
-        public let lastUpdated: TimeStamp?
-
-        public init(version: Int64? = nil, name: String, classification: String, creationTime: TimeStamp? = nil, rowTag: String? = nil, lastUpdated: TimeStamp? = nil) {
-            self.version = version
-            self.name = name
-            self.classification = classification
-            self.creationTime = creationTime
-            self.rowTag = rowTag
-            self.lastUpdated = lastUpdated
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case version = "Version"
-            case name = "Name"
-            case classification = "Classification"
-            case creationTime = "CreationTime"
-            case rowTag = "RowTag"
-            case lastUpdated = "LastUpdated"
-        }
-    }
-
-    public struct GetClassifierRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// Name of the classifier to retrieve.
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public struct PartitionValueList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: true, type: .list)
-        ]
-        /// The list of values.
-        public let values: [String]
-
-        public init(values: [String]) {
-            self.values = values
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case values = "Values"
-        }
-    }
-
-    public struct BatchDeleteTableResponse: AWSShape {
+    public struct BatchCreatePartitionResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Errors", required: false, type: .list)
         ]
-        /// A list of errors encountered in attempting to delete the specified tables.
-        public let errors: [TableError]?
+        /// Errors encountered when trying to create the requested partitions.
+        public let errors: [PartitionError]?
 
-        public init(errors: [TableError]? = nil) {
+        public init(errors: [PartitionError]? = nil) {
             self.errors = errors
         }
 
@@ -935,929 +88,25 @@ extension Glue {
         }
     }
 
-    public struct UpdateDatabaseRequest: AWSShape {
+    public struct BatchDeleteConnectionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseInput", required: true, type: .structure)
+            AWSShapeMember(label: "ConnectionNameList", required: true, type: .list)
         ]
-        /// The name of the database to update in the catalog. For Hive compatibility, this is folded to lowercase.
-        public let name: String
-        /// The ID of the Data Catalog in which the metadata database resides. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-        /// A DatabaseInput object specifying the new definition of the metadata database in the catalog.
-        public let databaseInput: DatabaseInput
-
-        public init(name: String, catalogId: String? = nil, databaseInput: DatabaseInput) {
-            self.name = name
-            self.catalogId = catalogId
-            self.databaseInput = databaseInput
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case catalogId = "CatalogId"
-            case databaseInput = "DatabaseInput"
-        }
-    }
-
-    public struct DataCatalogEncryptionSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EncryptionAtRest", required: false, type: .structure)
-        ]
-        /// Specifies encryption-at-rest configuration for the Data Catalog.
-        public let encryptionAtRest: EncryptionAtRest?
-
-        public init(encryptionAtRest: EncryptionAtRest? = nil) {
-            self.encryptionAtRest = encryptionAtRest
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case encryptionAtRest = "EncryptionAtRest"
-        }
-    }
-
-    public struct GetDatabaseResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Database", required: false, type: .structure)
-        ]
-        /// The definition of the specified database in the catalog.
-        public let database: Database?
-
-        public init(database: Database? = nil) {
-            self.database = database
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case database = "Database"
-        }
-    }
-
-    public struct GetConnectionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The maximum number of connections to return in one response.
-        public let maxResults: Int32?
         /// The ID of the Data Catalog in which the connections reside. If none is supplied, the AWS account ID is used by default.
         public let catalogId: String?
-        /// A filter that controls which connections will be returned.
-        public let filter: GetConnectionsFilter?
-        /// A continuation token, if this is a continuation call.
-        public let nextToken: String?
+        /// A list of names of the connections to delete.
+        public let connectionNameList: [String]
 
-        public init(maxResults: Int32? = nil, catalogId: String? = nil, filter: GetConnectionsFilter? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
+        public init(catalogId: String? = nil, connectionNameList: [String]) {
             self.catalogId = catalogId
-            self.filter = filter
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case catalogId = "CatalogId"
-            case filter = "Filter"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct NotificationProperty: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotifyDelayAfter", required: false, type: .integer)
-        ]
-        /// After a job run starts, the number of minutes to wait before sending a job run delay notification.
-        public let notifyDelayAfter: Int32?
-
-        public init(notifyDelayAfter: Int32? = nil) {
-            self.notifyDelayAfter = notifyDelayAfter
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case notifyDelayAfter = "NotifyDelayAfter"
-        }
-    }
-
-    public struct BatchDeletePartitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "TableName", required: true, type: .string), 
-            AWSShapeMember(label: "PartitionsToDelete", required: true, type: .list)
-        ]
-        /// The name of the catalog database in which the table in question resides.
-        public let databaseName: String
-        /// The ID of the Data Catalog where the partition to be deleted resides. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-        /// The name of the table where the partitions to be deleted is located.
-        public let tableName: String
-        /// A list of PartitionInput structures that define the partitions to be deleted.
-        public let partitionsToDelete: [PartitionValueList]
-
-        public init(databaseName: String, catalogId: String? = nil, tableName: String, partitionsToDelete: [PartitionValueList]) {
-            self.databaseName = databaseName
-            self.catalogId = catalogId
-            self.tableName = tableName
-            self.partitionsToDelete = partitionsToDelete
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case databaseName = "DatabaseName"
-            case catalogId = "CatalogId"
-            case tableName = "TableName"
-            case partitionsToDelete = "PartitionsToDelete"
-        }
-    }
-
-    public enum Language: String, CustomStringConvertible, Codable {
-        case python = "PYTHON"
-        case scala = "SCALA"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetJobRunsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The name of the job definition for which to retrieve all job runs.
-        public let jobName: String
-        /// The maximum size of the response.
-        public let maxResults: Int32?
-        /// A continuation token, if this is a continuation call.
-        public let nextToken: String?
-
-        public init(jobName: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.jobName = jobName
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobName = "JobName"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public enum S3EncryptionMode: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case sseKms = "SSE-KMS"
-        case sseS3 = "SSE-S3"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetConnectionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string)
-        ]
-        /// The name of the connection definition to retrieve.
-        public let name: String
-        /// The ID of the Data Catalog in which the connection resides. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-
-        public init(name: String, catalogId: String? = nil) {
-            self.name = name
-            self.catalogId = catalogId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case catalogId = "CatalogId"
-        }
-    }
-
-    public struct GetDataCatalogEncryptionSettingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataCatalogEncryptionSettings", required: false, type: .structure)
-        ]
-        /// The requested security configuration.
-        public let dataCatalogEncryptionSettings: DataCatalogEncryptionSettings?
-
-        public init(dataCatalogEncryptionSettings: DataCatalogEncryptionSettings? = nil) {
-            self.dataCatalogEncryptionSettings = dataCatalogEncryptionSettings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dataCatalogEncryptionSettings = "DataCatalogEncryptionSettings"
-        }
-    }
-
-    public struct CodeGenNodeArg: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Param", required: false, type: .boolean)
-        ]
-        /// The value of the argument or property.
-        public let value: String
-        /// The name of the argument or property.
-        public let name: String
-        /// True if the value is used as a parameter.
-        public let param: Bool?
-
-        public init(value: String, name: String, param: Bool? = nil) {
-            self.value = value
-            self.name = name
-            self.param = param
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case name = "Name"
-            case param = "Param"
-        }
-    }
-
-    public struct CreateConnectionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "ConnectionInput", required: true, type: .structure)
-        ]
-        /// The ID of the Data Catalog in which to create the connection. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-        /// A ConnectionInput object defining the connection to create.
-        public let connectionInput: ConnectionInput
-
-        public init(catalogId: String? = nil, connectionInput: ConnectionInput) {
-            self.catalogId = catalogId
-            self.connectionInput = connectionInput
+            self.connectionNameList = connectionNameList
         }
 
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
-            case connectionInput = "ConnectionInput"
+            case connectionNameList = "ConnectionNameList"
         }
-    }
-
-    public struct Classifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JsonClassifier", required: false, type: .structure), 
-            AWSShapeMember(label: "XMLClassifier", required: false, type: .structure), 
-            AWSShapeMember(label: "GrokClassifier", required: false, type: .structure)
-        ]
-        /// A JsonClassifier object.
-        public let jsonClassifier: JsonClassifier?
-        /// An XMLClassifier object.
-        public let xMLClassifier: XMLClassifier?
-        /// A GrokClassifier object.
-        public let grokClassifier: GrokClassifier?
-
-        public init(jsonClassifier: JsonClassifier? = nil, xMLClassifier: XMLClassifier? = nil, grokClassifier: GrokClassifier? = nil) {
-            self.jsonClassifier = jsonClassifier
-            self.xMLClassifier = xMLClassifier
-            self.grokClassifier = grokClassifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jsonClassifier = "JsonClassifier"
-            case xMLClassifier = "XMLClassifier"
-            case grokClassifier = "GrokClassifier"
-        }
-    }
-
-    public struct DynamoDBTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Path", required: false, type: .string)
-        ]
-        /// The name of the DynamoDB table to crawl.
-        public let path: String?
-
-        public init(path: String? = nil) {
-            self.path = path
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case path = "Path"
-        }
-    }
-
-    public struct Action: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotificationProperty", required: false, type: .structure), 
-            AWSShapeMember(label: "Arguments", required: false, type: .map), 
-            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string)
-        ]
-        /// Specifies configuration properties of a job run notification.
-        public let notificationProperty: NotificationProperty?
-        /// Arguments to be passed to the job run. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
-        public let arguments: [String: String]?
-        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours). This overrides the timeout value set in the parent job.
-        public let timeout: Int32?
-        /// The name of a job to be executed.
-        public let jobName: String?
-        /// The name of the SecurityConfiguration structure to be used with this action.
-        public let securityConfiguration: String?
-
-        public init(notificationProperty: NotificationProperty? = nil, arguments: [String: String]? = nil, timeout: Int32? = nil, jobName: String? = nil, securityConfiguration: String? = nil) {
-            self.notificationProperty = notificationProperty
-            self.arguments = arguments
-            self.timeout = timeout
-            self.jobName = jobName
-            self.securityConfiguration = securityConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case notificationProperty = "NotificationProperty"
-            case arguments = "Arguments"
-            case timeout = "Timeout"
-            case jobName = "JobName"
-            case securityConfiguration = "SecurityConfiguration"
-        }
-    }
-
-    public struct CreateXMLClassifierRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RowTag", required: false, type: .string), 
-            AWSShapeMember(label: "Classification", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The XML tag designating the element that contains each record in an XML document being parsed. Note that this cannot identify a self-closing element (closed by /&gt;). An empty row element that contains only attributes can be parsed as long as it ends with a closing tag (for example, &lt;row item_a="A" item_b="B"&gt;&lt;/row&gt; is okay, but &lt;row item_a="A" item_b="B" /&gt; is not).
-        public let rowTag: String?
-        /// An identifier of the data format that the classifier matches.
-        public let classification: String
-        /// The name of the classifier.
-        public let name: String
-
-        public init(rowTag: String? = nil, classification: String, name: String) {
-            self.rowTag = rowTag
-            self.classification = classification
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rowTag = "RowTag"
-            case classification = "Classification"
-            case name = "Name"
-        }
-    }
-
-    public enum UpdateBehavior: String, CustomStringConvertible, Codable {
-        case log = "LOG"
-        case updateInDatabase = "UPDATE_IN_DATABASE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetConnectionsFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MatchCriteria", required: false, type: .list), 
-            AWSShapeMember(label: "ConnectionType", required: false, type: .enum)
-        ]
-        /// A criteria string that must match the criteria recorded in the connection definition for that connection definition to be returned.
-        public let matchCriteria: [String]?
-        /// The type of connections to return. Currently, only JDBC is supported; SFTP is not supported.
-        public let connectionType: ConnectionType?
-
-        public init(matchCriteria: [String]? = nil, connectionType: ConnectionType? = nil) {
-            self.matchCriteria = matchCriteria
-            self.connectionType = connectionType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case matchCriteria = "MatchCriteria"
-            case connectionType = "ConnectionType"
-        }
-    }
-
-    public struct GetDevEndpointsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DevEndpoints", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list of DevEndpoint definitions.
-        public let devEndpoints: [DevEndpoint]?
-        /// A continuation token, if not all DevEndpoint definitions have yet been returned.
-        public let nextToken: String?
-
-        public init(devEndpoints: [DevEndpoint]? = nil, nextToken: String? = nil) {
-            self.devEndpoints = devEndpoints
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case devEndpoints = "DevEndpoints"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct JdbcTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionName", required: false, type: .string), 
-            AWSShapeMember(label: "Path", required: false, type: .string), 
-            AWSShapeMember(label: "Exclusions", required: false, type: .list)
-        ]
-        /// The name of the connection to use to connect to the JDBC target.
-        public let connectionName: String?
-        /// The path of the JDBC target.
-        public let path: String?
-        /// A list of glob patterns used to exclude from the crawl. For more information, see Catalog Tables with a Crawler.
-        public let exclusions: [String]?
-
-        public init(connectionName: String? = nil, path: String? = nil, exclusions: [String]? = nil) {
-            self.connectionName = connectionName
-            self.path = path
-            self.exclusions = exclusions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectionName = "ConnectionName"
-            case path = "Path"
-            case exclusions = "Exclusions"
-        }
-    }
-
-    public struct MappingEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceTable", required: false, type: .string), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string), 
-            AWSShapeMember(label: "SourcePath", required: false, type: .string), 
-            AWSShapeMember(label: "TargetType", required: false, type: .string), 
-            AWSShapeMember(label: "TargetPath", required: false, type: .string), 
-            AWSShapeMember(label: "TargetTable", required: false, type: .string)
-        ]
-        /// The name of the source table.
-        public let sourceTable: String?
-        /// The source type.
-        public let sourceType: String?
-        /// The source path.
-        public let sourcePath: String?
-        /// The target type.
-        public let targetType: String?
-        /// The target path.
-        public let targetPath: String?
-        /// The target table.
-        public let targetTable: String?
-
-        public init(sourceTable: String? = nil, sourceType: String? = nil, sourcePath: String? = nil, targetType: String? = nil, targetPath: String? = nil, targetTable: String? = nil) {
-            self.sourceTable = sourceTable
-            self.sourceType = sourceType
-            self.sourcePath = sourcePath
-            self.targetType = targetType
-            self.targetPath = targetPath
-            self.targetTable = targetTable
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceTable = "SourceTable"
-            case sourceType = "SourceType"
-            case sourcePath = "SourcePath"
-            case targetType = "TargetType"
-            case targetPath = "TargetPath"
-            case targetTable = "TargetTable"
-        }
-    }
-
-    public struct TriggerUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Schedule", required: false, type: .string), 
-            AWSShapeMember(label: "Predicate", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Actions", required: false, type: .list), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
-        public let schedule: String?
-        /// The predicate of this trigger, which defines when it will fire.
-        public let predicate: Predicate?
-        /// Reserved for future use.
-        public let name: String?
-        /// The actions initiated by this trigger.
-        public let actions: [Action]?
-        /// A description of this trigger.
-        public let description: String?
-
-        public init(schedule: String? = nil, predicate: Predicate? = nil, name: String? = nil, actions: [Action]? = nil, description: String? = nil) {
-            self.schedule = schedule
-            self.predicate = predicate
-            self.name = name
-            self.actions = actions
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schedule = "Schedule"
-            case predicate = "Predicate"
-            case name = "Name"
-            case actions = "Actions"
-            case description = "Description"
-        }
-    }
-
-    public struct Location: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Jdbc", required: false, type: .list), 
-            AWSShapeMember(label: "DynamoDB", required: false, type: .list), 
-            AWSShapeMember(label: "S3", required: false, type: .list)
-        ]
-        /// A JDBC location.
-        public let jdbc: [CodeGenNodeArg]?
-        /// A DynamoDB Table location.
-        public let dynamoDB: [CodeGenNodeArg]?
-        /// An Amazon S3 location.
-        public let s3: [CodeGenNodeArg]?
-
-        public init(jdbc: [CodeGenNodeArg]? = nil, dynamoDB: [CodeGenNodeArg]? = nil, s3: [CodeGenNodeArg]? = nil) {
-            self.jdbc = jdbc
-            self.dynamoDB = dynamoDB
-            self.s3 = s3
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jdbc = "Jdbc"
-            case dynamoDB = "DynamoDB"
-            case s3 = "S3"
-        }
-    }
-
-    public struct UpdateUserDefinedFunctionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "FunctionName", required: true, type: .string), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "FunctionInput", required: true, type: .structure)
-        ]
-        /// The name of the catalog database where the function to be updated is located.
-        public let databaseName: String
-        /// The name of the function.
-        public let functionName: String
-        /// The ID of the Data Catalog where the function to be updated is located. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-        /// A FunctionInput object that re-defines the function in the Data Catalog.
-        public let functionInput: UserDefinedFunctionInput
-
-        public init(databaseName: String, functionName: String, catalogId: String? = nil, functionInput: UserDefinedFunctionInput) {
-            self.databaseName = databaseName
-            self.functionName = functionName
-            self.catalogId = catalogId
-            self.functionInput = functionInput
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case databaseName = "DatabaseName"
-            case functionName = "FunctionName"
-            case catalogId = "CatalogId"
-            case functionInput = "FunctionInput"
-        }
-    }
-
-    public struct GetPartitionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "Segment", required: false, type: .structure), 
-            AWSShapeMember(label: "TableName", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "Expression", required: false, type: .string)
-        ]
-        /// The name of the catalog database where the partitions reside.
-        public let databaseName: String
-        /// The segment of the table's partitions to scan in this request.
-        public let segment: Segment?
-        /// The name of the partitions' table.
-        public let tableName: String
-        /// The maximum number of partitions to return in a single response.
-        public let maxResults: Int32?
-        /// A continuation token, if this is not the first call to retrieve these partitions.
-        public let nextToken: String?
-        /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-        /// An expression filtering the partitions to be returned. The expression uses SQL syntax similar to the SQL WHERE filter clause. The SQL statement parser JSQLParser parses the expression.   Operators: The following are the operators that you can use in the Expression API call:  =  Checks if the values of the two operands are equal or not; if yes, then the condition becomes true. Example: Assume 'variable a' holds 10 and 'variable b' holds 20.  (a = b) is not true.  &lt; &gt;  Checks if the values of two operands are equal or not; if the values are not equal, then the condition becomes true. Example: (a &lt; &gt; b) is true.  &gt;  Checks if the value of the left operand is greater than the value of the right operand; if yes, then the condition becomes true. Example: (a &gt; b) is not true.  &lt;  Checks if the value of the left operand is less than the value of the right operand; if yes, then the condition becomes true. Example: (a &lt; b) is true.  &gt;=  Checks if the value of the left operand is greater than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a &gt;= b) is not true.  &lt;=  Checks if the value of the left operand is less than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a &lt;= b) is true.  AND, OR, IN, BETWEEN, LIKE, NOT, IS NULL  Logical operators.    Supported Partition Key Types: The following are the the supported partition keys.    string     date     timestamp     int     bigint     long     tinyint     smallint     decimal    If an invalid type is encountered, an exception is thrown.  The following list shows the valid operators on each type. When you define a crawler, the partitionKey type is created as a STRING, to be compatible with the catalog partitions.   Sample API Call: 
-        public let expression: String?
-
-        public init(databaseName: String, segment: Segment? = nil, tableName: String, maxResults: Int32? = nil, nextToken: String? = nil, catalogId: String? = nil, expression: String? = nil) {
-            self.databaseName = databaseName
-            self.segment = segment
-            self.tableName = tableName
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.catalogId = catalogId
-            self.expression = expression
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case databaseName = "DatabaseName"
-            case segment = "Segment"
-            case tableName = "TableName"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case catalogId = "CatalogId"
-            case expression = "Expression"
-        }
-    }
-
-    public struct DatabaseInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "LocationUri", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .map)
-        ]
-        /// Name of the database. For Hive compatibility, this is folded to lowercase when it is stored.
-        public let name: String
-        /// The location of the database (for example, an HDFS path).
-        public let locationUri: String?
-        /// Description of the database
-        public let description: String?
-        /// Thes key-value pairs define parameters and properties of the database.
-        public let parameters: [String: String]?
-
-        public init(name: String, locationUri: String? = nil, description: String? = nil, parameters: [String: String]? = nil) {
-            self.name = name
-            self.locationUri = locationUri
-            self.description = description
-            self.parameters = parameters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case locationUri = "LocationUri"
-            case description = "Description"
-            case parameters = "Parameters"
-        }
-    }
-
-    public struct DevEndpoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PublicAddress", required: false, type: .string), 
-            AWSShapeMember(label: "PrivateAddress", required: false, type: .string), 
-            AWSShapeMember(label: "ZeppelinRemoteSparkInterpreterPort", required: false, type: .integer), 
-            AWSShapeMember(label: "ExtraJarsS3Path", required: false, type: .string), 
-            AWSShapeMember(label: "PublicKeys", required: false, type: .list), 
-            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "YarnEndpointAddress", required: false, type: .string), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "ExtraPythonLibsS3Path", required: false, type: .string), 
-            AWSShapeMember(label: "EndpointName", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string), 
-            AWSShapeMember(label: "PublicKey", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdateStatus", required: false, type: .string)
-        ]
-        /// The public IP address used by this DevEndpoint. The PublicAddress field is present only when you create a non-VPC (virtual private cloud) DevEndpoint.
-        public let publicAddress: String?
-        /// A private IP address to access the DevEndpoint within a VPC, if the DevEndpoint is created within one. The PrivateAddress field is present only when you create the DevEndpoint within your virtual private cloud (VPC).
-        public let privateAddress: String?
-        /// The Apache Zeppelin port for the remote Apache Spark interpreter.
-        public let zeppelinRemoteSparkInterpreterPort: Int32?
-        /// Path to one or more Java Jars in an S3 bucket that should be loaded in your DevEndpoint. Please note that only pure Java/Scala libraries can currently be used on a DevEndpoint.
-        public let extraJarsS3Path: String?
-        /// A list of public keys to be used by the DevEndpoints for authentication. The use of this attribute is preferred over a single public key because the public keys allow you to have a different private key per client.  If you previously created an endpoint with a public key, you must remove that key to be able to set a list of public keys: call the UpdateDevEndpoint API with the public key content in the deletePublicKeys attribute, and the list of new keys in the addPublicKeys attribute. 
-        public let publicKeys: [String]?
-        /// The name of the SecurityConfiguration structure to be used with this DevEndpoint.
-        public let securityConfiguration: String?
-        /// A list of security group identifiers used in this DevEndpoint.
-        public let securityGroupIds: [String]?
-        /// The number of AWS Glue Data Processing Units (DPUs) allocated to this DevEndpoint.
-        public let numberOfNodes: Int32?
-        /// The current status of this DevEndpoint.
-        public let status: String?
-        /// The YARN endpoint address used by this DevEndpoint.
-        public let yarnEndpointAddress: String?
-        /// The reason for a current failure in this DevEndpoint.
-        public let failureReason: String?
-        /// The AWS ARN of the IAM role used in this DevEndpoint.
-        public let roleArn: String?
-        /// The point in time at which this DevEndpoint was created.
-        public let createdTimestamp: TimeStamp?
-        /// The subnet ID for this DevEndpoint.
-        public let subnetId: String?
-        /// The AWS availability zone where this DevEndpoint is located.
-        public let availabilityZone: String?
-        /// Path(s) to one or more Python libraries in an S3 bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma. Please note that only pure Python libraries can currently be used on a DevEndpoint. Libraries that rely on C extensions, such as the pandas Python data analysis library, are not yet supported.
-        public let extraPythonLibsS3Path: String?
-        /// The name of the DevEndpoint.
-        public let endpointName: String?
-        /// The point in time at which this DevEndpoint was last modified.
-        public let lastModifiedTimestamp: TimeStamp?
-        /// The ID of the virtual private cloud (VPC) used by this DevEndpoint.
-        public let vpcId: String?
-        /// The public key to be used by this DevEndpoint for authentication. This attribute is provided for backward compatibility, as the recommended attribute to use is public keys.
-        public let publicKey: String?
-        /// The status of the last update.
-        public let lastUpdateStatus: String?
-
-        public init(publicAddress: String? = nil, privateAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int32? = nil, extraJarsS3Path: String? = nil, publicKeys: [String]? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, numberOfNodes: Int32? = nil, status: String? = nil, yarnEndpointAddress: String? = nil, failureReason: String? = nil, roleArn: String? = nil, createdTimestamp: TimeStamp? = nil, subnetId: String? = nil, availabilityZone: String? = nil, extraPythonLibsS3Path: String? = nil, endpointName: String? = nil, lastModifiedTimestamp: TimeStamp? = nil, vpcId: String? = nil, publicKey: String? = nil, lastUpdateStatus: String? = nil) {
-            self.publicAddress = publicAddress
-            self.privateAddress = privateAddress
-            self.zeppelinRemoteSparkInterpreterPort = zeppelinRemoteSparkInterpreterPort
-            self.extraJarsS3Path = extraJarsS3Path
-            self.publicKeys = publicKeys
-            self.securityConfiguration = securityConfiguration
-            self.securityGroupIds = securityGroupIds
-            self.numberOfNodes = numberOfNodes
-            self.status = status
-            self.yarnEndpointAddress = yarnEndpointAddress
-            self.failureReason = failureReason
-            self.roleArn = roleArn
-            self.createdTimestamp = createdTimestamp
-            self.subnetId = subnetId
-            self.availabilityZone = availabilityZone
-            self.extraPythonLibsS3Path = extraPythonLibsS3Path
-            self.endpointName = endpointName
-            self.lastModifiedTimestamp = lastModifiedTimestamp
-            self.vpcId = vpcId
-            self.publicKey = publicKey
-            self.lastUpdateStatus = lastUpdateStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case publicAddress = "PublicAddress"
-            case privateAddress = "PrivateAddress"
-            case zeppelinRemoteSparkInterpreterPort = "ZeppelinRemoteSparkInterpreterPort"
-            case extraJarsS3Path = "ExtraJarsS3Path"
-            case publicKeys = "PublicKeys"
-            case securityConfiguration = "SecurityConfiguration"
-            case securityGroupIds = "SecurityGroupIds"
-            case numberOfNodes = "NumberOfNodes"
-            case status = "Status"
-            case yarnEndpointAddress = "YarnEndpointAddress"
-            case failureReason = "FailureReason"
-            case roleArn = "RoleArn"
-            case createdTimestamp = "CreatedTimestamp"
-            case subnetId = "SubnetId"
-            case availabilityZone = "AvailabilityZone"
-            case extraPythonLibsS3Path = "ExtraPythonLibsS3Path"
-            case endpointName = "EndpointName"
-            case lastModifiedTimestamp = "LastModifiedTimestamp"
-            case vpcId = "VpcId"
-            case publicKey = "PublicKey"
-            case lastUpdateStatus = "LastUpdateStatus"
-        }
-    }
-
-    public struct UpdateClassifierRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JsonClassifier", required: false, type: .structure), 
-            AWSShapeMember(label: "XMLClassifier", required: false, type: .structure), 
-            AWSShapeMember(label: "GrokClassifier", required: false, type: .structure)
-        ]
-        /// A JsonClassifier object with updated fields.
-        public let jsonClassifier: UpdateJsonClassifierRequest?
-        /// An XMLClassifier object with updated fields.
-        public let xMLClassifier: UpdateXMLClassifierRequest?
-        /// A GrokClassifier object with updated fields.
-        public let grokClassifier: UpdateGrokClassifierRequest?
-
-        public init(jsonClassifier: UpdateJsonClassifierRequest? = nil, xMLClassifier: UpdateXMLClassifierRequest? = nil, grokClassifier: UpdateGrokClassifierRequest? = nil) {
-            self.jsonClassifier = jsonClassifier
-            self.xMLClassifier = xMLClassifier
-            self.grokClassifier = grokClassifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jsonClassifier = "JsonClassifier"
-            case xMLClassifier = "XMLClassifier"
-            case grokClassifier = "GrokClassifier"
-        }
-    }
-
-    public struct GetSecurityConfigurationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list of security configurations.
-        public let securityConfigurations: [SecurityConfiguration]?
-        /// A continuation token, if there are more security configurations to return.
-        public let nextToken: String?
-
-        public init(securityConfigurations: [SecurityConfiguration]? = nil, nextToken: String? = nil) {
-            self.securityConfigurations = securityConfigurations
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case securityConfigurations = "SecurityConfigurations"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetTableVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TableVersions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list of strings identifying available versions of the specified table.
-        public let tableVersions: [TableVersion]?
-        /// A continuation token, if the list of available versions does not include the last one.
-        public let nextToken: String?
-
-        public init(tableVersions: [TableVersion]? = nil, nextToken: String? = nil) {
-            self.tableVersions = tableVersions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tableVersions = "TableVersions"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DeleteClassifierResponse: AWSShape {
-
-    }
-
-    public struct UpdateDevEndpointResponse: AWSShape {
-
-    }
-
-    public struct GetPartitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "TableName", required: true, type: .string), 
-            AWSShapeMember(label: "PartitionValues", required: true, type: .list)
-        ]
-        /// The name of the catalog database where the partition resides.
-        public let databaseName: String
-        /// The ID of the Data Catalog where the partition in question resides. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-        /// The name of the partition's table.
-        public let tableName: String
-        /// The values that define the partition.
-        public let partitionValues: [String]
-
-        public init(databaseName: String, catalogId: String? = nil, tableName: String, partitionValues: [String]) {
-            self.databaseName = databaseName
-            self.catalogId = catalogId
-            self.tableName = tableName
-            self.partitionValues = partitionValues
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case databaseName = "DatabaseName"
-            case catalogId = "CatalogId"
-            case tableName = "TableName"
-            case partitionValues = "PartitionValues"
-        }
-    }
-
-    public struct GetTriggersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Triggers", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list of triggers for the specified job.
-        public let triggers: [Trigger]?
-        /// A continuation token, if not all the requested triggers have yet been returned.
-        public let nextToken: String?
-
-        public init(triggers: [Trigger]? = nil, nextToken: String? = nil) {
-            self.triggers = triggers
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case triggers = "Triggers"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct EncryptionAtRest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SseAwsKmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "CatalogEncryptionMode", required: true, type: .enum)
-        ]
-        /// The ID of the AWS KMS key to use for encryption at rest.
-        public let sseAwsKmsKeyId: String?
-        /// The encryption-at-rest mode for encrypting Data Catalog data.
-        public let catalogEncryptionMode: CatalogEncryptionMode
-
-        public init(sseAwsKmsKeyId: String? = nil, catalogEncryptionMode: CatalogEncryptionMode) {
-            self.sseAwsKmsKeyId = sseAwsKmsKeyId
-            self.catalogEncryptionMode = catalogEncryptionMode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sseAwsKmsKeyId = "SseAwsKmsKeyId"
-            case catalogEncryptionMode = "CatalogEncryptionMode"
-        }
-    }
-
-    public enum TriggerState: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case created = "CREATED"
-        case activating = "ACTIVATING"
-        case activated = "ACTIVATED"
-        case deactivating = "DEACTIVATING"
-        case deactivated = "DEACTIVATED"
-        case deleting = "DELETING"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
     }
 
     public struct BatchDeleteConnectionResponse: AWSShape {
@@ -1881,65 +130,217 @@ extension Glue {
         }
     }
 
-    public enum CrawlerState: String, CustomStringConvertible, Codable {
-        case ready = "READY"
-        case running = "RUNNING"
-        case stopping = "STOPPING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteSecurityConfigurationRequest: AWSShape {
+    public struct BatchDeletePartitionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "PartitionsToDelete", required: true, type: .list), 
+            AWSShapeMember(label: "TableName", required: true, type: .string)
         ]
-        /// The name of the security configuration to delete.
-        public let name: String
+        /// The ID of the Data Catalog where the partition to be deleted resides. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The name of the catalog database in which the table in question resides.
+        public let databaseName: String
+        /// A list of PartitionInput structures that define the partitions to be deleted.
+        public let partitionsToDelete: [PartitionValueList]
+        /// The name of the table where the partitions to be deleted is located.
+        public let tableName: String
 
-        public init(name: String) {
-            self.name = name
+        public init(catalogId: String? = nil, databaseName: String, partitionsToDelete: [PartitionValueList], tableName: String) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.partitionsToDelete = partitionsToDelete
+            self.tableName = tableName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "Name"
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case partitionsToDelete = "PartitionsToDelete"
+            case tableName = "TableName"
         }
     }
 
-    public struct UpdateConnectionResponse: AWSShape {
-
-    }
-
-    public struct CreateUserDefinedFunctionResponse: AWSShape {
-
-    }
-
-    public struct CreatePartitionRequest: AWSShape {
+    public struct BatchDeletePartitionResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PartitionInput", required: true, type: .structure), 
+            AWSShapeMember(label: "Errors", required: false, type: .list)
+        ]
+        /// Errors encountered when trying to delete the requested partitions.
+        public let errors: [PartitionError]?
+
+        public init(errors: [PartitionError]? = nil) {
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "Errors"
+        }
+    }
+
+    public struct BatchDeleteTableRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "TablesToDelete", required: true, type: .list)
+        ]
+        /// The ID of the Data Catalog where the table resides. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The name of the catalog database where the tables to delete reside. For Hive compatibility, this name is entirely lowercase.
+        public let databaseName: String
+        /// A list of the table to delete.
+        public let tablesToDelete: [String]
+
+        public init(catalogId: String? = nil, databaseName: String, tablesToDelete: [String]) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.tablesToDelete = tablesToDelete
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case tablesToDelete = "TablesToDelete"
+        }
+    }
+
+    public struct BatchDeleteTableResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Errors", required: false, type: .list)
+        ]
+        /// A list of errors encountered in attempting to delete the specified tables.
+        public let errors: [TableError]?
+
+        public init(errors: [TableError]? = nil) {
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "Errors"
+        }
+    }
+
+    public struct BatchDeleteTableVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
             AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
             AWSShapeMember(label: "TableName", required: true, type: .string), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string)
+            AWSShapeMember(label: "VersionIds", required: true, type: .list)
         ]
-        /// A PartitionInput structure defining the partition to be created.
-        public let partitionInput: PartitionInput
-        /// The name of the metadata database in which the partition is to be created.
-        public let databaseName: String
-        /// The name of the metadata table in which the partition is to be created.
-        public let tableName: String
-        /// The ID of the catalog in which the partion is to be created. Currently, this should be the AWS account ID.
+        /// The ID of the Data Catalog where the tables reside. If none is supplied, the AWS account ID is used by default.
         public let catalogId: String?
+        /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
+        public let databaseName: String
+        /// The name of the table. For Hive compatibility, this name is entirely lowercase.
+        public let tableName: String
+        /// A list of the IDs of versions to be deleted. A VersionId is a string representation of an integer. Each version is incremented by 1.
+        public let versionIds: [String]
 
-        public init(partitionInput: PartitionInput, databaseName: String, tableName: String, catalogId: String? = nil) {
-            self.partitionInput = partitionInput
+        public init(catalogId: String? = nil, databaseName: String, tableName: String, versionIds: [String]) {
+            self.catalogId = catalogId
             self.databaseName = databaseName
             self.tableName = tableName
-            self.catalogId = catalogId
+            self.versionIds = versionIds
         }
 
         private enum CodingKeys: String, CodingKey {
-            case partitionInput = "PartitionInput"
+            case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
             case tableName = "TableName"
+            case versionIds = "VersionIds"
+        }
+    }
+
+    public struct BatchDeleteTableVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Errors", required: false, type: .list)
+        ]
+        /// A list of errors encountered while trying to delete the specified table versions.
+        public let errors: [TableVersionError]?
+
+        public init(errors: [TableVersionError]? = nil) {
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "Errors"
+        }
+    }
+
+    public struct BatchGetPartitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "PartitionsToGet", required: true, type: .list), 
+            AWSShapeMember(label: "TableName", required: true, type: .string)
+        ]
+        /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The name of the catalog database where the partitions reside.
+        public let databaseName: String
+        /// A list of partition values identifying the partitions to retrieve.
+        public let partitionsToGet: [PartitionValueList]
+        /// The name of the partitions' table.
+        public let tableName: String
+
+        public init(catalogId: String? = nil, databaseName: String, partitionsToGet: [PartitionValueList], tableName: String) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.partitionsToGet = partitionsToGet
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case partitionsToGet = "PartitionsToGet"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct BatchGetPartitionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Partitions", required: false, type: .list), 
+            AWSShapeMember(label: "UnprocessedKeys", required: false, type: .list)
+        ]
+        /// A list of the requested partitions.
+        public let partitions: [Partition]?
+        /// A list of the partition values in the request for which partions were not returned.
+        public let unprocessedKeys: [PartitionValueList]?
+
+        public init(partitions: [Partition]? = nil, unprocessedKeys: [PartitionValueList]? = nil) {
+            self.partitions = partitions
+            self.unprocessedKeys = unprocessedKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case partitions = "Partitions"
+            case unprocessedKeys = "UnprocessedKeys"
+        }
+    }
+
+    public struct BatchStopJobRunError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "JobRunId", required: false, type: .string)
+        ]
+        /// Specifies details about the error that was encountered.
+        public let errorDetail: ErrorDetail?
+        /// The name of the job definition used in the job run in question.
+        public let jobName: String?
+        /// The JobRunId of the job run in question.
+        public let jobRunId: String?
+
+        public init(errorDetail: ErrorDetail? = nil, jobName: String? = nil, jobRunId: String? = nil) {
+            self.errorDetail = errorDetail
+            self.jobName = jobName
+            self.jobRunId = jobRunId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorDetail = "ErrorDetail"
+            case jobName = "JobName"
+            case jobRunId = "JobRunId"
         }
     }
 
@@ -1964,949 +365,145 @@ extension Glue {
         }
     }
 
-    public enum ExistCondition: String, CustomStringConvertible, Codable {
-        case mustExist = "MUST_EXIST"
-        case notExist = "NOT_EXIST"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetUserDefinedFunctionsRequest: AWSShape {
+    public struct BatchStopJobRunResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Pattern", required: true, type: .string), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "Errors", required: false, type: .list), 
+            AWSShapeMember(label: "SuccessfulSubmissions", required: false, type: .list)
         ]
-        /// An optional function-name pattern string that filters the function definitions returned.
-        public let pattern: String
-        /// The ID of the Data Catalog where the functions to be retrieved are located. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-        /// The name of the catalog database where the functions are located.
-        public let databaseName: String
-        /// The maximum number of functions to return in one response.
-        public let maxResults: Int32?
-        /// A continuation token, if this is a continuation call.
-        public let nextToken: String?
+        /// A list of the errors that were encountered in tryng to stop JobRuns, including the JobRunId for which each error was encountered and details about the error.
+        public let errors: [BatchStopJobRunError]?
+        /// A list of the JobRuns that were successfully submitted for stopping.
+        public let successfulSubmissions: [BatchStopJobRunSuccessfulSubmission]?
 
-        public init(pattern: String, catalogId: String? = nil, databaseName: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.pattern = pattern
-            self.catalogId = catalogId
-            self.databaseName = databaseName
-            self.maxResults = maxResults
-            self.nextToken = nextToken
+        public init(errors: [BatchStopJobRunError]? = nil, successfulSubmissions: [BatchStopJobRunSuccessfulSubmission]? = nil) {
+            self.errors = errors
+            self.successfulSubmissions = successfulSubmissions
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pattern = "Pattern"
-            case catalogId = "CatalogId"
-            case databaseName = "DatabaseName"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
+            case errors = "Errors"
+            case successfulSubmissions = "SuccessfulSubmissions"
         }
     }
 
-    public struct GetSecurityConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .structure)
-        ]
-        /// The requested security configuration
-        public let securityConfiguration: SecurityConfiguration?
-
-        public init(securityConfiguration: SecurityConfiguration? = nil) {
-            self.securityConfiguration = securityConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case securityConfiguration = "SecurityConfiguration"
-        }
-    }
-
-    public struct CreateClassifierRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JsonClassifier", required: false, type: .structure), 
-            AWSShapeMember(label: "XMLClassifier", required: false, type: .structure), 
-            AWSShapeMember(label: "GrokClassifier", required: false, type: .structure)
-        ]
-        /// A JsonClassifier object specifying the classifier to create.
-        public let jsonClassifier: CreateJsonClassifierRequest?
-        /// An XMLClassifier object specifying the classifier to create.
-        public let xMLClassifier: CreateXMLClassifierRequest?
-        /// A GrokClassifier object specifying the classifier to create.
-        public let grokClassifier: CreateGrokClassifierRequest?
-
-        public init(jsonClassifier: CreateJsonClassifierRequest? = nil, xMLClassifier: CreateXMLClassifierRequest? = nil, grokClassifier: CreateGrokClassifierRequest? = nil) {
-            self.jsonClassifier = jsonClassifier
-            self.xMLClassifier = xMLClassifier
-            self.grokClassifier = grokClassifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jsonClassifier = "JsonClassifier"
-            case xMLClassifier = "XMLClassifier"
-            case grokClassifier = "GrokClassifier"
-        }
-    }
-
-    public struct DeleteTableRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The name of the catalog database in which the table resides. For Hive compatibility, this name is entirely lowercase.
-        public let databaseName: String
-        /// The ID of the Data Catalog where the table resides. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-        /// The name of the table to be deleted. For Hive compatibility, this name is entirely lowercase.
-        public let name: String
-
-        public init(databaseName: String, catalogId: String? = nil, name: String) {
-            self.databaseName = databaseName
-            self.catalogId = catalogId
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case databaseName = "DatabaseName"
-            case catalogId = "CatalogId"
-            case name = "Name"
-        }
-    }
-
-    public struct GetResourcePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "PolicyHash", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyInJson", required: false, type: .string), 
-            AWSShapeMember(label: "CreateTime", required: false, type: .timestamp)
-        ]
-        /// The date and time at which the policy was last updated.
-        public let updateTime: TimeStamp?
-        /// Contains the hash value associated with this policy.
-        public let policyHash: String?
-        /// Contains the requested policy document, in JSON format.
-        public let policyInJson: String?
-        /// The date and time at which the policy was created.
-        public let createTime: TimeStamp?
-
-        public init(updateTime: TimeStamp? = nil, policyHash: String? = nil, policyInJson: String? = nil, createTime: TimeStamp? = nil) {
-            self.updateTime = updateTime
-            self.policyHash = policyHash
-            self.policyInJson = policyInJson
-            self.createTime = createTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case updateTime = "UpdateTime"
-            case policyHash = "PolicyHash"
-            case policyInJson = "PolicyInJson"
-            case createTime = "CreateTime"
-        }
-    }
-
-    public enum LastCrawlStatus: String, CustomStringConvertible, Codable {
-        case succeeded = "SUCCEEDED"
-        case cancelled = "CANCELLED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteSecurityConfigurationResponse: AWSShape {
-
-    }
-
-    public struct TableVersionError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TableName", required: false, type: .string), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorDetail", required: false, type: .structure)
-        ]
-        /// The name of the table in question.
-        public let tableName: String?
-        /// The ID value of the version in question. A VersionID is a string representation of an integer. Each version is incremented by 1.
-        public let versionId: String?
-        /// Detail about the error.
-        public let errorDetail: ErrorDetail?
-
-        public init(tableName: String? = nil, versionId: String? = nil, errorDetail: ErrorDetail? = nil) {
-            self.tableName = tableName
-            self.versionId = versionId
-            self.errorDetail = errorDetail
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tableName = "TableName"
-            case versionId = "VersionId"
-            case errorDetail = "ErrorDetail"
-        }
-    }
-
-    public struct CreateCrawlerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Role", required: true, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "TablePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "Classifiers", required: false, type: .list), 
-            AWSShapeMember(label: "Configuration", required: false, type: .string), 
-            AWSShapeMember(label: "Targets", required: true, type: .structure), 
-            AWSShapeMember(label: "Schedule", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "SchemaChangePolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "CrawlerSecurityConfiguration", required: false, type: .string)
-        ]
-        /// The IAM role (or ARN of an IAM role) used by the new crawler to access customer resources.
-        public let role: String
-        /// The AWS Glue database where results are written, such as: arn:aws:daylight:us-east-1::database/sometable/*.
-        public let databaseName: String
-        /// The table prefix used for catalog tables that are created.
-        public let tablePrefix: String?
-        /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
-        public let classifiers: [String]?
-        /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Configuring a Crawler.
-        public let configuration: String?
-        /// A list of collection of targets to crawl.
-        public let targets: CrawlerTargets
-        /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
-        public let schedule: String?
-        /// A description of the new crawler.
-        public let description: String?
-        /// Name of the new crawler.
-        public let name: String
-        /// Policy for the crawler's update and deletion behavior.
-        public let schemaChangePolicy: SchemaChangePolicy?
-        /// The name of the SecurityConfiguration structure to be used by this Crawler.
-        public let crawlerSecurityConfiguration: String?
-
-        public init(role: String, databaseName: String, tablePrefix: String? = nil, classifiers: [String]? = nil, configuration: String? = nil, targets: CrawlerTargets, schedule: String? = nil, description: String? = nil, name: String, schemaChangePolicy: SchemaChangePolicy? = nil, crawlerSecurityConfiguration: String? = nil) {
-            self.role = role
-            self.databaseName = databaseName
-            self.tablePrefix = tablePrefix
-            self.classifiers = classifiers
-            self.configuration = configuration
-            self.targets = targets
-            self.schedule = schedule
-            self.description = description
-            self.name = name
-            self.schemaChangePolicy = schemaChangePolicy
-            self.crawlerSecurityConfiguration = crawlerSecurityConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case role = "Role"
-            case databaseName = "DatabaseName"
-            case tablePrefix = "TablePrefix"
-            case classifiers = "Classifiers"
-            case configuration = "Configuration"
-            case targets = "Targets"
-            case schedule = "Schedule"
-            case description = "Description"
-            case name = "Name"
-            case schemaChangePolicy = "SchemaChangePolicy"
-            case crawlerSecurityConfiguration = "CrawlerSecurityConfiguration"
-        }
-    }
-
-    public struct StopCrawlerResponse: AWSShape {
-
-    }
-
-    public struct TableError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorDetail", required: false, type: .structure), 
-            AWSShapeMember(label: "TableName", required: false, type: .string)
-        ]
-        /// Detail about the error.
-        public let errorDetail: ErrorDetail?
-        /// Name of the table. For Hive compatibility, this must be entirely lowercase.
-        public let tableName: String?
-
-        public init(errorDetail: ErrorDetail? = nil, tableName: String? = nil) {
-            self.errorDetail = errorDetail
-            self.tableName = tableName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorDetail = "ErrorDetail"
-            case tableName = "TableName"
-        }
-    }
-
-    public struct GetResourcePolicyRequest: AWSShape {
-
-    }
-
-    public struct PutDataCatalogEncryptionSettingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DataCatalogEncryptionSettings", required: true, type: .structure)
-        ]
-        /// The ID of the Data Catalog for which to set the security configuration. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-        /// The security configuration to set.
-        public let dataCatalogEncryptionSettings: DataCatalogEncryptionSettings
-
-        public init(catalogId: String? = nil, dataCatalogEncryptionSettings: DataCatalogEncryptionSettings) {
-            self.catalogId = catalogId
-            self.dataCatalogEncryptionSettings = dataCatalogEncryptionSettings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case catalogId = "CatalogId"
-            case dataCatalogEncryptionSettings = "DataCatalogEncryptionSettings"
-        }
-    }
-
-    public struct BatchStopJobRunError: AWSShape {
+    public struct BatchStopJobRunSuccessfulSubmission: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "JobRunId", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorDetail", required: false, type: .structure)
+            AWSShapeMember(label: "JobRunId", required: false, type: .string)
         ]
-        /// The name of the job definition used in the job run in question.
+        /// The name of the job definition used in the job run that was stopped.
         public let jobName: String?
-        /// The JobRunId of the job run in question.
+        /// The JobRunId of the job run that was stopped.
         public let jobRunId: String?
-        /// Specifies details about the error that was encountered.
-        public let errorDetail: ErrorDetail?
 
-        public init(jobName: String? = nil, jobRunId: String? = nil, errorDetail: ErrorDetail? = nil) {
+        public init(jobName: String? = nil, jobRunId: String? = nil) {
             self.jobName = jobName
             self.jobRunId = jobRunId
-            self.errorDetail = errorDetail
         }
 
         private enum CodingKeys: String, CodingKey {
             case jobName = "JobName"
             case jobRunId = "JobRunId"
-            case errorDetail = "ErrorDetail"
         }
     }
 
-    public enum TriggerType: String, CustomStringConvertible, Codable {
-        case scheduled = "SCHEDULED"
-        case conditional = "CONDITIONAL"
-        case onDemand = "ON_DEMAND"
+    public enum CatalogEncryptionMode: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case sseKms = "SSE-KMS"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobRunState: String, CustomStringConvertible, Codable {
-        case starting = "STARTING"
-        case running = "RUNNING"
-        case stopping = "STOPPING"
-        case stopped = "STOPPED"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        case timeout = "TIMEOUT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Trigger: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "Actions", required: false, type: .list), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Schedule", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Predicate", required: false, type: .structure)
-        ]
-        /// The current state of the trigger.
-        public let state: TriggerState?
-        /// The actions initiated by this trigger.
-        public let actions: [Action]?
-        /// The type of trigger that this is.
-        public let `type`: TriggerType?
-        /// Reserved for future use.
-        public let id: String?
-        /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
-        public let schedule: String?
-        /// A description of this trigger.
-        public let description: String?
-        /// Name of the trigger.
-        public let name: String?
-        /// The predicate of this trigger, which defines when it will fire.
-        public let predicate: Predicate?
-
-        public init(state: TriggerState? = nil, actions: [Action]? = nil, type: TriggerType? = nil, id: String? = nil, schedule: String? = nil, description: String? = nil, name: String? = nil, predicate: Predicate? = nil) {
-            self.state = state
-            self.actions = actions
-            self.`type` = `type`
-            self.id = id
-            self.schedule = schedule
-            self.description = description
-            self.name = name
-            self.predicate = predicate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "State"
-            case actions = "Actions"
-            case `type` = "Type"
-            case id = "Id"
-            case schedule = "Schedule"
-            case description = "Description"
-            case name = "Name"
-            case predicate = "Predicate"
-        }
-    }
-
-    public struct CreateGrokClassifierRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomPatterns", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Classification", required: true, type: .string), 
-            AWSShapeMember(label: "GrokPattern", required: true, type: .string)
-        ]
-        /// Optional custom grok patterns used by this classifier.
-        public let customPatterns: String?
-        /// The name of the new classifier.
-        public let name: String
-        /// An identifier of the data format that the classifier matches, such as Twitter, JSON, Omniture logs, Amazon CloudWatch Logs, and so on.
-        public let classification: String
-        /// The grok pattern used by this classifier.
-        public let grokPattern: String
-
-        public init(customPatterns: String? = nil, name: String, classification: String, grokPattern: String) {
-            self.customPatterns = customPatterns
-            self.name = name
-            self.classification = classification
-            self.grokPattern = grokPattern
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case customPatterns = "CustomPatterns"
-            case name = "Name"
-            case classification = "Classification"
-            case grokPattern = "GrokPattern"
-        }
-    }
-
-    public struct Database: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Parameters", required: false, type: .map), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "LocationUri", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "CreateTime", required: false, type: .timestamp)
-        ]
-        /// These key-value pairs define parameters and properties of the database.
-        public let parameters: [String: String]?
-        /// Name of the database. For Hive compatibility, this is folded to lowercase when it is stored.
-        public let name: String
-        /// The location of the database (for example, an HDFS path).
-        public let locationUri: String?
-        /// Description of the database.
-        public let description: String?
-        /// The time at which the metadata database was created in the catalog.
-        public let createTime: TimeStamp?
-
-        public init(parameters: [String: String]? = nil, name: String, locationUri: String? = nil, description: String? = nil, createTime: TimeStamp? = nil) {
-            self.parameters = parameters
-            self.name = name
-            self.locationUri = locationUri
-            self.description = description
-            self.createTime = createTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case parameters = "Parameters"
-            case name = "Name"
-            case locationUri = "LocationUri"
-            case description = "Description"
-            case createTime = "CreateTime"
-        }
-    }
-
-    public struct GetTableVersionsRequest: AWSShape {
+    public struct CatalogEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "TableName", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "TableName", required: true, type: .string)
         ]
-        /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
+        /// The database in which the table metadata resides.
         public let databaseName: String
-        /// The ID of the Data Catalog where the tables reside. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-        /// The name of the table. For Hive compatibility, this name is entirely lowercase.
+        /// The name of the table in question.
         public let tableName: String
-        /// The maximum number of table versions to return in one response.
-        public let maxResults: Int32?
-        /// A continuation token, if this is not the first call.
-        public let nextToken: String?
 
-        public init(databaseName: String, catalogId: String? = nil, tableName: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(databaseName: String, tableName: String) {
             self.databaseName = databaseName
-            self.catalogId = catalogId
             self.tableName = tableName
-            self.maxResults = maxResults
-            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case databaseName = "DatabaseName"
-            case catalogId = "CatalogId"
             case tableName = "TableName"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
         }
     }
 
-    public struct JobUpdate: AWSShape {
+    public struct CatalogImportStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExecutionProperty", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
-            AWSShapeMember(label: "Role", required: false, type: .string), 
-            AWSShapeMember(label: "Connections", required: false, type: .structure), 
-            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
-            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultArguments", required: false, type: .map), 
-            AWSShapeMember(label: "Command", required: false, type: .structure), 
-            AWSShapeMember(label: "LogUri", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "AllocatedCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "NotificationProperty", required: false, type: .structure)
+            AWSShapeMember(label: "ImportCompleted", required: false, type: .boolean), 
+            AWSShapeMember(label: "ImportTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ImportedBy", required: false, type: .string)
         ]
-        /// An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
-        public let executionProperty: ExecutionProperty?
-        /// The maximum number of times to retry this job if it fails.
-        public let maxRetries: Int32?
-        /// The name or ARN of the IAM role associated with this job (required).
-        public let role: String?
-        /// The connections used for this job.
-        public let connections: ConnectionsList?
-        /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
-        public let timeout: Int32?
-        /// The name of the SecurityConfiguration structure to be used with this job.
-        public let securityConfiguration: String?
-        /// The default arguments for this job. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
-        public let defaultArguments: [String: String]?
-        /// The JobCommand that executes this job (required).
-        public let command: JobCommand?
-        /// This field is reserved for future use.
-        public let logUri: String?
-        /// Description of the job being defined.
-        public let description: String?
-        /// The number of AWS Glue data processing units (DPUs) to allocate to this Job. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
-        public let allocatedCapacity: Int32?
-        /// Specifies configuration properties of a job notification.
-        public let notificationProperty: NotificationProperty?
+        /// True if the migration has completed, or False otherwise.
+        public let importCompleted: Bool?
+        /// The time that the migration was started.
+        public let importTime: TimeStamp?
+        /// The name of the person who initiated the migration.
+        public let importedBy: String?
 
-        public init(executionProperty: ExecutionProperty? = nil, maxRetries: Int32? = nil, role: String? = nil, connections: ConnectionsList? = nil, timeout: Int32? = nil, securityConfiguration: String? = nil, defaultArguments: [String: String]? = nil, command: JobCommand? = nil, logUri: String? = nil, description: String? = nil, allocatedCapacity: Int32? = nil, notificationProperty: NotificationProperty? = nil) {
-            self.executionProperty = executionProperty
-            self.maxRetries = maxRetries
-            self.role = role
-            self.connections = connections
-            self.timeout = timeout
-            self.securityConfiguration = securityConfiguration
-            self.defaultArguments = defaultArguments
-            self.command = command
-            self.logUri = logUri
-            self.description = description
-            self.allocatedCapacity = allocatedCapacity
-            self.notificationProperty = notificationProperty
+        public init(importCompleted: Bool? = nil, importTime: TimeStamp? = nil, importedBy: String? = nil) {
+            self.importCompleted = importCompleted
+            self.importTime = importTime
+            self.importedBy = importedBy
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionProperty = "ExecutionProperty"
-            case maxRetries = "MaxRetries"
-            case role = "Role"
-            case connections = "Connections"
-            case timeout = "Timeout"
-            case securityConfiguration = "SecurityConfiguration"
-            case defaultArguments = "DefaultArguments"
-            case command = "Command"
-            case logUri = "LogUri"
-            case description = "Description"
-            case allocatedCapacity = "AllocatedCapacity"
-            case notificationProperty = "NotificationProperty"
+            case importCompleted = "ImportCompleted"
+            case importTime = "ImportTime"
+            case importedBy = "ImportedBy"
         }
     }
 
-    public struct GetTableVersionResponse: AWSShape {
+    public struct Classifier: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TableVersion", required: false, type: .structure)
+            AWSShapeMember(label: "GrokClassifier", required: false, type: .structure), 
+            AWSShapeMember(label: "JsonClassifier", required: false, type: .structure), 
+            AWSShapeMember(label: "XMLClassifier", required: false, type: .structure)
         ]
-        /// The requested table version.
-        public let tableVersion: TableVersion?
+        /// A GrokClassifier object.
+        public let grokClassifier: GrokClassifier?
+        /// A JsonClassifier object.
+        public let jsonClassifier: JsonClassifier?
+        /// An XMLClassifier object.
+        public let xMLClassifier: XMLClassifier?
 
-        public init(tableVersion: TableVersion? = nil) {
-            self.tableVersion = tableVersion
+        public init(grokClassifier: GrokClassifier? = nil, jsonClassifier: JsonClassifier? = nil, xMLClassifier: XMLClassifier? = nil) {
+            self.grokClassifier = grokClassifier
+            self.jsonClassifier = jsonClassifier
+            self.xMLClassifier = xMLClassifier
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tableVersion = "TableVersion"
+            case grokClassifier = "GrokClassifier"
+            case jsonClassifier = "JsonClassifier"
+            case xMLClassifier = "XMLClassifier"
         }
     }
 
-    public struct Connection: AWSShape {
+    public struct CloudWatchEncryption: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionProperties", required: false, type: .map), 
-            AWSShapeMember(label: "ConnectionType", required: false, type: .enum), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MatchCriteria", required: false, type: .list), 
-            AWSShapeMember(label: "PhysicalConnectionRequirements", required: false, type: .structure), 
-            AWSShapeMember(label: "LastUpdatedBy", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "CloudWatchEncryptionMode", required: false, type: .enum), 
+            AWSShapeMember(label: "KmsKeyArn", required: false, type: .string)
         ]
-        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME - The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    JDBC_DRIVER_JAR_URI - The S3 path of the a jar file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use).    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for the JDBC connection.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether SSL with hostname matching will be enforced for the JDBC connection on the client. The default is false.  
-        public let connectionProperties: [ConnectionPropertyKey: String]?
-        /// The type of the connection. Currently, only JDBC is supported; SFTP is not supported.
-        public let connectionType: ConnectionType?
-        /// The time this connection definition was created.
-        public let creationTime: TimeStamp?
-        /// A list of criteria that can be used in selecting this connection.
-        public let matchCriteria: [String]?
-        /// A map of physical connection requirements, such as VPC and SecurityGroup, needed for making this connection successfully.
-        public let physicalConnectionRequirements: PhysicalConnectionRequirements?
-        /// The user, group or role that last updated this connection definition.
-        public let lastUpdatedBy: String?
-        /// Description of the connection.
-        public let description: String?
-        /// The last time this connection definition was updated.
-        public let lastUpdatedTime: TimeStamp?
-        /// The name of the connection definition.
-        public let name: String?
+        /// The encryption mode to use for CloudWatch data.
+        public let cloudWatchEncryptionMode: CloudWatchEncryptionMode?
+        /// The AWS ARN of the KMS key to be used to encrypt the data.
+        public let kmsKeyArn: String?
 
-        public init(connectionProperties: [ConnectionPropertyKey: String]? = nil, connectionType: ConnectionType? = nil, creationTime: TimeStamp? = nil, matchCriteria: [String]? = nil, physicalConnectionRequirements: PhysicalConnectionRequirements? = nil, lastUpdatedBy: String? = nil, description: String? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil) {
-            self.connectionProperties = connectionProperties
-            self.connectionType = connectionType
-            self.creationTime = creationTime
-            self.matchCriteria = matchCriteria
-            self.physicalConnectionRequirements = physicalConnectionRequirements
-            self.lastUpdatedBy = lastUpdatedBy
-            self.description = description
-            self.lastUpdatedTime = lastUpdatedTime
-            self.name = name
+        public init(cloudWatchEncryptionMode: CloudWatchEncryptionMode? = nil, kmsKeyArn: String? = nil) {
+            self.cloudWatchEncryptionMode = cloudWatchEncryptionMode
+            self.kmsKeyArn = kmsKeyArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionProperties = "ConnectionProperties"
-            case connectionType = "ConnectionType"
-            case creationTime = "CreationTime"
-            case matchCriteria = "MatchCriteria"
-            case physicalConnectionRequirements = "PhysicalConnectionRequirements"
-            case lastUpdatedBy = "LastUpdatedBy"
-            case description = "Description"
-            case lastUpdatedTime = "LastUpdatedTime"
-            case name = "Name"
-        }
-    }
-
-    public struct BatchGetPartitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "TableName", required: true, type: .string), 
-            AWSShapeMember(label: "PartitionsToGet", required: true, type: .list)
-        ]
-        /// The name of the catalog database where the partitions reside.
-        public let databaseName: String
-        /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-        /// The name of the partitions' table.
-        public let tableName: String
-        /// A list of partition values identifying the partitions to retrieve.
-        public let partitionsToGet: [PartitionValueList]
-
-        public init(databaseName: String, catalogId: String? = nil, tableName: String, partitionsToGet: [PartitionValueList]) {
-            self.databaseName = databaseName
-            self.catalogId = catalogId
-            self.tableName = tableName
-            self.partitionsToGet = partitionsToGet
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case databaseName = "DatabaseName"
-            case catalogId = "CatalogId"
-            case tableName = "TableName"
-            case partitionsToGet = "PartitionsToGet"
-        }
-    }
-
-    public struct GetPlanRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Location", required: false, type: .structure), 
-            AWSShapeMember(label: "Sinks", required: false, type: .list), 
-            AWSShapeMember(label: "Mapping", required: true, type: .list), 
-            AWSShapeMember(label: "Language", required: false, type: .enum), 
-            AWSShapeMember(label: "Source", required: true, type: .structure)
-        ]
-        /// Parameters for the mapping.
-        public let location: Location?
-        /// The target tables.
-        public let sinks: [CatalogEntry]?
-        /// The list of mappings from a source table to target tables.
-        public let mapping: [MappingEntry]
-        /// The programming language of the code to perform the mapping.
-        public let language: Language?
-        /// The source table.
-        public let source: CatalogEntry
-
-        public init(location: Location? = nil, sinks: [CatalogEntry]? = nil, mapping: [MappingEntry], language: Language? = nil, source: CatalogEntry) {
-            self.location = location
-            self.sinks = sinks
-            self.mapping = mapping
-            self.language = language
-            self.source = source
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case location = "Location"
-            case sinks = "Sinks"
-            case mapping = "Mapping"
-            case language = "Language"
-            case source = "Source"
-        }
-    }
-
-    public struct SerDeInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Parameters", required: false, type: .map), 
-            AWSShapeMember(label: "SerializationLibrary", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// These key-value pairs define initialization parameters for the SerDe.
-        public let parameters: [String: String]?
-        /// Usually the class that implements the SerDe. An example is: org.apache.hadoop.hive.serde2.columnar.ColumnarSerDe.
-        public let serializationLibrary: String?
-        /// Name of the SerDe.
-        public let name: String?
-
-        public init(parameters: [String: String]? = nil, serializationLibrary: String? = nil, name: String? = nil) {
-            self.parameters = parameters
-            self.serializationLibrary = serializationLibrary
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case parameters = "Parameters"
-            case serializationLibrary = "SerializationLibrary"
-            case name = "Name"
-        }
-    }
-
-    public struct StartJobRunRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arguments", required: false, type: .map), 
-            AWSShapeMember(label: "JobName", required: true, type: .string), 
-            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
-            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "JobRunId", required: false, type: .string), 
-            AWSShapeMember(label: "AllocatedCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "NotificationProperty", required: false, type: .structure)
-        ]
-        /// The job arguments specifically for this run. They override the equivalent default arguments set for in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
-        public let arguments: [String: String]?
-        /// The name of the job definition to use.
-        public let jobName: String
-        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours). This overrides the timeout value set in the parent job.
-        public let timeout: Int32?
-        /// The name of the SecurityConfiguration structure to be used with this job run.
-        public let securityConfiguration: String?
-        /// The ID of a previous JobRun to retry.
-        public let jobRunId: String?
-        /// The number of AWS Glue data processing units (DPUs) to allocate to this JobRun. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
-        public let allocatedCapacity: Int32?
-        /// Specifies configuration properties of a job run notification.
-        public let notificationProperty: NotificationProperty?
-
-        public init(arguments: [String: String]? = nil, jobName: String, timeout: Int32? = nil, securityConfiguration: String? = nil, jobRunId: String? = nil, allocatedCapacity: Int32? = nil, notificationProperty: NotificationProperty? = nil) {
-            self.arguments = arguments
-            self.jobName = jobName
-            self.timeout = timeout
-            self.securityConfiguration = securityConfiguration
-            self.jobRunId = jobRunId
-            self.allocatedCapacity = allocatedCapacity
-            self.notificationProperty = notificationProperty
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arguments = "Arguments"
-            case jobName = "JobName"
-            case timeout = "Timeout"
-            case securityConfiguration = "SecurityConfiguration"
-            case jobRunId = "JobRunId"
-            case allocatedCapacity = "AllocatedCapacity"
-            case notificationProperty = "NotificationProperty"
-        }
-    }
-
-    public struct PutResourcePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyHash", required: false, type: .string)
-        ]
-        /// A hash of the policy that has just been set. This must be included in a subsequent call that overwrites or updates this policy.
-        public let policyHash: String?
-
-        public init(policyHash: String? = nil) {
-            self.policyHash = policyHash
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyHash = "PolicyHash"
-        }
-    }
-
-    public struct PutResourcePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyInJson", required: true, type: .string), 
-            AWSShapeMember(label: "PolicyExistsCondition", required: false, type: .enum), 
-            AWSShapeMember(label: "PolicyHashCondition", required: false, type: .string)
-        ]
-        /// Contains the policy document to set, in JSON format.
-        public let policyInJson: String
-        /// A value of MUST_EXIST is used to update a policy. A value of NOT_EXIST is used to create a new policy. If a value of NONE or a null value is used, the call will not depend on the existence of a policy.
-        public let policyExistsCondition: ExistCondition?
-        /// This is the hash value returned when the previous policy was set using PutResourcePolicy. Its purpose is to prevent concurrent modifications of a policy. Do not use this parameter if no previous policy has been set.
-        public let policyHashCondition: String?
-
-        public init(policyInJson: String, policyExistsCondition: ExistCondition? = nil, policyHashCondition: String? = nil) {
-            self.policyInJson = policyInJson
-            self.policyExistsCondition = policyExistsCondition
-            self.policyHashCondition = policyHashCondition
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyInJson = "PolicyInJson"
-            case policyExistsCondition = "PolicyExistsCondition"
-            case policyHashCondition = "PolicyHashCondition"
-        }
-    }
-
-    public struct GetDatabasesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string)
-        ]
-        /// The maximum number of databases to return in one response.
-        public let maxResults: Int32?
-        /// A continuation token, if this is a continuation call.
-        public let nextToken: String?
-        /// The ID of the Data Catalog from which to retrieve Databases. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, catalogId: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.catalogId = catalogId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case catalogId = "CatalogId"
-        }
-    }
-
-    public struct UpdatePartitionResponse: AWSShape {
-
-    }
-
-    public struct Predicate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Conditions", required: false, type: .list), 
-            AWSShapeMember(label: "Logical", required: false, type: .enum)
-        ]
-        /// A list of the conditions that determine when the trigger will fire.
-        public let conditions: [Condition]?
-        /// Optional field if only one condition is listed. If multiple conditions are listed, then this field is required.
-        public let logical: Logical?
-
-        public init(conditions: [Condition]? = nil, logical: Logical? = nil) {
-            self.conditions = conditions
-            self.logical = logical
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case conditions = "Conditions"
-            case logical = "Logical"
-        }
-    }
-
-    public struct ExecutionProperty: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxConcurrentRuns", required: false, type: .integer)
-        ]
-        /// The maximum number of concurrent runs allowed for the job. The default is 1. An error is returned when this threshold is reached. The maximum value you can specify is controlled by a service limit.
-        public let maxConcurrentRuns: Int32?
-
-        public init(maxConcurrentRuns: Int32? = nil) {
-            self.maxConcurrentRuns = maxConcurrentRuns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxConcurrentRuns = "MaxConcurrentRuns"
-        }
-    }
-
-    public struct Column: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Comment", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .string)
-        ]
-        /// Free-form text comment.
-        public let comment: String?
-        /// The name of the Column.
-        public let name: String
-        /// The datatype of data in the Column.
-        public let `type`: String?
-
-        public init(comment: String? = nil, name: String, type: String? = nil) {
-            self.comment = comment
-            self.name = name
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case comment = "Comment"
-            case name = "Name"
-            case `type` = "Type"
-        }
-    }
-
-    public struct GetTriggerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Trigger", required: false, type: .structure)
-        ]
-        /// The requested trigger definition.
-        public let trigger: Trigger?
-
-        public init(trigger: Trigger? = nil) {
-            self.trigger = trigger
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case trigger = "Trigger"
-        }
-    }
-
-    public struct DeleteResourcePolicyResponse: AWSShape {
-
-    }
-
-    public struct DeleteJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: false, type: .string)
-        ]
-        /// The name of the job definition that was deleted.
-        public let jobName: String?
-
-        public init(jobName: String? = nil) {
-            self.jobName = jobName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobName = "JobName"
+            case cloudWatchEncryptionMode = "CloudWatchEncryptionMode"
+            case kmsKeyArn = "KmsKeyArn"
         }
     }
 
@@ -2942,95 +539,86 @@ extension Glue {
         }
     }
 
-    public struct BatchGetPartitionResponse: AWSShape {
+    public struct CodeGenNode: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Partitions", required: false, type: .list), 
-            AWSShapeMember(label: "UnprocessedKeys", required: false, type: .list)
+            AWSShapeMember(label: "Args", required: true, type: .list), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "LineNumber", required: false, type: .integer), 
+            AWSShapeMember(label: "NodeType", required: true, type: .string)
         ]
-        /// A list of the requested partitions.
-        public let partitions: [Partition]?
-        /// A list of the partition values in the request for which partions were not returned.
-        public let unprocessedKeys: [PartitionValueList]?
+        /// Properties of the node, in the form of name-value pairs.
+        public let args: [CodeGenNodeArg]
+        /// A node identifier that is unique within the node's graph.
+        public let id: String
+        /// The line number of the node.
+        public let lineNumber: Int32?
+        /// The type of node this is.
+        public let nodeType: String
 
-        public init(partitions: [Partition]? = nil, unprocessedKeys: [PartitionValueList]? = nil) {
-            self.partitions = partitions
-            self.unprocessedKeys = unprocessedKeys
+        public init(args: [CodeGenNodeArg], id: String, lineNumber: Int32? = nil, nodeType: String) {
+            self.args = args
+            self.id = id
+            self.lineNumber = lineNumber
+            self.nodeType = nodeType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case partitions = "Partitions"
-            case unprocessedKeys = "UnprocessedKeys"
+            case args = "Args"
+            case id = "Id"
+            case lineNumber = "LineNumber"
+            case nodeType = "NodeType"
         }
     }
 
-    public struct StopCrawlerScheduleResponse: AWSShape {
-
-    }
-
-    public struct GetJobRunRequest: AWSShape {
+    public struct CodeGenNodeArg: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: true, type: .string), 
-            AWSShapeMember(label: "RunId", required: true, type: .string), 
-            AWSShapeMember(label: "PredecessorsIncluded", required: false, type: .boolean)
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Param", required: false, type: .boolean), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
         ]
-        /// Name of the job definition being run.
-        public let jobName: String
-        /// The ID of the job run.
-        public let runId: String
-        /// True if a list of predecessor runs should be returned.
-        public let predecessorsIncluded: Bool?
+        /// The name of the argument or property.
+        public let name: String
+        /// True if the value is used as a parameter.
+        public let param: Bool?
+        /// The value of the argument or property.
+        public let value: String
 
-        public init(jobName: String, runId: String, predecessorsIncluded: Bool? = nil) {
-            self.jobName = jobName
-            self.runId = runId
-            self.predecessorsIncluded = predecessorsIncluded
+        public init(name: String, param: Bool? = nil, value: String) {
+            self.name = name
+            self.param = param
+            self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobName = "JobName"
-            case runId = "RunId"
-            case predecessorsIncluded = "PredecessorsIncluded"
+            case name = "Name"
+            case param = "Param"
+            case value = "Value"
         }
     }
 
-    public struct LastCrawlInfo: AWSShape {
+    public struct Column: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LogGroup", required: false, type: .string), 
-            AWSShapeMember(label: "MessagePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LogStream", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
+            AWSShapeMember(label: "Comment", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .string)
         ]
-        /// The log group for the last crawl.
-        public let logGroup: String?
-        /// The prefix for a message about this crawl.
-        public let messagePrefix: String?
-        /// If an error occurred, the error information about the last crawl.
-        public let errorMessage: String?
-        /// The time at which the crawl started.
-        public let startTime: TimeStamp?
-        /// The log stream for the last crawl.
-        public let logStream: String?
-        /// Status of the last crawl.
-        public let status: LastCrawlStatus?
+        /// Free-form text comment.
+        public let comment: String?
+        /// The name of the Column.
+        public let name: String
+        /// The datatype of data in the Column.
+        public let `type`: String?
 
-        public init(logGroup: String? = nil, messagePrefix: String? = nil, errorMessage: String? = nil, startTime: TimeStamp? = nil, logStream: String? = nil, status: LastCrawlStatus? = nil) {
-            self.logGroup = logGroup
-            self.messagePrefix = messagePrefix
-            self.errorMessage = errorMessage
-            self.startTime = startTime
-            self.logStream = logStream
-            self.status = status
+        public init(comment: String? = nil, name: String, type: String? = nil) {
+            self.comment = comment
+            self.name = name
+            self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroup = "LogGroup"
-            case messagePrefix = "MessagePrefix"
-            case errorMessage = "ErrorMessage"
-            case startTime = "StartTime"
-            case logStream = "LogStream"
-            case status = "Status"
+            case comment = "Comment"
+            case name = "Name"
+            case `type` = "Type"
         }
     }
 
@@ -3060,17 +648,764 @@ extension Glue {
         }
     }
 
-    public struct UpdateJsonClassifierRequest: AWSShape {
+    public struct Connection: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JsonPath", required: false, type: .string), 
+            AWSShapeMember(label: "ConnectionProperties", required: false, type: .map), 
+            AWSShapeMember(label: "ConnectionType", required: false, type: .enum), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedBy", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MatchCriteria", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "PhysicalConnectionRequirements", required: false, type: .structure)
+        ]
+        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME - The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    JDBC_DRIVER_JAR_URI - The S3 path of the a jar file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use).    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for the JDBC connection.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether SSL with hostname matching will be enforced for the JDBC connection on the client. The default is false.  
+        public let connectionProperties: [ConnectionPropertyKey: String]?
+        /// The type of the connection. Currently, only JDBC is supported; SFTP is not supported.
+        public let connectionType: ConnectionType?
+        /// The time this connection definition was created.
+        public let creationTime: TimeStamp?
+        /// Description of the connection.
+        public let description: String?
+        /// The user, group or role that last updated this connection definition.
+        public let lastUpdatedBy: String?
+        /// The last time this connection definition was updated.
+        public let lastUpdatedTime: TimeStamp?
+        /// A list of criteria that can be used in selecting this connection.
+        public let matchCriteria: [String]?
+        /// The name of the connection definition.
+        public let name: String?
+        /// A map of physical connection requirements, such as VPC and SecurityGroup, needed for making this connection successfully.
+        public let physicalConnectionRequirements: PhysicalConnectionRequirements?
+
+        public init(connectionProperties: [ConnectionPropertyKey: String]? = nil, connectionType: ConnectionType? = nil, creationTime: TimeStamp? = nil, description: String? = nil, lastUpdatedBy: String? = nil, lastUpdatedTime: TimeStamp? = nil, matchCriteria: [String]? = nil, name: String? = nil, physicalConnectionRequirements: PhysicalConnectionRequirements? = nil) {
+            self.connectionProperties = connectionProperties
+            self.connectionType = connectionType
+            self.creationTime = creationTime
+            self.description = description
+            self.lastUpdatedBy = lastUpdatedBy
+            self.lastUpdatedTime = lastUpdatedTime
+            self.matchCriteria = matchCriteria
+            self.name = name
+            self.physicalConnectionRequirements = physicalConnectionRequirements
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionProperties = "ConnectionProperties"
+            case connectionType = "ConnectionType"
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case lastUpdatedBy = "LastUpdatedBy"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case matchCriteria = "MatchCriteria"
+            case name = "Name"
+            case physicalConnectionRequirements = "PhysicalConnectionRequirements"
+        }
+    }
+
+    public struct ConnectionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectionProperties", required: true, type: .map), 
+            AWSShapeMember(label: "ConnectionType", required: true, type: .enum), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "MatchCriteria", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "PhysicalConnectionRequirements", required: false, type: .structure)
+        ]
+        /// These key-value pairs define parameters for the connection.
+        public let connectionProperties: [ConnectionPropertyKey: String]
+        /// The type of the connection. Currently, only JDBC is supported; SFTP is not supported.
+        public let connectionType: ConnectionType
+        /// Description of the connection.
+        public let description: String?
+        /// A list of criteria that can be used in selecting this connection.
+        public let matchCriteria: [String]?
+        /// The name of the connection.
+        public let name: String
+        /// A map of physical connection requirements, such as VPC and SecurityGroup, needed for making this connection successfully.
+        public let physicalConnectionRequirements: PhysicalConnectionRequirements?
+
+        public init(connectionProperties: [ConnectionPropertyKey: String], connectionType: ConnectionType, description: String? = nil, matchCriteria: [String]? = nil, name: String, physicalConnectionRequirements: PhysicalConnectionRequirements? = nil) {
+            self.connectionProperties = connectionProperties
+            self.connectionType = connectionType
+            self.description = description
+            self.matchCriteria = matchCriteria
+            self.name = name
+            self.physicalConnectionRequirements = physicalConnectionRequirements
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionProperties = "ConnectionProperties"
+            case connectionType = "ConnectionType"
+            case description = "Description"
+            case matchCriteria = "MatchCriteria"
+            case name = "Name"
+            case physicalConnectionRequirements = "PhysicalConnectionRequirements"
+        }
+    }
+
+    public enum ConnectionPropertyKey: String, CustomStringConvertible, Codable {
+        case host = "HOST"
+        case port = "PORT"
+        case username = "USERNAME"
+        case password = "PASSWORD"
+        case jdbcDriverJarUri = "JDBC_DRIVER_JAR_URI"
+        case jdbcDriverClassName = "JDBC_DRIVER_CLASS_NAME"
+        case jdbcEngine = "JDBC_ENGINE"
+        case jdbcEngineVersion = "JDBC_ENGINE_VERSION"
+        case configFiles = "CONFIG_FILES"
+        case instanceId = "INSTANCE_ID"
+        case jdbcConnectionUrl = "JDBC_CONNECTION_URL"
+        case jdbcEnforceSsl = "JDBC_ENFORCE_SSL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionType: String, CustomStringConvertible, Codable {
+        case jdbc = "JDBC"
+        case sftp = "SFTP"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ConnectionsList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Connections", required: false, type: .list)
+        ]
+        /// A list of connections used by the job.
+        public let connections: [String]?
+
+        public init(connections: [String]? = nil) {
+            self.connections = connections
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connections = "Connections"
+        }
+    }
+
+    public struct Crawler: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Classifiers", required: false, type: .list), 
+            AWSShapeMember(label: "Configuration", required: false, type: .string), 
+            AWSShapeMember(label: "CrawlElapsedTime", required: false, type: .long), 
+            AWSShapeMember(label: "CrawlerSecurityConfiguration", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "LastCrawl", required: false, type: .structure), 
+            AWSShapeMember(label: "LastUpdated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Role", required: false, type: .string), 
+            AWSShapeMember(label: "Schedule", required: false, type: .structure), 
+            AWSShapeMember(label: "SchemaChangePolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "TablePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "Targets", required: false, type: .structure), 
+            AWSShapeMember(label: "Version", required: false, type: .long)
+        ]
+        /// A list of custom classifiers associated with the crawler.
+        public let classifiers: [String]?
+        /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Configuring a Crawler.
+        public let configuration: String?
+        /// If the crawler is running, contains the total time elapsed since the last crawl began.
+        public let crawlElapsedTime: Int64?
+        /// The name of the SecurityConfiguration structure to be used by this Crawler.
+        public let crawlerSecurityConfiguration: String?
+        /// The time when the crawler was created.
+        public let creationTime: TimeStamp?
+        /// The database where metadata is written by this crawler.
+        public let databaseName: String?
+        /// A description of the crawler.
+        public let description: String?
+        /// The status of the last crawl, and potentially error information if an error occurred.
+        public let lastCrawl: LastCrawlInfo?
+        /// The time the crawler was last updated.
+        public let lastUpdated: TimeStamp?
+        /// The crawler name.
+        public let name: String?
+        /// The IAM role (or ARN of an IAM role) used to access customer resources, such as data in Amazon S3.
+        public let role: String?
+        /// For scheduled crawlers, the schedule when the crawler runs.
+        public let schedule: Schedule?
+        /// Sets the behavior when the crawler finds a changed or deleted object.
+        public let schemaChangePolicy: SchemaChangePolicy?
+        /// Indicates whether the crawler is running, or whether a run is pending.
+        public let state: CrawlerState?
+        /// The prefix added to the names of tables that are created.
+        public let tablePrefix: String?
+        /// A collection of targets to crawl.
+        public let targets: CrawlerTargets?
+        /// The version of the crawler.
+        public let version: Int64?
+
+        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlElapsedTime: Int64? = nil, crawlerSecurityConfiguration: String? = nil, creationTime: TimeStamp? = nil, databaseName: String? = nil, description: String? = nil, lastCrawl: LastCrawlInfo? = nil, lastUpdated: TimeStamp? = nil, name: String? = nil, role: String? = nil, schedule: Schedule? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, state: CrawlerState? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil, version: Int64? = nil) {
+            self.classifiers = classifiers
+            self.configuration = configuration
+            self.crawlElapsedTime = crawlElapsedTime
+            self.crawlerSecurityConfiguration = crawlerSecurityConfiguration
+            self.creationTime = creationTime
+            self.databaseName = databaseName
+            self.description = description
+            self.lastCrawl = lastCrawl
+            self.lastUpdated = lastUpdated
+            self.name = name
+            self.role = role
+            self.schedule = schedule
+            self.schemaChangePolicy = schemaChangePolicy
+            self.state = state
+            self.tablePrefix = tablePrefix
+            self.targets = targets
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case classifiers = "Classifiers"
+            case configuration = "Configuration"
+            case crawlElapsedTime = "CrawlElapsedTime"
+            case crawlerSecurityConfiguration = "CrawlerSecurityConfiguration"
+            case creationTime = "CreationTime"
+            case databaseName = "DatabaseName"
+            case description = "Description"
+            case lastCrawl = "LastCrawl"
+            case lastUpdated = "LastUpdated"
+            case name = "Name"
+            case role = "Role"
+            case schedule = "Schedule"
+            case schemaChangePolicy = "SchemaChangePolicy"
+            case state = "State"
+            case tablePrefix = "TablePrefix"
+            case targets = "Targets"
+            case version = "Version"
+        }
+    }
+
+    public struct CrawlerMetrics: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CrawlerName", required: false, type: .string), 
+            AWSShapeMember(label: "LastRuntimeSeconds", required: false, type: .double), 
+            AWSShapeMember(label: "MedianRuntimeSeconds", required: false, type: .double), 
+            AWSShapeMember(label: "StillEstimating", required: false, type: .boolean), 
+            AWSShapeMember(label: "TablesCreated", required: false, type: .integer), 
+            AWSShapeMember(label: "TablesDeleted", required: false, type: .integer), 
+            AWSShapeMember(label: "TablesUpdated", required: false, type: .integer), 
+            AWSShapeMember(label: "TimeLeftSeconds", required: false, type: .double)
+        ]
+        /// The name of the crawler.
+        public let crawlerName: String?
+        /// The duration of the crawler's most recent run, in seconds.
+        public let lastRuntimeSeconds: Double?
+        /// The median duration of this crawler's runs, in seconds.
+        public let medianRuntimeSeconds: Double?
+        /// True if the crawler is still estimating how long it will take to complete this run.
+        public let stillEstimating: Bool?
+        /// The number of tables created by this crawler.
+        public let tablesCreated: Int32?
+        /// The number of tables deleted by this crawler.
+        public let tablesDeleted: Int32?
+        /// The number of tables updated by this crawler.
+        public let tablesUpdated: Int32?
+        /// The estimated time left to complete a running crawl.
+        public let timeLeftSeconds: Double?
+
+        public init(crawlerName: String? = nil, lastRuntimeSeconds: Double? = nil, medianRuntimeSeconds: Double? = nil, stillEstimating: Bool? = nil, tablesCreated: Int32? = nil, tablesDeleted: Int32? = nil, tablesUpdated: Int32? = nil, timeLeftSeconds: Double? = nil) {
+            self.crawlerName = crawlerName
+            self.lastRuntimeSeconds = lastRuntimeSeconds
+            self.medianRuntimeSeconds = medianRuntimeSeconds
+            self.stillEstimating = stillEstimating
+            self.tablesCreated = tablesCreated
+            self.tablesDeleted = tablesDeleted
+            self.tablesUpdated = tablesUpdated
+            self.timeLeftSeconds = timeLeftSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawlerName = "CrawlerName"
+            case lastRuntimeSeconds = "LastRuntimeSeconds"
+            case medianRuntimeSeconds = "MedianRuntimeSeconds"
+            case stillEstimating = "StillEstimating"
+            case tablesCreated = "TablesCreated"
+            case tablesDeleted = "TablesDeleted"
+            case tablesUpdated = "TablesUpdated"
+            case timeLeftSeconds = "TimeLeftSeconds"
+        }
+    }
+
+    public enum CrawlerState: String, CustomStringConvertible, Codable {
+        case ready = "READY"
+        case running = "RUNNING"
+        case stopping = "STOPPING"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CrawlerTargets: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DynamoDBTargets", required: false, type: .list), 
+            AWSShapeMember(label: "JdbcTargets", required: false, type: .list), 
+            AWSShapeMember(label: "S3Targets", required: false, type: .list)
+        ]
+        /// Specifies DynamoDB targets.
+        public let dynamoDBTargets: [DynamoDBTarget]?
+        /// Specifies JDBC targets.
+        public let jdbcTargets: [JdbcTarget]?
+        /// Specifies Amazon S3 targets.
+        public let s3Targets: [S3Target]?
+
+        public init(dynamoDBTargets: [DynamoDBTarget]? = nil, jdbcTargets: [JdbcTarget]? = nil, s3Targets: [S3Target]? = nil) {
+            self.dynamoDBTargets = dynamoDBTargets
+            self.jdbcTargets = jdbcTargets
+            self.s3Targets = s3Targets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dynamoDBTargets = "DynamoDBTargets"
+            case jdbcTargets = "JdbcTargets"
+            case s3Targets = "S3Targets"
+        }
+    }
+
+    public struct CreateClassifierRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GrokClassifier", required: false, type: .structure), 
+            AWSShapeMember(label: "JsonClassifier", required: false, type: .structure), 
+            AWSShapeMember(label: "XMLClassifier", required: false, type: .structure)
+        ]
+        /// A GrokClassifier object specifying the classifier to create.
+        public let grokClassifier: CreateGrokClassifierRequest?
+        /// A JsonClassifier object specifying the classifier to create.
+        public let jsonClassifier: CreateJsonClassifierRequest?
+        /// An XMLClassifier object specifying the classifier to create.
+        public let xMLClassifier: CreateXMLClassifierRequest?
+
+        public init(grokClassifier: CreateGrokClassifierRequest? = nil, jsonClassifier: CreateJsonClassifierRequest? = nil, xMLClassifier: CreateXMLClassifierRequest? = nil) {
+            self.grokClassifier = grokClassifier
+            self.jsonClassifier = jsonClassifier
+            self.xMLClassifier = xMLClassifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grokClassifier = "GrokClassifier"
+            case jsonClassifier = "JsonClassifier"
+            case xMLClassifier = "XMLClassifier"
+        }
+    }
+
+    public struct CreateClassifierResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct CreateConnectionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "ConnectionInput", required: true, type: .structure)
+        ]
+        /// The ID of the Data Catalog in which to create the connection. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// A ConnectionInput object defining the connection to create.
+        public let connectionInput: ConnectionInput
+
+        public init(catalogId: String? = nil, connectionInput: ConnectionInput) {
+            self.catalogId = catalogId
+            self.connectionInput = connectionInput
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case connectionInput = "ConnectionInput"
+        }
+    }
+
+    public struct CreateConnectionResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct CreateCrawlerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Classifiers", required: false, type: .list), 
+            AWSShapeMember(label: "Configuration", required: false, type: .string), 
+            AWSShapeMember(label: "CrawlerSecurityConfiguration", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Role", required: true, type: .string), 
+            AWSShapeMember(label: "Schedule", required: false, type: .string), 
+            AWSShapeMember(label: "SchemaChangePolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "TablePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "Targets", required: true, type: .structure)
+        ]
+        /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
+        public let classifiers: [String]?
+        /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Configuring a Crawler.
+        public let configuration: String?
+        /// The name of the SecurityConfiguration structure to be used by this Crawler.
+        public let crawlerSecurityConfiguration: String?
+        /// The AWS Glue database where results are written, such as: arn:aws:daylight:us-east-1::database/sometable/*.
+        public let databaseName: String
+        /// A description of the new crawler.
+        public let description: String?
+        /// Name of the new crawler.
+        public let name: String
+        /// The IAM role (or ARN of an IAM role) used by the new crawler to access customer resources.
+        public let role: String
+        /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
+        public let schedule: String?
+        /// Policy for the crawler's update and deletion behavior.
+        public let schemaChangePolicy: SchemaChangePolicy?
+        /// The table prefix used for catalog tables that are created.
+        public let tablePrefix: String?
+        /// A list of collection of targets to crawl.
+        public let targets: CrawlerTargets
+
+        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String, description: String? = nil, name: String, role: String, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, targets: CrawlerTargets) {
+            self.classifiers = classifiers
+            self.configuration = configuration
+            self.crawlerSecurityConfiguration = crawlerSecurityConfiguration
+            self.databaseName = databaseName
+            self.description = description
+            self.name = name
+            self.role = role
+            self.schedule = schedule
+            self.schemaChangePolicy = schemaChangePolicy
+            self.tablePrefix = tablePrefix
+            self.targets = targets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case classifiers = "Classifiers"
+            case configuration = "Configuration"
+            case crawlerSecurityConfiguration = "CrawlerSecurityConfiguration"
+            case databaseName = "DatabaseName"
+            case description = "Description"
+            case name = "Name"
+            case role = "Role"
+            case schedule = "Schedule"
+            case schemaChangePolicy = "SchemaChangePolicy"
+            case tablePrefix = "TablePrefix"
+            case targets = "Targets"
+        }
+    }
+
+    public struct CreateCrawlerResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct CreateDatabaseRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseInput", required: true, type: .structure)
+        ]
+        /// The ID of the Data Catalog in which to create the database. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// A DatabaseInput object defining the metadata database to create in the catalog.
+        public let databaseInput: DatabaseInput
+
+        public init(catalogId: String? = nil, databaseInput: DatabaseInput) {
+            self.catalogId = catalogId
+            self.databaseInput = databaseInput
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseInput = "DatabaseInput"
+        }
+    }
+
+    public struct CreateDatabaseResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct CreateDevEndpointRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointName", required: true, type: .string), 
+            AWSShapeMember(label: "ExtraJarsS3Path", required: false, type: .string), 
+            AWSShapeMember(label: "ExtraPythonLibsS3Path", required: false, type: .string), 
+            AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
+            AWSShapeMember(label: "PublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "PublicKeys", required: false, type: .list), 
+            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "SubnetId", required: false, type: .string)
+        ]
+        /// The name to be assigned to the new DevEndpoint.
+        public let endpointName: String
+        /// Path to one or more Java Jars in an S3 bucket that should be loaded in your DevEndpoint.
+        public let extraJarsS3Path: String?
+        /// Path(s) to one or more Python libraries in an S3 bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma. Please note that only pure Python libraries can currently be used on a DevEndpoint. Libraries that rely on C extensions, such as the pandas Python data analysis library, are not yet supported.
+        public let extraPythonLibsS3Path: String?
+        /// The number of AWS Glue Data Processing Units (DPUs) to allocate to this DevEndpoint.
+        public let numberOfNodes: Int32?
+        /// The public key to be used by this DevEndpoint for authentication. This attribute is provided for backward compatibility, as the recommended attribute to use is public keys.
+        public let publicKey: String?
+        /// A list of public keys to be used by the DevEndpoints for authentication. The use of this attribute is preferred over a single public key because the public keys allow you to have a different private key per client.  If you previously created an endpoint with a public key, you must remove that key to be able to set a list of public keys: call the UpdateDevEndpoint API with the public key content in the deletePublicKeys attribute, and the list of new keys in the addPublicKeys attribute. 
+        public let publicKeys: [String]?
+        /// The IAM role for the DevEndpoint.
+        public let roleArn: String
+        /// The name of the SecurityConfiguration structure to be used with this DevEndpoint.
+        public let securityConfiguration: String?
+        /// Security group IDs for the security groups to be used by the new DevEndpoint.
+        public let securityGroupIds: [String]?
+        /// The subnet ID for the new DevEndpoint to use.
+        public let subnetId: String?
+
+        public init(endpointName: String, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, numberOfNodes: Int32? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil) {
+            self.endpointName = endpointName
+            self.extraJarsS3Path = extraJarsS3Path
+            self.extraPythonLibsS3Path = extraPythonLibsS3Path
+            self.numberOfNodes = numberOfNodes
+            self.publicKey = publicKey
+            self.publicKeys = publicKeys
+            self.roleArn = roleArn
+            self.securityConfiguration = securityConfiguration
+            self.securityGroupIds = securityGroupIds
+            self.subnetId = subnetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointName = "EndpointName"
+            case extraJarsS3Path = "ExtraJarsS3Path"
+            case extraPythonLibsS3Path = "ExtraPythonLibsS3Path"
+            case numberOfNodes = "NumberOfNodes"
+            case publicKey = "PublicKey"
+            case publicKeys = "PublicKeys"
+            case roleArn = "RoleArn"
+            case securityConfiguration = "SecurityConfiguration"
+            case securityGroupIds = "SecurityGroupIds"
+            case subnetId = "SubnetId"
+        }
+    }
+
+    public struct CreateDevEndpointResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EndpointName", required: false, type: .string), 
+            AWSShapeMember(label: "ExtraJarsS3Path", required: false, type: .string), 
+            AWSShapeMember(label: "ExtraPythonLibsS3Path", required: false, type: .string), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "YarnEndpointAddress", required: false, type: .string), 
+            AWSShapeMember(label: "ZeppelinRemoteSparkInterpreterPort", required: false, type: .integer)
+        ]
+        /// The AWS availability zone where this DevEndpoint is located.
+        public let availabilityZone: String?
+        /// The point in time at which this DevEndpoint was created.
+        public let createdTimestamp: TimeStamp?
+        /// The name assigned to the new DevEndpoint.
+        public let endpointName: String?
+        /// Path to one or more Java Jars in an S3 bucket that will be loaded in your DevEndpoint.
+        public let extraJarsS3Path: String?
+        /// Path(s) to one or more Python libraries in an S3 bucket that will be loaded in your DevEndpoint.
+        public let extraPythonLibsS3Path: String?
+        /// The reason for a current failure in this DevEndpoint.
+        public let failureReason: String?
+        /// The number of AWS Glue Data Processing Units (DPUs) allocated to this DevEndpoint.
+        public let numberOfNodes: Int32?
+        /// The AWS ARN of the role assigned to the new DevEndpoint.
+        public let roleArn: String?
+        /// The name of the SecurityConfiguration structure being used with this DevEndpoint.
+        public let securityConfiguration: String?
+        /// The security groups assigned to the new DevEndpoint.
+        public let securityGroupIds: [String]?
+        /// The current status of the new DevEndpoint.
+        public let status: String?
+        /// The subnet ID assigned to the new DevEndpoint.
+        public let subnetId: String?
+        /// The ID of the VPC used by this DevEndpoint.
+        public let vpcId: String?
+        /// The address of the YARN endpoint used by this DevEndpoint.
+        public let yarnEndpointAddress: String?
+        /// The Apache Zeppelin port for the remote Apache Spark interpreter.
+        public let zeppelinRemoteSparkInterpreterPort: Int32?
+
+        public init(availabilityZone: String? = nil, createdTimestamp: TimeStamp? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, numberOfNodes: Int32? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int32? = nil) {
+            self.availabilityZone = availabilityZone
+            self.createdTimestamp = createdTimestamp
+            self.endpointName = endpointName
+            self.extraJarsS3Path = extraJarsS3Path
+            self.extraPythonLibsS3Path = extraPythonLibsS3Path
+            self.failureReason = failureReason
+            self.numberOfNodes = numberOfNodes
+            self.roleArn = roleArn
+            self.securityConfiguration = securityConfiguration
+            self.securityGroupIds = securityGroupIds
+            self.status = status
+            self.subnetId = subnetId
+            self.vpcId = vpcId
+            self.yarnEndpointAddress = yarnEndpointAddress
+            self.zeppelinRemoteSparkInterpreterPort = zeppelinRemoteSparkInterpreterPort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case createdTimestamp = "CreatedTimestamp"
+            case endpointName = "EndpointName"
+            case extraJarsS3Path = "ExtraJarsS3Path"
+            case extraPythonLibsS3Path = "ExtraPythonLibsS3Path"
+            case failureReason = "FailureReason"
+            case numberOfNodes = "NumberOfNodes"
+            case roleArn = "RoleArn"
+            case securityConfiguration = "SecurityConfiguration"
+            case securityGroupIds = "SecurityGroupIds"
+            case status = "Status"
+            case subnetId = "SubnetId"
+            case vpcId = "VpcId"
+            case yarnEndpointAddress = "YarnEndpointAddress"
+            case zeppelinRemoteSparkInterpreterPort = "ZeppelinRemoteSparkInterpreterPort"
+        }
+    }
+
+    public struct CreateGrokClassifierRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Classification", required: true, type: .string), 
+            AWSShapeMember(label: "CustomPatterns", required: false, type: .string), 
+            AWSShapeMember(label: "GrokPattern", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// An identifier of the data format that the classifier matches, such as Twitter, JSON, Omniture logs, Amazon CloudWatch Logs, and so on.
+        public let classification: String
+        /// Optional custom grok patterns used by this classifier.
+        public let customPatterns: String?
+        /// The grok pattern used by this classifier.
+        public let grokPattern: String
+        /// The name of the new classifier.
+        public let name: String
+
+        public init(classification: String, customPatterns: String? = nil, grokPattern: String, name: String) {
+            self.classification = classification
+            self.customPatterns = customPatterns
+            self.grokPattern = grokPattern
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case classification = "Classification"
+            case customPatterns = "CustomPatterns"
+            case grokPattern = "GrokPattern"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllocatedCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "Command", required: true, type: .structure), 
+            AWSShapeMember(label: "Connections", required: false, type: .structure), 
+            AWSShapeMember(label: "DefaultArguments", required: false, type: .map), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutionProperty", required: false, type: .structure), 
+            AWSShapeMember(label: "LogUri", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "NotificationProperty", required: false, type: .structure), 
+            AWSShapeMember(label: "Role", required: true, type: .string), 
+            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
+            AWSShapeMember(label: "Timeout", required: false, type: .integer)
+        ]
+        /// The number of AWS Glue data processing units (DPUs) to allocate to this Job. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
+        public let allocatedCapacity: Int32?
+        /// The JobCommand that executes this job.
+        public let command: JobCommand
+        /// The connections used for this job.
+        public let connections: ConnectionsList?
+        /// The default arguments for this job. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
+        public let defaultArguments: [String: String]?
+        /// Description of the job being defined.
+        public let description: String?
+        /// An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
+        public let executionProperty: ExecutionProperty?
+        /// This field is reserved for future use.
+        public let logUri: String?
+        /// The maximum number of times to retry this job if it fails.
+        public let maxRetries: Int32?
+        /// The name you assign to this job definition. It must be unique in your account.
+        public let name: String
+        /// Specifies configuration properties of a job notification.
+        public let notificationProperty: NotificationProperty?
+        /// The name or ARN of the IAM role associated with this job.
+        public let role: String
+        /// The name of the SecurityConfiguration structure to be used with this job.
+        public let securityConfiguration: String?
+        /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+        public let timeout: Int32?
+
+        public init(allocatedCapacity: Int32? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, logUri: String? = nil, maxRetries: Int32? = nil, name: String, notificationProperty: NotificationProperty? = nil, role: String, securityConfiguration: String? = nil, timeout: Int32? = nil) {
+            self.allocatedCapacity = allocatedCapacity
+            self.command = command
+            self.connections = connections
+            self.defaultArguments = defaultArguments
+            self.description = description
+            self.executionProperty = executionProperty
+            self.logUri = logUri
+            self.maxRetries = maxRetries
+            self.name = name
+            self.notificationProperty = notificationProperty
+            self.role = role
+            self.securityConfiguration = securityConfiguration
+            self.timeout = timeout
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocatedCapacity = "AllocatedCapacity"
+            case command = "Command"
+            case connections = "Connections"
+            case defaultArguments = "DefaultArguments"
+            case description = "Description"
+            case executionProperty = "ExecutionProperty"
+            case logUri = "LogUri"
+            case maxRetries = "MaxRetries"
+            case name = "Name"
+            case notificationProperty = "NotificationProperty"
+            case role = "Role"
+            case securityConfiguration = "SecurityConfiguration"
+            case timeout = "Timeout"
+        }
+    }
+
+    public struct CreateJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The unique name that was provided for this job definition.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct CreateJsonClassifierRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JsonPath", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// A JsonPath string defining the JSON data for the classifier to classify. AWS Glue supports a subset of JsonPath, as described in Writing JsonPath Custom Classifiers.
-        public let jsonPath: String?
+        public let jsonPath: String
         /// The name of the classifier.
         public let name: String
 
-        public init(jsonPath: String? = nil, name: String) {
+        public init(jsonPath: String, name: String) {
             self.jsonPath = jsonPath
             self.name = name
         }
@@ -3078,6 +1413,1467 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case jsonPath = "JsonPath"
             case name = "Name"
+        }
+    }
+
+    public struct CreatePartitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "PartitionInput", required: true, type: .structure), 
+            AWSShapeMember(label: "TableName", required: true, type: .string)
+        ]
+        /// The ID of the catalog in which the partion is to be created. Currently, this should be the AWS account ID.
+        public let catalogId: String?
+        /// The name of the metadata database in which the partition is to be created.
+        public let databaseName: String
+        /// A PartitionInput structure defining the partition to be created.
+        public let partitionInput: PartitionInput
+        /// The name of the metadata table in which the partition is to be created.
+        public let tableName: String
+
+        public init(catalogId: String? = nil, databaseName: String, partitionInput: PartitionInput, tableName: String) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.partitionInput = partitionInput
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case partitionInput = "PartitionInput"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct CreatePartitionResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct CreateScriptRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DagEdges", required: false, type: .list), 
+            AWSShapeMember(label: "DagNodes", required: false, type: .list), 
+            AWSShapeMember(label: "Language", required: false, type: .enum)
+        ]
+        /// A list of the edges in the DAG.
+        public let dagEdges: [CodeGenEdge]?
+        /// A list of the nodes in the DAG.
+        public let dagNodes: [CodeGenNode]?
+        /// The programming language of the resulting code from the DAG.
+        public let language: Language?
+
+        public init(dagEdges: [CodeGenEdge]? = nil, dagNodes: [CodeGenNode]? = nil, language: Language? = nil) {
+            self.dagEdges = dagEdges
+            self.dagNodes = dagNodes
+            self.language = language
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dagEdges = "DagEdges"
+            case dagNodes = "DagNodes"
+            case language = "Language"
+        }
+    }
+
+    public struct CreateScriptResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PythonScript", required: false, type: .string), 
+            AWSShapeMember(label: "ScalaCode", required: false, type: .string)
+        ]
+        /// The Python script generated from the DAG.
+        public let pythonScript: String?
+        /// The Scala code generated from the DAG.
+        public let scalaCode: String?
+
+        public init(pythonScript: String? = nil, scalaCode: String? = nil) {
+            self.pythonScript = pythonScript
+            self.scalaCode = scalaCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pythonScript = "PythonScript"
+            case scalaCode = "ScalaCode"
+        }
+    }
+
+    public struct CreateSecurityConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionConfiguration", required: true, type: .structure), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The encryption configuration for the new security configuration.
+        public let encryptionConfiguration: EncryptionConfiguration
+        /// The name for the new security configuration.
+        public let name: String
+
+        public init(encryptionConfiguration: EncryptionConfiguration, name: String) {
+            self.encryptionConfiguration = encryptionConfiguration
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateSecurityConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The time at which the new security configuration was created.
+        public let createdTimestamp: TimeStamp?
+        /// The name assigned to the new security configuration.
+        public let name: String?
+
+        public init(createdTimestamp: TimeStamp? = nil, name: String? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateTableRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "TableInput", required: true, type: .structure)
+        ]
+        /// The ID of the Data Catalog in which to create the Table. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The catalog database in which to create the new table. For Hive compatibility, this name is entirely lowercase.
+        public let databaseName: String
+        /// The TableInput object that defines the metadata table to create in the catalog.
+        public let tableInput: TableInput
+
+        public init(catalogId: String? = nil, databaseName: String, tableInput: TableInput) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.tableInput = tableInput
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case tableInput = "TableInput"
+        }
+    }
+
+    public struct CreateTableResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct CreateTriggerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Actions", required: true, type: .list), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Predicate", required: false, type: .structure), 
+            AWSShapeMember(label: "Schedule", required: false, type: .string), 
+            AWSShapeMember(label: "StartOnCreation", required: false, type: .boolean), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
+        ]
+        /// The actions initiated by this trigger when it fires.
+        public let actions: [Action]
+        /// A description of the new trigger.
+        public let description: String?
+        /// The name of the trigger.
+        public let name: String
+        /// A predicate to specify when the new trigger should fire. This field is required when the trigger type is CONDITIONAL.
+        public let predicate: Predicate?
+        /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *). This field is required when the trigger type is SCHEDULED.
+        public let schedule: String?
+        /// Set to true to start SCHEDULED and CONDITIONAL triggers when created. True not supported for ON_DEMAND triggers.
+        public let startOnCreation: Bool?
+        /// The type of the new trigger.
+        public let `type`: TriggerType
+
+        public init(actions: [Action], description: String? = nil, name: String, predicate: Predicate? = nil, schedule: String? = nil, startOnCreation: Bool? = nil, type: TriggerType) {
+            self.actions = actions
+            self.description = description
+            self.name = name
+            self.predicate = predicate
+            self.schedule = schedule
+            self.startOnCreation = startOnCreation
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case description = "Description"
+            case name = "Name"
+            case predicate = "Predicate"
+            case schedule = "Schedule"
+            case startOnCreation = "StartOnCreation"
+            case `type` = "Type"
+        }
+    }
+
+    public struct CreateTriggerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The name of the trigger.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct CreateUserDefinedFunctionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "FunctionInput", required: true, type: .structure)
+        ]
+        /// The ID of the Data Catalog in which to create the function. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The name of the catalog database in which to create the function.
+        public let databaseName: String
+        /// A FunctionInput object that defines the function to create in the Data Catalog.
+        public let functionInput: UserDefinedFunctionInput
+
+        public init(catalogId: String? = nil, databaseName: String, functionInput: UserDefinedFunctionInput) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.functionInput = functionInput
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case functionInput = "FunctionInput"
+        }
+    }
+
+    public struct CreateUserDefinedFunctionResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct CreateXMLClassifierRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Classification", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "RowTag", required: false, type: .string)
+        ]
+        /// An identifier of the data format that the classifier matches.
+        public let classification: String
+        /// The name of the classifier.
+        public let name: String
+        /// The XML tag designating the element that contains each record in an XML document being parsed. Note that this cannot identify a self-closing element (closed by /&gt;). An empty row element that contains only attributes can be parsed as long as it ends with a closing tag (for example, &lt;row item_a="A" item_b="B"&gt;&lt;/row&gt; is okay, but &lt;row item_a="A" item_b="B" /&gt; is not).
+        public let rowTag: String?
+
+        public init(classification: String, name: String, rowTag: String? = nil) {
+            self.classification = classification
+            self.name = name
+            self.rowTag = rowTag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case classification = "Classification"
+            case name = "Name"
+            case rowTag = "RowTag"
+        }
+    }
+
+    public struct DataCatalogEncryptionSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionAtRest", required: false, type: .structure)
+        ]
+        /// Specifies encryption-at-rest configuration for the Data Catalog.
+        public let encryptionAtRest: EncryptionAtRest?
+
+        public init(encryptionAtRest: EncryptionAtRest? = nil) {
+            self.encryptionAtRest = encryptionAtRest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionAtRest = "EncryptionAtRest"
+        }
+    }
+
+    public struct Database: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "LocationUri", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Parameters", required: false, type: .map)
+        ]
+        /// The time at which the metadata database was created in the catalog.
+        public let createTime: TimeStamp?
+        /// Description of the database.
+        public let description: String?
+        /// The location of the database (for example, an HDFS path).
+        public let locationUri: String?
+        /// Name of the database. For Hive compatibility, this is folded to lowercase when it is stored.
+        public let name: String
+        /// These key-value pairs define parameters and properties of the database.
+        public let parameters: [String: String]?
+
+        public init(createTime: TimeStamp? = nil, description: String? = nil, locationUri: String? = nil, name: String, parameters: [String: String]? = nil) {
+            self.createTime = createTime
+            self.description = description
+            self.locationUri = locationUri
+            self.name = name
+            self.parameters = parameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createTime = "CreateTime"
+            case description = "Description"
+            case locationUri = "LocationUri"
+            case name = "Name"
+            case parameters = "Parameters"
+        }
+    }
+
+    public struct DatabaseInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "LocationUri", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Parameters", required: false, type: .map)
+        ]
+        /// Description of the database
+        public let description: String?
+        /// The location of the database (for example, an HDFS path).
+        public let locationUri: String?
+        /// Name of the database. For Hive compatibility, this is folded to lowercase when it is stored.
+        public let name: String
+        /// Thes key-value pairs define parameters and properties of the database.
+        public let parameters: [String: String]?
+
+        public init(description: String? = nil, locationUri: String? = nil, name: String, parameters: [String: String]? = nil) {
+            self.description = description
+            self.locationUri = locationUri
+            self.name = name
+            self.parameters = parameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case locationUri = "LocationUri"
+            case name = "Name"
+            case parameters = "Parameters"
+        }
+    }
+
+    public enum DeleteBehavior: String, CustomStringConvertible, Codable {
+        case log = "LOG"
+        case deleteFromDatabase = "DELETE_FROM_DATABASE"
+        case deprecateInDatabase = "DEPRECATE_IN_DATABASE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteClassifierRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// Name of the classifier to remove.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteClassifierResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteConnectionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "ConnectionName", required: true, type: .string)
+        ]
+        /// The ID of the Data Catalog in which the connection resides. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The name of the connection to delete.
+        public let connectionName: String
+
+        public init(catalogId: String? = nil, connectionName: String) {
+            self.catalogId = catalogId
+            self.connectionName = connectionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case connectionName = "ConnectionName"
+        }
+    }
+
+    public struct DeleteConnectionResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteCrawlerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// Name of the crawler to remove.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteCrawlerResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteDatabaseRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The ID of the Data Catalog in which the database resides. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The name of the Database to delete. For Hive compatibility, this must be all lowercase.
+        public let name: String
+
+        public init(catalogId: String? = nil, name: String) {
+            self.catalogId = catalogId
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteDatabaseResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteDevEndpointRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointName", required: true, type: .string)
+        ]
+        /// The name of the DevEndpoint.
+        public let endpointName: String
+
+        public init(endpointName: String) {
+            self.endpointName = endpointName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointName = "EndpointName"
+        }
+    }
+
+    public struct DeleteDevEndpointResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobName", required: true, type: .string)
+        ]
+        /// The name of the job definition to delete.
+        public let jobName: String
+
+        public init(jobName: String) {
+            self.jobName = jobName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobName = "JobName"
+        }
+    }
+
+    public struct DeleteJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobName", required: false, type: .string)
+        ]
+        /// The name of the job definition that was deleted.
+        public let jobName: String?
+
+        public init(jobName: String? = nil) {
+            self.jobName = jobName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobName = "JobName"
+        }
+    }
+
+    public struct DeletePartitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "PartitionValues", required: true, type: .list), 
+            AWSShapeMember(label: "TableName", required: true, type: .string)
+        ]
+        /// The ID of the Data Catalog where the partition to be deleted resides. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The name of the catalog database in which the table in question resides.
+        public let databaseName: String
+        /// The values that define the partition.
+        public let partitionValues: [String]
+        /// The name of the table where the partition to be deleted is located.
+        public let tableName: String
+
+        public init(catalogId: String? = nil, databaseName: String, partitionValues: [String], tableName: String) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.partitionValues = partitionValues
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case partitionValues = "PartitionValues"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct DeletePartitionResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteResourcePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyHashCondition", required: false, type: .string)
+        ]
+        /// The hash value returned when this policy was set.
+        public let policyHashCondition: String?
+
+        public init(policyHashCondition: String? = nil) {
+            self.policyHashCondition = policyHashCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyHashCondition = "PolicyHashCondition"
+        }
+    }
+
+    public struct DeleteResourcePolicyResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteSecurityConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The name of the security configuration to delete.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteSecurityConfigurationResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteTableRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The ID of the Data Catalog where the table resides. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The name of the catalog database in which the table resides. For Hive compatibility, this name is entirely lowercase.
+        public let databaseName: String
+        /// The name of the table to be deleted. For Hive compatibility, this name is entirely lowercase.
+        public let name: String
+
+        public init(catalogId: String? = nil, databaseName: String, name: String) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteTableResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteTableVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "TableName", required: true, type: .string), 
+            AWSShapeMember(label: "VersionId", required: true, type: .string)
+        ]
+        /// The ID of the Data Catalog where the tables reside. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
+        public let databaseName: String
+        /// The name of the table. For Hive compatibility, this name is entirely lowercase.
+        public let tableName: String
+        /// The ID of the table version to be deleted. A VersionID is a string representation of an integer. Each version is incremented by 1.
+        public let versionId: String
+
+        public init(catalogId: String? = nil, databaseName: String, tableName: String, versionId: String) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.tableName = tableName
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case tableName = "TableName"
+            case versionId = "VersionId"
+        }
+    }
+
+    public struct DeleteTableVersionResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteTriggerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The name of the trigger to delete.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteTriggerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The name of the trigger that was deleted.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteUserDefinedFunctionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "FunctionName", required: true, type: .string)
+        ]
+        /// The ID of the Data Catalog where the function to be deleted is located. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The name of the catalog database where the function is located.
+        public let databaseName: String
+        /// The name of the function definition to be deleted.
+        public let functionName: String
+
+        public init(catalogId: String? = nil, databaseName: String, functionName: String) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.functionName = functionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case functionName = "FunctionName"
+        }
+    }
+
+    public struct DeleteUserDefinedFunctionResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DevEndpoint: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EndpointName", required: false, type: .string), 
+            AWSShapeMember(label: "ExtraJarsS3Path", required: false, type: .string), 
+            AWSShapeMember(label: "ExtraPythonLibsS3Path", required: false, type: .string), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastUpdateStatus", required: false, type: .string), 
+            AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
+            AWSShapeMember(label: "PrivateAddress", required: false, type: .string), 
+            AWSShapeMember(label: "PublicAddress", required: false, type: .string), 
+            AWSShapeMember(label: "PublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "PublicKeys", required: false, type: .list), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "YarnEndpointAddress", required: false, type: .string), 
+            AWSShapeMember(label: "ZeppelinRemoteSparkInterpreterPort", required: false, type: .integer)
+        ]
+        /// The AWS availability zone where this DevEndpoint is located.
+        public let availabilityZone: String?
+        /// The point in time at which this DevEndpoint was created.
+        public let createdTimestamp: TimeStamp?
+        /// The name of the DevEndpoint.
+        public let endpointName: String?
+        /// Path to one or more Java Jars in an S3 bucket that should be loaded in your DevEndpoint. Please note that only pure Java/Scala libraries can currently be used on a DevEndpoint.
+        public let extraJarsS3Path: String?
+        /// Path(s) to one or more Python libraries in an S3 bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma. Please note that only pure Python libraries can currently be used on a DevEndpoint. Libraries that rely on C extensions, such as the pandas Python data analysis library, are not yet supported.
+        public let extraPythonLibsS3Path: String?
+        /// The reason for a current failure in this DevEndpoint.
+        public let failureReason: String?
+        /// The point in time at which this DevEndpoint was last modified.
+        public let lastModifiedTimestamp: TimeStamp?
+        /// The status of the last update.
+        public let lastUpdateStatus: String?
+        /// The number of AWS Glue Data Processing Units (DPUs) allocated to this DevEndpoint.
+        public let numberOfNodes: Int32?
+        /// A private IP address to access the DevEndpoint within a VPC, if the DevEndpoint is created within one. The PrivateAddress field is present only when you create the DevEndpoint within your virtual private cloud (VPC).
+        public let privateAddress: String?
+        /// The public IP address used by this DevEndpoint. The PublicAddress field is present only when you create a non-VPC (virtual private cloud) DevEndpoint.
+        public let publicAddress: String?
+        /// The public key to be used by this DevEndpoint for authentication. This attribute is provided for backward compatibility, as the recommended attribute to use is public keys.
+        public let publicKey: String?
+        /// A list of public keys to be used by the DevEndpoints for authentication. The use of this attribute is preferred over a single public key because the public keys allow you to have a different private key per client.  If you previously created an endpoint with a public key, you must remove that key to be able to set a list of public keys: call the UpdateDevEndpoint API with the public key content in the deletePublicKeys attribute, and the list of new keys in the addPublicKeys attribute. 
+        public let publicKeys: [String]?
+        /// The AWS ARN of the IAM role used in this DevEndpoint.
+        public let roleArn: String?
+        /// The name of the SecurityConfiguration structure to be used with this DevEndpoint.
+        public let securityConfiguration: String?
+        /// A list of security group identifiers used in this DevEndpoint.
+        public let securityGroupIds: [String]?
+        /// The current status of this DevEndpoint.
+        public let status: String?
+        /// The subnet ID for this DevEndpoint.
+        public let subnetId: String?
+        /// The ID of the virtual private cloud (VPC) used by this DevEndpoint.
+        public let vpcId: String?
+        /// The YARN endpoint address used by this DevEndpoint.
+        public let yarnEndpointAddress: String?
+        /// The Apache Zeppelin port for the remote Apache Spark interpreter.
+        public let zeppelinRemoteSparkInterpreterPort: Int32?
+
+        public init(availabilityZone: String? = nil, createdTimestamp: TimeStamp? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, lastModifiedTimestamp: TimeStamp? = nil, lastUpdateStatus: String? = nil, numberOfNodes: Int32? = nil, privateAddress: String? = nil, publicAddress: String? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int32? = nil) {
+            self.availabilityZone = availabilityZone
+            self.createdTimestamp = createdTimestamp
+            self.endpointName = endpointName
+            self.extraJarsS3Path = extraJarsS3Path
+            self.extraPythonLibsS3Path = extraPythonLibsS3Path
+            self.failureReason = failureReason
+            self.lastModifiedTimestamp = lastModifiedTimestamp
+            self.lastUpdateStatus = lastUpdateStatus
+            self.numberOfNodes = numberOfNodes
+            self.privateAddress = privateAddress
+            self.publicAddress = publicAddress
+            self.publicKey = publicKey
+            self.publicKeys = publicKeys
+            self.roleArn = roleArn
+            self.securityConfiguration = securityConfiguration
+            self.securityGroupIds = securityGroupIds
+            self.status = status
+            self.subnetId = subnetId
+            self.vpcId = vpcId
+            self.yarnEndpointAddress = yarnEndpointAddress
+            self.zeppelinRemoteSparkInterpreterPort = zeppelinRemoteSparkInterpreterPort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case createdTimestamp = "CreatedTimestamp"
+            case endpointName = "EndpointName"
+            case extraJarsS3Path = "ExtraJarsS3Path"
+            case extraPythonLibsS3Path = "ExtraPythonLibsS3Path"
+            case failureReason = "FailureReason"
+            case lastModifiedTimestamp = "LastModifiedTimestamp"
+            case lastUpdateStatus = "LastUpdateStatus"
+            case numberOfNodes = "NumberOfNodes"
+            case privateAddress = "PrivateAddress"
+            case publicAddress = "PublicAddress"
+            case publicKey = "PublicKey"
+            case publicKeys = "PublicKeys"
+            case roleArn = "RoleArn"
+            case securityConfiguration = "SecurityConfiguration"
+            case securityGroupIds = "SecurityGroupIds"
+            case status = "Status"
+            case subnetId = "SubnetId"
+            case vpcId = "VpcId"
+            case yarnEndpointAddress = "YarnEndpointAddress"
+            case zeppelinRemoteSparkInterpreterPort = "ZeppelinRemoteSparkInterpreterPort"
+        }
+    }
+
+    public struct DevEndpointCustomLibraries: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExtraJarsS3Path", required: false, type: .string), 
+            AWSShapeMember(label: "ExtraPythonLibsS3Path", required: false, type: .string)
+        ]
+        /// Path to one or more Java Jars in an S3 bucket that should be loaded in your DevEndpoint. Please note that only pure Java/Scala libraries can currently be used on a DevEndpoint.
+        public let extraJarsS3Path: String?
+        /// Path(s) to one or more Python libraries in an S3 bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma. Please note that only pure Python libraries can currently be used on a DevEndpoint. Libraries that rely on C extensions, such as the pandas Python data analysis library, are not yet supported.
+        public let extraPythonLibsS3Path: String?
+
+        public init(extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil) {
+            self.extraJarsS3Path = extraJarsS3Path
+            self.extraPythonLibsS3Path = extraPythonLibsS3Path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case extraJarsS3Path = "ExtraJarsS3Path"
+            case extraPythonLibsS3Path = "ExtraPythonLibsS3Path"
+        }
+    }
+
+    public struct DynamoDBTarget: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Path", required: false, type: .string)
+        ]
+        /// The name of the DynamoDB table to crawl.
+        public let path: String?
+
+        public init(path: String? = nil) {
+            self.path = path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case path = "Path"
+        }
+    }
+
+    public struct EncryptionAtRest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogEncryptionMode", required: true, type: .enum), 
+            AWSShapeMember(label: "SseAwsKmsKeyId", required: false, type: .string)
+        ]
+        /// The encryption-at-rest mode for encrypting Data Catalog data.
+        public let catalogEncryptionMode: CatalogEncryptionMode
+        /// The ID of the AWS KMS key to use for encryption at rest.
+        public let sseAwsKmsKeyId: String?
+
+        public init(catalogEncryptionMode: CatalogEncryptionMode, sseAwsKmsKeyId: String? = nil) {
+            self.catalogEncryptionMode = catalogEncryptionMode
+            self.sseAwsKmsKeyId = sseAwsKmsKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogEncryptionMode = "CatalogEncryptionMode"
+            case sseAwsKmsKeyId = "SseAwsKmsKeyId"
+        }
+    }
+
+    public struct EncryptionConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudWatchEncryption", required: false, type: .structure), 
+            AWSShapeMember(label: "JobBookmarksEncryption", required: false, type: .structure), 
+            AWSShapeMember(label: "S3Encryption", required: false, type: .list)
+        ]
+        /// The encryption configuration for CloudWatch.
+        public let cloudWatchEncryption: CloudWatchEncryption?
+        /// The encryption configuration for Job Bookmarks.
+        public let jobBookmarksEncryption: JobBookmarksEncryption?
+        /// The encryption configuration for S3 data.
+        public let s3Encryption: [S3Encryption]?
+
+        public init(cloudWatchEncryption: CloudWatchEncryption? = nil, jobBookmarksEncryption: JobBookmarksEncryption? = nil, s3Encryption: [S3Encryption]? = nil) {
+            self.cloudWatchEncryption = cloudWatchEncryption
+            self.jobBookmarksEncryption = jobBookmarksEncryption
+            self.s3Encryption = s3Encryption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchEncryption = "CloudWatchEncryption"
+            case jobBookmarksEncryption = "JobBookmarksEncryption"
+            case s3Encryption = "S3Encryption"
+        }
+    }
+
+    public struct ErrorDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string)
+        ]
+        /// The code associated with this error.
+        public let errorCode: String?
+        /// A message describing the error.
+        public let errorMessage: String?
+
+        public init(errorCode: String? = nil, errorMessage: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+        }
+    }
+
+    public struct ExecutionProperty: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxConcurrentRuns", required: false, type: .integer)
+        ]
+        /// The maximum number of concurrent runs allowed for the job. The default is 1. An error is returned when this threshold is reached. The maximum value you can specify is controlled by a service limit.
+        public let maxConcurrentRuns: Int32?
+
+        public init(maxConcurrentRuns: Int32? = nil) {
+            self.maxConcurrentRuns = maxConcurrentRuns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxConcurrentRuns = "MaxConcurrentRuns"
+        }
+    }
+
+    public enum ExistCondition: String, CustomStringConvertible, Codable {
+        case mustExist = "MUST_EXIST"
+        case notExist = "NOT_EXIST"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetCatalogImportStatusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string)
+        ]
+        /// The ID of the catalog to migrate. Currently, this should be the AWS account ID.
+        public let catalogId: String?
+
+        public init(catalogId: String? = nil) {
+            self.catalogId = catalogId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+        }
+    }
+
+    public struct GetCatalogImportStatusResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImportStatus", required: false, type: .structure)
+        ]
+        /// The status of the specified catalog migration.
+        public let importStatus: CatalogImportStatus?
+
+        public init(importStatus: CatalogImportStatus? = nil) {
+            self.importStatus = importStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importStatus = "ImportStatus"
+        }
+    }
+
+    public struct GetClassifierRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// Name of the classifier to retrieve.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct GetClassifierResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Classifier", required: false, type: .structure)
+        ]
+        /// The requested classifier.
+        public let classifier: Classifier?
+
+        public init(classifier: Classifier? = nil) {
+            self.classifier = classifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case classifier = "Classifier"
+        }
+    }
+
+    public struct GetClassifiersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Size of the list to return (optional).
+        public let maxResults: Int32?
+        /// An optional continuation token.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetClassifiersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Classifiers", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The requested list of classifier objects.
+        public let classifiers: [Classifier]?
+        /// A continuation token.
+        public let nextToken: String?
+
+        public init(classifiers: [Classifier]? = nil, nextToken: String? = nil) {
+            self.classifiers = classifiers
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case classifiers = "Classifiers"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetConnectionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The ID of the Data Catalog in which the connection resides. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The name of the connection definition to retrieve.
+        public let name: String
+
+        public init(catalogId: String? = nil, name: String) {
+            self.catalogId = catalogId
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case name = "Name"
+        }
+    }
+
+    public struct GetConnectionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Connection", required: false, type: .structure)
+        ]
+        /// The requested connection definition.
+        public let connection: Connection?
+
+        public init(connection: Connection? = nil) {
+            self.connection = connection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connection = "Connection"
+        }
+    }
+
+    public struct GetConnectionsFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectionType", required: false, type: .enum), 
+            AWSShapeMember(label: "MatchCriteria", required: false, type: .list)
+        ]
+        /// The type of connections to return. Currently, only JDBC is supported; SFTP is not supported.
+        public let connectionType: ConnectionType?
+        /// A criteria string that must match the criteria recorded in the connection definition for that connection definition to be returned.
+        public let matchCriteria: [String]?
+
+        public init(connectionType: ConnectionType? = nil, matchCriteria: [String]? = nil) {
+            self.connectionType = connectionType
+            self.matchCriteria = matchCriteria
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionType = "ConnectionType"
+            case matchCriteria = "MatchCriteria"
+        }
+    }
+
+    public struct GetConnectionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The ID of the Data Catalog in which the connections reside. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// A filter that controls which connections will be returned.
+        public let filter: GetConnectionsFilter?
+        /// The maximum number of connections to return in one response.
+        public let maxResults: Int32?
+        /// A continuation token, if this is a continuation call.
+        public let nextToken: String?
+
+        public init(catalogId: String? = nil, filter: GetConnectionsFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.catalogId = catalogId
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetConnectionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectionList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of requested connection definitions.
+        public let connectionList: [Connection]?
+        /// A continuation token, if the list of connections returned does not include the last of the filtered connections.
+        public let nextToken: String?
+
+        public init(connectionList: [Connection]? = nil, nextToken: String? = nil) {
+            self.connectionList = connectionList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionList = "ConnectionList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetCrawlerMetricsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CrawlerNameList", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of the names of crawlers about which to retrieve metrics.
+        public let crawlerNameList: [String]?
+        /// The maximum size of a list to return.
+        public let maxResults: Int32?
+        /// A continuation token, if this is a continuation call.
+        public let nextToken: String?
+
+        public init(crawlerNameList: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.crawlerNameList = crawlerNameList
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawlerNameList = "CrawlerNameList"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetCrawlerMetricsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CrawlerMetricsList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of metrics for the specified crawler.
+        public let crawlerMetricsList: [CrawlerMetrics]?
+        /// A continuation token, if the returned list does not contain the last metric available.
+        public let nextToken: String?
+
+        public init(crawlerMetricsList: [CrawlerMetrics]? = nil, nextToken: String? = nil) {
+            self.crawlerMetricsList = crawlerMetricsList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawlerMetricsList = "CrawlerMetricsList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetCrawlerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// Name of the crawler to retrieve metadata for.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct GetCrawlerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Crawler", required: false, type: .structure)
+        ]
+        /// The metadata for the specified crawler.
+        public let crawler: Crawler?
+
+        public init(crawler: Crawler? = nil) {
+            self.crawler = crawler
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawler = "Crawler"
+        }
+    }
+
+    public struct GetCrawlersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The number of crawlers to return on each call.
+        public let maxResults: Int32?
+        /// A continuation token, if this is a continuation request.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetCrawlersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Crawlers", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of crawler metadata.
+        public let crawlers: [Crawler]?
+        /// A continuation token, if the returned list has not reached the end of those defined in this customer account.
+        public let nextToken: String?
+
+        public init(crawlers: [Crawler]? = nil, nextToken: String? = nil) {
+            self.crawlers = crawlers
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawlers = "Crawlers"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetDataCatalogEncryptionSettingsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string)
+        ]
+        /// The ID of the Data Catalog for which to retrieve the security configuration. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+
+        public init(catalogId: String? = nil) {
+            self.catalogId = catalogId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+        }
+    }
+
+    public struct GetDataCatalogEncryptionSettingsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataCatalogEncryptionSettings", required: false, type: .structure)
+        ]
+        /// The requested security configuration.
+        public let dataCatalogEncryptionSettings: DataCatalogEncryptionSettings?
+
+        public init(dataCatalogEncryptionSettings: DataCatalogEncryptionSettings? = nil) {
+            self.dataCatalogEncryptionSettings = dataCatalogEncryptionSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataCatalogEncryptionSettings = "DataCatalogEncryptionSettings"
+        }
+    }
+
+    public struct GetDatabaseRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The ID of the Data Catalog in which the database resides. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The name of the database to retrieve. For Hive compatibility, this should be all lowercase.
+        public let name: String
+
+        public init(catalogId: String? = nil, name: String) {
+            self.catalogId = catalogId
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case name = "Name"
+        }
+    }
+
+    public struct GetDatabaseResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Database", required: false, type: .structure)
+        ]
+        /// The definition of the specified database in the catalog.
+        public let database: Database?
+
+        public init(database: Database? = nil) {
+            self.database = database
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+        }
+    }
+
+    public struct GetDatabasesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The ID of the Data Catalog from which to retrieve Databases. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The maximum number of databases to return in one response.
+        public let maxResults: Int32?
+        /// A continuation token, if this is a continuation call.
+        public let nextToken: String?
+
+        public init(catalogId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.catalogId = catalogId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetDatabasesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DatabaseList", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of Database objects from the specified catalog.
+        public let databaseList: [Database]
+        /// A continuation token for paginating the returned list of tokens, returned if the current segment of the list is not the last.
+        public let nextToken: String?
+
+        public init(databaseList: [Database], nextToken: String? = nil) {
+            self.databaseList = databaseList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseList = "DatabaseList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetDataflowGraphRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PythonScript", required: false, type: .string)
+        ]
+        /// The Python script to transform.
+        public let pythonScript: String?
+
+        public init(pythonScript: String? = nil) {
+            self.pythonScript = pythonScript
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pythonScript = "PythonScript"
         }
     }
 
@@ -3102,193 +2898,19 @@ extension Glue {
         }
     }
 
-    public struct CodeGenNode: AWSShape {
+    public struct GetDevEndpointRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeType", required: true, type: .string), 
-            AWSShapeMember(label: "Args", required: true, type: .list), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "LineNumber", required: false, type: .integer)
+            AWSShapeMember(label: "EndpointName", required: true, type: .string)
         ]
-        /// The type of node this is.
-        public let nodeType: String
-        /// Properties of the node, in the form of name-value pairs.
-        public let args: [CodeGenNodeArg]
-        /// A node identifier that is unique within the node's graph.
-        public let id: String
-        /// The line number of the node.
-        public let lineNumber: Int32?
+        /// Name of the DevEndpoint for which to retrieve information.
+        public let endpointName: String
 
-        public init(nodeType: String, args: [CodeGenNodeArg], id: String, lineNumber: Int32? = nil) {
-            self.nodeType = nodeType
-            self.args = args
-            self.id = id
-            self.lineNumber = lineNumber
+        public init(endpointName: String) {
+            self.endpointName = endpointName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nodeType = "NodeType"
-            case args = "Args"
-            case id = "Id"
-            case lineNumber = "LineNumber"
-        }
-    }
-
-    public struct BatchStopJobRunSuccessfulSubmission: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "JobRunId", required: false, type: .string)
-        ]
-        /// The name of the job definition used in the job run that was stopped.
-        public let jobName: String?
-        /// The JobRunId of the job run that was stopped.
-        public let jobRunId: String?
-
-        public init(jobName: String? = nil, jobRunId: String? = nil) {
-            self.jobName = jobName
-            self.jobRunId = jobRunId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobName = "JobName"
-            case jobRunId = "JobRunId"
-        }
-    }
-
-    public struct StopCrawlerScheduleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CrawlerName", required: true, type: .string)
-        ]
-        /// Name of the crawler whose schedule state to set.
-        public let crawlerName: String
-
-        public init(crawlerName: String) {
-            self.crawlerName = crawlerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case crawlerName = "CrawlerName"
-        }
-    }
-
-    public struct JobRun: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotificationProperty", required: false, type: .structure), 
-            AWSShapeMember(label: "LogGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "CompletedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StartedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
-            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "PreviousRunId", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "AllocatedCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "Arguments", required: false, type: .map), 
-            AWSShapeMember(label: "JobRunState", required: false, type: .enum), 
-            AWSShapeMember(label: "Attempt", required: false, type: .integer), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "ExecutionTime", required: false, type: .integer), 
-            AWSShapeMember(label: "TriggerName", required: false, type: .string), 
-            AWSShapeMember(label: "PredecessorRuns", required: false, type: .list)
-        ]
-        /// Specifies configuration properties of a job run notification.
-        public let notificationProperty: NotificationProperty?
-        /// The name of the log group for secure logging, that can be server-side encrypted in CloudWatch using KMS. This name can be /aws-glue/jobs/, in which case the default encryption is NONE. If you add a role name and SecurityConfiguration name (in other words, /aws-glue/jobs-yourRoleName-yourSecurityConfigurationName/), then that security configuration will be used to encrypt the log group.
-        public let logGroupName: String?
-        /// The date and time this job run completed.
-        public let completedOn: TimeStamp?
-        /// The date and time at which this job run was started.
-        public let startedOn: TimeStamp?
-        /// The last time this job run was modified.
-        public let lastModifiedOn: TimeStamp?
-        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours). This overrides the timeout value set in the parent job.
-        public let timeout: Int32?
-        /// The name of the SecurityConfiguration structure to be used with this job run.
-        public let securityConfiguration: String?
-        /// The ID of the previous run of this job. For example, the JobRunId specified in the StartJobRun action.
-        public let previousRunId: String?
-        /// An error message associated with this job run.
-        public let errorMessage: String?
-        /// The name of the job definition being used in this run.
-        public let jobName: String?
-        /// The number of AWS Glue data processing units (DPUs) allocated to this JobRun. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
-        public let allocatedCapacity: Int32?
-        /// The job arguments associated with this run. These override equivalent default arguments set for the job. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
-        public let arguments: [String: String]?
-        /// The current state of the job run.
-        public let jobRunState: JobRunState?
-        /// The number of the attempt to run this job.
-        public let attempt: Int32?
-        /// The ID of this job run.
-        public let id: String?
-        /// The amount of time (in seconds) that the job run consumed resources.
-        public let executionTime: Int32?
-        /// The name of the trigger that started this job run.
-        public let triggerName: String?
-        /// A list of predecessors to this job run.
-        public let predecessorRuns: [Predecessor]?
-
-        public init(notificationProperty: NotificationProperty? = nil, logGroupName: String? = nil, completedOn: TimeStamp? = nil, startedOn: TimeStamp? = nil, lastModifiedOn: TimeStamp? = nil, timeout: Int32? = nil, securityConfiguration: String? = nil, previousRunId: String? = nil, errorMessage: String? = nil, jobName: String? = nil, allocatedCapacity: Int32? = nil, arguments: [String: String]? = nil, jobRunState: JobRunState? = nil, attempt: Int32? = nil, id: String? = nil, executionTime: Int32? = nil, triggerName: String? = nil, predecessorRuns: [Predecessor]? = nil) {
-            self.notificationProperty = notificationProperty
-            self.logGroupName = logGroupName
-            self.completedOn = completedOn
-            self.startedOn = startedOn
-            self.lastModifiedOn = lastModifiedOn
-            self.timeout = timeout
-            self.securityConfiguration = securityConfiguration
-            self.previousRunId = previousRunId
-            self.errorMessage = errorMessage
-            self.jobName = jobName
-            self.allocatedCapacity = allocatedCapacity
-            self.arguments = arguments
-            self.jobRunState = jobRunState
-            self.attempt = attempt
-            self.id = id
-            self.executionTime = executionTime
-            self.triggerName = triggerName
-            self.predecessorRuns = predecessorRuns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case notificationProperty = "NotificationProperty"
-            case logGroupName = "LogGroupName"
-            case completedOn = "CompletedOn"
-            case startedOn = "StartedOn"
-            case lastModifiedOn = "LastModifiedOn"
-            case timeout = "Timeout"
-            case securityConfiguration = "SecurityConfiguration"
-            case previousRunId = "PreviousRunId"
-            case errorMessage = "ErrorMessage"
-            case jobName = "JobName"
-            case allocatedCapacity = "AllocatedCapacity"
-            case arguments = "Arguments"
-            case jobRunState = "JobRunState"
-            case attempt = "Attempt"
-            case id = "Id"
-            case executionTime = "ExecutionTime"
-            case triggerName = "TriggerName"
-            case predecessorRuns = "PredecessorRuns"
-        }
-    }
-
-    public struct UpdateJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: true, type: .string), 
-            AWSShapeMember(label: "JobUpdate", required: true, type: .structure)
-        ]
-        /// Name of the job definition to update.
-        public let jobName: String
-        /// Specifies the values with which to update the job definition.
-        public let jobUpdate: JobUpdate
-
-        public init(jobName: String, jobUpdate: JobUpdate) {
-            self.jobName = jobName
-            self.jobUpdate = jobUpdate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobName = "JobName"
-            case jobUpdate = "JobUpdate"
+            case endpointName = "EndpointName"
         }
     }
 
@@ -3308,179 +2930,208 @@ extension Glue {
         }
     }
 
-    public struct CreateTableRequest: AWSShape {
+    public struct GetDevEndpointsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TableInput", required: true, type: .structure), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string)
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The TableInput object that defines the metadata table to create in the catalog.
-        public let tableInput: TableInput
-        /// The catalog database in which to create the new table. For Hive compatibility, this name is entirely lowercase.
-        public let databaseName: String
-        /// The ID of the Data Catalog in which to create the Table. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
+        /// The maximum size of information to return.
+        public let maxResults: Int32?
+        /// A continuation token, if this is a continuation call.
+        public let nextToken: String?
 
-        public init(tableInput: TableInput, databaseName: String, catalogId: String? = nil) {
-            self.tableInput = tableInput
-            self.databaseName = databaseName
-            self.catalogId = catalogId
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tableInput = "TableInput"
-            case databaseName = "DatabaseName"
-            case catalogId = "CatalogId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
         }
     }
 
-    public struct ResourceUri: AWSShape {
+    public struct GetDevEndpointsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "Uri", required: false, type: .string)
+            AWSShapeMember(label: "DevEndpoints", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The type of the resource.
-        public let resourceType: ResourceType?
-        /// The URI for accessing the resource.
-        public let uri: String?
+        /// A list of DevEndpoint definitions.
+        public let devEndpoints: [DevEndpoint]?
+        /// A continuation token, if not all DevEndpoint definitions have yet been returned.
+        public let nextToken: String?
 
-        public init(resourceType: ResourceType? = nil, uri: String? = nil) {
-            self.resourceType = resourceType
-            self.uri = uri
+        public init(devEndpoints: [DevEndpoint]? = nil, nextToken: String? = nil) {
+            self.devEndpoints = devEndpoints
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceType = "ResourceType"
-            case uri = "Uri"
+            case devEndpoints = "DevEndpoints"
+            case nextToken = "NextToken"
         }
     }
 
-    public struct UpdateTableRequest: AWSShape {
+    public struct GetJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkipArchive", required: false, type: .boolean), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "TableInput", required: true, type: .structure)
+            AWSShapeMember(label: "JobName", required: true, type: .string)
         ]
-        /// By default, UpdateTable always creates an archived version of the table before updating it. If skipArchive is set to true, however, UpdateTable does not create the archived version.
-        public let skipArchive: Bool?
-        /// The ID of the Data Catalog where the table resides. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-        /// The name of the catalog database in which the table resides. For Hive compatibility, this name is entirely lowercase.
-        public let databaseName: String
-        /// An updated TableInput object to define the metadata table in the catalog.
-        public let tableInput: TableInput
+        /// The name of the job definition to retrieve.
+        public let jobName: String
 
-        public init(skipArchive: Bool? = nil, catalogId: String? = nil, databaseName: String, tableInput: TableInput) {
-            self.skipArchive = skipArchive
-            self.catalogId = catalogId
-            self.databaseName = databaseName
-            self.tableInput = tableInput
+        public init(jobName: String) {
+            self.jobName = jobName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case skipArchive = "SkipArchive"
-            case catalogId = "CatalogId"
-            case databaseName = "DatabaseName"
-            case tableInput = "TableInput"
+            case jobName = "JobName"
         }
     }
 
-    public struct ConnectionInput: AWSShape {
+    public struct GetJobResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionProperties", required: true, type: .map), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "MatchCriteria", required: false, type: .list), 
-            AWSShapeMember(label: "ConnectionType", required: true, type: .enum), 
-            AWSShapeMember(label: "PhysicalConnectionRequirements", required: false, type: .structure)
+            AWSShapeMember(label: "Job", required: false, type: .structure)
         ]
-        /// These key-value pairs define parameters for the connection.
-        public let connectionProperties: [ConnectionPropertyKey: String]
-        /// Description of the connection.
-        public let description: String?
-        /// The name of the connection.
-        public let name: String
-        /// A list of criteria that can be used in selecting this connection.
-        public let matchCriteria: [String]?
-        /// The type of the connection. Currently, only JDBC is supported; SFTP is not supported.
-        public let connectionType: ConnectionType
-        /// A map of physical connection requirements, such as VPC and SecurityGroup, needed for making this connection successfully.
-        public let physicalConnectionRequirements: PhysicalConnectionRequirements?
+        /// The requested job definition.
+        public let job: Job?
 
-        public init(connectionProperties: [ConnectionPropertyKey: String], description: String? = nil, name: String, matchCriteria: [String]? = nil, connectionType: ConnectionType, physicalConnectionRequirements: PhysicalConnectionRequirements? = nil) {
-            self.connectionProperties = connectionProperties
-            self.description = description
-            self.name = name
-            self.matchCriteria = matchCriteria
-            self.connectionType = connectionType
-            self.physicalConnectionRequirements = physicalConnectionRequirements
+        public init(job: Job? = nil) {
+            self.job = job
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionProperties = "ConnectionProperties"
-            case description = "Description"
-            case name = "Name"
-            case matchCriteria = "MatchCriteria"
-            case connectionType = "ConnectionType"
-            case physicalConnectionRequirements = "PhysicalConnectionRequirements"
+            case job = "Job"
         }
     }
 
-    public struct GetPartitionResponse: AWSShape {
+    public struct GetJobRunRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Partition", required: false, type: .structure)
+            AWSShapeMember(label: "JobName", required: true, type: .string), 
+            AWSShapeMember(label: "PredecessorsIncluded", required: false, type: .boolean), 
+            AWSShapeMember(label: "RunId", required: true, type: .string)
         ]
-        /// The requested information, in the form of a Partition object.
-        public let partition: Partition?
+        /// Name of the job definition being run.
+        public let jobName: String
+        /// True if a list of predecessor runs should be returned.
+        public let predecessorsIncluded: Bool?
+        /// The ID of the job run.
+        public let runId: String
 
-        public init(partition: Partition? = nil) {
-            self.partition = partition
+        public init(jobName: String, predecessorsIncluded: Bool? = nil, runId: String) {
+            self.jobName = jobName
+            self.predecessorsIncluded = predecessorsIncluded
+            self.runId = runId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case partition = "Partition"
+            case jobName = "JobName"
+            case predecessorsIncluded = "PredecessorsIncluded"
+            case runId = "RunId"
         }
     }
 
-    public struct UpdateDevEndpointRequest: AWSShape {
+    public struct GetJobRunResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeletePublicKeys", required: false, type: .list), 
-            AWSShapeMember(label: "UpdateEtlLibraries", required: false, type: .boolean), 
-            AWSShapeMember(label: "PublicKey", required: false, type: .string), 
-            AWSShapeMember(label: "CustomLibraries", required: false, type: .structure), 
-            AWSShapeMember(label: "EndpointName", required: true, type: .string), 
-            AWSShapeMember(label: "AddPublicKeys", required: false, type: .list)
+            AWSShapeMember(label: "JobRun", required: false, type: .structure)
         ]
-        /// The list of public keys to be deleted from the DevEndpoint.
-        public let deletePublicKeys: [String]?
-        /// True if the list of custom libraries to be loaded in the development endpoint needs to be updated, or False otherwise.
-        public let updateEtlLibraries: Bool?
-        /// The public key for the DevEndpoint to use.
-        public let publicKey: String?
-        /// Custom Python or Java libraries to be loaded in the DevEndpoint.
-        public let customLibraries: DevEndpointCustomLibraries?
-        /// The name of the DevEndpoint to be updated.
-        public let endpointName: String
-        /// The list of public keys for the DevEndpoint to use.
-        public let addPublicKeys: [String]?
+        /// The requested job-run metadata.
+        public let jobRun: JobRun?
 
-        public init(deletePublicKeys: [String]? = nil, updateEtlLibraries: Bool? = nil, publicKey: String? = nil, customLibraries: DevEndpointCustomLibraries? = nil, endpointName: String, addPublicKeys: [String]? = nil) {
-            self.deletePublicKeys = deletePublicKeys
-            self.updateEtlLibraries = updateEtlLibraries
-            self.publicKey = publicKey
-            self.customLibraries = customLibraries
-            self.endpointName = endpointName
-            self.addPublicKeys = addPublicKeys
+        public init(jobRun: JobRun? = nil) {
+            self.jobRun = jobRun
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deletePublicKeys = "DeletePublicKeys"
-            case updateEtlLibraries = "UpdateEtlLibraries"
-            case publicKey = "PublicKey"
-            case customLibraries = "CustomLibraries"
-            case endpointName = "EndpointName"
-            case addPublicKeys = "AddPublicKeys"
+            case jobRun = "JobRun"
+        }
+    }
+
+    public struct GetJobRunsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobName", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The name of the job definition for which to retrieve all job runs.
+        public let jobName: String
+        /// The maximum size of the response.
+        public let maxResults: Int32?
+        /// A continuation token, if this is a continuation call.
+        public let nextToken: String?
+
+        public init(jobName: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.jobName = jobName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobName = "JobName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetJobRunsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobRuns", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of job-run metatdata objects.
+        public let jobRuns: [JobRun]?
+        /// A continuation token, if not all reequested job runs have been returned.
+        public let nextToken: String?
+
+        public init(jobRuns: [JobRun]? = nil, nextToken: String? = nil) {
+            self.jobRuns = jobRuns
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobRuns = "JobRuns"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum size of the response.
+        public let maxResults: Int32?
+        /// A continuation token, if this is a continuation call.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetJobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Jobs", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of job definitions.
+        public let jobs: [Job]?
+        /// A continuation token, if not all job definitions have yet been returned.
+        public let nextToken: String?
+
+        public init(jobs: [Job]? = nil, nextToken: String? = nil) {
+            self.jobs = jobs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobs = "Jobs"
+            case nextToken = "NextToken"
         }
     }
 
@@ -3510,12 +3161,269 @@ extension Glue {
         }
     }
 
-    public struct GetDevEndpointsRequest: AWSShape {
+    public struct GetMappingResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Mapping", required: true, type: .list)
+        ]
+        /// A list of mappings to the specified targets.
+        public let mapping: [MappingEntry]
+
+        public init(mapping: [MappingEntry]) {
+            self.mapping = mapping
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mapping = "Mapping"
+        }
+    }
+
+    public struct GetPartitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "PartitionValues", required: true, type: .list), 
+            AWSShapeMember(label: "TableName", required: true, type: .string)
+        ]
+        /// The ID of the Data Catalog where the partition in question resides. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The name of the catalog database where the partition resides.
+        public let databaseName: String
+        /// The values that define the partition.
+        public let partitionValues: [String]
+        /// The name of the partition's table.
+        public let tableName: String
+
+        public init(catalogId: String? = nil, databaseName: String, partitionValues: [String], tableName: String) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.partitionValues = partitionValues
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case partitionValues = "PartitionValues"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct GetPartitionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Partition", required: false, type: .structure)
+        ]
+        /// The requested information, in the form of a Partition object.
+        public let partition: Partition?
+
+        public init(partition: Partition? = nil) {
+            self.partition = partition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case partition = "Partition"
+        }
+    }
+
+    public struct GetPartitionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "Expression", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Segment", required: false, type: .structure), 
+            AWSShapeMember(label: "TableName", required: true, type: .string)
+        ]
+        /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The name of the catalog database where the partitions reside.
+        public let databaseName: String
+        /// An expression filtering the partitions to be returned. The expression uses SQL syntax similar to the SQL WHERE filter clause. The SQL statement parser JSQLParser parses the expression.   Operators: The following are the operators that you can use in the Expression API call:  =  Checks if the values of the two operands are equal or not; if yes, then the condition becomes true. Example: Assume 'variable a' holds 10 and 'variable b' holds 20.  (a = b) is not true.  &lt; &gt;  Checks if the values of two operands are equal or not; if the values are not equal, then the condition becomes true. Example: (a &lt; &gt; b) is true.  &gt;  Checks if the value of the left operand is greater than the value of the right operand; if yes, then the condition becomes true. Example: (a &gt; b) is not true.  &lt;  Checks if the value of the left operand is less than the value of the right operand; if yes, then the condition becomes true. Example: (a &lt; b) is true.  &gt;=  Checks if the value of the left operand is greater than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a &gt;= b) is not true.  &lt;=  Checks if the value of the left operand is less than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a &lt;= b) is true.  AND, OR, IN, BETWEEN, LIKE, NOT, IS NULL  Logical operators.    Supported Partition Key Types: The following are the the supported partition keys.    string     date     timestamp     int     bigint     long     tinyint     smallint     decimal    If an invalid type is encountered, an exception is thrown.  The following list shows the valid operators on each type. When you define a crawler, the partitionKey type is created as a STRING, to be compatible with the catalog partitions.   Sample API Call: 
+        public let expression: String?
+        /// The maximum number of partitions to return in a single response.
+        public let maxResults: Int32?
+        /// A continuation token, if this is not the first call to retrieve these partitions.
+        public let nextToken: String?
+        /// The segment of the table's partitions to scan in this request.
+        public let segment: Segment?
+        /// The name of the partitions' table.
+        public let tableName: String
+
+        public init(catalogId: String? = nil, databaseName: String, expression: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, segment: Segment? = nil, tableName: String) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.expression = expression
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.segment = segment
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case expression = "Expression"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case segment = "Segment"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct GetPartitionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Partitions", required: false, type: .list)
+        ]
+        /// A continuation token, if the returned list of partitions does not does not include the last one.
+        public let nextToken: String?
+        /// A list of requested partitions.
+        public let partitions: [Partition]?
+
+        public init(nextToken: String? = nil, partitions: [Partition]? = nil) {
+            self.nextToken = nextToken
+            self.partitions = partitions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case partitions = "Partitions"
+        }
+    }
+
+    public struct GetPlanRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Language", required: false, type: .enum), 
+            AWSShapeMember(label: "Location", required: false, type: .structure), 
+            AWSShapeMember(label: "Mapping", required: true, type: .list), 
+            AWSShapeMember(label: "Sinks", required: false, type: .list), 
+            AWSShapeMember(label: "Source", required: true, type: .structure)
+        ]
+        /// The programming language of the code to perform the mapping.
+        public let language: Language?
+        /// Parameters for the mapping.
+        public let location: Location?
+        /// The list of mappings from a source table to target tables.
+        public let mapping: [MappingEntry]
+        /// The target tables.
+        public let sinks: [CatalogEntry]?
+        /// The source table.
+        public let source: CatalogEntry
+
+        public init(language: Language? = nil, location: Location? = nil, mapping: [MappingEntry], sinks: [CatalogEntry]? = nil, source: CatalogEntry) {
+            self.language = language
+            self.location = location
+            self.mapping = mapping
+            self.sinks = sinks
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case language = "Language"
+            case location = "Location"
+            case mapping = "Mapping"
+            case sinks = "Sinks"
+            case source = "Source"
+        }
+    }
+
+    public struct GetPlanResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PythonScript", required: false, type: .string), 
+            AWSShapeMember(label: "ScalaCode", required: false, type: .string)
+        ]
+        /// A Python script to perform the mapping.
+        public let pythonScript: String?
+        /// Scala code to perform the mapping.
+        public let scalaCode: String?
+
+        public init(pythonScript: String? = nil, scalaCode: String? = nil) {
+            self.pythonScript = pythonScript
+            self.scalaCode = scalaCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pythonScript = "PythonScript"
+            case scalaCode = "ScalaCode"
+        }
+    }
+
+    public struct GetResourcePolicyRequest: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct GetResourcePolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "PolicyHash", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyInJson", required: false, type: .string), 
+            AWSShapeMember(label: "UpdateTime", required: false, type: .timestamp)
+        ]
+        /// The date and time at which the policy was created.
+        public let createTime: TimeStamp?
+        /// Contains the hash value associated with this policy.
+        public let policyHash: String?
+        /// Contains the requested policy document, in JSON format.
+        public let policyInJson: String?
+        /// The date and time at which the policy was last updated.
+        public let updateTime: TimeStamp?
+
+        public init(createTime: TimeStamp? = nil, policyHash: String? = nil, policyInJson: String? = nil, updateTime: TimeStamp? = nil) {
+            self.createTime = createTime
+            self.policyHash = policyHash
+            self.policyInJson = policyInJson
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createTime = "CreateTime"
+            case policyHash = "PolicyHash"
+            case policyInJson = "PolicyInJson"
+            case updateTime = "UpdateTime"
+        }
+    }
+
+    public struct GetSecurityConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The name of the security configuration to retrieve.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct GetSecurityConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .structure)
+        ]
+        /// The requested security configuration
+        public let securityConfiguration: SecurityConfiguration?
+
+        public init(securityConfiguration: SecurityConfiguration? = nil) {
+            self.securityConfiguration = securityConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityConfiguration = "SecurityConfiguration"
+        }
+    }
+
+    public struct GetSecurityConfigurationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The maximum size of information to return.
+        /// The maximum number of results to return.
         public let maxResults: Int32?
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
@@ -3531,232 +3439,235 @@ extension Glue {
         }
     }
 
-    public struct DeleteTriggerRequest: AWSShape {
+    public struct GetSecurityConfigurationsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityConfigurations", required: false, type: .list)
+        ]
+        /// A continuation token, if there are more security configurations to return.
+        public let nextToken: String?
+        /// A list of security configurations.
+        public let securityConfigurations: [SecurityConfiguration]?
+
+        public init(nextToken: String? = nil, securityConfigurations: [SecurityConfiguration]? = nil) {
+            self.nextToken = nextToken
+            self.securityConfigurations = securityConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case securityConfigurations = "SecurityConfigurations"
+        }
+    }
+
+    public struct GetTableRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// The name of the trigger to delete.
+        /// The ID of the Data Catalog where the table resides. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The name of the database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
+        public let databaseName: String
+        /// The name of the table for which to retrieve the definition. For Hive compatibility, this name is entirely lowercase.
         public let name: String
 
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public struct DeletePartitionResponse: AWSShape {
-
-    }
-
-    public struct Partition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: false, type: .list), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "LastAnalyzedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TableName", required: false, type: .string), 
-            AWSShapeMember(label: "StorageDescriptor", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Parameters", required: false, type: .map), 
-            AWSShapeMember(label: "LastAccessTime", required: false, type: .timestamp)
-        ]
-        /// The values of the partition.
-        public let values: [String]?
-        /// The name of the catalog database where the table in question is located.
-        public let databaseName: String?
-        /// The last time at which column statistics were computed for this partition.
-        public let lastAnalyzedTime: TimeStamp?
-        /// The name of the table in question.
-        public let tableName: String?
-        /// Provides information about the physical location where the partition is stored.
-        public let storageDescriptor: StorageDescriptor?
-        /// The time at which the partition was created.
-        public let creationTime: TimeStamp?
-        /// These key-value pairs define partition parameters.
-        public let parameters: [String: String]?
-        /// The last time at which the partition was accessed.
-        public let lastAccessTime: TimeStamp?
-
-        public init(values: [String]? = nil, databaseName: String? = nil, lastAnalyzedTime: TimeStamp? = nil, tableName: String? = nil, storageDescriptor: StorageDescriptor? = nil, creationTime: TimeStamp? = nil, parameters: [String: String]? = nil, lastAccessTime: TimeStamp? = nil) {
-            self.values = values
+        public init(catalogId: String? = nil, databaseName: String, name: String) {
+            self.catalogId = catalogId
             self.databaseName = databaseName
-            self.lastAnalyzedTime = lastAnalyzedTime
-            self.tableName = tableName
-            self.storageDescriptor = storageDescriptor
-            self.creationTime = creationTime
-            self.parameters = parameters
-            self.lastAccessTime = lastAccessTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case values = "Values"
-            case databaseName = "DatabaseName"
-            case lastAnalyzedTime = "LastAnalyzedTime"
-            case tableName = "TableName"
-            case storageDescriptor = "StorageDescriptor"
-            case creationTime = "CreationTime"
-            case parameters = "Parameters"
-            case lastAccessTime = "LastAccessTime"
-        }
-    }
-
-    public struct StartTriggerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The name of the trigger that was started.
-        public let name: String?
-
-        public init(name: String? = nil) {
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
             case name = "Name"
         }
     }
 
-    public struct CreateDatabaseResponse: AWSShape {
-
-    }
-
-    public struct EncryptionConfiguration: AWSShape {
+    public struct GetTableResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchEncryption", required: false, type: .structure), 
-            AWSShapeMember(label: "S3Encryption", required: false, type: .list), 
-            AWSShapeMember(label: "JobBookmarksEncryption", required: false, type: .structure)
+            AWSShapeMember(label: "Table", required: false, type: .structure)
         ]
-        /// The encryption configuration for CloudWatch.
-        public let cloudWatchEncryption: CloudWatchEncryption?
-        /// The encryption configuration for S3 data.
-        public let s3Encryption: [S3Encryption]?
-        /// The encryption configuration for Job Bookmarks.
-        public let jobBookmarksEncryption: JobBookmarksEncryption?
+        /// The Table object that defines the specified table.
+        public let table: Table?
 
-        public init(cloudWatchEncryption: CloudWatchEncryption? = nil, s3Encryption: [S3Encryption]? = nil, jobBookmarksEncryption: JobBookmarksEncryption? = nil) {
-            self.cloudWatchEncryption = cloudWatchEncryption
-            self.s3Encryption = s3Encryption
-            self.jobBookmarksEncryption = jobBookmarksEncryption
+        public init(table: Table? = nil) {
+            self.table = table
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchEncryption = "CloudWatchEncryption"
-            case s3Encryption = "S3Encryption"
-            case jobBookmarksEncryption = "JobBookmarksEncryption"
+            case table = "Table"
         }
     }
 
-    public struct UserDefinedFunction: AWSShape {
+    public struct GetTableVersionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClassName", required: false, type: .string), 
-            AWSShapeMember(label: "OwnerName", required: false, type: .string), 
-            AWSShapeMember(label: "OwnerType", required: false, type: .enum), 
-            AWSShapeMember(label: "ResourceUris", required: false, type: .list), 
-            AWSShapeMember(label: "FunctionName", required: false, type: .string), 
-            AWSShapeMember(label: "CreateTime", required: false, type: .timestamp)
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "TableName", required: true, type: .string), 
+            AWSShapeMember(label: "VersionId", required: false, type: .string)
         ]
-        /// The Java class that contains the function code.
-        public let className: String?
-        /// The owner of the function.
-        public let ownerName: String?
-        /// The owner type.
-        public let ownerType: PrincipalType?
-        /// The resource URIs for the function.
-        public let resourceUris: [ResourceUri]?
-        /// The name of the function.
-        public let functionName: String?
-        /// The time at which the function was created.
-        public let createTime: TimeStamp?
+        /// The ID of the Data Catalog where the tables reside. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
+        public let databaseName: String
+        /// The name of the table. For Hive compatibility, this name is entirely lowercase.
+        public let tableName: String
+        /// The ID value of the table version to be retrieved. A VersionID is a string representation of an integer. Each version is incremented by 1. 
+        public let versionId: String?
 
-        public init(className: String? = nil, ownerName: String? = nil, ownerType: PrincipalType? = nil, resourceUris: [ResourceUri]? = nil, functionName: String? = nil, createTime: TimeStamp? = nil) {
-            self.className = className
-            self.ownerName = ownerName
-            self.ownerType = ownerType
-            self.resourceUris = resourceUris
-            self.functionName = functionName
-            self.createTime = createTime
+        public init(catalogId: String? = nil, databaseName: String, tableName: String, versionId: String? = nil) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.tableName = tableName
+            self.versionId = versionId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case className = "ClassName"
-            case ownerName = "OwnerName"
-            case ownerType = "OwnerType"
-            case resourceUris = "ResourceUris"
-            case functionName = "FunctionName"
-            case createTime = "CreateTime"
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case tableName = "TableName"
+            case versionId = "VersionId"
         }
     }
 
-    public struct GetJobRunsResponse: AWSShape {
+    public struct GetTableVersionResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobRuns", required: false, type: .list), 
+            AWSShapeMember(label: "TableVersion", required: false, type: .structure)
+        ]
+        /// The requested table version.
+        public let tableVersion: TableVersion?
+
+        public init(tableVersion: TableVersion? = nil) {
+            self.tableVersion = tableVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableVersion = "TableVersion"
+        }
+    }
+
+    public struct GetTableVersionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TableName", required: true, type: .string)
+        ]
+        /// The ID of the Data Catalog where the tables reside. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
+        public let databaseName: String
+        /// The maximum number of table versions to return in one response.
+        public let maxResults: Int32?
+        /// A continuation token, if this is not the first call.
+        public let nextToken: String?
+        /// The name of the table. For Hive compatibility, this name is entirely lowercase.
+        public let tableName: String
+
+        public init(catalogId: String? = nil, databaseName: String, maxResults: Int32? = nil, nextToken: String? = nil, tableName: String) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct GetTableVersionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TableVersions", required: false, type: .list)
+        ]
+        /// A continuation token, if the list of available versions does not include the last one.
+        public let nextToken: String?
+        /// A list of strings identifying available versions of the specified table.
+        public let tableVersions: [TableVersion]?
+
+        public init(nextToken: String? = nil, tableVersions: [TableVersion]? = nil) {
+            self.nextToken = nextToken
+            self.tableVersions = tableVersions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tableVersions = "TableVersions"
+        }
+    }
+
+    public struct GetTablesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "Expression", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// A list of job-run metatdata objects.
-        public let jobRuns: [JobRun]?
-        /// A continuation token, if not all reequested job runs have been returned.
+        /// The ID of the Data Catalog where the tables reside. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The database in the catalog whose tables to list. For Hive compatibility, this name is entirely lowercase.
+        public let databaseName: String
+        /// A regular expression pattern. If present, only those tables whose names match the pattern are returned.
+        public let expression: String?
+        /// The maximum number of tables to return in a single response.
+        public let maxResults: Int32?
+        /// A continuation token, included if this is a continuation call.
         public let nextToken: String?
 
-        public init(jobRuns: [JobRun]? = nil, nextToken: String? = nil) {
-            self.jobRuns = jobRuns
+        public init(catalogId: String? = nil, databaseName: String, expression: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.expression = expression
+            self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobRuns = "JobRuns"
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case expression = "Expression"
+            case maxResults = "MaxResults"
             case nextToken = "NextToken"
         }
     }
 
-    public struct DeleteJobRequest: AWSShape {
+    public struct GetTablesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: true, type: .string)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TableList", required: false, type: .list)
         ]
-        /// The name of the job definition to delete.
-        public let jobName: String
+        /// A continuation token, present if the current list segment is not the last.
+        public let nextToken: String?
+        /// A list of the requested Table objects.
+        public let tableList: [Table]?
 
-        public init(jobName: String) {
-            self.jobName = jobName
+        public init(nextToken: String? = nil, tableList: [Table]? = nil) {
+            self.nextToken = nextToken
+            self.tableList = tableList
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobName = "JobName"
+            case nextToken = "NextToken"
+            case tableList = "TableList"
         }
     }
 
-    public struct CreateUserDefinedFunctionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "FunctionInput", required: true, type: .structure)
-        ]
-        /// The name of the catalog database in which to create the function.
-        public let databaseName: String
-        /// The ID of the Data Catalog in which to create the function. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-        /// A FunctionInput object that defines the function to create in the Data Catalog.
-        public let functionInput: UserDefinedFunctionInput
-
-        public init(databaseName: String, catalogId: String? = nil, functionInput: UserDefinedFunctionInput) {
-            self.databaseName = databaseName
-            self.catalogId = catalogId
-            self.functionInput = functionInput
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case databaseName = "DatabaseName"
-            case catalogId = "CatalogId"
-            case functionInput = "FunctionInput"
-        }
-    }
-
-    public struct StartTriggerRequest: AWSShape {
+    public struct GetTriggerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// The name of the trigger to start.
+        /// The name of the trigger to retrieve.
         public let name: String
 
         public init(name: String) {
@@ -3765,201 +3676,800 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
+        }
+    }
+
+    public struct GetTriggerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Trigger", required: false, type: .structure)
+        ]
+        /// The requested trigger definition.
+        public let trigger: Trigger?
+
+        public init(trigger: Trigger? = nil) {
+            self.trigger = trigger
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trigger = "Trigger"
+        }
+    }
+
+    public struct GetTriggersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DependentJobName", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The name of the job for which to retrieve triggers. The trigger that can start this job will be returned, and if there is no such trigger, all triggers will be returned.
+        public let dependentJobName: String?
+        /// The maximum size of the response.
+        public let maxResults: Int32?
+        /// A continuation token, if this is a continuation call.
+        public let nextToken: String?
+
+        public init(dependentJobName: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.dependentJobName = dependentJobName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dependentJobName = "DependentJobName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetTriggersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Triggers", required: false, type: .list)
+        ]
+        /// A continuation token, if not all the requested triggers have yet been returned.
+        public let nextToken: String?
+        /// A list of triggers for the specified job.
+        public let triggers: [Trigger]?
+
+        public init(nextToken: String? = nil, triggers: [Trigger]? = nil) {
+            self.nextToken = nextToken
+            self.triggers = triggers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case triggers = "Triggers"
+        }
+    }
+
+    public struct GetUserDefinedFunctionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "FunctionName", required: true, type: .string)
+        ]
+        /// The ID of the Data Catalog where the function to be retrieved is located. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The name of the catalog database where the function is located.
+        public let databaseName: String
+        /// The name of the function.
+        public let functionName: String
+
+        public init(catalogId: String? = nil, databaseName: String, functionName: String) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.functionName = functionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case functionName = "FunctionName"
+        }
+    }
+
+    public struct GetUserDefinedFunctionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserDefinedFunction", required: false, type: .structure)
+        ]
+        /// The requested function definition.
+        public let userDefinedFunction: UserDefinedFunction?
+
+        public init(userDefinedFunction: UserDefinedFunction? = nil) {
+            self.userDefinedFunction = userDefinedFunction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userDefinedFunction = "UserDefinedFunction"
+        }
+    }
+
+    public struct GetUserDefinedFunctionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Pattern", required: true, type: .string)
+        ]
+        /// The ID of the Data Catalog where the functions to be retrieved are located. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The name of the catalog database where the functions are located.
+        public let databaseName: String
+        /// The maximum number of functions to return in one response.
+        public let maxResults: Int32?
+        /// A continuation token, if this is a continuation call.
+        public let nextToken: String?
+        /// An optional function-name pattern string that filters the function definitions returned.
+        public let pattern: String
+
+        public init(catalogId: String? = nil, databaseName: String, maxResults: Int32? = nil, nextToken: String? = nil, pattern: String) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.pattern = pattern
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case pattern = "Pattern"
         }
     }
 
     public struct GetUserDefinedFunctionsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserDefinedFunctions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "UserDefinedFunctions", required: false, type: .list)
         ]
-        /// A list of requested function definitions.
-        public let userDefinedFunctions: [UserDefinedFunction]?
         /// A continuation token, if the list of functions returned does not include the last requested function.
         public let nextToken: String?
+        /// A list of requested function definitions.
+        public let userDefinedFunctions: [UserDefinedFunction]?
 
-        public init(userDefinedFunctions: [UserDefinedFunction]? = nil, nextToken: String? = nil) {
-            self.userDefinedFunctions = userDefinedFunctions
+        public init(nextToken: String? = nil, userDefinedFunctions: [UserDefinedFunction]? = nil) {
             self.nextToken = nextToken
+            self.userDefinedFunctions = userDefinedFunctions
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userDefinedFunctions = "UserDefinedFunctions"
             case nextToken = "NextToken"
+            case userDefinedFunctions = "UserDefinedFunctions"
         }
     }
 
-    public struct StartCrawlerScheduleRequest: AWSShape {
+    public struct GrokClassifier: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CrawlerName", required: true, type: .string)
+            AWSShapeMember(label: "Classification", required: true, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CustomPatterns", required: false, type: .string), 
+            AWSShapeMember(label: "GrokPattern", required: true, type: .string), 
+            AWSShapeMember(label: "LastUpdated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .long)
         ]
-        /// Name of the crawler to schedule.
-        public let crawlerName: String
+        /// An identifier of the data format that the classifier matches, such as Twitter, JSON, Omniture logs, and so on.
+        public let classification: String
+        /// The time this classifier was registered.
+        public let creationTime: TimeStamp?
+        /// Optional custom grok patterns defined by this classifier. For more information, see custom patterns in Writing Custom Classifers.
+        public let customPatterns: String?
+        /// The grok pattern applied to a data store by this classifier. For more information, see built-in patterns in Writing Custom Classifers.
+        public let grokPattern: String
+        /// The time this classifier was last updated.
+        public let lastUpdated: TimeStamp?
+        /// The name of the classifier.
+        public let name: String
+        /// The version of this classifier.
+        public let version: Int64?
 
-        public init(crawlerName: String) {
-            self.crawlerName = crawlerName
+        public init(classification: String, creationTime: TimeStamp? = nil, customPatterns: String? = nil, grokPattern: String, lastUpdated: TimeStamp? = nil, name: String, version: Int64? = nil) {
+            self.classification = classification
+            self.creationTime = creationTime
+            self.customPatterns = customPatterns
+            self.grokPattern = grokPattern
+            self.lastUpdated = lastUpdated
+            self.name = name
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
-            case crawlerName = "CrawlerName"
+            case classification = "Classification"
+            case creationTime = "CreationTime"
+            case customPatterns = "CustomPatterns"
+            case grokPattern = "GrokPattern"
+            case lastUpdated = "LastUpdated"
+            case name = "Name"
+            case version = "Version"
         }
     }
 
-    public struct UpdateTableResponse: AWSShape {
-
-    }
-
-    public struct UpdateDatabaseResponse: AWSShape {
-
-    }
-
-    public struct StorageDescriptor: AWSShape {
+    public struct ImportCatalogToGlueRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Location", required: false, type: .string), 
-            AWSShapeMember(label: "NumberOfBuckets", required: false, type: .integer), 
-            AWSShapeMember(label: "StoredAsSubDirectories", required: false, type: .boolean), 
-            AWSShapeMember(label: "BucketColumns", required: false, type: .list), 
-            AWSShapeMember(label: "OutputFormat", required: false, type: .string), 
-            AWSShapeMember(label: "InputFormat", required: false, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .map), 
-            AWSShapeMember(label: "SkewedInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "SerdeInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "Compressed", required: false, type: .boolean), 
-            AWSShapeMember(label: "Columns", required: false, type: .list), 
-            AWSShapeMember(label: "SortColumns", required: false, type: .list)
-        ]
-        /// The physical location of the table. By default this takes the form of the warehouse location, followed by the database location in the warehouse, followed by the table name.
-        public let location: String?
-        /// Must be specified if the table contains any dimension columns.
-        public let numberOfBuckets: Int32?
-        /// True if the table data is stored in subdirectories, or False if not.
-        public let storedAsSubDirectories: Bool?
-        /// A list of reducer grouping columns, clustering columns, and bucketing columns in the table.
-        public let bucketColumns: [String]?
-        /// The output format: SequenceFileOutputFormat (binary), or IgnoreKeyTextOutputFormat, or a custom format.
-        public let outputFormat: String?
-        /// The input format: SequenceFileInputFormat (binary), or TextInputFormat, or a custom format.
-        public let inputFormat: String?
-        /// User-supplied properties in key-value form.
-        public let parameters: [String: String]?
-        /// Information about values that appear very frequently in a column (skewed values).
-        public let skewedInfo: SkewedInfo?
-        /// Serialization/deserialization (SerDe) information.
-        public let serdeInfo: SerDeInfo?
-        /// True if the data in the table is compressed, or False if not.
-        public let compressed: Bool?
-        /// A list of the Columns in the table.
-        public let columns: [Column]?
-        /// A list specifying the sort order of each bucket in the table.
-        public let sortColumns: [Order]?
-
-        public init(location: String? = nil, numberOfBuckets: Int32? = nil, storedAsSubDirectories: Bool? = nil, bucketColumns: [String]? = nil, outputFormat: String? = nil, inputFormat: String? = nil, parameters: [String: String]? = nil, skewedInfo: SkewedInfo? = nil, serdeInfo: SerDeInfo? = nil, compressed: Bool? = nil, columns: [Column]? = nil, sortColumns: [Order]? = nil) {
-            self.location = location
-            self.numberOfBuckets = numberOfBuckets
-            self.storedAsSubDirectories = storedAsSubDirectories
-            self.bucketColumns = bucketColumns
-            self.outputFormat = outputFormat
-            self.inputFormat = inputFormat
-            self.parameters = parameters
-            self.skewedInfo = skewedInfo
-            self.serdeInfo = serdeInfo
-            self.compressed = compressed
-            self.columns = columns
-            self.sortColumns = sortColumns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case location = "Location"
-            case numberOfBuckets = "NumberOfBuckets"
-            case storedAsSubDirectories = "StoredAsSubDirectories"
-            case bucketColumns = "BucketColumns"
-            case outputFormat = "OutputFormat"
-            case inputFormat = "InputFormat"
-            case parameters = "Parameters"
-            case skewedInfo = "SkewedInfo"
-            case serdeInfo = "SerdeInfo"
-            case compressed = "Compressed"
-            case columns = "Columns"
-            case sortColumns = "SortColumns"
-        }
-    }
-
-    public struct GetConnectionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Connection", required: false, type: .structure)
-        ]
-        /// The requested connection definition.
-        public let connection: Connection?
-
-        public init(connection: Connection? = nil) {
-            self.connection = connection
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connection = "Connection"
-        }
-    }
-
-    public struct DeleteConnectionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionName", required: true, type: .string), 
             AWSShapeMember(label: "CatalogId", required: false, type: .string)
         ]
-        /// The name of the connection to delete.
-        public let connectionName: String
-        /// The ID of the Data Catalog in which the connection resides. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the catalog to import. Currently, this should be the AWS account ID.
         public let catalogId: String?
 
-        public init(connectionName: String, catalogId: String? = nil) {
-            self.connectionName = connectionName
+        public init(catalogId: String? = nil) {
             self.catalogId = catalogId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionName = "ConnectionName"
             case catalogId = "CatalogId"
         }
     }
 
-    public struct GetCrawlerMetricsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "CrawlerNameList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The maximum size of a list to return.
-        public let maxResults: Int32?
-        /// A list of the names of crawlers about which to retrieve metrics.
-        public let crawlerNameList: [String]?
-        /// A continuation token, if this is a continuation call.
-        public let nextToken: String?
+    public struct ImportCatalogToGlueResponse: AWSShape {
 
-        public init(maxResults: Int32? = nil, crawlerNameList: [String]? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.crawlerNameList = crawlerNameList
-            self.nextToken = nextToken
+        public init() {
+        }
+
+    }
+
+    public struct JdbcTarget: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectionName", required: false, type: .string), 
+            AWSShapeMember(label: "Exclusions", required: false, type: .list), 
+            AWSShapeMember(label: "Path", required: false, type: .string)
+        ]
+        /// The name of the connection to use to connect to the JDBC target.
+        public let connectionName: String?
+        /// A list of glob patterns used to exclude from the crawl. For more information, see Catalog Tables with a Crawler.
+        public let exclusions: [String]?
+        /// The path of the JDBC target.
+        public let path: String?
+
+        public init(connectionName: String? = nil, exclusions: [String]? = nil, path: String? = nil) {
+            self.connectionName = connectionName
+            self.exclusions = exclusions
+            self.path = path
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case crawlerNameList = "CrawlerNameList"
-            case nextToken = "NextToken"
+            case connectionName = "ConnectionName"
+            case exclusions = "Exclusions"
+            case path = "Path"
         }
     }
 
-    public struct StopTriggerRequest: AWSShape {
+    public struct Job: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
+            AWSShapeMember(label: "AllocatedCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "Command", required: false, type: .structure), 
+            AWSShapeMember(label: "Connections", required: false, type: .structure), 
+            AWSShapeMember(label: "CreatedOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DefaultArguments", required: false, type: .map), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutionProperty", required: false, type: .structure), 
+            AWSShapeMember(label: "LastModifiedOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LogUri", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationProperty", required: false, type: .structure), 
+            AWSShapeMember(label: "Role", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
+            AWSShapeMember(label: "Timeout", required: false, type: .integer)
         ]
-        /// The name of the trigger to stop.
-        public let name: String
+        /// The number of AWS Glue data processing units (DPUs) allocated to runs of this job. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
+        public let allocatedCapacity: Int32?
+        /// The JobCommand that executes this job.
+        public let command: JobCommand?
+        /// The connections used for this job.
+        public let connections: ConnectionsList?
+        /// The time and date that this job definition was created.
+        public let createdOn: TimeStamp?
+        /// The default arguments for this job, specified as name-value pairs. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
+        public let defaultArguments: [String: String]?
+        /// Description of the job being defined.
+        public let description: String?
+        /// An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
+        public let executionProperty: ExecutionProperty?
+        /// The last point in time when this job definition was modified.
+        public let lastModifiedOn: TimeStamp?
+        /// This field is reserved for future use.
+        public let logUri: String?
+        /// The maximum number of times to retry this job after a JobRun fails.
+        public let maxRetries: Int32?
+        /// The name you assign to this job definition.
+        public let name: String?
+        /// Specifies configuration properties of a job notification.
+        public let notificationProperty: NotificationProperty?
+        /// The name or ARN of the IAM role associated with this job.
+        public let role: String?
+        /// The name of the SecurityConfiguration structure to be used with this job.
+        public let securityConfiguration: String?
+        /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+        public let timeout: Int32?
 
-        public init(name: String) {
+        public init(allocatedCapacity: Int32? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: TimeStamp? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, lastModifiedOn: TimeStamp? = nil, logUri: String? = nil, maxRetries: Int32? = nil, name: String? = nil, notificationProperty: NotificationProperty? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil) {
+            self.allocatedCapacity = allocatedCapacity
+            self.command = command
+            self.connections = connections
+            self.createdOn = createdOn
+            self.defaultArguments = defaultArguments
+            self.description = description
+            self.executionProperty = executionProperty
+            self.lastModifiedOn = lastModifiedOn
+            self.logUri = logUri
+            self.maxRetries = maxRetries
             self.name = name
+            self.notificationProperty = notificationProperty
+            self.role = role
+            self.securityConfiguration = securityConfiguration
+            self.timeout = timeout
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocatedCapacity = "AllocatedCapacity"
+            case command = "Command"
+            case connections = "Connections"
+            case createdOn = "CreatedOn"
+            case defaultArguments = "DefaultArguments"
+            case description = "Description"
+            case executionProperty = "ExecutionProperty"
+            case lastModifiedOn = "LastModifiedOn"
+            case logUri = "LogUri"
+            case maxRetries = "MaxRetries"
+            case name = "Name"
+            case notificationProperty = "NotificationProperty"
+            case role = "Role"
+            case securityConfiguration = "SecurityConfiguration"
+            case timeout = "Timeout"
+        }
+    }
+
+    public struct JobBookmarkEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attempt", required: false, type: .integer), 
+            AWSShapeMember(label: "JobBookmark", required: false, type: .string), 
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "Run", required: false, type: .integer), 
+            AWSShapeMember(label: "Version", required: false, type: .integer)
+        ]
+        /// The attempt ID number.
+        public let attempt: Int32?
+        /// The bookmark itself.
+        public let jobBookmark: String?
+        /// Name of the job in question.
+        public let jobName: String?
+        /// The run ID number.
+        public let run: Int32?
+        /// Version of the job.
+        public let version: Int32?
+
+        public init(attempt: Int32? = nil, jobBookmark: String? = nil, jobName: String? = nil, run: Int32? = nil, version: Int32? = nil) {
+            self.attempt = attempt
+            self.jobBookmark = jobBookmark
+            self.jobName = jobName
+            self.run = run
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attempt = "Attempt"
+            case jobBookmark = "JobBookmark"
+            case jobName = "JobName"
+            case run = "Run"
+            case version = "Version"
+        }
+    }
+
+    public struct JobBookmarksEncryption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobBookmarksEncryptionMode", required: false, type: .enum), 
+            AWSShapeMember(label: "KmsKeyArn", required: false, type: .string)
+        ]
+        /// The encryption mode to use for Job bookmarks data.
+        public let jobBookmarksEncryptionMode: JobBookmarksEncryptionMode?
+        /// The AWS ARN of the KMS key to be used to encrypt the data.
+        public let kmsKeyArn: String?
+
+        public init(jobBookmarksEncryptionMode: JobBookmarksEncryptionMode? = nil, kmsKeyArn: String? = nil) {
+            self.jobBookmarksEncryptionMode = jobBookmarksEncryptionMode
+            self.kmsKeyArn = kmsKeyArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobBookmarksEncryptionMode = "JobBookmarksEncryptionMode"
+            case kmsKeyArn = "KmsKeyArn"
+        }
+    }
+
+    public enum JobBookmarksEncryptionMode: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case cseKms = "CSE-KMS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct JobCommand: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ScriptLocation", required: false, type: .string)
+        ]
+        /// The name of the job command: this must be glueetl.
+        public let name: String?
+        /// Specifies the S3 path to a script that executes a job (required).
+        public let scriptLocation: String?
+
+        public init(name: String? = nil, scriptLocation: String? = nil) {
+            self.name = name
+            self.scriptLocation = scriptLocation
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
+            case scriptLocation = "ScriptLocation"
+        }
+    }
+
+    public struct JobRun: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllocatedCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "Arguments", required: false, type: .map), 
+            AWSShapeMember(label: "Attempt", required: false, type: .integer), 
+            AWSShapeMember(label: "CompletedOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutionTime", required: false, type: .integer), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "JobRunState", required: false, type: .enum), 
+            AWSShapeMember(label: "LastModifiedOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LogGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationProperty", required: false, type: .structure), 
+            AWSShapeMember(label: "PredecessorRuns", required: false, type: .list), 
+            AWSShapeMember(label: "PreviousRunId", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
+            AWSShapeMember(label: "StartedOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
+            AWSShapeMember(label: "TriggerName", required: false, type: .string)
+        ]
+        /// The number of AWS Glue data processing units (DPUs) allocated to this JobRun. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
+        public let allocatedCapacity: Int32?
+        /// The job arguments associated with this run. These override equivalent default arguments set for the job. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
+        public let arguments: [String: String]?
+        /// The number of the attempt to run this job.
+        public let attempt: Int32?
+        /// The date and time this job run completed.
+        public let completedOn: TimeStamp?
+        /// An error message associated with this job run.
+        public let errorMessage: String?
+        /// The amount of time (in seconds) that the job run consumed resources.
+        public let executionTime: Int32?
+        /// The ID of this job run.
+        public let id: String?
+        /// The name of the job definition being used in this run.
+        public let jobName: String?
+        /// The current state of the job run.
+        public let jobRunState: JobRunState?
+        /// The last time this job run was modified.
+        public let lastModifiedOn: TimeStamp?
+        /// The name of the log group for secure logging, that can be server-side encrypted in CloudWatch using KMS. This name can be /aws-glue/jobs/, in which case the default encryption is NONE. If you add a role name and SecurityConfiguration name (in other words, /aws-glue/jobs-yourRoleName-yourSecurityConfigurationName/), then that security configuration will be used to encrypt the log group.
+        public let logGroupName: String?
+        /// Specifies configuration properties of a job run notification.
+        public let notificationProperty: NotificationProperty?
+        /// A list of predecessors to this job run.
+        public let predecessorRuns: [Predecessor]?
+        /// The ID of the previous run of this job. For example, the JobRunId specified in the StartJobRun action.
+        public let previousRunId: String?
+        /// The name of the SecurityConfiguration structure to be used with this job run.
+        public let securityConfiguration: String?
+        /// The date and time at which this job run was started.
+        public let startedOn: TimeStamp?
+        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours). This overrides the timeout value set in the parent job.
+        public let timeout: Int32?
+        /// The name of the trigger that started this job run.
+        public let triggerName: String?
+
+        public init(allocatedCapacity: Int32? = nil, arguments: [String: String]? = nil, attempt: Int32? = nil, completedOn: TimeStamp? = nil, errorMessage: String? = nil, executionTime: Int32? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: TimeStamp? = nil, logGroupName: String? = nil, notificationProperty: NotificationProperty? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: TimeStamp? = nil, timeout: Int32? = nil, triggerName: String? = nil) {
+            self.allocatedCapacity = allocatedCapacity
+            self.arguments = arguments
+            self.attempt = attempt
+            self.completedOn = completedOn
+            self.errorMessage = errorMessage
+            self.executionTime = executionTime
+            self.id = id
+            self.jobName = jobName
+            self.jobRunState = jobRunState
+            self.lastModifiedOn = lastModifiedOn
+            self.logGroupName = logGroupName
+            self.notificationProperty = notificationProperty
+            self.predecessorRuns = predecessorRuns
+            self.previousRunId = previousRunId
+            self.securityConfiguration = securityConfiguration
+            self.startedOn = startedOn
+            self.timeout = timeout
+            self.triggerName = triggerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocatedCapacity = "AllocatedCapacity"
+            case arguments = "Arguments"
+            case attempt = "Attempt"
+            case completedOn = "CompletedOn"
+            case errorMessage = "ErrorMessage"
+            case executionTime = "ExecutionTime"
+            case id = "Id"
+            case jobName = "JobName"
+            case jobRunState = "JobRunState"
+            case lastModifiedOn = "LastModifiedOn"
+            case logGroupName = "LogGroupName"
+            case notificationProperty = "NotificationProperty"
+            case predecessorRuns = "PredecessorRuns"
+            case previousRunId = "PreviousRunId"
+            case securityConfiguration = "SecurityConfiguration"
+            case startedOn = "StartedOn"
+            case timeout = "Timeout"
+            case triggerName = "TriggerName"
+        }
+    }
+
+    public enum JobRunState: String, CustomStringConvertible, Codable {
+        case starting = "STARTING"
+        case running = "RUNNING"
+        case stopping = "STOPPING"
+        case stopped = "STOPPED"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        case timeout = "TIMEOUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct JobUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllocatedCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "Command", required: false, type: .structure), 
+            AWSShapeMember(label: "Connections", required: false, type: .structure), 
+            AWSShapeMember(label: "DefaultArguments", required: false, type: .map), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutionProperty", required: false, type: .structure), 
+            AWSShapeMember(label: "LogUri", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
+            AWSShapeMember(label: "NotificationProperty", required: false, type: .structure), 
+            AWSShapeMember(label: "Role", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
+            AWSShapeMember(label: "Timeout", required: false, type: .integer)
+        ]
+        /// The number of AWS Glue data processing units (DPUs) to allocate to this Job. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
+        public let allocatedCapacity: Int32?
+        /// The JobCommand that executes this job (required).
+        public let command: JobCommand?
+        /// The connections used for this job.
+        public let connections: ConnectionsList?
+        /// The default arguments for this job. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
+        public let defaultArguments: [String: String]?
+        /// Description of the job being defined.
+        public let description: String?
+        /// An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
+        public let executionProperty: ExecutionProperty?
+        /// This field is reserved for future use.
+        public let logUri: String?
+        /// The maximum number of times to retry this job if it fails.
+        public let maxRetries: Int32?
+        /// Specifies configuration properties of a job notification.
+        public let notificationProperty: NotificationProperty?
+        /// The name or ARN of the IAM role associated with this job (required).
+        public let role: String?
+        /// The name of the SecurityConfiguration structure to be used with this job.
+        public let securityConfiguration: String?
+        /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+        public let timeout: Int32?
+
+        public init(allocatedCapacity: Int32? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, logUri: String? = nil, maxRetries: Int32? = nil, notificationProperty: NotificationProperty? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil) {
+            self.allocatedCapacity = allocatedCapacity
+            self.command = command
+            self.connections = connections
+            self.defaultArguments = defaultArguments
+            self.description = description
+            self.executionProperty = executionProperty
+            self.logUri = logUri
+            self.maxRetries = maxRetries
+            self.notificationProperty = notificationProperty
+            self.role = role
+            self.securityConfiguration = securityConfiguration
+            self.timeout = timeout
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocatedCapacity = "AllocatedCapacity"
+            case command = "Command"
+            case connections = "Connections"
+            case defaultArguments = "DefaultArguments"
+            case description = "Description"
+            case executionProperty = "ExecutionProperty"
+            case logUri = "LogUri"
+            case maxRetries = "MaxRetries"
+            case notificationProperty = "NotificationProperty"
+            case role = "Role"
+            case securityConfiguration = "SecurityConfiguration"
+            case timeout = "Timeout"
+        }
+    }
+
+    public struct JsonClassifier: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "JsonPath", required: true, type: .string), 
+            AWSShapeMember(label: "LastUpdated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .long)
+        ]
+        /// The time this classifier was registered.
+        public let creationTime: TimeStamp?
+        /// A JsonPath string defining the JSON data for the classifier to classify. AWS Glue supports a subset of JsonPath, as described in Writing JsonPath Custom Classifiers.
+        public let jsonPath: String
+        /// The time this classifier was last updated.
+        public let lastUpdated: TimeStamp?
+        /// The name of the classifier.
+        public let name: String
+        /// The version of this classifier.
+        public let version: Int64?
+
+        public init(creationTime: TimeStamp? = nil, jsonPath: String, lastUpdated: TimeStamp? = nil, name: String, version: Int64? = nil) {
+            self.creationTime = creationTime
+            self.jsonPath = jsonPath
+            self.lastUpdated = lastUpdated
+            self.name = name
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case jsonPath = "JsonPath"
+            case lastUpdated = "LastUpdated"
+            case name = "Name"
+            case version = "Version"
+        }
+    }
+
+    public enum Language: String, CustomStringConvertible, Codable {
+        case python = "PYTHON"
+        case scala = "SCALA"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct LastCrawlInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "LogGroup", required: false, type: .string), 
+            AWSShapeMember(label: "LogStream", required: false, type: .string), 
+            AWSShapeMember(label: "MessagePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        /// If an error occurred, the error information about the last crawl.
+        public let errorMessage: String?
+        /// The log group for the last crawl.
+        public let logGroup: String?
+        /// The log stream for the last crawl.
+        public let logStream: String?
+        /// The prefix for a message about this crawl.
+        public let messagePrefix: String?
+        /// The time at which the crawl started.
+        public let startTime: TimeStamp?
+        /// Status of the last crawl.
+        public let status: LastCrawlStatus?
+
+        public init(errorMessage: String? = nil, logGroup: String? = nil, logStream: String? = nil, messagePrefix: String? = nil, startTime: TimeStamp? = nil, status: LastCrawlStatus? = nil) {
+            self.errorMessage = errorMessage
+            self.logGroup = logGroup
+            self.logStream = logStream
+            self.messagePrefix = messagePrefix
+            self.startTime = startTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "ErrorMessage"
+            case logGroup = "LogGroup"
+            case logStream = "LogStream"
+            case messagePrefix = "MessagePrefix"
+            case startTime = "StartTime"
+            case status = "Status"
+        }
+    }
+
+    public enum LastCrawlStatus: String, CustomStringConvertible, Codable {
+        case succeeded = "SUCCEEDED"
+        case cancelled = "CANCELLED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Location: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DynamoDB", required: false, type: .list), 
+            AWSShapeMember(label: "Jdbc", required: false, type: .list), 
+            AWSShapeMember(label: "S3", required: false, type: .list)
+        ]
+        /// A DynamoDB Table location.
+        public let dynamoDB: [CodeGenNodeArg]?
+        /// A JDBC location.
+        public let jdbc: [CodeGenNodeArg]?
+        /// An Amazon S3 location.
+        public let s3: [CodeGenNodeArg]?
+
+        public init(dynamoDB: [CodeGenNodeArg]? = nil, jdbc: [CodeGenNodeArg]? = nil, s3: [CodeGenNodeArg]? = nil) {
+            self.dynamoDB = dynamoDB
+            self.jdbc = jdbc
+            self.s3 = s3
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dynamoDB = "DynamoDB"
+            case jdbc = "Jdbc"
+            case s3 = "S3"
+        }
+    }
+
+    public enum Logical: String, CustomStringConvertible, Codable {
+        case and = "AND"
+        case any = "ANY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogicalOperator: String, CustomStringConvertible, Codable {
+        case equals = "EQUALS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct MappingEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourcePath", required: false, type: .string), 
+            AWSShapeMember(label: "SourceTable", required: false, type: .string), 
+            AWSShapeMember(label: "SourceType", required: false, type: .string), 
+            AWSShapeMember(label: "TargetPath", required: false, type: .string), 
+            AWSShapeMember(label: "TargetTable", required: false, type: .string), 
+            AWSShapeMember(label: "TargetType", required: false, type: .string)
+        ]
+        /// The source path.
+        public let sourcePath: String?
+        /// The name of the source table.
+        public let sourceTable: String?
+        /// The source type.
+        public let sourceType: String?
+        /// The target path.
+        public let targetPath: String?
+        /// The target table.
+        public let targetTable: String?
+        /// The target type.
+        public let targetType: String?
+
+        public init(sourcePath: String? = nil, sourceTable: String? = nil, sourceType: String? = nil, targetPath: String? = nil, targetTable: String? = nil, targetType: String? = nil) {
+            self.sourcePath = sourcePath
+            self.sourceTable = sourceTable
+            self.sourceType = sourceType
+            self.targetPath = targetPath
+            self.targetTable = targetTable
+            self.targetType = targetType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourcePath = "SourcePath"
+            case sourceTable = "SourceTable"
+            case sourceType = "SourceType"
+            case targetPath = "TargetPath"
+            case targetTable = "TargetTable"
+            case targetType = "TargetType"
+        }
+    }
+
+    public struct NotificationProperty: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotifyDelayAfter", required: false, type: .integer)
+        ]
+        /// After a job run starts, the number of minutes to wait before sending a job run delay notification.
+        public let notifyDelayAfter: Int32?
+
+        public init(notifyDelayAfter: Int32? = nil) {
+            self.notifyDelayAfter = notifyDelayAfter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notifyDelayAfter = "NotifyDelayAfter"
         }
     }
 
@@ -3984,60 +4494,529 @@ extension Glue {
         }
     }
 
-    public struct UpdateGrokClassifierRequest: AWSShape {
+    public struct Partition: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomPatterns", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Classification", required: false, type: .string), 
-            AWSShapeMember(label: "GrokPattern", required: false, type: .string)
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
+            AWSShapeMember(label: "LastAccessTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastAnalyzedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Parameters", required: false, type: .map), 
+            AWSShapeMember(label: "StorageDescriptor", required: false, type: .structure), 
+            AWSShapeMember(label: "TableName", required: false, type: .string), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
         ]
-        /// Optional custom grok patterns used by this classifier.
-        public let customPatterns: String?
-        /// The name of the GrokClassifier.
-        public let name: String
-        /// An identifier of the data format that the classifier matches, such as Twitter, JSON, Omniture logs, Amazon CloudWatch Logs, and so on.
-        public let classification: String?
-        /// The grok pattern used by this classifier.
-        public let grokPattern: String?
+        /// The time at which the partition was created.
+        public let creationTime: TimeStamp?
+        /// The name of the catalog database where the table in question is located.
+        public let databaseName: String?
+        /// The last time at which the partition was accessed.
+        public let lastAccessTime: TimeStamp?
+        /// The last time at which column statistics were computed for this partition.
+        public let lastAnalyzedTime: TimeStamp?
+        /// These key-value pairs define partition parameters.
+        public let parameters: [String: String]?
+        /// Provides information about the physical location where the partition is stored.
+        public let storageDescriptor: StorageDescriptor?
+        /// The name of the table in question.
+        public let tableName: String?
+        /// The values of the partition.
+        public let values: [String]?
 
-        public init(customPatterns: String? = nil, name: String, classification: String? = nil, grokPattern: String? = nil) {
-            self.customPatterns = customPatterns
-            self.name = name
-            self.classification = classification
-            self.grokPattern = grokPattern
+        public init(creationTime: TimeStamp? = nil, databaseName: String? = nil, lastAccessTime: TimeStamp? = nil, lastAnalyzedTime: TimeStamp? = nil, parameters: [String: String]? = nil, storageDescriptor: StorageDescriptor? = nil, tableName: String? = nil, values: [String]? = nil) {
+            self.creationTime = creationTime
+            self.databaseName = databaseName
+            self.lastAccessTime = lastAccessTime
+            self.lastAnalyzedTime = lastAnalyzedTime
+            self.parameters = parameters
+            self.storageDescriptor = storageDescriptor
+            self.tableName = tableName
+            self.values = values
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customPatterns = "CustomPatterns"
-            case name = "Name"
-            case classification = "Classification"
-            case grokPattern = "GrokPattern"
+            case creationTime = "CreationTime"
+            case databaseName = "DatabaseName"
+            case lastAccessTime = "LastAccessTime"
+            case lastAnalyzedTime = "LastAnalyzedTime"
+            case parameters = "Parameters"
+            case storageDescriptor = "StorageDescriptor"
+            case tableName = "TableName"
+            case values = "Values"
         }
     }
 
-    public struct GetTableRequest: AWSShape {
+    public struct PartitionError: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
+            AWSShapeMember(label: "ErrorDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "PartitionValues", required: false, type: .list)
         ]
-        /// The name of the database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
-        public let databaseName: String
-        /// The ID of the Data Catalog where the table resides. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-        /// The name of the table for which to retrieve the definition. For Hive compatibility, this name is entirely lowercase.
-        public let name: String
+        /// Details about the partition error.
+        public let errorDetail: ErrorDetail?
+        /// The values that define the partition.
+        public let partitionValues: [String]?
 
-        public init(databaseName: String, catalogId: String? = nil, name: String) {
-            self.databaseName = databaseName
+        public init(errorDetail: ErrorDetail? = nil, partitionValues: [String]? = nil) {
+            self.errorDetail = errorDetail
+            self.partitionValues = partitionValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorDetail = "ErrorDetail"
+            case partitionValues = "PartitionValues"
+        }
+    }
+
+    public struct PartitionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastAccessTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastAnalyzedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Parameters", required: false, type: .map), 
+            AWSShapeMember(label: "StorageDescriptor", required: false, type: .structure), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
+        ]
+        /// The last time at which the partition was accessed.
+        public let lastAccessTime: TimeStamp?
+        /// The last time at which column statistics were computed for this partition.
+        public let lastAnalyzedTime: TimeStamp?
+        /// These key-value pairs define partition parameters.
+        public let parameters: [String: String]?
+        /// Provides information about the physical location where the partition is stored.
+        public let storageDescriptor: StorageDescriptor?
+        /// The values of the partition.
+        public let values: [String]?
+
+        public init(lastAccessTime: TimeStamp? = nil, lastAnalyzedTime: TimeStamp? = nil, parameters: [String: String]? = nil, storageDescriptor: StorageDescriptor? = nil, values: [String]? = nil) {
+            self.lastAccessTime = lastAccessTime
+            self.lastAnalyzedTime = lastAnalyzedTime
+            self.parameters = parameters
+            self.storageDescriptor = storageDescriptor
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastAccessTime = "LastAccessTime"
+            case lastAnalyzedTime = "LastAnalyzedTime"
+            case parameters = "Parameters"
+            case storageDescriptor = "StorageDescriptor"
+            case values = "Values"
+        }
+    }
+
+    public struct PartitionValueList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Values", required: true, type: .list)
+        ]
+        /// The list of values.
+        public let values: [String]
+
+        public init(values: [String]) {
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case values = "Values"
+        }
+    }
+
+    public struct PhysicalConnectionRequirements: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIdList", required: false, type: .list), 
+            AWSShapeMember(label: "SubnetId", required: false, type: .string)
+        ]
+        /// The connection's availability zone. This field is redundant, since the specified subnet implies the availability zone to be used. The field must be populated now, but will be deprecated in the future.
+        public let availabilityZone: String?
+        /// The security group ID list used by the connection.
+        public let securityGroupIdList: [String]?
+        /// The subnet ID used by the connection.
+        public let subnetId: String?
+
+        public init(availabilityZone: String? = nil, securityGroupIdList: [String]? = nil, subnetId: String? = nil) {
+            self.availabilityZone = availabilityZone
+            self.securityGroupIdList = securityGroupIdList
+            self.subnetId = subnetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case securityGroupIdList = "SecurityGroupIdList"
+            case subnetId = "SubnetId"
+        }
+    }
+
+    public struct Predecessor: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "RunId", required: false, type: .string)
+        ]
+        /// The name of the job definition used by the predecessor job run.
+        public let jobName: String?
+        /// The job-run ID of the predecessor job run.
+        public let runId: String?
+
+        public init(jobName: String? = nil, runId: String? = nil) {
+            self.jobName = jobName
+            self.runId = runId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobName = "JobName"
+            case runId = "RunId"
+        }
+    }
+
+    public struct Predicate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Conditions", required: false, type: .list), 
+            AWSShapeMember(label: "Logical", required: false, type: .enum)
+        ]
+        /// A list of the conditions that determine when the trigger will fire.
+        public let conditions: [Condition]?
+        /// Optional field if only one condition is listed. If multiple conditions are listed, then this field is required.
+        public let logical: Logical?
+
+        public init(conditions: [Condition]? = nil, logical: Logical? = nil) {
+            self.conditions = conditions
+            self.logical = logical
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditions = "Conditions"
+            case logical = "Logical"
+        }
+    }
+
+    public enum PrincipalType: String, CustomStringConvertible, Codable {
+        case user = "USER"
+        case role = "ROLE"
+        case group = "GROUP"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct PutDataCatalogEncryptionSettingsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "DataCatalogEncryptionSettings", required: true, type: .structure)
+        ]
+        /// The ID of the Data Catalog for which to set the security configuration. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The security configuration to set.
+        public let dataCatalogEncryptionSettings: DataCatalogEncryptionSettings
+
+        public init(catalogId: String? = nil, dataCatalogEncryptionSettings: DataCatalogEncryptionSettings) {
             self.catalogId = catalogId
+            self.dataCatalogEncryptionSettings = dataCatalogEncryptionSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case dataCatalogEncryptionSettings = "DataCatalogEncryptionSettings"
+        }
+    }
+
+    public struct PutDataCatalogEncryptionSettingsResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct PutResourcePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyExistsCondition", required: false, type: .enum), 
+            AWSShapeMember(label: "PolicyHashCondition", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyInJson", required: true, type: .string)
+        ]
+        /// A value of MUST_EXIST is used to update a policy. A value of NOT_EXIST is used to create a new policy. If a value of NONE or a null value is used, the call will not depend on the existence of a policy.
+        public let policyExistsCondition: ExistCondition?
+        /// This is the hash value returned when the previous policy was set using PutResourcePolicy. Its purpose is to prevent concurrent modifications of a policy. Do not use this parameter if no previous policy has been set.
+        public let policyHashCondition: String?
+        /// Contains the policy document to set, in JSON format.
+        public let policyInJson: String
+
+        public init(policyExistsCondition: ExistCondition? = nil, policyHashCondition: String? = nil, policyInJson: String) {
+            self.policyExistsCondition = policyExistsCondition
+            self.policyHashCondition = policyHashCondition
+            self.policyInJson = policyInJson
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyExistsCondition = "PolicyExistsCondition"
+            case policyHashCondition = "PolicyHashCondition"
+            case policyInJson = "PolicyInJson"
+        }
+    }
+
+    public struct PutResourcePolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyHash", required: false, type: .string)
+        ]
+        /// A hash of the policy that has just been set. This must be included in a subsequent call that overwrites or updates this policy.
+        public let policyHash: String?
+
+        public init(policyHash: String? = nil) {
+            self.policyHash = policyHash
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyHash = "PolicyHash"
+        }
+    }
+
+    public struct ResetJobBookmarkRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobName", required: true, type: .string)
+        ]
+        /// The name of the job in question.
+        public let jobName: String
+
+        public init(jobName: String) {
+            self.jobName = jobName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobName = "JobName"
+        }
+    }
+
+    public struct ResetJobBookmarkResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobBookmarkEntry", required: false, type: .structure)
+        ]
+        /// The reset bookmark entry.
+        public let jobBookmarkEntry: JobBookmarkEntry?
+
+        public init(jobBookmarkEntry: JobBookmarkEntry? = nil) {
+            self.jobBookmarkEntry = jobBookmarkEntry
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobBookmarkEntry = "JobBookmarkEntry"
+        }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case jar = "JAR"
+        case file = "FILE"
+        case archive = "ARCHIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ResourceUri: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "Uri", required: false, type: .string)
+        ]
+        /// The type of the resource.
+        public let resourceType: ResourceType?
+        /// The URI for accessing the resource.
+        public let uri: String?
+
+        public init(resourceType: ResourceType? = nil, uri: String? = nil) {
+            self.resourceType = resourceType
+            self.uri = uri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceType = "ResourceType"
+            case uri = "Uri"
+        }
+    }
+
+    public struct S3Encryption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KmsKeyArn", required: false, type: .string), 
+            AWSShapeMember(label: "S3EncryptionMode", required: false, type: .enum)
+        ]
+        /// The AWS ARN of the KMS key to be used to encrypt the data.
+        public let kmsKeyArn: String?
+        /// The encryption mode to use for S3 data.
+        public let s3EncryptionMode: S3EncryptionMode?
+
+        public init(kmsKeyArn: String? = nil, s3EncryptionMode: S3EncryptionMode? = nil) {
+            self.kmsKeyArn = kmsKeyArn
+            self.s3EncryptionMode = s3EncryptionMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyArn = "KmsKeyArn"
+            case s3EncryptionMode = "S3EncryptionMode"
+        }
+    }
+
+    public enum S3EncryptionMode: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case sseKms = "SSE-KMS"
+        case sseS3 = "SSE-S3"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct S3Target: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Exclusions", required: false, type: .list), 
+            AWSShapeMember(label: "Path", required: false, type: .string)
+        ]
+        /// A list of glob patterns used to exclude from the crawl. For more information, see Catalog Tables with a Crawler.
+        public let exclusions: [String]?
+        /// The path to the Amazon S3 target.
+        public let path: String?
+
+        public init(exclusions: [String]? = nil, path: String? = nil) {
+            self.exclusions = exclusions
+            self.path = path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exclusions = "Exclusions"
+            case path = "Path"
+        }
+    }
+
+    public struct Schedule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScheduleExpression", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum)
+        ]
+        /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
+        public let scheduleExpression: String?
+        /// The state of the schedule.
+        public let state: ScheduleState?
+
+        public init(scheduleExpression: String? = nil, state: ScheduleState? = nil) {
+            self.scheduleExpression = scheduleExpression
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduleExpression = "ScheduleExpression"
+            case state = "State"
+        }
+    }
+
+    public enum ScheduleState: String, CustomStringConvertible, Codable {
+        case scheduled = "SCHEDULED"
+        case notScheduled = "NOT_SCHEDULED"
+        case transitioning = "TRANSITIONING"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct SchemaChangePolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeleteBehavior", required: false, type: .enum), 
+            AWSShapeMember(label: "UpdateBehavior", required: false, type: .enum)
+        ]
+        /// The deletion behavior when the crawler finds a deleted object.
+        public let deleteBehavior: DeleteBehavior?
+        /// The update behavior when the crawler finds a changed schema.
+        public let updateBehavior: UpdateBehavior?
+
+        public init(deleteBehavior: DeleteBehavior? = nil, updateBehavior: UpdateBehavior? = nil) {
+            self.deleteBehavior = deleteBehavior
+            self.updateBehavior = updateBehavior
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleteBehavior = "DeleteBehavior"
+            case updateBehavior = "UpdateBehavior"
+        }
+    }
+
+    public struct SecurityConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedTimeStamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The time at which this security configuration was created.
+        public let createdTimeStamp: TimeStamp?
+        /// The encryption configuration associated with this security configuration.
+        public let encryptionConfiguration: EncryptionConfiguration?
+        /// The name of the security configuration.
+        public let name: String?
+
+        public init(createdTimeStamp: TimeStamp? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, name: String? = nil) {
+            self.createdTimeStamp = createdTimeStamp
+            self.encryptionConfiguration = encryptionConfiguration
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case databaseName = "DatabaseName"
-            case catalogId = "CatalogId"
+            case createdTimeStamp = "CreatedTimeStamp"
+            case encryptionConfiguration = "EncryptionConfiguration"
             case name = "Name"
+        }
+    }
+
+    public struct Segment: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SegmentNumber", required: true, type: .integer), 
+            AWSShapeMember(label: "TotalSegments", required: true, type: .integer)
+        ]
+        /// The zero-based index number of the this segment. For example, if the total number of segments is 4, SegmentNumber values will range from zero through three.
+        public let segmentNumber: Int32
+        /// The total numer of segments.
+        public let totalSegments: Int32
+
+        public init(segmentNumber: Int32, totalSegments: Int32) {
+            self.segmentNumber = segmentNumber
+            self.totalSegments = totalSegments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case segmentNumber = "SegmentNumber"
+            case totalSegments = "TotalSegments"
+        }
+    }
+
+    public struct SerDeInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Parameters", required: false, type: .map), 
+            AWSShapeMember(label: "SerializationLibrary", required: false, type: .string)
+        ]
+        /// Name of the SerDe.
+        public let name: String?
+        /// These key-value pairs define initialization parameters for the SerDe.
+        public let parameters: [String: String]?
+        /// Usually the class that implements the SerDe. An example is: org.apache.hadoop.hive.serde2.columnar.ColumnarSerDe.
+        public let serializationLibrary: String?
+
+        public init(name: String? = nil, parameters: [String: String]? = nil, serializationLibrary: String? = nil) {
+            self.name = name
+            self.parameters = parameters
+            self.serializationLibrary = serializationLibrary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case parameters = "Parameters"
+            case serializationLibrary = "SerializationLibrary"
+        }
+    }
+
+    public struct SkewedInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SkewedColumnNames", required: false, type: .list), 
+            AWSShapeMember(label: "SkewedColumnValueLocationMaps", required: false, type: .map), 
+            AWSShapeMember(label: "SkewedColumnValues", required: false, type: .list)
+        ]
+        /// A list of names of columns that contain skewed values.
+        public let skewedColumnNames: [String]?
+        /// A mapping of skewed values to the columns that contain them.
+        public let skewedColumnValueLocationMaps: [String: String]?
+        /// A list of values that appear so frequently as to be considered skewed.
+        public let skewedColumnValues: [String]?
+
+        public init(skewedColumnNames: [String]? = nil, skewedColumnValueLocationMaps: [String: String]? = nil, skewedColumnValues: [String]? = nil) {
+            self.skewedColumnNames = skewedColumnNames
+            self.skewedColumnValueLocationMaps = skewedColumnValueLocationMaps
+            self.skewedColumnValues = skewedColumnValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case skewedColumnNames = "SkewedColumnNames"
+            case skewedColumnValueLocationMaps = "SkewedColumnValueLocationMaps"
+            case skewedColumnValues = "SkewedColumnValues"
         }
     }
 
@@ -4057,14 +5036,106 @@ extension Glue {
         }
     }
 
-    public struct DeleteTriggerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The name of the trigger that was deleted.
-        public let name: String?
+    public struct StartCrawlerResponse: AWSShape {
 
-        public init(name: String? = nil) {
+        public init() {
+        }
+
+    }
+
+    public struct StartCrawlerScheduleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CrawlerName", required: true, type: .string)
+        ]
+        /// Name of the crawler to schedule.
+        public let crawlerName: String
+
+        public init(crawlerName: String) {
+            self.crawlerName = crawlerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawlerName = "CrawlerName"
+        }
+    }
+
+    public struct StartCrawlerScheduleResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct StartJobRunRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllocatedCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "Arguments", required: false, type: .map), 
+            AWSShapeMember(label: "JobName", required: true, type: .string), 
+            AWSShapeMember(label: "JobRunId", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationProperty", required: false, type: .structure), 
+            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
+            AWSShapeMember(label: "Timeout", required: false, type: .integer)
+        ]
+        /// The number of AWS Glue data processing units (DPUs) to allocate to this JobRun. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
+        public let allocatedCapacity: Int32?
+        /// The job arguments specifically for this run. They override the equivalent default arguments set for in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
+        public let arguments: [String: String]?
+        /// The name of the job definition to use.
+        public let jobName: String
+        /// The ID of a previous JobRun to retry.
+        public let jobRunId: String?
+        /// Specifies configuration properties of a job run notification.
+        public let notificationProperty: NotificationProperty?
+        /// The name of the SecurityConfiguration structure to be used with this job run.
+        public let securityConfiguration: String?
+        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours). This overrides the timeout value set in the parent job.
+        public let timeout: Int32?
+
+        public init(allocatedCapacity: Int32? = nil, arguments: [String: String]? = nil, jobName: String, jobRunId: String? = nil, notificationProperty: NotificationProperty? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil) {
+            self.allocatedCapacity = allocatedCapacity
+            self.arguments = arguments
+            self.jobName = jobName
+            self.jobRunId = jobRunId
+            self.notificationProperty = notificationProperty
+            self.securityConfiguration = securityConfiguration
+            self.timeout = timeout
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocatedCapacity = "AllocatedCapacity"
+            case arguments = "Arguments"
+            case jobName = "JobName"
+            case jobRunId = "JobRunId"
+            case notificationProperty = "NotificationProperty"
+            case securityConfiguration = "SecurityConfiguration"
+            case timeout = "Timeout"
+        }
+    }
+
+    public struct StartJobRunResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobRunId", required: false, type: .string)
+        ]
+        /// The ID assigned to this job run.
+        public let jobRunId: String?
+
+        public init(jobRunId: String? = nil) {
+            self.jobRunId = jobRunId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobRunId = "JobRunId"
+        }
+    }
+
+    public struct StartTriggerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The name of the trigger to start.
+        public let name: String
+
+        public init(name: String) {
             self.name = name
         }
 
@@ -4073,38 +5144,11 @@ extension Glue {
         }
     }
 
-    public struct GetCrawlersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Crawlers", required: false, type: .list)
-        ]
-        /// A continuation token, if the returned list has not reached the end of those defined in this customer account.
-        public let nextToken: String?
-        /// A list of crawler metadata.
-        public let crawlers: [Crawler]?
-
-        public init(nextToken: String? = nil, crawlers: [Crawler]? = nil) {
-            self.nextToken = nextToken
-            self.crawlers = crawlers
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case crawlers = "Crawlers"
-        }
-    }
-
-    public enum JobBookmarksEncryptionMode: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case cseKms = "CSE-KMS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateJobResponse: AWSShape {
+    public struct StartTriggerResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
-        /// The unique name that was provided for this job definition.
+        /// The name of the trigger that was started.
         public let name: String?
 
         public init(name: String? = nil) {
@@ -4132,59 +5176,319 @@ extension Glue {
         }
     }
 
-    public struct DeleteDevEndpointResponse: AWSShape {
+    public struct StopCrawlerResponse: AWSShape {
+
+        public init() {
+        }
 
     }
 
-    public struct CatalogEntry: AWSShape {
+    public struct StopCrawlerScheduleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
+            AWSShapeMember(label: "CrawlerName", required: true, type: .string)
         ]
-        /// The database in which the table metadata resides.
-        public let databaseName: String
-        /// The name of the table in question.
-        public let tableName: String
+        /// Name of the crawler whose schedule state to set.
+        public let crawlerName: String
 
-        public init(databaseName: String, tableName: String) {
+        public init(crawlerName: String) {
+            self.crawlerName = crawlerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawlerName = "CrawlerName"
+        }
+    }
+
+    public struct StopCrawlerScheduleResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct StopTriggerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The name of the trigger to stop.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct StopTriggerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The name of the trigger that was stopped.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct StorageDescriptor: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BucketColumns", required: false, type: .list), 
+            AWSShapeMember(label: "Columns", required: false, type: .list), 
+            AWSShapeMember(label: "Compressed", required: false, type: .boolean), 
+            AWSShapeMember(label: "InputFormat", required: false, type: .string), 
+            AWSShapeMember(label: "Location", required: false, type: .string), 
+            AWSShapeMember(label: "NumberOfBuckets", required: false, type: .integer), 
+            AWSShapeMember(label: "OutputFormat", required: false, type: .string), 
+            AWSShapeMember(label: "Parameters", required: false, type: .map), 
+            AWSShapeMember(label: "SerdeInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "SkewedInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "SortColumns", required: false, type: .list), 
+            AWSShapeMember(label: "StoredAsSubDirectories", required: false, type: .boolean)
+        ]
+        /// A list of reducer grouping columns, clustering columns, and bucketing columns in the table.
+        public let bucketColumns: [String]?
+        /// A list of the Columns in the table.
+        public let columns: [Column]?
+        /// True if the data in the table is compressed, or False if not.
+        public let compressed: Bool?
+        /// The input format: SequenceFileInputFormat (binary), or TextInputFormat, or a custom format.
+        public let inputFormat: String?
+        /// The physical location of the table. By default this takes the form of the warehouse location, followed by the database location in the warehouse, followed by the table name.
+        public let location: String?
+        /// Must be specified if the table contains any dimension columns.
+        public let numberOfBuckets: Int32?
+        /// The output format: SequenceFileOutputFormat (binary), or IgnoreKeyTextOutputFormat, or a custom format.
+        public let outputFormat: String?
+        /// User-supplied properties in key-value form.
+        public let parameters: [String: String]?
+        /// Serialization/deserialization (SerDe) information.
+        public let serdeInfo: SerDeInfo?
+        /// Information about values that appear very frequently in a column (skewed values).
+        public let skewedInfo: SkewedInfo?
+        /// A list specifying the sort order of each bucket in the table.
+        public let sortColumns: [Order]?
+        /// True if the table data is stored in subdirectories, or False if not.
+        public let storedAsSubDirectories: Bool?
+
+        public init(bucketColumns: [String]? = nil, columns: [Column]? = nil, compressed: Bool? = nil, inputFormat: String? = nil, location: String? = nil, numberOfBuckets: Int32? = nil, outputFormat: String? = nil, parameters: [String: String]? = nil, serdeInfo: SerDeInfo? = nil, skewedInfo: SkewedInfo? = nil, sortColumns: [Order]? = nil, storedAsSubDirectories: Bool? = nil) {
+            self.bucketColumns = bucketColumns
+            self.columns = columns
+            self.compressed = compressed
+            self.inputFormat = inputFormat
+            self.location = location
+            self.numberOfBuckets = numberOfBuckets
+            self.outputFormat = outputFormat
+            self.parameters = parameters
+            self.serdeInfo = serdeInfo
+            self.skewedInfo = skewedInfo
+            self.sortColumns = sortColumns
+            self.storedAsSubDirectories = storedAsSubDirectories
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketColumns = "BucketColumns"
+            case columns = "Columns"
+            case compressed = "Compressed"
+            case inputFormat = "InputFormat"
+            case location = "Location"
+            case numberOfBuckets = "NumberOfBuckets"
+            case outputFormat = "OutputFormat"
+            case parameters = "Parameters"
+            case serdeInfo = "SerdeInfo"
+            case skewedInfo = "SkewedInfo"
+            case sortColumns = "SortColumns"
+            case storedAsSubDirectories = "StoredAsSubDirectories"
+        }
+    }
+
+    public struct Table: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreatedBy", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "LastAccessTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastAnalyzedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Owner", required: false, type: .string), 
+            AWSShapeMember(label: "Parameters", required: false, type: .map), 
+            AWSShapeMember(label: "PartitionKeys", required: false, type: .list), 
+            AWSShapeMember(label: "Retention", required: false, type: .integer), 
+            AWSShapeMember(label: "StorageDescriptor", required: false, type: .structure), 
+            AWSShapeMember(label: "TableType", required: false, type: .string), 
+            AWSShapeMember(label: "UpdateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ViewExpandedText", required: false, type: .string), 
+            AWSShapeMember(label: "ViewOriginalText", required: false, type: .string)
+        ]
+        /// Time when the table definition was created in the Data Catalog.
+        public let createTime: TimeStamp?
+        /// Person or entity who created the table.
+        public let createdBy: String?
+        /// Name of the metadata database where the table metadata resides. For Hive compatibility, this must be all lowercase.
+        public let databaseName: String?
+        /// Description of the table.
+        public let description: String?
+        /// Last time the table was accessed. This is usually taken from HDFS, and may not be reliable.
+        public let lastAccessTime: TimeStamp?
+        /// Last time column statistics were computed for this table.
+        public let lastAnalyzedTime: TimeStamp?
+        /// Name of the table. For Hive compatibility, this must be entirely lowercase.
+        public let name: String
+        /// Owner of the table.
+        public let owner: String?
+        /// These key-value pairs define properties associated with the table.
+        public let parameters: [String: String]?
+        /// A list of columns by which the table is partitioned. Only primitive types are supported as partition keys.
+        public let partitionKeys: [Column]?
+        /// Retention time for this table.
+        public let retention: Int32?
+        /// A storage descriptor containing information about the physical storage of this table.
+        public let storageDescriptor: StorageDescriptor?
+        /// The type of this table (EXTERNAL_TABLE, VIRTUAL_VIEW, etc.).
+        public let tableType: String?
+        /// Last time the table was updated.
+        public let updateTime: TimeStamp?
+        /// If the table is a view, the expanded text of the view; otherwise null.
+        public let viewExpandedText: String?
+        /// If the table is a view, the original text of the view; otherwise null.
+        public let viewOriginalText: String?
+
+        public init(createTime: TimeStamp? = nil, createdBy: String? = nil, databaseName: String? = nil, description: String? = nil, lastAccessTime: TimeStamp? = nil, lastAnalyzedTime: TimeStamp? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int32? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, updateTime: TimeStamp? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
+            self.createTime = createTime
+            self.createdBy = createdBy
             self.databaseName = databaseName
+            self.description = description
+            self.lastAccessTime = lastAccessTime
+            self.lastAnalyzedTime = lastAnalyzedTime
+            self.name = name
+            self.owner = owner
+            self.parameters = parameters
+            self.partitionKeys = partitionKeys
+            self.retention = retention
+            self.storageDescriptor = storageDescriptor
+            self.tableType = tableType
+            self.updateTime = updateTime
+            self.viewExpandedText = viewExpandedText
+            self.viewOriginalText = viewOriginalText
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createTime = "CreateTime"
+            case createdBy = "CreatedBy"
+            case databaseName = "DatabaseName"
+            case description = "Description"
+            case lastAccessTime = "LastAccessTime"
+            case lastAnalyzedTime = "LastAnalyzedTime"
+            case name = "Name"
+            case owner = "Owner"
+            case parameters = "Parameters"
+            case partitionKeys = "PartitionKeys"
+            case retention = "Retention"
+            case storageDescriptor = "StorageDescriptor"
+            case tableType = "TableType"
+            case updateTime = "UpdateTime"
+            case viewExpandedText = "ViewExpandedText"
+            case viewOriginalText = "ViewOriginalText"
+        }
+    }
+
+    public struct TableError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "TableName", required: false, type: .string)
+        ]
+        /// Detail about the error.
+        public let errorDetail: ErrorDetail?
+        /// Name of the table. For Hive compatibility, this must be entirely lowercase.
+        public let tableName: String?
+
+        public init(errorDetail: ErrorDetail? = nil, tableName: String? = nil) {
+            self.errorDetail = errorDetail
             self.tableName = tableName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case databaseName = "DatabaseName"
+            case errorDetail = "ErrorDetail"
             case tableName = "TableName"
         }
     }
 
-    public struct DeleteTableVersionRequest: AWSShape {
+    public struct TableInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VersionId", required: true, type: .string), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "LastAccessTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastAnalyzedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Owner", required: false, type: .string), 
+            AWSShapeMember(label: "Parameters", required: false, type: .map), 
+            AWSShapeMember(label: "PartitionKeys", required: false, type: .list), 
+            AWSShapeMember(label: "Retention", required: false, type: .integer), 
+            AWSShapeMember(label: "StorageDescriptor", required: false, type: .structure), 
+            AWSShapeMember(label: "TableType", required: false, type: .string), 
+            AWSShapeMember(label: "ViewExpandedText", required: false, type: .string), 
+            AWSShapeMember(label: "ViewOriginalText", required: false, type: .string)
         ]
-        /// The ID of the table version to be deleted. A VersionID is a string representation of an integer. Each version is incremented by 1.
-        public let versionId: String
-        /// The ID of the Data Catalog where the tables reside. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-        /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
-        public let databaseName: String
-        /// The name of the table. For Hive compatibility, this name is entirely lowercase.
-        public let tableName: String
+        /// Description of the table.
+        public let description: String?
+        /// Last time the table was accessed.
+        public let lastAccessTime: TimeStamp?
+        /// Last time column statistics were computed for this table.
+        public let lastAnalyzedTime: TimeStamp?
+        /// Name of the table. For Hive compatibility, this is folded to lowercase when it is stored.
+        public let name: String
+        /// Owner of the table.
+        public let owner: String?
+        /// These key-value pairs define properties associated with the table.
+        public let parameters: [String: String]?
+        /// A list of columns by which the table is partitioned. Only primitive types are supported as partition keys.
+        public let partitionKeys: [Column]?
+        /// Retention time for this table.
+        public let retention: Int32?
+        /// A storage descriptor containing information about the physical storage of this table.
+        public let storageDescriptor: StorageDescriptor?
+        /// The type of this table (EXTERNAL_TABLE, VIRTUAL_VIEW, etc.).
+        public let tableType: String?
+        /// If the table is a view, the expanded text of the view; otherwise null.
+        public let viewExpandedText: String?
+        /// If the table is a view, the original text of the view; otherwise null.
+        public let viewOriginalText: String?
 
-        public init(versionId: String, catalogId: String? = nil, databaseName: String, tableName: String) {
-            self.versionId = versionId
-            self.catalogId = catalogId
-            self.databaseName = databaseName
-            self.tableName = tableName
+        public init(description: String? = nil, lastAccessTime: TimeStamp? = nil, lastAnalyzedTime: TimeStamp? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int32? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
+            self.description = description
+            self.lastAccessTime = lastAccessTime
+            self.lastAnalyzedTime = lastAnalyzedTime
+            self.name = name
+            self.owner = owner
+            self.parameters = parameters
+            self.partitionKeys = partitionKeys
+            self.retention = retention
+            self.storageDescriptor = storageDescriptor
+            self.tableType = tableType
+            self.viewExpandedText = viewExpandedText
+            self.viewOriginalText = viewOriginalText
         }
 
         private enum CodingKeys: String, CodingKey {
-            case versionId = "VersionId"
-            case catalogId = "CatalogId"
-            case databaseName = "DatabaseName"
-            case tableName = "TableName"
+            case description = "Description"
+            case lastAccessTime = "LastAccessTime"
+            case lastAnalyzedTime = "LastAnalyzedTime"
+            case name = "Name"
+            case owner = "Owner"
+            case parameters = "Parameters"
+            case partitionKeys = "PartitionKeys"
+            case retention = "Retention"
+            case storageDescriptor = "StorageDescriptor"
+            case tableType = "TableType"
+            case viewExpandedText = "ViewExpandedText"
+            case viewOriginalText = "ViewOriginalText"
         }
     }
 
@@ -4209,338 +5513,281 @@ extension Glue {
         }
     }
 
-    public enum ScheduleState: String, CustomStringConvertible, Codable {
-        case scheduled = "SCHEDULED"
-        case notScheduled = "NOT_SCHEDULED"
-        case transitioning = "TRANSITIONING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetConnectionsResponse: AWSShape {
+    public struct TableVersionError: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "ErrorDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "TableName", required: false, type: .string), 
+            AWSShapeMember(label: "VersionId", required: false, type: .string)
         ]
-        /// A list of requested connection definitions.
-        public let connectionList: [Connection]?
-        /// A continuation token, if the list of connections returned does not include the last of the filtered connections.
-        public let nextToken: String?
+        /// Detail about the error.
+        public let errorDetail: ErrorDetail?
+        /// The name of the table in question.
+        public let tableName: String?
+        /// The ID value of the version in question. A VersionID is a string representation of an integer. Each version is incremented by 1.
+        public let versionId: String?
 
-        public init(connectionList: [Connection]? = nil, nextToken: String? = nil) {
-            self.connectionList = connectionList
-            self.nextToken = nextToken
+        public init(errorDetail: ErrorDetail? = nil, tableName: String? = nil, versionId: String? = nil) {
+            self.errorDetail = errorDetail
+            self.tableName = tableName
+            self.versionId = versionId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionList = "ConnectionList"
-            case nextToken = "NextToken"
+            case errorDetail = "ErrorDetail"
+            case tableName = "TableName"
+            case versionId = "VersionId"
         }
     }
 
-    public struct GetSecurityConfigurationRequest: AWSShape {
+    public struct Trigger: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The name of the security configuration to retrieve.
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public enum ConnectionPropertyKey: String, CustomStringConvertible, Codable {
-        case host = "HOST"
-        case port = "PORT"
-        case username = "USERNAME"
-        case password = "PASSWORD"
-        case jdbcDriverJarUri = "JDBC_DRIVER_JAR_URI"
-        case jdbcDriverClassName = "JDBC_DRIVER_CLASS_NAME"
-        case jdbcEngine = "JDBC_ENGINE"
-        case jdbcEngineVersion = "JDBC_ENGINE_VERSION"
-        case configFiles = "CONFIG_FILES"
-        case instanceId = "INSTANCE_ID"
-        case jdbcConnectionUrl = "JDBC_CONNECTION_URL"
-        case jdbcEnforceSsl = "JDBC_ENFORCE_SSL"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct TableInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PartitionKeys", required: false, type: .list), 
-            AWSShapeMember(label: "Owner", required: false, type: .string), 
-            AWSShapeMember(label: "LastAnalyzedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StorageDescriptor", required: false, type: .structure), 
-            AWSShapeMember(label: "ViewExpandedText", required: false, type: .string), 
-            AWSShapeMember(label: "Retention", required: false, type: .integer), 
-            AWSShapeMember(label: "ViewOriginalText", required: false, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .map), 
+            AWSShapeMember(label: "Actions", required: false, type: .list), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "LastAccessTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TableType", required: false, type: .string)
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Predicate", required: false, type: .structure), 
+            AWSShapeMember(label: "Schedule", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
-        /// A list of columns by which the table is partitioned. Only primitive types are supported as partition keys.
-        public let partitionKeys: [Column]?
-        /// Owner of the table.
-        public let owner: String?
-        /// Last time column statistics were computed for this table.
-        public let lastAnalyzedTime: TimeStamp?
-        /// A storage descriptor containing information about the physical storage of this table.
-        public let storageDescriptor: StorageDescriptor?
-        /// If the table is a view, the expanded text of the view; otherwise null.
-        public let viewExpandedText: String?
-        /// Retention time for this table.
-        public let retention: Int32?
-        /// If the table is a view, the original text of the view; otherwise null.
-        public let viewOriginalText: String?
-        /// These key-value pairs define properties associated with the table.
-        public let parameters: [String: String]?
-        /// Description of the table.
+        /// The actions initiated by this trigger.
+        public let actions: [Action]?
+        /// A description of this trigger.
         public let description: String?
-        /// Name of the table. For Hive compatibility, this is folded to lowercase when it is stored.
-        public let name: String
-        /// Last time the table was accessed.
-        public let lastAccessTime: TimeStamp?
-        /// The type of this table (EXTERNAL_TABLE, VIRTUAL_VIEW, etc.).
-        public let tableType: String?
+        /// Reserved for future use.
+        public let id: String?
+        /// Name of the trigger.
+        public let name: String?
+        /// The predicate of this trigger, which defines when it will fire.
+        public let predicate: Predicate?
+        /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
+        public let schedule: String?
+        /// The current state of the trigger.
+        public let state: TriggerState?
+        /// The type of trigger that this is.
+        public let `type`: TriggerType?
 
-        public init(partitionKeys: [Column]? = nil, owner: String? = nil, lastAnalyzedTime: TimeStamp? = nil, storageDescriptor: StorageDescriptor? = nil, viewExpandedText: String? = nil, retention: Int32? = nil, viewOriginalText: String? = nil, parameters: [String: String]? = nil, description: String? = nil, name: String, lastAccessTime: TimeStamp? = nil, tableType: String? = nil) {
-            self.partitionKeys = partitionKeys
-            self.owner = owner
-            self.lastAnalyzedTime = lastAnalyzedTime
-            self.storageDescriptor = storageDescriptor
-            self.viewExpandedText = viewExpandedText
-            self.retention = retention
-            self.viewOriginalText = viewOriginalText
-            self.parameters = parameters
+        public init(actions: [Action]? = nil, description: String? = nil, id: String? = nil, name: String? = nil, predicate: Predicate? = nil, schedule: String? = nil, state: TriggerState? = nil, type: TriggerType? = nil) {
+            self.actions = actions
+            self.description = description
+            self.id = id
+            self.name = name
+            self.predicate = predicate
+            self.schedule = schedule
+            self.state = state
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case description = "Description"
+            case id = "Id"
+            case name = "Name"
+            case predicate = "Predicate"
+            case schedule = "Schedule"
+            case state = "State"
+            case `type` = "Type"
+        }
+    }
+
+    public enum TriggerState: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case created = "CREATED"
+        case activating = "ACTIVATING"
+        case activated = "ACTIVATED"
+        case deactivating = "DEACTIVATING"
+        case deactivated = "DEACTIVATED"
+        case deleting = "DELETING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TriggerType: String, CustomStringConvertible, Codable {
+        case scheduled = "SCHEDULED"
+        case conditional = "CONDITIONAL"
+        case onDemand = "ON_DEMAND"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct TriggerUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Actions", required: false, type: .list), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Predicate", required: false, type: .structure), 
+            AWSShapeMember(label: "Schedule", required: false, type: .string)
+        ]
+        /// The actions initiated by this trigger.
+        public let actions: [Action]?
+        /// A description of this trigger.
+        public let description: String?
+        /// Reserved for future use.
+        public let name: String?
+        /// The predicate of this trigger, which defines when it will fire.
+        public let predicate: Predicate?
+        /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
+        public let schedule: String?
+
+        public init(actions: [Action]? = nil, description: String? = nil, name: String? = nil, predicate: Predicate? = nil, schedule: String? = nil) {
+            self.actions = actions
             self.description = description
             self.name = name
-            self.lastAccessTime = lastAccessTime
-            self.tableType = tableType
+            self.predicate = predicate
+            self.schedule = schedule
         }
 
         private enum CodingKeys: String, CodingKey {
-            case partitionKeys = "PartitionKeys"
-            case owner = "Owner"
-            case lastAnalyzedTime = "LastAnalyzedTime"
-            case storageDescriptor = "StorageDescriptor"
-            case viewExpandedText = "ViewExpandedText"
-            case retention = "Retention"
-            case viewOriginalText = "ViewOriginalText"
-            case parameters = "Parameters"
+            case actions = "Actions"
             case description = "Description"
             case name = "Name"
-            case lastAccessTime = "LastAccessTime"
-            case tableType = "TableType"
+            case predicate = "Predicate"
+            case schedule = "Schedule"
         }
     }
 
-    public struct CreateSecurityConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "EncryptionConfiguration", required: true, type: .structure)
-        ]
-        /// The name for the new security configuration.
-        public let name: String
-        /// The encryption configuration for the new security configuration.
-        public let encryptionConfiguration: EncryptionConfiguration
-
-        public init(name: String, encryptionConfiguration: EncryptionConfiguration) {
-            self.name = name
-            self.encryptionConfiguration = encryptionConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case encryptionConfiguration = "EncryptionConfiguration"
-        }
-    }
-
-    public struct BatchDeleteTableVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "TableName", required: true, type: .string), 
-            AWSShapeMember(label: "VersionIds", required: true, type: .list)
-        ]
-        /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
-        public let databaseName: String
-        /// The ID of the Data Catalog where the tables reside. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-        /// The name of the table. For Hive compatibility, this name is entirely lowercase.
-        public let tableName: String
-        /// A list of the IDs of versions to be deleted. A VersionId is a string representation of an integer. Each version is incremented by 1.
-        public let versionIds: [String]
-
-        public init(databaseName: String, catalogId: String? = nil, tableName: String, versionIds: [String]) {
-            self.databaseName = databaseName
-            self.catalogId = catalogId
-            self.tableName = tableName
-            self.versionIds = versionIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case databaseName = "DatabaseName"
-            case catalogId = "CatalogId"
-            case tableName = "TableName"
-            case versionIds = "VersionIds"
-        }
-    }
-
-    public struct UpdateJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: false, type: .string)
-        ]
-        /// Returns the name of the updated job definition.
-        public let jobName: String?
-
-        public init(jobName: String? = nil) {
-            self.jobName = jobName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobName = "JobName"
-        }
-    }
-
-    public struct BatchCreatePartitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Errors", required: false, type: .list)
-        ]
-        /// Errors encountered when trying to create the requested partitions.
-        public let errors: [PartitionError]?
-
-        public init(errors: [PartitionError]? = nil) {
-            self.errors = errors
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errors = "Errors"
-        }
-    }
-
-    public struct StartJobRunResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobRunId", required: false, type: .string)
-        ]
-        /// The ID assigned to this job run.
-        public let jobRunId: String?
-
-        public init(jobRunId: String? = nil) {
-            self.jobRunId = jobRunId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobRunId = "JobRunId"
-        }
-    }
-
-    public enum DeleteBehavior: String, CustomStringConvertible, Codable {
+    public enum UpdateBehavior: String, CustomStringConvertible, Codable {
         case log = "LOG"
-        case deleteFromDatabase = "DELETE_FROM_DATABASE"
-        case deprecateInDatabase = "DEPRECATE_IN_DATABASE"
+        case updateInDatabase = "UPDATE_IN_DATABASE"
         public var description: String { return self.rawValue }
     }
 
-    public struct DeleteDevEndpointRequest: AWSShape {
+    public struct UpdateClassifierRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointName", required: true, type: .string)
+            AWSShapeMember(label: "GrokClassifier", required: false, type: .structure), 
+            AWSShapeMember(label: "JsonClassifier", required: false, type: .structure), 
+            AWSShapeMember(label: "XMLClassifier", required: false, type: .structure)
         ]
-        /// The name of the DevEndpoint.
-        public let endpointName: String
+        /// A GrokClassifier object with updated fields.
+        public let grokClassifier: UpdateGrokClassifierRequest?
+        /// A JsonClassifier object with updated fields.
+        public let jsonClassifier: UpdateJsonClassifierRequest?
+        /// An XMLClassifier object with updated fields.
+        public let xMLClassifier: UpdateXMLClassifierRequest?
 
-        public init(endpointName: String) {
-            self.endpointName = endpointName
+        public init(grokClassifier: UpdateGrokClassifierRequest? = nil, jsonClassifier: UpdateJsonClassifierRequest? = nil, xMLClassifier: UpdateXMLClassifierRequest? = nil) {
+            self.grokClassifier = grokClassifier
+            self.jsonClassifier = jsonClassifier
+            self.xMLClassifier = xMLClassifier
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpointName = "EndpointName"
+            case grokClassifier = "GrokClassifier"
+            case jsonClassifier = "JsonClassifier"
+            case xMLClassifier = "XMLClassifier"
         }
     }
 
-    public struct GetClassifiersResponse: AWSShape {
+    public struct UpdateClassifierResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateConnectionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Classifiers", required: false, type: .list)
-        ]
-        /// A continuation token.
-        public let nextToken: String?
-        /// The requested list of classifier objects.
-        public let classifiers: [Classifier]?
-
-        public init(nextToken: String? = nil, classifiers: [Classifier]? = nil) {
-            self.nextToken = nextToken
-            self.classifiers = classifiers
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case classifiers = "Classifiers"
-        }
-    }
-
-    public struct DeleteConnectionResponse: AWSShape {
-
-    }
-
-    public struct CreateCrawlerResponse: AWSShape {
-
-    }
-
-    public struct ImportCatalogToGlueRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string)
-        ]
-        /// The ID of the catalog to import. Currently, this should be the AWS account ID.
-        public let catalogId: String?
-
-        public init(catalogId: String? = nil) {
-            self.catalogId = catalogId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case catalogId = "CatalogId"
-        }
-    }
-
-    public struct DeleteCrawlerResponse: AWSShape {
-
-    }
-
-    public struct DeletePartitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
             AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "TableName", required: true, type: .string), 
-            AWSShapeMember(label: "PartitionValues", required: true, type: .list)
+            AWSShapeMember(label: "ConnectionInput", required: true, type: .structure), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// The name of the catalog database in which the table in question resides.
-        public let databaseName: String
-        /// The ID of the Data Catalog where the partition to be deleted resides. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog in which the connection resides. If none is supplied, the AWS account ID is used by default.
         public let catalogId: String?
-        /// The name of the table where the partition to be deleted is located.
-        public let tableName: String
-        /// The values that define the partition.
-        public let partitionValues: [String]
+        /// A ConnectionInput object that redefines the connection in question.
+        public let connectionInput: ConnectionInput
+        /// The name of the connection definition to update.
+        public let name: String
 
-        public init(databaseName: String, catalogId: String? = nil, tableName: String, partitionValues: [String]) {
-            self.databaseName = databaseName
+        public init(catalogId: String? = nil, connectionInput: ConnectionInput, name: String) {
             self.catalogId = catalogId
-            self.tableName = tableName
-            self.partitionValues = partitionValues
+            self.connectionInput = connectionInput
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case databaseName = "DatabaseName"
             case catalogId = "CatalogId"
-            case tableName = "TableName"
-            case partitionValues = "PartitionValues"
+            case connectionInput = "ConnectionInput"
+            case name = "Name"
         }
+    }
+
+    public struct UpdateConnectionResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateCrawlerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Classifiers", required: false, type: .list), 
+            AWSShapeMember(label: "Configuration", required: false, type: .string), 
+            AWSShapeMember(label: "CrawlerSecurityConfiguration", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Role", required: false, type: .string), 
+            AWSShapeMember(label: "Schedule", required: false, type: .string), 
+            AWSShapeMember(label: "SchemaChangePolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "TablePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "Targets", required: false, type: .structure)
+        ]
+        /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
+        public let classifiers: [String]?
+        /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Configuring a Crawler.
+        public let configuration: String?
+        /// The name of the SecurityConfiguration structure to be used by this Crawler.
+        public let crawlerSecurityConfiguration: String?
+        /// The AWS Glue database where results are stored, such as: arn:aws:daylight:us-east-1::database/sometable/*.
+        public let databaseName: String?
+        /// A description of the new crawler.
+        public let description: String?
+        /// Name of the new crawler.
+        public let name: String
+        /// The IAM role (or ARN of an IAM role) used by the new crawler to access customer resources.
+        public let role: String?
+        /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
+        public let schedule: String?
+        /// Policy for the crawler's update and deletion behavior.
+        public let schemaChangePolicy: SchemaChangePolicy?
+        /// The table prefix used for catalog tables that are created.
+        public let tablePrefix: String?
+        /// A list of targets to crawl.
+        public let targets: CrawlerTargets?
+
+        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, name: String, role: String? = nil, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil) {
+            self.classifiers = classifiers
+            self.configuration = configuration
+            self.crawlerSecurityConfiguration = crawlerSecurityConfiguration
+            self.databaseName = databaseName
+            self.description = description
+            self.name = name
+            self.role = role
+            self.schedule = schedule
+            self.schemaChangePolicy = schemaChangePolicy
+            self.tablePrefix = tablePrefix
+            self.targets = targets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case classifiers = "Classifiers"
+            case configuration = "Configuration"
+            case crawlerSecurityConfiguration = "CrawlerSecurityConfiguration"
+            case databaseName = "DatabaseName"
+            case description = "Description"
+            case name = "Name"
+            case role = "Role"
+            case schedule = "Schedule"
+            case schemaChangePolicy = "SchemaChangePolicy"
+            case tablePrefix = "TablePrefix"
+            case targets = "Targets"
+        }
+    }
+
+    public struct UpdateCrawlerResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct UpdateCrawlerScheduleRequest: AWSShape {
@@ -4564,834 +5811,262 @@ extension Glue {
         }
     }
 
-    public struct GetClassifiersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Size of the list to return (optional).
-        public let maxResults: Int32?
-        /// An optional continuation token.
-        public let nextToken: String?
+    public struct UpdateCrawlerScheduleResponse: AWSShape {
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
+        public init() {
         }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetPartitionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Partitions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list of requested partitions.
-        public let partitions: [Partition]?
-        /// A continuation token, if the returned list of partitions does not does not include the last one.
-        public let nextToken: String?
-
-        public init(partitions: [Partition]? = nil, nextToken: String? = nil) {
-            self.partitions = partitions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case partitions = "Partitions"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct PutDataCatalogEncryptionSettingsResponse: AWSShape {
 
     }
 
-    public struct GetTableResponse: AWSShape {
+    public struct UpdateDatabaseRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Table", required: false, type: .structure)
-        ]
-        /// The Table object that defines the specified table.
-        public let table: Table?
-
-        public init(table: Table? = nil) {
-            self.table = table
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case table = "Table"
-        }
-    }
-
-    public struct GetTriggerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseInput", required: true, type: .structure), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// The name of the trigger to retrieve.
+        /// The ID of the Data Catalog in which the metadata database resides. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// A DatabaseInput object specifying the new definition of the metadata database in the catalog.
+        public let databaseInput: DatabaseInput
+        /// The name of the database to update in the catalog. For Hive compatibility, this is folded to lowercase.
         public let name: String
 
-        public init(name: String) {
+        public init(catalogId: String? = nil, databaseInput: DatabaseInput, name: String) {
+            self.catalogId = catalogId
+            self.databaseInput = databaseInput
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseInput = "DatabaseInput"
             case name = "Name"
         }
     }
 
-    public struct CreateDevEndpointRequest: AWSShape {
+    public struct UpdateDatabaseResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateDevEndpointRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "PublicKey", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "ExtraPythonLibsS3Path", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
+            AWSShapeMember(label: "AddPublicKeys", required: false, type: .list), 
+            AWSShapeMember(label: "CustomLibraries", required: false, type: .structure), 
+            AWSShapeMember(label: "DeletePublicKeys", required: false, type: .list), 
             AWSShapeMember(label: "EndpointName", required: true, type: .string), 
-            AWSShapeMember(label: "ExtraJarsS3Path", required: false, type: .string), 
-            AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "PublicKeys", required: false, type: .list)
+            AWSShapeMember(label: "PublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "UpdateEtlLibraries", required: false, type: .boolean)
         ]
-        /// The IAM role for the DevEndpoint.
-        public let roleArn: String
-        /// The public key to be used by this DevEndpoint for authentication. This attribute is provided for backward compatibility, as the recommended attribute to use is public keys.
-        public let publicKey: String?
-        /// The subnet ID for the new DevEndpoint to use.
-        public let subnetId: String?
-        /// Path(s) to one or more Python libraries in an S3 bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma. Please note that only pure Python libraries can currently be used on a DevEndpoint. Libraries that rely on C extensions, such as the pandas Python data analysis library, are not yet supported.
-        public let extraPythonLibsS3Path: String?
-        /// The name of the SecurityConfiguration structure to be used with this DevEndpoint.
-        public let securityConfiguration: String?
-        /// The name to be assigned to the new DevEndpoint.
+        /// The list of public keys for the DevEndpoint to use.
+        public let addPublicKeys: [String]?
+        /// Custom Python or Java libraries to be loaded in the DevEndpoint.
+        public let customLibraries: DevEndpointCustomLibraries?
+        /// The list of public keys to be deleted from the DevEndpoint.
+        public let deletePublicKeys: [String]?
+        /// The name of the DevEndpoint to be updated.
         public let endpointName: String
-        /// Path to one or more Java Jars in an S3 bucket that should be loaded in your DevEndpoint.
-        public let extraJarsS3Path: String?
-        /// The number of AWS Glue Data Processing Units (DPUs) to allocate to this DevEndpoint.
-        public let numberOfNodes: Int32?
-        /// Security group IDs for the security groups to be used by the new DevEndpoint.
-        public let securityGroupIds: [String]?
-        /// A list of public keys to be used by the DevEndpoints for authentication. The use of this attribute is preferred over a single public key because the public keys allow you to have a different private key per client.  If you previously created an endpoint with a public key, you must remove that key to be able to set a list of public keys: call the UpdateDevEndpoint API with the public key content in the deletePublicKeys attribute, and the list of new keys in the addPublicKeys attribute. 
-        public let publicKeys: [String]?
+        /// The public key for the DevEndpoint to use.
+        public let publicKey: String?
+        /// True if the list of custom libraries to be loaded in the development endpoint needs to be updated, or False otherwise.
+        public let updateEtlLibraries: Bool?
 
-        public init(roleArn: String, publicKey: String? = nil, subnetId: String? = nil, extraPythonLibsS3Path: String? = nil, securityConfiguration: String? = nil, endpointName: String, extraJarsS3Path: String? = nil, numberOfNodes: Int32? = nil, securityGroupIds: [String]? = nil, publicKeys: [String]? = nil) {
-            self.roleArn = roleArn
-            self.publicKey = publicKey
-            self.subnetId = subnetId
-            self.extraPythonLibsS3Path = extraPythonLibsS3Path
-            self.securityConfiguration = securityConfiguration
+        public init(addPublicKeys: [String]? = nil, customLibraries: DevEndpointCustomLibraries? = nil, deletePublicKeys: [String]? = nil, endpointName: String, publicKey: String? = nil, updateEtlLibraries: Bool? = nil) {
+            self.addPublicKeys = addPublicKeys
+            self.customLibraries = customLibraries
+            self.deletePublicKeys = deletePublicKeys
             self.endpointName = endpointName
-            self.extraJarsS3Path = extraJarsS3Path
-            self.numberOfNodes = numberOfNodes
-            self.securityGroupIds = securityGroupIds
-            self.publicKeys = publicKeys
+            self.publicKey = publicKey
+            self.updateEtlLibraries = updateEtlLibraries
         }
 
         private enum CodingKeys: String, CodingKey {
-            case roleArn = "RoleArn"
-            case publicKey = "PublicKey"
-            case subnetId = "SubnetId"
-            case extraPythonLibsS3Path = "ExtraPythonLibsS3Path"
-            case securityConfiguration = "SecurityConfiguration"
+            case addPublicKeys = "AddPublicKeys"
+            case customLibraries = "CustomLibraries"
+            case deletePublicKeys = "DeletePublicKeys"
             case endpointName = "EndpointName"
-            case extraJarsS3Path = "ExtraJarsS3Path"
-            case numberOfNodes = "NumberOfNodes"
-            case securityGroupIds = "SecurityGroupIds"
-            case publicKeys = "PublicKeys"
+            case publicKey = "PublicKey"
+            case updateEtlLibraries = "UpdateEtlLibraries"
         }
     }
 
-    public struct UpdateXMLClassifierRequest: AWSShape {
+    public struct UpdateDevEndpointResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateGrokClassifierRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RowTag", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Classification", required: false, type: .string)
-        ]
-        /// The XML tag designating the element that contains each record in an XML document being parsed. Note that this cannot identify a self-closing element (closed by /&gt;). An empty row element that contains only attributes can be parsed as long as it ends with a closing tag (for example, &lt;row item_a="A" item_b="B"&gt;&lt;/row&gt; is okay, but &lt;row item_a="A" item_b="B" /&gt; is not).
-        public let rowTag: String?
-        /// The name of the classifier.
-        public let name: String
-        /// An identifier of the data format that the classifier matches.
-        public let classification: String?
-
-        public init(rowTag: String? = nil, name: String, classification: String? = nil) {
-            self.rowTag = rowTag
-            self.name = name
-            self.classification = classification
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rowTag = "RowTag"
-            case name = "Name"
-            case classification = "Classification"
-        }
-    }
-
-    public struct UpdateCrawlerResponse: AWSShape {
-
-    }
-
-    public struct SecurityConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "CreatedTimeStamp", required: false, type: .timestamp)
-        ]
-        /// The name of the security configuration.
-        public let name: String?
-        /// The encryption configuration associated with this security configuration.
-        public let encryptionConfiguration: EncryptionConfiguration?
-        /// The time at which this security configuration was created.
-        public let createdTimeStamp: TimeStamp?
-
-        public init(name: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, createdTimeStamp: TimeStamp? = nil) {
-            self.name = name
-            self.encryptionConfiguration = encryptionConfiguration
-            self.createdTimeStamp = createdTimeStamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case encryptionConfiguration = "EncryptionConfiguration"
-            case createdTimeStamp = "CreatedTimeStamp"
-        }
-    }
-
-    public struct GetCrawlerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Classification", required: false, type: .string), 
+            AWSShapeMember(label: "CustomPatterns", required: false, type: .string), 
+            AWSShapeMember(label: "GrokPattern", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// Name of the crawler to retrieve metadata for.
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public struct JobCommand: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScriptLocation", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// Specifies the S3 path to a script that executes a job (required).
-        public let scriptLocation: String?
-        /// The name of the job command: this must be glueetl.
-        public let name: String?
-
-        public init(scriptLocation: String? = nil, name: String? = nil) {
-            self.scriptLocation = scriptLocation
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scriptLocation = "ScriptLocation"
-            case name = "Name"
-        }
-    }
-
-    public struct DeleteDatabaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string)
-        ]
-        /// The name of the Database to delete. For Hive compatibility, this must be all lowercase.
-        public let name: String
-        /// The ID of the Data Catalog in which the database resides. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-
-        public init(name: String, catalogId: String? = nil) {
-            self.name = name
-            self.catalogId = catalogId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case catalogId = "CatalogId"
-        }
-    }
-
-    public struct GetDevEndpointRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointName", required: true, type: .string)
-        ]
-        /// Name of the DevEndpoint for which to retrieve information.
-        public let endpointName: String
-
-        public init(endpointName: String) {
-            self.endpointName = endpointName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endpointName = "EndpointName"
-        }
-    }
-
-    public struct StartCrawlerResponse: AWSShape {
-
-    }
-
-    public enum ResourceType: String, CustomStringConvertible, Codable {
-        case jar = "JAR"
-        case file = "FILE"
-        case archive = "ARCHIVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateSecurityConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The time at which the new security configuration was created.
-        public let createdTimestamp: TimeStamp?
-        /// The name assigned to the new security configuration.
-        public let name: String?
-
-        public init(createdTimestamp: TimeStamp? = nil, name: String? = nil) {
-            self.createdTimestamp = createdTimestamp
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case createdTimestamp = "CreatedTimestamp"
-            case name = "Name"
-        }
-    }
-
-    public struct StartCrawlerScheduleResponse: AWSShape {
-
-    }
-
-    public struct CreateJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotificationProperty", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "DefaultArguments", required: false, type: .map), 
-            AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
-            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
-            AWSShapeMember(label: "Command", required: true, type: .structure), 
-            AWSShapeMember(label: "ExecutionProperty", required: false, type: .structure), 
-            AWSShapeMember(label: "AllocatedCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "Connections", required: false, type: .structure), 
-            AWSShapeMember(label: "LogUri", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Role", required: true, type: .string)
-        ]
-        /// Specifies configuration properties of a job notification.
-        public let notificationProperty: NotificationProperty?
-        /// The name you assign to this job definition. It must be unique in your account.
-        public let name: String
-        /// The default arguments for this job. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
-        public let defaultArguments: [String: String]?
-        /// The maximum number of times to retry this job if it fails.
-        public let maxRetries: Int32?
-        /// The name of the SecurityConfiguration structure to be used with this job.
-        public let securityConfiguration: String?
-        /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
-        public let timeout: Int32?
-        /// The JobCommand that executes this job.
-        public let command: JobCommand
-        /// An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
-        public let executionProperty: ExecutionProperty?
-        /// The number of AWS Glue data processing units (DPUs) to allocate to this Job. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
-        public let allocatedCapacity: Int32?
-        /// The connections used for this job.
-        public let connections: ConnectionsList?
-        /// This field is reserved for future use.
-        public let logUri: String?
-        /// Description of the job being defined.
-        public let description: String?
-        /// The name or ARN of the IAM role associated with this job.
-        public let role: String
-
-        public init(notificationProperty: NotificationProperty? = nil, name: String, defaultArguments: [String: String]? = nil, maxRetries: Int32? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil, command: JobCommand, executionProperty: ExecutionProperty? = nil, allocatedCapacity: Int32? = nil, connections: ConnectionsList? = nil, logUri: String? = nil, description: String? = nil, role: String) {
-            self.notificationProperty = notificationProperty
-            self.name = name
-            self.defaultArguments = defaultArguments
-            self.maxRetries = maxRetries
-            self.securityConfiguration = securityConfiguration
-            self.timeout = timeout
-            self.command = command
-            self.executionProperty = executionProperty
-            self.allocatedCapacity = allocatedCapacity
-            self.connections = connections
-            self.logUri = logUri
-            self.description = description
-            self.role = role
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case notificationProperty = "NotificationProperty"
-            case name = "Name"
-            case defaultArguments = "DefaultArguments"
-            case maxRetries = "MaxRetries"
-            case securityConfiguration = "SecurityConfiguration"
-            case timeout = "Timeout"
-            case command = "Command"
-            case executionProperty = "ExecutionProperty"
-            case allocatedCapacity = "AllocatedCapacity"
-            case connections = "Connections"
-            case logUri = "LogUri"
-            case description = "Description"
-            case role = "Role"
-        }
-    }
-
-    public struct GetDatabaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string)
-        ]
-        /// The name of the database to retrieve. For Hive compatibility, this should be all lowercase.
-        public let name: String
-        /// The ID of the Data Catalog in which the database resides. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-
-        public init(name: String, catalogId: String? = nil) {
-            self.name = name
-            self.catalogId = catalogId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case catalogId = "CatalogId"
-        }
-    }
-
-    public struct GetCatalogImportStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImportStatus", required: false, type: .structure)
-        ]
-        /// The status of the specified catalog migration.
-        public let importStatus: CatalogImportStatus?
-
-        public init(importStatus: CatalogImportStatus? = nil) {
-            self.importStatus = importStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case importStatus = "ImportStatus"
-        }
-    }
-
-    public struct DevEndpointCustomLibraries: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExtraJarsS3Path", required: false, type: .string), 
-            AWSShapeMember(label: "ExtraPythonLibsS3Path", required: false, type: .string)
-        ]
-        /// Path to one or more Java Jars in an S3 bucket that should be loaded in your DevEndpoint. Please note that only pure Java/Scala libraries can currently be used on a DevEndpoint.
-        public let extraJarsS3Path: String?
-        /// Path(s) to one or more Python libraries in an S3 bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma. Please note that only pure Python libraries can currently be used on a DevEndpoint. Libraries that rely on C extensions, such as the pandas Python data analysis library, are not yet supported.
-        public let extraPythonLibsS3Path: String?
-
-        public init(extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil) {
-            self.extraJarsS3Path = extraJarsS3Path
-            self.extraPythonLibsS3Path = extraPythonLibsS3Path
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case extraJarsS3Path = "ExtraJarsS3Path"
-            case extraPythonLibsS3Path = "ExtraPythonLibsS3Path"
-        }
-    }
-
-    public struct JobBookmarkEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attempt", required: false, type: .integer), 
-            AWSShapeMember(label: "Run", required: false, type: .integer), 
-            AWSShapeMember(label: "JobBookmark", required: false, type: .string), 
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .integer)
-        ]
-        /// The attempt ID number.
-        public let attempt: Int32?
-        /// The run ID number.
-        public let run: Int32?
-        /// The bookmark itself.
-        public let jobBookmark: String?
-        /// Name of the job in question.
-        public let jobName: String?
-        /// Version of the job.
-        public let version: Int32?
-
-        public init(attempt: Int32? = nil, run: Int32? = nil, jobBookmark: String? = nil, jobName: String? = nil, version: Int32? = nil) {
-            self.attempt = attempt
-            self.run = run
-            self.jobBookmark = jobBookmark
-            self.jobName = jobName
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attempt = "Attempt"
-            case run = "Run"
-            case jobBookmark = "JobBookmark"
-            case jobName = "JobName"
-            case version = "Version"
-        }
-    }
-
-    public struct CreateClassifierResponse: AWSShape {
-
-    }
-
-    public struct GetCrawlerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Crawler", required: false, type: .structure)
-        ]
-        /// The metadata for the specified crawler.
-        public let crawler: Crawler?
-
-        public init(crawler: Crawler? = nil) {
-            self.crawler = crawler
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case crawler = "Crawler"
-        }
-    }
-
-    public struct PartitionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastAnalyzedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StorageDescriptor", required: false, type: .structure), 
-            AWSShapeMember(label: "Values", required: false, type: .list), 
-            AWSShapeMember(label: "LastAccessTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Parameters", required: false, type: .map)
-        ]
-        /// The last time at which column statistics were computed for this partition.
-        public let lastAnalyzedTime: TimeStamp?
-        /// Provides information about the physical location where the partition is stored.
-        public let storageDescriptor: StorageDescriptor?
-        /// The values of the partition.
-        public let values: [String]?
-        /// The last time at which the partition was accessed.
-        public let lastAccessTime: TimeStamp?
-        /// These key-value pairs define partition parameters.
-        public let parameters: [String: String]?
-
-        public init(lastAnalyzedTime: TimeStamp? = nil, storageDescriptor: StorageDescriptor? = nil, values: [String]? = nil, lastAccessTime: TimeStamp? = nil, parameters: [String: String]? = nil) {
-            self.lastAnalyzedTime = lastAnalyzedTime
-            self.storageDescriptor = storageDescriptor
-            self.values = values
-            self.lastAccessTime = lastAccessTime
-            self.parameters = parameters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastAnalyzedTime = "LastAnalyzedTime"
-            case storageDescriptor = "StorageDescriptor"
-            case values = "Values"
-            case lastAccessTime = "LastAccessTime"
-            case parameters = "Parameters"
-        }
-    }
-
-    public struct GetJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The maximum size of the response.
-        public let maxResults: Int32?
-        /// A continuation token, if this is a continuation call.
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetDataflowGraphRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PythonScript", required: false, type: .string)
-        ]
-        /// The Python script to transform.
-        public let pythonScript: String?
-
-        public init(pythonScript: String? = nil) {
-            self.pythonScript = pythonScript
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pythonScript = "PythonScript"
-        }
-    }
-
-    public struct GetTablesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TableList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list of the requested Table objects.
-        public let tableList: [Table]?
-        /// A continuation token, present if the current list segment is not the last.
-        public let nextToken: String?
-
-        public init(tableList: [Table]? = nil, nextToken: String? = nil) {
-            self.tableList = tableList
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tableList = "TableList"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DeleteUserDefinedFunctionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FunctionName", required: true, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string)
-        ]
-        /// The name of the function definition to be deleted.
-        public let functionName: String
-        /// The name of the catalog database where the function is located.
-        public let databaseName: String
-        /// The ID of the Data Catalog where the function to be deleted is located. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-
-        public init(functionName: String, databaseName: String, catalogId: String? = nil) {
-            self.functionName = functionName
-            self.databaseName = databaseName
-            self.catalogId = catalogId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case functionName = "FunctionName"
-            case databaseName = "DatabaseName"
-            case catalogId = "CatalogId"
-        }
-    }
-
-    public struct GrokClassifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomPatterns", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdated", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Classification", required: true, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Version", required: false, type: .long), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "GrokPattern", required: true, type: .string)
-        ]
-        /// Optional custom grok patterns defined by this classifier. For more information, see custom patterns in Writing Custom Classifers.
+        /// An identifier of the data format that the classifier matches, such as Twitter, JSON, Omniture logs, Amazon CloudWatch Logs, and so on.
+        public let classification: String?
+        /// Optional custom grok patterns used by this classifier.
         public let customPatterns: String?
-        /// The time this classifier was last updated.
-        public let lastUpdated: TimeStamp?
-        /// An identifier of the data format that the classifier matches, such as Twitter, JSON, Omniture logs, and so on.
-        public let classification: String
-        /// The time this classifier was registered.
-        public let creationTime: TimeStamp?
-        /// The version of this classifier.
-        public let version: Int64?
+        /// The grok pattern used by this classifier.
+        public let grokPattern: String?
+        /// The name of the GrokClassifier.
+        public let name: String
+
+        public init(classification: String? = nil, customPatterns: String? = nil, grokPattern: String? = nil, name: String) {
+            self.classification = classification
+            self.customPatterns = customPatterns
+            self.grokPattern = grokPattern
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case classification = "Classification"
+            case customPatterns = "CustomPatterns"
+            case grokPattern = "GrokPattern"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobName", required: true, type: .string), 
+            AWSShapeMember(label: "JobUpdate", required: true, type: .structure)
+        ]
+        /// Name of the job definition to update.
+        public let jobName: String
+        /// Specifies the values with which to update the job definition.
+        public let jobUpdate: JobUpdate
+
+        public init(jobName: String, jobUpdate: JobUpdate) {
+            self.jobName = jobName
+            self.jobUpdate = jobUpdate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobName = "JobName"
+            case jobUpdate = "JobUpdate"
+        }
+    }
+
+    public struct UpdateJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobName", required: false, type: .string)
+        ]
+        /// Returns the name of the updated job definition.
+        public let jobName: String?
+
+        public init(jobName: String? = nil) {
+            self.jobName = jobName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobName = "JobName"
+        }
+    }
+
+    public struct UpdateJsonClassifierRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JsonPath", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// A JsonPath string defining the JSON data for the classifier to classify. AWS Glue supports a subset of JsonPath, as described in Writing JsonPath Custom Classifiers.
+        public let jsonPath: String?
         /// The name of the classifier.
         public let name: String
-        /// The grok pattern applied to a data store by this classifier. For more information, see built-in patterns in Writing Custom Classifers.
-        public let grokPattern: String
 
-        public init(customPatterns: String? = nil, lastUpdated: TimeStamp? = nil, classification: String, creationTime: TimeStamp? = nil, version: Int64? = nil, name: String, grokPattern: String) {
-            self.customPatterns = customPatterns
-            self.lastUpdated = lastUpdated
-            self.classification = classification
-            self.creationTime = creationTime
-            self.version = version
+        public init(jsonPath: String? = nil, name: String) {
+            self.jsonPath = jsonPath
             self.name = name
-            self.grokPattern = grokPattern
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customPatterns = "CustomPatterns"
-            case lastUpdated = "LastUpdated"
-            case classification = "Classification"
-            case creationTime = "CreationTime"
-            case version = "Version"
+            case jsonPath = "JsonPath"
             case name = "Name"
-            case grokPattern = "GrokPattern"
         }
     }
 
-    public struct BatchDeleteTableRequest: AWSShape {
+    public struct UpdatePartitionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TablesToDelete", required: true, type: .list), 
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
             AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string)
+            AWSShapeMember(label: "PartitionInput", required: true, type: .structure), 
+            AWSShapeMember(label: "PartitionValueList", required: true, type: .list), 
+            AWSShapeMember(label: "TableName", required: true, type: .string)
         ]
-        /// A list of the table to delete.
-        public let tablesToDelete: [String]
-        /// The name of the catalog database where the tables to delete reside. For Hive compatibility, this name is entirely lowercase.
+        /// The ID of the Data Catalog where the partition to be updated resides. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The name of the catalog database in which the table in question resides.
         public let databaseName: String
+        /// The new partition object to which to update the partition.
+        public let partitionInput: PartitionInput
+        /// A list of the values defining the partition.
+        public let partitionValueList: [String]
+        /// The name of the table where the partition to be updated is located.
+        public let tableName: String
+
+        public init(catalogId: String? = nil, databaseName: String, partitionInput: PartitionInput, partitionValueList: [String], tableName: String) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.partitionInput = partitionInput
+            self.partitionValueList = partitionValueList
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case partitionInput = "PartitionInput"
+            case partitionValueList = "PartitionValueList"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct UpdatePartitionResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateTableRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "SkipArchive", required: false, type: .boolean), 
+            AWSShapeMember(label: "TableInput", required: true, type: .structure)
+        ]
         /// The ID of the Data Catalog where the table resides. If none is supplied, the AWS account ID is used by default.
         public let catalogId: String?
-
-        public init(tablesToDelete: [String], databaseName: String, catalogId: String? = nil) {
-            self.tablesToDelete = tablesToDelete
-            self.databaseName = databaseName
-            self.catalogId = catalogId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tablesToDelete = "TablesToDelete"
-            case databaseName = "DatabaseName"
-            case catalogId = "CatalogId"
-        }
-    }
-
-    public struct Job: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotificationProperty", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultArguments", required: false, type: .map), 
-            AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
-            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
-            AWSShapeMember(label: "LastModifiedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Command", required: false, type: .structure), 
-            AWSShapeMember(label: "ExecutionProperty", required: false, type: .structure), 
-            AWSShapeMember(label: "CreatedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "AllocatedCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "Connections", required: false, type: .structure), 
-            AWSShapeMember(label: "LogUri", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Role", required: false, type: .string)
-        ]
-        /// Specifies configuration properties of a job notification.
-        public let notificationProperty: NotificationProperty?
-        /// The name you assign to this job definition.
-        public let name: String?
-        /// The default arguments for this job, specified as name-value pairs. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
-        public let defaultArguments: [String: String]?
-        /// The maximum number of times to retry this job after a JobRun fails.
-        public let maxRetries: Int32?
-        /// The name of the SecurityConfiguration structure to be used with this job.
-        public let securityConfiguration: String?
-        /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
-        public let timeout: Int32?
-        /// The last point in time when this job definition was modified.
-        public let lastModifiedOn: TimeStamp?
-        /// The JobCommand that executes this job.
-        public let command: JobCommand?
-        /// An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
-        public let executionProperty: ExecutionProperty?
-        /// The time and date that this job definition was created.
-        public let createdOn: TimeStamp?
-        /// The number of AWS Glue data processing units (DPUs) allocated to runs of this job. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
-        public let allocatedCapacity: Int32?
-        /// The connections used for this job.
-        public let connections: ConnectionsList?
-        /// This field is reserved for future use.
-        public let logUri: String?
-        /// Description of the job being defined.
-        public let description: String?
-        /// The name or ARN of the IAM role associated with this job.
-        public let role: String?
-
-        public init(notificationProperty: NotificationProperty? = nil, name: String? = nil, defaultArguments: [String: String]? = nil, maxRetries: Int32? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil, lastModifiedOn: TimeStamp? = nil, command: JobCommand? = nil, executionProperty: ExecutionProperty? = nil, createdOn: TimeStamp? = nil, allocatedCapacity: Int32? = nil, connections: ConnectionsList? = nil, logUri: String? = nil, description: String? = nil, role: String? = nil) {
-            self.notificationProperty = notificationProperty
-            self.name = name
-            self.defaultArguments = defaultArguments
-            self.maxRetries = maxRetries
-            self.securityConfiguration = securityConfiguration
-            self.timeout = timeout
-            self.lastModifiedOn = lastModifiedOn
-            self.command = command
-            self.executionProperty = executionProperty
-            self.createdOn = createdOn
-            self.allocatedCapacity = allocatedCapacity
-            self.connections = connections
-            self.logUri = logUri
-            self.description = description
-            self.role = role
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case notificationProperty = "NotificationProperty"
-            case name = "Name"
-            case defaultArguments = "DefaultArguments"
-            case maxRetries = "MaxRetries"
-            case securityConfiguration = "SecurityConfiguration"
-            case timeout = "Timeout"
-            case lastModifiedOn = "LastModifiedOn"
-            case command = "Command"
-            case executionProperty = "ExecutionProperty"
-            case createdOn = "CreatedOn"
-            case allocatedCapacity = "AllocatedCapacity"
-            case connections = "Connections"
-            case logUri = "LogUri"
-            case description = "Description"
-            case role = "Role"
-        }
-    }
-
-    public struct GetDatabasesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatabaseList", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list of Database objects from the specified catalog.
-        public let databaseList: [Database]
-        /// A continuation token for paginating the returned list of tokens, returned if the current segment of the list is not the last.
-        public let nextToken: String?
-
-        public init(databaseList: [Database], nextToken: String? = nil) {
-            self.databaseList = databaseList
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case databaseList = "DatabaseList"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetTablesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "Expression", required: false, type: .string), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The database in the catalog whose tables to list. For Hive compatibility, this name is entirely lowercase.
+        /// The name of the catalog database in which the table resides. For Hive compatibility, this name is entirely lowercase.
         public let databaseName: String
-        /// A regular expression pattern. If present, only those tables whose names match the pattern are returned.
-        public let expression: String?
-        /// The ID of the Data Catalog where the tables reside. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-        /// The maximum number of tables to return in a single response.
-        public let maxResults: Int32?
-        /// A continuation token, included if this is a continuation call.
-        public let nextToken: String?
+        /// By default, UpdateTable always creates an archived version of the table before updating it. If skipArchive is set to true, however, UpdateTable does not create the archived version.
+        public let skipArchive: Bool?
+        /// An updated TableInput object to define the metadata table in the catalog.
+        public let tableInput: TableInput
 
-        public init(databaseName: String, expression: String? = nil, catalogId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.databaseName = databaseName
-            self.expression = expression
+        public init(catalogId: String? = nil, databaseName: String, skipArchive: Bool? = nil, tableInput: TableInput) {
             self.catalogId = catalogId
-            self.maxResults = maxResults
-            self.nextToken = nextToken
+            self.databaseName = databaseName
+            self.skipArchive = skipArchive
+            self.tableInput = tableInput
         }
 
         private enum CodingKeys: String, CodingKey {
-            case databaseName = "DatabaseName"
-            case expression = "Expression"
             case catalogId = "CatalogId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
+            case databaseName = "DatabaseName"
+            case skipArchive = "SkipArchive"
+            case tableInput = "TableInput"
         }
+    }
+
+    public struct UpdateTableResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct UpdateTriggerRequest: AWSShape {
@@ -5415,405 +6090,6 @@ extension Glue {
         }
     }
 
-    public struct GetJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: true, type: .string)
-        ]
-        /// The name of the job definition to retrieve.
-        public let jobName: String
-
-        public init(jobName: String) {
-            self.jobName = jobName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobName = "JobName"
-        }
-    }
-
-    public enum Logical: String, CustomStringConvertible, Codable {
-        case and = "AND"
-        case any = "ANY"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreatePartitionResponse: AWSShape {
-
-    }
-
-    public enum ConnectionType: String, CustomStringConvertible, Codable {
-        case jdbc = "JDBC"
-        case sftp = "SFTP"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Schedule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScheduleExpression", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
-        /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
-        public let scheduleExpression: String?
-        /// The state of the schedule.
-        public let state: ScheduleState?
-
-        public init(scheduleExpression: String? = nil, state: ScheduleState? = nil) {
-            self.scheduleExpression = scheduleExpression
-            self.state = state
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scheduleExpression = "ScheduleExpression"
-            case state = "State"
-        }
-    }
-
-    public struct BatchStopJobRunResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SuccessfulSubmissions", required: false, type: .list), 
-            AWSShapeMember(label: "Errors", required: false, type: .list)
-        ]
-        /// A list of the JobRuns that were successfully submitted for stopping.
-        public let successfulSubmissions: [BatchStopJobRunSuccessfulSubmission]?
-        /// A list of the errors that were encountered in tryng to stop JobRuns, including the JobRunId for which each error was encountered and details about the error.
-        public let errors: [BatchStopJobRunError]?
-
-        public init(successfulSubmissions: [BatchStopJobRunSuccessfulSubmission]? = nil, errors: [BatchStopJobRunError]? = nil) {
-            self.successfulSubmissions = successfulSubmissions
-            self.errors = errors
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case successfulSubmissions = "SuccessfulSubmissions"
-            case errors = "Errors"
-        }
-    }
-
-    public struct CreateDatabaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatabaseInput", required: true, type: .structure), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string)
-        ]
-        /// A DatabaseInput object defining the metadata database to create in the catalog.
-        public let databaseInput: DatabaseInput
-        /// The ID of the Data Catalog in which to create the database. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-
-        public init(databaseInput: DatabaseInput, catalogId: String? = nil) {
-            self.databaseInput = databaseInput
-            self.catalogId = catalogId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case databaseInput = "DatabaseInput"
-            case catalogId = "CatalogId"
-        }
-    }
-
-    public struct BatchDeleteConnectionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionNameList", required: true, type: .list), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string)
-        ]
-        /// A list of names of the connections to delete.
-        public let connectionNameList: [String]
-        /// The ID of the Data Catalog in which the connections reside. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-
-        public init(connectionNameList: [String], catalogId: String? = nil) {
-            self.connectionNameList = connectionNameList
-            self.catalogId = catalogId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectionNameList = "ConnectionNameList"
-            case catalogId = "CatalogId"
-        }
-    }
-
-    public struct BatchDeletePartitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Errors", required: false, type: .list)
-        ]
-        /// Errors encountered when trying to delete the requested partitions.
-        public let errors: [PartitionError]?
-
-        public init(errors: [PartitionError]? = nil) {
-            self.errors = errors
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errors = "Errors"
-        }
-    }
-
-    public struct PhysicalConnectionRequirements: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroupIdList", required: false, type: .list)
-        ]
-        /// The subnet ID used by the connection.
-        public let subnetId: String?
-        /// The connection's availability zone. This field is redundant, since the specified subnet implies the availability zone to be used. The field must be populated now, but will be deprecated in the future.
-        public let availabilityZone: String?
-        /// The security group ID list used by the connection.
-        public let securityGroupIdList: [String]?
-
-        public init(subnetId: String? = nil, availabilityZone: String? = nil, securityGroupIdList: [String]? = nil) {
-            self.subnetId = subnetId
-            self.availabilityZone = availabilityZone
-            self.securityGroupIdList = securityGroupIdList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subnetId = "SubnetId"
-            case availabilityZone = "AvailabilityZone"
-            case securityGroupIdList = "SecurityGroupIdList"
-        }
-    }
-
-    public struct UpdateUserDefinedFunctionResponse: AWSShape {
-
-    }
-
-    public struct GetTriggersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "DependentJobName", required: false, type: .string)
-        ]
-        /// The maximum size of the response.
-        public let maxResults: Int32?
-        /// A continuation token, if this is a continuation call.
-        public let nextToken: String?
-        /// The name of the job for which to retrieve triggers. The trigger that can start this job will be returned, and if there is no such trigger, all triggers will be returned.
-        public let dependentJobName: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, dependentJobName: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.dependentJobName = dependentJobName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case dependentJobName = "DependentJobName"
-        }
-    }
-
-    public struct GetUserDefinedFunctionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserDefinedFunction", required: false, type: .structure)
-        ]
-        /// The requested function definition.
-        public let userDefinedFunction: UserDefinedFunction?
-
-        public init(userDefinedFunction: UserDefinedFunction? = nil) {
-            self.userDefinedFunction = userDefinedFunction
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userDefinedFunction = "UserDefinedFunction"
-        }
-    }
-
-    public struct BatchDeleteTableVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Errors", required: false, type: .list)
-        ]
-        /// A list of errors encountered while trying to delete the specified table versions.
-        public let errors: [TableVersionError]?
-
-        public init(errors: [TableVersionError]? = nil) {
-            self.errors = errors
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errors = "Errors"
-        }
-    }
-
-    public struct GetTableVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VersionId", required: false, type: .string), 
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
-        /// The ID value of the table version to be retrieved. A VersionID is a string representation of an integer. Each version is incremented by 1. 
-        public let versionId: String?
-        /// The ID of the Data Catalog where the tables reside. If none is supplied, the AWS account ID is used by default.
-        public let catalogId: String?
-        /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
-        public let databaseName: String
-        /// The name of the table. For Hive compatibility, this name is entirely lowercase.
-        public let tableName: String
-
-        public init(versionId: String? = nil, catalogId: String? = nil, databaseName: String, tableName: String) {
-            self.versionId = versionId
-            self.catalogId = catalogId
-            self.databaseName = databaseName
-            self.tableName = tableName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case versionId = "VersionId"
-            case catalogId = "CatalogId"
-            case databaseName = "DatabaseName"
-            case tableName = "TableName"
-        }
-    }
-
-    public struct GetPlanResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalaCode", required: false, type: .string), 
-            AWSShapeMember(label: "PythonScript", required: false, type: .string)
-        ]
-        /// Scala code to perform the mapping.
-        public let scalaCode: String?
-        /// A Python script to perform the mapping.
-        public let pythonScript: String?
-
-        public init(scalaCode: String? = nil, pythonScript: String? = nil) {
-            self.scalaCode = scalaCode
-            self.pythonScript = pythonScript
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scalaCode = "ScalaCode"
-            case pythonScript = "PythonScript"
-        }
-    }
-
-    public struct CatalogImportStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImportTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ImportedBy", required: false, type: .string), 
-            AWSShapeMember(label: "ImportCompleted", required: false, type: .boolean)
-        ]
-        /// The time that the migration was started.
-        public let importTime: TimeStamp?
-        /// The name of the person who initiated the migration.
-        public let importedBy: String?
-        /// True if the migration has completed, or False otherwise.
-        public let importCompleted: Bool?
-
-        public init(importTime: TimeStamp? = nil, importedBy: String? = nil, importCompleted: Bool? = nil) {
-            self.importTime = importTime
-            self.importedBy = importedBy
-            self.importCompleted = importCompleted
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case importTime = "ImportTime"
-            case importedBy = "ImportedBy"
-            case importCompleted = "ImportCompleted"
-        }
-    }
-
-    public struct GetCatalogImportStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string)
-        ]
-        /// The ID of the catalog to migrate. Currently, this should be the AWS account ID.
-        public let catalogId: String?
-
-        public init(catalogId: String? = nil) {
-            self.catalogId = catalogId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case catalogId = "CatalogId"
-        }
-    }
-
-    public struct GetCrawlersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The number of crawlers to return on each call.
-        public let maxResults: Int32?
-        /// A continuation token, if this is a continuation request.
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ResetJobBookmarkRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: true, type: .string)
-        ]
-        /// The name of the job in question.
-        public let jobName: String
-
-        public init(jobName: String) {
-            self.jobName = jobName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobName = "JobName"
-        }
-    }
-
-    public struct ImportCatalogToGlueResponse: AWSShape {
-
-    }
-
-    public struct DeleteDatabaseResponse: AWSShape {
-
-    }
-
-    public struct CreateConnectionResponse: AWSShape {
-
-    }
-
-    public struct UserDefinedFunctionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClassName", required: false, type: .string), 
-            AWSShapeMember(label: "OwnerName", required: false, type: .string), 
-            AWSShapeMember(label: "OwnerType", required: false, type: .enum), 
-            AWSShapeMember(label: "ResourceUris", required: false, type: .list), 
-            AWSShapeMember(label: "FunctionName", required: false, type: .string)
-        ]
-        /// The Java class that contains the function code.
-        public let className: String?
-        /// The owner of the function.
-        public let ownerName: String?
-        /// The owner type.
-        public let ownerType: PrincipalType?
-        /// The resource URIs for the function.
-        public let resourceUris: [ResourceUri]?
-        /// The name of the function.
-        public let functionName: String?
-
-        public init(className: String? = nil, ownerName: String? = nil, ownerType: PrincipalType? = nil, resourceUris: [ResourceUri]? = nil, functionName: String? = nil) {
-            self.className = className
-            self.ownerName = ownerName
-            self.ownerType = ownerType
-            self.resourceUris = resourceUris
-            self.functionName = functionName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case className = "ClassName"
-            case ownerName = "OwnerName"
-            case ownerType = "OwnerType"
-            case resourceUris = "ResourceUris"
-            case functionName = "FunctionName"
-        }
-    }
-
     public struct UpdateTriggerResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Trigger", required: false, type: .structure)
@@ -5830,359 +6106,185 @@ extension Glue {
         }
     }
 
-    public struct S3Target: AWSShape {
+    public struct UpdateUserDefinedFunctionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Path", required: false, type: .string), 
-            AWSShapeMember(label: "Exclusions", required: false, type: .list)
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "FunctionInput", required: true, type: .structure), 
+            AWSShapeMember(label: "FunctionName", required: true, type: .string)
         ]
-        /// The path to the Amazon S3 target.
-        public let path: String?
-        /// A list of glob patterns used to exclude from the crawl. For more information, see Catalog Tables with a Crawler.
-        public let exclusions: [String]?
+        /// The ID of the Data Catalog where the function to be updated is located. If none is supplied, the AWS account ID is used by default.
+        public let catalogId: String?
+        /// The name of the catalog database where the function to be updated is located.
+        public let databaseName: String
+        /// A FunctionInput object that re-defines the function in the Data Catalog.
+        public let functionInput: UserDefinedFunctionInput
+        /// The name of the function.
+        public let functionName: String
 
-        public init(path: String? = nil, exclusions: [String]? = nil) {
-            self.path = path
-            self.exclusions = exclusions
+        public init(catalogId: String? = nil, databaseName: String, functionInput: UserDefinedFunctionInput, functionName: String) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.functionInput = functionInput
+            self.functionName = functionName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case path = "Path"
-            case exclusions = "Exclusions"
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case functionInput = "FunctionInput"
+            case functionName = "FunctionName"
         }
     }
 
-    public struct JsonClassifier: AWSShape {
+    public struct UpdateUserDefinedFunctionResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateXMLClassifierRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Version", required: false, type: .long), 
+            AWSShapeMember(label: "Classification", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "JsonPath", required: true, type: .string), 
-            AWSShapeMember(label: "LastUpdated", required: false, type: .timestamp)
+            AWSShapeMember(label: "RowTag", required: false, type: .string)
         ]
-        /// The version of this classifier.
-        public let version: Int64?
+        /// An identifier of the data format that the classifier matches.
+        public let classification: String?
         /// The name of the classifier.
         public let name: String
+        /// The XML tag designating the element that contains each record in an XML document being parsed. Note that this cannot identify a self-closing element (closed by /&gt;). An empty row element that contains only attributes can be parsed as long as it ends with a closing tag (for example, &lt;row item_a="A" item_b="B"&gt;&lt;/row&gt; is okay, but &lt;row item_a="A" item_b="B" /&gt; is not).
+        public let rowTag: String?
+
+        public init(classification: String? = nil, name: String, rowTag: String? = nil) {
+            self.classification = classification
+            self.name = name
+            self.rowTag = rowTag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case classification = "Classification"
+            case name = "Name"
+            case rowTag = "RowTag"
+        }
+    }
+
+    public struct UserDefinedFunction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClassName", required: false, type: .string), 
+            AWSShapeMember(label: "CreateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FunctionName", required: false, type: .string), 
+            AWSShapeMember(label: "OwnerName", required: false, type: .string), 
+            AWSShapeMember(label: "OwnerType", required: false, type: .enum), 
+            AWSShapeMember(label: "ResourceUris", required: false, type: .list)
+        ]
+        /// The Java class that contains the function code.
+        public let className: String?
+        /// The time at which the function was created.
+        public let createTime: TimeStamp?
+        /// The name of the function.
+        public let functionName: String?
+        /// The owner of the function.
+        public let ownerName: String?
+        /// The owner type.
+        public let ownerType: PrincipalType?
+        /// The resource URIs for the function.
+        public let resourceUris: [ResourceUri]?
+
+        public init(className: String? = nil, createTime: TimeStamp? = nil, functionName: String? = nil, ownerName: String? = nil, ownerType: PrincipalType? = nil, resourceUris: [ResourceUri]? = nil) {
+            self.className = className
+            self.createTime = createTime
+            self.functionName = functionName
+            self.ownerName = ownerName
+            self.ownerType = ownerType
+            self.resourceUris = resourceUris
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case className = "ClassName"
+            case createTime = "CreateTime"
+            case functionName = "FunctionName"
+            case ownerName = "OwnerName"
+            case ownerType = "OwnerType"
+            case resourceUris = "ResourceUris"
+        }
+    }
+
+    public struct UserDefinedFunctionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClassName", required: false, type: .string), 
+            AWSShapeMember(label: "FunctionName", required: false, type: .string), 
+            AWSShapeMember(label: "OwnerName", required: false, type: .string), 
+            AWSShapeMember(label: "OwnerType", required: false, type: .enum), 
+            AWSShapeMember(label: "ResourceUris", required: false, type: .list)
+        ]
+        /// The Java class that contains the function code.
+        public let className: String?
+        /// The name of the function.
+        public let functionName: String?
+        /// The owner of the function.
+        public let ownerName: String?
+        /// The owner type.
+        public let ownerType: PrincipalType?
+        /// The resource URIs for the function.
+        public let resourceUris: [ResourceUri]?
+
+        public init(className: String? = nil, functionName: String? = nil, ownerName: String? = nil, ownerType: PrincipalType? = nil, resourceUris: [ResourceUri]? = nil) {
+            self.className = className
+            self.functionName = functionName
+            self.ownerName = ownerName
+            self.ownerType = ownerType
+            self.resourceUris = resourceUris
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case className = "ClassName"
+            case functionName = "FunctionName"
+            case ownerName = "OwnerName"
+            case ownerType = "OwnerType"
+            case resourceUris = "ResourceUris"
+        }
+    }
+
+    public struct XMLClassifier: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Classification", required: true, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastUpdated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "RowTag", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .long)
+        ]
+        /// An identifier of the data format that the classifier matches.
+        public let classification: String
         /// The time this classifier was registered.
         public let creationTime: TimeStamp?
-        /// A JsonPath string defining the JSON data for the classifier to classify. AWS Glue supports a subset of JsonPath, as described in Writing JsonPath Custom Classifiers.
-        public let jsonPath: String
         /// The time this classifier was last updated.
         public let lastUpdated: TimeStamp?
-
-        public init(version: Int64? = nil, name: String, creationTime: TimeStamp? = nil, jsonPath: String, lastUpdated: TimeStamp? = nil) {
-            self.version = version
-            self.name = name
-            self.creationTime = creationTime
-            self.jsonPath = jsonPath
-            self.lastUpdated = lastUpdated
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case version = "Version"
-            case name = "Name"
-            case creationTime = "CreationTime"
-            case jsonPath = "JsonPath"
-            case lastUpdated = "LastUpdated"
-        }
-    }
-
-    public struct CreateScriptResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalaCode", required: false, type: .string), 
-            AWSShapeMember(label: "PythonScript", required: false, type: .string)
-        ]
-        /// The Scala code generated from the DAG.
-        public let scalaCode: String?
-        /// The Python script generated from the DAG.
-        public let pythonScript: String?
-
-        public init(scalaCode: String? = nil, pythonScript: String? = nil) {
-            self.scalaCode = scalaCode
-            self.pythonScript = pythonScript
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scalaCode = "ScalaCode"
-            case pythonScript = "PythonScript"
-        }
-    }
-
-    public struct GetSecurityConfigurationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The maximum number of results to return.
-        public let maxResults: Int32?
-        /// A continuation token, if this is a continuation call.
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DeleteUserDefinedFunctionResponse: AWSShape {
-
-    }
-
-    public enum CatalogEncryptionMode: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
-        case sseKms = "SSE-KMS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct S3Encryption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3EncryptionMode", required: false, type: .enum), 
-            AWSShapeMember(label: "KmsKeyArn", required: false, type: .string)
-        ]
-        /// The encryption mode to use for S3 data.
-        public let s3EncryptionMode: S3EncryptionMode?
-        /// The AWS ARN of the KMS key to be used to encrypt the data.
-        public let kmsKeyArn: String?
-
-        public init(s3EncryptionMode: S3EncryptionMode? = nil, kmsKeyArn: String? = nil) {
-            self.s3EncryptionMode = s3EncryptionMode
-            self.kmsKeyArn = kmsKeyArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3EncryptionMode = "S3EncryptionMode"
-            case kmsKeyArn = "KmsKeyArn"
-        }
-    }
-
-    public struct ConnectionsList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Connections", required: false, type: .list)
-        ]
-        /// A list of connections used by the job.
-        public let connections: [String]?
-
-        public init(connections: [String]? = nil) {
-            self.connections = connections
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connections = "Connections"
-        }
-    }
-
-    public struct CreateJsonClassifierRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JsonPath", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// A JsonPath string defining the JSON data for the classifier to classify. AWS Glue supports a subset of JsonPath, as described in Writing JsonPath Custom Classifiers.
-        public let jsonPath: String
         /// The name of the classifier.
         public let name: String
+        /// The XML tag designating the element that contains each record in an XML document being parsed. Note that this cannot identify a self-closing element (closed by /&gt;). An empty row element that contains only attributes can be parsed as long as it ends with a closing tag (for example, &lt;row item_a="A" item_b="B"&gt;&lt;/row&gt; is okay, but &lt;row item_a="A" item_b="B" /&gt; is not).
+        public let rowTag: String?
+        /// The version of this classifier.
+        public let version: Int64?
 
-        public init(jsonPath: String, name: String) {
-            self.jsonPath = jsonPath
+        public init(classification: String, creationTime: TimeStamp? = nil, lastUpdated: TimeStamp? = nil, name: String, rowTag: String? = nil, version: Int64? = nil) {
+            self.classification = classification
+            self.creationTime = creationTime
+            self.lastUpdated = lastUpdated
             self.name = name
+            self.rowTag = rowTag
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jsonPath = "JsonPath"
+            case classification = "Classification"
+            case creationTime = "CreationTime"
+            case lastUpdated = "LastUpdated"
             case name = "Name"
-        }
-    }
-
-    public struct ResetJobBookmarkResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobBookmarkEntry", required: false, type: .structure)
-        ]
-        /// The reset bookmark entry.
-        public let jobBookmarkEntry: JobBookmarkEntry?
-
-        public init(jobBookmarkEntry: JobBookmarkEntry? = nil) {
-            self.jobBookmarkEntry = jobBookmarkEntry
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobBookmarkEntry = "JobBookmarkEntry"
-        }
-    }
-
-    public struct GetCrawlerMetricsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "CrawlerMetricsList", required: false, type: .list)
-        ]
-        /// A continuation token, if the returned list does not contain the last metric available.
-        public let nextToken: String?
-        /// A list of metrics for the specified crawler.
-        public let crawlerMetricsList: [CrawlerMetrics]?
-
-        public init(nextToken: String? = nil, crawlerMetricsList: [CrawlerMetrics]? = nil) {
-            self.nextToken = nextToken
-            self.crawlerMetricsList = crawlerMetricsList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case crawlerMetricsList = "CrawlerMetricsList"
-        }
-    }
-
-    public struct CreateTriggerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The name of the trigger.
-        public let name: String?
-
-        public init(name: String? = nil) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public struct DeleteCrawlerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// Name of the crawler to remove.
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public struct Table: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Retention", required: false, type: .integer), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "LastAccessTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ViewOriginalText", required: false, type: .string), 
-            AWSShapeMember(label: "ViewExpandedText", required: false, type: .string), 
-            AWSShapeMember(label: "TableType", required: false, type: .string), 
-            AWSShapeMember(label: "PartitionKeys", required: false, type: .list), 
-            AWSShapeMember(label: "StorageDescriptor", required: false, type: .structure), 
-            AWSShapeMember(label: "CreatedBy", required: false, type: .string), 
-            AWSShapeMember(label: "CreateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "LastAnalyzedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Owner", required: false, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .map), 
-            AWSShapeMember(label: "UpdateTime", required: false, type: .timestamp)
-        ]
-        /// Retention time for this table.
-        public let retention: Int32?
-        /// Name of the table. For Hive compatibility, this must be entirely lowercase.
-        public let name: String
-        /// Last time the table was accessed. This is usually taken from HDFS, and may not be reliable.
-        public let lastAccessTime: TimeStamp?
-        /// If the table is a view, the original text of the view; otherwise null.
-        public let viewOriginalText: String?
-        /// If the table is a view, the expanded text of the view; otherwise null.
-        public let viewExpandedText: String?
-        /// The type of this table (EXTERNAL_TABLE, VIRTUAL_VIEW, etc.).
-        public let tableType: String?
-        /// A list of columns by which the table is partitioned. Only primitive types are supported as partition keys.
-        public let partitionKeys: [Column]?
-        /// A storage descriptor containing information about the physical storage of this table.
-        public let storageDescriptor: StorageDescriptor?
-        /// Person or entity who created the table.
-        public let createdBy: String?
-        /// Time when the table definition was created in the Data Catalog.
-        public let createTime: TimeStamp?
-        /// Description of the table.
-        public let description: String?
-        /// Name of the metadata database where the table metadata resides. For Hive compatibility, this must be all lowercase.
-        public let databaseName: String?
-        /// Last time column statistics were computed for this table.
-        public let lastAnalyzedTime: TimeStamp?
-        /// Owner of the table.
-        public let owner: String?
-        /// These key-value pairs define properties associated with the table.
-        public let parameters: [String: String]?
-        /// Last time the table was updated.
-        public let updateTime: TimeStamp?
-
-        public init(retention: Int32? = nil, name: String, lastAccessTime: TimeStamp? = nil, viewOriginalText: String? = nil, viewExpandedText: String? = nil, tableType: String? = nil, partitionKeys: [Column]? = nil, storageDescriptor: StorageDescriptor? = nil, createdBy: String? = nil, createTime: TimeStamp? = nil, description: String? = nil, databaseName: String? = nil, lastAnalyzedTime: TimeStamp? = nil, owner: String? = nil, parameters: [String: String]? = nil, updateTime: TimeStamp? = nil) {
-            self.retention = retention
-            self.name = name
-            self.lastAccessTime = lastAccessTime
-            self.viewOriginalText = viewOriginalText
-            self.viewExpandedText = viewExpandedText
-            self.tableType = tableType
-            self.partitionKeys = partitionKeys
-            self.storageDescriptor = storageDescriptor
-            self.createdBy = createdBy
-            self.createTime = createTime
-            self.description = description
-            self.databaseName = databaseName
-            self.lastAnalyzedTime = lastAnalyzedTime
-            self.owner = owner
-            self.parameters = parameters
-            self.updateTime = updateTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case retention = "Retention"
-            case name = "Name"
-            case lastAccessTime = "LastAccessTime"
-            case viewOriginalText = "ViewOriginalText"
-            case viewExpandedText = "ViewExpandedText"
-            case tableType = "TableType"
-            case partitionKeys = "PartitionKeys"
-            case storageDescriptor = "StorageDescriptor"
-            case createdBy = "CreatedBy"
-            case createTime = "CreateTime"
-            case description = "Description"
-            case databaseName = "DatabaseName"
-            case lastAnalyzedTime = "LastAnalyzedTime"
-            case owner = "Owner"
-            case parameters = "Parameters"
-            case updateTime = "UpdateTime"
-        }
-    }
-
-    public struct DeleteTableVersionResponse: AWSShape {
-
-    }
-
-    public struct CreateTableResponse: AWSShape {
-
-    }
-
-    public struct Segment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TotalSegments", required: true, type: .integer), 
-            AWSShapeMember(label: "SegmentNumber", required: true, type: .integer)
-        ]
-        /// The total numer of segments.
-        public let totalSegments: Int32
-        /// The zero-based index number of the this segment. For example, if the total number of segments is 4, SegmentNumber values will range from zero through three.
-        public let segmentNumber: Int32
-
-        public init(totalSegments: Int32, segmentNumber: Int32) {
-            self.totalSegments = totalSegments
-            self.segmentNumber = segmentNumber
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case totalSegments = "TotalSegments"
-            case segmentNumber = "SegmentNumber"
+            case rowTag = "RowTag"
+            case version = "Version"
         }
     }
 

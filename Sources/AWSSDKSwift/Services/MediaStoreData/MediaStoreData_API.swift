@@ -25,6 +25,16 @@ public struct MediaStoreData {
         )
     }
 
+    ///  Deletes an object at the specified path.
+    public func deleteObject(_ input: DeleteObjectRequest) throws -> Future<DeleteObjectResponse> {
+        return try client.send(operation: "DeleteObject", path: "/{Path+}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Gets the headers for an object at the specified path.
+    public func describeObject(_ input: DescribeObjectRequest) throws -> Future<DescribeObjectResponse> {
+        return try client.send(operation: "DescribeObject", path: "/{Path+}", httpMethod: "HEAD", input: input)
+    }
+
     ///  Downloads the object at the specified path.
     public func getObject(_ input: GetObjectRequest) throws -> Future<GetObjectResponse> {
         return try client.send(operation: "GetObject", path: "/{Path+}", httpMethod: "GET", input: input)
@@ -38,16 +48,6 @@ public struct MediaStoreData {
     ///  Uploads an object to the specified path. Object sizes are limited to 25 MB.
     public func putObject(_ input: PutObjectRequest) throws -> Future<PutObjectResponse> {
         return try client.send(operation: "PutObject", path: "/{Path+}", httpMethod: "PUT", input: input)
-    }
-
-    ///  Gets the headers for an object at the specified path.
-    public func describeObject(_ input: DescribeObjectRequest) throws -> Future<DescribeObjectResponse> {
-        return try client.send(operation: "DescribeObject", path: "/{Path+}", httpMethod: "HEAD", input: input)
-    }
-
-    ///  Deletes an object at the specified path.
-    public func deleteObject(_ input: DeleteObjectRequest) throws -> Future<DeleteObjectResponse> {
-        return try client.send(operation: "DeleteObject", path: "/{Path+}", httpMethod: "DELETE", input: input)
     }
 
 

@@ -4,8 +4,8 @@ import AWSSDKSwiftCore
 
 /// Error enum for PI
 public enum PIErrorType: AWSErrorType {
-    case invalidArgumentException(message: String?)
     case internalServiceError(message: String?)
+    case invalidArgumentException(message: String?)
     case notAuthorizedException(message: String?)
 }
 
@@ -16,10 +16,10 @@ extension PIErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "InvalidArgumentException":
-            self = .invalidArgumentException(message: message)
         case "InternalServiceError":
             self = .internalServiceError(message: message)
+        case "InvalidArgumentException":
+            self = .invalidArgumentException(message: message)
         case "NotAuthorizedException":
             self = .notAuthorizedException(message: message)
         default:

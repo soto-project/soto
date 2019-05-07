@@ -4,8 +4,8 @@ import AWSSDKSwiftCore
 
 /// Error enum for OpsWorks
 public enum OpsWorksErrorType: AWSErrorType {
-    case validationException(message: String?)
     case resourceNotFoundException(message: String?)
+    case validationException(message: String?)
 }
 
 extension OpsWorksErrorType {
@@ -15,10 +15,10 @@ extension OpsWorksErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "ValidationException":
-            self = .validationException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
+        case "ValidationException":
+            self = .validationException(message: message)
         default:
             return nil
         }

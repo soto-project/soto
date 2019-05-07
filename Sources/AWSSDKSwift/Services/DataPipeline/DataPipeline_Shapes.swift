@@ -5,32 +5,6 @@ import AWSSDKSwiftCore
 
 extension DataPipeline {
 
-    public struct PipelineObject: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "fields", required: true, type: .list), 
-            AWSShapeMember(label: "id", required: true, type: .string)
-        ]
-        /// The name of the object.
-        public let name: String
-        /// Key-value pairs that define the properties of the object.
-        public let fields: [Field]
-        /// The ID of the object.
-        public let id: String
-
-        public init(name: String, fields: [Field], id: String) {
-            self.name = name
-            self.fields = fields
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case fields = "fields"
-            case id = "id"
-        }
-    }
-
     public struct ActivatePipelineInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "parameterValues", required: false, type: .list), 
@@ -57,108 +31,69 @@ extension DataPipeline {
         }
     }
 
-    public struct ReportTaskProgressInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskId", required: true, type: .string), 
-            AWSShapeMember(label: "fields", required: false, type: .list)
-        ]
-        /// The ID of the task assigned to the task runner. This value is provided in the response for PollForTask.
-        public let taskId: String
-        /// Key-value pairs that define the properties of the ReportTaskProgressInput object.
-        public let fields: [Field]?
+    public struct ActivatePipelineOutput: AWSShape {
 
-        public init(taskId: String, fields: [Field]? = nil) {
-            self.taskId = taskId
-            self.fields = fields
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case taskId = "taskId"
-            case fields = "fields"
-        }
     }
 
-    public struct PipelineIdName: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
-        /// The ID of the pipeline that was assigned by AWS Data Pipeline. This is a string of the form df-297EG78HU43EEXAMPLE.
-        public let id: String?
-        /// The name of the pipeline.
-        public let name: String?
-
-        public init(id: String? = nil, name: String? = nil) {
-            self.id = id
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case name = "name"
-        }
-    }
-
-    public struct DeactivatePipelineInput: AWSShape {
+    public struct AddTagsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "pipelineId", required: true, type: .string), 
-            AWSShapeMember(label: "cancelActive", required: false, type: .boolean)
+            AWSShapeMember(label: "tags", required: true, type: .list)
         ]
         /// The ID of the pipeline.
         public let pipelineId: String
-        /// Indicates whether to cancel any running objects. The default is true, which sets the state of any running objects to CANCELED. If this value is false, the pipeline is deactivated after all running objects finish.
-        public let cancelActive: Bool?
+        /// The tags to add, as key/value pairs.
+        public let tags: [Tag]
 
-        public init(pipelineId: String, cancelActive: Bool? = nil) {
+        public init(pipelineId: String, tags: [Tag]) {
             self.pipelineId = pipelineId
-            self.cancelActive = cancelActive
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case pipelineId = "pipelineId"
-            case cancelActive = "cancelActive"
+            case tags = "tags"
         }
     }
 
-    public struct ValidationWarning: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "warnings", required: false, type: .list), 
-            AWSShapeMember(label: "id", required: false, type: .string)
-        ]
-        /// A description of the validation warning.
-        public let warnings: [String]?
-        /// The identifier of the object that contains the validation warning.
-        public let id: String?
+    public struct AddTagsOutput: AWSShape {
 
-        public init(warnings: [String]? = nil, id: String? = nil) {
-            self.warnings = warnings
-            self.id = id
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case warnings = "warnings"
-            case id = "id"
-        }
     }
 
-    public struct ValidationError: AWSShape {
+    public struct CreatePipelineInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "errors", required: false, type: .list)
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "uniqueId", required: true, type: .string)
         ]
-        /// The identifier of the object that contains the validation error.
-        public let id: String?
-        /// A description of the validation error.
-        public let errors: [String]?
+        /// The description for the pipeline.
+        public let description: String?
+        /// The name for the pipeline. You can use the same name for multiple pipelines associated with your AWS account, because AWS Data Pipeline assigns each pipeline a unique pipeline identifier.
+        public let name: String
+        /// A list of tags to associate with the pipeline at creation. Tags let you control access to pipelines. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide.
+        public let tags: [Tag]?
+        /// A unique identifier. This identifier is not the same as the pipeline identifier assigned by AWS Data Pipeline. You are responsible for defining the format and ensuring the uniqueness of this identifier. You use this parameter to ensure idempotency during repeated calls to CreatePipeline. For example, if the first call to CreatePipeline does not succeed, you can pass in the same unique identifier and pipeline name combination on a subsequent call to CreatePipeline. CreatePipeline ensures that if a pipeline already exists with the same name and unique identifier, a new pipeline is not created. Instead, you'll receive the pipeline identifier from the previous attempt. The uniqueness of the name and unique identifier combination is scoped to the AWS account or IAM user credentials.
+        public let uniqueId: String
 
-        public init(id: String? = nil, errors: [String]? = nil) {
-            self.id = id
-            self.errors = errors
+        public init(description: String? = nil, name: String, tags: [Tag]? = nil, uniqueId: String) {
+            self.description = description
+            self.name = name
+            self.tags = tags
+            self.uniqueId = uniqueId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case errors = "errors"
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
+            case uniqueId = "uniqueId"
         }
     }
 
@@ -178,102 +113,178 @@ extension DataPipeline {
         }
     }
 
-    public struct ListPipelinesInput: AWSShape {
+    public struct DeactivatePipelineInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "marker", required: false, type: .string)
+            AWSShapeMember(label: "cancelActive", required: false, type: .boolean), 
+            AWSShapeMember(label: "pipelineId", required: true, type: .string)
         ]
-        /// The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call ListPipelines with the marker value from the previous call to retrieve the next set of results.
-        public let marker: String?
+        /// Indicates whether to cancel any running objects. The default is true, which sets the state of any running objects to CANCELED. If this value is false, the pipeline is deactivated after all running objects finish.
+        public let cancelActive: Bool?
+        /// The ID of the pipeline.
+        public let pipelineId: String
 
-        public init(marker: String? = nil) {
-            self.marker = marker
+        public init(cancelActive: Bool? = nil, pipelineId: String) {
+            self.cancelActive = cancelActive
+            self.pipelineId = pipelineId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cancelActive = "cancelActive"
+            case pipelineId = "pipelineId"
+        }
+    }
+
+    public struct DeactivatePipelineOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeletePipelineInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipelineId", required: true, type: .string)
+        ]
+        /// The ID of the pipeline.
+        public let pipelineId: String
+
+        public init(pipelineId: String) {
+            self.pipelineId = pipelineId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineId = "pipelineId"
+        }
+    }
+
+    public struct DescribeObjectsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "evaluateExpressions", required: false, type: .boolean), 
+            AWSShapeMember(label: "marker", required: false, type: .string), 
+            AWSShapeMember(label: "objectIds", required: true, type: .list), 
+            AWSShapeMember(label: "pipelineId", required: true, type: .string)
+        ]
+        /// Indicates whether any expressions in the object should be evaluated when the object descriptions are returned.
+        public let evaluateExpressions: Bool?
+        /// The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call DescribeObjects with the marker value from the previous call to retrieve the next set of results.
+        public let marker: String?
+        /// The IDs of the pipeline objects that contain the definitions to be described. You can pass as many as 25 identifiers in a single call to DescribeObjects.
+        public let objectIds: [String]
+        /// The ID of the pipeline that contains the object definitions.
+        public let pipelineId: String
+
+        public init(evaluateExpressions: Bool? = nil, marker: String? = nil, objectIds: [String], pipelineId: String) {
+            self.evaluateExpressions = evaluateExpressions
+            self.marker = marker
+            self.objectIds = objectIds
+            self.pipelineId = pipelineId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evaluateExpressions = "evaluateExpressions"
             case marker = "marker"
+            case objectIds = "objectIds"
+            case pipelineId = "pipelineId"
         }
     }
 
     public struct DescribeObjectsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "marker", required: false, type: .string), 
             AWSShapeMember(label: "hasMoreResults", required: false, type: .boolean), 
+            AWSShapeMember(label: "marker", required: false, type: .string), 
             AWSShapeMember(label: "pipelineObjects", required: true, type: .list)
         ]
-        /// The starting point for the next page of results. To view the next page of results, call DescribeObjects again with this marker value. If the value is null, there are no more results.
-        public let marker: String?
         /// Indicates whether there are more results to return.
         public let hasMoreResults: Bool?
+        /// The starting point for the next page of results. To view the next page of results, call DescribeObjects again with this marker value. If the value is null, there are no more results.
+        public let marker: String?
         /// An array of object definitions.
         public let pipelineObjects: [PipelineObject]
 
-        public init(marker: String? = nil, hasMoreResults: Bool? = nil, pipelineObjects: [PipelineObject]) {
-            self.marker = marker
+        public init(hasMoreResults: Bool? = nil, marker: String? = nil, pipelineObjects: [PipelineObject]) {
             self.hasMoreResults = hasMoreResults
+            self.marker = marker
             self.pipelineObjects = pipelineObjects
         }
 
         private enum CodingKeys: String, CodingKey {
-            case marker = "marker"
             case hasMoreResults = "hasMoreResults"
+            case marker = "marker"
             case pipelineObjects = "pipelineObjects"
         }
     }
 
-    public struct Operator: AWSShape {
+    public struct DescribePipelinesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "values", required: false, type: .list)
+            AWSShapeMember(label: "pipelineIds", required: true, type: .list)
         ]
-        ///  The logical operation to be performed: equal (EQ), equal reference (REF_EQ), less than or equal (LE), greater than or equal (GE), or between (BETWEEN). Equal reference (REF_EQ) can be used only with reference fields. The other comparison types can be used only with String fields. The comparison types you can use apply only to certain object fields, as detailed below.   The comparison operators EQ and REF_EQ act on the following fields:   name @sphere parent @componentParent @instanceParent @status @scheduledStartTime @scheduledEndTime @actualStartTime @actualEndTime   The comparison operators GE, LE, and BETWEEN act on the following fields:   @scheduledStartTime @scheduledEndTime @actualStartTime @actualEndTime  Note that fields beginning with the at sign (@) are read-only and set by the web service. When you name fields, you should choose names containing only alpha-numeric values, as symbols may be reserved by AWS Data Pipeline. User-defined fields that you add to a pipeline should prefix their name with the string "my".
-        public let `type`: OperatorType?
-        /// The value that the actual field value will be compared with.
-        public let values: [String]?
+        /// The IDs of the pipelines to describe. You can pass as many as 25 identifiers in a single call. To obtain pipeline IDs, call ListPipelines.
+        public let pipelineIds: [String]
 
-        public init(type: OperatorType? = nil, values: [String]? = nil) {
-            self.`type` = `type`
-            self.values = values
+        public init(pipelineIds: [String]) {
+            self.pipelineIds = pipelineIds
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "type"
-            case values = "values"
+            case pipelineIds = "pipelineIds"
         }
     }
 
-    public struct QueryObjectsInput: AWSShape {
+    public struct DescribePipelinesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "query", required: false, type: .structure), 
-            AWSShapeMember(label: "marker", required: false, type: .string), 
-            AWSShapeMember(label: "limit", required: false, type: .integer), 
-            AWSShapeMember(label: "sphere", required: true, type: .string), 
+            AWSShapeMember(label: "pipelineDescriptionList", required: true, type: .list)
+        ]
+        /// An array of descriptions for the specified pipelines.
+        public let pipelineDescriptionList: [PipelineDescription]
+
+        public init(pipelineDescriptionList: [PipelineDescription]) {
+            self.pipelineDescriptionList = pipelineDescriptionList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineDescriptionList = "pipelineDescriptionList"
+        }
+    }
+
+    public struct EvaluateExpressionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "expression", required: true, type: .string), 
+            AWSShapeMember(label: "objectId", required: true, type: .string), 
             AWSShapeMember(label: "pipelineId", required: true, type: .string)
         ]
-        /// The query that defines the objects to be returned. The Query object can contain a maximum of ten selectors. The conditions in the query are limited to top-level String fields in the object. These filters can be applied to components, instances, and attempts.
-        public let query: Query?
-        /// The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call QueryObjects with the marker value from the previous call to retrieve the next set of results.
-        public let marker: String?
-        /// The maximum number of object names that QueryObjects will return in a single call. The default value is 100. 
-        public let limit: Int32?
-        /// Indicates whether the query applies to components or instances. The possible values are: COMPONENT, INSTANCE, and ATTEMPT.
-        public let sphere: String
+        /// The expression to evaluate.
+        public let expression: String
+        /// The ID of the object.
+        public let objectId: String
         /// The ID of the pipeline.
         public let pipelineId: String
 
-        public init(query: Query? = nil, marker: String? = nil, limit: Int32? = nil, sphere: String, pipelineId: String) {
-            self.query = query
-            self.marker = marker
-            self.limit = limit
-            self.sphere = sphere
+        public init(expression: String, objectId: String, pipelineId: String) {
+            self.expression = expression
+            self.objectId = objectId
             self.pipelineId = pipelineId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case query = "query"
-            case marker = "marker"
-            case limit = "limit"
-            case sphere = "sphere"
+            case expression = "expression"
+            case objectId = "objectId"
             case pipelineId = "pipelineId"
+        }
+    }
+
+    public struct EvaluateExpressionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "evaluatedExpression", required: true, type: .string)
+        ]
+        /// The evaluated expression.
+        public let evaluatedExpression: String
+
+        public init(evaluatedExpression: String) {
+            self.evaluatedExpression = evaluatedExpression
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evaluatedExpression = "evaluatedExpression"
         }
     }
 
@@ -303,62 +314,6 @@ extension DataPipeline {
         }
     }
 
-    public struct CreatePipelineInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "uniqueId", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string)
-        ]
-        /// A list of tags to associate with the pipeline at creation. Tags let you control access to pipelines. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide.
-        public let tags: [Tag]?
-        /// The name for the pipeline. You can use the same name for multiple pipelines associated with your AWS account, because AWS Data Pipeline assigns each pipeline a unique pipeline identifier.
-        public let name: String
-        /// A unique identifier. This identifier is not the same as the pipeline identifier assigned by AWS Data Pipeline. You are responsible for defining the format and ensuring the uniqueness of this identifier. You use this parameter to ensure idempotency during repeated calls to CreatePipeline. For example, if the first call to CreatePipeline does not succeed, you can pass in the same unique identifier and pipeline name combination on a subsequent call to CreatePipeline. CreatePipeline ensures that if a pipeline already exists with the same name and unique identifier, a new pipeline is not created. Instead, you'll receive the pipeline identifier from the previous attempt. The uniqueness of the name and unique identifier combination is scoped to the AWS account or IAM user credentials.
-        public let uniqueId: String
-        /// The description for the pipeline.
-        public let description: String?
-
-        public init(tags: [Tag]? = nil, name: String, uniqueId: String, description: String? = nil) {
-            self.tags = tags
-            self.name = name
-            self.uniqueId = uniqueId
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
-            case name = "name"
-            case uniqueId = "uniqueId"
-            case description = "description"
-        }
-    }
-
-    public struct AddTagsOutput: AWSShape {
-
-    }
-
-    public struct ParameterObject: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string), 
-            AWSShapeMember(label: "attributes", required: true, type: .list)
-        ]
-        /// The ID of the parameter object. 
-        public let id: String
-        /// The attributes of the parameter object.
-        public let attributes: [ParameterAttribute]
-
-        public init(id: String, attributes: [ParameterAttribute]) {
-            self.id = id
-            self.attributes = attributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case attributes = "attributes"
-        }
-    }
-
     public struct GetPipelineDefinitionInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "pipelineId", required: true, type: .string), 
@@ -380,132 +335,123 @@ extension DataPipeline {
         }
     }
 
-    public struct QueryObjectsOutput: AWSShape {
+    public struct GetPipelineDefinitionOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ids", required: false, type: .list), 
-            AWSShapeMember(label: "marker", required: false, type: .string), 
-            AWSShapeMember(label: "hasMoreResults", required: false, type: .boolean)
+            AWSShapeMember(label: "parameterObjects", required: false, type: .list), 
+            AWSShapeMember(label: "parameterValues", required: false, type: .list), 
+            AWSShapeMember(label: "pipelineObjects", required: false, type: .list)
         ]
-        /// The identifiers that match the query selectors.
-        public let ids: [String]?
-        /// The starting point for the next page of results. To view the next page of results, call QueryObjects again with this marker value. If the value is null, there are no more results.
-        public let marker: String?
-        /// Indicates whether there are more results that can be obtained by a subsequent call.
-        public let hasMoreResults: Bool?
+        /// The parameter objects used in the pipeline definition.
+        public let parameterObjects: [ParameterObject]?
+        /// The parameter values used in the pipeline definition.
+        public let parameterValues: [ParameterValue]?
+        /// The objects defined in the pipeline.
+        public let pipelineObjects: [PipelineObject]?
 
-        public init(ids: [String]? = nil, marker: String? = nil, hasMoreResults: Bool? = nil) {
-            self.ids = ids
-            self.marker = marker
-            self.hasMoreResults = hasMoreResults
+        public init(parameterObjects: [ParameterObject]? = nil, parameterValues: [ParameterValue]? = nil, pipelineObjects: [PipelineObject]? = nil) {
+            self.parameterObjects = parameterObjects
+            self.parameterValues = parameterValues
+            self.pipelineObjects = pipelineObjects
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ids = "ids"
+            case parameterObjects = "parameterObjects"
+            case parameterValues = "parameterValues"
+            case pipelineObjects = "pipelineObjects"
+        }
+    }
+
+    public struct InstanceIdentity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "document", required: false, type: .string), 
+            AWSShapeMember(label: "signature", required: false, type: .string)
+        ]
+        /// A description of an EC2 instance that is generated when the instance is launched and exposed to the instance via the instance metadata service in the form of a JSON representation of an object.
+        public let document: String?
+        /// A signature which can be used to verify the accuracy and authenticity of the information provided in the instance identity document.
+        public let signature: String?
+
+        public init(document: String? = nil, signature: String? = nil) {
+            self.document = document
+            self.signature = signature
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case document = "document"
+            case signature = "signature"
+        }
+    }
+
+    public struct ListPipelinesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "marker", required: false, type: .string)
+        ]
+        /// The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call ListPipelines with the marker value from the previous call to retrieve the next set of results.
+        public let marker: String?
+
+        public init(marker: String? = nil) {
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case marker = "marker"
-            case hasMoreResults = "hasMoreResults"
         }
     }
 
     public struct ListPipelinesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "marker", required: false, type: .string), 
             AWSShapeMember(label: "hasMoreResults", required: false, type: .boolean), 
+            AWSShapeMember(label: "marker", required: false, type: .string), 
             AWSShapeMember(label: "pipelineIdList", required: true, type: .list)
         ]
-        /// The starting point for the next page of results. To view the next page of results, call ListPipelinesOutput again with this marker value. If the value is null, there are no more results.
-        public let marker: String?
         /// Indicates whether there are more results that can be obtained by a subsequent call.
         public let hasMoreResults: Bool?
+        /// The starting point for the next page of results. To view the next page of results, call ListPipelinesOutput again with this marker value. If the value is null, there are no more results.
+        public let marker: String?
         /// The pipeline identifiers. If you require additional information about the pipelines, you can use these identifiers to call DescribePipelines and GetPipelineDefinition.
         public let pipelineIdList: [PipelineIdName]
 
-        public init(marker: String? = nil, hasMoreResults: Bool? = nil, pipelineIdList: [PipelineIdName]) {
-            self.marker = marker
+        public init(hasMoreResults: Bool? = nil, marker: String? = nil, pipelineIdList: [PipelineIdName]) {
             self.hasMoreResults = hasMoreResults
+            self.marker = marker
             self.pipelineIdList = pipelineIdList
         }
 
         private enum CodingKeys: String, CodingKey {
-            case marker = "marker"
             case hasMoreResults = "hasMoreResults"
+            case marker = "marker"
             case pipelineIdList = "pipelineIdList"
         }
     }
 
-    public struct DeletePipelineInput: AWSShape {
+    public struct Operator: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineId", required: true, type: .string)
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "values", required: false, type: .list)
         ]
-        /// The ID of the pipeline.
-        public let pipelineId: String
+        ///  The logical operation to be performed: equal (EQ), equal reference (REF_EQ), less than or equal (LE), greater than or equal (GE), or between (BETWEEN). Equal reference (REF_EQ) can be used only with reference fields. The other comparison types can be used only with String fields. The comparison types you can use apply only to certain object fields, as detailed below.   The comparison operators EQ and REF_EQ act on the following fields:   name @sphere parent @componentParent @instanceParent @status @scheduledStartTime @scheduledEndTime @actualStartTime @actualEndTime   The comparison operators GE, LE, and BETWEEN act on the following fields:   @scheduledStartTime @scheduledEndTime @actualStartTime @actualEndTime  Note that fields beginning with the at sign (@) are read-only and set by the web service. When you name fields, you should choose names containing only alpha-numeric values, as symbols may be reserved by AWS Data Pipeline. User-defined fields that you add to a pipeline should prefix their name with the string "my".
+        public let `type`: OperatorType?
+        /// The value that the actual field value will be compared with.
+        public let values: [String]?
 
-        public init(pipelineId: String) {
-            self.pipelineId = pipelineId
+        public init(type: OperatorType? = nil, values: [String]? = nil) {
+            self.`type` = `type`
+            self.values = values
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineId = "pipelineId"
+            case `type` = "type"
+            case values = "values"
         }
     }
 
-    public struct RemoveTagsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineId", required: true, type: .string), 
-            AWSShapeMember(label: "tagKeys", required: true, type: .list)
-        ]
-        /// The ID of the pipeline.
-        public let pipelineId: String
-        /// The keys of the tags to remove.
-        public let tagKeys: [String]
-
-        public init(pipelineId: String, tagKeys: [String]) {
-            self.pipelineId = pipelineId
-            self.tagKeys = tagKeys
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pipelineId = "pipelineId"
-            case tagKeys = "tagKeys"
-        }
-    }
-
-    public struct TaskObject: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskId", required: false, type: .string), 
-            AWSShapeMember(label: "pipelineId", required: false, type: .string), 
-            AWSShapeMember(label: "objects", required: false, type: .map), 
-            AWSShapeMember(label: "attemptId", required: false, type: .string)
-        ]
-        /// An internal identifier for the task. This ID is passed to the SetTaskStatus and ReportTaskProgress actions.
-        public let taskId: String?
-        /// The ID of the pipeline that provided the task.
-        public let pipelineId: String?
-        /// Connection information for the location where the task runner will publish the output of the task.
-        public let objects: [String: PipelineObject]?
-        /// The ID of the pipeline task attempt object. AWS Data Pipeline uses this value to track how many times a task is attempted.
-        public let attemptId: String?
-
-        public init(taskId: String? = nil, pipelineId: String? = nil, objects: [String: PipelineObject]? = nil, attemptId: String? = nil) {
-            self.taskId = taskId
-            self.pipelineId = pipelineId
-            self.objects = objects
-            self.attemptId = attemptId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case taskId = "taskId"
-            case pipelineId = "pipelineId"
-            case objects = "objects"
-            case attemptId = "attemptId"
-        }
-    }
-
-    public struct SetTaskStatusOutput: AWSShape {
-
-    }
-
-    public struct ActivatePipelineOutput: AWSShape {
-
+    public enum OperatorType: String, CustomStringConvertible, Codable {
+        case eq = "EQ"
+        case refEq = "REF_EQ"
+        case le = "LE"
+        case ge = "GE"
+        case between = "BETWEEN"
+        public var description: String { return self.rawValue }
     }
 
     public struct ParameterAttribute: AWSShape {
@@ -529,132 +475,154 @@ extension DataPipeline {
         }
     }
 
-    public struct ReportTaskRunnerHeartbeatOutput: AWSShape {
+    public struct ParameterObject: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "terminate", required: true, type: .boolean)
+            AWSShapeMember(label: "attributes", required: true, type: .list), 
+            AWSShapeMember(label: "id", required: true, type: .string)
         ]
-        /// Indicates whether the calling task runner should terminate.
-        public let terminate: Bool
+        /// The attributes of the parameter object.
+        public let attributes: [ParameterAttribute]
+        /// The ID of the parameter object. 
+        public let id: String
 
-        public init(terminate: Bool) {
-            self.terminate = terminate
+        public init(attributes: [ParameterAttribute], id: String) {
+            self.attributes = attributes
+            self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
-            case terminate = "terminate"
+            case attributes = "attributes"
+            case id = "id"
         }
     }
 
-    public struct DescribePipelinesOutput: AWSShape {
+    public struct ParameterValue: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineDescriptionList", required: true, type: .list)
+            AWSShapeMember(label: "id", required: true, type: .string), 
+            AWSShapeMember(label: "stringValue", required: true, type: .string)
         ]
-        /// An array of descriptions for the specified pipelines.
-        public let pipelineDescriptionList: [PipelineDescription]
+        /// The ID of the parameter value.
+        public let id: String
+        /// The field value, expressed as a String.
+        public let stringValue: String
 
-        public init(pipelineDescriptionList: [PipelineDescription]) {
-            self.pipelineDescriptionList = pipelineDescriptionList
+        public init(id: String, stringValue: String) {
+            self.id = id
+            self.stringValue = stringValue
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineDescriptionList = "pipelineDescriptionList"
+            case id = "id"
+            case stringValue = "stringValue"
         }
-    }
-
-    public enum OperatorType: String, CustomStringConvertible, Codable {
-        case eq = "EQ"
-        case refEq = "REF_EQ"
-        case le = "LE"
-        case ge = "GE"
-        case between = "BETWEEN"
-        public var description: String { return self.rawValue }
     }
 
     public struct PipelineDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fields", required: true, type: .list), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "pipelineId", required: true, type: .string), 
             AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string)
+            AWSShapeMember(label: "fields", required: true, type: .list), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "pipelineId", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list)
         ]
-        /// A list of read-only fields that contain metadata about the pipeline: @userId, @accountId, and @pipelineState.
-        public let fields: [Field]
-        /// A list of tags to associated with a pipeline. Tags let you control access to pipelines. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide.
-        public let tags: [Tag]?
-        /// The pipeline identifier that was assigned by AWS Data Pipeline. This is a string of the form df-297EG78HU43EEXAMPLE.
-        public let pipelineId: String
         /// Description of the pipeline.
         public let description: String?
+        /// A list of read-only fields that contain metadata about the pipeline: @userId, @accountId, and @pipelineState.
+        public let fields: [Field]
         /// The name of the pipeline.
         public let name: String
+        /// The pipeline identifier that was assigned by AWS Data Pipeline. This is a string of the form df-297EG78HU43EEXAMPLE.
+        public let pipelineId: String
+        /// A list of tags to associated with a pipeline. Tags let you control access to pipelines. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide.
+        public let tags: [Tag]?
 
-        public init(fields: [Field], tags: [Tag]? = nil, pipelineId: String, description: String? = nil, name: String) {
-            self.fields = fields
-            self.tags = tags
-            self.pipelineId = pipelineId
+        public init(description: String? = nil, fields: [Field], name: String, pipelineId: String, tags: [Tag]? = nil) {
             self.description = description
+            self.fields = fields
+            self.name = name
+            self.pipelineId = pipelineId
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case fields = "fields"
+            case name = "name"
+            case pipelineId = "pipelineId"
+            case tags = "tags"
+        }
+    }
+
+    public struct PipelineIdName: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string)
+        ]
+        /// The ID of the pipeline that was assigned by AWS Data Pipeline. This is a string of the form df-297EG78HU43EEXAMPLE.
+        public let id: String?
+        /// The name of the pipeline.
+        public let name: String?
+
+        public init(id: String? = nil, name: String? = nil) {
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case name = "name"
+        }
+    }
+
+    public struct PipelineObject: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fields", required: true, type: .list), 
+            AWSShapeMember(label: "id", required: true, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string)
+        ]
+        /// Key-value pairs that define the properties of the object.
+        public let fields: [Field]
+        /// The ID of the object.
+        public let id: String
+        /// The name of the object.
+        public let name: String
+
+        public init(fields: [Field], id: String, name: String) {
+            self.fields = fields
+            self.id = id
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
             case fields = "fields"
-            case tags = "tags"
-            case pipelineId = "pipelineId"
-            case description = "description"
+            case id = "id"
             case name = "name"
         }
     }
 
-    public struct Query: AWSShape {
+    public struct PollForTaskInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "selectors", required: false, type: .list)
+            AWSShapeMember(label: "hostname", required: false, type: .string), 
+            AWSShapeMember(label: "instanceIdentity", required: false, type: .structure), 
+            AWSShapeMember(label: "workerGroup", required: true, type: .string)
         ]
-        /// List of selectors that define the query. An object must satisfy all of the selectors to match the query.
-        public let selectors: [Selector]?
+        /// The public DNS name of the calling task runner.
+        public let hostname: String?
+        /// Identity information for the EC2 instance that is hosting the task runner. You can get this value from the instance using http://169.254.169.254/latest/meta-data/instance-id. For more information, see Instance Metadata in the Amazon Elastic Compute Cloud User Guide. Passing in this value proves that your task runner is running on an EC2 instance, and ensures the proper AWS Data Pipeline service charges are applied to your pipeline.
+        public let instanceIdentity: InstanceIdentity?
+        /// The type of task the task runner is configured to accept and process. The worker group is set as a field on objects in the pipeline when they are created. You can only specify a single value for workerGroup in the call to PollForTask. There are no wildcard values permitted in workerGroup; the string must be an exact, case-sensitive, match.
+        public let workerGroup: String
 
-        public init(selectors: [Selector]? = nil) {
-            self.selectors = selectors
+        public init(hostname: String? = nil, instanceIdentity: InstanceIdentity? = nil, workerGroup: String) {
+            self.hostname = hostname
+            self.instanceIdentity = instanceIdentity
+            self.workerGroup = workerGroup
         }
 
         private enum CodingKeys: String, CodingKey {
-            case selectors = "selectors"
-        }
-    }
-
-    public struct Selector: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fieldName", required: false, type: .string), 
-            AWSShapeMember(label: "operator", required: false, type: .structure)
-        ]
-        /// The name of the field that the operator will be applied to. The field name is the "key" portion of the field definition in the pipeline definition syntax that is used by the AWS Data Pipeline API. If the field is not set on the object, the condition fails.
-        public let fieldName: String?
-        public let `operator`: Operator?
-
-        public init(fieldName: String? = nil, operator: Operator? = nil) {
-            self.fieldName = fieldName
-            self.`operator` = `operator`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fieldName = "fieldName"
-            case `operator` = "operator"
-        }
-    }
-
-    public struct EvaluateExpressionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "evaluatedExpression", required: true, type: .string)
-        ]
-        /// The evaluated expression.
-        public let evaluatedExpression: String
-
-        public init(evaluatedExpression: String) {
-            self.evaluatedExpression = evaluatedExpression
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case evaluatedExpression = "evaluatedExpression"
+            case hostname = "hostname"
+            case instanceIdentity = "instanceIdentity"
+            case workerGroup = "workerGroup"
         }
     }
 
@@ -674,320 +642,34 @@ extension DataPipeline {
         }
     }
 
-    public struct ValidatePipelineDefinitionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "errored", required: true, type: .boolean), 
-            AWSShapeMember(label: "validationErrors", required: false, type: .list), 
-            AWSShapeMember(label: "validationWarnings", required: false, type: .list)
-        ]
-        /// Indicates whether there were validation errors.
-        public let errored: Bool
-        /// Any validation errors that were found.
-        public let validationErrors: [ValidationError]?
-        /// Any validation warnings that were found.
-        public let validationWarnings: [ValidationWarning]?
-
-        public init(errored: Bool, validationErrors: [ValidationError]? = nil, validationWarnings: [ValidationWarning]? = nil) {
-            self.errored = errored
-            self.validationErrors = validationErrors
-            self.validationWarnings = validationWarnings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errored = "errored"
-            case validationErrors = "validationErrors"
-            case validationWarnings = "validationWarnings"
-        }
-    }
-
-    public struct SetStatusInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineId", required: true, type: .string), 
-            AWSShapeMember(label: "status", required: true, type: .string), 
-            AWSShapeMember(label: "objectIds", required: true, type: .list)
-        ]
-        /// The ID of the pipeline that contains the objects.
-        public let pipelineId: String
-        /// The status to be set on all the objects specified in objectIds. For components, use PAUSE or RESUME. For instances, use TRY_CANCEL, RERUN, or MARK_FINISHED.
-        public let status: String
-        /// The IDs of the objects. The corresponding objects can be either physical or components, but not a mix of both types.
-        public let objectIds: [String]
-
-        public init(pipelineId: String, status: String, objectIds: [String]) {
-            self.pipelineId = pipelineId
-            self.status = status
-            self.objectIds = objectIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pipelineId = "pipelineId"
-            case status = "status"
-            case objectIds = "objectIds"
-        }
-    }
-
-    public struct ReportTaskProgressOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "canceled", required: true, type: .boolean)
-        ]
-        /// If true, the calling task runner should cancel processing of the task. The task runner does not need to call SetTaskStatus for canceled tasks.
-        public let canceled: Bool
-
-        public init(canceled: Bool) {
-            self.canceled = canceled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case canceled = "canceled"
-        }
-    }
-
     public struct PutPipelineDefinitionInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "parameterObjects", required: false, type: .list), 
-            AWSShapeMember(label: "pipelineObjects", required: true, type: .list), 
+            AWSShapeMember(label: "parameterValues", required: false, type: .list), 
             AWSShapeMember(label: "pipelineId", required: true, type: .string), 
-            AWSShapeMember(label: "parameterValues", required: false, type: .list)
+            AWSShapeMember(label: "pipelineObjects", required: true, type: .list)
         ]
         /// The parameter objects used with the pipeline.
         public let parameterObjects: [ParameterObject]?
-        /// The objects that define the pipeline. These objects overwrite the existing pipeline definition.
-        public let pipelineObjects: [PipelineObject]
-        /// The ID of the pipeline.
-        public let pipelineId: String
         /// The parameter values used with the pipeline.
         public let parameterValues: [ParameterValue]?
-
-        public init(parameterObjects: [ParameterObject]? = nil, pipelineObjects: [PipelineObject], pipelineId: String, parameterValues: [ParameterValue]? = nil) {
-            self.parameterObjects = parameterObjects
-            self.pipelineObjects = pipelineObjects
-            self.pipelineId = pipelineId
-            self.parameterValues = parameterValues
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case parameterObjects = "parameterObjects"
-            case pipelineObjects = "pipelineObjects"
-            case pipelineId = "pipelineId"
-            case parameterValues = "parameterValues"
-        }
-    }
-
-    public enum TaskStatus: String, CustomStringConvertible, Codable {
-        case finished = "FINISHED"
-        case failed = "FAILED"
-        case `false` = "FALSE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RemoveTagsOutput: AWSShape {
-
-    }
-
-    public struct InstanceIdentity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "signature", required: false, type: .string), 
-            AWSShapeMember(label: "document", required: false, type: .string)
-        ]
-        /// A signature which can be used to verify the accuracy and authenticity of the information provided in the instance identity document.
-        public let signature: String?
-        /// A description of an EC2 instance that is generated when the instance is launched and exposed to the instance via the instance metadata service in the form of a JSON representation of an object.
-        public let document: String?
-
-        public init(signature: String? = nil, document: String? = nil) {
-            self.signature = signature
-            self.document = document
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case signature = "signature"
-            case document = "document"
-        }
-    }
-
-    public struct AddTagsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineId", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .list)
-        ]
         /// The ID of the pipeline.
         public let pipelineId: String
-        /// The tags to add, as key/value pairs.
-        public let tags: [Tag]
+        /// The objects that define the pipeline. These objects overwrite the existing pipeline definition.
+        public let pipelineObjects: [PipelineObject]
 
-        public init(pipelineId: String, tags: [Tag]) {
-            self.pipelineId = pipelineId
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pipelineId = "pipelineId"
-            case tags = "tags"
-        }
-    }
-
-    public struct ParameterValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "stringValue", required: true, type: .string), 
-            AWSShapeMember(label: "id", required: true, type: .string)
-        ]
-        /// The field value, expressed as a String.
-        public let stringValue: String
-        /// The ID of the parameter value.
-        public let id: String
-
-        public init(stringValue: String, id: String) {
-            self.stringValue = stringValue
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stringValue = "stringValue"
-            case id = "id"
-        }
-    }
-
-    public struct PollForTaskInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "workerGroup", required: true, type: .string), 
-            AWSShapeMember(label: "hostname", required: false, type: .string), 
-            AWSShapeMember(label: "instanceIdentity", required: false, type: .structure)
-        ]
-        /// The type of task the task runner is configured to accept and process. The worker group is set as a field on objects in the pipeline when they are created. You can only specify a single value for workerGroup in the call to PollForTask. There are no wildcard values permitted in workerGroup; the string must be an exact, case-sensitive, match.
-        public let workerGroup: String
-        /// The public DNS name of the calling task runner.
-        public let hostname: String?
-        /// Identity information for the EC2 instance that is hosting the task runner. You can get this value from the instance using http://169.254.169.254/latest/meta-data/instance-id. For more information, see Instance Metadata in the Amazon Elastic Compute Cloud User Guide. Passing in this value proves that your task runner is running on an EC2 instance, and ensures the proper AWS Data Pipeline service charges are applied to your pipeline.
-        public let instanceIdentity: InstanceIdentity?
-
-        public init(workerGroup: String, hostname: String? = nil, instanceIdentity: InstanceIdentity? = nil) {
-            self.workerGroup = workerGroup
-            self.hostname = hostname
-            self.instanceIdentity = instanceIdentity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case workerGroup = "workerGroup"
-            case hostname = "hostname"
-            case instanceIdentity = "instanceIdentity"
-        }
-    }
-
-    public struct DeactivatePipelineOutput: AWSShape {
-
-    }
-
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "key", required: true, type: .string), 
-            AWSShapeMember(label: "value", required: true, type: .string)
-        ]
-        /// The key name of a tag defined by a user. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide.
-        public let key: String
-        /// The optional value portion of a tag defined by a user. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide.
-        public let value: String
-
-        public init(key: String, value: String) {
-            self.key = key
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "key"
-            case value = "value"
-        }
-    }
-
-    public struct DescribeObjectsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "marker", required: false, type: .string), 
-            AWSShapeMember(label: "evaluateExpressions", required: false, type: .boolean), 
-            AWSShapeMember(label: "objectIds", required: true, type: .list), 
-            AWSShapeMember(label: "pipelineId", required: true, type: .string)
-        ]
-        /// The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call DescribeObjects with the marker value from the previous call to retrieve the next set of results.
-        public let marker: String?
-        /// Indicates whether any expressions in the object should be evaluated when the object descriptions are returned.
-        public let evaluateExpressions: Bool?
-        /// The IDs of the pipeline objects that contain the definitions to be described. You can pass as many as 25 identifiers in a single call to DescribeObjects.
-        public let objectIds: [String]
-        /// The ID of the pipeline that contains the object definitions.
-        public let pipelineId: String
-
-        public init(marker: String? = nil, evaluateExpressions: Bool? = nil, objectIds: [String], pipelineId: String) {
-            self.marker = marker
-            self.evaluateExpressions = evaluateExpressions
-            self.objectIds = objectIds
-            self.pipelineId = pipelineId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "marker"
-            case evaluateExpressions = "evaluateExpressions"
-            case objectIds = "objectIds"
-            case pipelineId = "pipelineId"
-        }
-    }
-
-    public struct GetPipelineDefinitionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "parameterValues", required: false, type: .list), 
-            AWSShapeMember(label: "pipelineObjects", required: false, type: .list), 
-            AWSShapeMember(label: "parameterObjects", required: false, type: .list)
-        ]
-        /// The parameter values used in the pipeline definition.
-        public let parameterValues: [ParameterValue]?
-        /// The objects defined in the pipeline.
-        public let pipelineObjects: [PipelineObject]?
-        /// The parameter objects used in the pipeline definition.
-        public let parameterObjects: [ParameterObject]?
-
-        public init(parameterValues: [ParameterValue]? = nil, pipelineObjects: [PipelineObject]? = nil, parameterObjects: [ParameterObject]? = nil) {
-            self.parameterValues = parameterValues
-            self.pipelineObjects = pipelineObjects
+        public init(parameterObjects: [ParameterObject]? = nil, parameterValues: [ParameterValue]? = nil, pipelineId: String, pipelineObjects: [PipelineObject]) {
             self.parameterObjects = parameterObjects
+            self.parameterValues = parameterValues
+            self.pipelineId = pipelineId
+            self.pipelineObjects = pipelineObjects
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameterValues = "parameterValues"
-            case pipelineObjects = "pipelineObjects"
             case parameterObjects = "parameterObjects"
-        }
-    }
-
-    public struct SetTaskStatusInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "errorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "taskId", required: true, type: .string), 
-            AWSShapeMember(label: "errorId", required: false, type: .string), 
-            AWSShapeMember(label: "errorStackTrace", required: false, type: .string), 
-            AWSShapeMember(label: "taskStatus", required: true, type: .enum)
-        ]
-        /// If an error occurred during the task, this value specifies a text description of the error. This value is set on the physical attempt object. It is used to display error information to the user. The web service does not parse this value.
-        public let errorMessage: String?
-        /// The ID of the task assigned to the task runner. This value is provided in the response for PollForTask.
-        public let taskId: String
-        /// If an error occurred during the task, this value specifies the error code. This value is set on the physical attempt object. It is used to display error information to the user. It should not start with string "Service_" which is reserved by the system.
-        public let errorId: String?
-        /// If an error occurred during the task, this value specifies the stack trace associated with the error. This value is set on the physical attempt object. It is used to display error information to the user. The web service does not parse this value.
-        public let errorStackTrace: String?
-        /// If FINISHED, the task successfully completed. If FAILED, the task ended unsuccessfully. Preconditions use false.
-        public let taskStatus: TaskStatus
-
-        public init(errorMessage: String? = nil, taskId: String, errorId: String? = nil, errorStackTrace: String? = nil, taskStatus: TaskStatus) {
-            self.errorMessage = errorMessage
-            self.taskId = taskId
-            self.errorId = errorId
-            self.errorStackTrace = errorStackTrace
-            self.taskStatus = taskStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorMessage = "errorMessage"
-            case taskId = "taskId"
-            case errorId = "errorId"
-            case errorStackTrace = "errorStackTrace"
-            case taskStatus = "taskStatus"
+            case parameterValues = "parameterValues"
+            case pipelineId = "pipelineId"
+            case pipelineObjects = "pipelineObjects"
         }
     }
 
@@ -1017,102 +699,435 @@ extension DataPipeline {
         }
     }
 
-    public struct DescribePipelinesInput: AWSShape {
+    public struct Query: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineIds", required: true, type: .list)
+            AWSShapeMember(label: "selectors", required: false, type: .list)
         ]
-        /// The IDs of the pipelines to describe. You can pass as many as 25 identifiers in a single call. To obtain pipeline IDs, call ListPipelines.
-        public let pipelineIds: [String]
+        /// List of selectors that define the query. An object must satisfy all of the selectors to match the query.
+        public let selectors: [Selector]?
 
-        public init(pipelineIds: [String]) {
-            self.pipelineIds = pipelineIds
+        public init(selectors: [Selector]? = nil) {
+            self.selectors = selectors
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineIds = "pipelineIds"
+            case selectors = "selectors"
         }
     }
 
-    public struct ValidatePipelineDefinitionInput: AWSShape {
+    public struct QueryObjectsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "parameterObjects", required: false, type: .list), 
-            AWSShapeMember(label: "pipelineObjects", required: true, type: .list), 
+            AWSShapeMember(label: "limit", required: false, type: .integer), 
+            AWSShapeMember(label: "marker", required: false, type: .string), 
             AWSShapeMember(label: "pipelineId", required: true, type: .string), 
-            AWSShapeMember(label: "parameterValues", required: false, type: .list)
+            AWSShapeMember(label: "query", required: false, type: .structure), 
+            AWSShapeMember(label: "sphere", required: true, type: .string)
         ]
-        /// The parameter objects used with the pipeline.
-        public let parameterObjects: [ParameterObject]?
-        /// The objects that define the pipeline changes to validate against the pipeline.
-        public let pipelineObjects: [PipelineObject]
+        /// The maximum number of object names that QueryObjects will return in a single call. The default value is 100. 
+        public let limit: Int32?
+        /// The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call QueryObjects with the marker value from the previous call to retrieve the next set of results.
+        public let marker: String?
         /// The ID of the pipeline.
         public let pipelineId: String
-        /// The parameter values used with the pipeline.
-        public let parameterValues: [ParameterValue]?
+        /// The query that defines the objects to be returned. The Query object can contain a maximum of ten selectors. The conditions in the query are limited to top-level String fields in the object. These filters can be applied to components, instances, and attempts.
+        public let query: Query?
+        /// Indicates whether the query applies to components or instances. The possible values are: COMPONENT, INSTANCE, and ATTEMPT.
+        public let sphere: String
 
-        public init(parameterObjects: [ParameterObject]? = nil, pipelineObjects: [PipelineObject], pipelineId: String, parameterValues: [ParameterValue]? = nil) {
-            self.parameterObjects = parameterObjects
-            self.pipelineObjects = pipelineObjects
+        public init(limit: Int32? = nil, marker: String? = nil, pipelineId: String, query: Query? = nil, sphere: String) {
+            self.limit = limit
+            self.marker = marker
             self.pipelineId = pipelineId
-            self.parameterValues = parameterValues
+            self.query = query
+            self.sphere = sphere
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameterObjects = "parameterObjects"
-            case pipelineObjects = "pipelineObjects"
+            case limit = "limit"
+            case marker = "marker"
             case pipelineId = "pipelineId"
-            case parameterValues = "parameterValues"
+            case query = "query"
+            case sphere = "sphere"
+        }
+    }
+
+    public struct QueryObjectsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "hasMoreResults", required: false, type: .boolean), 
+            AWSShapeMember(label: "ids", required: false, type: .list), 
+            AWSShapeMember(label: "marker", required: false, type: .string)
+        ]
+        /// Indicates whether there are more results that can be obtained by a subsequent call.
+        public let hasMoreResults: Bool?
+        /// The identifiers that match the query selectors.
+        public let ids: [String]?
+        /// The starting point for the next page of results. To view the next page of results, call QueryObjects again with this marker value. If the value is null, there are no more results.
+        public let marker: String?
+
+        public init(hasMoreResults: Bool? = nil, ids: [String]? = nil, marker: String? = nil) {
+            self.hasMoreResults = hasMoreResults
+            self.ids = ids
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hasMoreResults = "hasMoreResults"
+            case ids = "ids"
+            case marker = "marker"
+        }
+    }
+
+    public struct RemoveTagsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipelineId", required: true, type: .string), 
+            AWSShapeMember(label: "tagKeys", required: true, type: .list)
+        ]
+        /// The ID of the pipeline.
+        public let pipelineId: String
+        /// The keys of the tags to remove.
+        public let tagKeys: [String]
+
+        public init(pipelineId: String, tagKeys: [String]) {
+            self.pipelineId = pipelineId
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineId = "pipelineId"
+            case tagKeys = "tagKeys"
+        }
+    }
+
+    public struct RemoveTagsOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct ReportTaskProgressInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fields", required: false, type: .list), 
+            AWSShapeMember(label: "taskId", required: true, type: .string)
+        ]
+        /// Key-value pairs that define the properties of the ReportTaskProgressInput object.
+        public let fields: [Field]?
+        /// The ID of the task assigned to the task runner. This value is provided in the response for PollForTask.
+        public let taskId: String
+
+        public init(fields: [Field]? = nil, taskId: String) {
+            self.fields = fields
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+            case taskId = "taskId"
+        }
+    }
+
+    public struct ReportTaskProgressOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "canceled", required: true, type: .boolean)
+        ]
+        /// If true, the calling task runner should cancel processing of the task. The task runner does not need to call SetTaskStatus for canceled tasks.
+        public let canceled: Bool
+
+        public init(canceled: Bool) {
+            self.canceled = canceled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case canceled = "canceled"
         }
     }
 
     public struct ReportTaskRunnerHeartbeatInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "workerGroup", required: false, type: .string), 
             AWSShapeMember(label: "hostname", required: false, type: .string), 
-            AWSShapeMember(label: "taskrunnerId", required: true, type: .string)
+            AWSShapeMember(label: "taskrunnerId", required: true, type: .string), 
+            AWSShapeMember(label: "workerGroup", required: false, type: .string)
         ]
-        /// The type of task the task runner is configured to accept and process. The worker group is set as a field on objects in the pipeline when they are created. You can only specify a single value for workerGroup. There are no wildcard values permitted in workerGroup; the string must be an exact, case-sensitive, match.
-        public let workerGroup: String?
         /// The public DNS name of the task runner.
         public let hostname: String?
         /// The ID of the task runner. This value should be unique across your AWS account. In the case of AWS Data Pipeline Task Runner launched on a resource managed by AWS Data Pipeline, the web service provides a unique identifier when it launches the application. If you have written a custom task runner, you should assign a unique identifier for the task runner.
         public let taskrunnerId: String
+        /// The type of task the task runner is configured to accept and process. The worker group is set as a field on objects in the pipeline when they are created. You can only specify a single value for workerGroup. There are no wildcard values permitted in workerGroup; the string must be an exact, case-sensitive, match.
+        public let workerGroup: String?
 
-        public init(workerGroup: String? = nil, hostname: String? = nil, taskrunnerId: String) {
-            self.workerGroup = workerGroup
+        public init(hostname: String? = nil, taskrunnerId: String, workerGroup: String? = nil) {
             self.hostname = hostname
             self.taskrunnerId = taskrunnerId
+            self.workerGroup = workerGroup
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workerGroup = "workerGroup"
             case hostname = "hostname"
             case taskrunnerId = "taskrunnerId"
+            case workerGroup = "workerGroup"
         }
     }
 
-    public struct EvaluateExpressionInput: AWSShape {
+    public struct ReportTaskRunnerHeartbeatOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "expression", required: true, type: .string), 
-            AWSShapeMember(label: "pipelineId", required: true, type: .string), 
-            AWSShapeMember(label: "objectId", required: true, type: .string)
+            AWSShapeMember(label: "terminate", required: true, type: .boolean)
         ]
-        /// The expression to evaluate.
-        public let expression: String
-        /// The ID of the pipeline.
-        public let pipelineId: String
-        /// The ID of the object.
-        public let objectId: String
+        /// Indicates whether the calling task runner should terminate.
+        public let terminate: Bool
 
-        public init(expression: String, pipelineId: String, objectId: String) {
-            self.expression = expression
-            self.pipelineId = pipelineId
-            self.objectId = objectId
+        public init(terminate: Bool) {
+            self.terminate = terminate
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expression = "expression"
+            case terminate = "terminate"
+        }
+    }
+
+    public struct Selector: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fieldName", required: false, type: .string), 
+            AWSShapeMember(label: "operator", required: false, type: .structure)
+        ]
+        /// The name of the field that the operator will be applied to. The field name is the "key" portion of the field definition in the pipeline definition syntax that is used by the AWS Data Pipeline API. If the field is not set on the object, the condition fails.
+        public let fieldName: String?
+        public let `operator`: Operator?
+
+        public init(fieldName: String? = nil, operator: Operator? = nil) {
+            self.fieldName = fieldName
+            self.`operator` = `operator`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldName = "fieldName"
+            case `operator` = "operator"
+        }
+    }
+
+    public struct SetStatusInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "objectIds", required: true, type: .list), 
+            AWSShapeMember(label: "pipelineId", required: true, type: .string), 
+            AWSShapeMember(label: "status", required: true, type: .string)
+        ]
+        /// The IDs of the objects. The corresponding objects can be either physical or components, but not a mix of both types.
+        public let objectIds: [String]
+        /// The ID of the pipeline that contains the objects.
+        public let pipelineId: String
+        /// The status to be set on all the objects specified in objectIds. For components, use PAUSE or RESUME. For instances, use TRY_CANCEL, RERUN, or MARK_FINISHED.
+        public let status: String
+
+        public init(objectIds: [String], pipelineId: String, status: String) {
+            self.objectIds = objectIds
+            self.pipelineId = pipelineId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectIds = "objectIds"
             case pipelineId = "pipelineId"
-            case objectId = "objectId"
+            case status = "status"
+        }
+    }
+
+    public struct SetTaskStatusInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "errorId", required: false, type: .string), 
+            AWSShapeMember(label: "errorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "errorStackTrace", required: false, type: .string), 
+            AWSShapeMember(label: "taskId", required: true, type: .string), 
+            AWSShapeMember(label: "taskStatus", required: true, type: .enum)
+        ]
+        /// If an error occurred during the task, this value specifies the error code. This value is set on the physical attempt object. It is used to display error information to the user. It should not start with string "Service_" which is reserved by the system.
+        public let errorId: String?
+        /// If an error occurred during the task, this value specifies a text description of the error. This value is set on the physical attempt object. It is used to display error information to the user. The web service does not parse this value.
+        public let errorMessage: String?
+        /// If an error occurred during the task, this value specifies the stack trace associated with the error. This value is set on the physical attempt object. It is used to display error information to the user. The web service does not parse this value.
+        public let errorStackTrace: String?
+        /// The ID of the task assigned to the task runner. This value is provided in the response for PollForTask.
+        public let taskId: String
+        /// If FINISHED, the task successfully completed. If FAILED, the task ended unsuccessfully. Preconditions use false.
+        public let taskStatus: TaskStatus
+
+        public init(errorId: String? = nil, errorMessage: String? = nil, errorStackTrace: String? = nil, taskId: String, taskStatus: TaskStatus) {
+            self.errorId = errorId
+            self.errorMessage = errorMessage
+            self.errorStackTrace = errorStackTrace
+            self.taskId = taskId
+            self.taskStatus = taskStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorId = "errorId"
+            case errorMessage = "errorMessage"
+            case errorStackTrace = "errorStackTrace"
+            case taskId = "taskId"
+            case taskStatus = "taskStatus"
+        }
+    }
+
+    public struct SetTaskStatusOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: true, type: .string), 
+            AWSShapeMember(label: "value", required: true, type: .string)
+        ]
+        /// The key name of a tag defined by a user. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide.
+        public let key: String
+        /// The optional value portion of a tag defined by a user. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
+    public struct TaskObject: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attemptId", required: false, type: .string), 
+            AWSShapeMember(label: "objects", required: false, type: .map), 
+            AWSShapeMember(label: "pipelineId", required: false, type: .string), 
+            AWSShapeMember(label: "taskId", required: false, type: .string)
+        ]
+        /// The ID of the pipeline task attempt object. AWS Data Pipeline uses this value to track how many times a task is attempted.
+        public let attemptId: String?
+        /// Connection information for the location where the task runner will publish the output of the task.
+        public let objects: [String: PipelineObject]?
+        /// The ID of the pipeline that provided the task.
+        public let pipelineId: String?
+        /// An internal identifier for the task. This ID is passed to the SetTaskStatus and ReportTaskProgress actions.
+        public let taskId: String?
+
+        public init(attemptId: String? = nil, objects: [String: PipelineObject]? = nil, pipelineId: String? = nil, taskId: String? = nil) {
+            self.attemptId = attemptId
+            self.objects = objects
+            self.pipelineId = pipelineId
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attemptId = "attemptId"
+            case objects = "objects"
+            case pipelineId = "pipelineId"
+            case taskId = "taskId"
+        }
+    }
+
+    public enum TaskStatus: String, CustomStringConvertible, Codable {
+        case finished = "FINISHED"
+        case failed = "FAILED"
+        case `false` = "FALSE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ValidatePipelineDefinitionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "parameterObjects", required: false, type: .list), 
+            AWSShapeMember(label: "parameterValues", required: false, type: .list), 
+            AWSShapeMember(label: "pipelineId", required: true, type: .string), 
+            AWSShapeMember(label: "pipelineObjects", required: true, type: .list)
+        ]
+        /// The parameter objects used with the pipeline.
+        public let parameterObjects: [ParameterObject]?
+        /// The parameter values used with the pipeline.
+        public let parameterValues: [ParameterValue]?
+        /// The ID of the pipeline.
+        public let pipelineId: String
+        /// The objects that define the pipeline changes to validate against the pipeline.
+        public let pipelineObjects: [PipelineObject]
+
+        public init(parameterObjects: [ParameterObject]? = nil, parameterValues: [ParameterValue]? = nil, pipelineId: String, pipelineObjects: [PipelineObject]) {
+            self.parameterObjects = parameterObjects
+            self.parameterValues = parameterValues
+            self.pipelineId = pipelineId
+            self.pipelineObjects = pipelineObjects
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameterObjects = "parameterObjects"
+            case parameterValues = "parameterValues"
+            case pipelineId = "pipelineId"
+            case pipelineObjects = "pipelineObjects"
+        }
+    }
+
+    public struct ValidatePipelineDefinitionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "errored", required: true, type: .boolean), 
+            AWSShapeMember(label: "validationErrors", required: false, type: .list), 
+            AWSShapeMember(label: "validationWarnings", required: false, type: .list)
+        ]
+        /// Indicates whether there were validation errors.
+        public let errored: Bool
+        /// Any validation errors that were found.
+        public let validationErrors: [ValidationError]?
+        /// Any validation warnings that were found.
+        public let validationWarnings: [ValidationWarning]?
+
+        public init(errored: Bool, validationErrors: [ValidationError]? = nil, validationWarnings: [ValidationWarning]? = nil) {
+            self.errored = errored
+            self.validationErrors = validationErrors
+            self.validationWarnings = validationWarnings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errored = "errored"
+            case validationErrors = "validationErrors"
+            case validationWarnings = "validationWarnings"
+        }
+    }
+
+    public struct ValidationError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "errors", required: false, type: .list), 
+            AWSShapeMember(label: "id", required: false, type: .string)
+        ]
+        /// A description of the validation error.
+        public let errors: [String]?
+        /// The identifier of the object that contains the validation error.
+        public let id: String?
+
+        public init(errors: [String]? = nil, id: String? = nil) {
+            self.errors = errors
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+            case id = "id"
+        }
+    }
+
+    public struct ValidationWarning: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "warnings", required: false, type: .list)
+        ]
+        /// The identifier of the object that contains the validation warning.
+        public let id: String?
+        /// A description of the validation warning.
+        public let warnings: [String]?
+
+        public init(id: String? = nil, warnings: [String]? = nil) {
+            self.id = id
+            self.warnings = warnings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case warnings = "warnings"
         }
     }
 

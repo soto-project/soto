@@ -5,19 +5,19 @@ import AWSSDKSwiftCore
 /// Error enum for QuickSight
 public enum QuickSightErrorType: AWSErrorType {
     case accessDeniedException(message: String?)
-    case invalidParameterValueException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case throttlingException(message: String?)
-    case invalidNextTokenException(message: String?)
-    case preconditionNotMetException(message: String?)
-    case internalFailureException(message: String?)
-    case resourceUnavailableException(message: String?)
-    case limitExceededException(message: String?)
-    case resourceExistsException(message: String?)
     case domainNotWhitelistedException(message: String?)
-    case quickSightUserNotFoundException(message: String?)
     case identityTypeNotSupportedException(message: String?)
+    case internalFailureException(message: String?)
+    case invalidNextTokenException(message: String?)
+    case invalidParameterValueException(message: String?)
+    case limitExceededException(message: String?)
+    case preconditionNotMetException(message: String?)
+    case quickSightUserNotFoundException(message: String?)
+    case resourceExistsException(message: String?)
+    case resourceNotFoundException(message: String?)
+    case resourceUnavailableException(message: String?)
     case sessionLifetimeInMinutesInvalidException(message: String?)
+    case throttlingException(message: String?)
     case unsupportedUserEditionException(message: String?)
 }
 
@@ -30,32 +30,32 @@ extension QuickSightErrorType {
         switch errorCode {
         case "AccessDeniedException":
             self = .accessDeniedException(message: message)
-        case "InvalidParameterValueException":
-            self = .invalidParameterValueException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ThrottlingException":
-            self = .throttlingException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
-        case "PreconditionNotMetException":
-            self = .preconditionNotMetException(message: message)
-        case "InternalFailureException":
-            self = .internalFailureException(message: message)
-        case "ResourceUnavailableException":
-            self = .resourceUnavailableException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "ResourceExistsException":
-            self = .resourceExistsException(message: message)
         case "DomainNotWhitelistedException":
             self = .domainNotWhitelistedException(message: message)
-        case "QuickSightUserNotFoundException":
-            self = .quickSightUserNotFoundException(message: message)
         case "IdentityTypeNotSupportedException":
             self = .identityTypeNotSupportedException(message: message)
+        case "InternalFailureException":
+            self = .internalFailureException(message: message)
+        case "InvalidNextTokenException":
+            self = .invalidNextTokenException(message: message)
+        case "InvalidParameterValueException":
+            self = .invalidParameterValueException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
+        case "PreconditionNotMetException":
+            self = .preconditionNotMetException(message: message)
+        case "QuickSightUserNotFoundException":
+            self = .quickSightUserNotFoundException(message: message)
+        case "ResourceExistsException":
+            self = .resourceExistsException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
+        case "ResourceUnavailableException":
+            self = .resourceUnavailableException(message: message)
         case "SessionLifetimeInMinutesInvalidException":
             self = .sessionLifetimeInMinutesInvalidException(message: message)
+        case "ThrottlingException":
+            self = .throttlingException(message: message)
         case "UnsupportedUserEditionException":
             self = .unsupportedUserEditionException(message: message)
         default:

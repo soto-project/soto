@@ -5,11 +5,11 @@ import AWSSDKSwiftCore
 /// Error enum for CloudSearch
 public enum CloudSearchErrorType: AWSErrorType {
     case baseException(message: String?)
+    case disabledOperationException(message: String?)
     case internalException(message: String?)
     case invalidTypeException(message: String?)
     case limitExceededException(message: String?)
     case resourceNotFoundException(message: String?)
-    case disabledOperationException(message: String?)
 }
 
 extension CloudSearchErrorType {
@@ -21,6 +21,8 @@ extension CloudSearchErrorType {
         switch errorCode {
         case "BaseException":
             self = .baseException(message: message)
+        case "DisabledOperationException":
+            self = .disabledOperationException(message: message)
         case "InternalException":
             self = .internalException(message: message)
         case "InvalidTypeException":
@@ -29,8 +31,6 @@ extension CloudSearchErrorType {
             self = .limitExceededException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
-        case "DisabledOperationException":
-            self = .disabledOperationException(message: message)
         default:
             return nil
         }

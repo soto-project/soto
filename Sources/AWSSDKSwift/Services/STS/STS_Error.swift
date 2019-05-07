@@ -4,14 +4,14 @@ import AWSSDKSwiftCore
 
 /// Error enum for STS
 public enum STSErrorType: AWSErrorType {
+    case expiredTokenException(message: String?)
+    case iDPCommunicationErrorException(message: String?)
+    case iDPRejectedClaimException(message: String?)
+    case invalidAuthorizationMessageException(message: String?)
+    case invalidIdentityTokenException(message: String?)
     case malformedPolicyDocumentException(message: String?)
     case packedPolicyTooLargeException(message: String?)
     case regionDisabledException(message: String?)
-    case invalidAuthorizationMessageException(message: String?)
-    case iDPRejectedClaimException(message: String?)
-    case iDPCommunicationErrorException(message: String?)
-    case invalidIdentityTokenException(message: String?)
-    case expiredTokenException(message: String?)
 }
 
 extension STSErrorType {
@@ -21,22 +21,22 @@ extension STSErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "ExpiredTokenException":
+            self = .expiredTokenException(message: message)
+        case "IDPCommunicationErrorException":
+            self = .iDPCommunicationErrorException(message: message)
+        case "IDPRejectedClaimException":
+            self = .iDPRejectedClaimException(message: message)
+        case "InvalidAuthorizationMessageException":
+            self = .invalidAuthorizationMessageException(message: message)
+        case "InvalidIdentityTokenException":
+            self = .invalidIdentityTokenException(message: message)
         case "MalformedPolicyDocumentException":
             self = .malformedPolicyDocumentException(message: message)
         case "PackedPolicyTooLargeException":
             self = .packedPolicyTooLargeException(message: message)
         case "RegionDisabledException":
             self = .regionDisabledException(message: message)
-        case "InvalidAuthorizationMessageException":
-            self = .invalidAuthorizationMessageException(message: message)
-        case "IDPRejectedClaimException":
-            self = .iDPRejectedClaimException(message: message)
-        case "IDPCommunicationErrorException":
-            self = .iDPCommunicationErrorException(message: message)
-        case "InvalidIdentityTokenException":
-            self = .invalidIdentityTokenException(message: message)
-        case "ExpiredTokenException":
-            self = .expiredTokenException(message: message)
         default:
             return nil
         }

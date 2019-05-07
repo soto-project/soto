@@ -32,14 +32,14 @@ public struct Chime {
         return try client.send(operation: "BatchSuspendUser", path: "/console/accounts/{accountId}/users?operation=suspend", httpMethod: "POST", input: input)
     }
 
-    ///  Updates user details for a specified user ID. Currently, only LicenseType updates are supported for this action.
-    public func updateUser(_ input: UpdateUserRequest) throws -> Future<UpdateUserResponse> {
-        return try client.send(operation: "UpdateUser", path: "/console/accounts/{accountId}/users/{userId}", httpMethod: "POST", input: input)
-    }
-
     ///  Removes the suspension from up to 50 previously suspended users for the specified Amazon Chime EnterpriseLWA account. Only users on EnterpriseLWA accounts can be unsuspended using this action. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide. Previously suspended users who are unsuspended using this action are returned to Registered status. Users who are not previously suspended are ignored.
     public func batchUnsuspendUser(_ input: BatchUnsuspendUserRequest) throws -> Future<BatchUnsuspendUserResponse> {
         return try client.send(operation: "BatchUnsuspendUser", path: "/console/accounts/{accountId}/users?operation=unsuspend", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates user details within the UpdateUserRequestItem object for up to 20 users for the specified Amazon Chime account. Currently, only LicenseType updates are supported for this action.
+    public func batchUpdateUser(_ input: BatchUpdateUserRequest) throws -> Future<BatchUpdateUserResponse> {
+        return try client.send(operation: "BatchUpdateUser", path: "/console/accounts/{accountId}/users", httpMethod: "POST", input: input)
     }
 
     ///  Creates an Amazon Chime account under the administrator's AWS account. Only Team account types are currently supported for this action. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide.
@@ -47,9 +47,24 @@ public struct Chime {
         return try client.send(operation: "CreateAccount", path: "/console/accounts", httpMethod: "POST", input: input)
     }
 
-    ///  Updates user details within the UpdateUserRequestItem object for up to 20 users for the specified Amazon Chime account. Currently, only LicenseType updates are supported for this action.
-    public func batchUpdateUser(_ input: BatchUpdateUserRequest) throws -> Future<BatchUpdateUserResponse> {
-        return try client.send(operation: "BatchUpdateUser", path: "/console/accounts/{accountId}/users", httpMethod: "POST", input: input)
+    ///  Deletes the specified Amazon Chime account. You must suspend all users before deleting a Team account. You can use the BatchSuspendUser action to do so. For EnterpriseLWA and EnterpriseAD accounts, you must release the claimed domains for your Amazon Chime account before deletion. As soon as you release the domain, all users under that account are suspended. Deleted accounts appear in your Disabled accounts list for 90 days. To restore a deleted account from your Disabled accounts list, you must contact AWS Support. After 90 days, deleted accounts are permanently removed from your Disabled accounts list.
+    public func deleteAccount(_ input: DeleteAccountRequest) throws -> Future<DeleteAccountResponse> {
+        return try client.send(operation: "DeleteAccount", path: "/console/accounts/{accountId}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Retrieves details for the specified Amazon Chime account, such as account type and supported licenses.
+    public func getAccount(_ input: GetAccountRequest) throws -> Future<GetAccountResponse> {
+        return try client.send(operation: "GetAccount", path: "/console/accounts/{accountId}", httpMethod: "GET", input: input)
+    }
+
+    ///  Retrieves account settings for the specified Amazon Chime account ID, such as remote control and dial out settings. For more information about these settings, see Use the Policies Page in the Amazon Chime Administration Guide.
+    public func getAccountSettings(_ input: GetAccountSettingsRequest) throws -> Future<GetAccountSettingsResponse> {
+        return try client.send(operation: "GetAccountSettings", path: "/console/accounts/{accountId}/settings", httpMethod: "GET", input: input)
+    }
+
+    ///  Retrieves details for the specified user ID, such as primary email address, license type, and personal meeting PIN. To retrieve user details with an email address instead of a user ID, use the ListUsers action, and then filter by email address.
+    public func getUser(_ input: GetUserRequest) throws -> Future<GetUserResponse> {
+        return try client.send(operation: "GetUser", path: "/console/accounts/{accountId}/users/{userId}", httpMethod: "GET", input: input)
     }
 
     ///  Sends email invites to as many as 50 users, inviting them to the specified Amazon Chime Team account. Only Team account types are currently supported for this action. 
@@ -62,39 +77,19 @@ public struct Chime {
         return try client.send(operation: "ListAccounts", path: "/console/accounts", httpMethod: "GET", input: input)
     }
 
-    ///  Retrieves details for the specified user ID, such as primary email address, license type, and personal meeting PIN. To retrieve user details with an email address instead of a user ID, use the ListUsers action, and then filter by email address.
-    public func getUser(_ input: GetUserRequest) throws -> Future<GetUserResponse> {
-        return try client.send(operation: "GetUser", path: "/console/accounts/{accountId}/users/{userId}", httpMethod: "GET", input: input)
-    }
-
-    ///  Retrieves details for the specified Amazon Chime account, such as account type and supported licenses.
-    public func getAccount(_ input: GetAccountRequest) throws -> Future<GetAccountResponse> {
-        return try client.send(operation: "GetAccount", path: "/console/accounts/{accountId}", httpMethod: "GET", input: input)
-    }
-
     ///  Lists the users that belong to the specified Amazon Chime account. You can specify an email address to list only the user that the email address belongs to.
     public func listUsers(_ input: ListUsersRequest) throws -> Future<ListUsersResponse> {
         return try client.send(operation: "ListUsers", path: "/console/accounts/{accountId}/users", httpMethod: "GET", input: input)
     }
 
-    ///  Resets the personal meeting PIN for the specified user on an Amazon Chime account. Returns the User object with the updated personal meeting PIN.
-    public func resetPersonalPIN(_ input: ResetPersonalPINRequest) throws -> Future<ResetPersonalPINResponse> {
-        return try client.send(operation: "ResetPersonalPIN", path: "/console/accounts/{accountId}/users/{userId}?operation=reset-personal-pin", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes the specified Amazon Chime account. You must suspend all users before deleting a Team account. You can use the BatchSuspendUser action to do so. For EnterpriseLWA and EnterpriseAD accounts, you must release the claimed domains for your Amazon Chime account before deletion. As soon as you release the domain, all users under that account are suspended. Deleted accounts appear in your Disabled accounts list for 90 days. To restore a deleted account from your Disabled accounts list, you must contact AWS Support. After 90 days, deleted accounts are permanently removed from your Disabled accounts list.
-    public func deleteAccount(_ input: DeleteAccountRequest) throws -> Future<DeleteAccountResponse> {
-        return try client.send(operation: "DeleteAccount", path: "/console/accounts/{accountId}", httpMethod: "DELETE", input: input)
-    }
-
-    ///  Retrieves account settings for the specified Amazon Chime account ID, such as remote control and dial out settings. For more information about these settings, see Use the Policies Page in the Amazon Chime Administration Guide.
-    public func getAccountSettings(_ input: GetAccountSettingsRequest) throws -> Future<GetAccountSettingsResponse> {
-        return try client.send(operation: "GetAccountSettings", path: "/console/accounts/{accountId}/settings", httpMethod: "GET", input: input)
-    }
-
     ///  Logs out the specified user from all of the devices they are currently logged into.
     public func logoutUser(_ input: LogoutUserRequest) throws -> Future<LogoutUserResponse> {
         return try client.send(operation: "LogoutUser", path: "/console/accounts/{accountId}/users/{userId}?operation=logout", httpMethod: "POST", input: input)
+    }
+
+    ///  Resets the personal meeting PIN for the specified user on an Amazon Chime account. Returns the User object with the updated personal meeting PIN.
+    public func resetPersonalPIN(_ input: ResetPersonalPINRequest) throws -> Future<ResetPersonalPINResponse> {
+        return try client.send(operation: "ResetPersonalPIN", path: "/console/accounts/{accountId}/users/{userId}?operation=reset-personal-pin", httpMethod: "POST", input: input)
     }
 
     ///  Updates account details for the specified Amazon Chime account. Currently, only account name updates are supported for this action.
@@ -105,6 +100,11 @@ public struct Chime {
     ///  Updates the settings for the specified Amazon Chime account. You can update settings for remote control of shared screens, or for the dial-out option. For more information about these settings, see Use the Policies Page in the Amazon Chime Administration Guide.
     public func updateAccountSettings(_ input: UpdateAccountSettingsRequest) throws -> Future<UpdateAccountSettingsResponse> {
         return try client.send(operation: "UpdateAccountSettings", path: "/console/accounts/{accountId}/settings", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates user details for a specified user ID. Currently, only LicenseType updates are supported for this action.
+    public func updateUser(_ input: UpdateUserRequest) throws -> Future<UpdateUserResponse> {
+        return try client.send(operation: "UpdateUser", path: "/console/accounts/{accountId}/users/{userId}", httpMethod: "POST", input: input)
     }
 
 

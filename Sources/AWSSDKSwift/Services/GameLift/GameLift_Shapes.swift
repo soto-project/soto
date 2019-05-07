@@ -5,110 +5,828 @@ import AWSSDKSwiftCore
 
 extension GameLift {
 
-    public struct StopFleetActionsInput: AWSShape {
+    public struct AcceptMatchInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Actions", required: true, type: .list), 
-            AWSShapeMember(label: "FleetId", required: true, type: .string)
+            AWSShapeMember(label: "AcceptanceType", required: true, type: .enum), 
+            AWSShapeMember(label: "PlayerIds", required: true, type: .list), 
+            AWSShapeMember(label: "TicketId", required: true, type: .string)
         ]
-        /// List of actions to suspend on the fleet. 
-        public let actions: [FleetAction]
-        /// Unique identifier for a fleet
-        public let fleetId: String
+        /// Player response to the proposed match.
+        public let acceptanceType: AcceptanceType
+        /// Unique identifier for a player delivering the response. This parameter can include one or multiple player IDs.
+        public let playerIds: [String]
+        /// Unique identifier for a matchmaking ticket. The ticket must be in status REQUIRES_ACCEPTANCE; otherwise this request will fail.
+        public let ticketId: String
 
-        public init(actions: [FleetAction], fleetId: String) {
-            self.actions = actions
+        public init(acceptanceType: AcceptanceType, playerIds: [String], ticketId: String) {
+            self.acceptanceType = acceptanceType
+            self.playerIds = playerIds
+            self.ticketId = ticketId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptanceType = "AcceptanceType"
+            case playerIds = "PlayerIds"
+            case ticketId = "TicketId"
+        }
+    }
+
+    public struct AcceptMatchOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public enum AcceptanceType: String, CustomStringConvertible, Codable {
+        case accept = "ACCEPT"
+        case reject = "REJECT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Alias: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasArn", required: false, type: .string), 
+            AWSShapeMember(label: "AliasId", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "RoutingStrategy", required: false, type: .structure)
+        ]
+        /// Unique identifier for an alias; alias ARNs are unique across all regions.
+        public let aliasArn: String?
+        /// Unique identifier for an alias; alias IDs are unique within a region.
+        public let aliasId: String?
+        /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        public let creationTime: TimeStamp?
+        /// Human-readable description of an alias.
+        public let description: String?
+        /// Time stamp indicating when this data object was last modified. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        public let lastUpdatedTime: TimeStamp?
+        /// Descriptive label that is associated with an alias. Alias names do not need to be unique.
+        public let name: String?
+        /// Alias configuration for the alias, including routing type and settings.
+        public let routingStrategy: RoutingStrategy?
+
+        public init(aliasArn: String? = nil, aliasId: String? = nil, creationTime: TimeStamp? = nil, description: String? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, routingStrategy: RoutingStrategy? = nil) {
+            self.aliasArn = aliasArn
+            self.aliasId = aliasId
+            self.creationTime = creationTime
+            self.description = description
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.routingStrategy = routingStrategy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasArn = "AliasArn"
+            case aliasId = "AliasId"
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case name = "Name"
+            case routingStrategy = "RoutingStrategy"
+        }
+    }
+
+    public struct AttributeValue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "N", required: false, type: .double), 
+            AWSShapeMember(label: "S", required: false, type: .string), 
+            AWSShapeMember(label: "SDM", required: false, type: .map), 
+            AWSShapeMember(label: "SL", required: false, type: .list)
+        ]
+        /// For number values, expressed as double.
+        public let n: Double?
+        /// For single string values. Maximum string length is 100 characters.
+        public let s: String?
+        /// For a map of up to 10 data type:value pairs. Maximum length for each string value is 100 characters. 
+        public let sdm: [String: Double]?
+        /// For a list of up to 10 strings. Maximum length for each string is 100 characters. Duplicate values are not recognized; all occurrences of the repeated value after the first of a repeated value are ignored.
+        public let sl: [String]?
+
+        public init(n: Double? = nil, s: String? = nil, sdm: [String: Double]? = nil, sl: [String]? = nil) {
+            self.n = n
+            self.s = s
+            self.sdm = sdm
+            self.sl = sl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case n = "N"
+            case s = "S"
+            case sdm = "SDM"
+            case sl = "SL"
+        }
+    }
+
+    public struct AwsCredentials: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "SecretAccessKey", required: false, type: .string), 
+            AWSShapeMember(label: "SessionToken", required: false, type: .string)
+        ]
+        /// Temporary key allowing access to the Amazon GameLift S3 account.
+        public let accessKeyId: String?
+        /// Temporary secret key allowing access to the Amazon GameLift S3 account.
+        public let secretAccessKey: String?
+        /// Token used to associate a specific build ID with the files uploaded using these credentials.
+        public let sessionToken: String?
+
+        public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil) {
+            self.accessKeyId = accessKeyId
+            self.secretAccessKey = secretAccessKey
+            self.sessionToken = sessionToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessKeyId = "AccessKeyId"
+            case secretAccessKey = "SecretAccessKey"
+            case sessionToken = "SessionToken"
+        }
+    }
+
+    public struct Build: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BuildId", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "OperatingSystem", required: false, type: .enum), 
+            AWSShapeMember(label: "SizeOnDisk", required: false, type: .long), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        /// Unique identifier for a build.
+        public let buildId: String?
+        /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        public let creationTime: TimeStamp?
+        /// Descriptive label that is associated with a build. Build names do not need to be unique. It can be set using CreateBuild or UpdateBuild.
+        public let name: String?
+        /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build.
+        public let operatingSystem: OperatingSystem?
+        /// File size of the uploaded game build, expressed in bytes. When the build status is INITIALIZED, this value is 0.
+        public let sizeOnDisk: Int64?
+        /// Current status of the build. Possible build statuses include the following:    INITIALIZED -- A new build has been defined, but no files have been uploaded. You cannot create fleets for builds that are in this status. When a build is successfully created, the build status is set to this value.     READY -- The game build has been successfully uploaded. You can now create new fleets for this build.    FAILED -- The game build upload failed. You cannot create new fleets for this build.   
+        public let status: BuildStatus?
+        /// Version that is associated with this build. Version strings do not need to be unique. This value can be set using CreateBuild or UpdateBuild.
+        public let version: String?
+
+        public init(buildId: String? = nil, creationTime: TimeStamp? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, sizeOnDisk: Int64? = nil, status: BuildStatus? = nil, version: String? = nil) {
+            self.buildId = buildId
+            self.creationTime = creationTime
+            self.name = name
+            self.operatingSystem = operatingSystem
+            self.sizeOnDisk = sizeOnDisk
+            self.status = status
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case buildId = "BuildId"
+            case creationTime = "CreationTime"
+            case name = "Name"
+            case operatingSystem = "OperatingSystem"
+            case sizeOnDisk = "SizeOnDisk"
+            case status = "Status"
+            case version = "Version"
+        }
+    }
+
+    public enum BuildStatus: String, CustomStringConvertible, Codable {
+        case initialized = "INITIALIZED"
+        case ready = "READY"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComparisonOperatorType: String, CustomStringConvertible, Codable {
+        case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
+        case greaterthanthreshold = "GreaterThanThreshold"
+        case lessthanthreshold = "LessThanThreshold"
+        case lessthanorequaltothreshold = "LessThanOrEqualToThreshold"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateAliasInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "RoutingStrategy", required: true, type: .structure)
+        ]
+        /// Human-readable description of an alias.
+        public let description: String?
+        /// Descriptive label that is associated with an alias. Alias names do not need to be unique.
+        public let name: String
+        /// Object that specifies the fleet and routing type to use for the alias.
+        public let routingStrategy: RoutingStrategy
+
+        public init(description: String? = nil, name: String, routingStrategy: RoutingStrategy) {
+            self.description = description
+            self.name = name
+            self.routingStrategy = routingStrategy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case routingStrategy = "RoutingStrategy"
+        }
+    }
+
+    public struct CreateAliasOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Alias", required: false, type: .structure)
+        ]
+        /// Object that describes the newly created alias record.
+        public let alias: Alias?
+
+        public init(alias: Alias? = nil) {
+            self.alias = alias
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias = "Alias"
+        }
+    }
+
+    public struct CreateBuildInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "OperatingSystem", required: false, type: .enum), 
+            AWSShapeMember(label: "StorageLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        /// Descriptive label that is associated with a build. Build names do not need to be unique. You can use UpdateBuild to change this value later. 
+        public let name: String?
+        /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build. If your game build contains multiple executables, they all must run on the same operating system. If an operating system is not specified when creating a build, Amazon GameLift uses the default value (WINDOWS_2012). This value cannot be changed later.
+        public let operatingSystem: OperatingSystem?
+        /// Information indicating where your game build files are stored. Use this parameter only when creating a build with files stored in an Amazon S3 bucket that you own. The storage location must specify an Amazon S3 bucket name and key, as well as a role ARN that you set up to allow Amazon GameLift to access your Amazon S3 bucket. The S3 bucket must be in the same region that you want to create a new build in.
+        public let storageLocation: S3Location?
+        /// Version that is associated with this build. Version strings do not need to be unique. You can use UpdateBuild to change this value later. 
+        public let version: String?
+
+        public init(name: String? = nil, operatingSystem: OperatingSystem? = nil, storageLocation: S3Location? = nil, version: String? = nil) {
+            self.name = name
+            self.operatingSystem = operatingSystem
+            self.storageLocation = storageLocation
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case operatingSystem = "OperatingSystem"
+            case storageLocation = "StorageLocation"
+            case version = "Version"
+        }
+    }
+
+    public struct CreateBuildOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Build", required: false, type: .structure), 
+            AWSShapeMember(label: "StorageLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "UploadCredentials", required: false, type: .structure)
+        ]
+        /// The newly created build record, including a unique build ID and status. 
+        public let build: Build?
+        /// Amazon S3 location for your game build file, including bucket name and key.
+        public let storageLocation: S3Location?
+        /// This element is returned only when the operation is called without a storage location. It contains credentials to use when you are uploading a build file to an Amazon S3 bucket that is owned by Amazon GameLift. Credentials have a limited life span. To refresh these credentials, call RequestUploadCredentials. 
+        public let uploadCredentials: AwsCredentials?
+
+        public init(build: Build? = nil, storageLocation: S3Location? = nil, uploadCredentials: AwsCredentials? = nil) {
+            self.build = build
+            self.storageLocation = storageLocation
+            self.uploadCredentials = uploadCredentials
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case build = "Build"
+            case storageLocation = "StorageLocation"
+            case uploadCredentials = "UploadCredentials"
+        }
+    }
+
+    public struct CreateFleetInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BuildId", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "EC2InboundPermissions", required: false, type: .list), 
+            AWSShapeMember(label: "EC2InstanceType", required: true, type: .enum), 
+            AWSShapeMember(label: "FleetType", required: false, type: .enum), 
+            AWSShapeMember(label: "LogPaths", required: false, type: .list), 
+            AWSShapeMember(label: "MetricGroups", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "NewGameSessionProtectionPolicy", required: false, type: .enum), 
+            AWSShapeMember(label: "PeerVpcAwsAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "PeerVpcId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceCreationLimitPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "RuntimeConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ServerLaunchParameters", required: false, type: .string), 
+            AWSShapeMember(label: "ServerLaunchPath", required: false, type: .string)
+        ]
+        /// Unique identifier for a build to be deployed on the new fleet. The build must have been successfully uploaded to Amazon GameLift and be in a READY status. This fleet setting cannot be changed once the fleet is created.
+        public let buildId: String
+        /// Human-readable description of a fleet.
+        public let description: String?
+        /// Range of IP addresses and port settings that permit inbound traffic to access server processes running on the fleet. If no inbound permissions are set, including both IP address range and port range, the server processes in the fleet cannot accept connections. You can specify one or more sets of permissions for a fleet.
+        public let eC2InboundPermissions: [IpPermission]?
+        /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions.
+        public let eC2InstanceType: EC2InstanceType
+        /// Indicates whether to use on-demand instances or spot instances for this fleet. If empty, the default is ON_DEMAND. Both categories of instances use identical hardware and configurations, based on the instance type selected for this fleet. You can acquire on-demand instances at any time for a fixed price and keep them as long as you need them. Spot instances have lower prices, but spot pricing is variable, and while in use they can be interrupted (with a two-minute notification). Learn more about Amazon GameLift spot instances with at  Choose Computing Resources. 
+        public let fleetType: FleetType?
+        /// This parameter is no longer used. Instead, to specify where Amazon GameLift should store log files once a server process shuts down, use the Amazon GameLift server API ProcessReady() and specify one or more directory paths in logParameters. See more information in the Server API Reference. 
+        public let logPaths: [String]?
+        /// Name of a metric group to add this fleet to. A metric group tracks metrics across all fleets in the group. Use an existing metric group name to add this fleet to the group, or use a new name to create a new metric group. A fleet can only be included in one metric group at a time.
+        public let metricGroups: [String]?
+        /// Descriptive label that is associated with a fleet. Fleet names do not need to be unique.
+        public let name: String
+        /// Game session protection policy to apply to all instances in this fleet. If this parameter is not set, instances in this fleet default to no protection. You can change a fleet's protection policy using UpdateFleetAttributes, but this change will only affect sessions created after the policy change. You can also set protection for individual instances using UpdateGameSession.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
+        public let newGameSessionProtectionPolicy: ProtectionPolicy?
+        /// Unique identifier for the AWS account with the VPC that you want to peer your Amazon GameLift fleet with. You can find your Account ID in the AWS Management Console under account settings.
+        public let peerVpcAwsAccountId: String?
+        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. To get VPC information, including IDs, use the Virtual Private Cloud service tools, including the VPC Dashboard in the AWS Management Console.
+        public let peerVpcId: String?
+        /// Policy that limits the number of game sessions an individual player can create over a span of time for this fleet.
+        public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
+        /// Instructions for launching server processes on each instance in the fleet. The run-time configuration for a fleet has a collection of server process configurations, one for each type of server process to run on an instance. A server process configuration specifies the location of the server executable, launch parameters, and the number of concurrent processes with that configuration to maintain on each instance. A CreateFleet request must include a run-time configuration with at least one server process configuration; otherwise the request fails with an invalid request exception. (This parameter replaces the parameters ServerLaunchPath and ServerLaunchParameters; requests that contain values for these parameters instead of a run-time configuration will continue to work.) 
+        public let runtimeConfiguration: RuntimeConfiguration?
+        /// This parameter is no longer used. Instead, specify server launch parameters in the RuntimeConfiguration parameter. (Requests that specify a server launch path and launch parameters instead of a run-time configuration will continue to work.)
+        public let serverLaunchParameters: String?
+        /// This parameter is no longer used. Instead, specify a server launch path using the RuntimeConfiguration parameter. (Requests that specify a server launch path and launch parameters instead of a run-time configuration will continue to work.)
+        public let serverLaunchPath: String?
+
+        public init(buildId: String, description: String? = nil, eC2InboundPermissions: [IpPermission]? = nil, eC2InstanceType: EC2InstanceType, fleetType: FleetType? = nil, logPaths: [String]? = nil, metricGroups: [String]? = nil, name: String, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, peerVpcAwsAccountId: String? = nil, peerVpcId: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, runtimeConfiguration: RuntimeConfiguration? = nil, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil) {
+            self.buildId = buildId
+            self.description = description
+            self.eC2InboundPermissions = eC2InboundPermissions
+            self.eC2InstanceType = eC2InstanceType
+            self.fleetType = fleetType
+            self.logPaths = logPaths
+            self.metricGroups = metricGroups
+            self.name = name
+            self.newGameSessionProtectionPolicy = newGameSessionProtectionPolicy
+            self.peerVpcAwsAccountId = peerVpcAwsAccountId
+            self.peerVpcId = peerVpcId
+            self.resourceCreationLimitPolicy = resourceCreationLimitPolicy
+            self.runtimeConfiguration = runtimeConfiguration
+            self.serverLaunchParameters = serverLaunchParameters
+            self.serverLaunchPath = serverLaunchPath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case buildId = "BuildId"
+            case description = "Description"
+            case eC2InboundPermissions = "EC2InboundPermissions"
+            case eC2InstanceType = "EC2InstanceType"
+            case fleetType = "FleetType"
+            case logPaths = "LogPaths"
+            case metricGroups = "MetricGroups"
+            case name = "Name"
+            case newGameSessionProtectionPolicy = "NewGameSessionProtectionPolicy"
+            case peerVpcAwsAccountId = "PeerVpcAwsAccountId"
+            case peerVpcId = "PeerVpcId"
+            case resourceCreationLimitPolicy = "ResourceCreationLimitPolicy"
+            case runtimeConfiguration = "RuntimeConfiguration"
+            case serverLaunchParameters = "ServerLaunchParameters"
+            case serverLaunchPath = "ServerLaunchPath"
+        }
+    }
+
+    public struct CreateFleetOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetAttributes", required: false, type: .structure)
+        ]
+        /// Properties for the newly created fleet.
+        public let fleetAttributes: FleetAttributes?
+
+        public init(fleetAttributes: FleetAttributes? = nil) {
+            self.fleetAttributes = fleetAttributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetAttributes = "FleetAttributes"
+        }
+    }
+
+    public struct CreateGameSessionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasId", required: false, type: .string), 
+            AWSShapeMember(label: "CreatorId", required: false, type: .string), 
+            AWSShapeMember(label: "FleetId", required: false, type: .string), 
+            AWSShapeMember(label: "GameProperties", required: false, type: .list), 
+            AWSShapeMember(label: "GameSessionData", required: false, type: .string), 
+            AWSShapeMember(label: "GameSessionId", required: false, type: .string), 
+            AWSShapeMember(label: "IdempotencyToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaximumPlayerSessionCount", required: true, type: .integer), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// Unique identifier for an alias associated with the fleet to create a game session in. Each request must reference either a fleet ID or alias ID, but not both.
+        public let aliasId: String?
+        /// Unique identifier for a player or entity creating the game session. This ID is used to enforce a resource protection policy (if one exists) that limits the number of concurrent active game sessions one player can have.
+        public let creatorId: String?
+        /// Unique identifier for a fleet to create a game session in. Each request must reference either a fleet ID or alias ID, but not both.
+        public let fleetId: String?
+        /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
+        public let gameProperties: [GameProperty]?
+        /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
+        public let gameSessionData: String?
+        ///  This parameter is no longer preferred. Please use IdempotencyToken instead. Custom string that uniquely identifies a request for a new game session. Maximum token length is 48 characters. If provided, this string is included in the new game session's ID. (A game session ARN has the following format: arn:aws:gamelift:&lt;region&gt;::gamesession/&lt;fleet ID&gt;/&lt;custom ID string or idempotency token&gt;.) 
+        public let gameSessionId: String?
+        /// Custom string that uniquely identifies a request for a new game session. Maximum token length is 48 characters. If provided, this string is included in the new game session's ID. (A game session ARN has the following format: arn:aws:gamelift:&lt;region&gt;::gamesession/&lt;fleet ID&gt;/&lt;custom ID string or idempotency token&gt;.) Idempotency tokens remain in use for 30 days after a game session has ended; game session objects are retained for this time period and then deleted.
+        public let idempotencyToken: String?
+        /// Maximum number of players that can be connected simultaneously to the game session.
+        public let maximumPlayerSessionCount: Int32
+        /// Descriptive label that is associated with a game session. Session names do not need to be unique.
+        public let name: String?
+
+        public init(aliasId: String? = nil, creatorId: String? = nil, fleetId: String? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionId: String? = nil, idempotencyToken: String? = nil, maximumPlayerSessionCount: Int32, name: String? = nil) {
+            self.aliasId = aliasId
+            self.creatorId = creatorId
             self.fleetId = fleetId
+            self.gameProperties = gameProperties
+            self.gameSessionData = gameSessionData
+            self.gameSessionId = gameSessionId
+            self.idempotencyToken = idempotencyToken
+            self.maximumPlayerSessionCount = maximumPlayerSessionCount
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions = "Actions"
+            case aliasId = "AliasId"
+            case creatorId = "CreatorId"
             case fleetId = "FleetId"
+            case gameProperties = "GameProperties"
+            case gameSessionData = "GameSessionData"
+            case gameSessionId = "GameSessionId"
+            case idempotencyToken = "IdempotencyToken"
+            case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
+            case name = "Name"
         }
     }
 
-    public struct StartMatchmakingOutput: AWSShape {
+    public struct CreateGameSessionOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MatchmakingTicket", required: false, type: .structure)
-        ]
-        /// Ticket representing the matchmaking request. This object include the information included in the request, ticket status, and match results as generated during the matchmaking process.
-        public let matchmakingTicket: MatchmakingTicket?
-
-        public init(matchmakingTicket: MatchmakingTicket? = nil) {
-            self.matchmakingTicket = matchmakingTicket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case matchmakingTicket = "MatchmakingTicket"
-        }
-    }
-
-    public struct GameSessionDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProtectionPolicy", required: false, type: .enum), 
             AWSShapeMember(label: "GameSession", required: false, type: .structure)
         ]
-        /// Current status of protection for the game session.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
-        public let protectionPolicy: ProtectionPolicy?
-        /// Object that describes a game session.
+        /// Object that describes the newly created game session record.
         public let gameSession: GameSession?
 
-        public init(protectionPolicy: ProtectionPolicy? = nil, gameSession: GameSession? = nil) {
-            self.protectionPolicy = protectionPolicy
+        public init(gameSession: GameSession? = nil) {
             self.gameSession = gameSession
         }
 
         private enum CodingKeys: String, CodingKey {
-            case protectionPolicy = "ProtectionPolicy"
             case gameSession = "GameSession"
         }
     }
 
-    public struct VpcPeeringConnection: AWSShape {
+    public struct CreateGameSessionQueueInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetId", required: false, type: .string), 
-            AWSShapeMember(label: "PeerVpcId", required: false, type: .string), 
-            AWSShapeMember(label: "GameLiftVpcId", required: false, type: .string), 
-            AWSShapeMember(label: "VpcPeeringConnectionId", required: false, type: .string), 
-            AWSShapeMember(label: "IpV4CidrBlock", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .structure)
+            AWSShapeMember(label: "Destinations", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "PlayerLatencyPolicies", required: false, type: .list), 
+            AWSShapeMember(label: "TimeoutInSeconds", required: false, type: .integer)
         ]
-        /// Unique identifier for a fleet. This ID determines the ID of the Amazon GameLift VPC for your fleet.
-        public let fleetId: String?
-        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. To get VPC information, including IDs, use the Virtual Private Cloud service tools, including the VPC Dashboard in the AWS Management Console.
-        public let peerVpcId: String?
-        /// Unique identifier for the VPC that contains the Amazon GameLift fleet for this connection. This VPC is managed by Amazon GameLift and does not appear in your AWS account. 
-        public let gameLiftVpcId: String?
-        /// Unique identifier that is automatically assigned to the connection record. This ID is referenced in VPC peering connection events, and is used when deleting a connection with DeleteVpcPeeringConnection. 
-        public let vpcPeeringConnectionId: String?
-        /// CIDR block of IPv4 addresses assigned to the VPC peering connection for the GameLift VPC. The peered VPC also has an IPv4 CIDR block associated with it; these blocks cannot overlap or the peering connection cannot be created. 
-        public let ipV4CidrBlock: String?
-        /// Object that contains status information about the connection. Status indicates if a connection is pending, successful, or failed.
-        public let status: VpcPeeringConnectionStatus?
+        /// List of fleets that can be used to fulfill game session placement requests in the queue. Fleets are identified by either a fleet ARN or a fleet alias ARN. Destinations are listed in default preference order.
+        public let destinations: [GameSessionQueueDestination]?
+        /// Descriptive label that is associated with game session queue. Queue names must be unique within each region.
+        public let name: String
+        /// Collection of latency policies to apply when processing game sessions placement requests with player latency information. Multiple policies are evaluated in order of the maximum latency value, starting with the lowest latency values. With just one policy, it is enforced at the start of the game session placement for the duration period. With multiple policies, each policy is enforced consecutively for its duration period. For example, a queue might enforce a 60-second policy followed by a 120-second policy, and then no policy for the remainder of the placement. A player latency policy must set a value for MaximumIndividualPlayerLatencyMilliseconds; if none is set, this API requests will fail.
+        public let playerLatencyPolicies: [PlayerLatencyPolicy]?
+        /// Maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status.
+        public let timeoutInSeconds: Int32?
 
-        public init(fleetId: String? = nil, peerVpcId: String? = nil, gameLiftVpcId: String? = nil, vpcPeeringConnectionId: String? = nil, ipV4CidrBlock: String? = nil, status: VpcPeeringConnectionStatus? = nil) {
-            self.fleetId = fleetId
+        public init(destinations: [GameSessionQueueDestination]? = nil, name: String, playerLatencyPolicies: [PlayerLatencyPolicy]? = nil, timeoutInSeconds: Int32? = nil) {
+            self.destinations = destinations
+            self.name = name
+            self.playerLatencyPolicies = playerLatencyPolicies
+            self.timeoutInSeconds = timeoutInSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "Destinations"
+            case name = "Name"
+            case playerLatencyPolicies = "PlayerLatencyPolicies"
+            case timeoutInSeconds = "TimeoutInSeconds"
+        }
+    }
+
+    public struct CreateGameSessionQueueOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessionQueue", required: false, type: .structure)
+        ]
+        /// Object that describes the newly created game session queue.
+        public let gameSessionQueue: GameSessionQueue?
+
+        public init(gameSessionQueue: GameSessionQueue? = nil) {
+            self.gameSessionQueue = gameSessionQueue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionQueue = "GameSessionQueue"
+        }
+    }
+
+    public struct CreateMatchmakingConfigurationInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptanceRequired", required: true, type: .boolean), 
+            AWSShapeMember(label: "AcceptanceTimeoutSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "AdditionalPlayerCount", required: false, type: .integer), 
+            AWSShapeMember(label: "CustomEventData", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "GameProperties", required: false, type: .list), 
+            AWSShapeMember(label: "GameSessionData", required: false, type: .string), 
+            AWSShapeMember(label: "GameSessionQueueArns", required: true, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "NotificationTarget", required: false, type: .string), 
+            AWSShapeMember(label: "RequestTimeoutSeconds", required: true, type: .integer), 
+            AWSShapeMember(label: "RuleSetName", required: true, type: .string)
+        ]
+        /// Flag that determines whether or not a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE.
+        public let acceptanceRequired: Bool
+        /// Length of time (in seconds) to wait for players to accept a proposed match. If any player rejects the match or fails to accept before the timeout, the ticket continues to look for an acceptable match.
+        public let acceptanceTimeoutSeconds: Int32?
+        /// Number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies a match for a single 12-person team, and the additional player count is set to 2, only 10 players are selected for the match.
+        public let additionalPlayerCount: Int32?
+        /// Information to attached to all events related to the matchmaking configuration. 
+        public let customEventData: String?
+        /// Meaningful description of the matchmaking configuration. 
+        public let description: String?
+        /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. 
+        public let gameProperties: [GameProperty]?
+        /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match.
+        public let gameSessionData: String?
+        /// Amazon Resource Name (ARN) that is assigned to a game session queue and uniquely identifies it. Format is arn:aws:gamelift:&lt;region&gt;::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912. These queues are used when placing game sessions for matches that are created with this matchmaking configuration. Queues can be located in any region.
+        public let gameSessionQueueArns: [String]
+        /// Unique identifier for a matchmaking configuration. This name is used to identify the configuration associated with a matchmaking request or ticket.
+        public let name: String
+        /// SNS topic ARN that is set up to receive matchmaking notifications.
+        public let notificationTarget: String?
+        /// Maximum duration, in seconds, that a matchmaking ticket can remain in process before timing out. Requests that time out can be resubmitted as needed.
+        public let requestTimeoutSeconds: Int32
+        /// Unique identifier for a matchmaking rule set to use with this configuration. A matchmaking configuration can only use rule sets that are defined in the same region.
+        public let ruleSetName: String
+
+        public init(acceptanceRequired: Bool, acceptanceTimeoutSeconds: Int32? = nil, additionalPlayerCount: Int32? = nil, customEventData: String? = nil, description: String? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionQueueArns: [String], name: String, notificationTarget: String? = nil, requestTimeoutSeconds: Int32, ruleSetName: String) {
+            self.acceptanceRequired = acceptanceRequired
+            self.acceptanceTimeoutSeconds = acceptanceTimeoutSeconds
+            self.additionalPlayerCount = additionalPlayerCount
+            self.customEventData = customEventData
+            self.description = description
+            self.gameProperties = gameProperties
+            self.gameSessionData = gameSessionData
+            self.gameSessionQueueArns = gameSessionQueueArns
+            self.name = name
+            self.notificationTarget = notificationTarget
+            self.requestTimeoutSeconds = requestTimeoutSeconds
+            self.ruleSetName = ruleSetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptanceRequired = "AcceptanceRequired"
+            case acceptanceTimeoutSeconds = "AcceptanceTimeoutSeconds"
+            case additionalPlayerCount = "AdditionalPlayerCount"
+            case customEventData = "CustomEventData"
+            case description = "Description"
+            case gameProperties = "GameProperties"
+            case gameSessionData = "GameSessionData"
+            case gameSessionQueueArns = "GameSessionQueueArns"
+            case name = "Name"
+            case notificationTarget = "NotificationTarget"
+            case requestTimeoutSeconds = "RequestTimeoutSeconds"
+            case ruleSetName = "RuleSetName"
+        }
+    }
+
+    public struct CreateMatchmakingConfigurationOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Configuration", required: false, type: .structure)
+        ]
+        /// Object that describes the newly created matchmaking configuration.
+        public let configuration: MatchmakingConfiguration?
+
+        public init(configuration: MatchmakingConfiguration? = nil) {
+            self.configuration = configuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+        }
+    }
+
+    public struct CreateMatchmakingRuleSetInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "RuleSetBody", required: true, type: .string)
+        ]
+        /// Unique identifier for a matchmaking rule set. This name is used to identify the rule set associated with a matchmaking configuration.
+        public let name: String
+        /// Collection of matchmaking rules, formatted as a JSON string. (Note that comments are not allowed in JSON, but most elements support a description field.)
+        public let ruleSetBody: String
+
+        public init(name: String, ruleSetBody: String) {
+            self.name = name
+            self.ruleSetBody = ruleSetBody
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case ruleSetBody = "RuleSetBody"
+        }
+    }
+
+    public struct CreateMatchmakingRuleSetOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RuleSet", required: true, type: .structure)
+        ]
+        /// Object that describes the newly created matchmaking rule set.
+        public let ruleSet: MatchmakingRuleSet
+
+        public init(ruleSet: MatchmakingRuleSet) {
+            self.ruleSet = ruleSet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleSet = "RuleSet"
+        }
+    }
+
+    public struct CreatePlayerSessionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessionId", required: true, type: .string), 
+            AWSShapeMember(label: "PlayerData", required: false, type: .string), 
+            AWSShapeMember(label: "PlayerId", required: true, type: .string)
+        ]
+        /// Unique identifier for the game session to add a player to.
+        public let gameSessionId: String
+        /// Developer-defined information related to a player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game.
+        public let playerData: String?
+        /// Unique identifier for a player. Player IDs are developer-defined.
+        public let playerId: String
+
+        public init(gameSessionId: String, playerData: String? = nil, playerId: String) {
+            self.gameSessionId = gameSessionId
+            self.playerData = playerData
+            self.playerId = playerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionId = "GameSessionId"
+            case playerData = "PlayerData"
+            case playerId = "PlayerId"
+        }
+    }
+
+    public struct CreatePlayerSessionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlayerSession", required: false, type: .structure)
+        ]
+        /// Object that describes the newly created player session record.
+        public let playerSession: PlayerSession?
+
+        public init(playerSession: PlayerSession? = nil) {
+            self.playerSession = playerSession
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case playerSession = "PlayerSession"
+        }
+    }
+
+    public struct CreatePlayerSessionsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessionId", required: true, type: .string), 
+            AWSShapeMember(label: "PlayerDataMap", required: false, type: .map), 
+            AWSShapeMember(label: "PlayerIds", required: true, type: .list)
+        ]
+        /// Unique identifier for the game session to add players to.
+        public let gameSessionId: String
+        /// Map of string pairs, each specifying a player ID and a set of developer-defined information related to the player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game. Player data strings for player IDs not included in the PlayerIds parameter are ignored. 
+        public let playerDataMap: [String: String]?
+        /// List of unique identifiers for the players to be added.
+        public let playerIds: [String]
+
+        public init(gameSessionId: String, playerDataMap: [String: String]? = nil, playerIds: [String]) {
+            self.gameSessionId = gameSessionId
+            self.playerDataMap = playerDataMap
+            self.playerIds = playerIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionId = "GameSessionId"
+            case playerDataMap = "PlayerDataMap"
+            case playerIds = "PlayerIds"
+        }
+    }
+
+    public struct CreatePlayerSessionsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlayerSessions", required: false, type: .list)
+        ]
+        /// Collection of player session objects created for the added players.
+        public let playerSessions: [PlayerSession]?
+
+        public init(playerSessions: [PlayerSession]? = nil) {
+            self.playerSessions = playerSessions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case playerSessions = "PlayerSessions"
+        }
+    }
+
+    public struct CreateVpcPeeringAuthorizationInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameLiftAwsAccountId", required: true, type: .string), 
+            AWSShapeMember(label: "PeerVpcId", required: true, type: .string)
+        ]
+        /// Unique identifier for the AWS account that you use to manage your Amazon GameLift fleet. You can find your Account ID in the AWS Management Console under account settings.
+        public let gameLiftAwsAccountId: String
+        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. To get VPC information, including IDs, use the Virtual Private Cloud service tools, including the VPC Dashboard in the AWS Management Console.
+        public let peerVpcId: String
+
+        public init(gameLiftAwsAccountId: String, peerVpcId: String) {
+            self.gameLiftAwsAccountId = gameLiftAwsAccountId
             self.peerVpcId = peerVpcId
-            self.gameLiftVpcId = gameLiftVpcId
-            self.vpcPeeringConnectionId = vpcPeeringConnectionId
-            self.ipV4CidrBlock = ipV4CidrBlock
-            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameLiftAwsAccountId = "GameLiftAwsAccountId"
+            case peerVpcId = "PeerVpcId"
+        }
+    }
+
+    public struct CreateVpcPeeringAuthorizationOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VpcPeeringAuthorization", required: false, type: .structure)
+        ]
+        /// Details on the requested VPC peering authorization, including expiration.
+        public let vpcPeeringAuthorization: VpcPeeringAuthorization?
+
+        public init(vpcPeeringAuthorization: VpcPeeringAuthorization? = nil) {
+            self.vpcPeeringAuthorization = vpcPeeringAuthorization
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcPeeringAuthorization = "VpcPeeringAuthorization"
+        }
+    }
+
+    public struct CreateVpcPeeringConnectionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: true, type: .string), 
+            AWSShapeMember(label: "PeerVpcAwsAccountId", required: true, type: .string), 
+            AWSShapeMember(label: "PeerVpcId", required: true, type: .string)
+        ]
+        /// Unique identifier for a fleet. This tells Amazon GameLift which GameLift VPC to peer with. 
+        public let fleetId: String
+        /// Unique identifier for the AWS account with the VPC that you want to peer your Amazon GameLift fleet with. You can find your Account ID in the AWS Management Console under account settings.
+        public let peerVpcAwsAccountId: String
+        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. To get VPC information, including IDs, use the Virtual Private Cloud service tools, including the VPC Dashboard in the AWS Management Console.
+        public let peerVpcId: String
+
+        public init(fleetId: String, peerVpcAwsAccountId: String, peerVpcId: String) {
+            self.fleetId = fleetId
+            self.peerVpcAwsAccountId = peerVpcAwsAccountId
+            self.peerVpcId = peerVpcId
         }
 
         private enum CodingKeys: String, CodingKey {
             case fleetId = "FleetId"
+            case peerVpcAwsAccountId = "PeerVpcAwsAccountId"
             case peerVpcId = "PeerVpcId"
-            case gameLiftVpcId = "GameLiftVpcId"
-            case vpcPeeringConnectionId = "VpcPeeringConnectionId"
-            case ipV4CidrBlock = "IpV4CidrBlock"
-            case status = "Status"
         }
     }
 
-    public struct DescribeBuildInput: AWSShape {
+    public struct CreateVpcPeeringConnectionOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteAliasInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasId", required: true, type: .string)
+        ]
+        /// Unique identifier for a fleet alias. Specify the alias you want to delete.
+        public let aliasId: String
+
+        public init(aliasId: String) {
+            self.aliasId = aliasId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
+        }
+    }
+
+    public struct DeleteBuildInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BuildId", required: true, type: .string)
         ]
-        /// Unique identifier for a build to retrieve properties for.
+        /// Unique identifier for a build to delete.
         public let buildId: String
 
         public init(buildId: String) {
@@ -120,110 +838,43 @@ extension GameLift {
         }
     }
 
-    public struct CreateMatchmakingConfigurationInput: AWSShape {
+    public struct DeleteFleetInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuleSetName", required: true, type: .string), 
-            AWSShapeMember(label: "GameProperties", required: false, type: .list), 
-            AWSShapeMember(label: "AdditionalPlayerCount", required: false, type: .integer), 
-            AWSShapeMember(label: "RequestTimeoutSeconds", required: true, type: .integer), 
-            AWSShapeMember(label: "NotificationTarget", required: false, type: .string), 
-            AWSShapeMember(label: "GameSessionData", required: false, type: .string), 
-            AWSShapeMember(label: "AcceptanceRequired", required: true, type: .boolean), 
-            AWSShapeMember(label: "GameSessionQueueArns", required: true, type: .list), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptanceTimeoutSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "CustomEventData", required: false, type: .string)
+            AWSShapeMember(label: "FleetId", required: true, type: .string)
         ]
-        /// Unique identifier for a matchmaking rule set to use with this configuration. A matchmaking configuration can only use rule sets that are defined in the same region.
-        public let ruleSetName: String
-        /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. 
-        public let gameProperties: [GameProperty]?
-        /// Number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies a match for a single 12-person team, and the additional player count is set to 2, only 10 players are selected for the match.
-        public let additionalPlayerCount: Int32?
-        /// Maximum duration, in seconds, that a matchmaking ticket can remain in process before timing out. Requests that time out can be resubmitted as needed.
-        public let requestTimeoutSeconds: Int32
-        /// SNS topic ARN that is set up to receive matchmaking notifications.
-        public let notificationTarget: String?
-        /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match.
-        public let gameSessionData: String?
-        /// Flag that determines whether or not a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE.
-        public let acceptanceRequired: Bool
-        /// Amazon Resource Name (ARN) that is assigned to a game session queue and uniquely identifies it. Format is arn:aws:gamelift:&lt;region&gt;::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912. These queues are used when placing game sessions for matches that are created with this matchmaking configuration. Queues can be located in any region.
-        public let gameSessionQueueArns: [String]
-        /// Meaningful description of the matchmaking configuration. 
-        public let description: String?
-        /// Unique identifier for a matchmaking configuration. This name is used to identify the configuration associated with a matchmaking request or ticket.
+        /// Unique identifier for a fleet to be deleted.
+        public let fleetId: String
+
+        public init(fleetId: String) {
+            self.fleetId = fleetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+        }
+    }
+
+    public struct DeleteGameSessionQueueInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// Descriptive label that is associated with game session queue. Queue names must be unique within each region.
         public let name: String
-        /// Length of time (in seconds) to wait for players to accept a proposed match. If any player rejects the match or fails to accept before the timeout, the ticket continues to look for an acceptable match.
-        public let acceptanceTimeoutSeconds: Int32?
-        /// Information to attached to all events related to the matchmaking configuration. 
-        public let customEventData: String?
 
-        public init(ruleSetName: String, gameProperties: [GameProperty]? = nil, additionalPlayerCount: Int32? = nil, requestTimeoutSeconds: Int32, notificationTarget: String? = nil, gameSessionData: String? = nil, acceptanceRequired: Bool, gameSessionQueueArns: [String], description: String? = nil, name: String, acceptanceTimeoutSeconds: Int32? = nil, customEventData: String? = nil) {
-            self.ruleSetName = ruleSetName
-            self.gameProperties = gameProperties
-            self.additionalPlayerCount = additionalPlayerCount
-            self.requestTimeoutSeconds = requestTimeoutSeconds
-            self.notificationTarget = notificationTarget
-            self.gameSessionData = gameSessionData
-            self.acceptanceRequired = acceptanceRequired
-            self.gameSessionQueueArns = gameSessionQueueArns
-            self.description = description
+        public init(name: String) {
             self.name = name
-            self.acceptanceTimeoutSeconds = acceptanceTimeoutSeconds
-            self.customEventData = customEventData
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ruleSetName = "RuleSetName"
-            case gameProperties = "GameProperties"
-            case additionalPlayerCount = "AdditionalPlayerCount"
-            case requestTimeoutSeconds = "RequestTimeoutSeconds"
-            case notificationTarget = "NotificationTarget"
-            case gameSessionData = "GameSessionData"
-            case acceptanceRequired = "AcceptanceRequired"
-            case gameSessionQueueArns = "GameSessionQueueArns"
-            case description = "Description"
             case name = "Name"
-            case acceptanceTimeoutSeconds = "AcceptanceTimeoutSeconds"
-            case customEventData = "CustomEventData"
         }
     }
 
-    public struct DeleteVpcPeeringAuthorizationOutput: AWSShape {
+    public struct DeleteGameSessionQueueOutput: AWSShape {
 
-    }
-
-    public struct DescribeMatchmakingConfigurationsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "RuleSetName", required: false, type: .string), 
-            AWSShapeMember(label: "Names", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This parameter is limited to 10.
-        public let limit: Int32?
-        /// Unique identifier for a matchmaking rule set. Use this parameter to retrieve all matchmaking configurations that use this rule set.
-        public let ruleSetName: String?
-        /// Unique identifier for a matchmaking configuration(s) to retrieve. To request all existing configurations, leave this parameter empty.
-        public let names: [String]?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
-        public let nextToken: String?
-
-        public init(limit: Int32? = nil, ruleSetName: String? = nil, names: [String]? = nil, nextToken: String? = nil) {
-            self.limit = limit
-            self.ruleSetName = ruleSetName
-            self.names = names
-            self.nextToken = nextToken
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
-            case ruleSetName = "RuleSetName"
-            case names = "Names"
-            case nextToken = "NextToken"
-        }
     }
 
     public struct DeleteMatchmakingConfigurationInput: AWSShape {
@@ -242,172 +893,11 @@ extension GameLift {
         }
     }
 
-    public enum PolicyType: String, CustomStringConvertible, Codable {
-        case rulebased = "RuleBased"
-        case targetbased = "TargetBased"
-        public var description: String { return self.rawValue }
-    }
+    public struct DeleteMatchmakingConfigurationOutput: AWSShape {
 
-    public struct Player: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlayerId", required: false, type: .string), 
-            AWSShapeMember(label: "Team", required: false, type: .string), 
-            AWSShapeMember(label: "PlayerAttributes", required: false, type: .map), 
-            AWSShapeMember(label: "LatencyInMs", required: false, type: .map)
-        ]
-        /// Unique identifier for a player
-        public let playerId: String?
-        /// Name of the team that the player is assigned to in a match. Team names are defined in a matchmaking rule set.
-        public let team: String?
-        /// Collection of key:value pairs containing player information for use in matchmaking. Player attribute keys must match the playerAttributes used in a matchmaking rule set. Example: "PlayerAttributes": {"skill": {"N": "23"}, "gameMode": {"S": "deathmatch"}}.
-        public let playerAttributes: [String: AttributeValue]?
-        /// Set of values, expressed in milliseconds, indicating the amount of latency that a player experiences when connected to AWS regions. If this property is present, FlexMatch considers placing the match only in regions for which latency is reported.  If a matchmaker has a rule that evaluates player latency, players must report latency in order to be matched. If no latency is reported in this scenario, FlexMatch assumes that no regions are available to the player and the ticket is not matchable. 
-        public let latencyInMs: [String: Int32]?
-
-        public init(playerId: String? = nil, team: String? = nil, playerAttributes: [String: AttributeValue]? = nil, latencyInMs: [String: Int32]? = nil) {
-            self.playerId = playerId
-            self.team = team
-            self.playerAttributes = playerAttributes
-            self.latencyInMs = latencyInMs
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case playerId = "PlayerId"
-            case team = "Team"
-            case playerAttributes = "PlayerAttributes"
-            case latencyInMs = "LatencyInMs"
-        }
-    }
-
-    public struct ResolveAliasInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AliasId", required: true, type: .string)
-        ]
-        /// Unique identifier for the alias you want to resolve.
-        public let aliasId: String
-
-        public init(aliasId: String) {
-            self.aliasId = aliasId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case aliasId = "AliasId"
-        }
-    }
-
-    public struct ResolveAliasOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetId", required: false, type: .string)
-        ]
-        /// Fleet identifier that is associated with the requested alias.
-        public let fleetId: String?
-
-        public init(fleetId: String? = nil) {
-            self.fleetId = fleetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fleetId = "FleetId"
-        }
-    }
-
-    public struct DescribeMatchmakingRuleSetsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Names", required: false, type: .list)
-        ]
-        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
-        public let limit: Int32?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
-        public let nextToken: String?
-        /// Unique identifier for a matchmaking rule set. This name is used to identify the rule set associated with a matchmaking configuration.
-        public let names: [String]?
-
-        public init(limit: Int32? = nil, nextToken: String? = nil, names: [String]? = nil) {
-            self.limit = limit
-            self.nextToken = nextToken
-            self.names = names
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
-            case nextToken = "NextToken"
-            case names = "Names"
-        }
-    }
-
-    public struct DescribeAliasInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AliasId", required: true, type: .string)
-        ]
-        /// Unique identifier for a fleet alias. Specify the alias you want to retrieve.
-        public let aliasId: String
-
-        public init(aliasId: String) {
-            self.aliasId = aliasId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case aliasId = "AliasId"
-        }
-    }
-
-    public struct SearchGameSessionsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FilterExpression", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "AliasId", required: false, type: .string), 
-            AWSShapeMember(label: "SortExpression", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "FleetId", required: false, type: .string)
-        ]
-        /// String containing the search criteria for the session search. If no filter expression is included, the request returns results for all game sessions in the fleet that are in ACTIVE status. A filter expression can contain one or multiple conditions. Each condition consists of the following:    Operand -- Name of a game session attribute. Valid values are gameSessionName, gameSessionId, gameSessionProperties, maximumSessions, creationTimeMillis, playerSessionCount, hasAvailablePlayerSessions.    Comparator -- Valid comparators are: =, &lt;&gt;, &lt;, &gt;, &lt;=, &gt;=.     Value -- Value to be searched for. Values may be numbers, boolean values (true/false) or strings depending on the operand. String values are case sensitive and must be enclosed in single quotes. Special characters must be escaped. Boolean and string values can only be used with the comparators = and &lt;&gt;. For example, the following filter expression searches on gameSessionName: "FilterExpression": "gameSessionName = 'Matt\\'s Awesome Game 1'".    To chain multiple conditions in a single expression, use the logical keywords AND, OR, and NOT and parentheses as needed. For example: x AND y AND NOT z, NOT (x OR y). Session search evaluates conditions from left to right using the following precedence rules:    =, &lt;&gt;, &lt;, &gt;, &lt;=, &gt;=    Parentheses   NOT   AND   OR   For example, this filter expression retrieves game sessions hosting at least ten players that have an open player slot: "maximumSessions&gt;=10 AND hasAvailablePlayerSessions=true". 
-        public let filterExpression: String?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
-        public let nextToken: String?
-        /// Unique identifier for an alias associated with the fleet to search for active game sessions. Each request must reference either a fleet ID or alias ID, but not both.
-        public let aliasId: String?
-        /// Instructions on how to sort the search results. If no sort expression is included, the request returns results in random order. A sort expression consists of the following elements:    Operand -- Name of a game session attribute. Valid values are gameSessionName, gameSessionId, gameSessionProperties, maximumSessions, creationTimeMillis, playerSessionCount, hasAvailablePlayerSessions.    Order -- Valid sort orders are ASC (ascending) and DESC (descending).   For example, this sort expression returns the oldest active sessions first: "SortExpression": "creationTimeMillis ASC". Results with a null value for the sort operand are returned at the end of the list.
-        public let sortExpression: String?
-        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. The maximum number of results returned is 20, even if this value is not set or is set higher than 20. 
-        public let limit: Int32?
-        /// Unique identifier for a fleet to search for active game sessions. Each request must reference either a fleet ID or alias ID, but not both.
-        public let fleetId: String?
-
-        public init(filterExpression: String? = nil, nextToken: String? = nil, aliasId: String? = nil, sortExpression: String? = nil, limit: Int32? = nil, fleetId: String? = nil) {
-            self.filterExpression = filterExpression
-            self.nextToken = nextToken
-            self.aliasId = aliasId
-            self.sortExpression = sortExpression
-            self.limit = limit
-            self.fleetId = fleetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case filterExpression = "FilterExpression"
-            case nextToken = "NextToken"
-            case aliasId = "AliasId"
-            case sortExpression = "SortExpression"
-            case limit = "Limit"
-            case fleetId = "FleetId"
-        }
-    }
-
-    public struct CreateMatchmakingRuleSetOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuleSet", required: true, type: .structure)
-        ]
-        /// Object that describes the newly created matchmaking rule set.
-        public let ruleSet: MatchmakingRuleSet
-
-        public init(ruleSet: MatchmakingRuleSet) {
-            self.ruleSet = ruleSet
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ruleSet = "RuleSet"
-        }
     }
 
     public struct DeleteScalingPolicyInput: AWSShape {
@@ -431,1635 +921,67 @@ extension GameLift {
         }
     }
 
-    public struct MatchmakingRuleSet: AWSShape {
+    public struct DeleteVpcPeeringAuthorizationInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuleSetName", required: false, type: .string), 
-            AWSShapeMember(label: "RuleSetBody", required: true, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp)
+            AWSShapeMember(label: "GameLiftAwsAccountId", required: true, type: .string), 
+            AWSShapeMember(label: "PeerVpcId", required: true, type: .string)
         ]
-        /// Unique identifier for a matchmaking rule set
-        public let ruleSetName: String?
-        /// Collection of matchmaking rules, formatted as a JSON string. (Note that comments14 are not allowed in JSON, but most elements support a description field.)
-        public let ruleSetBody: String
-        /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let creationTime: TimeStamp?
+        /// Unique identifier for the AWS account that you use to manage your Amazon GameLift fleet. You can find your Account ID in the AWS Management Console under account settings.
+        public let gameLiftAwsAccountId: String
+        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. To get VPC information, including IDs, use the Virtual Private Cloud service tools, including the VPC Dashboard in the AWS Management Console.
+        public let peerVpcId: String
 
-        public init(ruleSetName: String? = nil, ruleSetBody: String, creationTime: TimeStamp? = nil) {
-            self.ruleSetName = ruleSetName
-            self.ruleSetBody = ruleSetBody
-            self.creationTime = creationTime
+        public init(gameLiftAwsAccountId: String, peerVpcId: String) {
+            self.gameLiftAwsAccountId = gameLiftAwsAccountId
+            self.peerVpcId = peerVpcId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ruleSetName = "RuleSetName"
-            case ruleSetBody = "RuleSetBody"
-            case creationTime = "CreationTime"
+            case gameLiftAwsAccountId = "GameLiftAwsAccountId"
+            case peerVpcId = "PeerVpcId"
         }
     }
 
-    public struct CreateBuildOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StorageLocation", required: false, type: .structure), 
-            AWSShapeMember(label: "UploadCredentials", required: false, type: .structure), 
-            AWSShapeMember(label: "Build", required: false, type: .structure)
-        ]
-        /// Amazon S3 location for your game build file, including bucket name and key.
-        public let storageLocation: S3Location?
-        /// This element is returned only when the operation is called without a storage location. It contains credentials to use when you are uploading a build file to an Amazon S3 bucket that is owned by Amazon GameLift. Credentials have a limited life span. To refresh these credentials, call RequestUploadCredentials. 
-        public let uploadCredentials: AwsCredentials?
-        /// The newly created build record, including a unique build ID and status. 
-        public let build: Build?
+    public struct DeleteVpcPeeringAuthorizationOutput: AWSShape {
 
-        public init(storageLocation: S3Location? = nil, uploadCredentials: AwsCredentials? = nil, build: Build? = nil) {
-            self.storageLocation = storageLocation
-            self.uploadCredentials = uploadCredentials
-            self.build = build
+        public init() {
         }
-
-        private enum CodingKeys: String, CodingKey {
-            case storageLocation = "StorageLocation"
-            case uploadCredentials = "UploadCredentials"
-            case build = "Build"
-        }
-    }
-
-    public struct CreateGameSessionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GameSession", required: false, type: .structure)
-        ]
-        /// Object that describes the newly created game session record.
-        public let gameSession: GameSession?
-
-        public init(gameSession: GameSession? = nil) {
-            self.gameSession = gameSession
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gameSession = "GameSession"
-        }
-    }
-
-    public struct DescribeVpcPeeringAuthorizationsInput: AWSShape {
 
     }
 
-    public struct ServerProcess: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchPath", required: true, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .string), 
-            AWSShapeMember(label: "ConcurrentExecutions", required: true, type: .integer)
-        ]
-        /// Location of the server executable in a game build. All game builds are installed on instances at the root : for Windows instances C:\game, and for Linux instances /local/game. A Windows game build with an executable file located at MyGame\latest\server.exe must have a launch path of "C:\game\MyGame\latest\server.exe". A Linux game build with an executable file located at MyGame/latest/server.exe must have a launch path of "/local/game/MyGame/latest/server.exe". 
-        public let launchPath: String
-        /// Optional list of parameters to pass to the server executable on launch.
-        public let parameters: String?
-        /// Number of server processes using this configuration to run concurrently on an instance.
-        public let concurrentExecutions: Int32
-
-        public init(launchPath: String, parameters: String? = nil, concurrentExecutions: Int32) {
-            self.launchPath = launchPath
-            self.parameters = parameters
-            self.concurrentExecutions = concurrentExecutions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case launchPath = "LaunchPath"
-            case parameters = "Parameters"
-            case concurrentExecutions = "ConcurrentExecutions"
-        }
-    }
-
-    public enum OperatingSystem: String, CustomStringConvertible, Codable {
-        case windows2012 = "WINDOWS_2012"
-        case amazonLinux = "AMAZON_LINUX"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GameSessionQueue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlayerLatencyPolicies", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "TimeoutInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "Destinations", required: false, type: .list), 
-            AWSShapeMember(label: "GameSessionQueueArn", required: false, type: .string)
-        ]
-        /// Collection of latency policies to apply when processing game sessions placement requests with player latency information. Multiple policies are evaluated in order of the maximum latency value, starting with the lowest latency values. With just one policy, it is enforced at the start of the game session placement for the duration period. With multiple policies, each policy is enforced consecutively for its duration period. For example, a queue might enforce a 60-second policy followed by a 120-second policy, and then no policy for the remainder of the placement. 
-        public let playerLatencyPolicies: [PlayerLatencyPolicy]?
-        /// Descriptive label that is associated with game session queue. Queue names must be unique within each region.
-        public let name: String?
-        /// Maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status.
-        public let timeoutInSeconds: Int32?
-        /// List of fleets that can be used to fulfill game session placement requests in the queue. Fleets are identified by either a fleet ARN or a fleet alias ARN. Destinations are listed in default preference order.
-        public let destinations: [GameSessionQueueDestination]?
-        /// Amazon Resource Name (ARN) that is assigned to a game session queue and uniquely identifies it. Format is arn:aws:gamelift:&lt;region&gt;::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
-        public let gameSessionQueueArn: String?
-
-        public init(playerLatencyPolicies: [PlayerLatencyPolicy]? = nil, name: String? = nil, timeoutInSeconds: Int32? = nil, destinations: [GameSessionQueueDestination]? = nil, gameSessionQueueArn: String? = nil) {
-            self.playerLatencyPolicies = playerLatencyPolicies
-            self.name = name
-            self.timeoutInSeconds = timeoutInSeconds
-            self.destinations = destinations
-            self.gameSessionQueueArn = gameSessionQueueArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case playerLatencyPolicies = "PlayerLatencyPolicies"
-            case name = "Name"
-            case timeoutInSeconds = "TimeoutInSeconds"
-            case destinations = "Destinations"
-            case gameSessionQueueArn = "GameSessionQueueArn"
-        }
-    }
-
-    public struct ListBuildsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Builds", required: false, type: .list)
-        ]
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
-        public let nextToken: String?
-        /// Collection of build records that match the request.
-        public let builds: [Build]?
-
-        public init(nextToken: String? = nil, builds: [Build]? = nil) {
-            self.nextToken = nextToken
-            self.builds = builds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case builds = "Builds"
-        }
-    }
-
-    public struct AwsCredentials: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SessionToken", required: false, type: .string), 
-            AWSShapeMember(label: "AccessKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "SecretAccessKey", required: false, type: .string)
-        ]
-        /// Token used to associate a specific build ID with the files uploaded using these credentials.
-        public let sessionToken: String?
-        /// Temporary key allowing access to the Amazon GameLift S3 account.
-        public let accessKeyId: String?
-        /// Temporary secret key allowing access to the Amazon GameLift S3 account.
-        public let secretAccessKey: String?
-
-        public init(sessionToken: String? = nil, accessKeyId: String? = nil, secretAccessKey: String? = nil) {
-            self.sessionToken = sessionToken
-            self.accessKeyId = accessKeyId
-            self.secretAccessKey = secretAccessKey
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sessionToken = "SessionToken"
-            case accessKeyId = "AccessKeyId"
-            case secretAccessKey = "SecretAccessKey"
-        }
-    }
-
-    public struct ListFleetsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "BuildId", required: false, type: .string)
-        ]
-        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
-        public let limit: Int32?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
-        public let nextToken: String?
-        /// Unique identifier for a build to return fleets for. Use this parameter to return only fleets using the specified build. To retrieve all fleets, leave this parameter empty.
-        public let buildId: String?
-
-        public init(limit: Int32? = nil, nextToken: String? = nil, buildId: String? = nil) {
-            self.limit = limit
-            self.nextToken = nextToken
-            self.buildId = buildId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
-            case nextToken = "NextToken"
-            case buildId = "BuildId"
-        }
-    }
-
-    public struct UpdateGameSessionQueueOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GameSessionQueue", required: false, type: .structure)
-        ]
-        /// Object that describes the newly updated game session queue.
-        public let gameSessionQueue: GameSessionQueue?
-
-        public init(gameSessionQueue: GameSessionQueue? = nil) {
-            self.gameSessionQueue = gameSessionQueue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gameSessionQueue = "GameSessionQueue"
-        }
-    }
-
-    public struct CreateMatchmakingConfigurationOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Configuration", required: false, type: .structure)
-        ]
-        /// Object that describes the newly created matchmaking configuration.
-        public let configuration: MatchmakingConfiguration?
-
-        public init(configuration: MatchmakingConfiguration? = nil) {
-            self.configuration = configuration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configuration = "Configuration"
-        }
-    }
-
-    public struct Event: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "EventCode", required: false, type: .enum), 
-            AWSShapeMember(label: "EventTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "PreSignedLogUrl", required: false, type: .string), 
-            AWSShapeMember(label: "EventId", required: false, type: .string)
-        ]
-        /// Unique identifier for an event resource, such as a fleet ID.
-        public let resourceId: String?
-        /// Type of event being logged. The following events are currently in use:  Fleet creation events:    FLEET_CREATED -- A fleet record was successfully created with a status of NEW. Event messaging includes the fleet ID.   FLEET_STATE_DOWNLOADING -- Fleet status changed from NEW to DOWNLOADING. The compressed build has started downloading to a fleet instance for installation.    FLEET_BINARY_DOWNLOAD_FAILED -- The build failed to download to the fleet instance.   FLEET_CREATION_EXTRACTING_BUILD – The game server build was successfully downloaded to an instance, and the build files are now being extracted from the uploaded build and saved to an instance. Failure at this stage prevents a fleet from moving to ACTIVE status. Logs for this stage display a list of the files that are extracted and saved on the instance. Access the logs by using the URL in PreSignedLogUrl.   FLEET_CREATION_RUNNING_INSTALLER – The game server build files were successfully extracted, and the Amazon GameLift is now running the build's install script (if one is included). Failure in this stage prevents a fleet from moving to ACTIVE status. Logs for this stage list the installation steps and whether or not the install completed successfully. Access the logs by using the URL in PreSignedLogUrl.    FLEET_CREATION_VALIDATING_RUNTIME_CONFIG -- The build process was successful, and the Amazon GameLift is now verifying that the game server launch paths, which are specified in the fleet's run-time configuration, exist. If any listed launch path exists, Amazon GameLift tries to launch a game server process and waits for the process to report ready. Failures in this stage prevent a fleet from moving to ACTIVE status. Logs for this stage list the launch paths in the run-time configuration and indicate whether each is found. Access the logs by using the URL in PreSignedLogUrl.    FLEET_STATE_VALIDATING -- Fleet status changed from DOWNLOADING to VALIDATING.    FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND -- Validation of the run-time configuration failed because the executable specified in a launch path does not exist on the instance.   FLEET_STATE_BUILDING -- Fleet status changed from VALIDATING to BUILDING.   FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE -- Validation of the run-time configuration failed because the executable specified in a launch path failed to run on the fleet instance.   FLEET_STATE_ACTIVATING -- Fleet status changed from BUILDING to ACTIVATING.     FLEET_ACTIVATION_FAILED - The fleet failed to successfully complete one of the steps in the fleet activation process. This event code indicates that the game build was successfully downloaded to a fleet instance, built, and validated, but was not able to start a server process. A possible reason for failure is that the game server is not reporting "process ready" to the Amazon GameLift service.   FLEET_STATE_ACTIVE -- The fleet's status changed from ACTIVATING to ACTIVE. The fleet is now ready to host game sessions.    VPC peering events:    FLEET_VPC_PEERING_SUCCEEDED -- A VPC peering connection has been established between the VPC for an Amazon GameLift fleet and a VPC in your AWS account.   FLEET_VPC_PEERING_FAILED -- A requested VPC peering connection has failed. Event details and status information (see DescribeVpcPeeringConnections) provide additional detail. A common reason for peering failure is that the two VPCs have overlapping CIDR blocks of IPv4 addresses. To resolve this, change the CIDR block for the VPC in your AWS account. For more information on VPC peering failures, see http://docs.aws.amazon.com/AmazonVPC/latest/PeeringGuide/invalid-peering-configurations.html    FLEET_VPC_PEERING_DELETED -- A VPC peering connection has been successfully deleted.    Spot instance events:     INSTANCE_INTERRUPTED -- A spot instance was interrupted by EC2 with a two-minute notification.    Other fleet events:    FLEET_SCALING_EVENT -- A change was made to the fleet's capacity settings (desired instances, minimum/maximum scaling limits). Event messaging includes the new capacity settings.   FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED -- A change was made to the fleet's game session protection policy setting. Event messaging includes both the old and new policy setting.    FLEET_DELETED -- A request to delete a fleet was initiated.    GENERIC_EVENT -- An unspecified event has occurred.  
-        public let eventCode: EventCode?
-        /// Time stamp indicating when this event occurred. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let eventTime: TimeStamp?
-        /// Additional information related to the event.
-        public let message: String?
-        /// Location of stored logs with additional detail that is related to the event. This is useful for debugging issues. The URL is valid for 15 minutes. You can also access fleet creation logs through the Amazon GameLift console.
-        public let preSignedLogUrl: String?
-        /// Unique identifier for a fleet event.
-        public let eventId: String?
-
-        public init(resourceId: String? = nil, eventCode: EventCode? = nil, eventTime: TimeStamp? = nil, message: String? = nil, preSignedLogUrl: String? = nil, eventId: String? = nil) {
-            self.resourceId = resourceId
-            self.eventCode = eventCode
-            self.eventTime = eventTime
-            self.message = message
-            self.preSignedLogUrl = preSignedLogUrl
-            self.eventId = eventId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case eventCode = "EventCode"
-            case eventTime = "EventTime"
-            case message = "Message"
-            case preSignedLogUrl = "PreSignedLogUrl"
-            case eventId = "EventId"
-        }
-    }
-
-    public enum MetricName: String, CustomStringConvertible, Codable {
-        case activatinggamesessions = "ActivatingGameSessions"
-        case activegamesessions = "ActiveGameSessions"
-        case activeinstances = "ActiveInstances"
-        case availablegamesessions = "AvailableGameSessions"
-        case availableplayersessions = "AvailablePlayerSessions"
-        case currentplayersessions = "CurrentPlayerSessions"
-        case idleinstances = "IdleInstances"
-        case percentavailablegamesessions = "PercentAvailableGameSessions"
-        case percentidleinstances = "PercentIdleInstances"
-        case queuedepth = "QueueDepth"
-        case waittime = "WaitTime"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeRuntimeConfigurationOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuntimeConfiguration", required: false, type: .structure)
-        ]
-        /// Instructions describing how server processes should be launched and maintained on each instance in the fleet.
-        public let runtimeConfiguration: RuntimeConfiguration?
-
-        public init(runtimeConfiguration: RuntimeConfiguration? = nil) {
-            self.runtimeConfiguration = runtimeConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case runtimeConfiguration = "RuntimeConfiguration"
-        }
-    }
-
-    public struct DescribeGameSessionQueuesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Names", required: false, type: .list)
-        ]
-        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
-        public let limit: Int32?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
-        public let nextToken: String?
-        /// List of queue names to retrieve information for. To request settings for all queues, leave this parameter empty.
-        public let names: [String]?
-
-        public init(limit: Int32? = nil, nextToken: String? = nil, names: [String]? = nil) {
-            self.limit = limit
-            self.nextToken = nextToken
-            self.names = names
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
-            case nextToken = "NextToken"
-            case names = "Names"
-        }
-    }
-
-    public struct ListBuildsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
-        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
-        public let limit: Int32?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
-        public let nextToken: String?
-        /// Build status to filter results by. To retrieve all builds, leave this parameter empty. Possible build statuses include the following:    INITIALIZED -- A new build has been defined, but no files have been uploaded. You cannot create fleets for builds that are in this status. When a build is successfully created, the build status is set to this value.     READY -- The game build has been successfully uploaded. You can now create new fleets for this build.    FAILED -- The game build upload failed. You cannot create new fleets for this build.   
-        public let status: BuildStatus?
-
-        public init(limit: Int32? = nil, nextToken: String? = nil, status: BuildStatus? = nil) {
-            self.limit = limit
-            self.nextToken = nextToken
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
-            case nextToken = "NextToken"
-            case status = "Status"
-        }
-    }
-
-    public struct StopGameSessionPlacementOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GameSessionPlacement", required: false, type: .structure)
-        ]
-        /// Object that describes the canceled game session placement, with CANCELLED status and an end time stamp. 
-        public let gameSessionPlacement: GameSessionPlacement?
-
-        public init(gameSessionPlacement: GameSessionPlacement? = nil) {
-            self.gameSessionPlacement = gameSessionPlacement
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gameSessionPlacement = "GameSessionPlacement"
-        }
-    }
-
-    public struct UpdateAliasOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Alias", required: false, type: .structure)
-        ]
-        /// Object that contains the updated alias configuration.
-        public let alias: Alias?
-
-        public init(alias: Alias? = nil) {
-            self.alias = alias
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case alias = "Alias"
-        }
-    }
-
-    public struct DescribeFleetCapacityInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetIds", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer)
-        ]
-        /// Unique identifier for a fleet(s) to retrieve capacity information for. To request capacity information for all fleets, leave this parameter empty.
-        public let fleetIds: [String]?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
-        public let nextToken: String?
-        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This parameter is ignored when the request specifies one or a list of fleet IDs.
-        public let limit: Int32?
-
-        public init(fleetIds: [String]? = nil, nextToken: String? = nil, limit: Int32? = nil) {
-            self.fleetIds = fleetIds
-            self.nextToken = nextToken
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fleetIds = "FleetIds"
-            case nextToken = "NextToken"
-            case limit = "Limit"
-        }
-    }
-
-    public struct GameSessionPlacement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GameSessionData", required: false, type: .string), 
-            AWSShapeMember(label: "PlacedPlayerSessions", required: false, type: .list), 
-            AWSShapeMember(label: "GameSessionArn", required: false, type: .string), 
-            AWSShapeMember(label: "GameSessionRegion", required: false, type: .string), 
-            AWSShapeMember(label: "GameSessionQueueName", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
-            AWSShapeMember(label: "MaximumPlayerSessionCount", required: false, type: .integer), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "PlayerLatencies", required: false, type: .list), 
-            AWSShapeMember(label: "GameProperties", required: false, type: .list), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "GameSessionId", required: false, type: .string), 
-            AWSShapeMember(label: "PlacementId", required: false, type: .string), 
-            AWSShapeMember(label: "MatchmakerData", required: false, type: .string), 
-            AWSShapeMember(label: "GameSessionName", required: false, type: .string), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp)
-        ]
-        /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
-        public let gameSessionData: String?
-        /// Collection of information on player sessions created in response to the game session placement request. These player sessions are created only once a new game session is successfully placed (placement status is FULFILLED). This information includes the player ID (as provided in the placement request) and the corresponding player session ID. Retrieve full player sessions by calling DescribePlayerSessions with the player session ID.
-        public let placedPlayerSessions: [PlacedPlayerSession]?
-        /// Identifier for the game session created by this placement request. This value is set once the new game session is placed (placement status is FULFILLED). This identifier is unique across all regions. You can use this value as a GameSessionId value as needed.
-        public let gameSessionArn: String?
-        /// Name of the region where the game session created by this placement request is running. This value is set once the new game session is placed (placement status is FULFILLED).
-        public let gameSessionRegion: String?
-        /// Descriptive label that is associated with game session queue. Queue names must be unique within each region.
-        public let gameSessionQueueName: String?
-        /// Current status of the game session placement request.    PENDING -- The placement request is currently in the queue waiting to be processed.    FULFILLED -- A new game session and player sessions (if requested) have been successfully created. Values for GameSessionArn and GameSessionRegion are available.     CANCELLED -- The placement request was canceled with a call to StopGameSessionPlacement.    TIMED_OUT -- A new game session was not successfully created before the time limit expired. You can resubmit the placement request as needed.  
-        public let status: GameSessionPlacementState?
-        /// IP address of the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number. This value is set once the new game session is placed (placement status is FULFILLED). 
-        public let ipAddress: String?
-        /// Maximum number of players that can be connected simultaneously to the game session.
-        public let maximumPlayerSessionCount: Int32?
-        /// Time stamp indicating when this request was placed in the queue. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let startTime: TimeStamp?
-        /// Set of values, expressed in milliseconds, indicating the amount of latency that a player experiences when connected to AWS regions.
-        public let playerLatencies: [PlayerLatency]?
-        /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
-        public let gameProperties: [GameProperty]?
-        /// Port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number. This value is set once the new game session is placed (placement status is FULFILLED).
-        public let port: Int32?
-        /// Unique identifier for the game session. This value is set once the new game session is placed (placement status is FULFILLED).
-        public let gameSessionId: String?
-        /// Unique identifier for a game session placement.
-        public let placementId: String?
-        /// Information on the matchmaking process for this game. Data is in JSON syntax, formatted as a string. It identifies the matchmaking configuration used to create the match, and contains data on all players assigned to the match, including player attributes and team assignments. For more details on matchmaker data, see Match Data.
-        public let matchmakerData: String?
-        /// Descriptive label that is associated with a game session. Session names do not need to be unique.
-        public let gameSessionName: String?
-        /// Time stamp indicating when this request was completed, canceled, or timed out.
-        public let endTime: TimeStamp?
-
-        public init(gameSessionData: String? = nil, placedPlayerSessions: [PlacedPlayerSession]? = nil, gameSessionArn: String? = nil, gameSessionRegion: String? = nil, gameSessionQueueName: String? = nil, status: GameSessionPlacementState? = nil, ipAddress: String? = nil, maximumPlayerSessionCount: Int32? = nil, startTime: TimeStamp? = nil, playerLatencies: [PlayerLatency]? = nil, gameProperties: [GameProperty]? = nil, port: Int32? = nil, gameSessionId: String? = nil, placementId: String? = nil, matchmakerData: String? = nil, gameSessionName: String? = nil, endTime: TimeStamp? = nil) {
-            self.gameSessionData = gameSessionData
-            self.placedPlayerSessions = placedPlayerSessions
-            self.gameSessionArn = gameSessionArn
-            self.gameSessionRegion = gameSessionRegion
-            self.gameSessionQueueName = gameSessionQueueName
-            self.status = status
-            self.ipAddress = ipAddress
-            self.maximumPlayerSessionCount = maximumPlayerSessionCount
-            self.startTime = startTime
-            self.playerLatencies = playerLatencies
-            self.gameProperties = gameProperties
-            self.port = port
-            self.gameSessionId = gameSessionId
-            self.placementId = placementId
-            self.matchmakerData = matchmakerData
-            self.gameSessionName = gameSessionName
-            self.endTime = endTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gameSessionData = "GameSessionData"
-            case placedPlayerSessions = "PlacedPlayerSessions"
-            case gameSessionArn = "GameSessionArn"
-            case gameSessionRegion = "GameSessionRegion"
-            case gameSessionQueueName = "GameSessionQueueName"
-            case status = "Status"
-            case ipAddress = "IpAddress"
-            case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
-            case startTime = "StartTime"
-            case playerLatencies = "PlayerLatencies"
-            case gameProperties = "GameProperties"
-            case port = "Port"
-            case gameSessionId = "GameSessionId"
-            case placementId = "PlacementId"
-            case matchmakerData = "MatchmakerData"
-            case gameSessionName = "GameSessionName"
-            case endTime = "EndTime"
-        }
-    }
-
-    public struct Instance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetId", required: false, type: .string), 
-            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "OperatingSystem", required: false, type: .enum)
-        ]
-        /// Unique identifier for a fleet that the instance is in.
-        public let fleetId: String?
-        /// IP address assigned to the instance.
-        public let ipAddress: String?
-        /// EC2 instance type that defines the computing resources of this instance. 
-        public let `type`: EC2InstanceType?
-        /// Current status of the instance. Possible statuses include the following:    PENDING -- The instance is in the process of being created and launching server processes as defined in the fleet's run-time configuration.     ACTIVE -- The instance has been successfully created and at least one server process has successfully launched and reported back to Amazon GameLift that it is ready to host a game session. The instance is now considered ready to host game sessions.     TERMINATING -- The instance is in the process of shutting down. This may happen to reduce capacity during a scaling down event or to recycle resources in the event of a problem.  
-        public let status: InstanceStatus?
-        /// Unique identifier for an instance.
-        public let instanceId: String?
-        /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let creationTime: TimeStamp?
-        /// Operating system that is running on this instance. 
-        public let operatingSystem: OperatingSystem?
-
-        public init(fleetId: String? = nil, ipAddress: String? = nil, type: EC2InstanceType? = nil, status: InstanceStatus? = nil, instanceId: String? = nil, creationTime: TimeStamp? = nil, operatingSystem: OperatingSystem? = nil) {
-            self.fleetId = fleetId
-            self.ipAddress = ipAddress
-            self.`type` = `type`
-            self.status = status
-            self.instanceId = instanceId
-            self.creationTime = creationTime
-            self.operatingSystem = operatingSystem
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fleetId = "FleetId"
-            case ipAddress = "IpAddress"
-            case `type` = "Type"
-            case status = "Status"
-            case instanceId = "InstanceId"
-            case creationTime = "CreationTime"
-            case operatingSystem = "OperatingSystem"
-        }
-    }
-
-    public struct CreateGameSessionQueueOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GameSessionQueue", required: false, type: .structure)
-        ]
-        /// Object that describes the newly created game session queue.
-        public let gameSessionQueue: GameSessionQueue?
-
-        public init(gameSessionQueue: GameSessionQueue? = nil) {
-            self.gameSessionQueue = gameSessionQueue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gameSessionQueue = "GameSessionQueue"
-        }
-    }
-
-    public struct RoutingStrategy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "FleetId", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
-        /// Message text to be used with a terminal routing strategy.
-        public let message: String?
-        /// Unique identifier for a fleet that the alias points to.
-        public let fleetId: String?
-        /// Type of routing strategy. Possible routing types include the following:    SIMPLE -- The alias resolves to one specific fleet. Use this type when routing to active fleets.    TERMINAL -- The alias does not resolve to a fleet but instead can be used to display a message to the user. A terminal alias throws a TerminalRoutingStrategyException with the RoutingStrategy message embedded.  
-        public let `type`: RoutingStrategyType?
-
-        public init(message: String? = nil, fleetId: String? = nil, type: RoutingStrategyType? = nil) {
-            self.message = message
-            self.fleetId = fleetId
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-            case fleetId = "FleetId"
-            case `type` = "Type"
-        }
-    }
-
-    public struct UpdateFleetAttributesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetId", required: false, type: .string)
-        ]
-        /// Unique identifier for a fleet that was updated.
-        public let fleetId: String?
-
-        public init(fleetId: String? = nil) {
-            self.fleetId = fleetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fleetId = "FleetId"
-        }
-    }
-
-    public struct FleetUtilization: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaximumPlayerSessionCount", required: false, type: .integer), 
-            AWSShapeMember(label: "ActiveServerProcessCount", required: false, type: .integer), 
-            AWSShapeMember(label: "ActiveGameSessionCount", required: false, type: .integer), 
-            AWSShapeMember(label: "CurrentPlayerSessionCount", required: false, type: .integer), 
-            AWSShapeMember(label: "FleetId", required: false, type: .string)
-        ]
-        /// Maximum players allowed across all game sessions currently being hosted on all instances in the fleet.
-        public let maximumPlayerSessionCount: Int32?
-        /// Number of server processes in an ACTIVE status currently running across all instances in the fleet
-        public let activeServerProcessCount: Int32?
-        /// Number of active game sessions currently being hosted on all instances in the fleet.
-        public let activeGameSessionCount: Int32?
-        /// Number of active player sessions currently being hosted on all instances in the fleet.
-        public let currentPlayerSessionCount: Int32?
-        /// Unique identifier for a fleet.
-        public let fleetId: String?
-
-        public init(maximumPlayerSessionCount: Int32? = nil, activeServerProcessCount: Int32? = nil, activeGameSessionCount: Int32? = nil, currentPlayerSessionCount: Int32? = nil, fleetId: String? = nil) {
-            self.maximumPlayerSessionCount = maximumPlayerSessionCount
-            self.activeServerProcessCount = activeServerProcessCount
-            self.activeGameSessionCount = activeGameSessionCount
-            self.currentPlayerSessionCount = currentPlayerSessionCount
-            self.fleetId = fleetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
-            case activeServerProcessCount = "ActiveServerProcessCount"
-            case activeGameSessionCount = "ActiveGameSessionCount"
-            case currentPlayerSessionCount = "CurrentPlayerSessionCount"
-            case fleetId = "FleetId"
-        }
-    }
-
-    public struct ListFleetsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetIds", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Set of fleet IDs matching the list request. You can retrieve additional information about all returned fleets by passing this result set to a call to DescribeFleetAttributes, DescribeFleetCapacity, or DescribeFleetUtilization.
-        public let fleetIds: [String]?
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
-        public let nextToken: String?
-
-        public init(fleetIds: [String]? = nil, nextToken: String? = nil) {
-            self.fleetIds = fleetIds
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fleetIds = "FleetIds"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct CreateFleetOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetAttributes", required: false, type: .structure)
-        ]
-        /// Properties for the newly created fleet.
-        public let fleetAttributes: FleetAttributes?
-
-        public init(fleetAttributes: FleetAttributes? = nil) {
-            self.fleetAttributes = fleetAttributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fleetAttributes = "FleetAttributes"
-        }
-    }
-
-    public struct StopMatchmakingInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TicketId", required: true, type: .string)
-        ]
-        /// Unique identifier for a matchmaking ticket.
-        public let ticketId: String
-
-        public init(ticketId: String) {
-            self.ticketId = ticketId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ticketId = "TicketId"
-        }
-    }
-
-    public struct MatchedPlayerSession: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlayerSessionId", required: false, type: .string), 
-            AWSShapeMember(label: "PlayerId", required: false, type: .string)
-        ]
-        /// Unique identifier for a player session
-        public let playerSessionId: String?
-        /// Unique identifier for a player 
-        public let playerId: String?
-
-        public init(playerSessionId: String? = nil, playerId: String? = nil) {
-            self.playerSessionId = playerSessionId
-            self.playerId = playerId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case playerSessionId = "PlayerSessionId"
-            case playerId = "PlayerId"
-        }
-    }
-
-    public struct InstanceCredentials: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: false, type: .string), 
-            AWSShapeMember(label: "Secret", required: false, type: .string)
-        ]
-        /// User login string.
-        public let userName: String?
-        /// Secret string. For Windows instances, the secret is a password for use with Windows Remote Desktop. For Linux instances, it is a private key (which must be saved as a .pem file) for use with SSH.
-        public let secret: String?
-
-        public init(userName: String? = nil, secret: String? = nil) {
-            self.userName = userName
-            self.secret = secret
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-            case secret = "Secret"
-        }
-    }
-
-    public struct S3Location: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", required: false, type: .string)
-        ]
-        /// Name of the zip file containing your build files. 
-        public let key: String?
-        /// Amazon Resource Name (ARN) for the access role that allows Amazon GameLift to access your S3 bucket.
-        public let roleArn: String?
-        /// Amazon S3 bucket identifier. This is the name of your S3 bucket.
-        public let bucket: String?
-
-        public init(key: String? = nil, roleArn: String? = nil, bucket: String? = nil) {
-            self.key = key
-            self.roleArn = roleArn
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case roleArn = "RoleArn"
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct DescribeMatchmakingOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TicketList", required: false, type: .list)
-        ]
-        /// Collection of existing matchmaking ticket objects matching the request.
-        public let ticketList: [MatchmakingTicket]?
-
-        public init(ticketList: [MatchmakingTicket]? = nil) {
-            self.ticketList = ticketList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ticketList = "TicketList"
-        }
-    }
-
-    public enum AcceptanceType: String, CustomStringConvertible, Codable {
-        case accept = "ACCEPT"
-        case reject = "REJECT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateFleetPortSettingsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetId", required: false, type: .string)
-        ]
-        /// Unique identifier for a fleet that was updated.
-        public let fleetId: String?
-
-        public init(fleetId: String? = nil) {
-            self.fleetId = fleetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fleetId = "FleetId"
-        }
-    }
-
-    public struct StartGameSessionPlacementInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GameSessionQueueName", required: true, type: .string), 
-            AWSShapeMember(label: "DesiredPlayerSessions", required: false, type: .list), 
-            AWSShapeMember(label: "PlacementId", required: true, type: .string), 
-            AWSShapeMember(label: "MaximumPlayerSessionCount", required: true, type: .integer), 
-            AWSShapeMember(label: "GameProperties", required: false, type: .list), 
-            AWSShapeMember(label: "GameSessionData", required: false, type: .string), 
-            AWSShapeMember(label: "PlayerLatencies", required: false, type: .list), 
-            AWSShapeMember(label: "GameSessionName", required: false, type: .string)
-        ]
-        /// Name of the queue to use to place the new game session.
-        public let gameSessionQueueName: String
-        /// Set of information on each player to create a player session for.
-        public let desiredPlayerSessions: [DesiredPlayerSession]?
-        /// Unique identifier to assign to the new game session placement. This value is developer-defined. The value must be unique across all regions and cannot be reused unless you are resubmitting a canceled or timed-out placement request.
-        public let placementId: String
-        /// Maximum number of players that can be connected simultaneously to the game session.
-        public let maximumPlayerSessionCount: Int32
-        /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
-        public let gameProperties: [GameProperty]?
-        /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
-        public let gameSessionData: String?
-        /// Set of values, expressed in milliseconds, indicating the amount of latency that a player experiences when connected to AWS regions. This information is used to try to place the new game session where it can offer the best possible gameplay experience for the players. 
-        public let playerLatencies: [PlayerLatency]?
-        /// Descriptive label that is associated with a game session. Session names do not need to be unique.
-        public let gameSessionName: String?
-
-        public init(gameSessionQueueName: String, desiredPlayerSessions: [DesiredPlayerSession]? = nil, placementId: String, maximumPlayerSessionCount: Int32, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, playerLatencies: [PlayerLatency]? = nil, gameSessionName: String? = nil) {
-            self.gameSessionQueueName = gameSessionQueueName
-            self.desiredPlayerSessions = desiredPlayerSessions
-            self.placementId = placementId
-            self.maximumPlayerSessionCount = maximumPlayerSessionCount
-            self.gameProperties = gameProperties
-            self.gameSessionData = gameSessionData
-            self.playerLatencies = playerLatencies
-            self.gameSessionName = gameSessionName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gameSessionQueueName = "GameSessionQueueName"
-            case desiredPlayerSessions = "DesiredPlayerSessions"
-            case placementId = "PlacementId"
-            case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
-            case gameProperties = "GameProperties"
-            case gameSessionData = "GameSessionData"
-            case playerLatencies = "PlayerLatencies"
-            case gameSessionName = "GameSessionName"
-        }
-    }
-
-    public struct CreateAliasOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Alias", required: false, type: .structure)
-        ]
-        /// Object that describes the newly created alias record.
-        public let alias: Alias?
-
-        public init(alias: Alias? = nil) {
-            self.alias = alias
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case alias = "Alias"
-        }
-    }
-
-    public struct PutScalingPolicyInput: AWSShape {
+    public struct DeleteVpcPeeringConnectionInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FleetId", required: true, type: .string), 
-            AWSShapeMember(label: "Threshold", required: false, type: .double), 
-            AWSShapeMember(label: "EvaluationPeriods", required: false, type: .integer), 
-            AWSShapeMember(label: "ScalingAdjustment", required: false, type: .integer), 
-            AWSShapeMember(label: "TargetConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "MetricName", required: true, type: .enum), 
-            AWSShapeMember(label: "ComparisonOperator", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "ScalingAdjustmentType", required: false, type: .enum), 
-            AWSShapeMember(label: "PolicyType", required: false, type: .enum)
+            AWSShapeMember(label: "VpcPeeringConnectionId", required: true, type: .string)
         ]
-        /// Unique identifier for a fleet to apply this policy to. The fleet cannot be in any of the following statuses: ERROR or DELETING.
+        /// Unique identifier for a fleet. This value must match the fleet ID referenced in the VPC peering connection record.
         public let fleetId: String
-        /// Metric value used to trigger a scaling event.
-        public let threshold: Double?
-        /// Length of time (in minutes) the metric must be at or beyond the threshold before a scaling event is triggered.
-        public let evaluationPeriods: Int32?
-        /// Amount of adjustment to make, based on the scaling adjustment type.
-        public let scalingAdjustment: Int32?
-        /// Object that contains settings for a target-based scaling policy.
-        public let targetConfiguration: TargetConfiguration?
-        /// Name of the Amazon GameLift-defined metric that is used to trigger a scaling adjustment. For detailed descriptions of fleet metrics, see Monitor Amazon GameLift with Amazon CloudWatch.     ActivatingGameSessions -- Game sessions in the process of being created.    ActiveGameSessions -- Game sessions that are currently running.    ActiveInstances -- Fleet instances that are currently running at least one game session.    AvailableGameSessions -- Additional game sessions that fleet could host simultaneously, given current capacity.    AvailablePlayerSessions -- Empty player slots in currently active game sessions. This includes game sessions that are not currently accepting players. Reserved player slots are not included.    CurrentPlayerSessions -- Player slots in active game sessions that are being used by a player or are reserved for a player.     IdleInstances -- Active instances that are currently hosting zero game sessions.     PercentAvailableGameSessions -- Unused percentage of the total number of game sessions that a fleet could host simultaneously, given current capacity. Use this metric for a target-based scaling policy.    PercentIdleInstances -- Percentage of the total number of active instances that are hosting zero game sessions.    QueueDepth -- Pending game session placement requests, in any queue, where the current fleet is the top-priority destination.    WaitTime -- Current wait time for pending game session placement requests, in any queue, where the current fleet is the top-priority destination.   
-        public let metricName: MetricName
-        /// Comparison operator to use when measuring the metric against the threshold value.
-        public let comparisonOperator: ComparisonOperatorType?
-        /// Descriptive label that is associated with a scaling policy. Policy names do not need to be unique. A fleet can have only one scaling policy with the same name.
-        public let name: String
-        /// Type of adjustment to make to a fleet's instance count (see FleetCapacity):    ChangeInCapacity -- add (or subtract) the scaling adjustment value from the current instance count. Positive values scale up while negative values scale down.    ExactCapacity -- set the instance count to the scaling adjustment value.    PercentChangeInCapacity -- increase or reduce the current instance count by the scaling adjustment, read as a percentage. Positive values scale up while negative values scale down; for example, a value of "-10" scales the fleet down by 10%.  
-        public let scalingAdjustmentType: ScalingAdjustmentType?
-        /// Type of scaling policy to create. For a target-based policy, set the parameter MetricName to 'PercentAvailableGameSessions' and specify a TargetConfiguration. For a rule-based policy set the following parameters: MetricName, ComparisonOperator, Threshold, EvaluationPeriods, ScalingAdjustmentType, and ScalingAdjustment.
-        public let policyType: PolicyType?
+        /// Unique identifier for a VPC peering connection. This value is included in the VpcPeeringConnection object, which can be retrieved by calling DescribeVpcPeeringConnections.
+        public let vpcPeeringConnectionId: String
 
-        public init(fleetId: String, threshold: Double? = nil, evaluationPeriods: Int32? = nil, scalingAdjustment: Int32? = nil, targetConfiguration: TargetConfiguration? = nil, metricName: MetricName, comparisonOperator: ComparisonOperatorType? = nil, name: String, scalingAdjustmentType: ScalingAdjustmentType? = nil, policyType: PolicyType? = nil) {
+        public init(fleetId: String, vpcPeeringConnectionId: String) {
             self.fleetId = fleetId
-            self.threshold = threshold
-            self.evaluationPeriods = evaluationPeriods
-            self.scalingAdjustment = scalingAdjustment
-            self.targetConfiguration = targetConfiguration
-            self.metricName = metricName
-            self.comparisonOperator = comparisonOperator
-            self.name = name
-            self.scalingAdjustmentType = scalingAdjustmentType
-            self.policyType = policyType
+            self.vpcPeeringConnectionId = vpcPeeringConnectionId
         }
 
         private enum CodingKeys: String, CodingKey {
             case fleetId = "FleetId"
-            case threshold = "Threshold"
-            case evaluationPeriods = "EvaluationPeriods"
-            case scalingAdjustment = "ScalingAdjustment"
-            case targetConfiguration = "TargetConfiguration"
-            case metricName = "MetricName"
-            case comparisonOperator = "ComparisonOperator"
-            case name = "Name"
-            case scalingAdjustmentType = "ScalingAdjustmentType"
-            case policyType = "PolicyType"
-        }
-    }
-
-    public struct PlayerSession: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetId", required: false, type: .string), 
-            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
-            AWSShapeMember(label: "PlayerId", required: false, type: .string), 
-            AWSShapeMember(label: "PlayerData", required: false, type: .string), 
-            AWSShapeMember(label: "GameSessionId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "PlayerSessionId", required: false, type: .string), 
-            AWSShapeMember(label: "TerminationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Port", required: false, type: .integer)
-        ]
-        /// Unique identifier for a fleet that the player's game session is running on.
-        public let fleetId: String?
-        /// IP address of the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
-        public let ipAddress: String?
-        /// Unique identifier for a player that is associated with this player session.
-        public let playerId: String?
-        /// Developer-defined information related to a player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game. 
-        public let playerData: String?
-        /// Unique identifier for the game session that the player session is connected to.
-        public let gameSessionId: String?
-        /// Current status of the player session. Possible player session statuses include the following:    RESERVED -- The player session request has been received, but the player has not yet connected to the server process and/or been validated.     ACTIVE -- The player has been validated by the server process and is currently connected.    COMPLETED -- The player connection has been dropped.    TIMEDOUT -- A player session request was received, but the player did not connect and/or was not validated within the timeout limit (60 seconds).  
-        public let status: PlayerSessionStatus?
-        /// Unique identifier for a player session.
-        public let playerSessionId: String?
-        /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let terminationTime: TimeStamp?
-        /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let creationTime: TimeStamp?
-        /// Port number for the game session. To connect to a Amazon GameLift server process, an app needs both the IP address and port number.
-        public let port: Int32?
-
-        public init(fleetId: String? = nil, ipAddress: String? = nil, playerId: String? = nil, playerData: String? = nil, gameSessionId: String? = nil, status: PlayerSessionStatus? = nil, playerSessionId: String? = nil, terminationTime: TimeStamp? = nil, creationTime: TimeStamp? = nil, port: Int32? = nil) {
-            self.fleetId = fleetId
-            self.ipAddress = ipAddress
-            self.playerId = playerId
-            self.playerData = playerData
-            self.gameSessionId = gameSessionId
-            self.status = status
-            self.playerSessionId = playerSessionId
-            self.terminationTime = terminationTime
-            self.creationTime = creationTime
-            self.port = port
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fleetId = "FleetId"
-            case ipAddress = "IpAddress"
-            case playerId = "PlayerId"
-            case playerData = "PlayerData"
-            case gameSessionId = "GameSessionId"
-            case status = "Status"
-            case playerSessionId = "PlayerSessionId"
-            case terminationTime = "TerminationTime"
-            case creationTime = "CreationTime"
-            case port = "Port"
-        }
-    }
-
-    public struct GetGameSessionLogUrlInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GameSessionId", required: true, type: .string)
-        ]
-        /// Unique identifier for the game session to get logs for.
-        public let gameSessionId: String
-
-        public init(gameSessionId: String) {
-            self.gameSessionId = gameSessionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gameSessionId = "GameSessionId"
-        }
-    }
-
-    public struct StartFleetActionsOutput: AWSShape {
-
-    }
-
-    public struct DescribeFleetCapacityOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "FleetCapacity", required: false, type: .list)
-        ]
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
-        public let nextToken: String?
-        /// Collection of objects containing capacity information for each requested fleet ID. Leave this parameter empty to retrieve capacity information for all fleets.
-        public let fleetCapacity: [FleetCapacity]?
-
-        public init(nextToken: String? = nil, fleetCapacity: [FleetCapacity]? = nil) {
-            self.nextToken = nextToken
-            self.fleetCapacity = fleetCapacity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case fleetCapacity = "FleetCapacity"
-        }
-    }
-
-    public enum RoutingStrategyType: String, CustomStringConvertible, Codable {
-        case simple = "SIMPLE"
-        case terminal = "TERMINAL"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct StartMatchmakingInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Players", required: true, type: .list), 
-            AWSShapeMember(label: "ConfigurationName", required: true, type: .string), 
-            AWSShapeMember(label: "TicketId", required: false, type: .string)
-        ]
-        /// Information on each player to be matched. This information must include a player ID, and may contain player attributes and latency data to be used in the matchmaking process. After a successful match, Player objects contain the name of the team the player is assigned to.
-        public let players: [Player]
-        /// Name of the matchmaking configuration to use for this request. Matchmaking configurations must exist in the same region as this request.
-        public let configurationName: String
-        /// Unique identifier for a matchmaking ticket. If no ticket ID is specified here, Amazon GameLift will generate one in the form of a UUID. Use this identifier to track the matchmaking ticket status and retrieve match results.
-        public let ticketId: String?
-
-        public init(players: [Player], configurationName: String, ticketId: String? = nil) {
-            self.players = players
-            self.configurationName = configurationName
-            self.ticketId = ticketId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case players = "Players"
-            case configurationName = "ConfigurationName"
-            case ticketId = "TicketId"
-        }
-    }
-
-    public struct DescribePlayerSessionsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlayerId", required: false, type: .string), 
-            AWSShapeMember(label: "GameSessionId", required: false, type: .string), 
-            AWSShapeMember(label: "PlayerSessionStatusFilter", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "PlayerSessionId", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Unique identifier for a player to retrieve player sessions for.
-        public let playerId: String?
-        /// Unique identifier for the game session to retrieve player sessions for.
-        public let gameSessionId: String?
-        /// Player session status to filter results on. Possible player session statuses include the following:    RESERVED -- The player session request has been received, but the player has not yet connected to the server process and/or been validated.     ACTIVE -- The player has been validated by the server process and is currently connected.    COMPLETED -- The player connection has been dropped.    TIMEDOUT -- A player session request was received, but the player did not connect and/or was not validated within the timeout limit (60 seconds).  
-        public let playerSessionStatusFilter: String?
-        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. If a player session ID is specified, this parameter is ignored.
-        public let limit: Int32?
-        /// Unique identifier for a player session to retrieve.
-        public let playerSessionId: String?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value. If a player session ID is specified, this parameter is ignored.
-        public let nextToken: String?
-
-        public init(playerId: String? = nil, gameSessionId: String? = nil, playerSessionStatusFilter: String? = nil, limit: Int32? = nil, playerSessionId: String? = nil, nextToken: String? = nil) {
-            self.playerId = playerId
-            self.gameSessionId = gameSessionId
-            self.playerSessionStatusFilter = playerSessionStatusFilter
-            self.limit = limit
-            self.playerSessionId = playerSessionId
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case playerId = "PlayerId"
-            case gameSessionId = "GameSessionId"
-            case playerSessionStatusFilter = "PlayerSessionStatusFilter"
-            case limit = "Limit"
-            case playerSessionId = "PlayerSessionId"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct CreateAliasInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoutingStrategy", required: true, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// Object that specifies the fleet and routing type to use for the alias.
-        public let routingStrategy: RoutingStrategy
-        /// Human-readable description of an alias.
-        public let description: String?
-        /// Descriptive label that is associated with an alias. Alias names do not need to be unique.
-        public let name: String
-
-        public init(routingStrategy: RoutingStrategy, description: String? = nil, name: String) {
-            self.routingStrategy = routingStrategy
-            self.description = description
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case routingStrategy = "RoutingStrategy"
-            case description = "Description"
-            case name = "Name"
-        }
-    }
-
-    public struct RequestUploadCredentialsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StorageLocation", required: false, type: .structure), 
-            AWSShapeMember(label: "UploadCredentials", required: false, type: .structure)
-        ]
-        /// Amazon S3 path and key, identifying where the game build files are stored.
-        public let storageLocation: S3Location?
-        /// AWS credentials required when uploading a game build to the storage location. These credentials have a limited lifespan and are valid only for the build they were issued for.
-        public let uploadCredentials: AwsCredentials?
-
-        public init(storageLocation: S3Location? = nil, uploadCredentials: AwsCredentials? = nil) {
-            self.storageLocation = storageLocation
-            self.uploadCredentials = uploadCredentials
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case storageLocation = "StorageLocation"
-            case uploadCredentials = "UploadCredentials"
-        }
-    }
-
-    public enum FleetType: String, CustomStringConvertible, Codable {
-        case onDemand = "ON_DEMAND"
-        case spot = "SPOT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct StartMatchBackfillInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TicketId", required: false, type: .string), 
-            AWSShapeMember(label: "Players", required: true, type: .list), 
-            AWSShapeMember(label: "GameSessionArn", required: true, type: .string), 
-            AWSShapeMember(label: "ConfigurationName", required: true, type: .string)
-        ]
-        /// Unique identifier for a matchmaking ticket. If no ticket ID is specified here, Amazon GameLift will generate one in the form of a UUID. Use this identifier to track the match backfill ticket status and retrieve match results.
-        public let ticketId: String?
-        /// Match information on all players that are currently assigned to the game session. This information is used by the matchmaker to find new players and add them to the existing game.   PlayerID, PlayerAttributes, Team -\\- This information is maintained in the GameSession object, MatchmakerData property, for all players who are currently assigned to the game session. The matchmaker data is in JSON syntax, formatted as a string. For more details, see  Match Data.    LatencyInMs -\\- If the matchmaker uses player latency, include a latency value, in milliseconds, for the region that the game session is currently in. Do not include latency values for any other region.  
-        public let players: [Player]
-        /// Amazon Resource Name (ARN) that is assigned to a game session and uniquely identifies it. 
-        public let gameSessionArn: String
-        /// Name of the matchmaker to use for this request. The name of the matchmaker that was used with the original game session is listed in the GameSession object, MatchmakerData property. This property contains a matchmaking configuration ARN value, which includes the matchmaker name. (In the ARN value "arn:aws:gamelift:us-west-2:111122223333:matchmakingconfiguration/MM-4v4", the matchmaking configuration name is "MM-4v4".) Use only the name for this parameter.
-        public let configurationName: String
-
-        public init(ticketId: String? = nil, players: [Player], gameSessionArn: String, configurationName: String) {
-            self.ticketId = ticketId
-            self.players = players
-            self.gameSessionArn = gameSessionArn
-            self.configurationName = configurationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ticketId = "TicketId"
-            case players = "Players"
-            case gameSessionArn = "GameSessionArn"
-            case configurationName = "ConfigurationName"
-        }
-    }
-
-    public struct DescribeFleetPortSettingsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetId", required: true, type: .string)
-        ]
-        /// Unique identifier for a fleet to retrieve port settings for.
-        public let fleetId: String
-
-        public init(fleetId: String) {
-            self.fleetId = fleetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fleetId = "FleetId"
-        }
-    }
-
-    public struct DescribeVpcPeeringAuthorizationsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VpcPeeringAuthorizations", required: false, type: .list)
-        ]
-        /// Collection of objects that describe all valid VPC peering operations for the current AWS account.
-        public let vpcPeeringAuthorizations: [VpcPeeringAuthorization]?
-
-        public init(vpcPeeringAuthorizations: [VpcPeeringAuthorization]? = nil) {
-            self.vpcPeeringAuthorizations = vpcPeeringAuthorizations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vpcPeeringAuthorizations = "VpcPeeringAuthorizations"
-        }
-    }
-
-    public struct UpdateFleetAttributesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetId", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceCreationLimitPolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "MetricGroups", required: false, type: .list), 
-            AWSShapeMember(label: "NewGameSessionProtectionPolicy", required: false, type: .enum), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// Unique identifier for a fleet to update attribute metadata for.
-        public let fleetId: String
-        /// Policy that limits the number of game sessions an individual player can create over a span of time. 
-        public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
-        /// Descriptive label that is associated with a fleet. Fleet names do not need to be unique.
-        public let name: String?
-        /// Names of metric groups to include this fleet in. Amazon CloudWatch uses a fleet metric group is to aggregate metrics from multiple fleets. Use an existing metric group name to add this fleet to the group. Or use a new name to create a new metric group. A fleet can only be included in one metric group at a time.
-        public let metricGroups: [String]?
-        /// Game session protection policy to apply to all new instances created in this fleet. Instances that already exist are not affected. You can set protection for individual instances using UpdateGameSession.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
-        public let newGameSessionProtectionPolicy: ProtectionPolicy?
-        /// Human-readable description of a fleet.
-        public let description: String?
-
-        public init(fleetId: String, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, name: String? = nil, metricGroups: [String]? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, description: String? = nil) {
-            self.fleetId = fleetId
-            self.resourceCreationLimitPolicy = resourceCreationLimitPolicy
-            self.name = name
-            self.metricGroups = metricGroups
-            self.newGameSessionProtectionPolicy = newGameSessionProtectionPolicy
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fleetId = "FleetId"
-            case resourceCreationLimitPolicy = "ResourceCreationLimitPolicy"
-            case name = "Name"
-            case metricGroups = "MetricGroups"
-            case newGameSessionProtectionPolicy = "NewGameSessionProtectionPolicy"
-            case description = "Description"
+            case vpcPeeringConnectionId = "VpcPeeringConnectionId"
         }
     }
 
     public struct DeleteVpcPeeringConnectionOutput: AWSShape {
 
+        public init() {
+        }
+
     }
 
-    public struct CreateVpcPeeringAuthorizationOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VpcPeeringAuthorization", required: false, type: .structure)
-        ]
-        /// Details on the requested VPC peering authorization, including expiration.
-        public let vpcPeeringAuthorization: VpcPeeringAuthorization?
-
-        public init(vpcPeeringAuthorization: VpcPeeringAuthorization? = nil) {
-            self.vpcPeeringAuthorization = vpcPeeringAuthorization
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vpcPeeringAuthorization = "VpcPeeringAuthorization"
-        }
-    }
-
-    public struct UpdateRuntimeConfigurationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuntimeConfiguration", required: true, type: .structure), 
-            AWSShapeMember(label: "FleetId", required: true, type: .string)
-        ]
-        /// Instructions for launching server processes on each instance in the fleet. The run-time configuration for a fleet has a collection of server process configurations, one for each type of server process to run on an instance. A server process configuration specifies the location of the server executable, launch parameters, and the number of concurrent processes with that configuration to maintain on each instance.
-        public let runtimeConfiguration: RuntimeConfiguration
-        /// Unique identifier for a fleet to update run-time configuration for.
-        public let fleetId: String
-
-        public init(runtimeConfiguration: RuntimeConfiguration, fleetId: String) {
-            self.runtimeConfiguration = runtimeConfiguration
-            self.fleetId = fleetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case runtimeConfiguration = "RuntimeConfiguration"
-            case fleetId = "FleetId"
-        }
-    }
-
-    public struct PutScalingPolicyOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// Descriptive label that is associated with a scaling policy. Policy names do not need to be unique.
-        public let name: String?
-
-        public init(name: String? = nil) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public struct UpdateGameSessionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaximumPlayerSessionCount", required: false, type: .integer), 
-            AWSShapeMember(label: "GameSessionId", required: true, type: .string), 
-            AWSShapeMember(label: "PlayerSessionCreationPolicy", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ProtectionPolicy", required: false, type: .enum)
-        ]
-        /// Maximum number of players that can be connected simultaneously to the game session.
-        public let maximumPlayerSessionCount: Int32?
-        /// Unique identifier for the game session to update.
-        public let gameSessionId: String
-        /// Policy determining whether or not the game session accepts new players.
-        public let playerSessionCreationPolicy: PlayerSessionCreationPolicy?
-        /// Descriptive label that is associated with a game session. Session names do not need to be unique.
-        public let name: String?
-        /// Game session protection policy to apply to this game session only.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
-        public let protectionPolicy: ProtectionPolicy?
-
-        public init(maximumPlayerSessionCount: Int32? = nil, gameSessionId: String, playerSessionCreationPolicy: PlayerSessionCreationPolicy? = nil, name: String? = nil, protectionPolicy: ProtectionPolicy? = nil) {
-            self.maximumPlayerSessionCount = maximumPlayerSessionCount
-            self.gameSessionId = gameSessionId
-            self.playerSessionCreationPolicy = playerSessionCreationPolicy
-            self.name = name
-            self.protectionPolicy = protectionPolicy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
-            case gameSessionId = "GameSessionId"
-            case playerSessionCreationPolicy = "PlayerSessionCreationPolicy"
-            case name = "Name"
-            case protectionPolicy = "ProtectionPolicy"
-        }
-    }
-
-    public struct CreatePlayerSessionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlayerSession", required: false, type: .structure)
-        ]
-        /// Object that describes the newly created player session record.
-        public let playerSession: PlayerSession?
-
-        public init(playerSession: PlayerSession? = nil) {
-            self.playerSession = playerSession
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case playerSession = "PlayerSession"
-        }
-    }
-
-    public struct CreateVpcPeeringAuthorizationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PeerVpcId", required: true, type: .string), 
-            AWSShapeMember(label: "GameLiftAwsAccountId", required: true, type: .string)
-        ]
-        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. To get VPC information, including IDs, use the Virtual Private Cloud service tools, including the VPC Dashboard in the AWS Management Console.
-        public let peerVpcId: String
-        /// Unique identifier for the AWS account that you use to manage your Amazon GameLift fleet. You can find your Account ID in the AWS Management Console under account settings.
-        public let gameLiftAwsAccountId: String
-
-        public init(peerVpcId: String, gameLiftAwsAccountId: String) {
-            self.peerVpcId = peerVpcId
-            self.gameLiftAwsAccountId = gameLiftAwsAccountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case peerVpcId = "PeerVpcId"
-            case gameLiftAwsAccountId = "GameLiftAwsAccountId"
-        }
-    }
-
-    public struct CreateGameSessionQueueInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "TimeoutInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "Destinations", required: false, type: .list), 
-            AWSShapeMember(label: "PlayerLatencyPolicies", required: false, type: .list)
-        ]
-        /// Descriptive label that is associated with game session queue. Queue names must be unique within each region.
-        public let name: String
-        /// Maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status.
-        public let timeoutInSeconds: Int32?
-        /// List of fleets that can be used to fulfill game session placement requests in the queue. Fleets are identified by either a fleet ARN or a fleet alias ARN. Destinations are listed in default preference order.
-        public let destinations: [GameSessionQueueDestination]?
-        /// Collection of latency policies to apply when processing game sessions placement requests with player latency information. Multiple policies are evaluated in order of the maximum latency value, starting with the lowest latency values. With just one policy, it is enforced at the start of the game session placement for the duration period. With multiple policies, each policy is enforced consecutively for its duration period. For example, a queue might enforce a 60-second policy followed by a 120-second policy, and then no policy for the remainder of the placement. A player latency policy must set a value for MaximumIndividualPlayerLatencyMilliseconds; if none is set, this API requests will fail.
-        public let playerLatencyPolicies: [PlayerLatencyPolicy]?
-
-        public init(name: String, timeoutInSeconds: Int32? = nil, destinations: [GameSessionQueueDestination]? = nil, playerLatencyPolicies: [PlayerLatencyPolicy]? = nil) {
-            self.name = name
-            self.timeoutInSeconds = timeoutInSeconds
-            self.destinations = destinations
-            self.playerLatencyPolicies = playerLatencyPolicies
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case timeoutInSeconds = "TimeoutInSeconds"
-            case destinations = "Destinations"
-            case playerLatencyPolicies = "PlayerLatencyPolicies"
-        }
-    }
-
-    public struct DescribeGameSessionPlacementOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GameSessionPlacement", required: false, type: .structure)
-        ]
-        /// Object that describes the requested game session placement.
-        public let gameSessionPlacement: GameSessionPlacement?
-
-        public init(gameSessionPlacement: GameSessionPlacement? = nil) {
-            self.gameSessionPlacement = gameSessionPlacement
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gameSessionPlacement = "GameSessionPlacement"
-        }
-    }
-
-    public struct VpcPeeringAuthorization: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PeerVpcId", required: false, type: .string), 
-            AWSShapeMember(label: "ExpirationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "PeerVpcAwsAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "GameLiftAwsAccountId", required: false, type: .string)
-        ]
-        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. To get VPC information, including IDs, use the Virtual Private Cloud service tools, including the VPC Dashboard in the AWS Management Console.
-        public let peerVpcId: String?
-        /// Time stamp indicating when this authorization expires (24 hours after issuance). Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let expirationTime: TimeStamp?
-        public let peerVpcAwsAccountId: String?
-        /// Time stamp indicating when this authorization was issued. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let creationTime: TimeStamp?
-        /// Unique identifier for the AWS account that you use to manage your Amazon GameLift fleet. You can find your Account ID in the AWS Management Console under account settings.
-        public let gameLiftAwsAccountId: String?
-
-        public init(peerVpcId: String? = nil, expirationTime: TimeStamp? = nil, peerVpcAwsAccountId: String? = nil, creationTime: TimeStamp? = nil, gameLiftAwsAccountId: String? = nil) {
-            self.peerVpcId = peerVpcId
-            self.expirationTime = expirationTime
-            self.peerVpcAwsAccountId = peerVpcAwsAccountId
-            self.creationTime = creationTime
-            self.gameLiftAwsAccountId = gameLiftAwsAccountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case peerVpcId = "PeerVpcId"
-            case expirationTime = "ExpirationTime"
-            case peerVpcAwsAccountId = "PeerVpcAwsAccountId"
-            case creationTime = "CreationTime"
-            case gameLiftAwsAccountId = "GameLiftAwsAccountId"
-        }
-    }
-
-    public struct CreatePlayerSessionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlayerId", required: true, type: .string), 
-            AWSShapeMember(label: "GameSessionId", required: true, type: .string), 
-            AWSShapeMember(label: "PlayerData", required: false, type: .string)
-        ]
-        /// Unique identifier for a player. Player IDs are developer-defined.
-        public let playerId: String
-        /// Unique identifier for the game session to add a player to.
-        public let gameSessionId: String
-        /// Developer-defined information related to a player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game.
-        public let playerData: String?
-
-        public init(playerId: String, gameSessionId: String, playerData: String? = nil) {
-            self.playerId = playerId
-            self.gameSessionId = gameSessionId
-            self.playerData = playerData
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case playerId = "PlayerId"
-            case gameSessionId = "GameSessionId"
-            case playerData = "PlayerData"
-        }
-    }
-
-    public struct CreateGameSessionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetId", required: false, type: .string), 
-            AWSShapeMember(label: "GameProperties", required: false, type: .list), 
-            AWSShapeMember(label: "MaximumPlayerSessionCount", required: true, type: .integer), 
-            AWSShapeMember(label: "GameSessionId", required: false, type: .string), 
-            AWSShapeMember(label: "IdempotencyToken", required: false, type: .string), 
-            AWSShapeMember(label: "GameSessionData", required: false, type: .string), 
-            AWSShapeMember(label: "CreatorId", required: false, type: .string), 
-            AWSShapeMember(label: "AliasId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// Unique identifier for a fleet to create a game session in. Each request must reference either a fleet ID or alias ID, but not both.
-        public let fleetId: String?
-        /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
-        public let gameProperties: [GameProperty]?
-        /// Maximum number of players that can be connected simultaneously to the game session.
-        public let maximumPlayerSessionCount: Int32
-        ///  This parameter is no longer preferred. Please use IdempotencyToken instead. Custom string that uniquely identifies a request for a new game session. Maximum token length is 48 characters. If provided, this string is included in the new game session's ID. (A game session ARN has the following format: arn:aws:gamelift:&lt;region&gt;::gamesession/&lt;fleet ID&gt;/&lt;custom ID string or idempotency token&gt;.) 
-        public let gameSessionId: String?
-        /// Custom string that uniquely identifies a request for a new game session. Maximum token length is 48 characters. If provided, this string is included in the new game session's ID. (A game session ARN has the following format: arn:aws:gamelift:&lt;region&gt;::gamesession/&lt;fleet ID&gt;/&lt;custom ID string or idempotency token&gt;.) Idempotency tokens remain in use for 30 days after a game session has ended; game session objects are retained for this time period and then deleted.
-        public let idempotencyToken: String?
-        /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
-        public let gameSessionData: String?
-        /// Unique identifier for a player or entity creating the game session. This ID is used to enforce a resource protection policy (if one exists) that limits the number of concurrent active game sessions one player can have.
-        public let creatorId: String?
-        /// Unique identifier for an alias associated with the fleet to create a game session in. Each request must reference either a fleet ID or alias ID, but not both.
-        public let aliasId: String?
-        /// Descriptive label that is associated with a game session. Session names do not need to be unique.
-        public let name: String?
-
-        public init(fleetId: String? = nil, gameProperties: [GameProperty]? = nil, maximumPlayerSessionCount: Int32, gameSessionId: String? = nil, idempotencyToken: String? = nil, gameSessionData: String? = nil, creatorId: String? = nil, aliasId: String? = nil, name: String? = nil) {
-            self.fleetId = fleetId
-            self.gameProperties = gameProperties
-            self.maximumPlayerSessionCount = maximumPlayerSessionCount
-            self.gameSessionId = gameSessionId
-            self.idempotencyToken = idempotencyToken
-            self.gameSessionData = gameSessionData
-            self.creatorId = creatorId
-            self.aliasId = aliasId
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fleetId = "FleetId"
-            case gameProperties = "GameProperties"
-            case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
-            case gameSessionId = "GameSessionId"
-            case idempotencyToken = "IdempotencyToken"
-            case gameSessionData = "GameSessionData"
-            case creatorId = "CreatorId"
-            case aliasId = "AliasId"
-            case name = "Name"
-        }
-    }
-
-    public struct DescribeFleetEventsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Events", required: false, type: .list)
-        ]
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
-        public let nextToken: String?
-        /// Collection of objects containing event log entries for the specified fleet.
-        public let events: [Event]?
-
-        public init(nextToken: String? = nil, events: [Event]? = nil) {
-            self.nextToken = nextToken
-            self.events = events
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case events = "Events"
-        }
-    }
-
-    public enum IpProtocol: String, CustomStringConvertible, Codable {
-        case tcp = "TCP"
-        case udp = "UDP"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeMatchmakingRuleSetsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuleSets", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Collection of requested matchmaking rule set objects. 
-        public let ruleSets: [MatchmakingRuleSet]
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
-        public let nextToken: String?
-
-        public init(ruleSets: [MatchmakingRuleSet], nextToken: String? = nil) {
-            self.ruleSets = ruleSets
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ruleSets = "RuleSets"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DeleteAliasInput: AWSShape {
+    public struct DescribeAliasInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AliasId", required: true, type: .string)
         ]
-        /// Unique identifier for a fleet alias. Specify the alias you want to delete.
+        /// Unique identifier for a fleet alias. Specify the alias you want to retrieve.
         public let aliasId: String
 
         public init(aliasId: String) {
@@ -2068,1040 +990,6 @@ extension GameLift {
 
         private enum CodingKeys: String, CodingKey {
             case aliasId = "AliasId"
-        }
-    }
-
-    public struct StartGameSessionPlacementOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GameSessionPlacement", required: false, type: .structure)
-        ]
-        /// Object that describes the newly created game session placement. This object includes all the information provided in the request, as well as start/end time stamps and placement status. 
-        public let gameSessionPlacement: GameSessionPlacement?
-
-        public init(gameSessionPlacement: GameSessionPlacement? = nil) {
-            self.gameSessionPlacement = gameSessionPlacement
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gameSessionPlacement = "GameSessionPlacement"
-        }
-    }
-
-    public struct DescribeGameSessionQueuesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "GameSessionQueues", required: false, type: .list)
-        ]
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
-        public let nextToken: String?
-        /// Collection of objects that describes the requested game session queues.
-        public let gameSessionQueues: [GameSessionQueue]?
-
-        public init(nextToken: String? = nil, gameSessionQueues: [GameSessionQueue]? = nil) {
-            self.nextToken = nextToken
-            self.gameSessionQueues = gameSessionQueues
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case gameSessionQueues = "GameSessionQueues"
-        }
-    }
-
-    public enum InstanceStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case active = "ACTIVE"
-        case terminating = "TERMINATING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListAliasesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "RoutingStrategyType", required: false, type: .enum), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
-        public let limit: Int32?
-        /// Descriptive label that is associated with an alias. Alias names do not need to be unique.
-        public let name: String?
-        /// Type of routing to filter results on. Use this parameter to retrieve only aliases of a certain type. To retrieve all aliases, leave this parameter empty. Possible routing types include the following:    SIMPLE -- The alias resolves to one specific fleet. Use this type when routing to active fleets.    TERMINAL -- The alias does not resolve to a fleet but instead can be used to display a message to the user. A terminal alias throws a TerminalRoutingStrategyException with the RoutingStrategy message embedded.  
-        public let routingStrategyType: RoutingStrategyType?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
-        public let nextToken: String?
-
-        public init(limit: Int32? = nil, name: String? = nil, routingStrategyType: RoutingStrategyType? = nil, nextToken: String? = nil) {
-            self.limit = limit
-            self.name = name
-            self.routingStrategyType = routingStrategyType
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
-            case name = "Name"
-            case routingStrategyType = "RoutingStrategyType"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DescribeGameSessionsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "GameSessionId", required: false, type: .string), 
-            AWSShapeMember(label: "StatusFilter", required: false, type: .string), 
-            AWSShapeMember(label: "AliasId", required: false, type: .string), 
-            AWSShapeMember(label: "FleetId", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer)
-        ]
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
-        public let nextToken: String?
-        /// Unique identifier for the game session to retrieve. You can use either a GameSessionId or GameSessionArn value. 
-        public let gameSessionId: String?
-        /// Game session status to filter results on. Possible game session statuses include ACTIVE, TERMINATED, ACTIVATING, and TERMINATING (the last two are transitory). 
-        public let statusFilter: String?
-        /// Unique identifier for an alias associated with the fleet to retrieve all game sessions for. 
-        public let aliasId: String?
-        /// Unique identifier for a fleet to retrieve all game sessions for.
-        public let fleetId: String?
-        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
-        public let limit: Int32?
-
-        public init(nextToken: String? = nil, gameSessionId: String? = nil, statusFilter: String? = nil, aliasId: String? = nil, fleetId: String? = nil, limit: Int32? = nil) {
-            self.nextToken = nextToken
-            self.gameSessionId = gameSessionId
-            self.statusFilter = statusFilter
-            self.aliasId = aliasId
-            self.fleetId = fleetId
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case gameSessionId = "GameSessionId"
-            case statusFilter = "StatusFilter"
-            case aliasId = "AliasId"
-            case fleetId = "FleetId"
-            case limit = "Limit"
-        }
-    }
-
-    public struct GameSessionQueueDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationArn", required: false, type: .string)
-        ]
-        /// Amazon Resource Name (ARN) assigned to fleet or fleet alias. ARNs, which include a fleet ID or alias ID and a region name, provide a unique identifier across all regions. 
-        public let destinationArn: String?
-
-        public init(destinationArn: String? = nil) {
-            self.destinationArn = destinationArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destinationArn = "DestinationArn"
-        }
-    }
-
-    public struct SearchGameSessionsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "GameSessions", required: false, type: .list)
-        ]
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
-        public let nextToken: String?
-        /// Collection of objects containing game session properties for each session matching the request.
-        public let gameSessions: [GameSession]?
-
-        public init(nextToken: String? = nil, gameSessions: [GameSession]? = nil) {
-            self.nextToken = nextToken
-            self.gameSessions = gameSessions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case gameSessions = "GameSessions"
-        }
-    }
-
-    public struct UpdateMatchmakingConfigurationOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Configuration", required: false, type: .structure)
-        ]
-        /// Object that describes the updated matchmaking configuration.
-        public let configuration: MatchmakingConfiguration?
-
-        public init(configuration: MatchmakingConfiguration? = nil) {
-            self.configuration = configuration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configuration = "Configuration"
-        }
-    }
-
-    public struct UpdateAliasInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AliasId", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "RoutingStrategy", required: false, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// Unique identifier for a fleet alias. Specify the alias you want to update.
-        public let aliasId: String
-        /// Descriptive label that is associated with an alias. Alias names do not need to be unique.
-        public let name: String?
-        /// Object that specifies the fleet and routing type to use for the alias.
-        public let routingStrategy: RoutingStrategy?
-        /// Human-readable description of an alias.
-        public let description: String?
-
-        public init(aliasId: String, name: String? = nil, routingStrategy: RoutingStrategy? = nil, description: String? = nil) {
-            self.aliasId = aliasId
-            self.name = name
-            self.routingStrategy = routingStrategy
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case aliasId = "AliasId"
-            case name = "Name"
-            case routingStrategy = "RoutingStrategy"
-            case description = "Description"
-        }
-    }
-
-    public struct ResourceCreationLimitPolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NewGameSessionsPerCreator", required: false, type: .integer), 
-            AWSShapeMember(label: "PolicyPeriodInMinutes", required: false, type: .integer)
-        ]
-        /// Maximum number of game sessions that an individual can create during the policy period. 
-        public let newGameSessionsPerCreator: Int32?
-        /// Time span used in evaluating the resource creation limit policy. 
-        public let policyPeriodInMinutes: Int32?
-
-        public init(newGameSessionsPerCreator: Int32? = nil, policyPeriodInMinutes: Int32? = nil) {
-            self.newGameSessionsPerCreator = newGameSessionsPerCreator
-            self.policyPeriodInMinutes = policyPeriodInMinutes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case newGameSessionsPerCreator = "NewGameSessionsPerCreator"
-            case policyPeriodInMinutes = "PolicyPeriodInMinutes"
-        }
-    }
-
-    public struct AcceptMatchInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceptanceType", required: true, type: .enum), 
-            AWSShapeMember(label: "TicketId", required: true, type: .string), 
-            AWSShapeMember(label: "PlayerIds", required: true, type: .list)
-        ]
-        /// Player response to the proposed match.
-        public let acceptanceType: AcceptanceType
-        /// Unique identifier for a matchmaking ticket. The ticket must be in status REQUIRES_ACCEPTANCE; otherwise this request will fail.
-        public let ticketId: String
-        /// Unique identifier for a player delivering the response. This parameter can include one or multiple player IDs.
-        public let playerIds: [String]
-
-        public init(acceptanceType: AcceptanceType, ticketId: String, playerIds: [String]) {
-            self.acceptanceType = acceptanceType
-            self.ticketId = ticketId
-            self.playerIds = playerIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case acceptanceType = "AcceptanceType"
-            case ticketId = "TicketId"
-            case playerIds = "PlayerIds"
-        }
-    }
-
-    public struct DescribeRuntimeConfigurationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetId", required: true, type: .string)
-        ]
-        /// Unique identifier for a fleet to get the run-time configuration for.
-        public let fleetId: String
-
-        public init(fleetId: String) {
-            self.fleetId = fleetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fleetId = "FleetId"
-        }
-    }
-
-    public struct PlayerLatencyPolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaximumIndividualPlayerLatencyMilliseconds", required: false, type: .integer), 
-            AWSShapeMember(label: "PolicyDurationSeconds", required: false, type: .integer)
-        ]
-        /// The maximum latency value that is allowed for any player, in milliseconds. All policies must have a value set for this property.
-        public let maximumIndividualPlayerLatencyMilliseconds: Int32?
-        /// The length of time, in seconds, that the policy is enforced while placing a new game session. A null value for this property means that the policy is enforced until the queue times out.
-        public let policyDurationSeconds: Int32?
-
-        public init(maximumIndividualPlayerLatencyMilliseconds: Int32? = nil, policyDurationSeconds: Int32? = nil) {
-            self.maximumIndividualPlayerLatencyMilliseconds = maximumIndividualPlayerLatencyMilliseconds
-            self.policyDurationSeconds = policyDurationSeconds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maximumIndividualPlayerLatencyMilliseconds = "MaximumIndividualPlayerLatencyMilliseconds"
-            case policyDurationSeconds = "PolicyDurationSeconds"
-        }
-    }
-
-    public struct DescribeBuildOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Build", required: false, type: .structure)
-        ]
-        /// Set of properties describing the requested build.
-        public let build: Build?
-
-        public init(build: Build? = nil) {
-            self.build = build
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case build = "Build"
-        }
-    }
-
-    public struct GameProperty: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
-        /// Game property identifier.
-        public let key: String
-        /// Game property value.
-        public let value: String
-
-        public init(key: String, value: String) {
-            self.key = key
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case value = "Value"
-        }
-    }
-
-    public struct DescribePlayerSessionsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PlayerSessions", required: false, type: .list)
-        ]
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
-        public let nextToken: String?
-        /// Collection of objects containing properties for each player session that matches the request.
-        public let playerSessions: [PlayerSession]?
-
-        public init(nextToken: String? = nil, playerSessions: [PlayerSession]? = nil) {
-            self.nextToken = nextToken
-            self.playerSessions = playerSessions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case playerSessions = "PlayerSessions"
-        }
-    }
-
-    public struct DescribeMatchmakingInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TicketIds", required: true, type: .list)
-        ]
-        /// Unique identifier for a matchmaking ticket. You can include up to 10 ID values. 
-        public let ticketIds: [String]
-
-        public init(ticketIds: [String]) {
-            self.ticketIds = ticketIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ticketIds = "TicketIds"
-        }
-    }
-
-    public struct GetGameSessionLogUrlOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PreSignedUrl", required: false, type: .string)
-        ]
-        /// Location of the requested game session logs, available for download.
-        public let preSignedUrl: String?
-
-        public init(preSignedUrl: String? = nil) {
-            self.preSignedUrl = preSignedUrl
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case preSignedUrl = "PreSignedUrl"
-        }
-    }
-
-    public struct GetInstanceAccessInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
-            AWSShapeMember(label: "FleetId", required: true, type: .string)
-        ]
-        /// Unique identifier for an instance you want to get access to. You can access an instance in any status.
-        public let instanceId: String
-        /// Unique identifier for a fleet that contains the instance you want access to. The fleet can be in any of the following statuses: ACTIVATING, ACTIVE, or ERROR. Fleets with an ERROR status may be accessible for a short time before they are deleted.
-        public let fleetId: String
-
-        public init(instanceId: String, fleetId: String) {
-            self.instanceId = instanceId
-            self.fleetId = fleetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
-            case fleetId = "FleetId"
-        }
-    }
-
-    public struct PlacedPlayerSession: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlayerSessionId", required: false, type: .string), 
-            AWSShapeMember(label: "PlayerId", required: false, type: .string)
-        ]
-        /// Unique identifier for a player session.
-        public let playerSessionId: String?
-        /// Unique identifier for a player that is associated with this player session.
-        public let playerId: String?
-
-        public init(playerSessionId: String? = nil, playerId: String? = nil) {
-            self.playerSessionId = playerSessionId
-            self.playerId = playerId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case playerSessionId = "PlayerSessionId"
-            case playerId = "PlayerId"
-        }
-    }
-
-    public struct StartFleetActionsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Actions", required: true, type: .list), 
-            AWSShapeMember(label: "FleetId", required: true, type: .string)
-        ]
-        /// List of actions to restart on the fleet.
-        public let actions: [FleetAction]
-        /// Unique identifier for a fleet
-        public let fleetId: String
-
-        public init(actions: [FleetAction], fleetId: String) {
-            self.actions = actions
-            self.fleetId = fleetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case actions = "Actions"
-            case fleetId = "FleetId"
-        }
-    }
-
-    public struct UpdateFleetCapacityOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetId", required: false, type: .string)
-        ]
-        /// Unique identifier for a fleet that was updated.
-        public let fleetId: String?
-
-        public init(fleetId: String? = nil) {
-            self.fleetId = fleetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fleetId = "FleetId"
-        }
-    }
-
-    public enum ScalingStatusType: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case updateRequested = "UPDATE_REQUESTED"
-        case updating = "UPDATING"
-        case deleteRequested = "DELETE_REQUESTED"
-        case deleting = "DELETING"
-        case deleted = "DELETED"
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FleetAction: String, CustomStringConvertible, Codable {
-        case autoScaling = "AUTO_SCALING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct VpcPeeringConnectionStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Code", required: false, type: .string)
-        ]
-        /// Additional messaging associated with the connection status. 
-        public let message: String?
-        /// Code indicating the status of a VPC peering connection.
-        public let code: String?
-
-        public init(message: String? = nil, code: String? = nil) {
-            self.message = message
-            self.code = code
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-            case code = "Code"
-        }
-    }
-
-    public enum GameSessionPlacementState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case fulfilled = "FULFILLED"
-        case cancelled = "CANCELLED"
-        case timedOut = "TIMED_OUT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeFleetEventsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetId", required: true, type: .string), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Unique identifier for a fleet to get event logs for.
-        public let fleetId: String
-        /// Most recent date to retrieve event logs for. If no end time is specified, this call returns entries from the specified start time up to the present. Format is a number expressed in Unix time as milliseconds (ex: "1469498468.057").
-        public let endTime: TimeStamp?
-        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
-        public let limit: Int32?
-        /// Earliest date to retrieve event logs for. If no start time is specified, this call returns entries starting from when the fleet was created to the specified end time. Format is a number expressed in Unix time as milliseconds (ex: "1469498468.057").
-        public let startTime: TimeStamp?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
-        public let nextToken: String?
-
-        public init(fleetId: String, endTime: TimeStamp? = nil, limit: Int32? = nil, startTime: TimeStamp? = nil, nextToken: String? = nil) {
-            self.fleetId = fleetId
-            self.endTime = endTime
-            self.limit = limit
-            self.startTime = startTime
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fleetId = "FleetId"
-            case endTime = "EndTime"
-            case limit = "Limit"
-            case startTime = "StartTime"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DesiredPlayerSession: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlayerData", required: false, type: .string), 
-            AWSShapeMember(label: "PlayerId", required: false, type: .string)
-        ]
-        /// Developer-defined information related to a player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game.
-        public let playerData: String?
-        /// Unique identifier for a player to associate with the player session.
-        public let playerId: String?
-
-        public init(playerData: String? = nil, playerId: String? = nil) {
-            self.playerData = playerData
-            self.playerId = playerId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case playerData = "PlayerData"
-            case playerId = "PlayerId"
-        }
-    }
-
-    public struct DescribeGameSessionPlacementInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlacementId", required: true, type: .string)
-        ]
-        /// Unique identifier for a game session placement to retrieve.
-        public let placementId: String
-
-        public init(placementId: String) {
-            self.placementId = placementId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case placementId = "PlacementId"
-        }
-    }
-
-    public enum EventCode: String, CustomStringConvertible, Codable {
-        case genericEvent = "GENERIC_EVENT"
-        case fleetCreated = "FLEET_CREATED"
-        case fleetDeleted = "FLEET_DELETED"
-        case fleetScalingEvent = "FLEET_SCALING_EVENT"
-        case fleetStateDownloading = "FLEET_STATE_DOWNLOADING"
-        case fleetStateValidating = "FLEET_STATE_VALIDATING"
-        case fleetStateBuilding = "FLEET_STATE_BUILDING"
-        case fleetStateActivating = "FLEET_STATE_ACTIVATING"
-        case fleetStateActive = "FLEET_STATE_ACTIVE"
-        case fleetStateError = "FLEET_STATE_ERROR"
-        case fleetInitializationFailed = "FLEET_INITIALIZATION_FAILED"
-        case fleetBinaryDownloadFailed = "FLEET_BINARY_DOWNLOAD_FAILED"
-        case fleetValidationLaunchPathNotFound = "FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND"
-        case fleetValidationExecutableRuntimeFailure = "FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE"
-        case fleetValidationTimedOut = "FLEET_VALIDATION_TIMED_OUT"
-        case fleetActivationFailed = "FLEET_ACTIVATION_FAILED"
-        case fleetActivationFailedNoInstances = "FLEET_ACTIVATION_FAILED_NO_INSTANCES"
-        case fleetNewGameSessionProtectionPolicyUpdated = "FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED"
-        case serverProcessInvalidPath = "SERVER_PROCESS_INVALID_PATH"
-        case serverProcessSdkInitializationTimeout = "SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT"
-        case serverProcessProcessReadyTimeout = "SERVER_PROCESS_PROCESS_READY_TIMEOUT"
-        case serverProcessCrashed = "SERVER_PROCESS_CRASHED"
-        case serverProcessTerminatedUnhealthy = "SERVER_PROCESS_TERMINATED_UNHEALTHY"
-        case serverProcessForceTerminated = "SERVER_PROCESS_FORCE_TERMINATED"
-        case serverProcessProcessExitTimeout = "SERVER_PROCESS_PROCESS_EXIT_TIMEOUT"
-        case gameSessionActivationTimeout = "GAME_SESSION_ACTIVATION_TIMEOUT"
-        case fleetCreationExtractingBuild = "FLEET_CREATION_EXTRACTING_BUILD"
-        case fleetCreationRunningInstaller = "FLEET_CREATION_RUNNING_INSTALLER"
-        case fleetCreationValidatingRuntimeConfig = "FLEET_CREATION_VALIDATING_RUNTIME_CONFIG"
-        case fleetVpcPeeringSucceeded = "FLEET_VPC_PEERING_SUCCEEDED"
-        case fleetVpcPeeringFailed = "FLEET_VPC_PEERING_FAILED"
-        case fleetVpcPeeringDeleted = "FLEET_VPC_PEERING_DELETED"
-        case instanceInterrupted = "INSTANCE_INTERRUPTED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ValidateMatchmakingRuleSetInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuleSetBody", required: true, type: .string)
-        ]
-        /// Collection of matchmaking rules to validate, formatted as a JSON string.
-        public let ruleSetBody: String
-
-        public init(ruleSetBody: String) {
-            self.ruleSetBody = ruleSetBody
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ruleSetBody = "RuleSetBody"
-        }
-    }
-
-    public struct ListAliasesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Aliases", required: false, type: .list)
-        ]
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
-        public let nextToken: String?
-        /// Collection of alias records that match the list request.
-        public let aliases: [Alias]?
-
-        public init(nextToken: String? = nil, aliases: [Alias]? = nil) {
-            self.nextToken = nextToken
-            self.aliases = aliases
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case aliases = "Aliases"
-        }
-    }
-
-    public struct MatchmakingTicket: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TicketId", required: false, type: .string), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "GameSessionConnectionInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "ConfigurationName", required: false, type: .string), 
-            AWSShapeMember(label: "Players", required: false, type: .list), 
-            AWSShapeMember(label: "StatusReason", required: false, type: .string), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EstimatedWaitTime", required: false, type: .integer)
-        ]
-        /// Time stamp indicating when this matchmaking request stopped being processed due to success, failure, or cancellation. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let endTime: TimeStamp?
-        /// Unique identifier for a matchmaking ticket.
-        public let ticketId: String?
-        /// Additional information about the current status.
-        public let statusMessage: String?
-        /// Identifier and connection information of the game session created for the match. This information is added to the ticket only after the matchmaking request has been successfully completed.
-        public let gameSessionConnectionInfo: GameSessionConnectionInfo?
-        /// Current status of the matchmaking request.    QUEUED -- The matchmaking request has been received and is currently waiting to be processed.    SEARCHING -- The matchmaking request is currently being processed.     REQUIRES_ACCEPTANCE -- A match has been proposed and the players must accept the match (see AcceptMatch). This status is used only with requests that use a matchmaking configuration with a player acceptance requirement.    PLACING -- The FlexMatch engine has matched players and is in the process of placing a new game session for the match.    COMPLETED -- Players have been matched and a game session is ready to host the players. A ticket in this state contains the necessary connection information for players.    FAILED -- The matchmaking request was not completed. Tickets with players who fail to accept a proposed match are placed in FAILED status.    CANCELLED -- The matchmaking request was canceled with a call to StopMatchmaking.    TIMED_OUT -- The matchmaking request was not successful within the duration specified in the matchmaking configuration.     Matchmaking requests that fail to successfully complete (statuses FAILED, CANCELLED, TIMED_OUT) can be resubmitted as new requests with new ticket IDs. 
-        public let status: MatchmakingConfigurationStatus?
-        /// Name of the MatchmakingConfiguration that is used with this ticket. Matchmaking configurations determine how players are grouped into a match and how a new game session is created for the match.
-        public let configurationName: String?
-        /// A set of Player objects, each representing a player to find matches for. Players are identified by a unique player ID and may include latency data for use during matchmaking. If the ticket is in status COMPLETED, the Player objects include the team the players were assigned to in the resulting match.
-        public let players: [Player]?
-        /// Code to explain the current status. For example, a status reason may indicate when a ticket has returned to SEARCHING status after a proposed match fails to receive player acceptances.
-        public let statusReason: String?
-        /// Time stamp indicating when this matchmaking request was received. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let startTime: TimeStamp?
-        /// Average amount of time (in seconds) that players are currently waiting for a match. If there is not enough recent data, this property may be empty.
-        public let estimatedWaitTime: Int32?
-
-        public init(endTime: TimeStamp? = nil, ticketId: String? = nil, statusMessage: String? = nil, gameSessionConnectionInfo: GameSessionConnectionInfo? = nil, status: MatchmakingConfigurationStatus? = nil, configurationName: String? = nil, players: [Player]? = nil, statusReason: String? = nil, startTime: TimeStamp? = nil, estimatedWaitTime: Int32? = nil) {
-            self.endTime = endTime
-            self.ticketId = ticketId
-            self.statusMessage = statusMessage
-            self.gameSessionConnectionInfo = gameSessionConnectionInfo
-            self.status = status
-            self.configurationName = configurationName
-            self.players = players
-            self.statusReason = statusReason
-            self.startTime = startTime
-            self.estimatedWaitTime = estimatedWaitTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endTime = "EndTime"
-            case ticketId = "TicketId"
-            case statusMessage = "StatusMessage"
-            case gameSessionConnectionInfo = "GameSessionConnectionInfo"
-            case status = "Status"
-            case configurationName = "ConfigurationName"
-            case players = "Players"
-            case statusReason = "StatusReason"
-            case startTime = "StartTime"
-            case estimatedWaitTime = "EstimatedWaitTime"
-        }
-    }
-
-    public struct GameSession: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GameSessionData", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "PlayerSessionCreationPolicy", required: false, type: .enum), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusReason", required: false, type: .enum), 
-            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
-            AWSShapeMember(label: "MaximumPlayerSessionCount", required: false, type: .integer), 
-            AWSShapeMember(label: "CreatorId", required: false, type: .string), 
-            AWSShapeMember(label: "CurrentPlayerSessionCount", required: false, type: .integer), 
-            AWSShapeMember(label: "GameProperties", required: false, type: .list), 
-            AWSShapeMember(label: "TerminationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "GameSessionId", required: false, type: .string), 
-            AWSShapeMember(label: "FleetId", required: false, type: .string), 
-            AWSShapeMember(label: "MatchmakerData", required: false, type: .string)
-        ]
-        /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
-        public let gameSessionData: String?
-        /// Descriptive label that is associated with a game session. Session names do not need to be unique.
-        public let name: String?
-        /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let creationTime: TimeStamp?
-        /// Indicates whether or not the game session is accepting new players.
-        public let playerSessionCreationPolicy: PlayerSessionCreationPolicy?
-        /// Current status of the game session. A game session must have an ACTIVE status to have player sessions.
-        public let status: GameSessionStatus?
-        /// Provides additional information about game session status. INTERRUPTED indicates that the game session was hosted on a spot instance that was reclaimed, causing the active game session to be terminated.
-        public let statusReason: GameSessionStatusReason?
-        /// IP address of the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
-        public let ipAddress: String?
-        /// Maximum number of players that can be connected simultaneously to the game session.
-        public let maximumPlayerSessionCount: Int32?
-        /// Unique identifier for a player. This ID is used to enforce a resource protection policy (if one exists), that limits the number of game sessions a player can create.
-        public let creatorId: String?
-        /// Number of players currently in the game session.
-        public let currentPlayerSessionCount: Int32?
-        /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). You can search for active game sessions based on this custom data with SearchGameSessions.
-        public let gameProperties: [GameProperty]?
-        /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let terminationTime: TimeStamp?
-        /// Port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
-        public let port: Int32?
-        /// Unique identifier for the game session. A game session ARN has the following format: arn:aws:gamelift:&lt;region&gt;::gamesession/&lt;fleet ID&gt;/&lt;custom ID string or idempotency token&gt;.
-        public let gameSessionId: String?
-        /// Unique identifier for a fleet that the game session is running on.
-        public let fleetId: String?
-        /// Information about the matchmaking process that was used to create the game session. It is in JSON syntax, formatted as a string. In addition the matchmaking configuration used, it contains data on all players assigned to the match, including player attributes and team assignments. For more details on matchmaker data, see Match Data. Matchmaker data is useful when requesting match backfills, and is updated whenever new players are added during a successful backfill (see StartMatchBackfill). 
-        public let matchmakerData: String?
-
-        public init(gameSessionData: String? = nil, name: String? = nil, creationTime: TimeStamp? = nil, playerSessionCreationPolicy: PlayerSessionCreationPolicy? = nil, status: GameSessionStatus? = nil, statusReason: GameSessionStatusReason? = nil, ipAddress: String? = nil, maximumPlayerSessionCount: Int32? = nil, creatorId: String? = nil, currentPlayerSessionCount: Int32? = nil, gameProperties: [GameProperty]? = nil, terminationTime: TimeStamp? = nil, port: Int32? = nil, gameSessionId: String? = nil, fleetId: String? = nil, matchmakerData: String? = nil) {
-            self.gameSessionData = gameSessionData
-            self.name = name
-            self.creationTime = creationTime
-            self.playerSessionCreationPolicy = playerSessionCreationPolicy
-            self.status = status
-            self.statusReason = statusReason
-            self.ipAddress = ipAddress
-            self.maximumPlayerSessionCount = maximumPlayerSessionCount
-            self.creatorId = creatorId
-            self.currentPlayerSessionCount = currentPlayerSessionCount
-            self.gameProperties = gameProperties
-            self.terminationTime = terminationTime
-            self.port = port
-            self.gameSessionId = gameSessionId
-            self.fleetId = fleetId
-            self.matchmakerData = matchmakerData
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gameSessionData = "GameSessionData"
-            case name = "Name"
-            case creationTime = "CreationTime"
-            case playerSessionCreationPolicy = "PlayerSessionCreationPolicy"
-            case status = "Status"
-            case statusReason = "StatusReason"
-            case ipAddress = "IpAddress"
-            case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
-            case creatorId = "CreatorId"
-            case currentPlayerSessionCount = "CurrentPlayerSessionCount"
-            case gameProperties = "GameProperties"
-            case terminationTime = "TerminationTime"
-            case port = "Port"
-            case gameSessionId = "GameSessionId"
-            case fleetId = "FleetId"
-            case matchmakerData = "MatchmakerData"
-        }
-    }
-
-    public struct Build: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SizeOnDisk", required: false, type: .long), 
-            AWSShapeMember(label: "BuildId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Version", required: false, type: .string), 
-            AWSShapeMember(label: "OperatingSystem", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// File size of the uploaded game build, expressed in bytes. When the build status is INITIALIZED, this value is 0.
-        public let sizeOnDisk: Int64?
-        /// Unique identifier for a build.
-        public let buildId: String?
-        /// Current status of the build. Possible build statuses include the following:    INITIALIZED -- A new build has been defined, but no files have been uploaded. You cannot create fleets for builds that are in this status. When a build is successfully created, the build status is set to this value.     READY -- The game build has been successfully uploaded. You can now create new fleets for this build.    FAILED -- The game build upload failed. You cannot create new fleets for this build.   
-        public let status: BuildStatus?
-        /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let creationTime: TimeStamp?
-        /// Version that is associated with this build. Version strings do not need to be unique. This value can be set using CreateBuild or UpdateBuild.
-        public let version: String?
-        /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build.
-        public let operatingSystem: OperatingSystem?
-        /// Descriptive label that is associated with a build. Build names do not need to be unique. It can be set using CreateBuild or UpdateBuild.
-        public let name: String?
-
-        public init(sizeOnDisk: Int64? = nil, buildId: String? = nil, status: BuildStatus? = nil, creationTime: TimeStamp? = nil, version: String? = nil, operatingSystem: OperatingSystem? = nil, name: String? = nil) {
-            self.sizeOnDisk = sizeOnDisk
-            self.buildId = buildId
-            self.status = status
-            self.creationTime = creationTime
-            self.version = version
-            self.operatingSystem = operatingSystem
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sizeOnDisk = "SizeOnDisk"
-            case buildId = "BuildId"
-            case status = "Status"
-            case creationTime = "CreationTime"
-            case version = "Version"
-            case operatingSystem = "OperatingSystem"
-            case name = "Name"
-        }
-    }
-
-    public struct StartMatchBackfillOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MatchmakingTicket", required: false, type: .structure)
-        ]
-        /// Ticket representing the backfill matchmaking request. This object includes the information in the request, ticket status, and match results as generated during the matchmaking process.
-        public let matchmakingTicket: MatchmakingTicket?
-
-        public init(matchmakingTicket: MatchmakingTicket? = nil) {
-            self.matchmakingTicket = matchmakingTicket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case matchmakingTicket = "MatchmakingTicket"
-        }
-    }
-
-    public enum PlayerSessionCreationPolicy: String, CustomStringConvertible, Codable {
-        case acceptAll = "ACCEPT_ALL"
-        case denyAll = "DENY_ALL"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ScalingPolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetId", required: false, type: .string), 
-            AWSShapeMember(label: "Threshold", required: false, type: .double), 
-            AWSShapeMember(label: "EvaluationPeriods", required: false, type: .integer), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "ScalingAdjustment", required: false, type: .integer), 
-            AWSShapeMember(label: "TargetConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "MetricName", required: false, type: .enum), 
-            AWSShapeMember(label: "ComparisonOperator", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ScalingAdjustmentType", required: false, type: .enum), 
-            AWSShapeMember(label: "PolicyType", required: false, type: .enum)
-        ]
-        /// Unique identifier for a fleet that is associated with this scaling policy.
-        public let fleetId: String?
-        /// Metric value used to trigger a scaling event.
-        public let threshold: Double?
-        /// Length of time (in minutes) the metric must be at or beyond the threshold before a scaling event is triggered.
-        public let evaluationPeriods: Int32?
-        /// Current status of the scaling policy. The scaling policy can be in force only when in an ACTIVE status. Scaling policies can be suspended for individual fleets (see StopFleetActions; if suspended for a fleet, the policy status does not change. View a fleet's stopped actions by calling DescribeFleetCapacity.    ACTIVE -- The scaling policy can be used for auto-scaling a fleet.    UPDATE_REQUESTED -- A request to update the scaling policy has been received.    UPDATING -- A change is being made to the scaling policy.    DELETE_REQUESTED -- A request to delete the scaling policy has been received.    DELETING -- The scaling policy is being deleted.    DELETED -- The scaling policy has been deleted.    ERROR -- An error occurred in creating the policy. It should be removed and recreated.  
-        public let status: ScalingStatusType?
-        /// Amount of adjustment to make, based on the scaling adjustment type.
-        public let scalingAdjustment: Int32?
-        /// Object that contains settings for a target-based scaling policy.
-        public let targetConfiguration: TargetConfiguration?
-        /// Name of the Amazon GameLift-defined metric that is used to trigger a scaling adjustment. For detailed descriptions of fleet metrics, see Monitor Amazon GameLift with Amazon CloudWatch.     ActivatingGameSessions -- Game sessions in the process of being created.    ActiveGameSessions -- Game sessions that are currently running.    ActiveInstances -- Fleet instances that are currently running at least one game session.    AvailableGameSessions -- Additional game sessions that fleet could host simultaneously, given current capacity.    AvailablePlayerSessions -- Empty player slots in currently active game sessions. This includes game sessions that are not currently accepting players. Reserved player slots are not included.    CurrentPlayerSessions -- Player slots in active game sessions that are being used by a player or are reserved for a player.     IdleInstances -- Active instances that are currently hosting zero game sessions.     PercentAvailableGameSessions -- Unused percentage of the total number of game sessions that a fleet could host simultaneously, given current capacity. Use this metric for a target-based scaling policy.    PercentIdleInstances -- Percentage of the total number of active instances that are hosting zero game sessions.    QueueDepth -- Pending game session placement requests, in any queue, where the current fleet is the top-priority destination.    WaitTime -- Current wait time for pending game session placement requests, in any queue, where the current fleet is the top-priority destination.   
-        public let metricName: MetricName?
-        /// Comparison operator to use when measuring a metric against the threshold value.
-        public let comparisonOperator: ComparisonOperatorType?
-        /// Descriptive label that is associated with a scaling policy. Policy names do not need to be unique.
-        public let name: String?
-        /// Type of adjustment to make to a fleet's instance count (see FleetCapacity):    ChangeInCapacity -- add (or subtract) the scaling adjustment value from the current instance count. Positive values scale up while negative values scale down.    ExactCapacity -- set the instance count to the scaling adjustment value.    PercentChangeInCapacity -- increase or reduce the current instance count by the scaling adjustment, read as a percentage. Positive values scale up while negative values scale down.  
-        public let scalingAdjustmentType: ScalingAdjustmentType?
-        /// Type of scaling policy to create. For a target-based policy, set the parameter MetricName to 'PercentAvailableGameSessions' and specify a TargetConfiguration. For a rule-based policy set the following parameters: MetricName, ComparisonOperator, Threshold, EvaluationPeriods, ScalingAdjustmentType, and ScalingAdjustment.
-        public let policyType: PolicyType?
-
-        public init(fleetId: String? = nil, threshold: Double? = nil, evaluationPeriods: Int32? = nil, status: ScalingStatusType? = nil, scalingAdjustment: Int32? = nil, targetConfiguration: TargetConfiguration? = nil, metricName: MetricName? = nil, comparisonOperator: ComparisonOperatorType? = nil, name: String? = nil, scalingAdjustmentType: ScalingAdjustmentType? = nil, policyType: PolicyType? = nil) {
-            self.fleetId = fleetId
-            self.threshold = threshold
-            self.evaluationPeriods = evaluationPeriods
-            self.status = status
-            self.scalingAdjustment = scalingAdjustment
-            self.targetConfiguration = targetConfiguration
-            self.metricName = metricName
-            self.comparisonOperator = comparisonOperator
-            self.name = name
-            self.scalingAdjustmentType = scalingAdjustmentType
-            self.policyType = policyType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fleetId = "FleetId"
-            case threshold = "Threshold"
-            case evaluationPeriods = "EvaluationPeriods"
-            case status = "Status"
-            case scalingAdjustment = "ScalingAdjustment"
-            case targetConfiguration = "TargetConfiguration"
-            case metricName = "MetricName"
-            case comparisonOperator = "ComparisonOperator"
-            case name = "Name"
-            case scalingAdjustmentType = "ScalingAdjustmentType"
-            case policyType = "PolicyType"
-        }
-    }
-
-    public struct CreatePlayerSessionsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlayerSessions", required: false, type: .list)
-        ]
-        /// Collection of player session objects created for the added players.
-        public let playerSessions: [PlayerSession]?
-
-        public init(playerSessions: [PlayerSession]? = nil) {
-            self.playerSessions = playerSessions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case playerSessions = "PlayerSessions"
-        }
-    }
-
-    public struct RuntimeConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerProcesses", required: false, type: .list), 
-            AWSShapeMember(label: "GameSessionActivationTimeoutSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "MaxConcurrentGameSessionActivations", required: false, type: .integer)
-        ]
-        /// Collection of server process configurations that describe which server processes to run on each instance in a fleet.
-        public let serverProcesses: [ServerProcess]?
-        /// Maximum amount of time (in seconds) that a game session can remain in status ACTIVATING. If the game session is not active before the timeout, activation is terminated and the game session status is changed to TERMINATED.
-        public let gameSessionActivationTimeoutSeconds: Int32?
-        /// Maximum number of game sessions with status ACTIVATING to allow on an instance simultaneously. This setting limits the amount of instance resources that can be used for new game activations at any one time.
-        public let maxConcurrentGameSessionActivations: Int32?
-
-        public init(serverProcesses: [ServerProcess]? = nil, gameSessionActivationTimeoutSeconds: Int32? = nil, maxConcurrentGameSessionActivations: Int32? = nil) {
-            self.serverProcesses = serverProcesses
-            self.gameSessionActivationTimeoutSeconds = gameSessionActivationTimeoutSeconds
-            self.maxConcurrentGameSessionActivations = maxConcurrentGameSessionActivations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverProcesses = "ServerProcesses"
-            case gameSessionActivationTimeoutSeconds = "GameSessionActivationTimeoutSeconds"
-            case maxConcurrentGameSessionActivations = "MaxConcurrentGameSessionActivations"
-        }
-    }
-
-    public enum GameSessionStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case activating = "ACTIVATING"
-        case terminated = "TERMINATED"
-        case terminating = "TERMINATING"
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct EC2InstanceLimit: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceLimit", required: false, type: .integer), 
-            AWSShapeMember(label: "CurrentInstances", required: false, type: .integer), 
-            AWSShapeMember(label: "EC2InstanceType", required: false, type: .enum)
-        ]
-        /// Number of instances allowed.
-        public let instanceLimit: Int32?
-        /// Number of instances of the specified type that are currently in use by this AWS account.
-        public let currentInstances: Int32?
-        /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions.
-        public let eC2InstanceType: EC2InstanceType?
-
-        public init(instanceLimit: Int32? = nil, currentInstances: Int32? = nil, eC2InstanceType: EC2InstanceType? = nil) {
-            self.instanceLimit = instanceLimit
-            self.currentInstances = currentInstances
-            self.eC2InstanceType = eC2InstanceType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceLimit = "InstanceLimit"
-            case currentInstances = "CurrentInstances"
-            case eC2InstanceType = "EC2InstanceType"
-        }
-    }
-
-    public struct PlayerLatency: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LatencyInMilliseconds", required: false, type: .float), 
-            AWSShapeMember(label: "RegionIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "PlayerId", required: false, type: .string)
-        ]
-        /// Amount of time that represents the time lag experienced by the player when connected to the specified region.
-        public let latencyInMilliseconds: Float?
-        /// Name of the region that is associated with the latency value.
-        public let regionIdentifier: String?
-        /// Unique identifier for a player associated with the latency data.
-        public let playerId: String?
-
-        public init(latencyInMilliseconds: Float? = nil, regionIdentifier: String? = nil, playerId: String? = nil) {
-            self.latencyInMilliseconds = latencyInMilliseconds
-            self.regionIdentifier = regionIdentifier
-            self.playerId = playerId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case latencyInMilliseconds = "LatencyInMilliseconds"
-            case regionIdentifier = "RegionIdentifier"
-            case playerId = "PlayerId"
         }
     }
 
@@ -3121,58 +1009,11 @@ extension GameLift {
         }
     }
 
-    public struct AttributeValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SDM", required: false, type: .map), 
-            AWSShapeMember(label: "N", required: false, type: .double), 
-            AWSShapeMember(label: "S", required: false, type: .string), 
-            AWSShapeMember(label: "SL", required: false, type: .list)
-        ]
-        /// For a map of up to 10 data type:value pairs. Maximum length for each string value is 100 characters. 
-        public let sdm: [String: Double]?
-        /// For number values, expressed as double.
-        public let n: Double?
-        /// For single string values. Maximum string length is 100 characters.
-        public let s: String?
-        /// For a list of up to 10 strings. Maximum length for each string is 100 characters. Duplicate values are not recognized; all occurrences of the repeated value after the first of a repeated value are ignored.
-        public let sl: [String]?
-
-        public init(sdm: [String: Double]? = nil, n: Double? = nil, s: String? = nil, sl: [String]? = nil) {
-            self.sdm = sdm
-            self.n = n
-            self.s = s
-            self.sl = sl
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sdm = "SDM"
-            case n = "N"
-            case s = "S"
-            case sl = "SL"
-        }
-    }
-
-    public struct ValidateMatchmakingRuleSetOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Valid", required: false, type: .boolean)
-        ]
-        /// Response indicating whether or not the rule set is valid.
-        public let valid: Bool?
-
-        public init(valid: Bool? = nil) {
-            self.valid = valid
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case valid = "Valid"
-        }
-    }
-
-    public struct DeleteBuildInput: AWSShape {
+    public struct DescribeBuildInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BuildId", required: true, type: .string)
         ]
-        /// Unique identifier for a build to delete.
+        /// Unique identifier for a build to retrieve properties for.
         public let buildId: String
 
         public init(buildId: String) {
@@ -3184,134 +1025,567 @@ extension GameLift {
         }
     }
 
-    public struct FleetAttributes: AWSShape {
+    public struct DescribeBuildOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceCreationLimitPolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "NewGameSessionProtectionPolicy", required: false, type: .enum), 
-            AWSShapeMember(label: "FleetArn", required: false, type: .string), 
-            AWSShapeMember(label: "BuildId", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ServerLaunchPath", required: false, type: .string), 
-            AWSShapeMember(label: "ServerLaunchParameters", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "FleetType", required: false, type: .enum), 
-            AWSShapeMember(label: "OperatingSystem", required: false, type: .enum), 
-            AWSShapeMember(label: "MetricGroups", required: false, type: .list), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "TerminationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .enum), 
-            AWSShapeMember(label: "LogPaths", required: false, type: .list), 
-            AWSShapeMember(label: "FleetId", required: false, type: .string), 
-            AWSShapeMember(label: "StoppedActions", required: false, type: .list)
+            AWSShapeMember(label: "Build", required: false, type: .structure)
         ]
-        /// Fleet policy to limit the number of game sessions an individual player can create over a span of time.
-        public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
-        /// Descriptive label that is associated with a fleet. Fleet names do not need to be unique.
-        public let name: String?
-        /// Type of game session protection to set for all new instances started in the fleet.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
-        public let newGameSessionProtectionPolicy: ProtectionPolicy?
-        /// Identifier for a fleet that is unique across all regions.
-        public let fleetArn: String?
-        /// Unique identifier for a build.
-        public let buildId: String?
-        /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let creationTime: TimeStamp?
-        /// Path to a game server executable in the fleet's build, specified for fleets created before 2016-08-04 (or AWS SDK v. 0.12.16). Server launch paths for fleets created after this date are specified in the fleet's RuntimeConfiguration.
-        public let serverLaunchPath: String?
-        /// Game server launch parameters specified for fleets created before 2016-08-04 (or AWS SDK v. 0.12.16). Server launch parameters for fleets created after this date are specified in the fleet's RuntimeConfiguration.
-        public let serverLaunchParameters: String?
-        /// Current status of the fleet. Possible fleet statuses include the following:    NEW -- A new fleet has been defined and desired instances is set to 1.     DOWNLOADING/VALIDATING/BUILDING/ACTIVATING -- Amazon GameLift is setting up the new fleet, creating new instances with the game build and starting server processes.    ACTIVE -- Hosts can now accept game sessions.    ERROR -- An error occurred when downloading, validating, building, or activating the fleet.    DELETING -- Hosts are responding to a delete fleet request.    TERMINATED -- The fleet no longer exists.  
-        public let status: FleetStatus?
-        /// Indicates whether the fleet uses on-demand or spot instances. A spot instance in use may be interrupted with a two-minute notification.
-        public let fleetType: FleetType?
-        /// Operating system of the fleet's computing resources. A fleet's operating system depends on the OS specified for the build that is deployed on this fleet.
-        public let operatingSystem: OperatingSystem?
-        /// Names of metric groups that this fleet is included in. In Amazon CloudWatch, you can view metrics for an individual fleet or aggregated metrics for fleets that are in a fleet metric group. A fleet can be included in only one metric group at a time.
-        public let metricGroups: [String]?
-        /// Human-readable description of the fleet.
-        public let description: String?
-        /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let terminationTime: TimeStamp?
-        /// EC2 instance type indicating the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. See Amazon EC2 Instance Types for detailed descriptions.
-        public let instanceType: EC2InstanceType?
-        /// Location of default log files. When a server process is shut down, Amazon GameLift captures and stores any log files in this location. These logs are in addition to game session logs; see more on game session logs in the Amazon GameLift Developer Guide. If no default log path for a fleet is specified, Amazon GameLift automatically uploads logs that are stored on each instance at C:\game\logs (for Windows) or /local/game/logs (for Linux). Use the Amazon GameLift console to access stored logs. 
-        public let logPaths: [String]?
-        /// Unique identifier for a fleet.
-        public let fleetId: String?
-        /// List of fleet actions that have been suspended using StopFleetActions. This includes auto-scaling.
-        public let stoppedActions: [FleetAction]?
+        /// Set of properties describing the requested build.
+        public let build: Build?
 
-        public init(resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, name: String? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, fleetArn: String? = nil, buildId: String? = nil, creationTime: TimeStamp? = nil, serverLaunchPath: String? = nil, serverLaunchParameters: String? = nil, status: FleetStatus? = nil, fleetType: FleetType? = nil, operatingSystem: OperatingSystem? = nil, metricGroups: [String]? = nil, description: String? = nil, terminationTime: TimeStamp? = nil, instanceType: EC2InstanceType? = nil, logPaths: [String]? = nil, fleetId: String? = nil, stoppedActions: [FleetAction]? = nil) {
-            self.resourceCreationLimitPolicy = resourceCreationLimitPolicy
-            self.name = name
-            self.newGameSessionProtectionPolicy = newGameSessionProtectionPolicy
-            self.fleetArn = fleetArn
-            self.buildId = buildId
-            self.creationTime = creationTime
-            self.serverLaunchPath = serverLaunchPath
-            self.serverLaunchParameters = serverLaunchParameters
-            self.status = status
-            self.fleetType = fleetType
-            self.operatingSystem = operatingSystem
-            self.metricGroups = metricGroups
-            self.description = description
-            self.terminationTime = terminationTime
-            self.instanceType = instanceType
-            self.logPaths = logPaths
-            self.fleetId = fleetId
-            self.stoppedActions = stoppedActions
+        public init(build: Build? = nil) {
+            self.build = build
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceCreationLimitPolicy = "ResourceCreationLimitPolicy"
-            case name = "Name"
-            case newGameSessionProtectionPolicy = "NewGameSessionProtectionPolicy"
-            case fleetArn = "FleetArn"
-            case buildId = "BuildId"
-            case creationTime = "CreationTime"
-            case serverLaunchPath = "ServerLaunchPath"
-            case serverLaunchParameters = "ServerLaunchParameters"
-            case status = "Status"
-            case fleetType = "FleetType"
-            case operatingSystem = "OperatingSystem"
-            case metricGroups = "MetricGroups"
-            case description = "Description"
-            case terminationTime = "TerminationTime"
-            case instanceType = "InstanceType"
-            case logPaths = "LogPaths"
-            case fleetId = "FleetId"
-            case stoppedActions = "StoppedActions"
+            case build = "Build"
         }
     }
 
-    public struct DeleteGameSessionQueueOutput: AWSShape {
+    public struct DescribeEC2InstanceLimitsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EC2InstanceType", required: false, type: .enum)
+        ]
+        /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions. Leave this parameter blank to retrieve limits for all types.
+        public let eC2InstanceType: EC2InstanceType?
 
+        public init(eC2InstanceType: EC2InstanceType? = nil) {
+            self.eC2InstanceType = eC2InstanceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eC2InstanceType = "EC2InstanceType"
+        }
+    }
+
+    public struct DescribeEC2InstanceLimitsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EC2InstanceLimits", required: false, type: .list)
+        ]
+        /// Object that contains the maximum number of instances for the specified instance type.
+        public let eC2InstanceLimits: [EC2InstanceLimit]?
+
+        public init(eC2InstanceLimits: [EC2InstanceLimit]? = nil) {
+            self.eC2InstanceLimits = eC2InstanceLimits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eC2InstanceLimits = "EC2InstanceLimits"
+        }
     }
 
     public struct DescribeFleetAttributesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FleetIds", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer)
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Unique identifier for a fleet(s) to retrieve attributes for. To request attributes for all fleets, leave this parameter empty.
         public let fleetIds: [String]?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
-        public let nextToken: String?
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This parameter is ignored when the request specifies one or a list of fleet IDs.
         public let limit: Int32?
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
+        public let nextToken: String?
 
-        public init(fleetIds: [String]? = nil, nextToken: String? = nil, limit: Int32? = nil) {
+        public init(fleetIds: [String]? = nil, limit: Int32? = nil, nextToken: String? = nil) {
             self.fleetIds = fleetIds
-            self.nextToken = nextToken
             self.limit = limit
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case fleetIds = "FleetIds"
-            case nextToken = "NextToken"
             case limit = "Limit"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeFleetAttributesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Collection of objects containing attribute metadata for each requested fleet ID.
+        public let fleetAttributes: [FleetAttributes]?
+        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        public let nextToken: String?
+
+        public init(fleetAttributes: [FleetAttributes]? = nil, nextToken: String? = nil) {
+            self.fleetAttributes = fleetAttributes
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetAttributes = "FleetAttributes"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeFleetCapacityInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetIds", required: false, type: .list), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Unique identifier for a fleet(s) to retrieve capacity information for. To request capacity information for all fleets, leave this parameter empty.
+        public let fleetIds: [String]?
+        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This parameter is ignored when the request specifies one or a list of fleet IDs.
+        public let limit: Int32?
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
+        public let nextToken: String?
+
+        public init(fleetIds: [String]? = nil, limit: Int32? = nil, nextToken: String? = nil) {
+            self.fleetIds = fleetIds
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetIds = "FleetIds"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeFleetCapacityOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetCapacity", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Collection of objects containing capacity information for each requested fleet ID. Leave this parameter empty to retrieve capacity information for all fleets.
+        public let fleetCapacity: [FleetCapacity]?
+        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        public let nextToken: String?
+
+        public init(fleetCapacity: [FleetCapacity]? = nil, nextToken: String? = nil) {
+            self.fleetCapacity = fleetCapacity
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetCapacity = "FleetCapacity"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeFleetEventsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FleetId", required: true, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
+        ]
+        /// Most recent date to retrieve event logs for. If no end time is specified, this call returns entries from the specified start time up to the present. Format is a number expressed in Unix time as milliseconds (ex: "1469498468.057").
+        public let endTime: TimeStamp?
+        /// Unique identifier for a fleet to get event logs for.
+        public let fleetId: String
+        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+        public let limit: Int32?
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        public let nextToken: String?
+        /// Earliest date to retrieve event logs for. If no start time is specified, this call returns entries starting from when the fleet was created to the specified end time. Format is a number expressed in Unix time as milliseconds (ex: "1469498468.057").
+        public let startTime: TimeStamp?
+
+        public init(endTime: TimeStamp? = nil, fleetId: String, limit: Int32? = nil, nextToken: String? = nil, startTime: TimeStamp? = nil) {
+            self.endTime = endTime
+            self.fleetId = fleetId
+            self.limit = limit
+            self.nextToken = nextToken
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case fleetId = "FleetId"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct DescribeFleetEventsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Events", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Collection of objects containing event log entries for the specified fleet.
+        public let events: [Event]?
+        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        public let nextToken: String?
+
+        public init(events: [Event]? = nil, nextToken: String? = nil) {
+            self.events = events
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case events = "Events"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeFleetPortSettingsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: true, type: .string)
+        ]
+        /// Unique identifier for a fleet to retrieve port settings for.
+        public let fleetId: String
+
+        public init(fleetId: String) {
+            self.fleetId = fleetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+        }
+    }
+
+    public struct DescribeFleetPortSettingsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InboundPermissions", required: false, type: .list)
+        ]
+        /// Object that contains port settings for the requested fleet ID.
+        public let inboundPermissions: [IpPermission]?
+
+        public init(inboundPermissions: [IpPermission]? = nil) {
+            self.inboundPermissions = inboundPermissions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inboundPermissions = "InboundPermissions"
+        }
+    }
+
+    public struct DescribeFleetUtilizationInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetIds", required: false, type: .list), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Unique identifier for a fleet(s) to retrieve utilization data for. To request utilization data for all fleets, leave this parameter empty.
+        public let fleetIds: [String]?
+        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This parameter is ignored when the request specifies one or a list of fleet IDs.
+        public let limit: Int32?
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
+        public let nextToken: String?
+
+        public init(fleetIds: [String]? = nil, limit: Int32? = nil, nextToken: String? = nil) {
+            self.fleetIds = fleetIds
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetIds = "FleetIds"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeFleetUtilizationOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetUtilization", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Collection of objects containing utilization information for each requested fleet ID.
+        public let fleetUtilization: [FleetUtilization]?
+        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        public let nextToken: String?
+
+        public init(fleetUtilization: [FleetUtilization]? = nil, nextToken: String? = nil) {
+            self.fleetUtilization = fleetUtilization
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetUtilization = "FleetUtilization"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeGameSessionDetailsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasId", required: false, type: .string), 
+            AWSShapeMember(label: "FleetId", required: false, type: .string), 
+            AWSShapeMember(label: "GameSessionId", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StatusFilter", required: false, type: .string)
+        ]
+        /// Unique identifier for an alias associated with the fleet to retrieve all game sessions for.
+        public let aliasId: String?
+        /// Unique identifier for a fleet to retrieve all game sessions active on the fleet.
+        public let fleetId: String?
+        /// Unique identifier for the game session to retrieve.
+        public let gameSessionId: String?
+        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+        public let limit: Int32?
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        public let nextToken: String?
+        /// Game session status to filter results on. Possible game session statuses include ACTIVE, TERMINATED, ACTIVATING and TERMINATING (the last two are transitory). 
+        public let statusFilter: String?
+
+        public init(aliasId: String? = nil, fleetId: String? = nil, gameSessionId: String? = nil, limit: Int32? = nil, nextToken: String? = nil, statusFilter: String? = nil) {
+            self.aliasId = aliasId
+            self.fleetId = fleetId
+            self.gameSessionId = gameSessionId
+            self.limit = limit
+            self.nextToken = nextToken
+            self.statusFilter = statusFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
+            case fleetId = "FleetId"
+            case gameSessionId = "GameSessionId"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case statusFilter = "StatusFilter"
+        }
+    }
+
+    public struct DescribeGameSessionDetailsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessionDetails", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Collection of objects containing game session properties and the protection policy currently in force for each session matching the request.
+        public let gameSessionDetails: [GameSessionDetail]?
+        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        public let nextToken: String?
+
+        public init(gameSessionDetails: [GameSessionDetail]? = nil, nextToken: String? = nil) {
+            self.gameSessionDetails = gameSessionDetails
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionDetails = "GameSessionDetails"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeGameSessionPlacementInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlacementId", required: true, type: .string)
+        ]
+        /// Unique identifier for a game session placement to retrieve.
+        public let placementId: String
+
+        public init(placementId: String) {
+            self.placementId = placementId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case placementId = "PlacementId"
+        }
+    }
+
+    public struct DescribeGameSessionPlacementOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessionPlacement", required: false, type: .structure)
+        ]
+        /// Object that describes the requested game session placement.
+        public let gameSessionPlacement: GameSessionPlacement?
+
+        public init(gameSessionPlacement: GameSessionPlacement? = nil) {
+            self.gameSessionPlacement = gameSessionPlacement
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionPlacement = "GameSessionPlacement"
+        }
+    }
+
+    public struct DescribeGameSessionQueuesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "Names", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+        public let limit: Int32?
+        /// List of queue names to retrieve information for. To request settings for all queues, leave this parameter empty.
+        public let names: [String]?
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        public let nextToken: String?
+
+        public init(limit: Int32? = nil, names: [String]? = nil, nextToken: String? = nil) {
+            self.limit = limit
+            self.names = names
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case names = "Names"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeGameSessionQueuesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessionQueues", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Collection of objects that describes the requested game session queues.
+        public let gameSessionQueues: [GameSessionQueue]?
+        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        public let nextToken: String?
+
+        public init(gameSessionQueues: [GameSessionQueue]? = nil, nextToken: String? = nil) {
+            self.gameSessionQueues = gameSessionQueues
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionQueues = "GameSessionQueues"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeGameSessionsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasId", required: false, type: .string), 
+            AWSShapeMember(label: "FleetId", required: false, type: .string), 
+            AWSShapeMember(label: "GameSessionId", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StatusFilter", required: false, type: .string)
+        ]
+        /// Unique identifier for an alias associated with the fleet to retrieve all game sessions for. 
+        public let aliasId: String?
+        /// Unique identifier for a fleet to retrieve all game sessions for.
+        public let fleetId: String?
+        /// Unique identifier for the game session to retrieve. You can use either a GameSessionId or GameSessionArn value. 
+        public let gameSessionId: String?
+        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+        public let limit: Int32?
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        public let nextToken: String?
+        /// Game session status to filter results on. Possible game session statuses include ACTIVE, TERMINATED, ACTIVATING, and TERMINATING (the last two are transitory). 
+        public let statusFilter: String?
+
+        public init(aliasId: String? = nil, fleetId: String? = nil, gameSessionId: String? = nil, limit: Int32? = nil, nextToken: String? = nil, statusFilter: String? = nil) {
+            self.aliasId = aliasId
+            self.fleetId = fleetId
+            self.gameSessionId = gameSessionId
+            self.limit = limit
+            self.nextToken = nextToken
+            self.statusFilter = statusFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
+            case fleetId = "FleetId"
+            case gameSessionId = "GameSessionId"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case statusFilter = "StatusFilter"
+        }
+    }
+
+    public struct DescribeGameSessionsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Collection of objects containing game session properties for each session matching the request.
+        public let gameSessions: [GameSession]?
+        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        public let nextToken: String?
+
+        public init(gameSessions: [GameSession]? = nil, nextToken: String? = nil) {
+            self.gameSessions = gameSessions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameSessions = "GameSessions"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeInstancesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Unique identifier for a fleet to retrieve instance information for.
+        public let fleetId: String
+        /// Unique identifier for an instance to retrieve. Specify an instance ID or leave blank to retrieve all instances in the fleet.
+        public let instanceId: String?
+        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+        public let limit: Int32?
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        public let nextToken: String?
+
+        public init(fleetId: String, instanceId: String? = nil, limit: Int32? = nil, nextToken: String? = nil) {
+            self.fleetId = fleetId
+            self.instanceId = instanceId
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+            case instanceId = "InstanceId"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeInstancesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Instances", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Collection of objects containing properties for each instance returned.
+        public let instances: [Instance]?
+        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        public let nextToken: String?
+
+        public init(instances: [Instance]? = nil, nextToken: String? = nil) {
+            self.instances = instances
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instances = "Instances"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeMatchmakingConfigurationsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "Names", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RuleSetName", required: false, type: .string)
+        ]
+        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This parameter is limited to 10.
+        public let limit: Int32?
+        /// Unique identifier for a matchmaking configuration(s) to retrieve. To request all existing configurations, leave this parameter empty.
+        public let names: [String]?
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        public let nextToken: String?
+        /// Unique identifier for a matchmaking rule set. Use this parameter to retrieve all matchmaking configurations that use this rule set.
+        public let ruleSetName: String?
+
+        public init(limit: Int32? = nil, names: [String]? = nil, nextToken: String? = nil, ruleSetName: String? = nil) {
+            self.limit = limit
+            self.names = names
+            self.nextToken = nextToken
+            self.ruleSetName = ruleSetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case names = "Names"
+            case nextToken = "NextToken"
+            case ruleSetName = "RuleSetName"
         }
     }
 
@@ -3336,32 +1610,152 @@ extension GameLift {
         }
     }
 
-    public struct DeleteVpcPeeringAuthorizationInput: AWSShape {
+    public struct DescribeMatchmakingInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PeerVpcId", required: true, type: .string), 
-            AWSShapeMember(label: "GameLiftAwsAccountId", required: true, type: .string)
+            AWSShapeMember(label: "TicketIds", required: true, type: .list)
         ]
-        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. To get VPC information, including IDs, use the Virtual Private Cloud service tools, including the VPC Dashboard in the AWS Management Console.
-        public let peerVpcId: String
-        /// Unique identifier for the AWS account that you use to manage your Amazon GameLift fleet. You can find your Account ID in the AWS Management Console under account settings.
-        public let gameLiftAwsAccountId: String
+        /// Unique identifier for a matchmaking ticket. You can include up to 10 ID values. 
+        public let ticketIds: [String]
 
-        public init(peerVpcId: String, gameLiftAwsAccountId: String) {
-            self.peerVpcId = peerVpcId
-            self.gameLiftAwsAccountId = gameLiftAwsAccountId
+        public init(ticketIds: [String]) {
+            self.ticketIds = ticketIds
         }
 
         private enum CodingKeys: String, CodingKey {
-            case peerVpcId = "PeerVpcId"
-            case gameLiftAwsAccountId = "GameLiftAwsAccountId"
+            case ticketIds = "TicketIds"
         }
     }
 
-    public struct DeleteFleetInput: AWSShape {
+    public struct DescribeMatchmakingOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TicketList", required: false, type: .list)
+        ]
+        /// Collection of existing matchmaking ticket objects matching the request.
+        public let ticketList: [MatchmakingTicket]?
+
+        public init(ticketList: [MatchmakingTicket]? = nil) {
+            self.ticketList = ticketList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ticketList = "TicketList"
+        }
+    }
+
+    public struct DescribeMatchmakingRuleSetsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "Names", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+        public let limit: Int32?
+        /// Unique identifier for a matchmaking rule set. This name is used to identify the rule set associated with a matchmaking configuration.
+        public let names: [String]?
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        public let nextToken: String?
+
+        public init(limit: Int32? = nil, names: [String]? = nil, nextToken: String? = nil) {
+            self.limit = limit
+            self.names = names
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case names = "Names"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeMatchmakingRuleSetsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RuleSets", required: true, type: .list)
+        ]
+        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        public let nextToken: String?
+        /// Collection of requested matchmaking rule set objects. 
+        public let ruleSets: [MatchmakingRuleSet]
+
+        public init(nextToken: String? = nil, ruleSets: [MatchmakingRuleSet]) {
+            self.nextToken = nextToken
+            self.ruleSets = ruleSets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case ruleSets = "RuleSets"
+        }
+    }
+
+    public struct DescribePlayerSessionsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessionId", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PlayerId", required: false, type: .string), 
+            AWSShapeMember(label: "PlayerSessionId", required: false, type: .string), 
+            AWSShapeMember(label: "PlayerSessionStatusFilter", required: false, type: .string)
+        ]
+        /// Unique identifier for the game session to retrieve player sessions for.
+        public let gameSessionId: String?
+        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. If a player session ID is specified, this parameter is ignored.
+        public let limit: Int32?
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value. If a player session ID is specified, this parameter is ignored.
+        public let nextToken: String?
+        /// Unique identifier for a player to retrieve player sessions for.
+        public let playerId: String?
+        /// Unique identifier for a player session to retrieve.
+        public let playerSessionId: String?
+        /// Player session status to filter results on. Possible player session statuses include the following:    RESERVED -- The player session request has been received, but the player has not yet connected to the server process and/or been validated.     ACTIVE -- The player has been validated by the server process and is currently connected.    COMPLETED -- The player connection has been dropped.    TIMEDOUT -- A player session request was received, but the player did not connect and/or was not validated within the timeout limit (60 seconds).  
+        public let playerSessionStatusFilter: String?
+
+        public init(gameSessionId: String? = nil, limit: Int32? = nil, nextToken: String? = nil, playerId: String? = nil, playerSessionId: String? = nil, playerSessionStatusFilter: String? = nil) {
+            self.gameSessionId = gameSessionId
+            self.limit = limit
+            self.nextToken = nextToken
+            self.playerId = playerId
+            self.playerSessionId = playerSessionId
+            self.playerSessionStatusFilter = playerSessionStatusFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionId = "GameSessionId"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case playerId = "PlayerId"
+            case playerSessionId = "PlayerSessionId"
+            case playerSessionStatusFilter = "PlayerSessionStatusFilter"
+        }
+    }
+
+    public struct DescribePlayerSessionsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PlayerSessions", required: false, type: .list)
+        ]
+        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        public let nextToken: String?
+        /// Collection of objects containing properties for each player session that matches the request.
+        public let playerSessions: [PlayerSession]?
+
+        public init(nextToken: String? = nil, playerSessions: [PlayerSession]? = nil) {
+            self.nextToken = nextToken
+            self.playerSessions = playerSessions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case playerSessions = "PlayerSessions"
+        }
+    }
+
+    public struct DescribeRuntimeConfigurationInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FleetId", required: true, type: .string)
         ]
-        /// Unique identifier for a fleet to be deleted.
+        /// Unique identifier for a fleet to get the run-time configuration for.
         public let fleetId: String
 
         public init(fleetId: String) {
@@ -3373,84 +1767,50 @@ extension GameLift {
         }
     }
 
-    public enum PlayerSessionStatus: String, CustomStringConvertible, Codable {
-        case reserved = "RESERVED"
-        case active = "ACTIVE"
-        case completed = "COMPLETED"
-        case timedout = "TIMEDOUT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateGameSessionOutput: AWSShape {
+    public struct DescribeRuntimeConfigurationOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GameSession", required: false, type: .structure)
+            AWSShapeMember(label: "RuntimeConfiguration", required: false, type: .structure)
         ]
-        /// Object that contains the updated game session metadata.
-        public let gameSession: GameSession?
+        /// Instructions describing how server processes should be launched and maintained on each instance in the fleet.
+        public let runtimeConfiguration: RuntimeConfiguration?
 
-        public init(gameSession: GameSession? = nil) {
-            self.gameSession = gameSession
+        public init(runtimeConfiguration: RuntimeConfiguration? = nil) {
+            self.runtimeConfiguration = runtimeConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gameSession = "GameSession"
+            case runtimeConfiguration = "RuntimeConfiguration"
         }
     }
 
-    public struct DescribeGameSessionDetailsInput: AWSShape {
+    public struct DescribeScalingPoliciesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: true, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "GameSessionId", required: false, type: .string), 
-            AWSShapeMember(label: "StatusFilter", required: false, type: .string), 
-            AWSShapeMember(label: "AliasId", required: false, type: .string), 
-            AWSShapeMember(label: "FleetId", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer)
+            AWSShapeMember(label: "StatusFilter", required: false, type: .enum)
         ]
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
-        public let nextToken: String?
-        /// Unique identifier for the game session to retrieve.
-        public let gameSessionId: String?
-        /// Game session status to filter results on. Possible game session statuses include ACTIVE, TERMINATED, ACTIVATING and TERMINATING (the last two are transitory). 
-        public let statusFilter: String?
-        /// Unique identifier for an alias associated with the fleet to retrieve all game sessions for.
-        public let aliasId: String?
-        /// Unique identifier for a fleet to retrieve all game sessions active on the fleet.
-        public let fleetId: String?
+        /// Unique identifier for a fleet to retrieve scaling policies for.
+        public let fleetId: String
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int32?
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        public let nextToken: String?
+        /// Scaling policy status to filter results on. A scaling policy is only in force when in an ACTIVE status.    ACTIVE -- The scaling policy is currently in force.    UPDATEREQUESTED -- A request to update the scaling policy has been received.    UPDATING -- A change is being made to the scaling policy.    DELETEREQUESTED -- A request to delete the scaling policy has been received.    DELETING -- The scaling policy is being deleted.    DELETED -- The scaling policy has been deleted.    ERROR -- An error occurred in creating the policy. It should be removed and recreated.  
+        public let statusFilter: ScalingStatusType?
 
-        public init(nextToken: String? = nil, gameSessionId: String? = nil, statusFilter: String? = nil, aliasId: String? = nil, fleetId: String? = nil, limit: Int32? = nil) {
-            self.nextToken = nextToken
-            self.gameSessionId = gameSessionId
-            self.statusFilter = statusFilter
-            self.aliasId = aliasId
+        public init(fleetId: String, limit: Int32? = nil, nextToken: String? = nil, statusFilter: ScalingStatusType? = nil) {
             self.fleetId = fleetId
             self.limit = limit
+            self.nextToken = nextToken
+            self.statusFilter = statusFilter
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case gameSessionId = "GameSessionId"
-            case statusFilter = "StatusFilter"
-            case aliasId = "AliasId"
             case fleetId = "FleetId"
             case limit = "Limit"
-        }
-    }
-
-    public struct UpdateBuildOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Build", required: false, type: .structure)
-        ]
-        /// Object that contains the updated build record.
-        public let build: Build?
-
-        public init(build: Build? = nil) {
-            self.build = build
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case build = "Build"
+            case nextToken = "NextToken"
+            case statusFilter = "StatusFilter"
         }
     }
 
@@ -3475,125 +1835,151 @@ extension GameLift {
         }
     }
 
-    public struct DescribeFleetPortSettingsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InboundPermissions", required: false, type: .list)
-        ]
-        /// Object that contains port settings for the requested fleet ID.
-        public let inboundPermissions: [IpPermission]?
+    public struct DescribeVpcPeeringAuthorizationsInput: AWSShape {
 
-        public init(inboundPermissions: [IpPermission]? = nil) {
-            self.inboundPermissions = inboundPermissions
+        public init() {
+        }
+
+    }
+
+    public struct DescribeVpcPeeringAuthorizationsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VpcPeeringAuthorizations", required: false, type: .list)
+        ]
+        /// Collection of objects that describe all valid VPC peering operations for the current AWS account.
+        public let vpcPeeringAuthorizations: [VpcPeeringAuthorization]?
+
+        public init(vpcPeeringAuthorizations: [VpcPeeringAuthorization]? = nil) {
+            self.vpcPeeringAuthorizations = vpcPeeringAuthorizations
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inboundPermissions = "InboundPermissions"
+            case vpcPeeringAuthorizations = "VpcPeeringAuthorizations"
         }
     }
 
-    public struct UpdateBuildInput: AWSShape {
+    public struct DescribeVpcPeeringConnectionsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Version", required: false, type: .string), 
-            AWSShapeMember(label: "BuildId", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "FleetId", required: false, type: .string)
         ]
-        /// Version that is associated with this build. Version strings do not need to be unique.
-        public let version: String?
-        /// Unique identifier for a build to update.
-        public let buildId: String
-        /// Descriptive label that is associated with a build. Build names do not need to be unique. 
-        public let name: String?
+        /// Unique identifier for a fleet.
+        public let fleetId: String?
 
-        public init(version: String? = nil, buildId: String, name: String? = nil) {
-            self.version = version
-            self.buildId = buildId
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case version = "Version"
-            case buildId = "BuildId"
-            case name = "Name"
-        }
-    }
-
-    public struct DeleteVpcPeeringConnectionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VpcPeeringConnectionId", required: true, type: .string), 
-            AWSShapeMember(label: "FleetId", required: true, type: .string)
-        ]
-        /// Unique identifier for a VPC peering connection. This value is included in the VpcPeeringConnection object, which can be retrieved by calling DescribeVpcPeeringConnections.
-        public let vpcPeeringConnectionId: String
-        /// Unique identifier for a fleet. This value must match the fleet ID referenced in the VPC peering connection record.
-        public let fleetId: String
-
-        public init(vpcPeeringConnectionId: String, fleetId: String) {
-            self.vpcPeeringConnectionId = vpcPeeringConnectionId
+        public init(fleetId: String? = nil) {
             self.fleetId = fleetId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vpcPeeringConnectionId = "VpcPeeringConnectionId"
             case fleetId = "FleetId"
         }
     }
 
-    public struct DescribeScalingPoliciesInput: AWSShape {
+    public struct DescribeVpcPeeringConnectionsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "FleetId", required: true, type: .string), 
-            AWSShapeMember(label: "StatusFilter", required: false, type: .enum), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "VpcPeeringConnections", required: false, type: .list)
         ]
-        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
-        public let limit: Int32?
-        /// Unique identifier for a fleet to retrieve scaling policies for.
-        public let fleetId: String
-        /// Scaling policy status to filter results on. A scaling policy is only in force when in an ACTIVE status.    ACTIVE -- The scaling policy is currently in force.    UPDATEREQUESTED -- A request to update the scaling policy has been received.    UPDATING -- A change is being made to the scaling policy.    DELETEREQUESTED -- A request to delete the scaling policy has been received.    DELETING -- The scaling policy is being deleted.    DELETED -- The scaling policy has been deleted.    ERROR -- An error occurred in creating the policy. It should be removed and recreated.  
-        public let statusFilter: ScalingStatusType?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
-        public let nextToken: String?
+        /// Collection of VPC peering connection records that match the request.
+        public let vpcPeeringConnections: [VpcPeeringConnection]?
 
-        public init(limit: Int32? = nil, fleetId: String, statusFilter: ScalingStatusType? = nil, nextToken: String? = nil) {
-            self.limit = limit
-            self.fleetId = fleetId
-            self.statusFilter = statusFilter
-            self.nextToken = nextToken
+        public init(vpcPeeringConnections: [VpcPeeringConnection]? = nil) {
+            self.vpcPeeringConnections = vpcPeeringConnections
         }
 
         private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
-            case fleetId = "FleetId"
-            case statusFilter = "StatusFilter"
-            case nextToken = "NextToken"
+            case vpcPeeringConnections = "VpcPeeringConnections"
         }
     }
 
-    public enum GameSessionStatusReason: String, CustomStringConvertible, Codable {
-        case interrupted = "INTERRUPTED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ScalingAdjustmentType: String, CustomStringConvertible, Codable {
-        case changeincapacity = "ChangeInCapacity"
-        case exactcapacity = "ExactCapacity"
-        case percentchangeincapacity = "PercentChangeInCapacity"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateRuntimeConfigurationOutput: AWSShape {
+    public struct DesiredPlayerSession: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuntimeConfiguration", required: false, type: .structure)
+            AWSShapeMember(label: "PlayerData", required: false, type: .string), 
+            AWSShapeMember(label: "PlayerId", required: false, type: .string)
         ]
-        /// The run-time configuration currently in force. If the update was successful, this object matches the one in the request.
-        public let runtimeConfiguration: RuntimeConfiguration?
+        /// Developer-defined information related to a player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game.
+        public let playerData: String?
+        /// Unique identifier for a player to associate with the player session.
+        public let playerId: String?
 
-        public init(runtimeConfiguration: RuntimeConfiguration? = nil) {
-            self.runtimeConfiguration = runtimeConfiguration
+        public init(playerData: String? = nil, playerId: String? = nil) {
+            self.playerData = playerData
+            self.playerId = playerId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case runtimeConfiguration = "RuntimeConfiguration"
+            case playerData = "PlayerData"
+            case playerId = "PlayerId"
+        }
+    }
+
+    public struct EC2InstanceCounts: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ACTIVE", required: false, type: .integer), 
+            AWSShapeMember(label: "DESIRED", required: false, type: .integer), 
+            AWSShapeMember(label: "IDLE", required: false, type: .integer), 
+            AWSShapeMember(label: "MAXIMUM", required: false, type: .integer), 
+            AWSShapeMember(label: "MINIMUM", required: false, type: .integer), 
+            AWSShapeMember(label: "PENDING", required: false, type: .integer), 
+            AWSShapeMember(label: "TERMINATING", required: false, type: .integer)
+        ]
+        /// Actual number of active instances in the fleet.
+        public let active: Int32?
+        /// Ideal number of active instances in the fleet.
+        public let desired: Int32?
+        /// Number of active instances in the fleet that are not currently hosting a game session.
+        public let idle: Int32?
+        /// Maximum value allowed for the fleet's instance count.
+        public let maximum: Int32?
+        /// Minimum value allowed for the fleet's instance count.
+        public let minimum: Int32?
+        /// Number of instances in the fleet that are starting but not yet active.
+        public let pending: Int32?
+        /// Number of instances in the fleet that are no longer active but haven't yet been terminated.
+        public let terminating: Int32?
+
+        public init(active: Int32? = nil, desired: Int32? = nil, idle: Int32? = nil, maximum: Int32? = nil, minimum: Int32? = nil, pending: Int32? = nil, terminating: Int32? = nil) {
+            self.active = active
+            self.desired = desired
+            self.idle = idle
+            self.maximum = maximum
+            self.minimum = minimum
+            self.pending = pending
+            self.terminating = terminating
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case active = "ACTIVE"
+            case desired = "DESIRED"
+            case idle = "IDLE"
+            case maximum = "MAXIMUM"
+            case minimum = "MINIMUM"
+            case pending = "PENDING"
+            case terminating = "TERMINATING"
+        }
+    }
+
+    public struct EC2InstanceLimit: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CurrentInstances", required: false, type: .integer), 
+            AWSShapeMember(label: "EC2InstanceType", required: false, type: .enum), 
+            AWSShapeMember(label: "InstanceLimit", required: false, type: .integer)
+        ]
+        /// Number of instances of the specified type that are currently in use by this AWS account.
+        public let currentInstances: Int32?
+        /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions.
+        public let eC2InstanceType: EC2InstanceType?
+        /// Number of instances allowed.
+        public let instanceLimit: Int32?
+
+        public init(currentInstances: Int32? = nil, eC2InstanceType: EC2InstanceType? = nil, instanceLimit: Int32? = nil) {
+            self.currentInstances = currentInstances
+            self.eC2InstanceType = eC2InstanceType
+            self.instanceLimit = instanceLimit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentInstances = "CurrentInstances"
+            case eC2InstanceType = "EC2InstanceType"
+            case instanceLimit = "InstanceLimit"
         }
     }
 
@@ -3635,123 +2021,655 @@ extension GameLift {
         public var description: String { return self.rawValue }
     }
 
-    public struct DescribeVpcPeeringConnectionsOutput: AWSShape {
+    public struct Event: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VpcPeeringConnections", required: false, type: .list)
+            AWSShapeMember(label: "EventCode", required: false, type: .enum), 
+            AWSShapeMember(label: "EventId", required: false, type: .string), 
+            AWSShapeMember(label: "EventTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "PreSignedLogUrl", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .string)
         ]
-        /// Collection of VPC peering connection records that match the request.
-        public let vpcPeeringConnections: [VpcPeeringConnection]?
+        /// Type of event being logged. The following events are currently in use:  Fleet creation events:    FLEET_CREATED -- A fleet record was successfully created with a status of NEW. Event messaging includes the fleet ID.   FLEET_STATE_DOWNLOADING -- Fleet status changed from NEW to DOWNLOADING. The compressed build has started downloading to a fleet instance for installation.    FLEET_BINARY_DOWNLOAD_FAILED -- The build failed to download to the fleet instance.   FLEET_CREATION_EXTRACTING_BUILD – The game server build was successfully downloaded to an instance, and the build files are now being extracted from the uploaded build and saved to an instance. Failure at this stage prevents a fleet from moving to ACTIVE status. Logs for this stage display a list of the files that are extracted and saved on the instance. Access the logs by using the URL in PreSignedLogUrl.   FLEET_CREATION_RUNNING_INSTALLER – The game server build files were successfully extracted, and the Amazon GameLift is now running the build's install script (if one is included). Failure in this stage prevents a fleet from moving to ACTIVE status. Logs for this stage list the installation steps and whether or not the install completed successfully. Access the logs by using the URL in PreSignedLogUrl.    FLEET_CREATION_VALIDATING_RUNTIME_CONFIG -- The build process was successful, and the Amazon GameLift is now verifying that the game server launch paths, which are specified in the fleet's run-time configuration, exist. If any listed launch path exists, Amazon GameLift tries to launch a game server process and waits for the process to report ready. Failures in this stage prevent a fleet from moving to ACTIVE status. Logs for this stage list the launch paths in the run-time configuration and indicate whether each is found. Access the logs by using the URL in PreSignedLogUrl.    FLEET_STATE_VALIDATING -- Fleet status changed from DOWNLOADING to VALIDATING.    FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND -- Validation of the run-time configuration failed because the executable specified in a launch path does not exist on the instance.   FLEET_STATE_BUILDING -- Fleet status changed from VALIDATING to BUILDING.   FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE -- Validation of the run-time configuration failed because the executable specified in a launch path failed to run on the fleet instance.   FLEET_STATE_ACTIVATING -- Fleet status changed from BUILDING to ACTIVATING.     FLEET_ACTIVATION_FAILED - The fleet failed to successfully complete one of the steps in the fleet activation process. This event code indicates that the game build was successfully downloaded to a fleet instance, built, and validated, but was not able to start a server process. A possible reason for failure is that the game server is not reporting "process ready" to the Amazon GameLift service.   FLEET_STATE_ACTIVE -- The fleet's status changed from ACTIVATING to ACTIVE. The fleet is now ready to host game sessions.    VPC peering events:    FLEET_VPC_PEERING_SUCCEEDED -- A VPC peering connection has been established between the VPC for an Amazon GameLift fleet and a VPC in your AWS account.   FLEET_VPC_PEERING_FAILED -- A requested VPC peering connection has failed. Event details and status information (see DescribeVpcPeeringConnections) provide additional detail. A common reason for peering failure is that the two VPCs have overlapping CIDR blocks of IPv4 addresses. To resolve this, change the CIDR block for the VPC in your AWS account. For more information on VPC peering failures, see http://docs.aws.amazon.com/AmazonVPC/latest/PeeringGuide/invalid-peering-configurations.html    FLEET_VPC_PEERING_DELETED -- A VPC peering connection has been successfully deleted.    Spot instance events:     INSTANCE_INTERRUPTED -- A spot instance was interrupted by EC2 with a two-minute notification.    Other fleet events:    FLEET_SCALING_EVENT -- A change was made to the fleet's capacity settings (desired instances, minimum/maximum scaling limits). Event messaging includes the new capacity settings.   FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED -- A change was made to the fleet's game session protection policy setting. Event messaging includes both the old and new policy setting.    FLEET_DELETED -- A request to delete a fleet was initiated.    GENERIC_EVENT -- An unspecified event has occurred.  
+        public let eventCode: EventCode?
+        /// Unique identifier for a fleet event.
+        public let eventId: String?
+        /// Time stamp indicating when this event occurred. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        public let eventTime: TimeStamp?
+        /// Additional information related to the event.
+        public let message: String?
+        /// Location of stored logs with additional detail that is related to the event. This is useful for debugging issues. The URL is valid for 15 minutes. You can also access fleet creation logs through the Amazon GameLift console.
+        public let preSignedLogUrl: String?
+        /// Unique identifier for an event resource, such as a fleet ID.
+        public let resourceId: String?
 
-        public init(vpcPeeringConnections: [VpcPeeringConnection]? = nil) {
-            self.vpcPeeringConnections = vpcPeeringConnections
+        public init(eventCode: EventCode? = nil, eventId: String? = nil, eventTime: TimeStamp? = nil, message: String? = nil, preSignedLogUrl: String? = nil, resourceId: String? = nil) {
+            self.eventCode = eventCode
+            self.eventId = eventId
+            self.eventTime = eventTime
+            self.message = message
+            self.preSignedLogUrl = preSignedLogUrl
+            self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vpcPeeringConnections = "VpcPeeringConnections"
+            case eventCode = "EventCode"
+            case eventId = "EventId"
+            case eventTime = "EventTime"
+            case message = "Message"
+            case preSignedLogUrl = "PreSignedLogUrl"
+            case resourceId = "ResourceId"
         }
     }
 
-    public struct DescribeVpcPeeringConnectionsInput: AWSShape {
+    public enum EventCode: String, CustomStringConvertible, Codable {
+        case genericEvent = "GENERIC_EVENT"
+        case fleetCreated = "FLEET_CREATED"
+        case fleetDeleted = "FLEET_DELETED"
+        case fleetScalingEvent = "FLEET_SCALING_EVENT"
+        case fleetStateDownloading = "FLEET_STATE_DOWNLOADING"
+        case fleetStateValidating = "FLEET_STATE_VALIDATING"
+        case fleetStateBuilding = "FLEET_STATE_BUILDING"
+        case fleetStateActivating = "FLEET_STATE_ACTIVATING"
+        case fleetStateActive = "FLEET_STATE_ACTIVE"
+        case fleetStateError = "FLEET_STATE_ERROR"
+        case fleetInitializationFailed = "FLEET_INITIALIZATION_FAILED"
+        case fleetBinaryDownloadFailed = "FLEET_BINARY_DOWNLOAD_FAILED"
+        case fleetValidationLaunchPathNotFound = "FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND"
+        case fleetValidationExecutableRuntimeFailure = "FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE"
+        case fleetValidationTimedOut = "FLEET_VALIDATION_TIMED_OUT"
+        case fleetActivationFailed = "FLEET_ACTIVATION_FAILED"
+        case fleetActivationFailedNoInstances = "FLEET_ACTIVATION_FAILED_NO_INSTANCES"
+        case fleetNewGameSessionProtectionPolicyUpdated = "FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED"
+        case serverProcessInvalidPath = "SERVER_PROCESS_INVALID_PATH"
+        case serverProcessSdkInitializationTimeout = "SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT"
+        case serverProcessProcessReadyTimeout = "SERVER_PROCESS_PROCESS_READY_TIMEOUT"
+        case serverProcessCrashed = "SERVER_PROCESS_CRASHED"
+        case serverProcessTerminatedUnhealthy = "SERVER_PROCESS_TERMINATED_UNHEALTHY"
+        case serverProcessForceTerminated = "SERVER_PROCESS_FORCE_TERMINATED"
+        case serverProcessProcessExitTimeout = "SERVER_PROCESS_PROCESS_EXIT_TIMEOUT"
+        case gameSessionActivationTimeout = "GAME_SESSION_ACTIVATION_TIMEOUT"
+        case fleetCreationExtractingBuild = "FLEET_CREATION_EXTRACTING_BUILD"
+        case fleetCreationRunningInstaller = "FLEET_CREATION_RUNNING_INSTALLER"
+        case fleetCreationValidatingRuntimeConfig = "FLEET_CREATION_VALIDATING_RUNTIME_CONFIG"
+        case fleetVpcPeeringSucceeded = "FLEET_VPC_PEERING_SUCCEEDED"
+        case fleetVpcPeeringFailed = "FLEET_VPC_PEERING_FAILED"
+        case fleetVpcPeeringDeleted = "FLEET_VPC_PEERING_DELETED"
+        case instanceInterrupted = "INSTANCE_INTERRUPTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FleetAction: String, CustomStringConvertible, Codable {
+        case autoScaling = "AUTO_SCALING"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct FleetAttributes: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetId", required: false, type: .string)
+            AWSShapeMember(label: "BuildId", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "FleetArn", required: false, type: .string), 
+            AWSShapeMember(label: "FleetId", required: false, type: .string), 
+            AWSShapeMember(label: "FleetType", required: false, type: .enum), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .enum), 
+            AWSShapeMember(label: "LogPaths", required: false, type: .list), 
+            AWSShapeMember(label: "MetricGroups", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "NewGameSessionProtectionPolicy", required: false, type: .enum), 
+            AWSShapeMember(label: "OperatingSystem", required: false, type: .enum), 
+            AWSShapeMember(label: "ResourceCreationLimitPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "ServerLaunchParameters", required: false, type: .string), 
+            AWSShapeMember(label: "ServerLaunchPath", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "StoppedActions", required: false, type: .list), 
+            AWSShapeMember(label: "TerminationTime", required: false, type: .timestamp)
+        ]
+        /// Unique identifier for a build.
+        public let buildId: String?
+        /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        public let creationTime: TimeStamp?
+        /// Human-readable description of the fleet.
+        public let description: String?
+        /// Identifier for a fleet that is unique across all regions.
+        public let fleetArn: String?
+        /// Unique identifier for a fleet.
+        public let fleetId: String?
+        /// Indicates whether the fleet uses on-demand or spot instances. A spot instance in use may be interrupted with a two-minute notification.
+        public let fleetType: FleetType?
+        /// EC2 instance type indicating the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. See Amazon EC2 Instance Types for detailed descriptions.
+        public let instanceType: EC2InstanceType?
+        /// Location of default log files. When a server process is shut down, Amazon GameLift captures and stores any log files in this location. These logs are in addition to game session logs; see more on game session logs in the Amazon GameLift Developer Guide. If no default log path for a fleet is specified, Amazon GameLift automatically uploads logs that are stored on each instance at C:\game\logs (for Windows) or /local/game/logs (for Linux). Use the Amazon GameLift console to access stored logs. 
+        public let logPaths: [String]?
+        /// Names of metric groups that this fleet is included in. In Amazon CloudWatch, you can view metrics for an individual fleet or aggregated metrics for fleets that are in a fleet metric group. A fleet can be included in only one metric group at a time.
+        public let metricGroups: [String]?
+        /// Descriptive label that is associated with a fleet. Fleet names do not need to be unique.
+        public let name: String?
+        /// Type of game session protection to set for all new instances started in the fleet.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
+        public let newGameSessionProtectionPolicy: ProtectionPolicy?
+        /// Operating system of the fleet's computing resources. A fleet's operating system depends on the OS specified for the build that is deployed on this fleet.
+        public let operatingSystem: OperatingSystem?
+        /// Fleet policy to limit the number of game sessions an individual player can create over a span of time.
+        public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
+        /// Game server launch parameters specified for fleets created before 2016-08-04 (or AWS SDK v. 0.12.16). Server launch parameters for fleets created after this date are specified in the fleet's RuntimeConfiguration.
+        public let serverLaunchParameters: String?
+        /// Path to a game server executable in the fleet's build, specified for fleets created before 2016-08-04 (or AWS SDK v. 0.12.16). Server launch paths for fleets created after this date are specified in the fleet's RuntimeConfiguration.
+        public let serverLaunchPath: String?
+        /// Current status of the fleet. Possible fleet statuses include the following:    NEW -- A new fleet has been defined and desired instances is set to 1.     DOWNLOADING/VALIDATING/BUILDING/ACTIVATING -- Amazon GameLift is setting up the new fleet, creating new instances with the game build and starting server processes.    ACTIVE -- Hosts can now accept game sessions.    ERROR -- An error occurred when downloading, validating, building, or activating the fleet.    DELETING -- Hosts are responding to a delete fleet request.    TERMINATED -- The fleet no longer exists.  
+        public let status: FleetStatus?
+        /// List of fleet actions that have been suspended using StopFleetActions. This includes auto-scaling.
+        public let stoppedActions: [FleetAction]?
+        /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        public let terminationTime: TimeStamp?
+
+        public init(buildId: String? = nil, creationTime: TimeStamp? = nil, description: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, fleetType: FleetType? = nil, instanceType: EC2InstanceType? = nil, logPaths: [String]? = nil, metricGroups: [String]? = nil, name: String? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, operatingSystem: OperatingSystem? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil, status: FleetStatus? = nil, stoppedActions: [FleetAction]? = nil, terminationTime: TimeStamp? = nil) {
+            self.buildId = buildId
+            self.creationTime = creationTime
+            self.description = description
+            self.fleetArn = fleetArn
+            self.fleetId = fleetId
+            self.fleetType = fleetType
+            self.instanceType = instanceType
+            self.logPaths = logPaths
+            self.metricGroups = metricGroups
+            self.name = name
+            self.newGameSessionProtectionPolicy = newGameSessionProtectionPolicy
+            self.operatingSystem = operatingSystem
+            self.resourceCreationLimitPolicy = resourceCreationLimitPolicy
+            self.serverLaunchParameters = serverLaunchParameters
+            self.serverLaunchPath = serverLaunchPath
+            self.status = status
+            self.stoppedActions = stoppedActions
+            self.terminationTime = terminationTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case buildId = "BuildId"
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case fleetArn = "FleetArn"
+            case fleetId = "FleetId"
+            case fleetType = "FleetType"
+            case instanceType = "InstanceType"
+            case logPaths = "LogPaths"
+            case metricGroups = "MetricGroups"
+            case name = "Name"
+            case newGameSessionProtectionPolicy = "NewGameSessionProtectionPolicy"
+            case operatingSystem = "OperatingSystem"
+            case resourceCreationLimitPolicy = "ResourceCreationLimitPolicy"
+            case serverLaunchParameters = "ServerLaunchParameters"
+            case serverLaunchPath = "ServerLaunchPath"
+            case status = "Status"
+            case stoppedActions = "StoppedActions"
+            case terminationTime = "TerminationTime"
+        }
+    }
+
+    public struct FleetCapacity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceCounts", required: false, type: .structure), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .enum)
         ]
         /// Unique identifier for a fleet.
         public let fleetId: String?
+        /// Current status of fleet capacity.
+        public let instanceCounts: EC2InstanceCounts?
+        /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions.
+        public let instanceType: EC2InstanceType?
 
-        public init(fleetId: String? = nil) {
+        public init(fleetId: String? = nil, instanceCounts: EC2InstanceCounts? = nil, instanceType: EC2InstanceType? = nil) {
             self.fleetId = fleetId
+            self.instanceCounts = instanceCounts
+            self.instanceType = instanceType
         }
 
         private enum CodingKeys: String, CodingKey {
             case fleetId = "FleetId"
+            case instanceCounts = "InstanceCounts"
+            case instanceType = "InstanceType"
         }
     }
 
-    public struct StopMatchmakingOutput: AWSShape {
-
+    public enum FleetStatus: String, CustomStringConvertible, Codable {
+        case new = "NEW"
+        case downloading = "DOWNLOADING"
+        case validating = "VALIDATING"
+        case building = "BUILDING"
+        case activating = "ACTIVATING"
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        case error = "ERROR"
+        case terminated = "TERMINATED"
+        public var description: String { return self.rawValue }
     }
 
-    public struct DescribeInstancesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "FleetId", required: true, type: .string)
-        ]
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
-        public let nextToken: String?
-        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
-        public let limit: Int32?
-        /// Unique identifier for an instance to retrieve. Specify an instance ID or leave blank to retrieve all instances in the fleet.
-        public let instanceId: String?
-        /// Unique identifier for a fleet to retrieve instance information for.
-        public let fleetId: String
+    public enum FleetType: String, CustomStringConvertible, Codable {
+        case onDemand = "ON_DEMAND"
+        case spot = "SPOT"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(nextToken: String? = nil, limit: Int32? = nil, instanceId: String? = nil, fleetId: String) {
-            self.nextToken = nextToken
-            self.limit = limit
-            self.instanceId = instanceId
+    public struct FleetUtilization: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActiveGameSessionCount", required: false, type: .integer), 
+            AWSShapeMember(label: "ActiveServerProcessCount", required: false, type: .integer), 
+            AWSShapeMember(label: "CurrentPlayerSessionCount", required: false, type: .integer), 
+            AWSShapeMember(label: "FleetId", required: false, type: .string), 
+            AWSShapeMember(label: "MaximumPlayerSessionCount", required: false, type: .integer)
+        ]
+        /// Number of active game sessions currently being hosted on all instances in the fleet.
+        public let activeGameSessionCount: Int32?
+        /// Number of server processes in an ACTIVE status currently running across all instances in the fleet
+        public let activeServerProcessCount: Int32?
+        /// Number of active player sessions currently being hosted on all instances in the fleet.
+        public let currentPlayerSessionCount: Int32?
+        /// Unique identifier for a fleet.
+        public let fleetId: String?
+        /// Maximum players allowed across all game sessions currently being hosted on all instances in the fleet.
+        public let maximumPlayerSessionCount: Int32?
+
+        public init(activeGameSessionCount: Int32? = nil, activeServerProcessCount: Int32? = nil, currentPlayerSessionCount: Int32? = nil, fleetId: String? = nil, maximumPlayerSessionCount: Int32? = nil) {
+            self.activeGameSessionCount = activeGameSessionCount
+            self.activeServerProcessCount = activeServerProcessCount
+            self.currentPlayerSessionCount = currentPlayerSessionCount
             self.fleetId = fleetId
+            self.maximumPlayerSessionCount = maximumPlayerSessionCount
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case limit = "Limit"
-            case instanceId = "InstanceId"
+            case activeGameSessionCount = "ActiveGameSessionCount"
+            case activeServerProcessCount = "ActiveServerProcessCount"
+            case currentPlayerSessionCount = "CurrentPlayerSessionCount"
             case fleetId = "FleetId"
+            case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
         }
     }
 
-    public struct DescribeGameSessionsOutput: AWSShape {
+    public struct GameProperty: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "GameSessions", required: false, type: .list)
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
         ]
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
-        public let nextToken: String?
-        /// Collection of objects containing game session properties for each session matching the request.
-        public let gameSessions: [GameSession]?
+        /// Game property identifier.
+        public let key: String
+        /// Game property value.
+        public let value: String
 
-        public init(nextToken: String? = nil, gameSessions: [GameSession]? = nil) {
-            self.nextToken = nextToken
-            self.gameSessions = gameSessions
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case gameSessions = "GameSessions"
+            case key = "Key"
+            case value = "Value"
         }
     }
 
-    public struct StopGameSessionPlacementInput: AWSShape {
+    public struct GameSession: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlacementId", required: true, type: .string)
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreatorId", required: false, type: .string), 
+            AWSShapeMember(label: "CurrentPlayerSessionCount", required: false, type: .integer), 
+            AWSShapeMember(label: "FleetId", required: false, type: .string), 
+            AWSShapeMember(label: "GameProperties", required: false, type: .list), 
+            AWSShapeMember(label: "GameSessionData", required: false, type: .string), 
+            AWSShapeMember(label: "GameSessionId", required: false, type: .string), 
+            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "MatchmakerData", required: false, type: .string), 
+            AWSShapeMember(label: "MaximumPlayerSessionCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "PlayerSessionCreationPolicy", required: false, type: .enum), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "StatusReason", required: false, type: .enum), 
+            AWSShapeMember(label: "TerminationTime", required: false, type: .timestamp)
         ]
-        /// Unique identifier for a game session placement to cancel.
-        public let placementId: String
+        /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        public let creationTime: TimeStamp?
+        /// Unique identifier for a player. This ID is used to enforce a resource protection policy (if one exists), that limits the number of game sessions a player can create.
+        public let creatorId: String?
+        /// Number of players currently in the game session.
+        public let currentPlayerSessionCount: Int32?
+        /// Unique identifier for a fleet that the game session is running on.
+        public let fleetId: String?
+        /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). You can search for active game sessions based on this custom data with SearchGameSessions.
+        public let gameProperties: [GameProperty]?
+        /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
+        public let gameSessionData: String?
+        /// Unique identifier for the game session. A game session ARN has the following format: arn:aws:gamelift:&lt;region&gt;::gamesession/&lt;fleet ID&gt;/&lt;custom ID string or idempotency token&gt;.
+        public let gameSessionId: String?
+        /// IP address of the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
+        public let ipAddress: String?
+        /// Information about the matchmaking process that was used to create the game session. It is in JSON syntax, formatted as a string. In addition the matchmaking configuration used, it contains data on all players assigned to the match, including player attributes and team assignments. For more details on matchmaker data, see Match Data. Matchmaker data is useful when requesting match backfills, and is updated whenever new players are added during a successful backfill (see StartMatchBackfill). 
+        public let matchmakerData: String?
+        /// Maximum number of players that can be connected simultaneously to the game session.
+        public let maximumPlayerSessionCount: Int32?
+        /// Descriptive label that is associated with a game session. Session names do not need to be unique.
+        public let name: String?
+        /// Indicates whether or not the game session is accepting new players.
+        public let playerSessionCreationPolicy: PlayerSessionCreationPolicy?
+        /// Port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
+        public let port: Int32?
+        /// Current status of the game session. A game session must have an ACTIVE status to have player sessions.
+        public let status: GameSessionStatus?
+        /// Provides additional information about game session status. INTERRUPTED indicates that the game session was hosted on a spot instance that was reclaimed, causing the active game session to be terminated.
+        public let statusReason: GameSessionStatusReason?
+        /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        public let terminationTime: TimeStamp?
 
-        public init(placementId: String) {
-            self.placementId = placementId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case placementId = "PlacementId"
-        }
-    }
-
-    public struct DeleteGameSessionQueueInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// Descriptive label that is associated with game session queue. Queue names must be unique within each region.
-        public let name: String
-
-        public init(name: String) {
+        public init(creationTime: TimeStamp? = nil, creatorId: String? = nil, currentPlayerSessionCount: Int32? = nil, fleetId: String? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionId: String? = nil, ipAddress: String? = nil, matchmakerData: String? = nil, maximumPlayerSessionCount: Int32? = nil, name: String? = nil, playerSessionCreationPolicy: PlayerSessionCreationPolicy? = nil, port: Int32? = nil, status: GameSessionStatus? = nil, statusReason: GameSessionStatusReason? = nil, terminationTime: TimeStamp? = nil) {
+            self.creationTime = creationTime
+            self.creatorId = creatorId
+            self.currentPlayerSessionCount = currentPlayerSessionCount
+            self.fleetId = fleetId
+            self.gameProperties = gameProperties
+            self.gameSessionData = gameSessionData
+            self.gameSessionId = gameSessionId
+            self.ipAddress = ipAddress
+            self.matchmakerData = matchmakerData
+            self.maximumPlayerSessionCount = maximumPlayerSessionCount
             self.name = name
+            self.playerSessionCreationPolicy = playerSessionCreationPolicy
+            self.port = port
+            self.status = status
+            self.statusReason = statusReason
+            self.terminationTime = terminationTime
         }
 
         private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case creatorId = "CreatorId"
+            case currentPlayerSessionCount = "CurrentPlayerSessionCount"
+            case fleetId = "FleetId"
+            case gameProperties = "GameProperties"
+            case gameSessionData = "GameSessionData"
+            case gameSessionId = "GameSessionId"
+            case ipAddress = "IpAddress"
+            case matchmakerData = "MatchmakerData"
+            case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
             case name = "Name"
+            case playerSessionCreationPolicy = "PlayerSessionCreationPolicy"
+            case port = "Port"
+            case status = "Status"
+            case statusReason = "StatusReason"
+            case terminationTime = "TerminationTime"
+        }
+    }
+
+    public struct GameSessionConnectionInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessionArn", required: false, type: .string), 
+            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "MatchedPlayerSessions", required: false, type: .list), 
+            AWSShapeMember(label: "Port", required: false, type: .integer)
+        ]
+        /// Amazon Resource Name (ARN) that is assigned to a game session and uniquely identifies it.
+        public let gameSessionArn: String?
+        /// IP address of the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
+        public let ipAddress: String?
+        /// Collection of player session IDs, one for each player ID that was included in the original matchmaking request. 
+        public let matchedPlayerSessions: [MatchedPlayerSession]?
+        /// Port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
+        public let port: Int32?
+
+        public init(gameSessionArn: String? = nil, ipAddress: String? = nil, matchedPlayerSessions: [MatchedPlayerSession]? = nil, port: Int32? = nil) {
+            self.gameSessionArn = gameSessionArn
+            self.ipAddress = ipAddress
+            self.matchedPlayerSessions = matchedPlayerSessions
+            self.port = port
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionArn = "GameSessionArn"
+            case ipAddress = "IpAddress"
+            case matchedPlayerSessions = "MatchedPlayerSessions"
+            case port = "Port"
+        }
+    }
+
+    public struct GameSessionDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSession", required: false, type: .structure), 
+            AWSShapeMember(label: "ProtectionPolicy", required: false, type: .enum)
+        ]
+        /// Object that describes a game session.
+        public let gameSession: GameSession?
+        /// Current status of protection for the game session.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
+        public let protectionPolicy: ProtectionPolicy?
+
+        public init(gameSession: GameSession? = nil, protectionPolicy: ProtectionPolicy? = nil) {
+            self.gameSession = gameSession
+            self.protectionPolicy = protectionPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameSession = "GameSession"
+            case protectionPolicy = "ProtectionPolicy"
+        }
+    }
+
+    public struct GameSessionPlacement: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "GameProperties", required: false, type: .list), 
+            AWSShapeMember(label: "GameSessionArn", required: false, type: .string), 
+            AWSShapeMember(label: "GameSessionData", required: false, type: .string), 
+            AWSShapeMember(label: "GameSessionId", required: false, type: .string), 
+            AWSShapeMember(label: "GameSessionName", required: false, type: .string), 
+            AWSShapeMember(label: "GameSessionQueueName", required: false, type: .string), 
+            AWSShapeMember(label: "GameSessionRegion", required: false, type: .string), 
+            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "MatchmakerData", required: false, type: .string), 
+            AWSShapeMember(label: "MaximumPlayerSessionCount", required: false, type: .integer), 
+            AWSShapeMember(label: "PlacedPlayerSessions", required: false, type: .list), 
+            AWSShapeMember(label: "PlacementId", required: false, type: .string), 
+            AWSShapeMember(label: "PlayerLatencies", required: false, type: .list), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        /// Time stamp indicating when this request was completed, canceled, or timed out.
+        public let endTime: TimeStamp?
+        /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
+        public let gameProperties: [GameProperty]?
+        /// Identifier for the game session created by this placement request. This value is set once the new game session is placed (placement status is FULFILLED). This identifier is unique across all regions. You can use this value as a GameSessionId value as needed.
+        public let gameSessionArn: String?
+        /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
+        public let gameSessionData: String?
+        /// Unique identifier for the game session. This value is set once the new game session is placed (placement status is FULFILLED).
+        public let gameSessionId: String?
+        /// Descriptive label that is associated with a game session. Session names do not need to be unique.
+        public let gameSessionName: String?
+        /// Descriptive label that is associated with game session queue. Queue names must be unique within each region.
+        public let gameSessionQueueName: String?
+        /// Name of the region where the game session created by this placement request is running. This value is set once the new game session is placed (placement status is FULFILLED).
+        public let gameSessionRegion: String?
+        /// IP address of the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number. This value is set once the new game session is placed (placement status is FULFILLED). 
+        public let ipAddress: String?
+        /// Information on the matchmaking process for this game. Data is in JSON syntax, formatted as a string. It identifies the matchmaking configuration used to create the match, and contains data on all players assigned to the match, including player attributes and team assignments. For more details on matchmaker data, see Match Data.
+        public let matchmakerData: String?
+        /// Maximum number of players that can be connected simultaneously to the game session.
+        public let maximumPlayerSessionCount: Int32?
+        /// Collection of information on player sessions created in response to the game session placement request. These player sessions are created only once a new game session is successfully placed (placement status is FULFILLED). This information includes the player ID (as provided in the placement request) and the corresponding player session ID. Retrieve full player sessions by calling DescribePlayerSessions with the player session ID.
+        public let placedPlayerSessions: [PlacedPlayerSession]?
+        /// Unique identifier for a game session placement.
+        public let placementId: String?
+        /// Set of values, expressed in milliseconds, indicating the amount of latency that a player experiences when connected to AWS regions.
+        public let playerLatencies: [PlayerLatency]?
+        /// Port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number. This value is set once the new game session is placed (placement status is FULFILLED).
+        public let port: Int32?
+        /// Time stamp indicating when this request was placed in the queue. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        public let startTime: TimeStamp?
+        /// Current status of the game session placement request.    PENDING -- The placement request is currently in the queue waiting to be processed.    FULFILLED -- A new game session and player sessions (if requested) have been successfully created. Values for GameSessionArn and GameSessionRegion are available.     CANCELLED -- The placement request was canceled with a call to StopGameSessionPlacement.    TIMED_OUT -- A new game session was not successfully created before the time limit expired. You can resubmit the placement request as needed.  
+        public let status: GameSessionPlacementState?
+
+        public init(endTime: TimeStamp? = nil, gameProperties: [GameProperty]? = nil, gameSessionArn: String? = nil, gameSessionData: String? = nil, gameSessionId: String? = nil, gameSessionName: String? = nil, gameSessionQueueName: String? = nil, gameSessionRegion: String? = nil, ipAddress: String? = nil, matchmakerData: String? = nil, maximumPlayerSessionCount: Int32? = nil, placedPlayerSessions: [PlacedPlayerSession]? = nil, placementId: String? = nil, playerLatencies: [PlayerLatency]? = nil, port: Int32? = nil, startTime: TimeStamp? = nil, status: GameSessionPlacementState? = nil) {
+            self.endTime = endTime
+            self.gameProperties = gameProperties
+            self.gameSessionArn = gameSessionArn
+            self.gameSessionData = gameSessionData
+            self.gameSessionId = gameSessionId
+            self.gameSessionName = gameSessionName
+            self.gameSessionQueueName = gameSessionQueueName
+            self.gameSessionRegion = gameSessionRegion
+            self.ipAddress = ipAddress
+            self.matchmakerData = matchmakerData
+            self.maximumPlayerSessionCount = maximumPlayerSessionCount
+            self.placedPlayerSessions = placedPlayerSessions
+            self.placementId = placementId
+            self.playerLatencies = playerLatencies
+            self.port = port
+            self.startTime = startTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case gameProperties = "GameProperties"
+            case gameSessionArn = "GameSessionArn"
+            case gameSessionData = "GameSessionData"
+            case gameSessionId = "GameSessionId"
+            case gameSessionName = "GameSessionName"
+            case gameSessionQueueName = "GameSessionQueueName"
+            case gameSessionRegion = "GameSessionRegion"
+            case ipAddress = "IpAddress"
+            case matchmakerData = "MatchmakerData"
+            case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
+            case placedPlayerSessions = "PlacedPlayerSessions"
+            case placementId = "PlacementId"
+            case playerLatencies = "PlayerLatencies"
+            case port = "Port"
+            case startTime = "StartTime"
+            case status = "Status"
+        }
+    }
+
+    public enum GameSessionPlacementState: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case fulfilled = "FULFILLED"
+        case cancelled = "CANCELLED"
+        case timedOut = "TIMED_OUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GameSessionQueue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Destinations", required: false, type: .list), 
+            AWSShapeMember(label: "GameSessionQueueArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "PlayerLatencyPolicies", required: false, type: .list), 
+            AWSShapeMember(label: "TimeoutInSeconds", required: false, type: .integer)
+        ]
+        /// List of fleets that can be used to fulfill game session placement requests in the queue. Fleets are identified by either a fleet ARN or a fleet alias ARN. Destinations are listed in default preference order.
+        public let destinations: [GameSessionQueueDestination]?
+        /// Amazon Resource Name (ARN) that is assigned to a game session queue and uniquely identifies it. Format is arn:aws:gamelift:&lt;region&gt;::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+        public let gameSessionQueueArn: String?
+        /// Descriptive label that is associated with game session queue. Queue names must be unique within each region.
+        public let name: String?
+        /// Collection of latency policies to apply when processing game sessions placement requests with player latency information. Multiple policies are evaluated in order of the maximum latency value, starting with the lowest latency values. With just one policy, it is enforced at the start of the game session placement for the duration period. With multiple policies, each policy is enforced consecutively for its duration period. For example, a queue might enforce a 60-second policy followed by a 120-second policy, and then no policy for the remainder of the placement. 
+        public let playerLatencyPolicies: [PlayerLatencyPolicy]?
+        /// Maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status.
+        public let timeoutInSeconds: Int32?
+
+        public init(destinations: [GameSessionQueueDestination]? = nil, gameSessionQueueArn: String? = nil, name: String? = nil, playerLatencyPolicies: [PlayerLatencyPolicy]? = nil, timeoutInSeconds: Int32? = nil) {
+            self.destinations = destinations
+            self.gameSessionQueueArn = gameSessionQueueArn
+            self.name = name
+            self.playerLatencyPolicies = playerLatencyPolicies
+            self.timeoutInSeconds = timeoutInSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "Destinations"
+            case gameSessionQueueArn = "GameSessionQueueArn"
+            case name = "Name"
+            case playerLatencyPolicies = "PlayerLatencyPolicies"
+            case timeoutInSeconds = "TimeoutInSeconds"
+        }
+    }
+
+    public struct GameSessionQueueDestination: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationArn", required: false, type: .string)
+        ]
+        /// Amazon Resource Name (ARN) assigned to fleet or fleet alias. ARNs, which include a fleet ID or alias ID and a region name, provide a unique identifier across all regions. 
+        public let destinationArn: String?
+
+        public init(destinationArn: String? = nil) {
+            self.destinationArn = destinationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationArn = "DestinationArn"
+        }
+    }
+
+    public enum GameSessionStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case activating = "ACTIVATING"
+        case terminated = "TERMINATED"
+        case terminating = "TERMINATING"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GameSessionStatusReason: String, CustomStringConvertible, Codable {
+        case interrupted = "INTERRUPTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetGameSessionLogUrlInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessionId", required: true, type: .string)
+        ]
+        /// Unique identifier for the game session to get logs for.
+        public let gameSessionId: String
+
+        public init(gameSessionId: String) {
+            self.gameSessionId = gameSessionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionId = "GameSessionId"
+        }
+    }
+
+    public struct GetGameSessionLogUrlOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PreSignedUrl", required: false, type: .string)
+        ]
+        /// Location of the requested game session logs, available for download.
+        public let preSignedUrl: String?
+
+        public init(preSignedUrl: String? = nil) {
+            self.preSignedUrl = preSignedUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case preSignedUrl = "PreSignedUrl"
+        }
+    }
+
+    public struct GetInstanceAccessInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
+        ]
+        /// Unique identifier for a fleet that contains the instance you want access to. The fleet can be in any of the following statuses: ACTIVATING, ACTIVE, or ERROR. Fleets with an ERROR status may be accessible for a short time before they are deleted.
+        public let fleetId: String
+        /// Unique identifier for an instance you want to get access to. You can access an instance in any status.
+        public let instanceId: String
+
+        public init(fleetId: String, instanceId: String) {
+            self.fleetId = fleetId
+            self.instanceId = instanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+            case instanceId = "InstanceId"
         }
     }
 
@@ -3771,453 +2689,50 @@ extension GameLift {
         }
     }
 
-    public struct Alias: AWSShape {
+    public struct Instance: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "AliasArn", required: false, type: .string), 
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "AliasId", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "RoutingStrategy", required: false, type: .structure)
+            AWSShapeMember(label: "FleetId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "OperatingSystem", required: false, type: .enum), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
-        /// Descriptive label that is associated with an alias. Alias names do not need to be unique.
-        public let name: String?
-        /// Unique identifier for an alias; alias ARNs are unique across all regions.
-        public let aliasArn: String?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: TimeStamp?
-        /// Unique identifier for an alias; alias IDs are unique within a region.
-        public let aliasId: String?
-        /// Time stamp indicating when this data object was last modified. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let lastUpdatedTime: TimeStamp?
-        /// Human-readable description of an alias.
-        public let description: String?
-        /// Alias configuration for the alias, including routing type and settings.
-        public let routingStrategy: RoutingStrategy?
-
-        public init(name: String? = nil, aliasArn: String? = nil, creationTime: TimeStamp? = nil, aliasId: String? = nil, lastUpdatedTime: TimeStamp? = nil, description: String? = nil, routingStrategy: RoutingStrategy? = nil) {
-            self.name = name
-            self.aliasArn = aliasArn
-            self.creationTime = creationTime
-            self.aliasId = aliasId
-            self.lastUpdatedTime = lastUpdatedTime
-            self.description = description
-            self.routingStrategy = routingStrategy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case aliasArn = "AliasArn"
-            case creationTime = "CreationTime"
-            case aliasId = "AliasId"
-            case lastUpdatedTime = "LastUpdatedTime"
-            case description = "Description"
-            case routingStrategy = "RoutingStrategy"
-        }
-    }
-
-    public struct FleetCapacity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceType", required: false, type: .enum), 
-            AWSShapeMember(label: "InstanceCounts", required: false, type: .structure), 
-            AWSShapeMember(label: "FleetId", required: false, type: .string)
-        ]
-        /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions.
-        public let instanceType: EC2InstanceType?
-        /// Current status of fleet capacity.
-        public let instanceCounts: EC2InstanceCounts?
-        /// Unique identifier for a fleet.
+        /// Unique identifier for a fleet that the instance is in.
         public let fleetId: String?
-
-        public init(instanceType: EC2InstanceType? = nil, instanceCounts: EC2InstanceCounts? = nil, fleetId: String? = nil) {
-            self.instanceType = instanceType
-            self.instanceCounts = instanceCounts
-            self.fleetId = fleetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceType = "InstanceType"
-            case instanceCounts = "InstanceCounts"
-            case fleetId = "FleetId"
-        }
-    }
-
-    public struct CreateBuildInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StorageLocation", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .string), 
-            AWSShapeMember(label: "OperatingSystem", required: false, type: .enum)
-        ]
-        /// Information indicating where your game build files are stored. Use this parameter only when creating a build with files stored in an Amazon S3 bucket that you own. The storage location must specify an Amazon S3 bucket name and key, as well as a role ARN that you set up to allow Amazon GameLift to access your Amazon S3 bucket. The S3 bucket must be in the same region that you want to create a new build in.
-        public let storageLocation: S3Location?
-        /// Descriptive label that is associated with a build. Build names do not need to be unique. You can use UpdateBuild to change this value later. 
-        public let name: String?
-        /// Version that is associated with this build. Version strings do not need to be unique. You can use UpdateBuild to change this value later. 
-        public let version: String?
-        /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build. If your game build contains multiple executables, they all must run on the same operating system. If an operating system is not specified when creating a build, Amazon GameLift uses the default value (WINDOWS_2012). This value cannot be changed later.
+        /// Unique identifier for an instance.
+        public let instanceId: String?
+        /// IP address assigned to the instance.
+        public let ipAddress: String?
+        /// Operating system that is running on this instance. 
         public let operatingSystem: OperatingSystem?
+        /// Current status of the instance. Possible statuses include the following:    PENDING -- The instance is in the process of being created and launching server processes as defined in the fleet's run-time configuration.     ACTIVE -- The instance has been successfully created and at least one server process has successfully launched and reported back to Amazon GameLift that it is ready to host a game session. The instance is now considered ready to host game sessions.     TERMINATING -- The instance is in the process of shutting down. This may happen to reduce capacity during a scaling down event or to recycle resources in the event of a problem.  
+        public let status: InstanceStatus?
+        /// EC2 instance type that defines the computing resources of this instance. 
+        public let `type`: EC2InstanceType?
 
-        public init(storageLocation: S3Location? = nil, name: String? = nil, version: String? = nil, operatingSystem: OperatingSystem? = nil) {
-            self.storageLocation = storageLocation
-            self.name = name
-            self.version = version
+        public init(creationTime: TimeStamp? = nil, fleetId: String? = nil, instanceId: String? = nil, ipAddress: String? = nil, operatingSystem: OperatingSystem? = nil, status: InstanceStatus? = nil, type: EC2InstanceType? = nil) {
+            self.creationTime = creationTime
+            self.fleetId = fleetId
+            self.instanceId = instanceId
+            self.ipAddress = ipAddress
             self.operatingSystem = operatingSystem
+            self.status = status
+            self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
-            case storageLocation = "StorageLocation"
-            case name = "Name"
-            case version = "Version"
+            case creationTime = "CreationTime"
+            case fleetId = "FleetId"
+            case instanceId = "InstanceId"
+            case ipAddress = "IpAddress"
             case operatingSystem = "OperatingSystem"
+            case status = "Status"
+            case `type` = "Type"
         }
-    }
-
-    public struct CreatePlayerSessionsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlayerDataMap", required: false, type: .map), 
-            AWSShapeMember(label: "GameSessionId", required: true, type: .string), 
-            AWSShapeMember(label: "PlayerIds", required: true, type: .list)
-        ]
-        /// Map of string pairs, each specifying a player ID and a set of developer-defined information related to the player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game. Player data strings for player IDs not included in the PlayerIds parameter are ignored. 
-        public let playerDataMap: [String: String]?
-        /// Unique identifier for the game session to add players to.
-        public let gameSessionId: String
-        /// List of unique identifiers for the players to be added.
-        public let playerIds: [String]
-
-        public init(playerDataMap: [String: String]? = nil, gameSessionId: String, playerIds: [String]) {
-            self.playerDataMap = playerDataMap
-            self.gameSessionId = gameSessionId
-            self.playerIds = playerIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case playerDataMap = "PlayerDataMap"
-            case gameSessionId = "GameSessionId"
-            case playerIds = "PlayerIds"
-        }
-    }
-
-    public struct CreateFleetInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceCreationLimitPolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "PeerVpcId", required: false, type: .string), 
-            AWSShapeMember(label: "NewGameSessionProtectionPolicy", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "BuildId", required: true, type: .string), 
-            AWSShapeMember(label: "ServerLaunchParameters", required: false, type: .string), 
-            AWSShapeMember(label: "ServerLaunchPath", required: false, type: .string), 
-            AWSShapeMember(label: "EC2InstanceType", required: true, type: .enum), 
-            AWSShapeMember(label: "RuntimeConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "FleetType", required: false, type: .enum), 
-            AWSShapeMember(label: "MetricGroups", required: false, type: .list), 
-            AWSShapeMember(label: "EC2InboundPermissions", required: false, type: .list), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "LogPaths", required: false, type: .list), 
-            AWSShapeMember(label: "PeerVpcAwsAccountId", required: false, type: .string)
-        ]
-        /// Policy that limits the number of game sessions an individual player can create over a span of time for this fleet.
-        public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
-        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. To get VPC information, including IDs, use the Virtual Private Cloud service tools, including the VPC Dashboard in the AWS Management Console.
-        public let peerVpcId: String?
-        /// Game session protection policy to apply to all instances in this fleet. If this parameter is not set, instances in this fleet default to no protection. You can change a fleet's protection policy using UpdateFleetAttributes, but this change will only affect sessions created after the policy change. You can also set protection for individual instances using UpdateGameSession.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
-        public let newGameSessionProtectionPolicy: ProtectionPolicy?
-        /// Descriptive label that is associated with a fleet. Fleet names do not need to be unique.
-        public let name: String
-        /// Unique identifier for a build to be deployed on the new fleet. The build must have been successfully uploaded to Amazon GameLift and be in a READY status. This fleet setting cannot be changed once the fleet is created.
-        public let buildId: String
-        /// This parameter is no longer used. Instead, specify server launch parameters in the RuntimeConfiguration parameter. (Requests that specify a server launch path and launch parameters instead of a run-time configuration will continue to work.)
-        public let serverLaunchParameters: String?
-        /// This parameter is no longer used. Instead, specify a server launch path using the RuntimeConfiguration parameter. (Requests that specify a server launch path and launch parameters instead of a run-time configuration will continue to work.)
-        public let serverLaunchPath: String?
-        /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions.
-        public let eC2InstanceType: EC2InstanceType
-        /// Instructions for launching server processes on each instance in the fleet. The run-time configuration for a fleet has a collection of server process configurations, one for each type of server process to run on an instance. A server process configuration specifies the location of the server executable, launch parameters, and the number of concurrent processes with that configuration to maintain on each instance. A CreateFleet request must include a run-time configuration with at least one server process configuration; otherwise the request fails with an invalid request exception. (This parameter replaces the parameters ServerLaunchPath and ServerLaunchParameters; requests that contain values for these parameters instead of a run-time configuration will continue to work.) 
-        public let runtimeConfiguration: RuntimeConfiguration?
-        /// Indicates whether to use on-demand instances or spot instances for this fleet. If empty, the default is ON_DEMAND. Both categories of instances use identical hardware and configurations, based on the instance type selected for this fleet. You can acquire on-demand instances at any time for a fixed price and keep them as long as you need them. Spot instances have lower prices, but spot pricing is variable, and while in use they can be interrupted (with a two-minute notification). Learn more about Amazon GameLift spot instances with at  Choose Computing Resources. 
-        public let fleetType: FleetType?
-        /// Name of a metric group to add this fleet to. A metric group tracks metrics across all fleets in the group. Use an existing metric group name to add this fleet to the group, or use a new name to create a new metric group. A fleet can only be included in one metric group at a time.
-        public let metricGroups: [String]?
-        /// Range of IP addresses and port settings that permit inbound traffic to access server processes running on the fleet. If no inbound permissions are set, including both IP address range and port range, the server processes in the fleet cannot accept connections. You can specify one or more sets of permissions for a fleet.
-        public let eC2InboundPermissions: [IpPermission]?
-        /// Human-readable description of a fleet.
-        public let description: String?
-        /// This parameter is no longer used. Instead, to specify where Amazon GameLift should store log files once a server process shuts down, use the Amazon GameLift server API ProcessReady() and specify one or more directory paths in logParameters. See more information in the Server API Reference. 
-        public let logPaths: [String]?
-        /// Unique identifier for the AWS account with the VPC that you want to peer your Amazon GameLift fleet with. You can find your Account ID in the AWS Management Console under account settings.
-        public let peerVpcAwsAccountId: String?
-
-        public init(resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, peerVpcId: String? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, name: String, buildId: String, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil, eC2InstanceType: EC2InstanceType, runtimeConfiguration: RuntimeConfiguration? = nil, fleetType: FleetType? = nil, metricGroups: [String]? = nil, eC2InboundPermissions: [IpPermission]? = nil, description: String? = nil, logPaths: [String]? = nil, peerVpcAwsAccountId: String? = nil) {
-            self.resourceCreationLimitPolicy = resourceCreationLimitPolicy
-            self.peerVpcId = peerVpcId
-            self.newGameSessionProtectionPolicy = newGameSessionProtectionPolicy
-            self.name = name
-            self.buildId = buildId
-            self.serverLaunchParameters = serverLaunchParameters
-            self.serverLaunchPath = serverLaunchPath
-            self.eC2InstanceType = eC2InstanceType
-            self.runtimeConfiguration = runtimeConfiguration
-            self.fleetType = fleetType
-            self.metricGroups = metricGroups
-            self.eC2InboundPermissions = eC2InboundPermissions
-            self.description = description
-            self.logPaths = logPaths
-            self.peerVpcAwsAccountId = peerVpcAwsAccountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceCreationLimitPolicy = "ResourceCreationLimitPolicy"
-            case peerVpcId = "PeerVpcId"
-            case newGameSessionProtectionPolicy = "NewGameSessionProtectionPolicy"
-            case name = "Name"
-            case buildId = "BuildId"
-            case serverLaunchParameters = "ServerLaunchParameters"
-            case serverLaunchPath = "ServerLaunchPath"
-            case eC2InstanceType = "EC2InstanceType"
-            case runtimeConfiguration = "RuntimeConfiguration"
-            case fleetType = "FleetType"
-            case metricGroups = "MetricGroups"
-            case eC2InboundPermissions = "EC2InboundPermissions"
-            case description = "Description"
-            case logPaths = "LogPaths"
-            case peerVpcAwsAccountId = "PeerVpcAwsAccountId"
-        }
-    }
-
-    public enum ProtectionPolicy: String, CustomStringConvertible, Codable {
-        case noprotection = "NoProtection"
-        case fullprotection = "FullProtection"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateVpcPeeringConnectionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PeerVpcAwsAccountId", required: true, type: .string), 
-            AWSShapeMember(label: "FleetId", required: true, type: .string), 
-            AWSShapeMember(label: "PeerVpcId", required: true, type: .string)
-        ]
-        /// Unique identifier for the AWS account with the VPC that you want to peer your Amazon GameLift fleet with. You can find your Account ID in the AWS Management Console under account settings.
-        public let peerVpcAwsAccountId: String
-        /// Unique identifier for a fleet. This tells Amazon GameLift which GameLift VPC to peer with. 
-        public let fleetId: String
-        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. To get VPC information, including IDs, use the Virtual Private Cloud service tools, including the VPC Dashboard in the AWS Management Console.
-        public let peerVpcId: String
-
-        public init(peerVpcAwsAccountId: String, fleetId: String, peerVpcId: String) {
-            self.peerVpcAwsAccountId = peerVpcAwsAccountId
-            self.fleetId = fleetId
-            self.peerVpcId = peerVpcId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case peerVpcAwsAccountId = "PeerVpcAwsAccountId"
-            case fleetId = "FleetId"
-            case peerVpcId = "PeerVpcId"
-        }
-    }
-
-    public struct UpdateFleetPortSettingsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InboundPermissionRevocations", required: false, type: .list), 
-            AWSShapeMember(label: "FleetId", required: true, type: .string), 
-            AWSShapeMember(label: "InboundPermissionAuthorizations", required: false, type: .list)
-        ]
-        /// Collection of port settings to be removed from the fleet record.
-        public let inboundPermissionRevocations: [IpPermission]?
-        /// Unique identifier for a fleet to update port settings for.
-        public let fleetId: String
-        /// Collection of port settings to be added to the fleet record.
-        public let inboundPermissionAuthorizations: [IpPermission]?
-
-        public init(inboundPermissionRevocations: [IpPermission]? = nil, fleetId: String, inboundPermissionAuthorizations: [IpPermission]? = nil) {
-            self.inboundPermissionRevocations = inboundPermissionRevocations
-            self.fleetId = fleetId
-            self.inboundPermissionAuthorizations = inboundPermissionAuthorizations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inboundPermissionRevocations = "InboundPermissionRevocations"
-            case fleetId = "FleetId"
-            case inboundPermissionAuthorizations = "InboundPermissionAuthorizations"
-        }
-    }
-
-    public struct TargetConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetValue", required: true, type: .double)
-        ]
-        /// Desired value to use with a target-based scaling policy. The value must be relevant for whatever metric the scaling policy is using. For example, in a policy using the metric PercentAvailableGameSessions, the target value should be the preferred size of the fleet's buffer (the percent of capacity that should be idle and ready for new game sessions).
-        public let targetValue: Double
-
-        public init(targetValue: Double) {
-            self.targetValue = targetValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetValue = "TargetValue"
-        }
-    }
-
-    public struct DescribeGameSessionDetailsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GameSessionDetails", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Collection of objects containing game session properties and the protection policy currently in force for each session matching the request.
-        public let gameSessionDetails: [GameSessionDetail]?
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
-        public let nextToken: String?
-
-        public init(gameSessionDetails: [GameSessionDetail]? = nil, nextToken: String? = nil) {
-            self.gameSessionDetails = gameSessionDetails
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gameSessionDetails = "GameSessionDetails"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct CreateMatchmakingRuleSetInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuleSetBody", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// Collection of matchmaking rules, formatted as a JSON string. (Note that comments are not allowed in JSON, but most elements support a description field.)
-        public let ruleSetBody: String
-        /// Unique identifier for a matchmaking rule set. This name is used to identify the rule set associated with a matchmaking configuration.
-        public let name: String
-
-        public init(ruleSetBody: String, name: String) {
-            self.ruleSetBody = ruleSetBody
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ruleSetBody = "RuleSetBody"
-            case name = "Name"
-        }
-    }
-
-    public struct DescribeEC2InstanceLimitsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EC2InstanceType", required: false, type: .enum)
-        ]
-        /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions. Leave this parameter blank to retrieve limits for all types.
-        public let eC2InstanceType: EC2InstanceType?
-
-        public init(eC2InstanceType: EC2InstanceType? = nil) {
-            self.eC2InstanceType = eC2InstanceType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eC2InstanceType = "EC2InstanceType"
-        }
-    }
-
-    public struct DescribeFleetAttributesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Collection of objects containing attribute metadata for each requested fleet ID.
-        public let fleetAttributes: [FleetAttributes]?
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
-        public let nextToken: String?
-
-        public init(fleetAttributes: [FleetAttributes]? = nil, nextToken: String? = nil) {
-            self.fleetAttributes = fleetAttributes
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fleetAttributes = "FleetAttributes"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct RequestUploadCredentialsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BuildId", required: true, type: .string)
-        ]
-        /// Unique identifier for a build to get credentials for.
-        public let buildId: String
-
-        public init(buildId: String) {
-            self.buildId = buildId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case buildId = "BuildId"
-        }
-    }
-
-    public struct DescribeFleetUtilizationOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetUtilization", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Collection of objects containing utilization information for each requested fleet ID.
-        public let fleetUtilization: [FleetUtilization]?
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
-        public let nextToken: String?
-
-        public init(fleetUtilization: [FleetUtilization]? = nil, nextToken: String? = nil) {
-            self.fleetUtilization = fleetUtilization
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fleetUtilization = "FleetUtilization"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct UpdateFleetCapacityInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DesiredInstances", required: false, type: .integer), 
-            AWSShapeMember(label: "MinSize", required: false, type: .integer), 
-            AWSShapeMember(label: "MaxSize", required: false, type: .integer), 
-            AWSShapeMember(label: "FleetId", required: true, type: .string)
-        ]
-        /// Number of EC2 instances you want this fleet to host.
-        public let desiredInstances: Int32?
-        /// Minimum value allowed for the fleet's instance count. Default if not set is 0.
-        public let minSize: Int32?
-        /// Maximum value allowed for the fleet's instance count. Default if not set is 1.
-        public let maxSize: Int32?
-        /// Unique identifier for a fleet to update capacity for.
-        public let fleetId: String
-
-        public init(desiredInstances: Int32? = nil, minSize: Int32? = nil, maxSize: Int32? = nil, fleetId: String) {
-            self.desiredInstances = desiredInstances
-            self.minSize = minSize
-            self.maxSize = maxSize
-            self.fleetId = fleetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case desiredInstances = "DesiredInstances"
-            case minSize = "MinSize"
-            case maxSize = "MaxSize"
-            case fleetId = "FleetId"
-        }
-    }
-
-    public enum FleetStatus: String, CustomStringConvertible, Codable {
-        case new = "NEW"
-        case downloading = "DOWNLOADING"
-        case validating = "VALIDATING"
-        case building = "BUILDING"
-        case activating = "ACTIVATING"
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        case error = "ERROR"
-        case terminated = "TERMINATED"
-        public var description: String { return self.rawValue }
     }
 
     public struct InstanceAccess: AWSShape {
@@ -4256,192 +2771,311 @@ extension GameLift {
         }
     }
 
-    public enum BuildStatus: String, CustomStringConvertible, Codable {
-        case initialized = "INITIALIZED"
-        case ready = "READY"
-        case failed = "FAILED"
+    public struct InstanceCredentials: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Secret", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string)
+        ]
+        /// Secret string. For Windows instances, the secret is a password for use with Windows Remote Desktop. For Linux instances, it is a private key (which must be saved as a .pem file) for use with SSH.
+        public let secret: String?
+        /// User login string.
+        public let userName: String?
+
+        public init(secret: String? = nil, userName: String? = nil) {
+            self.secret = secret
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secret = "Secret"
+            case userName = "UserName"
+        }
+    }
+
+    public enum InstanceStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case active = "ACTIVE"
+        case terminating = "TERMINATING"
         public var description: String { return self.rawValue }
     }
 
-    public struct EC2InstanceCounts: AWSShape {
+    public struct IpPermission: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MAXIMUM", required: false, type: .integer), 
-            AWSShapeMember(label: "ACTIVE", required: false, type: .integer), 
-            AWSShapeMember(label: "TERMINATING", required: false, type: .integer), 
-            AWSShapeMember(label: "DESIRED", required: false, type: .integer), 
-            AWSShapeMember(label: "IDLE", required: false, type: .integer), 
-            AWSShapeMember(label: "MINIMUM", required: false, type: .integer), 
-            AWSShapeMember(label: "PENDING", required: false, type: .integer)
+            AWSShapeMember(label: "FromPort", required: true, type: .integer), 
+            AWSShapeMember(label: "IpRange", required: true, type: .string), 
+            AWSShapeMember(label: "Protocol", required: true, type: .enum), 
+            AWSShapeMember(label: "ToPort", required: true, type: .integer)
         ]
-        /// Maximum value allowed for the fleet's instance count.
-        public let maximum: Int32?
-        /// Actual number of active instances in the fleet.
-        public let active: Int32?
-        /// Number of instances in the fleet that are no longer active but haven't yet been terminated.
-        public let terminating: Int32?
-        /// Ideal number of active instances in the fleet.
-        public let desired: Int32?
-        /// Number of active instances in the fleet that are not currently hosting a game session.
-        public let idle: Int32?
-        /// Minimum value allowed for the fleet's instance count.
-        public let minimum: Int32?
-        /// Number of instances in the fleet that are starting but not yet active.
-        public let pending: Int32?
+        /// Starting value for a range of allowed port numbers.
+        public let fromPort: Int32
+        /// Range of allowed IP addresses. This value must be expressed in CIDR notation. Example: "000.000.000.000/[subnet mask]" or optionally the shortened version "0.0.0.0/[subnet mask]".
+        public let ipRange: String
+        /// Network communication protocol used by the fleet.
+        public let `protocol`: IpProtocol
+        /// Ending value for a range of allowed port numbers. Port numbers are end-inclusive. This value must be higher than FromPort.
+        public let toPort: Int32
 
-        public init(maximum: Int32? = nil, active: Int32? = nil, terminating: Int32? = nil, desired: Int32? = nil, idle: Int32? = nil, minimum: Int32? = nil, pending: Int32? = nil) {
-            self.maximum = maximum
-            self.active = active
-            self.terminating = terminating
-            self.desired = desired
-            self.idle = idle
-            self.minimum = minimum
-            self.pending = pending
+        public init(fromPort: Int32, ipRange: String, protocol: IpProtocol, toPort: Int32) {
+            self.fromPort = fromPort
+            self.ipRange = ipRange
+            self.`protocol` = `protocol`
+            self.toPort = toPort
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maximum = "MAXIMUM"
-            case active = "ACTIVE"
-            case terminating = "TERMINATING"
-            case desired = "DESIRED"
-            case idle = "IDLE"
-            case minimum = "MINIMUM"
-            case pending = "PENDING"
+            case fromPort = "FromPort"
+            case ipRange = "IpRange"
+            case `protocol` = "Protocol"
+            case toPort = "ToPort"
         }
     }
 
-    public struct UpdateGameSessionQueueInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "TimeoutInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "Destinations", required: false, type: .list), 
-            AWSShapeMember(label: "PlayerLatencyPolicies", required: false, type: .list)
-        ]
-        /// Descriptive label that is associated with game session queue. Queue names must be unique within each region.
-        public let name: String
-        /// Maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status.
-        public let timeoutInSeconds: Int32?
-        /// List of fleets that can be used to fulfill game session placement requests in the queue. Fleets are identified by either a fleet ARN or a fleet alias ARN. Destinations are listed in default preference order. When updating this list, provide a complete list of destinations.
-        public let destinations: [GameSessionQueueDestination]?
-        /// Collection of latency policies to apply when processing game sessions placement requests with player latency information. Multiple policies are evaluated in order of the maximum latency value, starting with the lowest latency values. With just one policy, it is enforced at the start of the game session placement for the duration period. With multiple policies, each policy is enforced consecutively for its duration period. For example, a queue might enforce a 60-second policy followed by a 120-second policy, and then no policy for the remainder of the placement. When updating policies, provide a complete collection of policies.
-        public let playerLatencyPolicies: [PlayerLatencyPolicy]?
-
-        public init(name: String, timeoutInSeconds: Int32? = nil, destinations: [GameSessionQueueDestination]? = nil, playerLatencyPolicies: [PlayerLatencyPolicy]? = nil) {
-            self.name = name
-            self.timeoutInSeconds = timeoutInSeconds
-            self.destinations = destinations
-            self.playerLatencyPolicies = playerLatencyPolicies
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case timeoutInSeconds = "TimeoutInSeconds"
-            case destinations = "Destinations"
-            case playerLatencyPolicies = "PlayerLatencyPolicies"
-        }
-    }
-
-    public enum ComparisonOperatorType: String, CustomStringConvertible, Codable {
-        case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
-        case greaterthanthreshold = "GreaterThanThreshold"
-        case lessthanthreshold = "LessThanThreshold"
-        case lessthanorequaltothreshold = "LessThanOrEqualToThreshold"
+    public enum IpProtocol: String, CustomStringConvertible, Codable {
+        case tcp = "TCP"
+        case udp = "UDP"
         public var description: String { return self.rawValue }
     }
 
-    public struct UpdateMatchmakingConfigurationInput: AWSShape {
+    public struct ListAliasesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuleSetName", required: false, type: .string), 
-            AWSShapeMember(label: "GameProperties", required: false, type: .list), 
-            AWSShapeMember(label: "AdditionalPlayerCount", required: false, type: .integer), 
-            AWSShapeMember(label: "RequestTimeoutSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "NotificationTarget", required: false, type: .string), 
-            AWSShapeMember(label: "GameSessionData", required: false, type: .string), 
-            AWSShapeMember(label: "AcceptanceRequired", required: false, type: .boolean), 
-            AWSShapeMember(label: "GameSessionQueueArns", required: false, type: .list), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "AcceptanceTimeoutSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "CustomEventData", required: false, type: .string)
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RoutingStrategyType", required: false, type: .enum)
         ]
-        /// Unique identifier for a matchmaking rule set to use with this configuration. A matchmaking configuration can only use rule sets that are defined in the same region.
-        public let ruleSetName: String?
-        /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. 
-        public let gameProperties: [GameProperty]?
-        /// Number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies a match for a single 12-person team, and the additional player count is set to 2, only 10 players are selected for the match.
-        public let additionalPlayerCount: Int32?
-        /// Maximum duration, in seconds, that a matchmaking ticket can remain in process before timing out. Requests that time out can be resubmitted as needed.
-        public let requestTimeoutSeconds: Int32?
-        /// SNS topic ARN that is set up to receive matchmaking notifications. See  Setting up Notifications for Matchmaking for more information.
-        public let notificationTarget: String?
-        /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. 
-        public let gameSessionData: String?
-        /// Flag that determines whether or not a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE.
-        public let acceptanceRequired: Bool?
-        /// Amazon Resource Name (ARN) that is assigned to a game session queue and uniquely identifies it. Format is arn:aws:gamelift:&lt;region&gt;::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912. These queues are used when placing game sessions for matches that are created with this matchmaking configuration. Queues can be located in any region.
-        public let gameSessionQueueArns: [String]?
-        /// Descriptive label that is associated with matchmaking configuration.
-        public let description: String?
-        /// Unique identifier for a matchmaking configuration to update.
-        public let name: String
-        /// Length of time (in seconds) to wait for players to accept a proposed match. If any player rejects the match or fails to accept before the timeout, the ticket continues to look for an acceptable match.
-        public let acceptanceTimeoutSeconds: Int32?
-        /// Information to attached to all events related to the matchmaking configuration. 
-        public let customEventData: String?
+        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+        public let limit: Int32?
+        /// Descriptive label that is associated with an alias. Alias names do not need to be unique.
+        public let name: String?
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        public let nextToken: String?
+        /// Type of routing to filter results on. Use this parameter to retrieve only aliases of a certain type. To retrieve all aliases, leave this parameter empty. Possible routing types include the following:    SIMPLE -- The alias resolves to one specific fleet. Use this type when routing to active fleets.    TERMINAL -- The alias does not resolve to a fleet but instead can be used to display a message to the user. A terminal alias throws a TerminalRoutingStrategyException with the RoutingStrategy message embedded.  
+        public let routingStrategyType: RoutingStrategyType?
 
-        public init(ruleSetName: String? = nil, gameProperties: [GameProperty]? = nil, additionalPlayerCount: Int32? = nil, requestTimeoutSeconds: Int32? = nil, notificationTarget: String? = nil, gameSessionData: String? = nil, acceptanceRequired: Bool? = nil, gameSessionQueueArns: [String]? = nil, description: String? = nil, name: String, acceptanceTimeoutSeconds: Int32? = nil, customEventData: String? = nil) {
-            self.ruleSetName = ruleSetName
-            self.gameProperties = gameProperties
-            self.additionalPlayerCount = additionalPlayerCount
-            self.requestTimeoutSeconds = requestTimeoutSeconds
-            self.notificationTarget = notificationTarget
-            self.gameSessionData = gameSessionData
-            self.acceptanceRequired = acceptanceRequired
-            self.gameSessionQueueArns = gameSessionQueueArns
-            self.description = description
+        public init(limit: Int32? = nil, name: String? = nil, nextToken: String? = nil, routingStrategyType: RoutingStrategyType? = nil) {
+            self.limit = limit
             self.name = name
-            self.acceptanceTimeoutSeconds = acceptanceTimeoutSeconds
-            self.customEventData = customEventData
+            self.nextToken = nextToken
+            self.routingStrategyType = routingStrategyType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ruleSetName = "RuleSetName"
-            case gameProperties = "GameProperties"
-            case additionalPlayerCount = "AdditionalPlayerCount"
-            case requestTimeoutSeconds = "RequestTimeoutSeconds"
-            case notificationTarget = "NotificationTarget"
-            case gameSessionData = "GameSessionData"
-            case acceptanceRequired = "AcceptanceRequired"
-            case gameSessionQueueArns = "GameSessionQueueArns"
-            case description = "Description"
+            case limit = "Limit"
             case name = "Name"
-            case acceptanceTimeoutSeconds = "AcceptanceTimeoutSeconds"
-            case customEventData = "CustomEventData"
+            case nextToken = "NextToken"
+            case routingStrategyType = "RoutingStrategyType"
         }
     }
 
-    public struct DescribeFleetUtilizationInput: AWSShape {
+    public struct ListAliasesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Aliases", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Collection of alias records that match the list request.
+        public let aliases: [Alias]?
+        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        public let nextToken: String?
+
+        public init(aliases: [Alias]? = nil, nextToken: String? = nil) {
+            self.aliases = aliases
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliases = "Aliases"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListBuildsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+        public let limit: Int32?
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        public let nextToken: String?
+        /// Build status to filter results by. To retrieve all builds, leave this parameter empty. Possible build statuses include the following:    INITIALIZED -- A new build has been defined, but no files have been uploaded. You cannot create fleets for builds that are in this status. When a build is successfully created, the build status is set to this value.     READY -- The game build has been successfully uploaded. You can now create new fleets for this build.    FAILED -- The game build upload failed. You cannot create new fleets for this build.   
+        public let status: BuildStatus?
+
+        public init(limit: Int32? = nil, nextToken: String? = nil, status: BuildStatus? = nil) {
+            self.limit = limit
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case status = "Status"
+        }
+    }
+
+    public struct ListBuildsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Builds", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Collection of build records that match the request.
+        public let builds: [Build]?
+        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        public let nextToken: String?
+
+        public init(builds: [Build]? = nil, nextToken: String? = nil) {
+            self.builds = builds
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case builds = "Builds"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListFleetsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BuildId", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Unique identifier for a build to return fleets for. Use this parameter to return only fleets using the specified build. To retrieve all fleets, leave this parameter empty.
+        public let buildId: String?
+        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+        public let limit: Int32?
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        public let nextToken: String?
+
+        public init(buildId: String? = nil, limit: Int32? = nil, nextToken: String? = nil) {
+            self.buildId = buildId
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case buildId = "BuildId"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListFleetsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FleetIds", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer)
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// Unique identifier for a fleet(s) to retrieve utilization data for. To request utilization data for all fleets, leave this parameter empty.
+        /// Set of fleet IDs matching the list request. You can retrieve additional information about all returned fleets by passing this result set to a call to DescribeFleetAttributes, DescribeFleetCapacity, or DescribeFleetUtilization.
         public let fleetIds: [String]?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
+        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
-        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This parameter is ignored when the request specifies one or a list of fleet IDs.
-        public let limit: Int32?
 
-        public init(fleetIds: [String]? = nil, nextToken: String? = nil, limit: Int32? = nil) {
+        public init(fleetIds: [String]? = nil, nextToken: String? = nil) {
             self.fleetIds = fleetIds
             self.nextToken = nextToken
-            self.limit = limit
         }
 
         private enum CodingKeys: String, CodingKey {
             case fleetIds = "FleetIds"
             case nextToken = "NextToken"
-            case limit = "Limit"
+        }
+    }
+
+    public struct MatchedPlayerSession: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlayerId", required: false, type: .string), 
+            AWSShapeMember(label: "PlayerSessionId", required: false, type: .string)
+        ]
+        /// Unique identifier for a player 
+        public let playerId: String?
+        /// Unique identifier for a player session
+        public let playerSessionId: String?
+
+        public init(playerId: String? = nil, playerSessionId: String? = nil) {
+            self.playerId = playerId
+            self.playerSessionId = playerSessionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case playerId = "PlayerId"
+            case playerSessionId = "PlayerSessionId"
+        }
+    }
+
+    public struct MatchmakingConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptanceRequired", required: false, type: .boolean), 
+            AWSShapeMember(label: "AcceptanceTimeoutSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "AdditionalPlayerCount", required: false, type: .integer), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CustomEventData", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "GameProperties", required: false, type: .list), 
+            AWSShapeMember(label: "GameSessionData", required: false, type: .string), 
+            AWSShapeMember(label: "GameSessionQueueArns", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationTarget", required: false, type: .string), 
+            AWSShapeMember(label: "RequestTimeoutSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "RuleSetName", required: false, type: .string)
+        ]
+        /// Flag that determines whether or not a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE.
+        public let acceptanceRequired: Bool?
+        /// Length of time (in seconds) to wait for players to accept a proposed match. If any player rejects the match or fails to accept before the timeout, the ticket continues to look for an acceptable match.
+        public let acceptanceTimeoutSeconds: Int32?
+        /// Number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies a match for a single 12-person team, and the additional player count is set to 2, only 10 players are selected for the match.
+        public let additionalPlayerCount: Int32?
+        /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        public let creationTime: TimeStamp?
+        /// Information to attached to all events related to the matchmaking configuration. 
+        public let customEventData: String?
+        /// Descriptive label that is associated with matchmaking configuration.
+        public let description: String?
+        /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. 
+        public let gameProperties: [GameProperty]?
+        /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. 
+        public let gameSessionData: String?
+        /// Amazon Resource Name (ARN) that is assigned to a game session queue and uniquely identifies it. Format is arn:aws:gamelift:&lt;region&gt;::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912. These queues are used when placing game sessions for matches that are created with this matchmaking configuration. Queues can be located in any region.
+        public let gameSessionQueueArns: [String]?
+        /// Unique identifier for a matchmaking configuration. This name is used to identify the configuration associated with a matchmaking request or ticket.
+        public let name: String?
+        /// SNS topic ARN that is set up to receive matchmaking notifications.
+        public let notificationTarget: String?
+        /// Maximum duration, in seconds, that a matchmaking ticket can remain in process before timing out. Requests that time out can be resubmitted as needed.
+        public let requestTimeoutSeconds: Int32?
+        /// Unique identifier for a matchmaking rule set to use with this configuration. A matchmaking configuration can only use rule sets that are defined in the same region.
+        public let ruleSetName: String?
+
+        public init(acceptanceRequired: Bool? = nil, acceptanceTimeoutSeconds: Int32? = nil, additionalPlayerCount: Int32? = nil, creationTime: TimeStamp? = nil, customEventData: String? = nil, description: String? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionQueueArns: [String]? = nil, name: String? = nil, notificationTarget: String? = nil, requestTimeoutSeconds: Int32? = nil, ruleSetName: String? = nil) {
+            self.acceptanceRequired = acceptanceRequired
+            self.acceptanceTimeoutSeconds = acceptanceTimeoutSeconds
+            self.additionalPlayerCount = additionalPlayerCount
+            self.creationTime = creationTime
+            self.customEventData = customEventData
+            self.description = description
+            self.gameProperties = gameProperties
+            self.gameSessionData = gameSessionData
+            self.gameSessionQueueArns = gameSessionQueueArns
+            self.name = name
+            self.notificationTarget = notificationTarget
+            self.requestTimeoutSeconds = requestTimeoutSeconds
+            self.ruleSetName = ruleSetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptanceRequired = "AcceptanceRequired"
+            case acceptanceTimeoutSeconds = "AcceptanceTimeoutSeconds"
+            case additionalPlayerCount = "AdditionalPlayerCount"
+            case creationTime = "CreationTime"
+            case customEventData = "CustomEventData"
+            case description = "Description"
+            case gameProperties = "GameProperties"
+            case gameSessionData = "GameSessionData"
+            case gameSessionQueueArns = "GameSessionQueueArns"
+            case name = "Name"
+            case notificationTarget = "NotificationTarget"
+            case requestTimeoutSeconds = "RequestTimeoutSeconds"
+            case ruleSetName = "RuleSetName"
         }
     }
 
@@ -4457,194 +3091,1590 @@ extension GameLift {
         public var description: String { return self.rawValue }
     }
 
-    public struct CreateVpcPeeringConnectionOutput: AWSShape {
-
-    }
-
-    public struct AcceptMatchOutput: AWSShape {
-
-    }
-
-    public struct IpPermission: AWSShape {
+    public struct MatchmakingRuleSet: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IpRange", required: true, type: .string), 
-            AWSShapeMember(label: "Protocol", required: true, type: .enum), 
-            AWSShapeMember(label: "ToPort", required: true, type: .integer), 
-            AWSShapeMember(label: "FromPort", required: true, type: .integer)
-        ]
-        /// Range of allowed IP addresses. This value must be expressed in CIDR notation. Example: "000.000.000.000/[subnet mask]" or optionally the shortened version "0.0.0.0/[subnet mask]".
-        public let ipRange: String
-        /// Network communication protocol used by the fleet.
-        public let `protocol`: IpProtocol
-        /// Ending value for a range of allowed port numbers. Port numbers are end-inclusive. This value must be higher than FromPort.
-        public let toPort: Int32
-        /// Starting value for a range of allowed port numbers.
-        public let fromPort: Int32
-
-        public init(ipRange: String, protocol: IpProtocol, toPort: Int32, fromPort: Int32) {
-            self.ipRange = ipRange
-            self.`protocol` = `protocol`
-            self.toPort = toPort
-            self.fromPort = fromPort
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ipRange = "IpRange"
-            case `protocol` = "Protocol"
-            case toPort = "ToPort"
-            case fromPort = "FromPort"
-        }
-    }
-
-    public struct MatchmakingConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GameSessionData", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "NotificationTarget", required: false, type: .string), 
-            AWSShapeMember(label: "AdditionalPlayerCount", required: false, type: .integer), 
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "AcceptanceTimeoutSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "CustomEventData", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "RequestTimeoutSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "GameProperties", required: false, type: .list), 
-            AWSShapeMember(label: "RuleSetName", required: false, type: .string), 
-            AWSShapeMember(label: "AcceptanceRequired", required: false, type: .boolean), 
-            AWSShapeMember(label: "GameSessionQueueArns", required: false, type: .list)
+            AWSShapeMember(label: "RuleSetBody", required: true, type: .string), 
+            AWSShapeMember(label: "RuleSetName", required: false, type: .string)
         ]
-        /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. 
-        public let gameSessionData: String?
-        /// Unique identifier for a matchmaking configuration. This name is used to identify the configuration associated with a matchmaking request or ticket.
-        public let name: String?
-        /// SNS topic ARN that is set up to receive matchmaking notifications.
-        public let notificationTarget: String?
-        /// Number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies a match for a single 12-person team, and the additional player count is set to 2, only 10 players are selected for the match.
-        public let additionalPlayerCount: Int32?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: TimeStamp?
-        /// Length of time (in seconds) to wait for players to accept a proposed match. If any player rejects the match or fails to accept before the timeout, the ticket continues to look for an acceptable match.
-        public let acceptanceTimeoutSeconds: Int32?
-        /// Information to attached to all events related to the matchmaking configuration. 
-        public let customEventData: String?
-        /// Descriptive label that is associated with matchmaking configuration.
-        public let description: String?
-        /// Maximum duration, in seconds, that a matchmaking ticket can remain in process before timing out. Requests that time out can be resubmitted as needed.
-        public let requestTimeoutSeconds: Int32?
-        /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. 
-        public let gameProperties: [GameProperty]?
-        /// Unique identifier for a matchmaking rule set to use with this configuration. A matchmaking configuration can only use rule sets that are defined in the same region.
+        /// Collection of matchmaking rules, formatted as a JSON string. (Note that comments14 are not allowed in JSON, but most elements support a description field.)
+        public let ruleSetBody: String
+        /// Unique identifier for a matchmaking rule set
         public let ruleSetName: String?
-        /// Flag that determines whether or not a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE.
-        public let acceptanceRequired: Bool?
-        /// Amazon Resource Name (ARN) that is assigned to a game session queue and uniquely identifies it. Format is arn:aws:gamelift:&lt;region&gt;::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912. These queues are used when placing game sessions for matches that are created with this matchmaking configuration. Queues can be located in any region.
-        public let gameSessionQueueArns: [String]?
 
-        public init(gameSessionData: String? = nil, name: String? = nil, notificationTarget: String? = nil, additionalPlayerCount: Int32? = nil, creationTime: TimeStamp? = nil, acceptanceTimeoutSeconds: Int32? = nil, customEventData: String? = nil, description: String? = nil, requestTimeoutSeconds: Int32? = nil, gameProperties: [GameProperty]? = nil, ruleSetName: String? = nil, acceptanceRequired: Bool? = nil, gameSessionQueueArns: [String]? = nil) {
-            self.gameSessionData = gameSessionData
-            self.name = name
-            self.notificationTarget = notificationTarget
-            self.additionalPlayerCount = additionalPlayerCount
+        public init(creationTime: TimeStamp? = nil, ruleSetBody: String, ruleSetName: String? = nil) {
             self.creationTime = creationTime
-            self.acceptanceTimeoutSeconds = acceptanceTimeoutSeconds
-            self.customEventData = customEventData
-            self.description = description
-            self.requestTimeoutSeconds = requestTimeoutSeconds
-            self.gameProperties = gameProperties
+            self.ruleSetBody = ruleSetBody
             self.ruleSetName = ruleSetName
-            self.acceptanceRequired = acceptanceRequired
-            self.gameSessionQueueArns = gameSessionQueueArns
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gameSessionData = "GameSessionData"
-            case name = "Name"
-            case notificationTarget = "NotificationTarget"
-            case additionalPlayerCount = "AdditionalPlayerCount"
             case creationTime = "CreationTime"
-            case acceptanceTimeoutSeconds = "AcceptanceTimeoutSeconds"
-            case customEventData = "CustomEventData"
-            case description = "Description"
-            case requestTimeoutSeconds = "RequestTimeoutSeconds"
-            case gameProperties = "GameProperties"
+            case ruleSetBody = "RuleSetBody"
             case ruleSetName = "RuleSetName"
-            case acceptanceRequired = "AcceptanceRequired"
-            case gameSessionQueueArns = "GameSessionQueueArns"
         }
     }
 
-    public struct DescribeEC2InstanceLimitsOutput: AWSShape {
+    public struct MatchmakingTicket: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EC2InstanceLimits", required: false, type: .list)
+            AWSShapeMember(label: "ConfigurationName", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EstimatedWaitTime", required: false, type: .integer), 
+            AWSShapeMember(label: "GameSessionConnectionInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "Players", required: false, type: .list), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "StatusReason", required: false, type: .string), 
+            AWSShapeMember(label: "TicketId", required: false, type: .string)
         ]
-        /// Object that contains the maximum number of instances for the specified instance type.
-        public let eC2InstanceLimits: [EC2InstanceLimit]?
+        /// Name of the MatchmakingConfiguration that is used with this ticket. Matchmaking configurations determine how players are grouped into a match and how a new game session is created for the match.
+        public let configurationName: String?
+        /// Time stamp indicating when this matchmaking request stopped being processed due to success, failure, or cancellation. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        public let endTime: TimeStamp?
+        /// Average amount of time (in seconds) that players are currently waiting for a match. If there is not enough recent data, this property may be empty.
+        public let estimatedWaitTime: Int32?
+        /// Identifier and connection information of the game session created for the match. This information is added to the ticket only after the matchmaking request has been successfully completed.
+        public let gameSessionConnectionInfo: GameSessionConnectionInfo?
+        /// A set of Player objects, each representing a player to find matches for. Players are identified by a unique player ID and may include latency data for use during matchmaking. If the ticket is in status COMPLETED, the Player objects include the team the players were assigned to in the resulting match.
+        public let players: [Player]?
+        /// Time stamp indicating when this matchmaking request was received. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        public let startTime: TimeStamp?
+        /// Current status of the matchmaking request.    QUEUED -- The matchmaking request has been received and is currently waiting to be processed.    SEARCHING -- The matchmaking request is currently being processed.     REQUIRES_ACCEPTANCE -- A match has been proposed and the players must accept the match (see AcceptMatch). This status is used only with requests that use a matchmaking configuration with a player acceptance requirement.    PLACING -- The FlexMatch engine has matched players and is in the process of placing a new game session for the match.    COMPLETED -- Players have been matched and a game session is ready to host the players. A ticket in this state contains the necessary connection information for players.    FAILED -- The matchmaking request was not completed. Tickets with players who fail to accept a proposed match are placed in FAILED status.    CANCELLED -- The matchmaking request was canceled with a call to StopMatchmaking.    TIMED_OUT -- The matchmaking request was not successful within the duration specified in the matchmaking configuration.     Matchmaking requests that fail to successfully complete (statuses FAILED, CANCELLED, TIMED_OUT) can be resubmitted as new requests with new ticket IDs. 
+        public let status: MatchmakingConfigurationStatus?
+        /// Additional information about the current status.
+        public let statusMessage: String?
+        /// Code to explain the current status. For example, a status reason may indicate when a ticket has returned to SEARCHING status after a proposed match fails to receive player acceptances.
+        public let statusReason: String?
+        /// Unique identifier for a matchmaking ticket.
+        public let ticketId: String?
 
-        public init(eC2InstanceLimits: [EC2InstanceLimit]? = nil) {
-            self.eC2InstanceLimits = eC2InstanceLimits
+        public init(configurationName: String? = nil, endTime: TimeStamp? = nil, estimatedWaitTime: Int32? = nil, gameSessionConnectionInfo: GameSessionConnectionInfo? = nil, players: [Player]? = nil, startTime: TimeStamp? = nil, status: MatchmakingConfigurationStatus? = nil, statusMessage: String? = nil, statusReason: String? = nil, ticketId: String? = nil) {
+            self.configurationName = configurationName
+            self.endTime = endTime
+            self.estimatedWaitTime = estimatedWaitTime
+            self.gameSessionConnectionInfo = gameSessionConnectionInfo
+            self.players = players
+            self.startTime = startTime
+            self.status = status
+            self.statusMessage = statusMessage
+            self.statusReason = statusReason
+            self.ticketId = ticketId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eC2InstanceLimits = "EC2InstanceLimits"
+            case configurationName = "ConfigurationName"
+            case endTime = "EndTime"
+            case estimatedWaitTime = "EstimatedWaitTime"
+            case gameSessionConnectionInfo = "GameSessionConnectionInfo"
+            case players = "Players"
+            case startTime = "StartTime"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+            case statusReason = "StatusReason"
+            case ticketId = "TicketId"
         }
     }
 
-    public struct GameSessionConnectionInfo: AWSShape {
+    public enum MetricName: String, CustomStringConvertible, Codable {
+        case activatinggamesessions = "ActivatingGameSessions"
+        case activegamesessions = "ActiveGameSessions"
+        case activeinstances = "ActiveInstances"
+        case availablegamesessions = "AvailableGameSessions"
+        case availableplayersessions = "AvailablePlayerSessions"
+        case currentplayersessions = "CurrentPlayerSessions"
+        case idleinstances = "IdleInstances"
+        case percentavailablegamesessions = "PercentAvailableGameSessions"
+        case percentidleinstances = "PercentIdleInstances"
+        case queuedepth = "QueueDepth"
+        case waittime = "WaitTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperatingSystem: String, CustomStringConvertible, Codable {
+        case windows2012 = "WINDOWS_2012"
+        case amazonLinux = "AMAZON_LINUX"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct PlacedPlayerSession: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "GameSessionArn", required: false, type: .string), 
-            AWSShapeMember(label: "MatchedPlayerSessions", required: false, type: .list), 
-            AWSShapeMember(label: "IpAddress", required: false, type: .string)
+            AWSShapeMember(label: "PlayerId", required: false, type: .string), 
+            AWSShapeMember(label: "PlayerSessionId", required: false, type: .string)
         ]
-        /// Port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
-        public let port: Int32?
-        /// Amazon Resource Name (ARN) that is assigned to a game session and uniquely identifies it.
-        public let gameSessionArn: String?
-        /// Collection of player session IDs, one for each player ID that was included in the original matchmaking request. 
-        public let matchedPlayerSessions: [MatchedPlayerSession]?
+        /// Unique identifier for a player that is associated with this player session.
+        public let playerId: String?
+        /// Unique identifier for a player session.
+        public let playerSessionId: String?
+
+        public init(playerId: String? = nil, playerSessionId: String? = nil) {
+            self.playerId = playerId
+            self.playerSessionId = playerSessionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case playerId = "PlayerId"
+            case playerSessionId = "PlayerSessionId"
+        }
+    }
+
+    public struct Player: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LatencyInMs", required: false, type: .map), 
+            AWSShapeMember(label: "PlayerAttributes", required: false, type: .map), 
+            AWSShapeMember(label: "PlayerId", required: false, type: .string), 
+            AWSShapeMember(label: "Team", required: false, type: .string)
+        ]
+        /// Set of values, expressed in milliseconds, indicating the amount of latency that a player experiences when connected to AWS regions. If this property is present, FlexMatch considers placing the match only in regions for which latency is reported.  If a matchmaker has a rule that evaluates player latency, players must report latency in order to be matched. If no latency is reported in this scenario, FlexMatch assumes that no regions are available to the player and the ticket is not matchable. 
+        public let latencyInMs: [String: Int32]?
+        /// Collection of key:value pairs containing player information for use in matchmaking. Player attribute keys must match the playerAttributes used in a matchmaking rule set. Example: "PlayerAttributes": {"skill": {"N": "23"}, "gameMode": {"S": "deathmatch"}}.
+        public let playerAttributes: [String: AttributeValue]?
+        /// Unique identifier for a player
+        public let playerId: String?
+        /// Name of the team that the player is assigned to in a match. Team names are defined in a matchmaking rule set.
+        public let team: String?
+
+        public init(latencyInMs: [String: Int32]? = nil, playerAttributes: [String: AttributeValue]? = nil, playerId: String? = nil, team: String? = nil) {
+            self.latencyInMs = latencyInMs
+            self.playerAttributes = playerAttributes
+            self.playerId = playerId
+            self.team = team
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case latencyInMs = "LatencyInMs"
+            case playerAttributes = "PlayerAttributes"
+            case playerId = "PlayerId"
+            case team = "Team"
+        }
+    }
+
+    public struct PlayerLatency: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LatencyInMilliseconds", required: false, type: .float), 
+            AWSShapeMember(label: "PlayerId", required: false, type: .string), 
+            AWSShapeMember(label: "RegionIdentifier", required: false, type: .string)
+        ]
+        /// Amount of time that represents the time lag experienced by the player when connected to the specified region.
+        public let latencyInMilliseconds: Float?
+        /// Unique identifier for a player associated with the latency data.
+        public let playerId: String?
+        /// Name of the region that is associated with the latency value.
+        public let regionIdentifier: String?
+
+        public init(latencyInMilliseconds: Float? = nil, playerId: String? = nil, regionIdentifier: String? = nil) {
+            self.latencyInMilliseconds = latencyInMilliseconds
+            self.playerId = playerId
+            self.regionIdentifier = regionIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case latencyInMilliseconds = "LatencyInMilliseconds"
+            case playerId = "PlayerId"
+            case regionIdentifier = "RegionIdentifier"
+        }
+    }
+
+    public struct PlayerLatencyPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaximumIndividualPlayerLatencyMilliseconds", required: false, type: .integer), 
+            AWSShapeMember(label: "PolicyDurationSeconds", required: false, type: .integer)
+        ]
+        /// The maximum latency value that is allowed for any player, in milliseconds. All policies must have a value set for this property.
+        public let maximumIndividualPlayerLatencyMilliseconds: Int32?
+        /// The length of time, in seconds, that the policy is enforced while placing a new game session. A null value for this property means that the policy is enforced until the queue times out.
+        public let policyDurationSeconds: Int32?
+
+        public init(maximumIndividualPlayerLatencyMilliseconds: Int32? = nil, policyDurationSeconds: Int32? = nil) {
+            self.maximumIndividualPlayerLatencyMilliseconds = maximumIndividualPlayerLatencyMilliseconds
+            self.policyDurationSeconds = policyDurationSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximumIndividualPlayerLatencyMilliseconds = "MaximumIndividualPlayerLatencyMilliseconds"
+            case policyDurationSeconds = "PolicyDurationSeconds"
+        }
+    }
+
+    public struct PlayerSession: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FleetId", required: false, type: .string), 
+            AWSShapeMember(label: "GameSessionId", required: false, type: .string), 
+            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "PlayerData", required: false, type: .string), 
+            AWSShapeMember(label: "PlayerId", required: false, type: .string), 
+            AWSShapeMember(label: "PlayerSessionId", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "TerminationTime", required: false, type: .timestamp)
+        ]
+        /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        public let creationTime: TimeStamp?
+        /// Unique identifier for a fleet that the player's game session is running on.
+        public let fleetId: String?
+        /// Unique identifier for the game session that the player session is connected to.
+        public let gameSessionId: String?
         /// IP address of the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
         public let ipAddress: String?
+        /// Developer-defined information related to a player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game. 
+        public let playerData: String?
+        /// Unique identifier for a player that is associated with this player session.
+        public let playerId: String?
+        /// Unique identifier for a player session.
+        public let playerSessionId: String?
+        /// Port number for the game session. To connect to a Amazon GameLift server process, an app needs both the IP address and port number.
+        public let port: Int32?
+        /// Current status of the player session. Possible player session statuses include the following:    RESERVED -- The player session request has been received, but the player has not yet connected to the server process and/or been validated.     ACTIVE -- The player has been validated by the server process and is currently connected.    COMPLETED -- The player connection has been dropped.    TIMEDOUT -- A player session request was received, but the player did not connect and/or was not validated within the timeout limit (60 seconds).  
+        public let status: PlayerSessionStatus?
+        /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        public let terminationTime: TimeStamp?
 
-        public init(port: Int32? = nil, gameSessionArn: String? = nil, matchedPlayerSessions: [MatchedPlayerSession]? = nil, ipAddress: String? = nil) {
-            self.port = port
-            self.gameSessionArn = gameSessionArn
-            self.matchedPlayerSessions = matchedPlayerSessions
+        public init(creationTime: TimeStamp? = nil, fleetId: String? = nil, gameSessionId: String? = nil, ipAddress: String? = nil, playerData: String? = nil, playerId: String? = nil, playerSessionId: String? = nil, port: Int32? = nil, status: PlayerSessionStatus? = nil, terminationTime: TimeStamp? = nil) {
+            self.creationTime = creationTime
+            self.fleetId = fleetId
+            self.gameSessionId = gameSessionId
             self.ipAddress = ipAddress
+            self.playerData = playerData
+            self.playerId = playerId
+            self.playerSessionId = playerSessionId
+            self.port = port
+            self.status = status
+            self.terminationTime = terminationTime
         }
 
         private enum CodingKeys: String, CodingKey {
-            case port = "Port"
-            case gameSessionArn = "GameSessionArn"
-            case matchedPlayerSessions = "MatchedPlayerSessions"
+            case creationTime = "CreationTime"
+            case fleetId = "FleetId"
+            case gameSessionId = "GameSessionId"
             case ipAddress = "IpAddress"
+            case playerData = "PlayerData"
+            case playerId = "PlayerId"
+            case playerSessionId = "PlayerSessionId"
+            case port = "Port"
+            case status = "Status"
+            case terminationTime = "TerminationTime"
         }
     }
 
-    public struct DeleteMatchmakingConfigurationOutput: AWSShape {
+    public enum PlayerSessionCreationPolicy: String, CustomStringConvertible, Codable {
+        case acceptAll = "ACCEPT_ALL"
+        case denyAll = "DENY_ALL"
+        public var description: String { return self.rawValue }
+    }
 
+    public enum PlayerSessionStatus: String, CustomStringConvertible, Codable {
+        case reserved = "RESERVED"
+        case active = "ACTIVE"
+        case completed = "COMPLETED"
+        case timedout = "TIMEDOUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyType: String, CustomStringConvertible, Codable {
+        case rulebased = "RuleBased"
+        case targetbased = "TargetBased"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProtectionPolicy: String, CustomStringConvertible, Codable {
+        case noprotection = "NoProtection"
+        case fullprotection = "FullProtection"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct PutScalingPolicyInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComparisonOperator", required: false, type: .enum), 
+            AWSShapeMember(label: "EvaluationPeriods", required: false, type: .integer), 
+            AWSShapeMember(label: "FleetId", required: true, type: .string), 
+            AWSShapeMember(label: "MetricName", required: true, type: .enum), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyType", required: false, type: .enum), 
+            AWSShapeMember(label: "ScalingAdjustment", required: false, type: .integer), 
+            AWSShapeMember(label: "ScalingAdjustmentType", required: false, type: .enum), 
+            AWSShapeMember(label: "TargetConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Threshold", required: false, type: .double)
+        ]
+        /// Comparison operator to use when measuring the metric against the threshold value.
+        public let comparisonOperator: ComparisonOperatorType?
+        /// Length of time (in minutes) the metric must be at or beyond the threshold before a scaling event is triggered.
+        public let evaluationPeriods: Int32?
+        /// Unique identifier for a fleet to apply this policy to. The fleet cannot be in any of the following statuses: ERROR or DELETING.
+        public let fleetId: String
+        /// Name of the Amazon GameLift-defined metric that is used to trigger a scaling adjustment. For detailed descriptions of fleet metrics, see Monitor Amazon GameLift with Amazon CloudWatch.     ActivatingGameSessions -- Game sessions in the process of being created.    ActiveGameSessions -- Game sessions that are currently running.    ActiveInstances -- Fleet instances that are currently running at least one game session.    AvailableGameSessions -- Additional game sessions that fleet could host simultaneously, given current capacity.    AvailablePlayerSessions -- Empty player slots in currently active game sessions. This includes game sessions that are not currently accepting players. Reserved player slots are not included.    CurrentPlayerSessions -- Player slots in active game sessions that are being used by a player or are reserved for a player.     IdleInstances -- Active instances that are currently hosting zero game sessions.     PercentAvailableGameSessions -- Unused percentage of the total number of game sessions that a fleet could host simultaneously, given current capacity. Use this metric for a target-based scaling policy.    PercentIdleInstances -- Percentage of the total number of active instances that are hosting zero game sessions.    QueueDepth -- Pending game session placement requests, in any queue, where the current fleet is the top-priority destination.    WaitTime -- Current wait time for pending game session placement requests, in any queue, where the current fleet is the top-priority destination.   
+        public let metricName: MetricName
+        /// Descriptive label that is associated with a scaling policy. Policy names do not need to be unique. A fleet can have only one scaling policy with the same name.
+        public let name: String
+        /// Type of scaling policy to create. For a target-based policy, set the parameter MetricName to 'PercentAvailableGameSessions' and specify a TargetConfiguration. For a rule-based policy set the following parameters: MetricName, ComparisonOperator, Threshold, EvaluationPeriods, ScalingAdjustmentType, and ScalingAdjustment.
+        public let policyType: PolicyType?
+        /// Amount of adjustment to make, based on the scaling adjustment type.
+        public let scalingAdjustment: Int32?
+        /// Type of adjustment to make to a fleet's instance count (see FleetCapacity):    ChangeInCapacity -- add (or subtract) the scaling adjustment value from the current instance count. Positive values scale up while negative values scale down.    ExactCapacity -- set the instance count to the scaling adjustment value.    PercentChangeInCapacity -- increase or reduce the current instance count by the scaling adjustment, read as a percentage. Positive values scale up while negative values scale down; for example, a value of "-10" scales the fleet down by 10%.  
+        public let scalingAdjustmentType: ScalingAdjustmentType?
+        /// Object that contains settings for a target-based scaling policy.
+        public let targetConfiguration: TargetConfiguration?
+        /// Metric value used to trigger a scaling event.
+        public let threshold: Double?
+
+        public init(comparisonOperator: ComparisonOperatorType? = nil, evaluationPeriods: Int32? = nil, fleetId: String, metricName: MetricName, name: String, policyType: PolicyType? = nil, scalingAdjustment: Int32? = nil, scalingAdjustmentType: ScalingAdjustmentType? = nil, targetConfiguration: TargetConfiguration? = nil, threshold: Double? = nil) {
+            self.comparisonOperator = comparisonOperator
+            self.evaluationPeriods = evaluationPeriods
+            self.fleetId = fleetId
+            self.metricName = metricName
+            self.name = name
+            self.policyType = policyType
+            self.scalingAdjustment = scalingAdjustment
+            self.scalingAdjustmentType = scalingAdjustmentType
+            self.targetConfiguration = targetConfiguration
+            self.threshold = threshold
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparisonOperator = "ComparisonOperator"
+            case evaluationPeriods = "EvaluationPeriods"
+            case fleetId = "FleetId"
+            case metricName = "MetricName"
+            case name = "Name"
+            case policyType = "PolicyType"
+            case scalingAdjustment = "ScalingAdjustment"
+            case scalingAdjustmentType = "ScalingAdjustmentType"
+            case targetConfiguration = "TargetConfiguration"
+            case threshold = "Threshold"
+        }
+    }
+
+    public struct PutScalingPolicyOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// Descriptive label that is associated with a scaling policy. Policy names do not need to be unique.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct RequestUploadCredentialsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BuildId", required: true, type: .string)
+        ]
+        /// Unique identifier for a build to get credentials for.
+        public let buildId: String
+
+        public init(buildId: String) {
+            self.buildId = buildId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case buildId = "BuildId"
+        }
+    }
+
+    public struct RequestUploadCredentialsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StorageLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "UploadCredentials", required: false, type: .structure)
+        ]
+        /// Amazon S3 path and key, identifying where the game build files are stored.
+        public let storageLocation: S3Location?
+        /// AWS credentials required when uploading a game build to the storage location. These credentials have a limited lifespan and are valid only for the build they were issued for.
+        public let uploadCredentials: AwsCredentials?
+
+        public init(storageLocation: S3Location? = nil, uploadCredentials: AwsCredentials? = nil) {
+            self.storageLocation = storageLocation
+            self.uploadCredentials = uploadCredentials
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storageLocation = "StorageLocation"
+            case uploadCredentials = "UploadCredentials"
+        }
+    }
+
+    public struct ResolveAliasInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasId", required: true, type: .string)
+        ]
+        /// Unique identifier for the alias you want to resolve.
+        public let aliasId: String
+
+        public init(aliasId: String) {
+            self.aliasId = aliasId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
+        }
+    }
+
+    public struct ResolveAliasOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: false, type: .string)
+        ]
+        /// Fleet identifier that is associated with the requested alias.
+        public let fleetId: String?
+
+        public init(fleetId: String? = nil) {
+            self.fleetId = fleetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+        }
+    }
+
+    public struct ResourceCreationLimitPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NewGameSessionsPerCreator", required: false, type: .integer), 
+            AWSShapeMember(label: "PolicyPeriodInMinutes", required: false, type: .integer)
+        ]
+        /// Maximum number of game sessions that an individual can create during the policy period. 
+        public let newGameSessionsPerCreator: Int32?
+        /// Time span used in evaluating the resource creation limit policy. 
+        public let policyPeriodInMinutes: Int32?
+
+        public init(newGameSessionsPerCreator: Int32? = nil, policyPeriodInMinutes: Int32? = nil) {
+            self.newGameSessionsPerCreator = newGameSessionsPerCreator
+            self.policyPeriodInMinutes = policyPeriodInMinutes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case newGameSessionsPerCreator = "NewGameSessionsPerCreator"
+            case policyPeriodInMinutes = "PolicyPeriodInMinutes"
+        }
+    }
+
+    public struct RoutingStrategy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+        /// Unique identifier for a fleet that the alias points to.
+        public let fleetId: String?
+        /// Message text to be used with a terminal routing strategy.
+        public let message: String?
+        /// Type of routing strategy. Possible routing types include the following:    SIMPLE -- The alias resolves to one specific fleet. Use this type when routing to active fleets.    TERMINAL -- The alias does not resolve to a fleet but instead can be used to display a message to the user. A terminal alias throws a TerminalRoutingStrategyException with the RoutingStrategy message embedded.  
+        public let `type`: RoutingStrategyType?
+
+        public init(fleetId: String? = nil, message: String? = nil, type: RoutingStrategyType? = nil) {
+            self.fleetId = fleetId
+            self.message = message
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+            case message = "Message"
+            case `type` = "Type"
+        }
+    }
+
+    public enum RoutingStrategyType: String, CustomStringConvertible, Codable {
+        case simple = "SIMPLE"
+        case terminal = "TERMINAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RuntimeConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessionActivationTimeoutSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxConcurrentGameSessionActivations", required: false, type: .integer), 
+            AWSShapeMember(label: "ServerProcesses", required: false, type: .list)
+        ]
+        /// Maximum amount of time (in seconds) that a game session can remain in status ACTIVATING. If the game session is not active before the timeout, activation is terminated and the game session status is changed to TERMINATED.
+        public let gameSessionActivationTimeoutSeconds: Int32?
+        /// Maximum number of game sessions with status ACTIVATING to allow on an instance simultaneously. This setting limits the amount of instance resources that can be used for new game activations at any one time.
+        public let maxConcurrentGameSessionActivations: Int32?
+        /// Collection of server process configurations that describe which server processes to run on each instance in a fleet.
+        public let serverProcesses: [ServerProcess]?
+
+        public init(gameSessionActivationTimeoutSeconds: Int32? = nil, maxConcurrentGameSessionActivations: Int32? = nil, serverProcesses: [ServerProcess]? = nil) {
+            self.gameSessionActivationTimeoutSeconds = gameSessionActivationTimeoutSeconds
+            self.maxConcurrentGameSessionActivations = maxConcurrentGameSessionActivations
+            self.serverProcesses = serverProcesses
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionActivationTimeoutSeconds = "GameSessionActivationTimeoutSeconds"
+            case maxConcurrentGameSessionActivations = "MaxConcurrentGameSessionActivations"
+            case serverProcesses = "ServerProcesses"
+        }
+    }
+
+    public struct S3Location: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string)
+        ]
+        /// Amazon S3 bucket identifier. This is the name of your S3 bucket.
+        public let bucket: String?
+        /// Name of the zip file containing your build files. 
+        public let key: String?
+        /// Amazon Resource Name (ARN) for the access role that allows Amazon GameLift to access your S3 bucket.
+        public let roleArn: String?
+
+        public init(bucket: String? = nil, key: String? = nil, roleArn: String? = nil) {
+            self.bucket = bucket
+            self.key = key
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case key = "Key"
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public enum ScalingAdjustmentType: String, CustomStringConvertible, Codable {
+        case changeincapacity = "ChangeInCapacity"
+        case exactcapacity = "ExactCapacity"
+        case percentchangeincapacity = "PercentChangeInCapacity"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ScalingPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComparisonOperator", required: false, type: .enum), 
+            AWSShapeMember(label: "EvaluationPeriods", required: false, type: .integer), 
+            AWSShapeMember(label: "FleetId", required: false, type: .string), 
+            AWSShapeMember(label: "MetricName", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyType", required: false, type: .enum), 
+            AWSShapeMember(label: "ScalingAdjustment", required: false, type: .integer), 
+            AWSShapeMember(label: "ScalingAdjustmentType", required: false, type: .enum), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "TargetConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Threshold", required: false, type: .double)
+        ]
+        /// Comparison operator to use when measuring a metric against the threshold value.
+        public let comparisonOperator: ComparisonOperatorType?
+        /// Length of time (in minutes) the metric must be at or beyond the threshold before a scaling event is triggered.
+        public let evaluationPeriods: Int32?
+        /// Unique identifier for a fleet that is associated with this scaling policy.
+        public let fleetId: String?
+        /// Name of the Amazon GameLift-defined metric that is used to trigger a scaling adjustment. For detailed descriptions of fleet metrics, see Monitor Amazon GameLift with Amazon CloudWatch.     ActivatingGameSessions -- Game sessions in the process of being created.    ActiveGameSessions -- Game sessions that are currently running.    ActiveInstances -- Fleet instances that are currently running at least one game session.    AvailableGameSessions -- Additional game sessions that fleet could host simultaneously, given current capacity.    AvailablePlayerSessions -- Empty player slots in currently active game sessions. This includes game sessions that are not currently accepting players. Reserved player slots are not included.    CurrentPlayerSessions -- Player slots in active game sessions that are being used by a player or are reserved for a player.     IdleInstances -- Active instances that are currently hosting zero game sessions.     PercentAvailableGameSessions -- Unused percentage of the total number of game sessions that a fleet could host simultaneously, given current capacity. Use this metric for a target-based scaling policy.    PercentIdleInstances -- Percentage of the total number of active instances that are hosting zero game sessions.    QueueDepth -- Pending game session placement requests, in any queue, where the current fleet is the top-priority destination.    WaitTime -- Current wait time for pending game session placement requests, in any queue, where the current fleet is the top-priority destination.   
+        public let metricName: MetricName?
+        /// Descriptive label that is associated with a scaling policy. Policy names do not need to be unique.
+        public let name: String?
+        /// Type of scaling policy to create. For a target-based policy, set the parameter MetricName to 'PercentAvailableGameSessions' and specify a TargetConfiguration. For a rule-based policy set the following parameters: MetricName, ComparisonOperator, Threshold, EvaluationPeriods, ScalingAdjustmentType, and ScalingAdjustment.
+        public let policyType: PolicyType?
+        /// Amount of adjustment to make, based on the scaling adjustment type.
+        public let scalingAdjustment: Int32?
+        /// Type of adjustment to make to a fleet's instance count (see FleetCapacity):    ChangeInCapacity -- add (or subtract) the scaling adjustment value from the current instance count. Positive values scale up while negative values scale down.    ExactCapacity -- set the instance count to the scaling adjustment value.    PercentChangeInCapacity -- increase or reduce the current instance count by the scaling adjustment, read as a percentage. Positive values scale up while negative values scale down.  
+        public let scalingAdjustmentType: ScalingAdjustmentType?
+        /// Current status of the scaling policy. The scaling policy can be in force only when in an ACTIVE status. Scaling policies can be suspended for individual fleets (see StopFleetActions; if suspended for a fleet, the policy status does not change. View a fleet's stopped actions by calling DescribeFleetCapacity.    ACTIVE -- The scaling policy can be used for auto-scaling a fleet.    UPDATE_REQUESTED -- A request to update the scaling policy has been received.    UPDATING -- A change is being made to the scaling policy.    DELETE_REQUESTED -- A request to delete the scaling policy has been received.    DELETING -- The scaling policy is being deleted.    DELETED -- The scaling policy has been deleted.    ERROR -- An error occurred in creating the policy. It should be removed and recreated.  
+        public let status: ScalingStatusType?
+        /// Object that contains settings for a target-based scaling policy.
+        public let targetConfiguration: TargetConfiguration?
+        /// Metric value used to trigger a scaling event.
+        public let threshold: Double?
+
+        public init(comparisonOperator: ComparisonOperatorType? = nil, evaluationPeriods: Int32? = nil, fleetId: String? = nil, metricName: MetricName? = nil, name: String? = nil, policyType: PolicyType? = nil, scalingAdjustment: Int32? = nil, scalingAdjustmentType: ScalingAdjustmentType? = nil, status: ScalingStatusType? = nil, targetConfiguration: TargetConfiguration? = nil, threshold: Double? = nil) {
+            self.comparisonOperator = comparisonOperator
+            self.evaluationPeriods = evaluationPeriods
+            self.fleetId = fleetId
+            self.metricName = metricName
+            self.name = name
+            self.policyType = policyType
+            self.scalingAdjustment = scalingAdjustment
+            self.scalingAdjustmentType = scalingAdjustmentType
+            self.status = status
+            self.targetConfiguration = targetConfiguration
+            self.threshold = threshold
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparisonOperator = "ComparisonOperator"
+            case evaluationPeriods = "EvaluationPeriods"
+            case fleetId = "FleetId"
+            case metricName = "MetricName"
+            case name = "Name"
+            case policyType = "PolicyType"
+            case scalingAdjustment = "ScalingAdjustment"
+            case scalingAdjustmentType = "ScalingAdjustmentType"
+            case status = "Status"
+            case targetConfiguration = "TargetConfiguration"
+            case threshold = "Threshold"
+        }
+    }
+
+    public enum ScalingStatusType: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case updateRequested = "UPDATE_REQUESTED"
+        case updating = "UPDATING"
+        case deleteRequested = "DELETE_REQUESTED"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct SearchGameSessionsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasId", required: false, type: .string), 
+            AWSShapeMember(label: "FilterExpression", required: false, type: .string), 
+            AWSShapeMember(label: "FleetId", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortExpression", required: false, type: .string)
+        ]
+        /// Unique identifier for an alias associated with the fleet to search for active game sessions. Each request must reference either a fleet ID or alias ID, but not both.
+        public let aliasId: String?
+        /// String containing the search criteria for the session search. If no filter expression is included, the request returns results for all game sessions in the fleet that are in ACTIVE status. A filter expression can contain one or multiple conditions. Each condition consists of the following:    Operand -- Name of a game session attribute. Valid values are gameSessionName, gameSessionId, gameSessionProperties, maximumSessions, creationTimeMillis, playerSessionCount, hasAvailablePlayerSessions.    Comparator -- Valid comparators are: =, &lt;&gt;, &lt;, &gt;, &lt;=, &gt;=.     Value -- Value to be searched for. Values may be numbers, boolean values (true/false) or strings depending on the operand. String values are case sensitive and must be enclosed in single quotes. Special characters must be escaped. Boolean and string values can only be used with the comparators = and &lt;&gt;. For example, the following filter expression searches on gameSessionName: "FilterExpression": "gameSessionName = 'Matt\\'s Awesome Game 1'".    To chain multiple conditions in a single expression, use the logical keywords AND, OR, and NOT and parentheses as needed. For example: x AND y AND NOT z, NOT (x OR y). Session search evaluates conditions from left to right using the following precedence rules:    =, &lt;&gt;, &lt;, &gt;, &lt;=, &gt;=    Parentheses   NOT   AND   OR   For example, this filter expression retrieves game sessions hosting at least ten players that have an open player slot: "maximumSessions&gt;=10 AND hasAvailablePlayerSessions=true". 
+        public let filterExpression: String?
+        /// Unique identifier for a fleet to search for active game sessions. Each request must reference either a fleet ID or alias ID, but not both.
+        public let fleetId: String?
+        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. The maximum number of results returned is 20, even if this value is not set or is set higher than 20. 
+        public let limit: Int32?
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        public let nextToken: String?
+        /// Instructions on how to sort the search results. If no sort expression is included, the request returns results in random order. A sort expression consists of the following elements:    Operand -- Name of a game session attribute. Valid values are gameSessionName, gameSessionId, gameSessionProperties, maximumSessions, creationTimeMillis, playerSessionCount, hasAvailablePlayerSessions.    Order -- Valid sort orders are ASC (ascending) and DESC (descending).   For example, this sort expression returns the oldest active sessions first: "SortExpression": "creationTimeMillis ASC". Results with a null value for the sort operand are returned at the end of the list.
+        public let sortExpression: String?
+
+        public init(aliasId: String? = nil, filterExpression: String? = nil, fleetId: String? = nil, limit: Int32? = nil, nextToken: String? = nil, sortExpression: String? = nil) {
+            self.aliasId = aliasId
+            self.filterExpression = filterExpression
+            self.fleetId = fleetId
+            self.limit = limit
+            self.nextToken = nextToken
+            self.sortExpression = sortExpression
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
+            case filterExpression = "FilterExpression"
+            case fleetId = "FleetId"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case sortExpression = "SortExpression"
+        }
+    }
+
+    public struct SearchGameSessionsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Collection of objects containing game session properties for each session matching the request.
+        public let gameSessions: [GameSession]?
+        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        public let nextToken: String?
+
+        public init(gameSessions: [GameSession]? = nil, nextToken: String? = nil) {
+            self.gameSessions = gameSessions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameSessions = "GameSessions"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ServerProcess: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConcurrentExecutions", required: true, type: .integer), 
+            AWSShapeMember(label: "LaunchPath", required: true, type: .string), 
+            AWSShapeMember(label: "Parameters", required: false, type: .string)
+        ]
+        /// Number of server processes using this configuration to run concurrently on an instance.
+        public let concurrentExecutions: Int32
+        /// Location of the server executable in a game build. All game builds are installed on instances at the root : for Windows instances C:\game, and for Linux instances /local/game. A Windows game build with an executable file located at MyGame\latest\server.exe must have a launch path of "C:\game\MyGame\latest\server.exe". A Linux game build with an executable file located at MyGame/latest/server.exe must have a launch path of "/local/game/MyGame/latest/server.exe". 
+        public let launchPath: String
+        /// Optional list of parameters to pass to the server executable on launch.
+        public let parameters: String?
+
+        public init(concurrentExecutions: Int32, launchPath: String, parameters: String? = nil) {
+            self.concurrentExecutions = concurrentExecutions
+            self.launchPath = launchPath
+            self.parameters = parameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case concurrentExecutions = "ConcurrentExecutions"
+            case launchPath = "LaunchPath"
+            case parameters = "Parameters"
+        }
+    }
+
+    public struct StartFleetActionsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Actions", required: true, type: .list), 
+            AWSShapeMember(label: "FleetId", required: true, type: .string)
+        ]
+        /// List of actions to restart on the fleet.
+        public let actions: [FleetAction]
+        /// Unique identifier for a fleet
+        public let fleetId: String
+
+        public init(actions: [FleetAction], fleetId: String) {
+            self.actions = actions
+            self.fleetId = fleetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case fleetId = "FleetId"
+        }
+    }
+
+    public struct StartFleetActionsOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct StartGameSessionPlacementInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DesiredPlayerSessions", required: false, type: .list), 
+            AWSShapeMember(label: "GameProperties", required: false, type: .list), 
+            AWSShapeMember(label: "GameSessionData", required: false, type: .string), 
+            AWSShapeMember(label: "GameSessionName", required: false, type: .string), 
+            AWSShapeMember(label: "GameSessionQueueName", required: true, type: .string), 
+            AWSShapeMember(label: "MaximumPlayerSessionCount", required: true, type: .integer), 
+            AWSShapeMember(label: "PlacementId", required: true, type: .string), 
+            AWSShapeMember(label: "PlayerLatencies", required: false, type: .list)
+        ]
+        /// Set of information on each player to create a player session for.
+        public let desiredPlayerSessions: [DesiredPlayerSession]?
+        /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
+        public let gameProperties: [GameProperty]?
+        /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
+        public let gameSessionData: String?
+        /// Descriptive label that is associated with a game session. Session names do not need to be unique.
+        public let gameSessionName: String?
+        /// Name of the queue to use to place the new game session.
+        public let gameSessionQueueName: String
+        /// Maximum number of players that can be connected simultaneously to the game session.
+        public let maximumPlayerSessionCount: Int32
+        /// Unique identifier to assign to the new game session placement. This value is developer-defined. The value must be unique across all regions and cannot be reused unless you are resubmitting a canceled or timed-out placement request.
+        public let placementId: String
+        /// Set of values, expressed in milliseconds, indicating the amount of latency that a player experiences when connected to AWS regions. This information is used to try to place the new game session where it can offer the best possible gameplay experience for the players. 
+        public let playerLatencies: [PlayerLatency]?
+
+        public init(desiredPlayerSessions: [DesiredPlayerSession]? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionName: String? = nil, gameSessionQueueName: String, maximumPlayerSessionCount: Int32, placementId: String, playerLatencies: [PlayerLatency]? = nil) {
+            self.desiredPlayerSessions = desiredPlayerSessions
+            self.gameProperties = gameProperties
+            self.gameSessionData = gameSessionData
+            self.gameSessionName = gameSessionName
+            self.gameSessionQueueName = gameSessionQueueName
+            self.maximumPlayerSessionCount = maximumPlayerSessionCount
+            self.placementId = placementId
+            self.playerLatencies = playerLatencies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case desiredPlayerSessions = "DesiredPlayerSessions"
+            case gameProperties = "GameProperties"
+            case gameSessionData = "GameSessionData"
+            case gameSessionName = "GameSessionName"
+            case gameSessionQueueName = "GameSessionQueueName"
+            case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
+            case placementId = "PlacementId"
+            case playerLatencies = "PlayerLatencies"
+        }
+    }
+
+    public struct StartGameSessionPlacementOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessionPlacement", required: false, type: .structure)
+        ]
+        /// Object that describes the newly created game session placement. This object includes all the information provided in the request, as well as start/end time stamps and placement status. 
+        public let gameSessionPlacement: GameSessionPlacement?
+
+        public init(gameSessionPlacement: GameSessionPlacement? = nil) {
+            self.gameSessionPlacement = gameSessionPlacement
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionPlacement = "GameSessionPlacement"
+        }
+    }
+
+    public struct StartMatchBackfillInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationName", required: true, type: .string), 
+            AWSShapeMember(label: "GameSessionArn", required: true, type: .string), 
+            AWSShapeMember(label: "Players", required: true, type: .list), 
+            AWSShapeMember(label: "TicketId", required: false, type: .string)
+        ]
+        /// Name of the matchmaker to use for this request. The name of the matchmaker that was used with the original game session is listed in the GameSession object, MatchmakerData property. This property contains a matchmaking configuration ARN value, which includes the matchmaker name. (In the ARN value "arn:aws:gamelift:us-west-2:111122223333:matchmakingconfiguration/MM-4v4", the matchmaking configuration name is "MM-4v4".) Use only the name for this parameter.
+        public let configurationName: String
+        /// Amazon Resource Name (ARN) that is assigned to a game session and uniquely identifies it. 
+        public let gameSessionArn: String
+        /// Match information on all players that are currently assigned to the game session. This information is used by the matchmaker to find new players and add them to the existing game.   PlayerID, PlayerAttributes, Team -\\- This information is maintained in the GameSession object, MatchmakerData property, for all players who are currently assigned to the game session. The matchmaker data is in JSON syntax, formatted as a string. For more details, see  Match Data.    LatencyInMs -\\- If the matchmaker uses player latency, include a latency value, in milliseconds, for the region that the game session is currently in. Do not include latency values for any other region.  
+        public let players: [Player]
+        /// Unique identifier for a matchmaking ticket. If no ticket ID is specified here, Amazon GameLift will generate one in the form of a UUID. Use this identifier to track the match backfill ticket status and retrieve match results.
+        public let ticketId: String?
+
+        public init(configurationName: String, gameSessionArn: String, players: [Player], ticketId: String? = nil) {
+            self.configurationName = configurationName
+            self.gameSessionArn = gameSessionArn
+            self.players = players
+            self.ticketId = ticketId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationName = "ConfigurationName"
+            case gameSessionArn = "GameSessionArn"
+            case players = "Players"
+            case ticketId = "TicketId"
+        }
+    }
+
+    public struct StartMatchBackfillOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MatchmakingTicket", required: false, type: .structure)
+        ]
+        /// Ticket representing the backfill matchmaking request. This object includes the information in the request, ticket status, and match results as generated during the matchmaking process.
+        public let matchmakingTicket: MatchmakingTicket?
+
+        public init(matchmakingTicket: MatchmakingTicket? = nil) {
+            self.matchmakingTicket = matchmakingTicket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchmakingTicket = "MatchmakingTicket"
+        }
+    }
+
+    public struct StartMatchmakingInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationName", required: true, type: .string), 
+            AWSShapeMember(label: "Players", required: true, type: .list), 
+            AWSShapeMember(label: "TicketId", required: false, type: .string)
+        ]
+        /// Name of the matchmaking configuration to use for this request. Matchmaking configurations must exist in the same region as this request.
+        public let configurationName: String
+        /// Information on each player to be matched. This information must include a player ID, and may contain player attributes and latency data to be used in the matchmaking process. After a successful match, Player objects contain the name of the team the player is assigned to.
+        public let players: [Player]
+        /// Unique identifier for a matchmaking ticket. If no ticket ID is specified here, Amazon GameLift will generate one in the form of a UUID. Use this identifier to track the matchmaking ticket status and retrieve match results.
+        public let ticketId: String?
+
+        public init(configurationName: String, players: [Player], ticketId: String? = nil) {
+            self.configurationName = configurationName
+            self.players = players
+            self.ticketId = ticketId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationName = "ConfigurationName"
+            case players = "Players"
+            case ticketId = "TicketId"
+        }
+    }
+
+    public struct StartMatchmakingOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MatchmakingTicket", required: false, type: .structure)
+        ]
+        /// Ticket representing the matchmaking request. This object include the information included in the request, ticket status, and match results as generated during the matchmaking process.
+        public let matchmakingTicket: MatchmakingTicket?
+
+        public init(matchmakingTicket: MatchmakingTicket? = nil) {
+            self.matchmakingTicket = matchmakingTicket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchmakingTicket = "MatchmakingTicket"
+        }
+    }
+
+    public struct StopFleetActionsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Actions", required: true, type: .list), 
+            AWSShapeMember(label: "FleetId", required: true, type: .string)
+        ]
+        /// List of actions to suspend on the fleet. 
+        public let actions: [FleetAction]
+        /// Unique identifier for a fleet
+        public let fleetId: String
+
+        public init(actions: [FleetAction], fleetId: String) {
+            self.actions = actions
+            self.fleetId = fleetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case fleetId = "FleetId"
+        }
     }
 
     public struct StopFleetActionsOutput: AWSShape {
 
+        public init() {
+        }
+
     }
 
-    public struct DescribeInstancesOutput: AWSShape {
+    public struct StopGameSessionPlacementInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Instances", required: false, type: .list)
+            AWSShapeMember(label: "PlacementId", required: true, type: .string)
         ]
-        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
-        public let nextToken: String?
-        /// Collection of objects containing properties for each instance returned.
-        public let instances: [Instance]?
+        /// Unique identifier for a game session placement to cancel.
+        public let placementId: String
 
-        public init(nextToken: String? = nil, instances: [Instance]? = nil) {
-            self.nextToken = nextToken
-            self.instances = instances
+        public init(placementId: String) {
+            self.placementId = placementId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case instances = "Instances"
+            case placementId = "PlacementId"
+        }
+    }
+
+    public struct StopGameSessionPlacementOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessionPlacement", required: false, type: .structure)
+        ]
+        /// Object that describes the canceled game session placement, with CANCELLED status and an end time stamp. 
+        public let gameSessionPlacement: GameSessionPlacement?
+
+        public init(gameSessionPlacement: GameSessionPlacement? = nil) {
+            self.gameSessionPlacement = gameSessionPlacement
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionPlacement = "GameSessionPlacement"
+        }
+    }
+
+    public struct StopMatchmakingInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TicketId", required: true, type: .string)
+        ]
+        /// Unique identifier for a matchmaking ticket.
+        public let ticketId: String
+
+        public init(ticketId: String) {
+            self.ticketId = ticketId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ticketId = "TicketId"
+        }
+    }
+
+    public struct StopMatchmakingOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct TargetConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetValue", required: true, type: .double)
+        ]
+        /// Desired value to use with a target-based scaling policy. The value must be relevant for whatever metric the scaling policy is using. For example, in a policy using the metric PercentAvailableGameSessions, the target value should be the preferred size of the fleet's buffer (the percent of capacity that should be idle and ready for new game sessions).
+        public let targetValue: Double
+
+        public init(targetValue: Double) {
+            self.targetValue = targetValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetValue = "TargetValue"
+        }
+    }
+
+    public struct UpdateAliasInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasId", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "RoutingStrategy", required: false, type: .structure)
+        ]
+        /// Unique identifier for a fleet alias. Specify the alias you want to update.
+        public let aliasId: String
+        /// Human-readable description of an alias.
+        public let description: String?
+        /// Descriptive label that is associated with an alias. Alias names do not need to be unique.
+        public let name: String?
+        /// Object that specifies the fleet and routing type to use for the alias.
+        public let routingStrategy: RoutingStrategy?
+
+        public init(aliasId: String, description: String? = nil, name: String? = nil, routingStrategy: RoutingStrategy? = nil) {
+            self.aliasId = aliasId
+            self.description = description
+            self.name = name
+            self.routingStrategy = routingStrategy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
+            case description = "Description"
+            case name = "Name"
+            case routingStrategy = "RoutingStrategy"
+        }
+    }
+
+    public struct UpdateAliasOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Alias", required: false, type: .structure)
+        ]
+        /// Object that contains the updated alias configuration.
+        public let alias: Alias?
+
+        public init(alias: Alias? = nil) {
+            self.alias = alias
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias = "Alias"
+        }
+    }
+
+    public struct UpdateBuildInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BuildId", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        /// Unique identifier for a build to update.
+        public let buildId: String
+        /// Descriptive label that is associated with a build. Build names do not need to be unique. 
+        public let name: String?
+        /// Version that is associated with this build. Version strings do not need to be unique.
+        public let version: String?
+
+        public init(buildId: String, name: String? = nil, version: String? = nil) {
+            self.buildId = buildId
+            self.name = name
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case buildId = "BuildId"
+            case name = "Name"
+            case version = "Version"
+        }
+    }
+
+    public struct UpdateBuildOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Build", required: false, type: .structure)
+        ]
+        /// Object that contains the updated build record.
+        public let build: Build?
+
+        public init(build: Build? = nil) {
+            self.build = build
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case build = "Build"
+        }
+    }
+
+    public struct UpdateFleetAttributesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "FleetId", required: true, type: .string), 
+            AWSShapeMember(label: "MetricGroups", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "NewGameSessionProtectionPolicy", required: false, type: .enum), 
+            AWSShapeMember(label: "ResourceCreationLimitPolicy", required: false, type: .structure)
+        ]
+        /// Human-readable description of a fleet.
+        public let description: String?
+        /// Unique identifier for a fleet to update attribute metadata for.
+        public let fleetId: String
+        /// Names of metric groups to include this fleet in. Amazon CloudWatch uses a fleet metric group is to aggregate metrics from multiple fleets. Use an existing metric group name to add this fleet to the group. Or use a new name to create a new metric group. A fleet can only be included in one metric group at a time.
+        public let metricGroups: [String]?
+        /// Descriptive label that is associated with a fleet. Fleet names do not need to be unique.
+        public let name: String?
+        /// Game session protection policy to apply to all new instances created in this fleet. Instances that already exist are not affected. You can set protection for individual instances using UpdateGameSession.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
+        public let newGameSessionProtectionPolicy: ProtectionPolicy?
+        /// Policy that limits the number of game sessions an individual player can create over a span of time. 
+        public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
+
+        public init(description: String? = nil, fleetId: String, metricGroups: [String]? = nil, name: String? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil) {
+            self.description = description
+            self.fleetId = fleetId
+            self.metricGroups = metricGroups
+            self.name = name
+            self.newGameSessionProtectionPolicy = newGameSessionProtectionPolicy
+            self.resourceCreationLimitPolicy = resourceCreationLimitPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case fleetId = "FleetId"
+            case metricGroups = "MetricGroups"
+            case name = "Name"
+            case newGameSessionProtectionPolicy = "NewGameSessionProtectionPolicy"
+            case resourceCreationLimitPolicy = "ResourceCreationLimitPolicy"
+        }
+    }
+
+    public struct UpdateFleetAttributesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: false, type: .string)
+        ]
+        /// Unique identifier for a fleet that was updated.
+        public let fleetId: String?
+
+        public init(fleetId: String? = nil) {
+            self.fleetId = fleetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+        }
+    }
+
+    public struct UpdateFleetCapacityInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DesiredInstances", required: false, type: .integer), 
+            AWSShapeMember(label: "FleetId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxSize", required: false, type: .integer), 
+            AWSShapeMember(label: "MinSize", required: false, type: .integer)
+        ]
+        /// Number of EC2 instances you want this fleet to host.
+        public let desiredInstances: Int32?
+        /// Unique identifier for a fleet to update capacity for.
+        public let fleetId: String
+        /// Maximum value allowed for the fleet's instance count. Default if not set is 1.
+        public let maxSize: Int32?
+        /// Minimum value allowed for the fleet's instance count. Default if not set is 0.
+        public let minSize: Int32?
+
+        public init(desiredInstances: Int32? = nil, fleetId: String, maxSize: Int32? = nil, minSize: Int32? = nil) {
+            self.desiredInstances = desiredInstances
+            self.fleetId = fleetId
+            self.maxSize = maxSize
+            self.minSize = minSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case desiredInstances = "DesiredInstances"
+            case fleetId = "FleetId"
+            case maxSize = "MaxSize"
+            case minSize = "MinSize"
+        }
+    }
+
+    public struct UpdateFleetCapacityOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: false, type: .string)
+        ]
+        /// Unique identifier for a fleet that was updated.
+        public let fleetId: String?
+
+        public init(fleetId: String? = nil) {
+            self.fleetId = fleetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+        }
+    }
+
+    public struct UpdateFleetPortSettingsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: true, type: .string), 
+            AWSShapeMember(label: "InboundPermissionAuthorizations", required: false, type: .list), 
+            AWSShapeMember(label: "InboundPermissionRevocations", required: false, type: .list)
+        ]
+        /// Unique identifier for a fleet to update port settings for.
+        public let fleetId: String
+        /// Collection of port settings to be added to the fleet record.
+        public let inboundPermissionAuthorizations: [IpPermission]?
+        /// Collection of port settings to be removed from the fleet record.
+        public let inboundPermissionRevocations: [IpPermission]?
+
+        public init(fleetId: String, inboundPermissionAuthorizations: [IpPermission]? = nil, inboundPermissionRevocations: [IpPermission]? = nil) {
+            self.fleetId = fleetId
+            self.inboundPermissionAuthorizations = inboundPermissionAuthorizations
+            self.inboundPermissionRevocations = inboundPermissionRevocations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+            case inboundPermissionAuthorizations = "InboundPermissionAuthorizations"
+            case inboundPermissionRevocations = "InboundPermissionRevocations"
+        }
+    }
+
+    public struct UpdateFleetPortSettingsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: false, type: .string)
+        ]
+        /// Unique identifier for a fleet that was updated.
+        public let fleetId: String?
+
+        public init(fleetId: String? = nil) {
+            self.fleetId = fleetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+        }
+    }
+
+    public struct UpdateGameSessionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessionId", required: true, type: .string), 
+            AWSShapeMember(label: "MaximumPlayerSessionCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "PlayerSessionCreationPolicy", required: false, type: .enum), 
+            AWSShapeMember(label: "ProtectionPolicy", required: false, type: .enum)
+        ]
+        /// Unique identifier for the game session to update.
+        public let gameSessionId: String
+        /// Maximum number of players that can be connected simultaneously to the game session.
+        public let maximumPlayerSessionCount: Int32?
+        /// Descriptive label that is associated with a game session. Session names do not need to be unique.
+        public let name: String?
+        /// Policy determining whether or not the game session accepts new players.
+        public let playerSessionCreationPolicy: PlayerSessionCreationPolicy?
+        /// Game session protection policy to apply to this game session only.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
+        public let protectionPolicy: ProtectionPolicy?
+
+        public init(gameSessionId: String, maximumPlayerSessionCount: Int32? = nil, name: String? = nil, playerSessionCreationPolicy: PlayerSessionCreationPolicy? = nil, protectionPolicy: ProtectionPolicy? = nil) {
+            self.gameSessionId = gameSessionId
+            self.maximumPlayerSessionCount = maximumPlayerSessionCount
+            self.name = name
+            self.playerSessionCreationPolicy = playerSessionCreationPolicy
+            self.protectionPolicy = protectionPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionId = "GameSessionId"
+            case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
+            case name = "Name"
+            case playerSessionCreationPolicy = "PlayerSessionCreationPolicy"
+            case protectionPolicy = "ProtectionPolicy"
+        }
+    }
+
+    public struct UpdateGameSessionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSession", required: false, type: .structure)
+        ]
+        /// Object that contains the updated game session metadata.
+        public let gameSession: GameSession?
+
+        public init(gameSession: GameSession? = nil) {
+            self.gameSession = gameSession
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameSession = "GameSession"
+        }
+    }
+
+    public struct UpdateGameSessionQueueInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Destinations", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "PlayerLatencyPolicies", required: false, type: .list), 
+            AWSShapeMember(label: "TimeoutInSeconds", required: false, type: .integer)
+        ]
+        /// List of fleets that can be used to fulfill game session placement requests in the queue. Fleets are identified by either a fleet ARN or a fleet alias ARN. Destinations are listed in default preference order. When updating this list, provide a complete list of destinations.
+        public let destinations: [GameSessionQueueDestination]?
+        /// Descriptive label that is associated with game session queue. Queue names must be unique within each region.
+        public let name: String
+        /// Collection of latency policies to apply when processing game sessions placement requests with player latency information. Multiple policies are evaluated in order of the maximum latency value, starting with the lowest latency values. With just one policy, it is enforced at the start of the game session placement for the duration period. With multiple policies, each policy is enforced consecutively for its duration period. For example, a queue might enforce a 60-second policy followed by a 120-second policy, and then no policy for the remainder of the placement. When updating policies, provide a complete collection of policies.
+        public let playerLatencyPolicies: [PlayerLatencyPolicy]?
+        /// Maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status.
+        public let timeoutInSeconds: Int32?
+
+        public init(destinations: [GameSessionQueueDestination]? = nil, name: String, playerLatencyPolicies: [PlayerLatencyPolicy]? = nil, timeoutInSeconds: Int32? = nil) {
+            self.destinations = destinations
+            self.name = name
+            self.playerLatencyPolicies = playerLatencyPolicies
+            self.timeoutInSeconds = timeoutInSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "Destinations"
+            case name = "Name"
+            case playerLatencyPolicies = "PlayerLatencyPolicies"
+            case timeoutInSeconds = "TimeoutInSeconds"
+        }
+    }
+
+    public struct UpdateGameSessionQueueOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessionQueue", required: false, type: .structure)
+        ]
+        /// Object that describes the newly updated game session queue.
+        public let gameSessionQueue: GameSessionQueue?
+
+        public init(gameSessionQueue: GameSessionQueue? = nil) {
+            self.gameSessionQueue = gameSessionQueue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionQueue = "GameSessionQueue"
+        }
+    }
+
+    public struct UpdateMatchmakingConfigurationInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptanceRequired", required: false, type: .boolean), 
+            AWSShapeMember(label: "AcceptanceTimeoutSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "AdditionalPlayerCount", required: false, type: .integer), 
+            AWSShapeMember(label: "CustomEventData", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "GameProperties", required: false, type: .list), 
+            AWSShapeMember(label: "GameSessionData", required: false, type: .string), 
+            AWSShapeMember(label: "GameSessionQueueArns", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "NotificationTarget", required: false, type: .string), 
+            AWSShapeMember(label: "RequestTimeoutSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "RuleSetName", required: false, type: .string)
+        ]
+        /// Flag that determines whether or not a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE.
+        public let acceptanceRequired: Bool?
+        /// Length of time (in seconds) to wait for players to accept a proposed match. If any player rejects the match or fails to accept before the timeout, the ticket continues to look for an acceptable match.
+        public let acceptanceTimeoutSeconds: Int32?
+        /// Number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies a match for a single 12-person team, and the additional player count is set to 2, only 10 players are selected for the match.
+        public let additionalPlayerCount: Int32?
+        /// Information to attached to all events related to the matchmaking configuration. 
+        public let customEventData: String?
+        /// Descriptive label that is associated with matchmaking configuration.
+        public let description: String?
+        /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. 
+        public let gameProperties: [GameProperty]?
+        /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. 
+        public let gameSessionData: String?
+        /// Amazon Resource Name (ARN) that is assigned to a game session queue and uniquely identifies it. Format is arn:aws:gamelift:&lt;region&gt;::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912. These queues are used when placing game sessions for matches that are created with this matchmaking configuration. Queues can be located in any region.
+        public let gameSessionQueueArns: [String]?
+        /// Unique identifier for a matchmaking configuration to update.
+        public let name: String
+        /// SNS topic ARN that is set up to receive matchmaking notifications. See  Setting up Notifications for Matchmaking for more information.
+        public let notificationTarget: String?
+        /// Maximum duration, in seconds, that a matchmaking ticket can remain in process before timing out. Requests that time out can be resubmitted as needed.
+        public let requestTimeoutSeconds: Int32?
+        /// Unique identifier for a matchmaking rule set to use with this configuration. A matchmaking configuration can only use rule sets that are defined in the same region.
+        public let ruleSetName: String?
+
+        public init(acceptanceRequired: Bool? = nil, acceptanceTimeoutSeconds: Int32? = nil, additionalPlayerCount: Int32? = nil, customEventData: String? = nil, description: String? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionQueueArns: [String]? = nil, name: String, notificationTarget: String? = nil, requestTimeoutSeconds: Int32? = nil, ruleSetName: String? = nil) {
+            self.acceptanceRequired = acceptanceRequired
+            self.acceptanceTimeoutSeconds = acceptanceTimeoutSeconds
+            self.additionalPlayerCount = additionalPlayerCount
+            self.customEventData = customEventData
+            self.description = description
+            self.gameProperties = gameProperties
+            self.gameSessionData = gameSessionData
+            self.gameSessionQueueArns = gameSessionQueueArns
+            self.name = name
+            self.notificationTarget = notificationTarget
+            self.requestTimeoutSeconds = requestTimeoutSeconds
+            self.ruleSetName = ruleSetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptanceRequired = "AcceptanceRequired"
+            case acceptanceTimeoutSeconds = "AcceptanceTimeoutSeconds"
+            case additionalPlayerCount = "AdditionalPlayerCount"
+            case customEventData = "CustomEventData"
+            case description = "Description"
+            case gameProperties = "GameProperties"
+            case gameSessionData = "GameSessionData"
+            case gameSessionQueueArns = "GameSessionQueueArns"
+            case name = "Name"
+            case notificationTarget = "NotificationTarget"
+            case requestTimeoutSeconds = "RequestTimeoutSeconds"
+            case ruleSetName = "RuleSetName"
+        }
+    }
+
+    public struct UpdateMatchmakingConfigurationOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Configuration", required: false, type: .structure)
+        ]
+        /// Object that describes the updated matchmaking configuration.
+        public let configuration: MatchmakingConfiguration?
+
+        public init(configuration: MatchmakingConfiguration? = nil) {
+            self.configuration = configuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+        }
+    }
+
+    public struct UpdateRuntimeConfigurationInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: true, type: .string), 
+            AWSShapeMember(label: "RuntimeConfiguration", required: true, type: .structure)
+        ]
+        /// Unique identifier for a fleet to update run-time configuration for.
+        public let fleetId: String
+        /// Instructions for launching server processes on each instance in the fleet. The run-time configuration for a fleet has a collection of server process configurations, one for each type of server process to run on an instance. A server process configuration specifies the location of the server executable, launch parameters, and the number of concurrent processes with that configuration to maintain on each instance.
+        public let runtimeConfiguration: RuntimeConfiguration
+
+        public init(fleetId: String, runtimeConfiguration: RuntimeConfiguration) {
+            self.fleetId = fleetId
+            self.runtimeConfiguration = runtimeConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+            case runtimeConfiguration = "RuntimeConfiguration"
+        }
+    }
+
+    public struct UpdateRuntimeConfigurationOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RuntimeConfiguration", required: false, type: .structure)
+        ]
+        /// The run-time configuration currently in force. If the update was successful, this object matches the one in the request.
+        public let runtimeConfiguration: RuntimeConfiguration?
+
+        public init(runtimeConfiguration: RuntimeConfiguration? = nil) {
+            self.runtimeConfiguration = runtimeConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runtimeConfiguration = "RuntimeConfiguration"
+        }
+    }
+
+    public struct ValidateMatchmakingRuleSetInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RuleSetBody", required: true, type: .string)
+        ]
+        /// Collection of matchmaking rules to validate, formatted as a JSON string.
+        public let ruleSetBody: String
+
+        public init(ruleSetBody: String) {
+            self.ruleSetBody = ruleSetBody
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleSetBody = "RuleSetBody"
+        }
+    }
+
+    public struct ValidateMatchmakingRuleSetOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Valid", required: false, type: .boolean)
+        ]
+        /// Response indicating whether or not the rule set is valid.
+        public let valid: Bool?
+
+        public init(valid: Bool? = nil) {
+            self.valid = valid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valid = "Valid"
+        }
+    }
+
+    public struct VpcPeeringAuthorization: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ExpirationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "GameLiftAwsAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "PeerVpcAwsAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "PeerVpcId", required: false, type: .string)
+        ]
+        /// Time stamp indicating when this authorization was issued. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        public let creationTime: TimeStamp?
+        /// Time stamp indicating when this authorization expires (24 hours after issuance). Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        public let expirationTime: TimeStamp?
+        /// Unique identifier for the AWS account that you use to manage your Amazon GameLift fleet. You can find your Account ID in the AWS Management Console under account settings.
+        public let gameLiftAwsAccountId: String?
+        public let peerVpcAwsAccountId: String?
+        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. To get VPC information, including IDs, use the Virtual Private Cloud service tools, including the VPC Dashboard in the AWS Management Console.
+        public let peerVpcId: String?
+
+        public init(creationTime: TimeStamp? = nil, expirationTime: TimeStamp? = nil, gameLiftAwsAccountId: String? = nil, peerVpcAwsAccountId: String? = nil, peerVpcId: String? = nil) {
+            self.creationTime = creationTime
+            self.expirationTime = expirationTime
+            self.gameLiftAwsAccountId = gameLiftAwsAccountId
+            self.peerVpcAwsAccountId = peerVpcAwsAccountId
+            self.peerVpcId = peerVpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case expirationTime = "ExpirationTime"
+            case gameLiftAwsAccountId = "GameLiftAwsAccountId"
+            case peerVpcAwsAccountId = "PeerVpcAwsAccountId"
+            case peerVpcId = "PeerVpcId"
+        }
+    }
+
+    public struct VpcPeeringConnection: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: false, type: .string), 
+            AWSShapeMember(label: "GameLiftVpcId", required: false, type: .string), 
+            AWSShapeMember(label: "IpV4CidrBlock", required: false, type: .string), 
+            AWSShapeMember(label: "PeerVpcId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .structure), 
+            AWSShapeMember(label: "VpcPeeringConnectionId", required: false, type: .string)
+        ]
+        /// Unique identifier for a fleet. This ID determines the ID of the Amazon GameLift VPC for your fleet.
+        public let fleetId: String?
+        /// Unique identifier for the VPC that contains the Amazon GameLift fleet for this connection. This VPC is managed by Amazon GameLift and does not appear in your AWS account. 
+        public let gameLiftVpcId: String?
+        /// CIDR block of IPv4 addresses assigned to the VPC peering connection for the GameLift VPC. The peered VPC also has an IPv4 CIDR block associated with it; these blocks cannot overlap or the peering connection cannot be created. 
+        public let ipV4CidrBlock: String?
+        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. To get VPC information, including IDs, use the Virtual Private Cloud service tools, including the VPC Dashboard in the AWS Management Console.
+        public let peerVpcId: String?
+        /// Object that contains status information about the connection. Status indicates if a connection is pending, successful, or failed.
+        public let status: VpcPeeringConnectionStatus?
+        /// Unique identifier that is automatically assigned to the connection record. This ID is referenced in VPC peering connection events, and is used when deleting a connection with DeleteVpcPeeringConnection. 
+        public let vpcPeeringConnectionId: String?
+
+        public init(fleetId: String? = nil, gameLiftVpcId: String? = nil, ipV4CidrBlock: String? = nil, peerVpcId: String? = nil, status: VpcPeeringConnectionStatus? = nil, vpcPeeringConnectionId: String? = nil) {
+            self.fleetId = fleetId
+            self.gameLiftVpcId = gameLiftVpcId
+            self.ipV4CidrBlock = ipV4CidrBlock
+            self.peerVpcId = peerVpcId
+            self.status = status
+            self.vpcPeeringConnectionId = vpcPeeringConnectionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+            case gameLiftVpcId = "GameLiftVpcId"
+            case ipV4CidrBlock = "IpV4CidrBlock"
+            case peerVpcId = "PeerVpcId"
+            case status = "Status"
+            case vpcPeeringConnectionId = "VpcPeeringConnectionId"
+        }
+    }
+
+    public struct VpcPeeringConnectionStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Code", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
+        ]
+        /// Code indicating the status of a VPC peering connection.
+        public let code: String?
+        /// Additional messaging associated with the connection status. 
+        public let message: String?
+
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 

@@ -4,31 +4,31 @@ import AWSSDKSwiftCore
 
 /// Error enum for WorkDocs
 public enum WorkDocsErrorType: AWSErrorType {
-    case unauthorizedOperationException(message: String?)
-    case unauthorizedResourceAccessException(message: String?)
-    case invalidArgumentException(message: String?)
-    case failedDependencyException(message: String?)
-    case serviceUnavailableException(message: String?)
-    case entityNotExistsException(message: String?)
-    case illegalUserStateException(message: String?)
-    case deactivatingLastSystemUserException(message: String?)
-    case prohibitedStateException(message: String?)
-    case invalidPasswordException(message: String?)
-    case tooManyLabelsException(message: String?)
-    case conflictingOperationException(message: String?)
-    case entityAlreadyExistsException(message: String?)
     case concurrentModificationException(message: String?)
-    case limitExceededException(message: String?)
+    case conflictingOperationException(message: String?)
+    case customMetadataLimitExceededException(message: String?)
+    case deactivatingLastSystemUserException(message: String?)
     case documentLockedForCommentsException(message: String?)
+    case draftUploadOutOfSyncException(message: String?)
+    case entityAlreadyExistsException(message: String?)
+    case entityNotExistsException(message: String?)
+    case failedDependencyException(message: String?)
+    case illegalUserStateException(message: String?)
+    case invalidArgumentException(message: String?)
+    case invalidCommentOperationException(message: String?)
     case invalidOperationException(message: String?)
+    case invalidPasswordException(message: String?)
+    case limitExceededException(message: String?)
+    case prohibitedStateException(message: String?)
     case requestedEntityTooLargeException(message: String?)
+    case resourceAlreadyCheckedOutException(message: String?)
+    case serviceUnavailableException(message: String?)
     case storageLimitExceededException(message: String?)
     case storageLimitWillExceedException(message: String?)
-    case draftUploadOutOfSyncException(message: String?)
-    case resourceAlreadyCheckedOutException(message: String?)
+    case tooManyLabelsException(message: String?)
     case tooManySubscriptionsException(message: String?)
-    case invalidCommentOperationException(message: String?)
-    case customMetadataLimitExceededException(message: String?)
+    case unauthorizedOperationException(message: String?)
+    case unauthorizedResourceAccessException(message: String?)
 }
 
 extension WorkDocsErrorType {
@@ -38,56 +38,56 @@ extension WorkDocsErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "UnauthorizedOperationException":
-            self = .unauthorizedOperationException(message: message)
-        case "UnauthorizedResourceAccessException":
-            self = .unauthorizedResourceAccessException(message: message)
-        case "InvalidArgumentException":
-            self = .invalidArgumentException(message: message)
-        case "FailedDependencyException":
-            self = .failedDependencyException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        case "EntityNotExistsException":
-            self = .entityNotExistsException(message: message)
-        case "IllegalUserStateException":
-            self = .illegalUserStateException(message: message)
-        case "DeactivatingLastSystemUserException":
-            self = .deactivatingLastSystemUserException(message: message)
-        case "ProhibitedStateException":
-            self = .prohibitedStateException(message: message)
-        case "InvalidPasswordException":
-            self = .invalidPasswordException(message: message)
-        case "TooManyLabelsException":
-            self = .tooManyLabelsException(message: message)
-        case "ConflictingOperationException":
-            self = .conflictingOperationException(message: message)
-        case "EntityAlreadyExistsException":
-            self = .entityAlreadyExistsException(message: message)
         case "ConcurrentModificationException":
             self = .concurrentModificationException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
+        case "ConflictingOperationException":
+            self = .conflictingOperationException(message: message)
+        case "CustomMetadataLimitExceededException":
+            self = .customMetadataLimitExceededException(message: message)
+        case "DeactivatingLastSystemUserException":
+            self = .deactivatingLastSystemUserException(message: message)
         case "DocumentLockedForCommentsException":
             self = .documentLockedForCommentsException(message: message)
+        case "DraftUploadOutOfSyncException":
+            self = .draftUploadOutOfSyncException(message: message)
+        case "EntityAlreadyExistsException":
+            self = .entityAlreadyExistsException(message: message)
+        case "EntityNotExistsException":
+            self = .entityNotExistsException(message: message)
+        case "FailedDependencyException":
+            self = .failedDependencyException(message: message)
+        case "IllegalUserStateException":
+            self = .illegalUserStateException(message: message)
+        case "InvalidArgumentException":
+            self = .invalidArgumentException(message: message)
+        case "InvalidCommentOperationException":
+            self = .invalidCommentOperationException(message: message)
         case "InvalidOperationException":
             self = .invalidOperationException(message: message)
+        case "InvalidPasswordException":
+            self = .invalidPasswordException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
+        case "ProhibitedStateException":
+            self = .prohibitedStateException(message: message)
         case "RequestedEntityTooLargeException":
             self = .requestedEntityTooLargeException(message: message)
+        case "ResourceAlreadyCheckedOutException":
+            self = .resourceAlreadyCheckedOutException(message: message)
+        case "ServiceUnavailableException":
+            self = .serviceUnavailableException(message: message)
         case "StorageLimitExceededException":
             self = .storageLimitExceededException(message: message)
         case "StorageLimitWillExceedException":
             self = .storageLimitWillExceedException(message: message)
-        case "DraftUploadOutOfSyncException":
-            self = .draftUploadOutOfSyncException(message: message)
-        case "ResourceAlreadyCheckedOutException":
-            self = .resourceAlreadyCheckedOutException(message: message)
+        case "TooManyLabelsException":
+            self = .tooManyLabelsException(message: message)
         case "TooManySubscriptionsException":
             self = .tooManySubscriptionsException(message: message)
-        case "InvalidCommentOperationException":
-            self = .invalidCommentOperationException(message: message)
-        case "CustomMetadataLimitExceededException":
-            self = .customMetadataLimitExceededException(message: message)
+        case "UnauthorizedOperationException":
+            self = .unauthorizedOperationException(message: message)
+        case "UnauthorizedResourceAccessException":
+            self = .unauthorizedResourceAccessException(message: message)
         default:
             return nil
         }

@@ -5,71 +5,204 @@ import AWSSDKSwiftCore
 
 extension Route53Domains {
 
-    public struct DisableDomainAutoRenewRequest: AWSShape {
+    public struct BillingRecord: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
+            AWSShapeMember(label: "BillDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DomainName", required: false, type: .string), 
+            AWSShapeMember(label: "InvoiceId", required: false, type: .string), 
+            AWSShapeMember(label: "Operation", required: false, type: .enum), 
+            AWSShapeMember(label: "Price", required: false, type: .double)
         ]
-        /// The name of the domain that you want to disable automatic renewal for.
-        public let domainName: String
+        /// The date that the operation was billed, in Unix format.
+        public let billDate: TimeStamp?
+        /// The name of the domain that the billing record applies to. If the domain name contains characters other than a-z, 0-9, and - (hyphen), such as an internationalized domain name, then this value is in Punycode. For more information, see DNS Domain Name Format in the Amazon Route 53 Developer Guidezzz.
+        public let domainName: String?
+        /// The ID of the invoice that is associated with the billing record.
+        public let invoiceId: String?
+        /// The operation that you were charged for.
+        public let operation: OperationType?
+        /// The price that you were charged for the operation, in US dollars. Example value: 12.0
+        public let price: Double?
 
-        public init(domainName: String) {
+        public init(billDate: TimeStamp? = nil, domainName: String? = nil, invoiceId: String? = nil, operation: OperationType? = nil, price: Double? = nil) {
+            self.billDate = billDate
             self.domainName = domainName
+            self.invoiceId = invoiceId
+            self.operation = operation
+            self.price = price
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billDate = "BillDate"
+            case domainName = "DomainName"
+            case invoiceId = "InvoiceId"
+            case operation = "Operation"
+            case price = "Price"
+        }
+    }
+
+    public struct CheckDomainAvailabilityRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "IdnLangCode", required: false, type: .string)
+        ]
+        /// The name of the domain that you want to get availability for. Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
+        public let domainName: String
+        /// Reserved for future use.
+        public let idnLangCode: String?
+
+        public init(domainName: String, idnLangCode: String? = nil) {
+            self.domainName = domainName
+            self.idnLangCode = idnLangCode
         }
 
         private enum CodingKeys: String, CodingKey {
             case domainName = "DomainName"
+            case idnLangCode = "IdnLangCode"
         }
     }
 
-    public struct ListOperationsRequest: AWSShape {
+    public struct CheckDomainAvailabilityResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubmittedSince", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
+            AWSShapeMember(label: "Availability", required: true, type: .enum)
         ]
-        /// An optional parameter that lets you get information about all the operations that you submitted after a specified date and time. Specify the date and time in Coordinated Universal time (UTC).
-        public let submittedSince: TimeStamp?
-        /// For an initial request for a list of operations, omit this element. If the number of operations that are not yet complete is greater than the value that you specified for MaxItems, you can use Marker to return additional operations. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.
-        public let marker: String?
-        /// Number of domains to be returned. Default: 20
-        public let maxItems: Int32?
+        /// Whether the domain name is available for registering.  You can register only domains designated as AVAILABLE.  Valid values:  AVAILABLE  The domain name is available.  AVAILABLE_RESERVED  The domain name is reserved under specific conditions.  AVAILABLE_PREORDER  The domain name is available and can be preordered.  DONT_KNOW  The TLD registry didn't reply with a definitive answer about whether the domain name is available. Amazon Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later.  PENDING  The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately.  RESERVED  The domain name has been reserved for another person or organization.  UNAVAILABLE  The domain name is not available.  UNAVAILABLE_PREMIUM  The domain name is not available.  UNAVAILABLE_RESTRICTED  The domain name is forbidden.  
+        public let availability: DomainAvailability
 
-        public init(submittedSince: TimeStamp? = nil, marker: String? = nil, maxItems: Int32? = nil) {
-            self.submittedSince = submittedSince
-            self.marker = marker
-            self.maxItems = maxItems
+        public init(availability: DomainAvailability) {
+            self.availability = availability
         }
 
         private enum CodingKeys: String, CodingKey {
-            case submittedSince = "SubmittedSince"
-            case marker = "Marker"
-            case maxItems = "MaxItems"
+            case availability = "Availability"
         }
     }
 
-    public enum OperationStatus: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
-        case inProgress = "IN_PROGRESS"
-        case error = "ERROR"
-        case successful = "SUCCESSFUL"
-        case failed = "FAILED"
+    public struct CheckDomainTransferabilityRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthCode", required: false, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
+        ]
+        /// If the registrar for the top-level domain (TLD) requires an authorization code to transfer the domain, the code that you got from the current registrar for the domain.
+        public let authCode: String?
+        /// The name of the domain that you want to transfer to Amazon Route 53. Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
+        public let domainName: String
+
+        public init(authCode: String? = nil, domainName: String) {
+            self.authCode = authCode
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authCode = "AuthCode"
+            case domainName = "DomainName"
+        }
+    }
+
+    public struct CheckDomainTransferabilityResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Transferability", required: true, type: .structure)
+        ]
+        /// A complex type that contains information about whether the specified domain can be transferred to Amazon Route 53.
+        public let transferability: DomainTransferability
+
+        public init(transferability: DomainTransferability) {
+            self.transferability = transferability
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transferability = "Transferability"
+        }
+    }
+
+    public struct ContactDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AddressLine1", required: false, type: .string), 
+            AWSShapeMember(label: "AddressLine2", required: false, type: .string), 
+            AWSShapeMember(label: "City", required: false, type: .string), 
+            AWSShapeMember(label: "ContactType", required: false, type: .enum), 
+            AWSShapeMember(label: "CountryCode", required: false, type: .enum), 
+            AWSShapeMember(label: "Email", required: false, type: .string), 
+            AWSShapeMember(label: "ExtraParams", required: false, type: .list), 
+            AWSShapeMember(label: "Fax", required: false, type: .string), 
+            AWSShapeMember(label: "FirstName", required: false, type: .string), 
+            AWSShapeMember(label: "LastName", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationName", required: false, type: .string), 
+            AWSShapeMember(label: "PhoneNumber", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .string), 
+            AWSShapeMember(label: "ZipCode", required: false, type: .string)
+        ]
+        /// First line of the contact's address.
+        public let addressLine1: String?
+        /// Second line of contact's address, if any.
+        public let addressLine2: String?
+        /// The city of the contact's address.
+        public let city: String?
+        /// Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON, you must enter an organization name, and you can't enable privacy protection for the contact.
+        public let contactType: ContactType?
+        /// Code for the country of the contact's address.
+        public let countryCode: CountryCode?
+        /// Email address of the contact.
+        public let email: String?
+        /// A list of name-value pairs for parameters required by certain top-level domains.
+        public let extraParams: [ExtraParam]?
+        /// Fax number of the contact. Constraints: Phone number must be specified in the format "+[country dialing code].[number including any area code]". For example, a US phone number might appear as "+1.1234567890".
+        public let fax: String?
+        /// First name of contact.
+        public let firstName: String?
+        /// Last name of contact.
+        public let lastName: String?
+        /// Name of the organization for contact types other than PERSON.
+        public let organizationName: String?
+        /// The phone number of the contact. Constraints: Phone number must be specified in the format "+[country dialing code].[number including any area code&gt;]". For example, a US phone number might appear as "+1.1234567890".
+        public let phoneNumber: String?
+        /// The state or province of the contact's city.
+        public let state: String?
+        /// The zip or postal code of the contact's address.
+        public let zipCode: String?
+
+        public init(addressLine1: String? = nil, addressLine2: String? = nil, city: String? = nil, contactType: ContactType? = nil, countryCode: CountryCode? = nil, email: String? = nil, extraParams: [ExtraParam]? = nil, fax: String? = nil, firstName: String? = nil, lastName: String? = nil, organizationName: String? = nil, phoneNumber: String? = nil, state: String? = nil, zipCode: String? = nil) {
+            self.addressLine1 = addressLine1
+            self.addressLine2 = addressLine2
+            self.city = city
+            self.contactType = contactType
+            self.countryCode = countryCode
+            self.email = email
+            self.extraParams = extraParams
+            self.fax = fax
+            self.firstName = firstName
+            self.lastName = lastName
+            self.organizationName = organizationName
+            self.phoneNumber = phoneNumber
+            self.state = state
+            self.zipCode = zipCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressLine1 = "AddressLine1"
+            case addressLine2 = "AddressLine2"
+            case city = "City"
+            case contactType = "ContactType"
+            case countryCode = "CountryCode"
+            case email = "Email"
+            case extraParams = "ExtraParams"
+            case fax = "Fax"
+            case firstName = "FirstName"
+            case lastName = "LastName"
+            case organizationName = "OrganizationName"
+            case phoneNumber = "PhoneNumber"
+            case state = "State"
+            case zipCode = "ZipCode"
+        }
+    }
+
+    public enum ContactType: String, CustomStringConvertible, Codable {
+        case person = "PERSON"
+        case company = "COMPANY"
+        case association = "ASSOCIATION"
+        case publicBody = "PUBLIC_BODY"
+        case reseller = "RESELLER"
         public var description: String { return self.rawValue }
-    }
-
-    public struct ListTagsForDomainResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagList", required: true, type: .list)
-        ]
-        /// A list of the tags that are associated with the specified domain.
-        public let tagList: [Tag]
-
-        public init(tagList: [Tag]) {
-            self.tagList = tagList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagList = "TagList"
-        }
     }
 
     public enum CountryCode: String, CustomStringConvertible, Codable {
@@ -305,28 +438,74 @@ extension Route53Domains {
         public var description: String { return self.rawValue }
     }
 
-    public struct Nameserver: AWSShape {
+    public struct DeleteTagsForDomainRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlueIps", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "TagsToDelete", required: true, type: .list)
         ]
-        /// Glue IP address of a name server entry. Glue IP addresses are required only when the name of the name server is a subdomain of the domain. For example, if your domain is example.com and the name server for the domain is ns.example.com, you need to specify the IP address for ns.example.com. Constraints: The list can contain only one IPv4 and one IPv6 address.
-        public let glueIps: [String]?
-        /// The fully qualified host name of the name server. Constraint: Maximum 255 characters
-        public let name: String
+        /// The domain for which you want to delete one or more tags.
+        public let domainName: String
+        /// A list of tag keys to delete.
+        public let tagsToDelete: [String]
 
-        public init(glueIps: [String]? = nil, name: String) {
-            self.glueIps = glueIps
-            self.name = name
+        public init(domainName: String, tagsToDelete: [String]) {
+            self.domainName = domainName
+            self.tagsToDelete = tagsToDelete
         }
 
         private enum CodingKeys: String, CodingKey {
-            case glueIps = "GlueIps"
-            case name = "Name"
+            case domainName = "DomainName"
+            case tagsToDelete = "TagsToDelete"
         }
     }
 
-    public struct TransferDomainResponse: AWSShape {
+    public struct DeleteTagsForDomainResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DisableDomainAutoRenewRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
+        ]
+        /// The name of the domain that you want to disable automatic renewal for.
+        public let domainName: String
+
+        public init(domainName: String) {
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+        }
+    }
+
+    public struct DisableDomainAutoRenewResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DisableDomainTransferLockRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
+        ]
+        /// The name of the domain that you want to remove the transfer lock for.
+        public let domainName: String
+
+        public init(domainName: String) {
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+        }
+    }
+
+    public struct DisableDomainTransferLockResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OperationId", required: true, type: .string)
         ]
@@ -342,49 +521,68 @@ extension Route53Domains {
         }
     }
 
-    public struct ListOperationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Operations", required: true, type: .list), 
-            AWSShapeMember(label: "NextPageMarker", required: false, type: .string)
-        ]
-        /// Lists summaries of the operations.
-        public let operations: [OperationSummary]
-        /// If there are more operations than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker.
-        public let nextPageMarker: String?
+    public enum DomainAvailability: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case availableReserved = "AVAILABLE_RESERVED"
+        case availablePreorder = "AVAILABLE_PREORDER"
+        case unavailable = "UNAVAILABLE"
+        case unavailablePremium = "UNAVAILABLE_PREMIUM"
+        case unavailableRestricted = "UNAVAILABLE_RESTRICTED"
+        case reserved = "RESERVED"
+        case dontKnow = "DONT_KNOW"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(operations: [OperationSummary], nextPageMarker: String? = nil) {
-            self.operations = operations
-            self.nextPageMarker = nextPageMarker
+    public struct DomainSuggestion: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Availability", required: false, type: .string), 
+            AWSShapeMember(label: "DomainName", required: false, type: .string)
+        ]
+        /// Whether the domain name is available for registering.  You can register only the domains that are designated as AVAILABLE.  Valid values:  AVAILABLE  The domain name is available.  AVAILABLE_RESERVED  The domain name is reserved under specific conditions.  AVAILABLE_PREORDER  The domain name is available and can be preordered.  DONT_KNOW  The TLD registry didn't reply with a definitive answer about whether the domain name is available. Amazon Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later.  PENDING  The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately.  RESERVED  The domain name has been reserved for another person or organization.  UNAVAILABLE  The domain name is not available.  UNAVAILABLE_PREMIUM  The domain name is not available.  UNAVAILABLE_RESTRICTED  The domain name is forbidden.  
+        public let availability: String?
+        /// A suggested domain name.
+        public let domainName: String?
+
+        public init(availability: String? = nil, domainName: String? = nil) {
+            self.availability = availability
+            self.domainName = domainName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations = "Operations"
-            case nextPageMarker = "NextPageMarker"
+            case availability = "Availability"
+            case domainName = "DomainName"
         }
     }
 
-    public struct EnableDomainAutoRenewResponse: AWSShape {
+    public struct DomainSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoRenew", required: false, type: .boolean), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "Expiry", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TransferLock", required: false, type: .boolean)
+        ]
+        /// Indicates whether the domain is automatically renewed upon expiration.
+        public let autoRenew: Bool?
+        /// The name of the domain that the summary information applies to.
+        public let domainName: String
+        /// Expiration date of the domain in Coordinated Universal Time (UTC).
+        public let expiry: TimeStamp?
+        /// Indicates whether a domain is locked from unauthorized transfer to another party.
+        public let transferLock: Bool?
 
-    }
+        public init(autoRenew: Bool? = nil, domainName: String, expiry: TimeStamp? = nil, transferLock: Bool? = nil) {
+            self.autoRenew = autoRenew
+            self.domainName = domainName
+            self.expiry = expiry
+            self.transferLock = transferLock
+        }
 
-    public enum OperationType: String, CustomStringConvertible, Codable {
-        case registerDomain = "REGISTER_DOMAIN"
-        case deleteDomain = "DELETE_DOMAIN"
-        case transferInDomain = "TRANSFER_IN_DOMAIN"
-        case updateDomainContact = "UPDATE_DOMAIN_CONTACT"
-        case updateNameserver = "UPDATE_NAMESERVER"
-        case changePrivacyProtection = "CHANGE_PRIVACY_PROTECTION"
-        case domainLock = "DOMAIN_LOCK"
-        case enableAutorenew = "ENABLE_AUTORENEW"
-        case disableAutorenew = "DISABLE_AUTORENEW"
-        case addDnssec = "ADD_DNSSEC"
-        case removeDnssec = "REMOVE_DNSSEC"
-        case expireDomain = "EXPIRE_DOMAIN"
-        case transferOutDomain = "TRANSFER_OUT_DOMAIN"
-        case changeDomainOwner = "CHANGE_DOMAIN_OWNER"
-        case renewDomain = "RENEW_DOMAIN"
-        case pushDomain = "PUSH_DOMAIN"
-        public var description: String { return self.rawValue }
+        private enum CodingKeys: String, CodingKey {
+            case autoRenew = "AutoRenew"
+            case domainName = "DomainName"
+            case expiry = "Expiry"
+            case transferLock = "TransferLock"
+        }
     }
 
     public struct DomainTransferability: AWSShape {
@@ -402,175 +600,11 @@ extension Route53Domains {
         }
     }
 
-    public struct GetDomainSuggestionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SuggestionsList", required: false, type: .list)
-        ]
-        /// A list of possible domain names. If you specified true for OnlyAvailable in the request, the list contains only domains that are available for registration.
-        public let suggestionsList: [DomainSuggestion]?
-
-        public init(suggestionsList: [DomainSuggestion]? = nil) {
-            self.suggestionsList = suggestionsList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case suggestionsList = "SuggestionsList"
-        }
-    }
-
-    public struct RenewDomainResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OperationId", required: true, type: .string)
-        ]
-        /// The identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
-        public let operationId: String
-
-        public init(operationId: String) {
-            self.operationId = operationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operationId = "OperationId"
-        }
-    }
-
-    public struct DisableDomainAutoRenewResponse: AWSShape {
-
-    }
-
-    public struct GetOperationDetailRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OperationId", required: true, type: .string)
-        ]
-        /// The identifier for the operation for which you want to get the status. Amazon Route 53 returned the identifier in the response to the original request.
-        public let operationId: String
-
-        public init(operationId: String) {
-            self.operationId = operationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operationId = "OperationId"
-        }
-    }
-
-    public struct OperationSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OperationId", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum), 
-            AWSShapeMember(label: "SubmittedDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: true, type: .enum)
-        ]
-        /// Identifier returned to track the requested action.
-        public let operationId: String
-        /// Type of the action requested.
-        public let `type`: OperationType
-        /// The date when the request was submitted.
-        public let submittedDate: TimeStamp
-        /// The current status of the requested operation in the system.
-        public let status: OperationStatus
-
-        public init(operationId: String, type: OperationType, submittedDate: TimeStamp, status: OperationStatus) {
-            self.operationId = operationId
-            self.`type` = `type`
-            self.submittedDate = submittedDate
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operationId = "OperationId"
-            case `type` = "Type"
-            case submittedDate = "SubmittedDate"
-            case status = "Status"
-        }
-    }
-
-    public struct DeleteTagsForDomainResponse: AWSShape {
-
-    }
-
-    public struct RegisterDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DurationInYears", required: true, type: .integer), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "PrivacyProtectAdminContact", required: false, type: .boolean), 
-            AWSShapeMember(label: "RegistrantContact", required: true, type: .structure), 
-            AWSShapeMember(label: "AutoRenew", required: false, type: .boolean), 
-            AWSShapeMember(label: "PrivacyProtectTechContact", required: false, type: .boolean), 
-            AWSShapeMember(label: "AdminContact", required: true, type: .structure), 
-            AWSShapeMember(label: "IdnLangCode", required: false, type: .string), 
-            AWSShapeMember(label: "TechContact", required: true, type: .structure), 
-            AWSShapeMember(label: "PrivacyProtectRegistrantContact", required: false, type: .boolean)
-        ]
-        /// The number of years that you want to register the domain for. Domains are registered for a minimum of one year. The maximum period depends on the top-level domain. For the range of valid values for your domain, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide. Default: 1
-        public let durationInYears: Int32
-        /// The domain name that you want to register. Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
-        public let domainName: String
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the admin contact. Default: true 
-        public let privacyProtectAdminContact: Bool?
-        /// Provides detailed contact information.
-        public let registrantContact: ContactDetail
-        /// Indicates whether the domain will be automatically renewed (true) or not (false). Autorenewal only takes effect after the account is charged. Default: true 
-        public let autoRenew: Bool?
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the technical contact. Default: true 
-        public let privacyProtectTechContact: Bool?
-        /// Provides detailed contact information.
-        public let adminContact: ContactDetail
-        /// Reserved for future use.
-        public let idnLangCode: String?
-        /// Provides detailed contact information.
-        public let techContact: ContactDetail
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the registrant contact (the domain owner). Default: true 
-        public let privacyProtectRegistrantContact: Bool?
-
-        public init(durationInYears: Int32, domainName: String, privacyProtectAdminContact: Bool? = nil, registrantContact: ContactDetail, autoRenew: Bool? = nil, privacyProtectTechContact: Bool? = nil, adminContact: ContactDetail, idnLangCode: String? = nil, techContact: ContactDetail, privacyProtectRegistrantContact: Bool? = nil) {
-            self.durationInYears = durationInYears
-            self.domainName = domainName
-            self.privacyProtectAdminContact = privacyProtectAdminContact
-            self.registrantContact = registrantContact
-            self.autoRenew = autoRenew
-            self.privacyProtectTechContact = privacyProtectTechContact
-            self.adminContact = adminContact
-            self.idnLangCode = idnLangCode
-            self.techContact = techContact
-            self.privacyProtectRegistrantContact = privacyProtectRegistrantContact
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case durationInYears = "DurationInYears"
-            case domainName = "DomainName"
-            case privacyProtectAdminContact = "PrivacyProtectAdminContact"
-            case registrantContact = "RegistrantContact"
-            case autoRenew = "AutoRenew"
-            case privacyProtectTechContact = "PrivacyProtectTechContact"
-            case adminContact = "AdminContact"
-            case idnLangCode = "IdnLangCode"
-            case techContact = "TechContact"
-            case privacyProtectRegistrantContact = "PrivacyProtectRegistrantContact"
-        }
-    }
-
-    public struct CheckDomainAvailabilityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Availability", required: true, type: .enum)
-        ]
-        /// Whether the domain name is available for registering.  You can register only domains designated as AVAILABLE.  Valid values:  AVAILABLE  The domain name is available.  AVAILABLE_RESERVED  The domain name is reserved under specific conditions.  AVAILABLE_PREORDER  The domain name is available and can be preordered.  DONT_KNOW  The TLD registry didn't reply with a definitive answer about whether the domain name is available. Amazon Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later.  PENDING  The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately.  RESERVED  The domain name has been reserved for another person or organization.  UNAVAILABLE  The domain name is not available.  UNAVAILABLE_PREMIUM  The domain name is not available.  UNAVAILABLE_RESTRICTED  The domain name is forbidden.  
-        public let availability: DomainAvailability
-
-        public init(availability: DomainAvailability) {
-            self.availability = availability
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case availability = "Availability"
-        }
-    }
-
-    public struct ListTagsForDomainRequest: AWSShape {
+    public struct EnableDomainAutoRenewRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
-        /// The domain for which you want to get a list of tags.
+        /// The name of the domain that you want to enable automatic renewal for.
         public let domainName: String
 
         public init(domainName: String) {
@@ -582,42 +616,30 @@ extension Route53Domains {
         }
     }
 
-    public enum Transferable: String, CustomStringConvertible, Codable {
-        case transferable = "TRANSFERABLE"
-        case untransferable = "UNTRANSFERABLE"
-        case dontKnow = "DONT_KNOW"
-        public var description: String { return self.rawValue }
+    public struct EnableDomainAutoRenewResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
-    public struct ListDomainsRequest: AWSShape {
+    public struct EnableDomainTransferLockRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
-        /// Number of domains to be returned. Default: 20
-        public let maxItems: Int32?
-        /// For an initial request for a list of domains, omit this element. If the number of domains that are associated with the current AWS account is greater than the value that you specified for MaxItems, you can use Marker to return additional domains. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element. Constraints: The marker must match the value specified in the previous request.
-        public let marker: String?
+        /// The name of the domain that you want to set the transfer lock for.
+        public let domainName: String
 
-        public init(maxItems: Int32? = nil, marker: String? = nil) {
-            self.maxItems = maxItems
-            self.marker = marker
+        public init(domainName: String) {
+            self.domainName = domainName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxItems = "MaxItems"
-            case marker = "Marker"
+            case domainName = "DomainName"
         }
     }
 
-    public enum ReachabilityStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case done = "DONE"
-        case expired = "EXPIRED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RegisterDomainResponse: AWSShape {
+    public struct EnableDomainTransferLockResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OperationId", required: true, type: .string)
         ]
@@ -654,39 +676,70 @@ extension Route53Domains {
         }
     }
 
-    public struct BillingRecord: AWSShape {
+    public enum ExtraParamName: String, CustomStringConvertible, Codable {
+        case dunsNumber = "DUNS_NUMBER"
+        case brandNumber = "BRAND_NUMBER"
+        case birthDepartment = "BIRTH_DEPARTMENT"
+        case birthDateInYyyyMmDd = "BIRTH_DATE_IN_YYYY_MM_DD"
+        case birthCountry = "BIRTH_COUNTRY"
+        case birthCity = "BIRTH_CITY"
+        case documentNumber = "DOCUMENT_NUMBER"
+        case auIdNumber = "AU_ID_NUMBER"
+        case auIdType = "AU_ID_TYPE"
+        case caLegalType = "CA_LEGAL_TYPE"
+        case caBusinessEntityType = "CA_BUSINESS_ENTITY_TYPE"
+        case esIdentification = "ES_IDENTIFICATION"
+        case esIdentificationType = "ES_IDENTIFICATION_TYPE"
+        case esLegalForm = "ES_LEGAL_FORM"
+        case fiBusinessNumber = "FI_BUSINESS_NUMBER"
+        case fiIdNumber = "FI_ID_NUMBER"
+        case fiNationality = "FI_NATIONALITY"
+        case fiOrganizationType = "FI_ORGANIZATION_TYPE"
+        case itPin = "IT_PIN"
+        case itRegistrantEntityType = "IT_REGISTRANT_ENTITY_TYPE"
+        case ruPassportData = "RU_PASSPORT_DATA"
+        case seIdNumber = "SE_ID_NUMBER"
+        case sgIdNumber = "SG_ID_NUMBER"
+        case vatNumber = "VAT_NUMBER"
+        case ukContactType = "UK_CONTACT_TYPE"
+        case ukCompanyNumber = "UK_COMPANY_NUMBER"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetContactReachabilityStatusRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InvoiceId", required: false, type: .string), 
-            AWSShapeMember(label: "Price", required: false, type: .double), 
-            AWSShapeMember(label: "Operation", required: false, type: .enum), 
-            AWSShapeMember(label: "BillDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DomainName", required: false, type: .string)
+            AWSShapeMember(label: "domainName", required: false, type: .string)
         ]
-        /// The ID of the invoice that is associated with the billing record.
-        public let invoiceId: String?
-        /// The price that you were charged for the operation, in US dollars. Example value: 12.0
-        public let price: Double?
-        /// The operation that you were charged for.
-        public let operation: OperationType?
-        /// The date that the operation was billed, in Unix format.
-        public let billDate: TimeStamp?
-        /// The name of the domain that the billing record applies to. If the domain name contains characters other than a-z, 0-9, and - (hyphen), such as an internationalized domain name, then this value is in Punycode. For more information, see DNS Domain Name Format in the Amazon Route 53 Developer Guidezzz.
+        /// The name of the domain for which you want to know whether the registrant contact has confirmed that the email address is valid.
         public let domainName: String?
 
-        public init(invoiceId: String? = nil, price: Double? = nil, operation: OperationType? = nil, billDate: TimeStamp? = nil, domainName: String? = nil) {
-            self.invoiceId = invoiceId
-            self.price = price
-            self.operation = operation
-            self.billDate = billDate
+        public init(domainName: String? = nil) {
             self.domainName = domainName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case invoiceId = "InvoiceId"
-            case price = "Price"
-            case operation = "Operation"
-            case billDate = "BillDate"
-            case domainName = "DomainName"
+            case domainName = "domainName"
+        }
+    }
+
+    public struct GetContactReachabilityStatusResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainName", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum)
+        ]
+        /// The domain name for which you requested the reachability status.
+        public let domainName: String?
+        /// Whether the registrant contact has responded. Values include the following:  PENDING  We sent the confirmation email and haven't received a response yet.  DONE  We sent the email and got confirmation from the registrant contact.  EXPIRED  The time limit expired before the registrant contact responded.  
+        public let status: ReachabilityStatus?
+
+        public init(domainName: String? = nil, status: ReachabilityStatus? = nil) {
+            self.domainName = domainName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "domainName"
+            case status = "status"
         }
     }
 
@@ -703,6 +756,507 @@ extension Route53Domains {
 
         private enum CodingKeys: String, CodingKey {
             case domainName = "DomainName"
+        }
+    }
+
+    public struct GetDomainDetailResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AbuseContactEmail", required: false, type: .string), 
+            AWSShapeMember(label: "AbuseContactPhone", required: false, type: .string), 
+            AWSShapeMember(label: "AdminContact", required: true, type: .structure), 
+            AWSShapeMember(label: "AdminPrivacy", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutoRenew", required: false, type: .boolean), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DnsSec", required: false, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "ExpirationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Nameservers", required: true, type: .list), 
+            AWSShapeMember(label: "RegistrantContact", required: true, type: .structure), 
+            AWSShapeMember(label: "RegistrantPrivacy", required: false, type: .boolean), 
+            AWSShapeMember(label: "RegistrarName", required: false, type: .string), 
+            AWSShapeMember(label: "RegistrarUrl", required: false, type: .string), 
+            AWSShapeMember(label: "RegistryDomainId", required: false, type: .string), 
+            AWSShapeMember(label: "Reseller", required: false, type: .string), 
+            AWSShapeMember(label: "StatusList", required: false, type: .list), 
+            AWSShapeMember(label: "TechContact", required: true, type: .structure), 
+            AWSShapeMember(label: "TechPrivacy", required: false, type: .boolean), 
+            AWSShapeMember(label: "UpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "WhoIsServer", required: false, type: .string)
+        ]
+        /// Email address to contact to report incorrect contact information for a domain, to report that the domain is being used to send spam, to report that someone is cybersquatting on a domain name, or report some other type of abuse.
+        public let abuseContactEmail: String?
+        /// Phone number for reporting abuse.
+        public let abuseContactPhone: String?
+        /// Provides details about the domain administrative contact.
+        public let adminContact: ContactDetail
+        /// Specifies whether contact information is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If the value is false, WHOIS queries return the information that you entered for the admin contact.
+        public let adminPrivacy: Bool?
+        /// Specifies whether the domain registration is set to renew automatically.
+        public let autoRenew: Bool?
+        /// The date when the domain was created as found in the response to a WHOIS query. The date and time is in Coordinated Universal time (UTC).
+        public let creationDate: TimeStamp?
+        /// Reserved for future use.
+        public let dnsSec: String?
+        /// The name of a domain.
+        public let domainName: String
+        /// The date when the registration for the domain is set to expire. The date and time is in Coordinated Universal time (UTC).
+        public let expirationDate: TimeStamp?
+        /// The name of the domain.
+        public let nameservers: [Nameserver]
+        /// Provides details about the domain registrant.
+        public let registrantContact: ContactDetail
+        /// Specifies whether contact information is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If the value is false, WHOIS queries return the information that you entered for the registrant contact (domain owner).
+        public let registrantPrivacy: Bool?
+        /// Name of the registrar of the domain as identified in the registry. Domains with a .com, .net, or .org TLD are registered by Amazon Registrar. All other domains are registered by our registrar associate, Gandi. The value for domains that are registered by Gandi is "GANDI SAS". 
+        public let registrarName: String?
+        /// Web address of the registrar.
+        public let registrarUrl: String?
+        /// Reserved for future use.
+        public let registryDomainId: String?
+        /// Reseller of the domain. Domains registered or transferred using Amazon Route 53 domains will have "Amazon" as the reseller. 
+        public let reseller: String?
+        /// An array of domain name status codes, also known as Extensible Provisioning Protocol (EPP) status codes. ICANN, the organization that maintains a central database of domain names, has developed a set of domain name status codes that tell you the status of a variety of operations on a domain name, for example, registering a domain name, transferring a domain name to another registrar, renewing the registration for a domain name, and so on. All registrars use this same set of status codes. For a current list of domain name status codes and an explanation of what each code means, go to the ICANN website and search for epp status codes. (Search on the ICANN website; web searches sometimes return an old version of the document.)
+        public let statusList: [String]?
+        /// Provides details about the domain technical contact.
+        public let techContact: ContactDetail
+        /// Specifies whether contact information is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If the value is false, WHOIS queries return the information that you entered for the technical contact.
+        public let techPrivacy: Bool?
+        /// The last updated date of the domain as found in the response to a WHOIS query. The date and time is in Coordinated Universal time (UTC).
+        public let updatedDate: TimeStamp?
+        /// The fully qualified name of the WHOIS server that can answer the WHOIS query for the domain.
+        public let whoIsServer: String?
+
+        public init(abuseContactEmail: String? = nil, abuseContactPhone: String? = nil, adminContact: ContactDetail, adminPrivacy: Bool? = nil, autoRenew: Bool? = nil, creationDate: TimeStamp? = nil, dnsSec: String? = nil, domainName: String, expirationDate: TimeStamp? = nil, nameservers: [Nameserver], registrantContact: ContactDetail, registrantPrivacy: Bool? = nil, registrarName: String? = nil, registrarUrl: String? = nil, registryDomainId: String? = nil, reseller: String? = nil, statusList: [String]? = nil, techContact: ContactDetail, techPrivacy: Bool? = nil, updatedDate: TimeStamp? = nil, whoIsServer: String? = nil) {
+            self.abuseContactEmail = abuseContactEmail
+            self.abuseContactPhone = abuseContactPhone
+            self.adminContact = adminContact
+            self.adminPrivacy = adminPrivacy
+            self.autoRenew = autoRenew
+            self.creationDate = creationDate
+            self.dnsSec = dnsSec
+            self.domainName = domainName
+            self.expirationDate = expirationDate
+            self.nameservers = nameservers
+            self.registrantContact = registrantContact
+            self.registrantPrivacy = registrantPrivacy
+            self.registrarName = registrarName
+            self.registrarUrl = registrarUrl
+            self.registryDomainId = registryDomainId
+            self.reseller = reseller
+            self.statusList = statusList
+            self.techContact = techContact
+            self.techPrivacy = techPrivacy
+            self.updatedDate = updatedDate
+            self.whoIsServer = whoIsServer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case abuseContactEmail = "AbuseContactEmail"
+            case abuseContactPhone = "AbuseContactPhone"
+            case adminContact = "AdminContact"
+            case adminPrivacy = "AdminPrivacy"
+            case autoRenew = "AutoRenew"
+            case creationDate = "CreationDate"
+            case dnsSec = "DnsSec"
+            case domainName = "DomainName"
+            case expirationDate = "ExpirationDate"
+            case nameservers = "Nameservers"
+            case registrantContact = "RegistrantContact"
+            case registrantPrivacy = "RegistrantPrivacy"
+            case registrarName = "RegistrarName"
+            case registrarUrl = "RegistrarUrl"
+            case registryDomainId = "RegistryDomainId"
+            case reseller = "Reseller"
+            case statusList = "StatusList"
+            case techContact = "TechContact"
+            case techPrivacy = "TechPrivacy"
+            case updatedDate = "UpdatedDate"
+            case whoIsServer = "WhoIsServer"
+        }
+    }
+
+    public struct GetDomainSuggestionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "OnlyAvailable", required: true, type: .boolean), 
+            AWSShapeMember(label: "SuggestionCount", required: true, type: .integer)
+        ]
+        /// A domain name that you want to use as the basis for a list of possible domain names. The domain name must contain a top-level domain (TLD), such as .com, that Amazon Route 53 supports. For a list of TLDs, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide.
+        public let domainName: String
+        /// If OnlyAvailable is true, Amazon Route 53 returns only domain names that are available. If OnlyAvailable is false, Amazon Route 53 returns domain names without checking whether they're available to be registered. To determine whether the domain is available, you can call checkDomainAvailability for each suggestion.
+        public let onlyAvailable: Bool
+        /// The number of suggested domain names that you want Amazon Route 53 to return.
+        public let suggestionCount: Int32
+
+        public init(domainName: String, onlyAvailable: Bool, suggestionCount: Int32) {
+            self.domainName = domainName
+            self.onlyAvailable = onlyAvailable
+            self.suggestionCount = suggestionCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case onlyAvailable = "OnlyAvailable"
+            case suggestionCount = "SuggestionCount"
+        }
+    }
+
+    public struct GetDomainSuggestionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SuggestionsList", required: false, type: .list)
+        ]
+        /// A list of possible domain names. If you specified true for OnlyAvailable in the request, the list contains only domains that are available for registration.
+        public let suggestionsList: [DomainSuggestion]?
+
+        public init(suggestionsList: [DomainSuggestion]? = nil) {
+            self.suggestionsList = suggestionsList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case suggestionsList = "SuggestionsList"
+        }
+    }
+
+    public struct GetOperationDetailRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperationId", required: true, type: .string)
+        ]
+        /// The identifier for the operation for which you want to get the status. Amazon Route 53 returned the identifier in the response to the original request.
+        public let operationId: String
+
+        public init(operationId: String) {
+            self.operationId = operationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
+        }
+    }
+
+    public struct GetOperationDetailResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "OperationId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "SubmittedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+        /// The name of a domain.
+        public let domainName: String?
+        /// Detailed information on the status including possible errors.
+        public let message: String?
+        /// The identifier for the operation.
+        public let operationId: String?
+        /// The current status of the requested operation in the system.
+        public let status: OperationStatus?
+        /// The date when the request was submitted.
+        public let submittedDate: TimeStamp?
+        /// The type of operation that was requested.
+        public let `type`: OperationType?
+
+        public init(domainName: String? = nil, message: String? = nil, operationId: String? = nil, status: OperationStatus? = nil, submittedDate: TimeStamp? = nil, type: OperationType? = nil) {
+            self.domainName = domainName
+            self.message = message
+            self.operationId = operationId
+            self.status = status
+            self.submittedDate = submittedDate
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case message = "Message"
+            case operationId = "OperationId"
+            case status = "Status"
+            case submittedDate = "SubmittedDate"
+            case `type` = "Type"
+        }
+    }
+
+    public struct ListDomainsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
+        ]
+        /// For an initial request for a list of domains, omit this element. If the number of domains that are associated with the current AWS account is greater than the value that you specified for MaxItems, you can use Marker to return additional domains. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element. Constraints: The marker must match the value specified in the previous request.
+        public let marker: String?
+        /// Number of domains to be returned. Default: 20
+        public let maxItems: Int32?
+
+        public init(marker: String? = nil, maxItems: Int32? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+        }
+    }
+
+    public struct ListDomainsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Domains", required: true, type: .list), 
+            AWSShapeMember(label: "NextPageMarker", required: false, type: .string)
+        ]
+        /// A summary of domains.
+        public let domains: [DomainSummary]
+        /// If there are more domains than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker.
+        public let nextPageMarker: String?
+
+        public init(domains: [DomainSummary], nextPageMarker: String? = nil) {
+            self.domains = domains
+            self.nextPageMarker = nextPageMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domains = "Domains"
+            case nextPageMarker = "NextPageMarker"
+        }
+    }
+
+    public struct ListOperationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "SubmittedSince", required: false, type: .timestamp)
+        ]
+        /// For an initial request for a list of operations, omit this element. If the number of operations that are not yet complete is greater than the value that you specified for MaxItems, you can use Marker to return additional operations. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.
+        public let marker: String?
+        /// Number of domains to be returned. Default: 20
+        public let maxItems: Int32?
+        /// An optional parameter that lets you get information about all the operations that you submitted after a specified date and time. Specify the date and time in Coordinated Universal time (UTC).
+        public let submittedSince: TimeStamp?
+
+        public init(marker: String? = nil, maxItems: Int32? = nil, submittedSince: TimeStamp? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+            self.submittedSince = submittedSince
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case submittedSince = "SubmittedSince"
+        }
+    }
+
+    public struct ListOperationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextPageMarker", required: false, type: .string), 
+            AWSShapeMember(label: "Operations", required: true, type: .list)
+        ]
+        /// If there are more operations than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker.
+        public let nextPageMarker: String?
+        /// Lists summaries of the operations.
+        public let operations: [OperationSummary]
+
+        public init(nextPageMarker: String? = nil, operations: [OperationSummary]) {
+            self.nextPageMarker = nextPageMarker
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageMarker = "NextPageMarker"
+            case operations = "Operations"
+        }
+    }
+
+    public struct ListTagsForDomainRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
+        ]
+        /// The domain for which you want to get a list of tags.
+        public let domainName: String
+
+        public init(domainName: String) {
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+        }
+    }
+
+    public struct ListTagsForDomainResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagList", required: true, type: .list)
+        ]
+        /// A list of the tags that are associated with the specified domain.
+        public let tagList: [Tag]
+
+        public init(tagList: [Tag]) {
+            self.tagList = tagList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagList = "TagList"
+        }
+    }
+
+    public struct Nameserver: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GlueIps", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// Glue IP address of a name server entry. Glue IP addresses are required only when the name of the name server is a subdomain of the domain. For example, if your domain is example.com and the name server for the domain is ns.example.com, you need to specify the IP address for ns.example.com. Constraints: The list can contain only one IPv4 and one IPv6 address.
+        public let glueIps: [String]?
+        /// The fully qualified host name of the name server. Constraint: Maximum 255 characters
+        public let name: String
+
+        public init(glueIps: [String]? = nil, name: String) {
+            self.glueIps = glueIps
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case glueIps = "GlueIps"
+            case name = "Name"
+        }
+    }
+
+    public enum OperationStatus: String, CustomStringConvertible, Codable {
+        case submitted = "SUBMITTED"
+        case inProgress = "IN_PROGRESS"
+        case error = "ERROR"
+        case successful = "SUCCESSFUL"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct OperationSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperationId", required: true, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .enum), 
+            AWSShapeMember(label: "SubmittedDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
+        ]
+        /// Identifier returned to track the requested action.
+        public let operationId: String
+        /// The current status of the requested operation in the system.
+        public let status: OperationStatus
+        /// The date when the request was submitted.
+        public let submittedDate: TimeStamp
+        /// Type of the action requested.
+        public let `type`: OperationType
+
+        public init(operationId: String, status: OperationStatus, submittedDate: TimeStamp, type: OperationType) {
+            self.operationId = operationId
+            self.status = status
+            self.submittedDate = submittedDate
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
+            case status = "Status"
+            case submittedDate = "SubmittedDate"
+            case `type` = "Type"
+        }
+    }
+
+    public enum OperationType: String, CustomStringConvertible, Codable {
+        case registerDomain = "REGISTER_DOMAIN"
+        case deleteDomain = "DELETE_DOMAIN"
+        case transferInDomain = "TRANSFER_IN_DOMAIN"
+        case updateDomainContact = "UPDATE_DOMAIN_CONTACT"
+        case updateNameserver = "UPDATE_NAMESERVER"
+        case changePrivacyProtection = "CHANGE_PRIVACY_PROTECTION"
+        case domainLock = "DOMAIN_LOCK"
+        case enableAutorenew = "ENABLE_AUTORENEW"
+        case disableAutorenew = "DISABLE_AUTORENEW"
+        case addDnssec = "ADD_DNSSEC"
+        case removeDnssec = "REMOVE_DNSSEC"
+        case expireDomain = "EXPIRE_DOMAIN"
+        case transferOutDomain = "TRANSFER_OUT_DOMAIN"
+        case changeDomainOwner = "CHANGE_DOMAIN_OWNER"
+        case renewDomain = "RENEW_DOMAIN"
+        case pushDomain = "PUSH_DOMAIN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReachabilityStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case done = "DONE"
+        case expired = "EXPIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RegisterDomainRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdminContact", required: true, type: .structure), 
+            AWSShapeMember(label: "AutoRenew", required: false, type: .boolean), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "DurationInYears", required: true, type: .integer), 
+            AWSShapeMember(label: "IdnLangCode", required: false, type: .string), 
+            AWSShapeMember(label: "PrivacyProtectAdminContact", required: false, type: .boolean), 
+            AWSShapeMember(label: "PrivacyProtectRegistrantContact", required: false, type: .boolean), 
+            AWSShapeMember(label: "PrivacyProtectTechContact", required: false, type: .boolean), 
+            AWSShapeMember(label: "RegistrantContact", required: true, type: .structure), 
+            AWSShapeMember(label: "TechContact", required: true, type: .structure)
+        ]
+        /// Provides detailed contact information.
+        public let adminContact: ContactDetail
+        /// Indicates whether the domain will be automatically renewed (true) or not (false). Autorenewal only takes effect after the account is charged. Default: true 
+        public let autoRenew: Bool?
+        /// The domain name that you want to register. Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
+        public let domainName: String
+        /// The number of years that you want to register the domain for. Domains are registered for a minimum of one year. The maximum period depends on the top-level domain. For the range of valid values for your domain, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide. Default: 1
+        public let durationInYears: Int32
+        /// Reserved for future use.
+        public let idnLangCode: String?
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the admin contact. Default: true 
+        public let privacyProtectAdminContact: Bool?
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the registrant contact (the domain owner). Default: true 
+        public let privacyProtectRegistrantContact: Bool?
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the technical contact. Default: true 
+        public let privacyProtectTechContact: Bool?
+        /// Provides detailed contact information.
+        public let registrantContact: ContactDetail
+        /// Provides detailed contact information.
+        public let techContact: ContactDetail
+
+        public init(adminContact: ContactDetail, autoRenew: Bool? = nil, domainName: String, durationInYears: Int32, idnLangCode: String? = nil, privacyProtectAdminContact: Bool? = nil, privacyProtectRegistrantContact: Bool? = nil, privacyProtectTechContact: Bool? = nil, registrantContact: ContactDetail, techContact: ContactDetail) {
+            self.adminContact = adminContact
+            self.autoRenew = autoRenew
+            self.domainName = domainName
+            self.durationInYears = durationInYears
+            self.idnLangCode = idnLangCode
+            self.privacyProtectAdminContact = privacyProtectAdminContact
+            self.privacyProtectRegistrantContact = privacyProtectRegistrantContact
+            self.privacyProtectTechContact = privacyProtectTechContact
+            self.registrantContact = registrantContact
+            self.techContact = techContact
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adminContact = "AdminContact"
+            case autoRenew = "AutoRenew"
+            case domainName = "DomainName"
+            case durationInYears = "DurationInYears"
+            case idnLangCode = "IdnLangCode"
+            case privacyProtectAdminContact = "PrivacyProtectAdminContact"
+            case privacyProtectRegistrantContact = "PrivacyProtectRegistrantContact"
+            case privacyProtectTechContact = "PrivacyProtectTechContact"
+            case registrantContact = "RegistrantContact"
+            case techContact = "TechContact"
+        }
+    }
+
+    public struct RegisterDomainResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperationId", required: true, type: .string)
+        ]
+        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
+        public let operationId: String
+
+        public init(operationId: String) {
+            self.operationId = operationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
         }
     }
 
@@ -732,37 +1286,69 @@ extension Route53Domains {
         }
     }
 
-    public struct GetDomainSuggestionsRequest: AWSShape {
+    public struct RenewDomainResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SuggestionCount", required: true, type: .integer), 
-            AWSShapeMember(label: "OnlyAvailable", required: true, type: .boolean), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
+            AWSShapeMember(label: "OperationId", required: true, type: .string)
         ]
-        /// The number of suggested domain names that you want Amazon Route 53 to return.
-        public let suggestionCount: Int32
-        /// If OnlyAvailable is true, Amazon Route 53 returns only domain names that are available. If OnlyAvailable is false, Amazon Route 53 returns domain names without checking whether they're available to be registered. To determine whether the domain is available, you can call checkDomainAvailability for each suggestion.
-        public let onlyAvailable: Bool
-        /// A domain name that you want to use as the basis for a list of possible domain names. The domain name must contain a top-level domain (TLD), such as .com, that Amazon Route 53 supports. For a list of TLDs, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide.
-        public let domainName: String
+        /// The identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
+        public let operationId: String
 
-        public init(suggestionCount: Int32, onlyAvailable: Bool, domainName: String) {
-            self.suggestionCount = suggestionCount
-            self.onlyAvailable = onlyAvailable
+        public init(operationId: String) {
+            self.operationId = operationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
+        }
+    }
+
+    public struct ResendContactReachabilityEmailRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainName", required: false, type: .string)
+        ]
+        /// The name of the domain for which you want Amazon Route 53 to resend a confirmation email to the registrant contact.
+        public let domainName: String?
+
+        public init(domainName: String? = nil) {
             self.domainName = domainName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case suggestionCount = "SuggestionCount"
-            case onlyAvailable = "OnlyAvailable"
-            case domainName = "DomainName"
+            case domainName = "domainName"
         }
     }
 
-    public struct EnableDomainAutoRenewRequest: AWSShape {
+    public struct ResendContactReachabilityEmailResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainName", required: false, type: .string), 
+            AWSShapeMember(label: "emailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "isAlreadyVerified", required: false, type: .boolean)
+        ]
+        /// The domain name for which you requested a confirmation email.
+        public let domainName: String?
+        /// The email address for the registrant contact at the time that we sent the verification email.
+        public let emailAddress: String?
+        ///  True if the email address for the registrant contact has already been verified, and false otherwise. If the email address has already been verified, we don't send another confirmation email.
+        public let isAlreadyVerified: Bool?
+
+        public init(domainName: String? = nil, emailAddress: String? = nil, isAlreadyVerified: Bool? = nil) {
+            self.domainName = domainName
+            self.emailAddress = emailAddress
+            self.isAlreadyVerified = isAlreadyVerified
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "domainName"
+            case emailAddress = "emailAddress"
+            case isAlreadyVerified = "isAlreadyVerified"
+        }
+    }
+
+    public struct RetrieveDomainAuthCodeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
-        /// The name of the domain that you want to enable automatic renewal for.
+        /// The name of the domain that you want to get an authorization code for.
         public let domainName: String
 
         public init(domainName: String) {
@@ -774,60 +1360,19 @@ extension Route53Domains {
         }
     }
 
-    public struct GetOperationDetailResponse: AWSShape {
+    public struct RetrieveDomainAuthCodeResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OperationId", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "SubmittedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "DomainName", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
+            AWSShapeMember(label: "AuthCode", required: true, type: .string)
         ]
-        /// The identifier for the operation.
-        public let operationId: String?
-        /// The type of operation that was requested.
-        public let `type`: OperationType?
-        /// The date when the request was submitted.
-        public let submittedDate: TimeStamp?
-        /// Detailed information on the status including possible errors.
-        public let message: String?
-        /// The name of a domain.
-        public let domainName: String?
-        /// The current status of the requested operation in the system.
-        public let status: OperationStatus?
+        /// The authorization code for the domain.
+        public let authCode: String
 
-        public init(operationId: String? = nil, type: OperationType? = nil, submittedDate: TimeStamp? = nil, message: String? = nil, domainName: String? = nil, status: OperationStatus? = nil) {
-            self.operationId = operationId
-            self.`type` = `type`
-            self.submittedDate = submittedDate
-            self.message = message
-            self.domainName = domainName
-            self.status = status
+        public init(authCode: String) {
+            self.authCode = authCode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operationId = "OperationId"
-            case `type` = "Type"
-            case submittedDate = "SubmittedDate"
-            case message = "Message"
-            case domainName = "DomainName"
-            case status = "Status"
-        }
-    }
-
-    public struct UpdateDomainNameserversResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OperationId", required: true, type: .string)
-        ]
-        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
-        public let operationId: String
-
-        public init(operationId: String) {
-            self.operationId = operationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operationId = "OperationId"
+            case authCode = "AuthCode"
         }
     }
 
@@ -852,54 +1397,221 @@ extension Route53Domains {
         }
     }
 
-    public struct UpdateDomainContactPrivacyRequest: AWSShape {
+    public struct TransferDomainRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TechPrivacy", required: false, type: .boolean), 
-            AWSShapeMember(label: "AdminPrivacy", required: false, type: .boolean), 
-            AWSShapeMember(label: "RegistrantPrivacy", required: false, type: .boolean), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
+            AWSShapeMember(label: "AdminContact", required: true, type: .structure), 
+            AWSShapeMember(label: "AuthCode", required: false, type: .string), 
+            AWSShapeMember(label: "AutoRenew", required: false, type: .boolean), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "DurationInYears", required: true, type: .integer), 
+            AWSShapeMember(label: "IdnLangCode", required: false, type: .string), 
+            AWSShapeMember(label: "Nameservers", required: false, type: .list), 
+            AWSShapeMember(label: "PrivacyProtectAdminContact", required: false, type: .boolean), 
+            AWSShapeMember(label: "PrivacyProtectRegistrantContact", required: false, type: .boolean), 
+            AWSShapeMember(label: "PrivacyProtectTechContact", required: false, type: .boolean), 
+            AWSShapeMember(label: "RegistrantContact", required: true, type: .structure), 
+            AWSShapeMember(label: "TechContact", required: true, type: .structure)
         ]
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the technical contact.
-        public let techPrivacy: Bool?
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the admin contact.
-        public let adminPrivacy: Bool?
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the registrant contact (domain owner).
-        public let registrantPrivacy: Bool?
-        /// The name of the domain that you want to update the privacy setting for.
+        /// Provides detailed contact information.
+        public let adminContact: ContactDetail
+        /// The authorization code for the domain. You get this value from the current registrar.
+        public let authCode: String?
+        /// Indicates whether the domain will be automatically renewed (true) or not (false). Autorenewal only takes effect after the account is charged. Default: true
+        public let autoRenew: Bool?
+        /// The name of the domain that you want to transfer to Amazon Route 53. Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
         public let domainName: String
+        /// The number of years that you want to register the domain for. Domains are registered for a minimum of one year. The maximum period depends on the top-level domain. Default: 1
+        public let durationInYears: Int32
+        /// Reserved for future use.
+        public let idnLangCode: String?
+        /// Contains details for the host and glue IP addresses.
+        public let nameservers: [Nameserver]?
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the admin contact. Default: true 
+        public let privacyProtectAdminContact: Bool?
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the registrant contact (domain owner). Default: true 
+        public let privacyProtectRegistrantContact: Bool?
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the technical contact. Default: true 
+        public let privacyProtectTechContact: Bool?
+        /// Provides detailed contact information.
+        public let registrantContact: ContactDetail
+        /// Provides detailed contact information.
+        public let techContact: ContactDetail
 
-        public init(techPrivacy: Bool? = nil, adminPrivacy: Bool? = nil, registrantPrivacy: Bool? = nil, domainName: String) {
-            self.techPrivacy = techPrivacy
-            self.adminPrivacy = adminPrivacy
-            self.registrantPrivacy = registrantPrivacy
+        public init(adminContact: ContactDetail, authCode: String? = nil, autoRenew: Bool? = nil, domainName: String, durationInYears: Int32, idnLangCode: String? = nil, nameservers: [Nameserver]? = nil, privacyProtectAdminContact: Bool? = nil, privacyProtectRegistrantContact: Bool? = nil, privacyProtectTechContact: Bool? = nil, registrantContact: ContactDetail, techContact: ContactDetail) {
+            self.adminContact = adminContact
+            self.authCode = authCode
+            self.autoRenew = autoRenew
             self.domainName = domainName
+            self.durationInYears = durationInYears
+            self.idnLangCode = idnLangCode
+            self.nameservers = nameservers
+            self.privacyProtectAdminContact = privacyProtectAdminContact
+            self.privacyProtectRegistrantContact = privacyProtectRegistrantContact
+            self.privacyProtectTechContact = privacyProtectTechContact
+            self.registrantContact = registrantContact
+            self.techContact = techContact
         }
 
         private enum CodingKeys: String, CodingKey {
-            case techPrivacy = "TechPrivacy"
-            case adminPrivacy = "AdminPrivacy"
-            case registrantPrivacy = "RegistrantPrivacy"
+            case adminContact = "AdminContact"
+            case authCode = "AuthCode"
+            case autoRenew = "AutoRenew"
             case domainName = "DomainName"
+            case durationInYears = "DurationInYears"
+            case idnLangCode = "IdnLangCode"
+            case nameservers = "Nameservers"
+            case privacyProtectAdminContact = "PrivacyProtectAdminContact"
+            case privacyProtectRegistrantContact = "PrivacyProtectRegistrantContact"
+            case privacyProtectTechContact = "PrivacyProtectTechContact"
+            case registrantContact = "RegistrantContact"
+            case techContact = "TechContact"
         }
     }
 
-    public struct EnableDomainTransferLockRequest: AWSShape {
+    public struct TransferDomainResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
+            AWSShapeMember(label: "OperationId", required: true, type: .string)
         ]
-        /// The name of the domain that you want to set the transfer lock for.
-        public let domainName: String
+        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
+        public let operationId: String
 
-        public init(domainName: String) {
-            self.domainName = domainName
+        public init(operationId: String) {
+            self.operationId = operationId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
+        }
+    }
+
+    public enum Transferable: String, CustomStringConvertible, Codable {
+        case transferable = "TRANSFERABLE"
+        case untransferable = "UNTRANSFERABLE"
+        case dontKnow = "DONT_KNOW"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateDomainContactPrivacyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdminPrivacy", required: false, type: .boolean), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "RegistrantPrivacy", required: false, type: .boolean), 
+            AWSShapeMember(label: "TechPrivacy", required: false, type: .boolean)
+        ]
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the admin contact.
+        public let adminPrivacy: Bool?
+        /// The name of the domain that you want to update the privacy setting for.
+        public let domainName: String
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the registrant contact (domain owner).
+        public let registrantPrivacy: Bool?
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the technical contact.
+        public let techPrivacy: Bool?
+
+        public init(adminPrivacy: Bool? = nil, domainName: String, registrantPrivacy: Bool? = nil, techPrivacy: Bool? = nil) {
+            self.adminPrivacy = adminPrivacy
+            self.domainName = domainName
+            self.registrantPrivacy = registrantPrivacy
+            self.techPrivacy = techPrivacy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adminPrivacy = "AdminPrivacy"
             case domainName = "DomainName"
+            case registrantPrivacy = "RegistrantPrivacy"
+            case techPrivacy = "TechPrivacy"
+        }
+    }
+
+    public struct UpdateDomainContactPrivacyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperationId", required: true, type: .string)
+        ]
+        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
+        public let operationId: String
+
+        public init(operationId: String) {
+            self.operationId = operationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
+        }
+    }
+
+    public struct UpdateDomainContactRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdminContact", required: false, type: .structure), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "RegistrantContact", required: false, type: .structure), 
+            AWSShapeMember(label: "TechContact", required: false, type: .structure)
+        ]
+        /// Provides detailed contact information.
+        public let adminContact: ContactDetail?
+        /// The name of the domain that you want to update contact information for.
+        public let domainName: String
+        /// Provides detailed contact information.
+        public let registrantContact: ContactDetail?
+        /// Provides detailed contact information.
+        public let techContact: ContactDetail?
+
+        public init(adminContact: ContactDetail? = nil, domainName: String, registrantContact: ContactDetail? = nil, techContact: ContactDetail? = nil) {
+            self.adminContact = adminContact
+            self.domainName = domainName
+            self.registrantContact = registrantContact
+            self.techContact = techContact
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adminContact = "AdminContact"
+            case domainName = "DomainName"
+            case registrantContact = "RegistrantContact"
+            case techContact = "TechContact"
         }
     }
 
     public struct UpdateDomainContactResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperationId", required: true, type: .string)
+        ]
+        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
+        public let operationId: String
+
+        public init(operationId: String) {
+            self.operationId = operationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
+        }
+    }
+
+    public struct UpdateDomainNameserversRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "FIAuthKey", required: false, type: .string), 
+            AWSShapeMember(label: "Nameservers", required: true, type: .list)
+        ]
+        /// The name of the domain that you want to change name servers for.
+        public let domainName: String
+        /// The authorization key for .fi domains
+        public let fIAuthKey: String?
+        /// A list of new name servers for the domain.
+        public let nameservers: [Nameserver]
+
+        public init(domainName: String, fIAuthKey: String? = nil, nameservers: [Nameserver]) {
+            self.domainName = domainName
+            self.fIAuthKey = fIAuthKey
+            self.nameservers = nameservers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case fIAuthKey = "FIAuthKey"
+            case nameservers = "Nameservers"
+        }
+    }
+
+    public struct UpdateDomainNameserversResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OperationId", required: true, type: .string)
         ]
@@ -936,669 +1648,41 @@ extension Route53Domains {
         }
     }
 
-    public struct DomainSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransferLock", required: false, type: .boolean), 
-            AWSShapeMember(label: "Expiry", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "AutoRenew", required: false, type: .boolean)
-        ]
-        /// Indicates whether a domain is locked from unauthorized transfer to another party.
-        public let transferLock: Bool?
-        /// Expiration date of the domain in Coordinated Universal Time (UTC).
-        public let expiry: TimeStamp?
-        /// The name of the domain that the summary information applies to.
-        public let domainName: String
-        /// Indicates whether the domain is automatically renewed upon expiration.
-        public let autoRenew: Bool?
+    public struct UpdateTagsForDomainResponse: AWSShape {
 
-        public init(transferLock: Bool? = nil, expiry: TimeStamp? = nil, domainName: String, autoRenew: Bool? = nil) {
-            self.transferLock = transferLock
-            self.expiry = expiry
-            self.domainName = domainName
-            self.autoRenew = autoRenew
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case transferLock = "TransferLock"
-            case expiry = "Expiry"
-            case domainName = "DomainName"
-            case autoRenew = "AutoRenew"
-        }
-    }
-
-    public struct ResendContactReachabilityEmailResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "isAlreadyVerified", required: false, type: .boolean), 
-            AWSShapeMember(label: "emailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "domainName", required: false, type: .string)
-        ]
-        ///  True if the email address for the registrant contact has already been verified, and false otherwise. If the email address has already been verified, we don't send another confirmation email.
-        public let isAlreadyVerified: Bool?
-        /// The email address for the registrant contact at the time that we sent the verification email.
-        public let emailAddress: String?
-        /// The domain name for which you requested a confirmation email.
-        public let domainName: String?
-
-        public init(isAlreadyVerified: Bool? = nil, emailAddress: String? = nil, domainName: String? = nil) {
-            self.isAlreadyVerified = isAlreadyVerified
-            self.emailAddress = emailAddress
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case isAlreadyVerified = "isAlreadyVerified"
-            case emailAddress = "emailAddress"
-            case domainName = "domainName"
-        }
-    }
-
-    public enum DomainAvailability: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case availableReserved = "AVAILABLE_RESERVED"
-        case availablePreorder = "AVAILABLE_PREORDER"
-        case unavailable = "UNAVAILABLE"
-        case unavailablePremium = "UNAVAILABLE_PREMIUM"
-        case unavailableRestricted = "UNAVAILABLE_RESTRICTED"
-        case reserved = "RESERVED"
-        case dontKnow = "DONT_KNOW"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DisableDomainTransferLockResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OperationId", required: true, type: .string)
-        ]
-        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
-        public let operationId: String
-
-        public init(operationId: String) {
-            self.operationId = operationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operationId = "OperationId"
-        }
-    }
-
-    public enum ExtraParamName: String, CustomStringConvertible, Codable {
-        case dunsNumber = "DUNS_NUMBER"
-        case brandNumber = "BRAND_NUMBER"
-        case birthDepartment = "BIRTH_DEPARTMENT"
-        case birthDateInYyyyMmDd = "BIRTH_DATE_IN_YYYY_MM_DD"
-        case birthCountry = "BIRTH_COUNTRY"
-        case birthCity = "BIRTH_CITY"
-        case documentNumber = "DOCUMENT_NUMBER"
-        case auIdNumber = "AU_ID_NUMBER"
-        case auIdType = "AU_ID_TYPE"
-        case caLegalType = "CA_LEGAL_TYPE"
-        case caBusinessEntityType = "CA_BUSINESS_ENTITY_TYPE"
-        case esIdentification = "ES_IDENTIFICATION"
-        case esIdentificationType = "ES_IDENTIFICATION_TYPE"
-        case esLegalForm = "ES_LEGAL_FORM"
-        case fiBusinessNumber = "FI_BUSINESS_NUMBER"
-        case fiIdNumber = "FI_ID_NUMBER"
-        case fiNationality = "FI_NATIONALITY"
-        case fiOrganizationType = "FI_ORGANIZATION_TYPE"
-        case itPin = "IT_PIN"
-        case itRegistrantEntityType = "IT_REGISTRANT_ENTITY_TYPE"
-        case ruPassportData = "RU_PASSPORT_DATA"
-        case seIdNumber = "SE_ID_NUMBER"
-        case sgIdNumber = "SG_ID_NUMBER"
-        case vatNumber = "VAT_NUMBER"
-        case ukContactType = "UK_CONTACT_TYPE"
-        case ukCompanyNumber = "UK_COMPANY_NUMBER"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RetrieveDomainAuthCodeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthCode", required: true, type: .string)
-        ]
-        /// The authorization code for the domain.
-        public let authCode: String
-
-        public init(authCode: String) {
-            self.authCode = authCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authCode = "AuthCode"
-        }
-    }
-
-    public struct UpdateDomainContactPrivacyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OperationId", required: true, type: .string)
-        ]
-        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
-        public let operationId: String
-
-        public init(operationId: String) {
-            self.operationId = operationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operationId = "OperationId"
-        }
-    }
-
-    public struct DeleteTagsForDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "TagsToDelete", required: true, type: .list)
-        ]
-        /// The domain for which you want to delete one or more tags.
-        public let domainName: String
-        /// A list of tag keys to delete.
-        public let tagsToDelete: [String]
-
-        public init(domainName: String, tagsToDelete: [String]) {
-            self.domainName = domainName
-            self.tagsToDelete = tagsToDelete
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-            case tagsToDelete = "TagsToDelete"
-        }
-    }
-
-    public struct EnableDomainTransferLockResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OperationId", required: true, type: .string)
-        ]
-        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
-        public let operationId: String
-
-        public init(operationId: String) {
-            self.operationId = operationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operationId = "OperationId"
-        }
-    }
-
-    public struct GetContactReachabilityStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "domainName", required: false, type: .string)
-        ]
-        /// Whether the registrant contact has responded. Values include the following:  PENDING  We sent the confirmation email and haven't received a response yet.  DONE  We sent the email and got confirmation from the registrant contact.  EXPIRED  The time limit expired before the registrant contact responded.  
-        public let status: ReachabilityStatus?
-        /// The domain name for which you requested the reachability status.
-        public let domainName: String?
-
-        public init(status: ReachabilityStatus? = nil, domainName: String? = nil) {
-            self.status = status
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "status"
-            case domainName = "domainName"
-        }
-    }
-
-    public struct CheckDomainTransferabilityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Transferability", required: true, type: .structure)
-        ]
-        /// A complex type that contains information about whether the specified domain can be transferred to Amazon Route 53.
-        public let transferability: DomainTransferability
-
-        public init(transferability: DomainTransferability) {
-            self.transferability = transferability
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case transferability = "Transferability"
-        }
-    }
-
-    public struct UpdateDomainNameserversRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FIAuthKey", required: false, type: .string), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "Nameservers", required: true, type: .list)
-        ]
-        /// The authorization key for .fi domains
-        public let fIAuthKey: String?
-        /// The name of the domain that you want to change name servers for.
-        public let domainName: String
-        /// A list of new name servers for the domain.
-        public let nameservers: [Nameserver]
-
-        public init(fIAuthKey: String? = nil, domainName: String, nameservers: [Nameserver]) {
-            self.fIAuthKey = fIAuthKey
-            self.domainName = domainName
-            self.nameservers = nameservers
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fIAuthKey = "FIAuthKey"
-            case domainName = "DomainName"
-            case nameservers = "Nameservers"
-        }
     }
 
     public struct ViewBillingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeMember(label: "Start", required: false, type: .timestamp), 
+            AWSShapeMember(label: "End", required: false, type: .timestamp), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "End", required: false, type: .timestamp)
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "Start", required: false, type: .timestamp)
         ]
+        /// The end date and time for the time period for which you want a list of billing records. Specify the date and time in Coordinated Universal time (UTC).
+        public let end: TimeStamp?
+        /// For an initial request for a list of billing records, omit this element. If the number of billing records that are associated with the current AWS account during the specified period is greater than the value that you specified for MaxItems, you can use Marker to return additional billing records. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.  Constraints: The marker must match the value of NextPageMarker that was returned in the previous response.
+        public let marker: String?
         /// The number of billing records to be returned. Default: 20
         public let maxItems: Int32?
         /// The beginning date and time for the time period for which you want a list of billing records. Specify the date and time in Coordinated Universal time (UTC).
         public let start: TimeStamp?
-        /// For an initial request for a list of billing records, omit this element. If the number of billing records that are associated with the current AWS account during the specified period is greater than the value that you specified for MaxItems, you can use Marker to return additional billing records. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.  Constraints: The marker must match the value of NextPageMarker that was returned in the previous response.
-        public let marker: String?
-        /// The end date and time for the time period for which you want a list of billing records. Specify the date and time in Coordinated Universal time (UTC).
-        public let end: TimeStamp?
 
-        public init(maxItems: Int32? = nil, start: TimeStamp? = nil, marker: String? = nil, end: TimeStamp? = nil) {
+        public init(end: TimeStamp? = nil, marker: String? = nil, maxItems: Int32? = nil, start: TimeStamp? = nil) {
+            self.end = end
+            self.marker = marker
             self.maxItems = maxItems
             self.start = start
-            self.marker = marker
-            self.end = end
         }
 
         private enum CodingKeys: String, CodingKey {
+            case end = "End"
+            case marker = "Marker"
             case maxItems = "MaxItems"
             case start = "Start"
-            case marker = "Marker"
-            case end = "End"
-        }
-    }
-
-    public enum ContactType: String, CustomStringConvertible, Codable {
-        case person = "PERSON"
-        case company = "COMPANY"
-        case association = "ASSOCIATION"
-        case publicBody = "PUBLIC_BODY"
-        case reseller = "RESELLER"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetContactReachabilityStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainName", required: false, type: .string)
-        ]
-        /// The name of the domain for which you want to know whether the registrant contact has confirmed that the email address is valid.
-        public let domainName: String?
-
-        public init(domainName: String? = nil) {
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "domainName"
-        }
-    }
-
-    public struct DisableDomainTransferLockRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
-        ]
-        /// The name of the domain that you want to remove the transfer lock for.
-        public let domainName: String
-
-        public init(domainName: String) {
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-        }
-    }
-
-    public struct DomainSuggestion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: false, type: .string), 
-            AWSShapeMember(label: "Availability", required: false, type: .string)
-        ]
-        /// A suggested domain name.
-        public let domainName: String?
-        /// Whether the domain name is available for registering.  You can register only the domains that are designated as AVAILABLE.  Valid values:  AVAILABLE  The domain name is available.  AVAILABLE_RESERVED  The domain name is reserved under specific conditions.  AVAILABLE_PREORDER  The domain name is available and can be preordered.  DONT_KNOW  The TLD registry didn't reply with a definitive answer about whether the domain name is available. Amazon Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later.  PENDING  The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately.  RESERVED  The domain name has been reserved for another person or organization.  UNAVAILABLE  The domain name is not available.  UNAVAILABLE_PREMIUM  The domain name is not available.  UNAVAILABLE_RESTRICTED  The domain name is forbidden.  
-        public let availability: String?
-
-        public init(domainName: String? = nil, availability: String? = nil) {
-            self.domainName = domainName
-            self.availability = availability
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-            case availability = "Availability"
-        }
-    }
-
-    public struct ListDomainsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Domains", required: true, type: .list), 
-            AWSShapeMember(label: "NextPageMarker", required: false, type: .string)
-        ]
-        /// A summary of domains.
-        public let domains: [DomainSummary]
-        /// If there are more domains than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker.
-        public let nextPageMarker: String?
-
-        public init(domains: [DomainSummary], nextPageMarker: String? = nil) {
-            self.domains = domains
-            self.nextPageMarker = nextPageMarker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domains = "Domains"
-            case nextPageMarker = "NextPageMarker"
-        }
-    }
-
-    public struct ContactDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PhoneNumber", required: false, type: .string), 
-            AWSShapeMember(label: "AddressLine2", required: false, type: .string), 
-            AWSShapeMember(label: "LastName", required: false, type: .string), 
-            AWSShapeMember(label: "AddressLine1", required: false, type: .string), 
-            AWSShapeMember(label: "City", required: false, type: .string), 
-            AWSShapeMember(label: "CountryCode", required: false, type: .enum), 
-            AWSShapeMember(label: "ContactType", required: false, type: .enum), 
-            AWSShapeMember(label: "Email", required: false, type: .string), 
-            AWSShapeMember(label: "ExtraParams", required: false, type: .list), 
-            AWSShapeMember(label: "OrganizationName", required: false, type: .string), 
-            AWSShapeMember(label: "Fax", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .string), 
-            AWSShapeMember(label: "FirstName", required: false, type: .string), 
-            AWSShapeMember(label: "ZipCode", required: false, type: .string)
-        ]
-        /// The phone number of the contact. Constraints: Phone number must be specified in the format "+[country dialing code].[number including any area code&gt;]". For example, a US phone number might appear as "+1.1234567890".
-        public let phoneNumber: String?
-        /// Second line of contact's address, if any.
-        public let addressLine2: String?
-        /// Last name of contact.
-        public let lastName: String?
-        /// First line of the contact's address.
-        public let addressLine1: String?
-        /// The city of the contact's address.
-        public let city: String?
-        /// Code for the country of the contact's address.
-        public let countryCode: CountryCode?
-        /// Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON, you must enter an organization name, and you can't enable privacy protection for the contact.
-        public let contactType: ContactType?
-        /// Email address of the contact.
-        public let email: String?
-        /// A list of name-value pairs for parameters required by certain top-level domains.
-        public let extraParams: [ExtraParam]?
-        /// Name of the organization for contact types other than PERSON.
-        public let organizationName: String?
-        /// Fax number of the contact. Constraints: Phone number must be specified in the format "+[country dialing code].[number including any area code]". For example, a US phone number might appear as "+1.1234567890".
-        public let fax: String?
-        /// The state or province of the contact's city.
-        public let state: String?
-        /// First name of contact.
-        public let firstName: String?
-        /// The zip or postal code of the contact's address.
-        public let zipCode: String?
-
-        public init(phoneNumber: String? = nil, addressLine2: String? = nil, lastName: String? = nil, addressLine1: String? = nil, city: String? = nil, countryCode: CountryCode? = nil, contactType: ContactType? = nil, email: String? = nil, extraParams: [ExtraParam]? = nil, organizationName: String? = nil, fax: String? = nil, state: String? = nil, firstName: String? = nil, zipCode: String? = nil) {
-            self.phoneNumber = phoneNumber
-            self.addressLine2 = addressLine2
-            self.lastName = lastName
-            self.addressLine1 = addressLine1
-            self.city = city
-            self.countryCode = countryCode
-            self.contactType = contactType
-            self.email = email
-            self.extraParams = extraParams
-            self.organizationName = organizationName
-            self.fax = fax
-            self.state = state
-            self.firstName = firstName
-            self.zipCode = zipCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case phoneNumber = "PhoneNumber"
-            case addressLine2 = "AddressLine2"
-            case lastName = "LastName"
-            case addressLine1 = "AddressLine1"
-            case city = "City"
-            case countryCode = "CountryCode"
-            case contactType = "ContactType"
-            case email = "Email"
-            case extraParams = "ExtraParams"
-            case organizationName = "OrganizationName"
-            case fax = "Fax"
-            case state = "State"
-            case firstName = "FirstName"
-            case zipCode = "ZipCode"
-        }
-    }
-
-    public struct CheckDomainAvailabilityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "IdnLangCode", required: false, type: .string)
-        ]
-        /// The name of the domain that you want to get availability for. Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
-        public let domainName: String
-        /// Reserved for future use.
-        public let idnLangCode: String?
-
-        public init(domainName: String, idnLangCode: String? = nil) {
-            self.domainName = domainName
-            self.idnLangCode = idnLangCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-            case idnLangCode = "IdnLangCode"
-        }
-    }
-
-    public struct ResendContactReachabilityEmailRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainName", required: false, type: .string)
-        ]
-        /// The name of the domain for which you want Amazon Route 53 to resend a confirmation email to the registrant contact.
-        public let domainName: String?
-
-        public init(domainName: String? = nil) {
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "domainName"
-        }
-    }
-
-    public struct GetDomainDetailResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegistrantContact", required: true, type: .structure), 
-            AWSShapeMember(label: "RegistrantPrivacy", required: false, type: .boolean), 
-            AWSShapeMember(label: "AbuseContactPhone", required: false, type: .string), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "RegistryDomainId", required: false, type: .string), 
-            AWSShapeMember(label: "Nameservers", required: true, type: .list), 
-            AWSShapeMember(label: "TechPrivacy", required: false, type: .boolean), 
-            AWSShapeMember(label: "AdminContact", required: true, type: .structure), 
-            AWSShapeMember(label: "ExpirationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "UpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "RegistrarUrl", required: false, type: .string), 
-            AWSShapeMember(label: "RegistrarName", required: false, type: .string), 
-            AWSShapeMember(label: "AdminPrivacy", required: false, type: .boolean), 
-            AWSShapeMember(label: "AbuseContactEmail", required: false, type: .string), 
-            AWSShapeMember(label: "Reseller", required: false, type: .string), 
-            AWSShapeMember(label: "TechContact", required: true, type: .structure), 
-            AWSShapeMember(label: "WhoIsServer", required: false, type: .string), 
-            AWSShapeMember(label: "DnsSec", required: false, type: .string), 
-            AWSShapeMember(label: "StatusList", required: false, type: .list), 
-            AWSShapeMember(label: "AutoRenew", required: false, type: .boolean), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp)
-        ]
-        /// Provides details about the domain registrant.
-        public let registrantContact: ContactDetail
-        /// Specifies whether contact information is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If the value is false, WHOIS queries return the information that you entered for the registrant contact (domain owner).
-        public let registrantPrivacy: Bool?
-        /// Phone number for reporting abuse.
-        public let abuseContactPhone: String?
-        /// The name of a domain.
-        public let domainName: String
-        /// Reserved for future use.
-        public let registryDomainId: String?
-        /// The name of the domain.
-        public let nameservers: [Nameserver]
-        /// Specifies whether contact information is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If the value is false, WHOIS queries return the information that you entered for the technical contact.
-        public let techPrivacy: Bool?
-        /// Provides details about the domain administrative contact.
-        public let adminContact: ContactDetail
-        /// The date when the registration for the domain is set to expire. The date and time is in Coordinated Universal time (UTC).
-        public let expirationDate: TimeStamp?
-        /// The last updated date of the domain as found in the response to a WHOIS query. The date and time is in Coordinated Universal time (UTC).
-        public let updatedDate: TimeStamp?
-        /// Web address of the registrar.
-        public let registrarUrl: String?
-        /// Name of the registrar of the domain as identified in the registry. Domains with a .com, .net, or .org TLD are registered by Amazon Registrar. All other domains are registered by our registrar associate, Gandi. The value for domains that are registered by Gandi is "GANDI SAS". 
-        public let registrarName: String?
-        /// Specifies whether contact information is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If the value is false, WHOIS queries return the information that you entered for the admin contact.
-        public let adminPrivacy: Bool?
-        /// Email address to contact to report incorrect contact information for a domain, to report that the domain is being used to send spam, to report that someone is cybersquatting on a domain name, or report some other type of abuse.
-        public let abuseContactEmail: String?
-        /// Reseller of the domain. Domains registered or transferred using Amazon Route 53 domains will have "Amazon" as the reseller. 
-        public let reseller: String?
-        /// Provides details about the domain technical contact.
-        public let techContact: ContactDetail
-        /// The fully qualified name of the WHOIS server that can answer the WHOIS query for the domain.
-        public let whoIsServer: String?
-        /// Reserved for future use.
-        public let dnsSec: String?
-        /// An array of domain name status codes, also known as Extensible Provisioning Protocol (EPP) status codes. ICANN, the organization that maintains a central database of domain names, has developed a set of domain name status codes that tell you the status of a variety of operations on a domain name, for example, registering a domain name, transferring a domain name to another registrar, renewing the registration for a domain name, and so on. All registrars use this same set of status codes. For a current list of domain name status codes and an explanation of what each code means, go to the ICANN website and search for epp status codes. (Search on the ICANN website; web searches sometimes return an old version of the document.)
-        public let statusList: [String]?
-        /// Specifies whether the domain registration is set to renew automatically.
-        public let autoRenew: Bool?
-        /// The date when the domain was created as found in the response to a WHOIS query. The date and time is in Coordinated Universal time (UTC).
-        public let creationDate: TimeStamp?
-
-        public init(registrantContact: ContactDetail, registrantPrivacy: Bool? = nil, abuseContactPhone: String? = nil, domainName: String, registryDomainId: String? = nil, nameservers: [Nameserver], techPrivacy: Bool? = nil, adminContact: ContactDetail, expirationDate: TimeStamp? = nil, updatedDate: TimeStamp? = nil, registrarUrl: String? = nil, registrarName: String? = nil, adminPrivacy: Bool? = nil, abuseContactEmail: String? = nil, reseller: String? = nil, techContact: ContactDetail, whoIsServer: String? = nil, dnsSec: String? = nil, statusList: [String]? = nil, autoRenew: Bool? = nil, creationDate: TimeStamp? = nil) {
-            self.registrantContact = registrantContact
-            self.registrantPrivacy = registrantPrivacy
-            self.abuseContactPhone = abuseContactPhone
-            self.domainName = domainName
-            self.registryDomainId = registryDomainId
-            self.nameservers = nameservers
-            self.techPrivacy = techPrivacy
-            self.adminContact = adminContact
-            self.expirationDate = expirationDate
-            self.updatedDate = updatedDate
-            self.registrarUrl = registrarUrl
-            self.registrarName = registrarName
-            self.adminPrivacy = adminPrivacy
-            self.abuseContactEmail = abuseContactEmail
-            self.reseller = reseller
-            self.techContact = techContact
-            self.whoIsServer = whoIsServer
-            self.dnsSec = dnsSec
-            self.statusList = statusList
-            self.autoRenew = autoRenew
-            self.creationDate = creationDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case registrantContact = "RegistrantContact"
-            case registrantPrivacy = "RegistrantPrivacy"
-            case abuseContactPhone = "AbuseContactPhone"
-            case domainName = "DomainName"
-            case registryDomainId = "RegistryDomainId"
-            case nameservers = "Nameservers"
-            case techPrivacy = "TechPrivacy"
-            case adminContact = "AdminContact"
-            case expirationDate = "ExpirationDate"
-            case updatedDate = "UpdatedDate"
-            case registrarUrl = "RegistrarUrl"
-            case registrarName = "RegistrarName"
-            case adminPrivacy = "AdminPrivacy"
-            case abuseContactEmail = "AbuseContactEmail"
-            case reseller = "Reseller"
-            case techContact = "TechContact"
-            case whoIsServer = "WhoIsServer"
-            case dnsSec = "DnsSec"
-            case statusList = "StatusList"
-            case autoRenew = "AutoRenew"
-            case creationDate = "CreationDate"
-        }
-    }
-
-    public struct TransferDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DurationInYears", required: true, type: .integer), 
-            AWSShapeMember(label: "Nameservers", required: false, type: .list), 
-            AWSShapeMember(label: "AutoRenew", required: false, type: .boolean), 
-            AWSShapeMember(label: "PrivacyProtectAdminContact", required: false, type: .boolean), 
-            AWSShapeMember(label: "RegistrantContact", required: true, type: .structure), 
-            AWSShapeMember(label: "AuthCode", required: false, type: .string), 
-            AWSShapeMember(label: "PrivacyProtectTechContact", required: false, type: .boolean), 
-            AWSShapeMember(label: "AdminContact", required: true, type: .structure), 
-            AWSShapeMember(label: "IdnLangCode", required: false, type: .string), 
-            AWSShapeMember(label: "TechContact", required: true, type: .structure), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "PrivacyProtectRegistrantContact", required: false, type: .boolean)
-        ]
-        /// The number of years that you want to register the domain for. Domains are registered for a minimum of one year. The maximum period depends on the top-level domain. Default: 1
-        public let durationInYears: Int32
-        /// Contains details for the host and glue IP addresses.
-        public let nameservers: [Nameserver]?
-        /// Indicates whether the domain will be automatically renewed (true) or not (false). Autorenewal only takes effect after the account is charged. Default: true
-        public let autoRenew: Bool?
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the admin contact. Default: true 
-        public let privacyProtectAdminContact: Bool?
-        /// Provides detailed contact information.
-        public let registrantContact: ContactDetail
-        /// The authorization code for the domain. You get this value from the current registrar.
-        public let authCode: String?
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the technical contact. Default: true 
-        public let privacyProtectTechContact: Bool?
-        /// Provides detailed contact information.
-        public let adminContact: ContactDetail
-        /// Reserved for future use.
-        public let idnLangCode: String?
-        /// Provides detailed contact information.
-        public let techContact: ContactDetail
-        /// The name of the domain that you want to transfer to Amazon Route 53. Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
-        public let domainName: String
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the registrant contact (domain owner). Default: true 
-        public let privacyProtectRegistrantContact: Bool?
-
-        public init(durationInYears: Int32, nameservers: [Nameserver]? = nil, autoRenew: Bool? = nil, privacyProtectAdminContact: Bool? = nil, registrantContact: ContactDetail, authCode: String? = nil, privacyProtectTechContact: Bool? = nil, adminContact: ContactDetail, idnLangCode: String? = nil, techContact: ContactDetail, domainName: String, privacyProtectRegistrantContact: Bool? = nil) {
-            self.durationInYears = durationInYears
-            self.nameservers = nameservers
-            self.autoRenew = autoRenew
-            self.privacyProtectAdminContact = privacyProtectAdminContact
-            self.registrantContact = registrantContact
-            self.authCode = authCode
-            self.privacyProtectTechContact = privacyProtectTechContact
-            self.adminContact = adminContact
-            self.idnLangCode = idnLangCode
-            self.techContact = techContact
-            self.domainName = domainName
-            self.privacyProtectRegistrantContact = privacyProtectRegistrantContact
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case durationInYears = "DurationInYears"
-            case nameservers = "Nameservers"
-            case autoRenew = "AutoRenew"
-            case privacyProtectAdminContact = "PrivacyProtectAdminContact"
-            case registrantContact = "RegistrantContact"
-            case authCode = "AuthCode"
-            case privacyProtectTechContact = "PrivacyProtectTechContact"
-            case adminContact = "AdminContact"
-            case idnLangCode = "IdnLangCode"
-            case techContact = "TechContact"
-            case domainName = "DomainName"
-            case privacyProtectRegistrantContact = "PrivacyProtectRegistrantContact"
         }
     }
 
@@ -1620,78 +1704,6 @@ extension Route53Domains {
         private enum CodingKeys: String, CodingKey {
             case billingRecords = "BillingRecords"
             case nextPageMarker = "NextPageMarker"
-        }
-    }
-
-    public struct RetrieveDomainAuthCodeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
-        ]
-        /// The name of the domain that you want to get an authorization code for.
-        public let domainName: String
-
-        public init(domainName: String) {
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-        }
-    }
-
-    public struct CheckDomainTransferabilityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "AuthCode", required: false, type: .string)
-        ]
-        /// The name of the domain that you want to transfer to Amazon Route 53. Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
-        public let domainName: String
-        /// If the registrar for the top-level domain (TLD) requires an authorization code to transfer the domain, the code that you got from the current registrar for the domain.
-        public let authCode: String?
-
-        public init(domainName: String, authCode: String? = nil) {
-            self.domainName = domainName
-            self.authCode = authCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-            case authCode = "AuthCode"
-        }
-    }
-
-    public struct UpdateTagsForDomainResponse: AWSShape {
-
-    }
-
-    public struct UpdateDomainContactRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdminContact", required: false, type: .structure), 
-            AWSShapeMember(label: "RegistrantContact", required: false, type: .structure), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "TechContact", required: false, type: .structure)
-        ]
-        /// Provides detailed contact information.
-        public let adminContact: ContactDetail?
-        /// Provides detailed contact information.
-        public let registrantContact: ContactDetail?
-        /// The name of the domain that you want to update contact information for.
-        public let domainName: String
-        /// Provides detailed contact information.
-        public let techContact: ContactDetail?
-
-        public init(adminContact: ContactDetail? = nil, registrantContact: ContactDetail? = nil, domainName: String, techContact: ContactDetail? = nil) {
-            self.adminContact = adminContact
-            self.registrantContact = registrantContact
-            self.domainName = domainName
-            self.techContact = techContact
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case adminContact = "AdminContact"
-            case registrantContact = "RegistrantContact"
-            case domainName = "DomainName"
-            case techContact = "TechContact"
         }
     }
 

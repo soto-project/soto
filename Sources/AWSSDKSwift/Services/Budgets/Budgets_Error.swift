@@ -4,13 +4,13 @@ import AWSSDKSwiftCore
 
 /// Error enum for Budgets
 public enum BudgetsErrorType: AWSErrorType {
-    case internalErrorException(message: String?)
-    case invalidParameterException(message: String?)
-    case notFoundException(message: String?)
     case creationLimitExceededException(message: String?)
     case duplicateRecordException(message: String?)
-    case invalidNextTokenException(message: String?)
     case expiredNextTokenException(message: String?)
+    case internalErrorException(message: String?)
+    case invalidNextTokenException(message: String?)
+    case invalidParameterException(message: String?)
+    case notFoundException(message: String?)
 }
 
 extension BudgetsErrorType {
@@ -20,20 +20,20 @@ extension BudgetsErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "InternalErrorException":
-            self = .internalErrorException(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
         case "CreationLimitExceededException":
             self = .creationLimitExceededException(message: message)
         case "DuplicateRecordException":
             self = .duplicateRecordException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
         case "ExpiredNextTokenException":
             self = .expiredNextTokenException(message: message)
+        case "InternalErrorException":
+            self = .internalErrorException(message: message)
+        case "InvalidNextTokenException":
+            self = .invalidNextTokenException(message: message)
+        case "InvalidParameterException":
+            self = .invalidParameterException(message: message)
+        case "NotFoundException":
+            self = .notFoundException(message: message)
         default:
             return nil
         }

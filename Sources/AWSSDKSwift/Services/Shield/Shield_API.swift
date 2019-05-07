@@ -31,14 +31,19 @@ public struct Shield {
         return try client.send(operation: "AssociateDRTLogBucket", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Activates AWS Shield Advanced for an account. As part of this request you can specify EmergencySettings that automaticaly grant the DDoS response team (DRT) needed permissions to assist you during a suspected DDoS attack. For more information see Authorize the DDoS Response Team to Create Rules and Web ACLs on Your Behalf. When you initally create a subscription, your subscription is set to be automatically renewed at the end of the existing subscription period. You can change this by submitting an UpdateSubscription request. 
-    public func createSubscription(_ input: CreateSubscriptionRequest) throws -> Future<CreateSubscriptionResponse> {
-        return try client.send(operation: "CreateSubscription", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Authorizes the DDoS Response team (DRT), using the specified role, to access your AWS account to assist with DDoS attack mitigation during potential attacks. This enables the DRT to inspect your AWS WAF configuration and create or update AWS WAF rules and web ACLs. You can associate only one RoleArn with your subscription. If you submit an AssociateDRTRole request for an account that already has an associated role, the new RoleArn will replace the existing RoleArn.  Prior to making the AssociateDRTRole request, you must attach the AWSShieldDRTAccessPolicy managed policy to the role you will specify in the request. For more information see Attaching and Detaching IAM Policies. The role must also trust the service principal  drt.shield.amazonaws.com. For more information, see IAM JSON Policy Elements: Principal. The DRT will have access only to your AWS WAF and Shield resources. By submitting this request, you authorize the DRT to inspect your AWS WAF and Shield configuration and create and update AWS WAF rules and web ACLs on your behalf. The DRT takes these actions only if explicitly authorized by you. You must have the iam:PassRole permission to make an AssociateDRTRole request. For more information, see Granting a User Permissions to Pass a Role to an AWS Service.  To use the services of the DRT and make an AssociateDRTRole request, you must be subscribed to the Business Support plan or the Enterprise Support plan.
     public func associateDRTRole(_ input: AssociateDRTRoleRequest) throws -> Future<AssociateDRTRoleResponse> {
         return try client.send(operation: "AssociateDRTRole", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Enables AWS Shield Advanced for a specific AWS resource. The resource can be an Amazon CloudFront distribution, Elastic Load Balancing load balancer, Elastic IP Address, or an Amazon Route 53 hosted zone. You can add protection to only a single resource with each CreateProtection request. If you want to add protection to multiple resources at once, use the AWS WAF console. For more information see Getting Started with AWS Shield Advanced and Add AWS Shield Advanced Protection to more AWS Resources.
+    public func createProtection(_ input: CreateProtectionRequest) throws -> Future<CreateProtectionResponse> {
+        return try client.send(operation: "CreateProtection", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Activates AWS Shield Advanced for an account. As part of this request you can specify EmergencySettings that automaticaly grant the DDoS response team (DRT) needed permissions to assist you during a suspected DDoS attack. For more information see Authorize the DDoS Response Team to Create Rules and Web ACLs on Your Behalf. When you initally create a subscription, your subscription is set to be automatically renewed at the end of the existing subscription period. You can change this by submitting an UpdateSubscription request. 
+    public func createSubscription(_ input: CreateSubscriptionRequest) throws -> Future<CreateSubscriptionResponse> {
+        return try client.send(operation: "CreateSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an AWS Shield Advanced Protection.
@@ -46,39 +51,9 @@ public struct Shield {
         return try client.send(operation: "DeleteProtection", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns all ongoing DDoS attacks or all DDoS attacks during a specified time period.
-    public func listAttacks(_ input: ListAttacksRequest) throws -> Future<ListAttacksResponse> {
-        return try client.send(operation: "ListAttacks", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Removes the DDoS Response team's (DRT) access to your AWS account. To make a DisassociateDRTRole request, you must be subscribed to the Business Support plan or the Enterprise Support plan. However, if you are not subscribed to one of these support plans, but had been previously and had granted the DRT access to your account, you can submit a DisassociateDRTRole request to remove this access.
-    public func disassociateDRTRole(_ input: DisassociateDRTRoleRequest) throws -> Future<DisassociateDRTRoleResponse> {
-        return try client.send(operation: "DisassociateDRTRole", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Removes AWS Shield Advanced from an account. AWS Shield Advanced requires a 1-year subscription commitment. You cannot delete a subscription prior to the completion of that commitment. 
     public func deleteSubscription(_ input: DeleteSubscriptionRequest) throws -> Future<DeleteSubscriptionResponse> {
         return try client.send(operation: "DeleteSubscription", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists all Protection objects for the account.
-    public func listProtections(_ input: ListProtectionsRequest) throws -> Future<ListProtectionsResponse> {
-        return try client.send(operation: "ListProtections", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Provides details about the AWS Shield Advanced subscription for an account.
-    public func describeSubscription(_ input: DescribeSubscriptionRequest) throws -> Future<DescribeSubscriptionResponse> {
-        return try client.send(operation: "DescribeSubscription", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns the SubscriptionState, either Active or Inactive.
-    public func getSubscriptionState(_ input: GetSubscriptionStateRequest) throws -> Future<GetSubscriptionStateResponse> {
-        return try client.send(operation: "GetSubscriptionState", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Updates the details of an existing subscription. Only enter values for parameters you want to change. Empty parameters are not updated.
-    public func updateSubscription(_ input: UpdateSubscriptionRequest) throws -> Future<UpdateSubscriptionResponse> {
-        return try client.send(operation: "UpdateSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the details of a DDoS attack. 
@@ -86,9 +61,9 @@ public struct Shield {
         return try client.send(operation: "DescribeAttack", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the details of the list of email addresses that the DRT can use to contact you during a suspected attack.
-    public func updateEmergencyContactSettings(_ input: UpdateEmergencyContactSettingsRequest) throws -> Future<UpdateEmergencyContactSettingsResponse> {
-        return try client.send(operation: "UpdateEmergencyContactSettings", path: "/", httpMethod: "POST", input: input)
+    ///  Returns the current role and list of Amazon S3 log buckets used by the DDoS Response team (DRT) to access your AWS account while assisting with attack mitigation.
+    public func describeDRTAccess(_ input: DescribeDRTAccessRequest) throws -> Future<DescribeDRTAccessResponse> {
+        return try client.send(operation: "DescribeDRTAccess", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the email addresses that the DRT can use to contact you during a suspected attack.
@@ -101,19 +76,44 @@ public struct Shield {
         return try client.send(operation: "DescribeProtection", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Provides details about the AWS Shield Advanced subscription for an account.
+    public func describeSubscription(_ input: DescribeSubscriptionRequest) throws -> Future<DescribeSubscriptionResponse> {
+        return try client.send(operation: "DescribeSubscription", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Removes the DDoS Response team's (DRT) access to the specified Amazon S3 bucket containing your flow logs. To make a DisassociateDRTLogBucket request, you must be subscribed to the Business Support plan or the Enterprise Support plan. However, if you are not subscribed to one of these support plans, but had been previously and had granted the DRT access to your account, you can submit a DisassociateDRTLogBucket request to remove this access.
     public func disassociateDRTLogBucket(_ input: DisassociateDRTLogBucketRequest) throws -> Future<DisassociateDRTLogBucketResponse> {
         return try client.send(operation: "DisassociateDRTLogBucket", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the current role and list of Amazon S3 log buckets used by the DDoS Response team (DRT) to access your AWS account while assisting with attack mitigation.
-    public func describeDRTAccess(_ input: DescribeDRTAccessRequest) throws -> Future<DescribeDRTAccessResponse> {
-        return try client.send(operation: "DescribeDRTAccess", path: "/", httpMethod: "POST", input: input)
+    ///  Removes the DDoS Response team's (DRT) access to your AWS account. To make a DisassociateDRTRole request, you must be subscribed to the Business Support plan or the Enterprise Support plan. However, if you are not subscribed to one of these support plans, but had been previously and had granted the DRT access to your account, you can submit a DisassociateDRTRole request to remove this access.
+    public func disassociateDRTRole(_ input: DisassociateDRTRoleRequest) throws -> Future<DisassociateDRTRoleResponse> {
+        return try client.send(operation: "DisassociateDRTRole", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Enables AWS Shield Advanced for a specific AWS resource. The resource can be an Amazon CloudFront distribution, Elastic Load Balancing load balancer, Elastic IP Address, or an Amazon Route 53 hosted zone. You can add protection to only a single resource with each CreateProtection request. If you want to add protection to multiple resources at once, use the AWS WAF console. For more information see Getting Started with AWS Shield Advanced and Add AWS Shield Advanced Protection to more AWS Resources.
-    public func createProtection(_ input: CreateProtectionRequest) throws -> Future<CreateProtectionResponse> {
-        return try client.send(operation: "CreateProtection", path: "/", httpMethod: "POST", input: input)
+    ///  Returns the SubscriptionState, either Active or Inactive.
+    public func getSubscriptionState(_ input: GetSubscriptionStateRequest) throws -> Future<GetSubscriptionStateResponse> {
+        return try client.send(operation: "GetSubscriptionState", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns all ongoing DDoS attacks or all DDoS attacks during a specified time period.
+    public func listAttacks(_ input: ListAttacksRequest) throws -> Future<ListAttacksResponse> {
+        return try client.send(operation: "ListAttacks", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists all Protection objects for the account.
+    public func listProtections(_ input: ListProtectionsRequest) throws -> Future<ListProtectionsResponse> {
+        return try client.send(operation: "ListProtections", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the details of the list of email addresses that the DRT can use to contact you during a suspected attack.
+    public func updateEmergencyContactSettings(_ input: UpdateEmergencyContactSettingsRequest) throws -> Future<UpdateEmergencyContactSettingsResponse> {
+        return try client.send(operation: "UpdateEmergencyContactSettings", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the details of an existing subscription. Only enter values for parameters you want to change. Empty parameters are not updated.
+    public func updateSubscription(_ input: UpdateSubscriptionRequest) throws -> Future<UpdateSubscriptionResponse> {
+        return try client.send(operation: "UpdateSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
 

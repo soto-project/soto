@@ -237,9 +237,16 @@ extension AWSService {
         code += "\(indt(3))apiVersion: \"\(version)\",\n"
         code += "\(indt(3))endpoint: endpoint,\n"
 
-        let endpoints = serviceEndpoints
+        let endpoints = serviceEndpoints.sorted { $0.key < $1.key }
         if endpoints.count > 0 {
-            code += "\(indt(3))serviceEndpoints: \(endpoints),\n"
+            code += "\(indt(3))serviceEndpoints: ["
+                for (i, endpoint) in endpoints.enumerated() {
+                    code += "\"\(endpoint.key)\": \"\(endpoint.value)\""
+                    if i < endpoints.count - 1 {
+                        code += ", "
+                    }
+                }
+            code += "],\n"
         }
 
         if let partitionEndpoint = partitionEndpoint {
@@ -394,13 +401,13 @@ extension AWSService {
                     code += "\(indt(2))public \(member.toSwiftImmutableMemberSyntax())\n"
                 }
                 code += "\n"
-                if type.members.count > 0 {
-                    code += "\(indt(2))public init(\(type.members.toSwiftArgumentSyntax())) {\n"
-                    for member in type.members {
-                        code += "\(indt(3))self.\(member.name.toSwiftVariableCase()) = \(member.name.toSwiftVariableCase())\n"
-                    }
-                    code += "\(indt(2))}\n\n"
+                code += "\(indt(2))public init(\(type.members.toSwiftArgumentSyntax())) {\n"
+                for member in type.members {
+                    code += "\(indt(3))self.\(member.name.toSwiftVariableCase()) = \(member.name.toSwiftVariableCase())\n"
+                }
+                code += "\(indt(2))}\n\n"
 
+                if type.members.count > 0 {
                     // CoadingKyes
                     code += "\(indt(2))private enum CodingKeys: String, CodingKey {\n"
 
@@ -441,7 +448,7 @@ extension AWSService {
 
 extension Collection where Iterator.Element == Member {
     public func toSwiftArgumentSyntax() -> String {
-        return self.map({ $0.toSwiftArgumentSyntax() }).joined(separator: ", ")
+        return self.map({ $0.toSwiftArgumentSyntax() }).sorted { $0 < $1 }.joined(separator: ", ")
     }
 }
 

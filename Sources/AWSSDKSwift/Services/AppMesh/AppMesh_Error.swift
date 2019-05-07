@@ -5,14 +5,14 @@ import AWSSDKSwiftCore
 /// Error enum for AppMesh
 public enum AppMeshErrorType: AWSErrorType {
     case badRequestException(message: String?)
+    case conflictException(message: String?)
     case forbiddenException(message: String?)
     case internalServerErrorException(message: String?)
+    case limitExceededException(message: String?)
     case notFoundException(message: String?)
+    case resourceInUseException(message: String?)
     case serviceUnavailableException(message: String?)
     case tooManyRequestsException(message: String?)
-    case conflictException(message: String?)
-    case limitExceededException(message: String?)
-    case resourceInUseException(message: String?)
 }
 
 extension AppMeshErrorType {
@@ -24,22 +24,22 @@ extension AppMeshErrorType {
         switch errorCode {
         case "BadRequestException":
             self = .badRequestException(message: message)
+        case "ConflictException":
+            self = .conflictException(message: message)
         case "ForbiddenException":
             self = .forbiddenException(message: message)
         case "InternalServerErrorException":
             self = .internalServerErrorException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
         case "NotFoundException":
             self = .notFoundException(message: message)
+        case "ResourceInUseException":
+            self = .resourceInUseException(message: message)
         case "ServiceUnavailableException":
             self = .serviceUnavailableException(message: message)
         case "TooManyRequestsException":
             self = .tooManyRequestsException(message: message)
-        case "ConflictException":
-            self = .conflictException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
         default:
             return nil
         }

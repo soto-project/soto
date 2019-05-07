@@ -5,13 +5,13 @@ import AWSSDKSwiftCore
 /// Error enum for MigrationHub
 public enum MigrationHubErrorType: AWSErrorType {
     case accessDeniedException(message: String?)
-    case internalServerError(message: String?)
-    case serviceUnavailableException(message: String?)
     case dryRunOperation(message: String?)
-    case unauthorizedOperation(message: String?)
+    case internalServerError(message: String?)
     case invalidInputException(message: String?)
-    case resourceNotFoundException(message: String?)
     case policyErrorException(message: String?)
+    case resourceNotFoundException(message: String?)
+    case serviceUnavailableException(message: String?)
+    case unauthorizedOperation(message: String?)
 }
 
 extension MigrationHubErrorType {
@@ -23,20 +23,20 @@ extension MigrationHubErrorType {
         switch errorCode {
         case "AccessDeniedException":
             self = .accessDeniedException(message: message)
-        case "InternalServerError":
-            self = .internalServerError(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
         case "DryRunOperation":
             self = .dryRunOperation(message: message)
-        case "UnauthorizedOperation":
-            self = .unauthorizedOperation(message: message)
+        case "InternalServerError":
+            self = .internalServerError(message: message)
         case "InvalidInputException":
             self = .invalidInputException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
         case "PolicyErrorException":
             self = .policyErrorException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
+        case "ServiceUnavailableException":
+            self = .serviceUnavailableException(message: message)
+        case "UnauthorizedOperation":
+            self = .unauthorizedOperation(message: message)
         default:
             return nil
         }

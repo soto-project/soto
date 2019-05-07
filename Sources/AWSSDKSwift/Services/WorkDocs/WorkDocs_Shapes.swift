@@ -5,7 +5,33 @@ import AWSSDKSwiftCore
 
 extension WorkDocs {
 
-    public struct DeactivateUserRequest: AWSShape {
+    public struct AbortDocumentVersionUploadRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
+            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// The ID of the document.
+        public let documentId: String
+        /// The ID of the version.
+        public let versionId: String
+
+        public init(authenticationToken: String? = nil, documentId: String, versionId: String) {
+            self.authenticationToken = authenticationToken
+            self.documentId = documentId
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case documentId = "DocumentId"
+            case versionId = "VersionId"
+        }
+    }
+
+    public struct ActivateUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
             AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
@@ -26,1226 +52,6 @@ extension WorkDocs {
         }
     }
 
-    public struct DescribeNotificationSubscriptionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Subscriptions", required: false, type: .list)
-        ]
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public let marker: String?
-        /// The subscriptions.
-        public let subscriptions: [Subscription]?
-
-        public init(marker: String? = nil, subscriptions: [Subscription]? = nil) {
-            self.marker = marker
-            self.subscriptions = subscriptions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case subscriptions = "Subscriptions"
-        }
-    }
-
-    public enum OrderType: String, CustomStringConvertible, Codable {
-        case ascending = "ASCENDING"
-        case descending = "DESCENDING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct StorageRuleType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StorageAllocatedInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "StorageType", required: false, type: .enum)
-        ]
-        /// The amount of storage allocated, in bytes.
-        public let storageAllocatedInBytes: Int64?
-        /// The type of storage.
-        public let storageType: StorageType?
-
-        public init(storageAllocatedInBytes: Int64? = nil, storageType: StorageType? = nil) {
-            self.storageAllocatedInBytes = storageAllocatedInBytes
-            self.storageType = storageType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case storageAllocatedInBytes = "StorageAllocatedInBytes"
-            case storageType = "StorageType"
-        }
-    }
-
-    public struct UploadMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UploadUrl", required: false, type: .string), 
-            AWSShapeMember(label: "SignedHeaders", required: false, type: .map)
-        ]
-        /// The URL of the upload.
-        public let uploadUrl: String?
-        /// The signed headers.
-        public let signedHeaders: [String: String]?
-
-        public init(uploadUrl: String? = nil, signedHeaders: [String: String]? = nil) {
-            self.uploadUrl = uploadUrl
-            self.signedHeaders = signedHeaders
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case uploadUrl = "UploadUrl"
-            case signedHeaders = "SignedHeaders"
-        }
-    }
-
-    public struct GetDocumentVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomMetadata", required: false, type: .map), 
-            AWSShapeMember(label: "Metadata", required: false, type: .structure)
-        ]
-        /// The custom metadata on the document version.
-        public let customMetadata: [String: String]?
-        /// The version metadata.
-        public let metadata: DocumentVersionMetadata?
-
-        public init(customMetadata: [String: String]? = nil, metadata: DocumentVersionMetadata? = nil) {
-            self.customMetadata = customMetadata
-            self.metadata = metadata
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case customMetadata = "CustomMetadata"
-            case metadata = "Metadata"
-        }
-    }
-
-    public enum ResourceStateType: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case restoring = "RESTORING"
-        case recycling = "RECYCLING"
-        case recycled = "RECYCLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct InitiateDocumentVersionUploadRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DocumentSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "ContentType", required: false, type: .string), 
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "ParentFolderId", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ContentCreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ContentModifiedTimestamp", required: false, type: .timestamp)
-        ]
-        /// The size of the document, in bytes.
-        public let documentSizeInBytes: Int64?
-        /// The ID of the document.
-        public let id: String?
-        /// The content type of the document.
-        public let contentType: String?
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-        /// The ID of the parent folder.
-        public let parentFolderId: String
-        /// The name of the document.
-        public let name: String?
-        /// The timestamp when the content of the document was originally created.
-        public let contentCreatedTimestamp: TimeStamp?
-        /// The timestamp when the content of the document was modified.
-        public let contentModifiedTimestamp: TimeStamp?
-
-        public init(documentSizeInBytes: Int64? = nil, id: String? = nil, contentType: String? = nil, authenticationToken: String? = nil, parentFolderId: String, name: String? = nil, contentCreatedTimestamp: TimeStamp? = nil, contentModifiedTimestamp: TimeStamp? = nil) {
-            self.documentSizeInBytes = documentSizeInBytes
-            self.id = id
-            self.contentType = contentType
-            self.authenticationToken = authenticationToken
-            self.parentFolderId = parentFolderId
-            self.name = name
-            self.contentCreatedTimestamp = contentCreatedTimestamp
-            self.contentModifiedTimestamp = contentModifiedTimestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case documentSizeInBytes = "DocumentSizeInBytes"
-            case id = "Id"
-            case contentType = "ContentType"
-            case authenticationToken = "Authentication"
-            case parentFolderId = "ParentFolderId"
-            case name = "Name"
-            case contentCreatedTimestamp = "ContentCreatedTimestamp"
-            case contentModifiedTimestamp = "ContentModifiedTimestamp"
-        }
-    }
-
-    public struct GetCurrentUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "User", required: false, type: .structure)
-        ]
-        /// Metadata of the user.
-        public let user: User?
-
-        public init(user: User? = nil) {
-            self.user = user
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case user = "User"
-        }
-    }
-
-    public struct AddResourcePermissionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ShareResults", required: false, type: .list)
-        ]
-        /// The share results.
-        public let shareResults: [ShareResult]?
-
-        public init(shareResults: [ShareResult]? = nil) {
-            self.shareResults = shareResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case shareResults = "ShareResults"
-        }
-    }
-
-    public struct Comment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ThreadId", required: false, type: .string), 
-            AWSShapeMember(label: "Text", required: false, type: .string), 
-            AWSShapeMember(label: "RecipientId", required: false, type: .string), 
-            AWSShapeMember(label: "ParentId", required: false, type: .string), 
-            AWSShapeMember(label: "Contributor", required: false, type: .structure), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "CommentId", required: true, type: .string), 
-            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Visibility", required: false, type: .enum)
-        ]
-        /// The ID of the root comment in the thread.
-        public let threadId: String?
-        /// The text of the comment.
-        public let text: String?
-        /// If the comment is a reply to another user's comment, this field contains the user ID of the user being replied to.
-        public let recipientId: String?
-        /// The ID of the parent comment.
-        public let parentId: String?
-        /// The details of the user who made the comment.
-        public let contributor: User?
-        /// The status of the comment.
-        public let status: CommentStatusType?
-        /// The ID of the comment.
-        public let commentId: String
-        /// The time that the comment was created.
-        public let createdTimestamp: TimeStamp?
-        /// The visibility of the comment. Options are either PRIVATE, where the comment is visible only to the comment author and document owner and co-owners, or PUBLIC, where the comment is visible to document owners, co-owners, and contributors.
-        public let visibility: CommentVisibilityType?
-
-        public init(threadId: String? = nil, text: String? = nil, recipientId: String? = nil, parentId: String? = nil, contributor: User? = nil, status: CommentStatusType? = nil, commentId: String, createdTimestamp: TimeStamp? = nil, visibility: CommentVisibilityType? = nil) {
-            self.threadId = threadId
-            self.text = text
-            self.recipientId = recipientId
-            self.parentId = parentId
-            self.contributor = contributor
-            self.status = status
-            self.commentId = commentId
-            self.createdTimestamp = createdTimestamp
-            self.visibility = visibility
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case threadId = "ThreadId"
-            case text = "Text"
-            case recipientId = "RecipientId"
-            case parentId = "ParentId"
-            case contributor = "Contributor"
-            case status = "Status"
-            case commentId = "CommentId"
-            case createdTimestamp = "CreatedTimestamp"
-            case visibility = "Visibility"
-        }
-    }
-
-    public struct FolderMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Size", required: false, type: .long), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Labels", required: false, type: .list), 
-            AWSShapeMember(label: "LatestVersionSize", required: false, type: .long), 
-            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Signature", required: false, type: .string), 
-            AWSShapeMember(label: "CreatorId", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceState", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ParentFolderId", required: false, type: .string)
-        ]
-        /// The size of the folder metadata.
-        public let size: Int64?
-        /// The ID of the folder.
-        public let id: String?
-        /// List of labels on the folder.
-        public let labels: [String]?
-        /// The size of the latest version of the folder metadata.
-        public let latestVersionSize: Int64?
-        /// The time when the folder was created.
-        public let createdTimestamp: TimeStamp?
-        /// The time when the folder was updated.
-        public let modifiedTimestamp: TimeStamp?
-        /// The unique identifier created from the subfolders and documents of the folder.
-        public let signature: String?
-        /// The ID of the creator.
-        public let creatorId: String?
-        /// The resource state of the folder.
-        public let resourceState: ResourceStateType?
-        /// The name of the folder.
-        public let name: String?
-        /// The ID of the parent folder.
-        public let parentFolderId: String?
-
-        public init(size: Int64? = nil, id: String? = nil, labels: [String]? = nil, latestVersionSize: Int64? = nil, createdTimestamp: TimeStamp? = nil, modifiedTimestamp: TimeStamp? = nil, signature: String? = nil, creatorId: String? = nil, resourceState: ResourceStateType? = nil, name: String? = nil, parentFolderId: String? = nil) {
-            self.size = size
-            self.id = id
-            self.labels = labels
-            self.latestVersionSize = latestVersionSize
-            self.createdTimestamp = createdTimestamp
-            self.modifiedTimestamp = modifiedTimestamp
-            self.signature = signature
-            self.creatorId = creatorId
-            self.resourceState = resourceState
-            self.name = name
-            self.parentFolderId = parentFolderId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case size = "Size"
-            case id = "Id"
-            case labels = "Labels"
-            case latestVersionSize = "LatestVersionSize"
-            case createdTimestamp = "CreatedTimestamp"
-            case modifiedTimestamp = "ModifiedTimestamp"
-            case signature = "Signature"
-            case creatorId = "CreatorId"
-            case resourceState = "ResourceState"
-            case name = "Name"
-            case parentFolderId = "ParentFolderId"
-        }
-    }
-
-    public struct CreateFolderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ParentFolderId", required: true, type: .string)
-        ]
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-        /// The name of the new folder.
-        public let name: String?
-        /// The ID of the parent folder.
-        public let parentFolderId: String
-
-        public init(authenticationToken: String? = nil, name: String? = nil, parentFolderId: String) {
-            self.authenticationToken = authenticationToken
-            self.name = name
-            self.parentFolderId = parentFolderId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case name = "Name"
-            case parentFolderId = "ParentFolderId"
-        }
-    }
-
-    public struct DescribeResourcePermissionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Principals", required: false, type: .list)
-        ]
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public let marker: String?
-        /// The principals.
-        public let principals: [Principal]?
-
-        public init(marker: String? = nil, principals: [Principal]? = nil) {
-            self.marker = marker
-            self.principals = principals
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case principals = "Principals"
-        }
-    }
-
-    public enum RolePermissionType: String, CustomStringConvertible, Codable {
-        case direct = "DIRECT"
-        case inherited = "INHERITED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UserStorageMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StorageRule", required: false, type: .structure), 
-            AWSShapeMember(label: "StorageUtilizedInBytes", required: false, type: .long)
-        ]
-        /// The storage for a user.
-        public let storageRule: StorageRuleType?
-        /// The amount of storage used, in bytes.
-        public let storageUtilizedInBytes: Int64?
-
-        public init(storageRule: StorageRuleType? = nil, storageUtilizedInBytes: Int64? = nil) {
-            self.storageRule = storageRule
-            self.storageUtilizedInBytes = storageUtilizedInBytes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case storageRule = "StorageRule"
-            case storageUtilizedInBytes = "StorageUtilizedInBytes"
-        }
-    }
-
-    public enum CommentVisibilityType: String, CustomStringConvertible, Codable {
-        case `public` = "PUBLIC"
-        case `private` = "PRIVATE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RoleType: String, CustomStringConvertible, Codable {
-        case viewer = "VIEWER"
-        case contributor = "CONTRIBUTOR"
-        case owner = "OWNER"
-        case coowner = "COOWNER"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SubscriptionProtocolType: String, CustomStringConvertible, Codable {
-        case https = "HTTPS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Principal: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Roles", required: false, type: .list), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
-        /// The permission information for the resource.
-        public let roles: [PermissionInfo]?
-        /// The ID of the resource.
-        public let id: String?
-        /// The type of resource.
-        public let `type`: PrincipalType?
-
-        public init(roles: [PermissionInfo]? = nil, id: String? = nil, type: PrincipalType? = nil) {
-            self.roles = roles
-            self.id = id
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roles = "Roles"
-            case id = "Id"
-            case `type` = "Type"
-        }
-    }
-
-    public struct GetFolderPathResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Path", required: false, type: .structure)
-        ]
-        /// The path information.
-        public let path: ResourcePath?
-
-        public init(path: ResourcePath? = nil) {
-            self.path = path
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case path = "Path"
-        }
-    }
-
-    public struct DescribeActivitiesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndTime", location: .querystring(locationName: "endTime"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "IncludeIndirectActivities", location: .querystring(locationName: "includeIndirectActivities"), required: false, type: .boolean), 
-            AWSShapeMember(label: "OrganizationId", location: .querystring(locationName: "organizationId"), required: false, type: .string), 
-            AWSShapeMember(label: "UserId", location: .querystring(locationName: "userId"), required: false, type: .string), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeMember(label: "ResourceId", location: .querystring(locationName: "resourceId"), required: false, type: .string), 
-            AWSShapeMember(label: "StartTime", location: .querystring(locationName: "startTime"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ActivityTypes", location: .querystring(locationName: "activityTypes"), required: false, type: .string)
-        ]
-        /// The timestamp that determines the end time of the activities. The response includes the activities performed before the specified timestamp.
-        public let endTime: TimeStamp?
-        /// Includes indirect activities. An indirect activity results from a direct activity performed on a parent resource. For example, sharing a parent folder (the direct activity) shares all of the subfolders and documents within the parent folder (the indirect activity).
-        public let includeIndirectActivities: Bool?
-        /// The ID of the organization. This is a mandatory parameter when using administrative API (SigV4) requests.
-        public let organizationId: String?
-        /// The ID of the user who performed the action. The response includes activities pertaining to this user. This is an optional parameter and is only applicable for administrative API (SigV4) requests.
-        public let userId: String?
-        /// The marker for the next set of results.
-        public let marker: String?
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-        /// The maximum number of items to return.
-        public let limit: Int32?
-        /// The document or folder ID for which to describe activity types.
-        public let resourceId: String?
-        /// The timestamp that determines the starting time of the activities. The response includes the activities performed after the specified timestamp.
-        public let startTime: TimeStamp?
-        /// Specifies which activity types to include in the response. If this field is left empty, all activity types are returned.
-        public let activityTypes: String?
-
-        public init(endTime: TimeStamp? = nil, includeIndirectActivities: Bool? = nil, organizationId: String? = nil, userId: String? = nil, marker: String? = nil, authenticationToken: String? = nil, limit: Int32? = nil, resourceId: String? = nil, startTime: TimeStamp? = nil, activityTypes: String? = nil) {
-            self.endTime = endTime
-            self.includeIndirectActivities = includeIndirectActivities
-            self.organizationId = organizationId
-            self.userId = userId
-            self.marker = marker
-            self.authenticationToken = authenticationToken
-            self.limit = limit
-            self.resourceId = resourceId
-            self.startTime = startTime
-            self.activityTypes = activityTypes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endTime = "endTime"
-            case includeIndirectActivities = "includeIndirectActivities"
-            case organizationId = "organizationId"
-            case userId = "userId"
-            case marker = "marker"
-            case authenticationToken = "Authentication"
-            case limit = "limit"
-            case resourceId = "resourceId"
-            case startTime = "startTime"
-            case activityTypes = "activityTypes"
-        }
-    }
-
-    public struct DescribeResourcePermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "PrincipalId", location: .querystring(locationName: "principalId"), required: false, type: .string), 
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
-        ]
-        /// The ID of the resource.
-        public let resourceId: String
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-        /// The marker for the next set of results. (You received this marker from a previous call)
-        public let marker: String?
-        /// The ID of the principal to filter permissions by.
-        public let principalId: String?
-        /// The maximum number of items to return with this call.
-        public let limit: Int32?
-
-        public init(resourceId: String, authenticationToken: String? = nil, marker: String? = nil, principalId: String? = nil, limit: Int32? = nil) {
-            self.resourceId = resourceId
-            self.authenticationToken = authenticationToken
-            self.marker = marker
-            self.principalId = principalId
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case authenticationToken = "Authentication"
-            case marker = "marker"
-            case principalId = "principalId"
-            case limit = "limit"
-        }
-    }
-
-    public enum DocumentStatusType: String, CustomStringConvertible, Codable {
-        case initialized = "INITIALIZED"
-        case active = "ACTIVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DocumentVersionStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeActivitiesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "UserActivities", required: false, type: .list)
-        ]
-        /// The marker for the next set of results.
-        public let marker: String?
-        /// The list of activities for the specified user and time period.
-        public let userActivities: [Activity]?
-
-        public init(marker: String? = nil, userActivities: [Activity]? = nil) {
-            self.marker = marker
-            self.userActivities = userActivities
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case userActivities = "UserActivities"
-        }
-    }
-
-    public struct GetResourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "UserId", location: .querystring(locationName: "userId"), required: false, type: .string), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "CollectionType", location: .querystring(locationName: "collectionType"), required: false, type: .enum), 
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
-        ]
-        /// The Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API operation using AWS credentials.
-        public let authenticationToken: String?
-        /// The user ID for the resource collection. This is a required field for accessing the API operation using IAM credentials.
-        public let userId: String?
-        /// The marker for the next set of results. This marker was received from a previous call.
-        public let marker: String?
-        /// The collection type.
-        public let collectionType: ResourceCollectionType?
-        /// The maximum number of resources to return.
-        public let limit: Int32?
-
-        public init(authenticationToken: String? = nil, userId: String? = nil, marker: String? = nil, collectionType: ResourceCollectionType? = nil, limit: Int32? = nil) {
-            self.authenticationToken = authenticationToken
-            self.userId = userId
-            self.marker = marker
-            self.collectionType = collectionType
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case userId = "userId"
-            case marker = "marker"
-            case collectionType = "collectionType"
-            case limit = "limit"
-        }
-    }
-
-    public struct GetResourcesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Documents", required: false, type: .list), 
-            AWSShapeMember(label: "Folders", required: false, type: .list)
-        ]
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public let marker: String?
-        /// The documents in the specified collection.
-        public let documents: [DocumentMetadata]?
-        /// The folders in the specified folder.
-        public let folders: [FolderMetadata]?
-
-        public init(marker: String? = nil, documents: [DocumentMetadata]? = nil, folders: [FolderMetadata]? = nil) {
-            self.marker = marker
-            self.documents = documents
-            self.folders = folders
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case documents = "Documents"
-            case folders = "Folders"
-        }
-    }
-
-    public struct UpdateFolderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceState", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "ParentFolderId", required: false, type: .string), 
-            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string)
-        ]
-        /// The resource state of the folder. Only ACTIVE and RECYCLED are accepted values from the API.
-        public let resourceState: ResourceStateType?
-        /// The name of the folder.
-        public let name: String?
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-        /// The ID of the parent folder.
-        public let parentFolderId: String?
-        /// The ID of the folder.
-        public let folderId: String
-
-        public init(resourceState: ResourceStateType? = nil, name: String? = nil, authenticationToken: String? = nil, parentFolderId: String? = nil, folderId: String) {
-            self.resourceState = resourceState
-            self.name = name
-            self.authenticationToken = authenticationToken
-            self.parentFolderId = parentFolderId
-            self.folderId = folderId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceState = "ResourceState"
-            case name = "Name"
-            case authenticationToken = "Authentication"
-            case parentFolderId = "ParentFolderId"
-            case folderId = "FolderId"
-        }
-    }
-
-    public struct DescribeDocumentVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Include", location: .querystring(locationName: "include"), required: false, type: .string), 
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
-            AWSShapeMember(label: "Fields", location: .querystring(locationName: "fields"), required: false, type: .string), 
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
-        ]
-        /// A comma-separated list of values. Specify "INITIALIZED" to include incomplete versions.
-        public let include: String?
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-        /// The marker for the next set of results. (You received this marker from a previous call.)
-        public let marker: String?
-        /// The ID of the document.
-        public let documentId: String
-        /// Specify "SOURCE" to include initialized versions and a URL for the source document.
-        public let fields: String?
-        /// The maximum number of versions to return with this call.
-        public let limit: Int32?
-
-        public init(include: String? = nil, authenticationToken: String? = nil, marker: String? = nil, documentId: String, fields: String? = nil, limit: Int32? = nil) {
-            self.include = include
-            self.authenticationToken = authenticationToken
-            self.marker = marker
-            self.documentId = documentId
-            self.fields = fields
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case include = "include"
-            case authenticationToken = "Authentication"
-            case marker = "marker"
-            case documentId = "DocumentId"
-            case fields = "fields"
-            case limit = "limit"
-        }
-    }
-
-    public struct DeleteCommentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
-            AWSShapeMember(label: "CommentId", location: .uri(locationName: "CommentId"), required: true, type: .string)
-        ]
-        /// The ID of the document version.
-        public let versionId: String
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-        /// The ID of the document.
-        public let documentId: String
-        /// The ID of the comment.
-        public let commentId: String
-
-        public init(versionId: String, authenticationToken: String? = nil, documentId: String, commentId: String) {
-            self.versionId = versionId
-            self.authenticationToken = authenticationToken
-            self.documentId = documentId
-            self.commentId = commentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case versionId = "VersionId"
-            case authenticationToken = "Authentication"
-            case documentId = "DocumentId"
-            case commentId = "CommentId"
-        }
-    }
-
-    public struct GetFolderResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomMetadata", required: false, type: .map), 
-            AWSShapeMember(label: "Metadata", required: false, type: .structure)
-        ]
-        /// The custom metadata on the folder.
-        public let customMetadata: [String: String]?
-        /// The metadata of the folder.
-        public let metadata: FolderMetadata?
-
-        public init(customMetadata: [String: String]? = nil, metadata: FolderMetadata? = nil) {
-            self.customMetadata = customMetadata
-            self.metadata = metadata
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case customMetadata = "CustomMetadata"
-            case metadata = "Metadata"
-        }
-    }
-
-    public struct Activity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OriginalParent", required: false, type: .structure), 
-            AWSShapeMember(label: "CommentMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "OrganizationId", required: false, type: .string), 
-            AWSShapeMember(label: "Participants", required: false, type: .structure), 
-            AWSShapeMember(label: "TimeStamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ResourceMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "IsIndirectActivity", required: false, type: .boolean), 
-            AWSShapeMember(label: "Initiator", required: false, type: .structure)
-        ]
-        /// The original parent of the resource. This is an optional field and is filled for move activities.
-        public let originalParent: ResourceMetadata?
-        /// Metadata of the commenting activity. This is an optional field and is filled for commenting activities.
-        public let commentMetadata: CommentMetadata?
-        /// The activity type.
-        public let `type`: ActivityType?
-        /// The ID of the organization.
-        public let organizationId: String?
-        /// The list of users or groups impacted by this action. This is an optional field and is filled for the following sharing activities: DOCUMENT_SHARED, DOCUMENT_SHARED, DOCUMENT_UNSHARED, FOLDER_SHARED, FOLDER_UNSHARED.
-        public let participants: Participants?
-        /// The timestamp when the action was performed.
-        public let timeStamp: TimeStamp?
-        /// The metadata of the resource involved in the user action.
-        public let resourceMetadata: ResourceMetadata?
-        /// Indicates whether an activity is indirect or direct. An indirect activity results from a direct activity performed on a parent resource. For example, sharing a parent folder (the direct activity) shares all of the subfolders and documents within the parent folder (the indirect activity).
-        public let isIndirectActivity: Bool?
-        /// The user who performed the action.
-        public let initiator: UserMetadata?
-
-        public init(originalParent: ResourceMetadata? = nil, commentMetadata: CommentMetadata? = nil, type: ActivityType? = nil, organizationId: String? = nil, participants: Participants? = nil, timeStamp: TimeStamp? = nil, resourceMetadata: ResourceMetadata? = nil, isIndirectActivity: Bool? = nil, initiator: UserMetadata? = nil) {
-            self.originalParent = originalParent
-            self.commentMetadata = commentMetadata
-            self.`type` = `type`
-            self.organizationId = organizationId
-            self.participants = participants
-            self.timeStamp = timeStamp
-            self.resourceMetadata = resourceMetadata
-            self.isIndirectActivity = isIndirectActivity
-            self.initiator = initiator
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case originalParent = "OriginalParent"
-            case commentMetadata = "CommentMetadata"
-            case `type` = "Type"
-            case organizationId = "OrganizationId"
-            case participants = "Participants"
-            case timeStamp = "TimeStamp"
-            case resourceMetadata = "ResourceMetadata"
-            case isIndirectActivity = "IsIndirectActivity"
-            case initiator = "Initiator"
-        }
-    }
-
-    public struct CreateUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "OrganizationId", required: false, type: .string), 
-            AWSShapeMember(label: "Password", required: true, type: .string), 
-            AWSShapeMember(label: "TimeZoneId", required: false, type: .string), 
-            AWSShapeMember(label: "EmailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "Surname", required: true, type: .string), 
-            AWSShapeMember(label: "StorageRule", required: false, type: .structure), 
-            AWSShapeMember(label: "GivenName", required: true, type: .string)
-        ]
-        /// The login name of the user.
-        public let username: String
-        /// The ID of the organization.
-        public let organizationId: String?
-        /// The password of the user.
-        public let password: String
-        /// The time zone ID of the user.
-        public let timeZoneId: String?
-        /// The email address of the user.
-        public let emailAddress: String?
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-        /// The surname of the user.
-        public let surname: String
-        /// The amount of storage for the user.
-        public let storageRule: StorageRuleType?
-        /// The given name of the user.
-        public let givenName: String
-
-        public init(username: String, organizationId: String? = nil, password: String, timeZoneId: String? = nil, emailAddress: String? = nil, authenticationToken: String? = nil, surname: String, storageRule: StorageRuleType? = nil, givenName: String) {
-            self.username = username
-            self.organizationId = organizationId
-            self.password = password
-            self.timeZoneId = timeZoneId
-            self.emailAddress = emailAddress
-            self.authenticationToken = authenticationToken
-            self.surname = surname
-            self.storageRule = storageRule
-            self.givenName = givenName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case username = "Username"
-            case organizationId = "OrganizationId"
-            case password = "Password"
-            case timeZoneId = "TimeZoneId"
-            case emailAddress = "EmailAddress"
-            case authenticationToken = "Authentication"
-            case surname = "Surname"
-            case storageRule = "StorageRule"
-            case givenName = "GivenName"
-        }
-    }
-
-    public struct DeleteFolderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string)
-        ]
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-        /// The ID of the folder.
-        public let folderId: String
-
-        public init(authenticationToken: String? = nil, folderId: String) {
-            self.authenticationToken = authenticationToken
-            self.folderId = folderId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case folderId = "FolderId"
-        }
-    }
-
-    public struct DocumentVersionMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Signature", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ContentType", required: false, type: .string), 
-            AWSShapeMember(label: "ModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ContentModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Thumbnail", required: false, type: .map), 
-            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Size", required: false, type: .long), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Source", required: false, type: .map), 
-            AWSShapeMember(label: "CreatorId", required: false, type: .string), 
-            AWSShapeMember(label: "ContentCreatedTimestamp", required: false, type: .timestamp)
-        ]
-        /// The signature of the document.
-        public let signature: String?
-        /// The name of the version.
-        public let name: String?
-        /// The content type of the document.
-        public let contentType: String?
-        /// The timestamp when the document was last uploaded.
-        public let modifiedTimestamp: TimeStamp?
-        /// The timestamp when the content of the document was modified.
-        public let contentModifiedTimestamp: TimeStamp?
-        /// The status of the document.
-        public let status: DocumentStatusType?
-        /// The thumbnail of the document.
-        public let thumbnail: [DocumentThumbnailType: String]?
-        /// The timestamp when the document was first uploaded.
-        public let createdTimestamp: TimeStamp?
-        /// The size of the document, in bytes.
-        public let size: Int64?
-        /// The ID of the version.
-        public let id: String?
-        /// The source of the document.
-        public let source: [DocumentSourceType: String]?
-        /// The ID of the creator.
-        public let creatorId: String?
-        /// The timestamp when the content of the document was originally created.
-        public let contentCreatedTimestamp: TimeStamp?
-
-        public init(signature: String? = nil, name: String? = nil, contentType: String? = nil, modifiedTimestamp: TimeStamp? = nil, contentModifiedTimestamp: TimeStamp? = nil, status: DocumentStatusType? = nil, thumbnail: [DocumentThumbnailType: String]? = nil, createdTimestamp: TimeStamp? = nil, size: Int64? = nil, id: String? = nil, source: [DocumentSourceType: String]? = nil, creatorId: String? = nil, contentCreatedTimestamp: TimeStamp? = nil) {
-            self.signature = signature
-            self.name = name
-            self.contentType = contentType
-            self.modifiedTimestamp = modifiedTimestamp
-            self.contentModifiedTimestamp = contentModifiedTimestamp
-            self.status = status
-            self.thumbnail = thumbnail
-            self.createdTimestamp = createdTimestamp
-            self.size = size
-            self.id = id
-            self.source = source
-            self.creatorId = creatorId
-            self.contentCreatedTimestamp = contentCreatedTimestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case signature = "Signature"
-            case name = "Name"
-            case contentType = "ContentType"
-            case modifiedTimestamp = "ModifiedTimestamp"
-            case contentModifiedTimestamp = "ContentModifiedTimestamp"
-            case status = "Status"
-            case thumbnail = "Thumbnail"
-            case createdTimestamp = "CreatedTimestamp"
-            case size = "Size"
-            case id = "Id"
-            case source = "Source"
-            case creatorId = "CreatorId"
-            case contentCreatedTimestamp = "ContentCreatedTimestamp"
-        }
-    }
-
-    public struct DeleteDocumentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string)
-        ]
-        /// The ID of the document.
-        public let documentId: String
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-
-        public init(documentId: String, authenticationToken: String? = nil) {
-            self.documentId = documentId
-            self.authenticationToken = authenticationToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case documentId = "DocumentId"
-            case authenticationToken = "Authentication"
-        }
-    }
-
-    public struct DescribeRootFoldersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Folders", required: false, type: .list)
-        ]
-        /// The marker for the next set of results.
-        public let marker: String?
-        /// The user's special folders.
-        public let folders: [FolderMetadata]?
-
-        public init(marker: String? = nil, folders: [FolderMetadata]? = nil) {
-            self.marker = marker
-            self.folders = folders
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case folders = "Folders"
-        }
-    }
-
-    public struct UpdateDocumentVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VersionStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string)
-        ]
-        /// The status of the version.
-        public let versionStatus: DocumentVersionStatus?
-        /// The version ID of the document.
-        public let versionId: String
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-        /// The ID of the document.
-        public let documentId: String
-
-        public init(versionStatus: DocumentVersionStatus? = nil, versionId: String, authenticationToken: String? = nil, documentId: String) {
-            self.versionStatus = versionStatus
-            self.versionId = versionId
-            self.authenticationToken = authenticationToken
-            self.documentId = documentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case versionStatus = "VersionStatus"
-            case versionId = "VersionId"
-            case authenticationToken = "Authentication"
-            case documentId = "DocumentId"
-        }
-    }
-
-    public struct DescribeFolderContentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", location: .querystring(locationName: "type"), required: false, type: .enum), 
-            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "Sort", location: .querystring(locationName: "sort"), required: false, type: .enum), 
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "Include", location: .querystring(locationName: "include"), required: false, type: .string), 
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeMember(label: "Order", location: .querystring(locationName: "order"), required: false, type: .enum)
-        ]
-        /// The type of items.
-        public let `type`: FolderContentType?
-        /// The ID of the folder.
-        public let folderId: String
-        /// The marker for the next set of results. This marker was received from a previous call.
-        public let marker: String?
-        /// The sorting criteria.
-        public let sort: ResourceSortType?
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-        /// The contents to include. Specify "INITIALIZED" to include initialized documents.
-        public let include: String?
-        /// The maximum number of items to return with this call.
-        public let limit: Int32?
-        /// The order for the contents of the folder.
-        public let order: OrderType?
-
-        public init(type: FolderContentType? = nil, folderId: String, marker: String? = nil, sort: ResourceSortType? = nil, authenticationToken: String? = nil, include: String? = nil, limit: Int32? = nil, order: OrderType? = nil) {
-            self.`type` = `type`
-            self.folderId = folderId
-            self.marker = marker
-            self.sort = sort
-            self.authenticationToken = authenticationToken
-            self.include = include
-            self.limit = limit
-            self.order = order
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "type"
-            case folderId = "FolderId"
-            case marker = "marker"
-            case sort = "sort"
-            case authenticationToken = "Authentication"
-            case include = "include"
-            case limit = "limit"
-            case order = "order"
-        }
-    }
-
-    public struct CommentMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecipientId", required: false, type: .string), 
-            AWSShapeMember(label: "CommentStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "Contributor", required: false, type: .structure), 
-            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CommentId", required: false, type: .string)
-        ]
-        /// The ID of the user being replied to.
-        public let recipientId: String?
-        /// The status of the comment.
-        public let commentStatus: CommentStatusType?
-        /// The user who made the comment.
-        public let contributor: User?
-        /// The timestamp that the comment was created.
-        public let createdTimestamp: TimeStamp?
-        /// The ID of the comment.
-        public let commentId: String?
-
-        public init(recipientId: String? = nil, commentStatus: CommentStatusType? = nil, contributor: User? = nil, createdTimestamp: TimeStamp? = nil, commentId: String? = nil) {
-            self.recipientId = recipientId
-            self.commentStatus = commentStatus
-            self.contributor = contributor
-            self.createdTimestamp = createdTimestamp
-            self.commentId = commentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case recipientId = "RecipientId"
-            case commentStatus = "CommentStatus"
-            case contributor = "Contributor"
-            case createdTimestamp = "CreatedTimestamp"
-            case commentId = "CommentId"
-        }
-    }
-
-    public struct DescribeFolderContentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Documents", required: false, type: .list), 
-            AWSShapeMember(label: "Folders", required: false, type: .list)
-        ]
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public let marker: String?
-        /// The documents in the specified folder.
-        public let documents: [DocumentMetadata]?
-        /// The subfolders in the specified folder.
-        public let folders: [FolderMetadata]?
-
-        public init(marker: String? = nil, documents: [DocumentMetadata]? = nil, folders: [FolderMetadata]? = nil) {
-            self.marker = marker
-            self.documents = documents
-            self.folders = folders
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case documents = "Documents"
-            case folders = "Folders"
-        }
-    }
-
-    public struct CreateNotificationSubscriptionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Subscription", required: false, type: .structure)
-        ]
-        /// The subscription.
-        public let subscription: Subscription?
-
-        public init(subscription: Subscription? = nil) {
-            self.subscription = subscription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subscription = "Subscription"
-        }
-    }
-
-    public struct DocumentMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Labels", required: false, type: .list), 
-            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatorId", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceState", required: false, type: .enum), 
-            AWSShapeMember(label: "ModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LatestVersionMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "ParentFolderId", required: false, type: .string)
-        ]
-        /// The ID of the document.
-        public let id: String?
-        /// List of labels on the document.
-        public let labels: [String]?
-        /// The time when the document was created.
-        public let createdTimestamp: TimeStamp?
-        /// The ID of the creator.
-        public let creatorId: String?
-        /// The resource state.
-        public let resourceState: ResourceStateType?
-        /// The time when the document was updated.
-        public let modifiedTimestamp: TimeStamp?
-        /// The latest version of the document.
-        public let latestVersionMetadata: DocumentVersionMetadata?
-        /// The ID of the parent folder.
-        public let parentFolderId: String?
-
-        public init(id: String? = nil, labels: [String]? = nil, createdTimestamp: TimeStamp? = nil, creatorId: String? = nil, resourceState: ResourceStateType? = nil, modifiedTimestamp: TimeStamp? = nil, latestVersionMetadata: DocumentVersionMetadata? = nil, parentFolderId: String? = nil) {
-            self.id = id
-            self.labels = labels
-            self.createdTimestamp = createdTimestamp
-            self.creatorId = creatorId
-            self.resourceState = resourceState
-            self.modifiedTimestamp = modifiedTimestamp
-            self.latestVersionMetadata = latestVersionMetadata
-            self.parentFolderId = parentFolderId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case labels = "Labels"
-            case createdTimestamp = "CreatedTimestamp"
-            case creatorId = "CreatorId"
-            case resourceState = "ResourceState"
-            case modifiedTimestamp = "ModifiedTimestamp"
-            case latestVersionMetadata = "LatestVersionMetadata"
-            case parentFolderId = "ParentFolderId"
-        }
-    }
-
     public struct ActivateUserResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "User", required: false, type: .structure)
@@ -1262,1011 +68,59 @@ extension WorkDocs {
         }
     }
 
-    public struct ShareResult: AWSShape {
+    public struct Activity: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PrincipalId", required: false, type: .string), 
-            AWSShapeMember(label: "ShareId", required: false, type: .string), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "InviteePrincipalId", required: false, type: .string), 
-            AWSShapeMember(label: "Role", required: false, type: .enum), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
-        /// The ID of the principal.
-        public let principalId: String?
-        /// The ID of the resource that was shared.
-        public let shareId: String?
-        /// The status message.
-        public let statusMessage: String?
-        /// The ID of the invited user.
-        public let inviteePrincipalId: String?
-        /// The role.
-        public let role: RoleType?
-        /// The status.
-        public let status: ShareStatusType?
-
-        public init(principalId: String? = nil, shareId: String? = nil, statusMessage: String? = nil, inviteePrincipalId: String? = nil, role: RoleType? = nil, status: ShareStatusType? = nil) {
-            self.principalId = principalId
-            self.shareId = shareId
-            self.statusMessage = statusMessage
-            self.inviteePrincipalId = inviteePrincipalId
-            self.role = role
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case principalId = "PrincipalId"
-            case shareId = "ShareId"
-            case statusMessage = "StatusMessage"
-            case inviteePrincipalId = "InviteePrincipalId"
-            case role = "Role"
-            case status = "Status"
-        }
-    }
-
-    public struct GetFolderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"), required: false, type: .boolean), 
-            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string)
-        ]
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-        /// Set to TRUE to include custom metadata in the response.
-        public let includeCustomMetadata: Bool?
-        /// The ID of the folder.
-        public let folderId: String
-
-        public init(authenticationToken: String? = nil, includeCustomMetadata: Bool? = nil, folderId: String) {
-            self.authenticationToken = authenticationToken
-            self.includeCustomMetadata = includeCustomMetadata
-            self.folderId = folderId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case includeCustomMetadata = "includeCustomMetadata"
-            case folderId = "FolderId"
-        }
-    }
-
-    public struct DeleteCustomMetadataResponse: AWSShape {
-
-    }
-
-    public struct GetFolderPathRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string), 
-            AWSShapeMember(label: "Fields", location: .querystring(locationName: "fields"), required: false, type: .string), 
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
-        ]
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-        /// This value is not supported.
-        public let marker: String?
-        /// The ID of the folder.
-        public let folderId: String
-        /// A comma-separated list of values. Specify "NAME" to include the names of the parent folders.
-        public let fields: String?
-        /// The maximum number of levels in the hierarchy to return.
-        public let limit: Int32?
-
-        public init(authenticationToken: String? = nil, marker: String? = nil, folderId: String, fields: String? = nil, limit: Int32? = nil) {
-            self.authenticationToken = authenticationToken
-            self.marker = marker
-            self.folderId = folderId
-            self.fields = fields
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case marker = "marker"
-            case folderId = "FolderId"
-            case fields = "fields"
-            case limit = "limit"
-        }
-    }
-
-    public enum DocumentSourceType: String, CustomStringConvertible, Codable {
-        case original = "ORIGINAL"
-        case withComments = "WITH_COMMENTS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ResourcePathComponent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The ID of the resource path.
-        public let id: String?
-        /// The name of the resource path.
-        public let name: String?
-
-        public init(id: String? = nil, name: String? = nil) {
-            self.id = id
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case name = "Name"
-        }
-    }
-
-    public struct CreateNotificationSubscriptionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationId", location: .uri(locationName: "OrganizationId"), required: true, type: .string), 
-            AWSShapeMember(label: "Protocol", required: true, type: .enum), 
-            AWSShapeMember(label: "SubscriptionType", required: true, type: .enum), 
-            AWSShapeMember(label: "Endpoint", required: true, type: .string)
-        ]
-        /// The ID of the organization.
-        public let organizationId: String
-        /// The protocol to use. The supported value is https, which delivers JSON-encoded messages using HTTPS POST.
-        public let `protocol`: SubscriptionProtocolType
-        /// The notification type.
-        public let subscriptionType: SubscriptionType
-        /// The endpoint to receive the notifications. If the protocol is HTTPS, the endpoint is a URL that begins with "https://".
-        public let endpoint: String
-
-        public init(organizationId: String, protocol: SubscriptionProtocolType, subscriptionType: SubscriptionType, endpoint: String) {
-            self.organizationId = organizationId
-            self.`protocol` = `protocol`
-            self.subscriptionType = subscriptionType
-            self.endpoint = endpoint
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case organizationId = "OrganizationId"
-            case `protocol` = "Protocol"
-            case subscriptionType = "SubscriptionType"
-            case endpoint = "Endpoint"
-        }
-    }
-
-    public struct PermissionInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Role", required: false, type: .enum), 
+            AWSShapeMember(label: "CommentMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "Initiator", required: false, type: .structure), 
+            AWSShapeMember(label: "IsIndirectActivity", required: false, type: .boolean), 
+            AWSShapeMember(label: "OrganizationId", required: false, type: .string), 
+            AWSShapeMember(label: "OriginalParent", required: false, type: .structure), 
+            AWSShapeMember(label: "Participants", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "TimeStamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
-        /// The role of the user.
-        public let role: RoleType?
-        /// The type of permissions.
-        public let `type`: RolePermissionType?
-
-        public init(role: RoleType? = nil, type: RolePermissionType? = nil) {
-            self.role = role
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case role = "Role"
-            case `type` = "Type"
-        }
-    }
-
-    public enum UserSortType: String, CustomStringConvertible, Codable {
-        case userName = "USER_NAME"
-        case fullName = "FULL_NAME"
-        case storageLimit = "STORAGE_LIMIT"
-        case userStatus = "USER_STATUS"
-        case storageUsed = "STORAGE_USED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetDocumentVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"), required: false, type: .boolean), 
-            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
-            AWSShapeMember(label: "Fields", location: .querystring(locationName: "fields"), required: false, type: .string)
-        ]
-        /// The version ID of the document.
-        public let versionId: String
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-        /// Set this to TRUE to include custom metadata in the response.
-        public let includeCustomMetadata: Bool?
-        /// The ID of the document.
-        public let documentId: String
-        /// A comma-separated list of values. Specify "SOURCE" to include a URL for the source document.
-        public let fields: String?
-
-        public init(versionId: String, authenticationToken: String? = nil, includeCustomMetadata: Bool? = nil, documentId: String, fields: String? = nil) {
-            self.versionId = versionId
-            self.authenticationToken = authenticationToken
-            self.includeCustomMetadata = includeCustomMetadata
-            self.documentId = documentId
-            self.fields = fields
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case versionId = "VersionId"
-            case authenticationToken = "Authentication"
-            case includeCustomMetadata = "includeCustomMetadata"
-            case documentId = "DocumentId"
-            case fields = "fields"
-        }
-    }
-
-    public struct DeleteFolderContentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string)
-        ]
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-        /// The ID of the folder.
-        public let folderId: String
-
-        public init(authenticationToken: String? = nil, folderId: String) {
-            self.authenticationToken = authenticationToken
-            self.folderId = folderId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case folderId = "FolderId"
-        }
-    }
-
-    public struct GroupMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The ID of the user group.
-        public let id: String?
-        /// The name of the group.
-        public let name: String?
-
-        public init(id: String? = nil, name: String? = nil) {
-            self.id = id
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case name = "Name"
-        }
-    }
-
-    public struct CreateCustomMetadataResponse: AWSShape {
-
-    }
-
-    public struct UserMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Username", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "EmailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "Surname", required: false, type: .string), 
-            AWSShapeMember(label: "GivenName", required: false, type: .string)
-        ]
-        /// The name of the user.
-        public let username: String?
-        /// The ID of the user.
-        public let id: String?
-        /// The email address of the user.
-        public let emailAddress: String?
-        /// The surname of the user.
-        public let surname: String?
-        /// The given name of the user before a rename operation.
-        public let givenName: String?
-
-        public init(username: String? = nil, id: String? = nil, emailAddress: String? = nil, surname: String? = nil, givenName: String? = nil) {
-            self.username = username
-            self.id = id
-            self.emailAddress = emailAddress
-            self.surname = surname
-            self.givenName = givenName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case username = "Username"
-            case id = "Id"
-            case emailAddress = "EmailAddress"
-            case surname = "Surname"
-            case givenName = "GivenName"
-        }
-    }
-
-    public enum BooleanEnumType: String, CustomStringConvertible, Codable {
-        case `true` = "TRUE"
-        case `false` = "FALSE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FolderContentType: String, CustomStringConvertible, Codable {
-        case all = "ALL"
-        case document = "DOCUMENT"
-        case folder = "FOLDER"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetDocumentPathResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Path", required: false, type: .structure)
-        ]
-        /// The path information.
-        public let path: ResourcePath?
-
-        public init(path: ResourcePath? = nil) {
-            self.path = path
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case path = "Path"
-        }
-    }
-
-    public struct UpdateUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "TimeZoneId", required: false, type: .string), 
-            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string), 
-            AWSShapeMember(label: "Locale", required: false, type: .enum), 
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "Surname", required: false, type: .string), 
-            AWSShapeMember(label: "StorageRule", required: false, type: .structure), 
-            AWSShapeMember(label: "GivenName", required: false, type: .string), 
-            AWSShapeMember(label: "GrantPoweruserPrivileges", required: false, type: .enum)
-        ]
-        /// The type of the user.
-        public let `type`: UserType?
-        /// The time zone ID of the user.
-        public let timeZoneId: String?
-        /// The ID of the user.
-        public let userId: String
-        /// The locale of the user.
-        public let locale: LocaleType?
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-        /// The surname of the user.
-        public let surname: String?
-        /// The amount of storage for the user.
-        public let storageRule: StorageRuleType?
-        /// The given name of the user.
-        public let givenName: String?
-        /// Boolean value to determine whether the user is granted Poweruser privileges.
-        public let grantPoweruserPrivileges: BooleanEnumType?
-
-        public init(type: UserType? = nil, timeZoneId: String? = nil, userId: String, locale: LocaleType? = nil, authenticationToken: String? = nil, surname: String? = nil, storageRule: StorageRuleType? = nil, givenName: String? = nil, grantPoweruserPrivileges: BooleanEnumType? = nil) {
-            self.`type` = `type`
-            self.timeZoneId = timeZoneId
-            self.userId = userId
-            self.locale = locale
-            self.authenticationToken = authenticationToken
-            self.surname = surname
-            self.storageRule = storageRule
-            self.givenName = givenName
-            self.grantPoweruserPrivileges = grantPoweruserPrivileges
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case timeZoneId = "TimeZoneId"
-            case userId = "UserId"
-            case locale = "Locale"
-            case authenticationToken = "Authentication"
-            case surname = "Surname"
-            case storageRule = "StorageRule"
-            case givenName = "GivenName"
-            case grantPoweruserPrivileges = "GrantPoweruserPrivileges"
-        }
-    }
-
-    public struct CreateCommentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Comment", required: false, type: .structure)
-        ]
-        /// The comment that has been created.
-        public let comment: Comment?
-
-        public init(comment: Comment? = nil) {
-            self.comment = comment
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case comment = "Comment"
-        }
-    }
-
-    public struct GetDocumentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomMetadata", required: false, type: .map), 
-            AWSShapeMember(label: "Metadata", required: false, type: .structure)
-        ]
-        /// The custom metadata on the document.
-        public let customMetadata: [String: String]?
-        /// The metadata details of the document.
-        public let metadata: DocumentMetadata?
-
-        public init(customMetadata: [String: String]? = nil, metadata: DocumentMetadata? = nil) {
-            self.customMetadata = customMetadata
-            self.metadata = metadata
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case customMetadata = "CustomMetadata"
-            case metadata = "Metadata"
-        }
-    }
-
-    public struct DescribeCommentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
-        ]
-        /// The ID of the document version.
-        public let versionId: String
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-        /// The marker for the next set of results. This marker was received from a previous call.
-        public let marker: String?
-        /// The ID of the document.
-        public let documentId: String
-        /// The maximum number of items to return.
-        public let limit: Int32?
-
-        public init(versionId: String, authenticationToken: String? = nil, marker: String? = nil, documentId: String, limit: Int32? = nil) {
-            self.versionId = versionId
-            self.authenticationToken = authenticationToken
-            self.marker = marker
-            self.documentId = documentId
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case versionId = "VersionId"
-            case authenticationToken = "Authentication"
-            case marker = "marker"
-            case documentId = "DocumentId"
-            case limit = "limit"
-        }
-    }
-
-    public enum LocaleType: String, CustomStringConvertible, Codable {
-        case en = "en"
-        case fr = "fr"
-        case ko = "ko"
-        case de = "de"
-        case es = "es"
-        case ja = "ja"
-        case ru = "ru"
-        case zhCn = "zh_CN"
-        case zhTw = "zh_TW"
-        case ptBr = "pt_BR"
-        case `default` = "default"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ResourceMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Owner", required: false, type: .structure), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string), 
-            AWSShapeMember(label: "OriginalName", required: false, type: .string), 
-            AWSShapeMember(label: "ParentId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The type of resource.
-        public let `type`: ResourceType?
-        /// The ID of the resource.
-        public let id: String?
-        /// The owner of the resource.
-        public let owner: UserMetadata?
-        /// The version ID of the resource. This is an optional field and is filled for action on document version.
-        public let versionId: String?
-        /// The original name of the resource before a rename operation.
-        public let originalName: String?
-        /// The parent ID of the resource before a rename operation.
-        public let parentId: String?
-        /// The name of the resource.
-        public let name: String?
-
-        public init(type: ResourceType? = nil, id: String? = nil, owner: UserMetadata? = nil, versionId: String? = nil, originalName: String? = nil, parentId: String? = nil, name: String? = nil) {
-            self.`type` = `type`
-            self.id = id
-            self.owner = owner
-            self.versionId = versionId
-            self.originalName = originalName
-            self.parentId = parentId
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case id = "Id"
-            case owner = "Owner"
-            case versionId = "VersionId"
-            case originalName = "OriginalName"
-            case parentId = "ParentId"
-            case name = "Name"
-        }
-    }
-
-    public struct DescribeDocumentVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "DocumentVersions", required: false, type: .list)
-        ]
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public let marker: String?
-        /// The document versions.
-        public let documentVersions: [DocumentVersionMetadata]?
-
-        public init(marker: String? = nil, documentVersions: [DocumentVersionMetadata]? = nil) {
-            self.marker = marker
-            self.documentVersions = documentVersions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case documentVersions = "DocumentVersions"
-        }
-    }
-
-    public enum UserFilterType: String, CustomStringConvertible, Codable {
-        case all = "ALL"
-        case activePending = "ACTIVE_PENDING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum UserStatusType: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case inactive = "INACTIVE"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ResourceType: String, CustomStringConvertible, Codable {
-        case folder = "FOLDER"
-        case document = "DOCUMENT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateFolderResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Metadata", required: false, type: .structure)
-        ]
-        /// The metadata of the folder.
-        public let metadata: FolderMetadata?
-
-        public init(metadata: FolderMetadata? = nil) {
-            self.metadata = metadata
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case metadata = "Metadata"
-        }
-    }
-
-    public enum UserType: String, CustomStringConvertible, Codable {
-        case user = "USER"
-        case admin = "ADMIN"
-        case poweruser = "POWERUSER"
-        case minimaluser = "MINIMALUSER"
-        case workspacesuser = "WORKSPACESUSER"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct NotificationOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SendEmail", required: false, type: .boolean), 
-            AWSShapeMember(label: "EmailMessage", required: false, type: .string)
-        ]
-        /// Boolean value to indicate an email notification should be sent to the receipients.
-        public let sendEmail: Bool?
-        /// Text value to be included in the email body.
-        public let emailMessage: String?
-
-        public init(sendEmail: Bool? = nil, emailMessage: String? = nil) {
-            self.sendEmail = sendEmail
-            self.emailMessage = emailMessage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sendEmail = "SendEmail"
-            case emailMessage = "EmailMessage"
-        }
-    }
-
-    public struct DescribeGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "SearchQuery", location: .querystring(locationName: "searchQuery"), required: true, type: .string), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationId", location: .querystring(locationName: "organizationId"), required: false, type: .string), 
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
-        ]
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-        /// A query to describe groups by group name.
-        public let searchQuery: String
-        /// The marker for the next set of results. (You received this marker from a previous call.)
-        public let marker: String?
+        /// Metadata of the commenting activity. This is an optional field and is filled for commenting activities.
+        public let commentMetadata: CommentMetadata?
+        /// The user who performed the action.
+        public let initiator: UserMetadata?
+        /// Indicates whether an activity is indirect or direct. An indirect activity results from a direct activity performed on a parent resource. For example, sharing a parent folder (the direct activity) shares all of the subfolders and documents within the parent folder (the indirect activity).
+        public let isIndirectActivity: Bool?
         /// The ID of the organization.
         public let organizationId: String?
-        /// The maximum number of items to return with this call.
-        public let limit: Int32?
+        /// The original parent of the resource. This is an optional field and is filled for move activities.
+        public let originalParent: ResourceMetadata?
+        /// The list of users or groups impacted by this action. This is an optional field and is filled for the following sharing activities: DOCUMENT_SHARED, DOCUMENT_SHARED, DOCUMENT_UNSHARED, FOLDER_SHARED, FOLDER_UNSHARED.
+        public let participants: Participants?
+        /// The metadata of the resource involved in the user action.
+        public let resourceMetadata: ResourceMetadata?
+        /// The timestamp when the action was performed.
+        public let timeStamp: TimeStamp?
+        /// The activity type.
+        public let `type`: ActivityType?
 
-        public init(authenticationToken: String? = nil, searchQuery: String, marker: String? = nil, organizationId: String? = nil, limit: Int32? = nil) {
-            self.authenticationToken = authenticationToken
-            self.searchQuery = searchQuery
-            self.marker = marker
+        public init(commentMetadata: CommentMetadata? = nil, initiator: UserMetadata? = nil, isIndirectActivity: Bool? = nil, organizationId: String? = nil, originalParent: ResourceMetadata? = nil, participants: Participants? = nil, resourceMetadata: ResourceMetadata? = nil, timeStamp: TimeStamp? = nil, type: ActivityType? = nil) {
+            self.commentMetadata = commentMetadata
+            self.initiator = initiator
+            self.isIndirectActivity = isIndirectActivity
             self.organizationId = organizationId
-            self.limit = limit
+            self.originalParent = originalParent
+            self.participants = participants
+            self.resourceMetadata = resourceMetadata
+            self.timeStamp = timeStamp
+            self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case searchQuery = "searchQuery"
-            case marker = "marker"
-            case organizationId = "organizationId"
-            case limit = "limit"
-        }
-    }
-
-    public struct Participants: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Users", required: false, type: .list), 
-            AWSShapeMember(label: "Groups", required: false, type: .list)
-        ]
-        /// The list of users.
-        public let users: [UserMetadata]?
-        /// The list of user groups.
-        public let groups: [GroupMetadata]?
-
-        public init(users: [UserMetadata]? = nil, groups: [GroupMetadata]? = nil) {
-            self.users = users
-            self.groups = groups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case users = "Users"
-            case groups = "Groups"
-        }
-    }
-
-    public struct DeleteCustomMetadataRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
-            AWSShapeMember(label: "Keys", location: .querystring(locationName: "keys"), required: false, type: .list), 
-            AWSShapeMember(label: "DeleteAll", location: .querystring(locationName: "deleteAll"), required: false, type: .boolean), 
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string)
-        ]
-        /// The ID of the resource, either a document or folder.
-        public let resourceId: String
-        /// The ID of the version, if the custom metadata is being deleted from a document version.
-        public let versionId: String?
-        /// List of properties to remove.
-        public let keys: [String]?
-        /// Flag to indicate removal of all custom metadata properties from the specified resource.
-        public let deleteAll: Bool?
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-
-        public init(resourceId: String, versionId: String? = nil, keys: [String]? = nil, deleteAll: Bool? = nil, authenticationToken: String? = nil) {
-            self.resourceId = resourceId
-            self.versionId = versionId
-            self.keys = keys
-            self.deleteAll = deleteAll
-            self.authenticationToken = authenticationToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case versionId = "versionId"
-            case keys = "keys"
-            case deleteAll = "deleteAll"
-            case authenticationToken = "Authentication"
-        }
-    }
-
-    public struct DescribeRootFoldersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: true, type: .string)
-        ]
-        /// The maximum number of items to return.
-        public let limit: Int32?
-        /// The marker for the next set of results. (You received this marker from a previous call.)
-        public let marker: String?
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String
-
-        public init(limit: Int32? = nil, marker: String? = nil, authenticationToken: String) {
-            self.limit = limit
-            self.marker = marker
-            self.authenticationToken = authenticationToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limit = "limit"
-            case marker = "marker"
-            case authenticationToken = "Authentication"
-        }
-    }
-
-    public struct CreateCustomMetadataRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionid"), required: false, type: .string), 
-            AWSShapeMember(label: "CustomMetadata", required: true, type: .map), 
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string)
-        ]
-        /// The ID of the resource.
-        public let resourceId: String
-        /// The ID of the version, if the custom metadata is being added to a document version.
-        public let versionId: String?
-        /// Custom metadata in the form of name-value pairs.
-        public let customMetadata: [String: String]
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-
-        public init(resourceId: String, versionId: String? = nil, customMetadata: [String: String], authenticationToken: String? = nil) {
-            self.resourceId = resourceId
-            self.versionId = versionId
-            self.customMetadata = customMetadata
-            self.authenticationToken = authenticationToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case versionId = "versionid"
-            case customMetadata = "CustomMetadata"
-            case authenticationToken = "Authentication"
-        }
-    }
-
-    public enum CommentStatusType: String, CustomStringConvertible, Codable {
-        case draft = "DRAFT"
-        case published = "PUBLISHED"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "User", required: false, type: .structure)
-        ]
-        /// The user information.
-        public let user: User?
-
-        public init(user: User? = nil) {
-            self.user = user
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case user = "User"
-        }
-    }
-
-    public struct DeleteLabelsResponse: AWSShape {
-
-    }
-
-    public struct CreateLabelsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
-            AWSShapeMember(label: "Labels", required: true, type: .list), 
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string)
-        ]
-        /// The ID of the resource.
-        public let resourceId: String
-        /// List of labels to add to the resource.
-        public let labels: [String]
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-
-        public init(resourceId: String, labels: [String], authenticationToken: String? = nil) {
-            self.resourceId = resourceId
-            self.labels = labels
-            self.authenticationToken = authenticationToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case labels = "Labels"
-            case authenticationToken = "Authentication"
-        }
-    }
-
-    public struct GetCurrentUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: true, type: .string)
-        ]
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String
-
-        public init(authenticationToken: String) {
-            self.authenticationToken = authenticationToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-        }
-    }
-
-    public struct CreateCommentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ThreadId", required: false, type: .string), 
-            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
-            AWSShapeMember(label: "Text", required: true, type: .string), 
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "ParentId", required: false, type: .string), 
-            AWSShapeMember(label: "NotifyCollaborators", required: false, type: .boolean), 
-            AWSShapeMember(label: "Visibility", required: false, type: .enum)
-        ]
-        /// The ID of the root comment in the thread.
-        public let threadId: String?
-        /// The ID of the document.
-        public let documentId: String
-        /// The ID of the document version.
-        public let versionId: String
-        /// The text of the comment.
-        public let text: String
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-        /// The ID of the parent comment.
-        public let parentId: String?
-        /// Set this parameter to TRUE to send an email out to the document collaborators after the comment is created.
-        public let notifyCollaborators: Bool?
-        /// The visibility of the comment. Options are either PRIVATE, where the comment is visible only to the comment author and document owner and co-owners, or PUBLIC, where the comment is visible to document owners, co-owners, and contributors.
-        public let visibility: CommentVisibilityType?
-
-        public init(threadId: String? = nil, documentId: String, versionId: String, text: String, authenticationToken: String? = nil, parentId: String? = nil, notifyCollaborators: Bool? = nil, visibility: CommentVisibilityType? = nil) {
-            self.threadId = threadId
-            self.documentId = documentId
-            self.versionId = versionId
-            self.text = text
-            self.authenticationToken = authenticationToken
-            self.parentId = parentId
-            self.notifyCollaborators = notifyCollaborators
-            self.visibility = visibility
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case threadId = "ThreadId"
-            case documentId = "DocumentId"
-            case versionId = "VersionId"
-            case text = "Text"
-            case authenticationToken = "Authentication"
-            case parentId = "ParentId"
-            case notifyCollaborators = "NotifyCollaborators"
-            case visibility = "Visibility"
-        }
-    }
-
-    public enum ResourceSortType: String, CustomStringConvertible, Codable {
-        case date = "DATE"
-        case name = "NAME"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RemoveAllResourcePermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string)
-        ]
-        /// The ID of the resource.
-        public let resourceId: String
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-
-        public init(resourceId: String, authenticationToken: String? = nil) {
-            self.resourceId = resourceId
-            self.authenticationToken = authenticationToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case authenticationToken = "Authentication"
-        }
-    }
-
-    public struct GetDocumentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
-            AWSShapeMember(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"), required: false, type: .boolean), 
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string)
-        ]
-        /// The ID of the document.
-        public let documentId: String
-        /// Set this to TRUE to include custom metadata in the response.
-        public let includeCustomMetadata: Bool?
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-
-        public init(documentId: String, includeCustomMetadata: Bool? = nil, authenticationToken: String? = nil) {
-            self.documentId = documentId
-            self.includeCustomMetadata = includeCustomMetadata
-            self.authenticationToken = authenticationToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case documentId = "DocumentId"
-            case includeCustomMetadata = "includeCustomMetadata"
-            case authenticationToken = "Authentication"
-        }
-    }
-
-    public struct GetDocumentPathRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
-            AWSShapeMember(label: "Fields", location: .querystring(locationName: "fields"), required: false, type: .string), 
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
-        ]
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-        /// This value is not supported.
-        public let marker: String?
-        /// The ID of the document.
-        public let documentId: String
-        /// A comma-separated list of values. Specify NAME to include the names of the parent folders.
-        public let fields: String?
-        /// The maximum number of levels in the hierarchy to return.
-        public let limit: Int32?
-
-        public init(authenticationToken: String? = nil, marker: String? = nil, documentId: String, fields: String? = nil, limit: Int32? = nil) {
-            self.authenticationToken = authenticationToken
-            self.marker = marker
-            self.documentId = documentId
-            self.fields = fields
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case marker = "marker"
-            case documentId = "DocumentId"
-            case fields = "fields"
-            case limit = "limit"
-        }
-    }
-
-    public struct RemoveResourcePermissionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
-            AWSShapeMember(label: "PrincipalType", location: .querystring(locationName: "type"), required: false, type: .enum), 
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "PrincipalId", location: .uri(locationName: "PrincipalId"), required: true, type: .string)
-        ]
-        /// The ID of the resource.
-        public let resourceId: String
-        /// The principal type of the resource.
-        public let principalType: PrincipalType?
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-        /// The principal ID of the resource.
-        public let principalId: String
-
-        public init(resourceId: String, principalType: PrincipalType? = nil, authenticationToken: String? = nil, principalId: String) {
-            self.resourceId = resourceId
-            self.principalType = principalType
-            self.authenticationToken = authenticationToken
-            self.principalId = principalId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case principalType = "type"
-            case authenticationToken = "Authentication"
-            case principalId = "PrincipalId"
+            case commentMetadata = "CommentMetadata"
+            case initiator = "Initiator"
+            case isIndirectActivity = "IsIndirectActivity"
+            case organizationId = "OrganizationId"
+            case originalParent = "OriginalParent"
+            case participants = "Participants"
+            case resourceMetadata = "ResourceMetadata"
+            case timeStamp = "TimeStamp"
+            case `type` = "Type"
         }
     }
 
@@ -2307,238 +161,464 @@ extension WorkDocs {
         public var description: String { return self.rawValue }
     }
 
-    public struct DescribeGroupsResponse: AWSShape {
+    public struct AddResourcePermissionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Groups", required: false, type: .list)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "NotificationOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "Principals", required: true, type: .list), 
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
         ]
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public let marker: String?
-        /// The list of groups.
-        public let groups: [GroupMetadata]?
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// The notification options.
+        public let notificationOptions: NotificationOptions?
+        /// The users, groups, or organization being granted permission.
+        public let principals: [SharePrincipal]
+        /// The ID of the resource.
+        public let resourceId: String
 
-        public init(marker: String? = nil, groups: [GroupMetadata]? = nil) {
-            self.marker = marker
-            self.groups = groups
+        public init(authenticationToken: String? = nil, notificationOptions: NotificationOptions? = nil, principals: [SharePrincipal], resourceId: String) {
+            self.authenticationToken = authenticationToken
+            self.notificationOptions = notificationOptions
+            self.principals = principals
+            self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case groups = "Groups"
+            case authenticationToken = "Authentication"
+            case notificationOptions = "NotificationOptions"
+            case principals = "Principals"
+            case resourceId = "ResourceId"
         }
     }
 
-    public enum SubscriptionType: String, CustomStringConvertible, Codable {
-        case all = "ALL"
+    public struct AddResourcePermissionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ShareResults", required: false, type: .list)
+        ]
+        /// The share results.
+        public let shareResults: [ShareResult]?
+
+        public init(shareResults: [ShareResult]? = nil) {
+            self.shareResults = shareResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case shareResults = "ShareResults"
+        }
+    }
+
+    public enum BooleanEnumType: String, CustomStringConvertible, Codable {
+        case `true` = "TRUE"
+        case `false` = "FALSE"
         public var description: String { return self.rawValue }
     }
 
-    public struct User: AWSShape {
+    public struct Comment: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "Storage", required: false, type: .structure), 
-            AWSShapeMember(label: "Locale", required: false, type: .enum), 
-            AWSShapeMember(label: "EmailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "RootFolderId", required: false, type: .string), 
-            AWSShapeMember(label: "ModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Username", required: false, type: .string), 
-            AWSShapeMember(label: "Surname", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "GivenName", required: false, type: .string), 
+            AWSShapeMember(label: "CommentId", required: true, type: .string), 
+            AWSShapeMember(label: "Contributor", required: false, type: .structure), 
             AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "TimeZoneId", required: false, type: .string), 
-            AWSShapeMember(label: "RecycleBinFolderId", required: false, type: .string)
+            AWSShapeMember(label: "ParentId", required: false, type: .string), 
+            AWSShapeMember(label: "RecipientId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Text", required: false, type: .string), 
+            AWSShapeMember(label: "ThreadId", required: false, type: .string), 
+            AWSShapeMember(label: "Visibility", required: false, type: .enum)
         ]
-        /// The type of user.
-        public let `type`: UserType?
-        /// The storage for the user.
-        public let storage: UserStorageMetadata?
-        /// The locale of the user.
-        public let locale: LocaleType?
-        /// The email address of the user.
-        public let emailAddress: String?
-        /// The ID of the root folder.
-        public let rootFolderId: String?
-        /// The time when the user was modified.
-        public let modifiedTimestamp: TimeStamp?
-        /// The login name of the user.
-        public let username: String?
-        /// The surname of the user.
-        public let surname: String?
-        /// The ID of the organization.
-        public let organizationId: String?
-        /// The status of the user.
-        public let status: UserStatusType?
-        /// The given name of the user.
-        public let givenName: String?
-        /// The time when the user was created.
+        /// The ID of the comment.
+        public let commentId: String
+        /// The details of the user who made the comment.
+        public let contributor: User?
+        /// The time that the comment was created.
         public let createdTimestamp: TimeStamp?
-        /// The ID of the user.
-        public let id: String?
-        /// The time zone ID of the user.
-        public let timeZoneId: String?
-        /// The ID of the recycle bin folder.
-        public let recycleBinFolderId: String?
+        /// The ID of the parent comment.
+        public let parentId: String?
+        /// If the comment is a reply to another user's comment, this field contains the user ID of the user being replied to.
+        public let recipientId: String?
+        /// The status of the comment.
+        public let status: CommentStatusType?
+        /// The text of the comment.
+        public let text: String?
+        /// The ID of the root comment in the thread.
+        public let threadId: String?
+        /// The visibility of the comment. Options are either PRIVATE, where the comment is visible only to the comment author and document owner and co-owners, or PUBLIC, where the comment is visible to document owners, co-owners, and contributors.
+        public let visibility: CommentVisibilityType?
 
-        public init(type: UserType? = nil, storage: UserStorageMetadata? = nil, locale: LocaleType? = nil, emailAddress: String? = nil, rootFolderId: String? = nil, modifiedTimestamp: TimeStamp? = nil, username: String? = nil, surname: String? = nil, organizationId: String? = nil, status: UserStatusType? = nil, givenName: String? = nil, createdTimestamp: TimeStamp? = nil, id: String? = nil, timeZoneId: String? = nil, recycleBinFolderId: String? = nil) {
-            self.`type` = `type`
-            self.storage = storage
-            self.locale = locale
-            self.emailAddress = emailAddress
-            self.rootFolderId = rootFolderId
-            self.modifiedTimestamp = modifiedTimestamp
-            self.username = username
-            self.surname = surname
-            self.organizationId = organizationId
-            self.status = status
-            self.givenName = givenName
+        public init(commentId: String, contributor: User? = nil, createdTimestamp: TimeStamp? = nil, parentId: String? = nil, recipientId: String? = nil, status: CommentStatusType? = nil, text: String? = nil, threadId: String? = nil, visibility: CommentVisibilityType? = nil) {
+            self.commentId = commentId
+            self.contributor = contributor
             self.createdTimestamp = createdTimestamp
-            self.id = id
-            self.timeZoneId = timeZoneId
-            self.recycleBinFolderId = recycleBinFolderId
+            self.parentId = parentId
+            self.recipientId = recipientId
+            self.status = status
+            self.text = text
+            self.threadId = threadId
+            self.visibility = visibility
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case storage = "Storage"
-            case locale = "Locale"
-            case emailAddress = "EmailAddress"
-            case rootFolderId = "RootFolderId"
-            case modifiedTimestamp = "ModifiedTimestamp"
-            case username = "Username"
-            case surname = "Surname"
-            case organizationId = "OrganizationId"
-            case status = "Status"
-            case givenName = "GivenName"
+            case commentId = "CommentId"
+            case contributor = "Contributor"
             case createdTimestamp = "CreatedTimestamp"
-            case id = "Id"
-            case timeZoneId = "TimeZoneId"
-            case recycleBinFolderId = "RecycleBinFolderId"
+            case parentId = "ParentId"
+            case recipientId = "RecipientId"
+            case status = "Status"
+            case text = "Text"
+            case threadId = "ThreadId"
+            case visibility = "Visibility"
         }
     }
 
-    public enum StorageType: String, CustomStringConvertible, Codable {
-        case unlimited = "UNLIMITED"
-        case quota = "QUOTA"
+    public struct CommentMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CommentId", required: false, type: .string), 
+            AWSShapeMember(label: "CommentStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Contributor", required: false, type: .structure), 
+            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RecipientId", required: false, type: .string)
+        ]
+        /// The ID of the comment.
+        public let commentId: String?
+        /// The status of the comment.
+        public let commentStatus: CommentStatusType?
+        /// The user who made the comment.
+        public let contributor: User?
+        /// The timestamp that the comment was created.
+        public let createdTimestamp: TimeStamp?
+        /// The ID of the user being replied to.
+        public let recipientId: String?
+
+        public init(commentId: String? = nil, commentStatus: CommentStatusType? = nil, contributor: User? = nil, createdTimestamp: TimeStamp? = nil, recipientId: String? = nil) {
+            self.commentId = commentId
+            self.commentStatus = commentStatus
+            self.contributor = contributor
+            self.createdTimestamp = createdTimestamp
+            self.recipientId = recipientId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commentId = "CommentId"
+            case commentStatus = "CommentStatus"
+            case contributor = "Contributor"
+            case createdTimestamp = "CreatedTimestamp"
+            case recipientId = "RecipientId"
+        }
+    }
+
+    public enum CommentStatusType: String, CustomStringConvertible, Codable {
+        case draft = "DRAFT"
+        case published = "PUBLISHED"
+        case deleted = "DELETED"
         public var description: String { return self.rawValue }
     }
 
-    public struct Subscription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Protocol", required: false, type: .enum), 
-            AWSShapeMember(label: "SubscriptionId", required: false, type: .string), 
-            AWSShapeMember(label: "EndPoint", required: false, type: .string)
-        ]
-        /// The protocol of the subscription.
-        public let `protocol`: SubscriptionProtocolType?
-        /// The ID of the subscription.
-        public let subscriptionId: String?
-        /// The endpoint of the subscription.
-        public let endPoint: String?
+    public enum CommentVisibilityType: String, CustomStringConvertible, Codable {
+        case `public` = "PUBLIC"
+        case `private` = "PRIVATE"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(protocol: SubscriptionProtocolType? = nil, subscriptionId: String? = nil, endPoint: String? = nil) {
-            self.`protocol` = `protocol`
-            self.subscriptionId = subscriptionId
-            self.endPoint = endPoint
+    public struct CreateCommentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
+            AWSShapeMember(label: "NotifyCollaborators", required: false, type: .boolean), 
+            AWSShapeMember(label: "ParentId", required: false, type: .string), 
+            AWSShapeMember(label: "Text", required: true, type: .string), 
+            AWSShapeMember(label: "ThreadId", required: false, type: .string), 
+            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
+            AWSShapeMember(label: "Visibility", required: false, type: .enum)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// The ID of the document.
+        public let documentId: String
+        /// Set this parameter to TRUE to send an email out to the document collaborators after the comment is created.
+        public let notifyCollaborators: Bool?
+        /// The ID of the parent comment.
+        public let parentId: String?
+        /// The text of the comment.
+        public let text: String
+        /// The ID of the root comment in the thread.
+        public let threadId: String?
+        /// The ID of the document version.
+        public let versionId: String
+        /// The visibility of the comment. Options are either PRIVATE, where the comment is visible only to the comment author and document owner and co-owners, or PUBLIC, where the comment is visible to document owners, co-owners, and contributors.
+        public let visibility: CommentVisibilityType?
+
+        public init(authenticationToken: String? = nil, documentId: String, notifyCollaborators: Bool? = nil, parentId: String? = nil, text: String, threadId: String? = nil, versionId: String, visibility: CommentVisibilityType? = nil) {
+            self.authenticationToken = authenticationToken
+            self.documentId = documentId
+            self.notifyCollaborators = notifyCollaborators
+            self.parentId = parentId
+            self.text = text
+            self.threadId = threadId
+            self.versionId = versionId
+            self.visibility = visibility
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `protocol` = "Protocol"
-            case subscriptionId = "SubscriptionId"
-            case endPoint = "EndPoint"
+            case authenticationToken = "Authentication"
+            case documentId = "DocumentId"
+            case notifyCollaborators = "NotifyCollaborators"
+            case parentId = "ParentId"
+            case text = "Text"
+            case threadId = "ThreadId"
+            case versionId = "VersionId"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct CreateCommentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Comment", required: false, type: .structure)
+        ]
+        /// The comment that has been created.
+        public let comment: Comment?
+
+        public init(comment: Comment? = nil) {
+            self.comment = comment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "Comment"
+        }
+    }
+
+    public struct CreateCustomMetadataRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "CustomMetadata", required: true, type: .map), 
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionid"), required: false, type: .string)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// Custom metadata in the form of name-value pairs.
+        public let customMetadata: [String: String]
+        /// The ID of the resource.
+        public let resourceId: String
+        /// The ID of the version, if the custom metadata is being added to a document version.
+        public let versionId: String?
+
+        public init(authenticationToken: String? = nil, customMetadata: [String: String], resourceId: String, versionId: String? = nil) {
+            self.authenticationToken = authenticationToken
+            self.customMetadata = customMetadata
+            self.resourceId = resourceId
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case customMetadata = "CustomMetadata"
+            case resourceId = "ResourceId"
+            case versionId = "versionid"
+        }
+    }
+
+    public struct CreateCustomMetadataResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct CreateFolderRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ParentFolderId", required: true, type: .string)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// The name of the new folder.
+        public let name: String?
+        /// The ID of the parent folder.
+        public let parentFolderId: String
+
+        public init(authenticationToken: String? = nil, name: String? = nil, parentFolderId: String) {
+            self.authenticationToken = authenticationToken
+            self.name = name
+            self.parentFolderId = parentFolderId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case name = "Name"
+            case parentFolderId = "ParentFolderId"
+        }
+    }
+
+    public struct CreateFolderResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Metadata", required: false, type: .structure)
+        ]
+        /// The metadata of the folder.
+        public let metadata: FolderMetadata?
+
+        public init(metadata: FolderMetadata? = nil) {
+            self.metadata = metadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "Metadata"
+        }
+    }
+
+    public struct CreateLabelsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "Labels", required: true, type: .list), 
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// List of labels to add to the resource.
+        public let labels: [String]
+        /// The ID of the resource.
+        public let resourceId: String
+
+        public init(authenticationToken: String? = nil, labels: [String], resourceId: String) {
+            self.authenticationToken = authenticationToken
+            self.labels = labels
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case labels = "Labels"
+            case resourceId = "ResourceId"
         }
     }
 
     public struct CreateLabelsResponse: AWSShape {
 
+        public init() {
+        }
+
     }
 
-    public struct DeleteLabelsRequest: AWSShape {
+    public struct CreateNotificationSubscriptionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "DeleteAll", location: .querystring(locationName: "deleteAll"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Labels", location: .querystring(locationName: "labels"), required: false, type: .list)
+            AWSShapeMember(label: "Endpoint", required: true, type: .string), 
+            AWSShapeMember(label: "OrganizationId", location: .uri(locationName: "OrganizationId"), required: true, type: .string), 
+            AWSShapeMember(label: "Protocol", required: true, type: .enum), 
+            AWSShapeMember(label: "SubscriptionType", required: true, type: .enum)
         ]
-        /// The ID of the resource.
-        public let resourceId: String
+        /// The endpoint to receive the notifications. If the protocol is HTTPS, the endpoint is a URL that begins with "https://".
+        public let endpoint: String
+        /// The ID of the organization.
+        public let organizationId: String
+        /// The protocol to use. The supported value is https, which delivers JSON-encoded messages using HTTPS POST.
+        public let `protocol`: SubscriptionProtocolType
+        /// The notification type.
+        public let subscriptionType: SubscriptionType
+
+        public init(endpoint: String, organizationId: String, protocol: SubscriptionProtocolType, subscriptionType: SubscriptionType) {
+            self.endpoint = endpoint
+            self.organizationId = organizationId
+            self.`protocol` = `protocol`
+            self.subscriptionType = subscriptionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoint = "Endpoint"
+            case organizationId = "OrganizationId"
+            case `protocol` = "Protocol"
+            case subscriptionType = "SubscriptionType"
+        }
+    }
+
+    public struct CreateNotificationSubscriptionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subscription", required: false, type: .structure)
+        ]
+        /// The subscription.
+        public let subscription: Subscription?
+
+        public init(subscription: Subscription? = nil) {
+            self.subscription = subscription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subscription = "Subscription"
+        }
+    }
+
+    public struct CreateUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "EmailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "GivenName", required: true, type: .string), 
+            AWSShapeMember(label: "OrganizationId", required: false, type: .string), 
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "StorageRule", required: false, type: .structure), 
+            AWSShapeMember(label: "Surname", required: true, type: .string), 
+            AWSShapeMember(label: "TimeZoneId", required: false, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string)
+        ]
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
-        /// Flag to request removal of all labels from the specified resource.
-        public let deleteAll: Bool?
-        /// List of labels to delete from the resource.
-        public let labels: [String]?
+        /// The email address of the user.
+        public let emailAddress: String?
+        /// The given name of the user.
+        public let givenName: String
+        /// The ID of the organization.
+        public let organizationId: String?
+        /// The password of the user.
+        public let password: String
+        /// The amount of storage for the user.
+        public let storageRule: StorageRuleType?
+        /// The surname of the user.
+        public let surname: String
+        /// The time zone ID of the user.
+        public let timeZoneId: String?
+        /// The login name of the user.
+        public let username: String
 
-        public init(resourceId: String, authenticationToken: String? = nil, deleteAll: Bool? = nil, labels: [String]? = nil) {
-            self.resourceId = resourceId
+        public init(authenticationToken: String? = nil, emailAddress: String? = nil, givenName: String, organizationId: String? = nil, password: String, storageRule: StorageRuleType? = nil, surname: String, timeZoneId: String? = nil, username: String) {
             self.authenticationToken = authenticationToken
-            self.deleteAll = deleteAll
-            self.labels = labels
+            self.emailAddress = emailAddress
+            self.givenName = givenName
+            self.organizationId = organizationId
+            self.password = password
+            self.storageRule = storageRule
+            self.surname = surname
+            self.timeZoneId = timeZoneId
+            self.username = username
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
             case authenticationToken = "Authentication"
-            case deleteAll = "deleteAll"
-            case labels = "labels"
+            case emailAddress = "EmailAddress"
+            case givenName = "GivenName"
+            case organizationId = "OrganizationId"
+            case password = "Password"
+            case storageRule = "StorageRule"
+            case surname = "Surname"
+            case timeZoneId = "TimeZoneId"
+            case username = "Username"
         }
     }
 
-    public struct ResourcePath: AWSShape {
+    public struct CreateUserResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Components", required: false, type: .list)
+            AWSShapeMember(label: "User", required: false, type: .structure)
         ]
-        /// The components of the resource path.
-        public let components: [ResourcePathComponent]?
+        /// The user information.
+        public let user: User?
 
-        public init(components: [ResourcePathComponent]? = nil) {
-            self.components = components
+        public init(user: User? = nil) {
+            self.user = user
         }
 
         private enum CodingKeys: String, CodingKey {
-            case components = "Components"
+            case user = "User"
         }
     }
 
-    public struct UpdateDocumentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceState", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
-            AWSShapeMember(label: "ParentFolderId", required: false, type: .string)
-        ]
-        /// The resource state of the document. Only ACTIVE and RECYCLED are supported.
-        public let resourceState: ResourceStateType?
-        /// The name of the document.
-        public let name: String?
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-        /// The ID of the document.
-        public let documentId: String
-        /// The ID of the parent folder.
-        public let parentFolderId: String?
-
-        public init(resourceState: ResourceStateType? = nil, name: String? = nil, authenticationToken: String? = nil, documentId: String, parentFolderId: String? = nil) {
-            self.resourceState = resourceState
-            self.name = name
-            self.authenticationToken = authenticationToken
-            self.documentId = documentId
-            self.parentFolderId = parentFolderId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceState = "ResourceState"
-            case name = "Name"
-            case authenticationToken = "Authentication"
-            case documentId = "DocumentId"
-            case parentFolderId = "ParentFolderId"
-        }
-    }
-
-    public struct ActivateUserRequest: AWSShape {
+    public struct DeactivateUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
             AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
@@ -2559,125 +639,179 @@ extension WorkDocs {
         }
     }
 
-    public struct CreateUserResponse: AWSShape {
+    public struct DeleteCommentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "User", required: false, type: .structure)
-        ]
-        /// The user information.
-        public let user: User?
-
-        public init(user: User? = nil) {
-            self.user = user
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case user = "User"
-        }
-    }
-
-    public struct AbortDocumentVersionUploadRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "CommentId", location: .uri(locationName: "CommentId"), required: true, type: .string), 
             AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string)
+            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string)
         ]
-        /// The ID of the document.
-        public let documentId: String
-        /// The ID of the version.
-        public let versionId: String
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
+        /// The ID of the comment.
+        public let commentId: String
+        /// The ID of the document.
+        public let documentId: String
+        /// The ID of the document version.
+        public let versionId: String
 
-        public init(documentId: String, versionId: String, authenticationToken: String? = nil) {
+        public init(authenticationToken: String? = nil, commentId: String, documentId: String, versionId: String) {
+            self.authenticationToken = authenticationToken
+            self.commentId = commentId
             self.documentId = documentId
             self.versionId = versionId
-            self.authenticationToken = authenticationToken
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case commentId = "CommentId"
             case documentId = "DocumentId"
             case versionId = "VersionId"
+        }
+    }
+
+    public struct DeleteCustomMetadataRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "DeleteAll", location: .querystring(locationName: "deleteAll"), required: false, type: .boolean), 
+            AWSShapeMember(label: "Keys", location: .querystring(locationName: "keys"), required: false, type: .list), 
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// Flag to indicate removal of all custom metadata properties from the specified resource.
+        public let deleteAll: Bool?
+        /// List of properties to remove.
+        public let keys: [String]?
+        /// The ID of the resource, either a document or folder.
+        public let resourceId: String
+        /// The ID of the version, if the custom metadata is being deleted from a document version.
+        public let versionId: String?
+
+        public init(authenticationToken: String? = nil, deleteAll: Bool? = nil, keys: [String]? = nil, resourceId: String, versionId: String? = nil) {
+            self.authenticationToken = authenticationToken
+            self.deleteAll = deleteAll
+            self.keys = keys
+            self.resourceId = resourceId
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case authenticationToken = "Authentication"
+            case deleteAll = "deleteAll"
+            case keys = "keys"
+            case resourceId = "ResourceId"
+            case versionId = "versionId"
         }
     }
 
-    public enum ResourceCollectionType: String, CustomStringConvertible, Codable {
-        case sharedWithMe = "SHARED_WITH_ME"
-        public var description: String { return self.rawValue }
+    public struct DeleteCustomMetadataResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
-    public enum DocumentThumbnailType: String, CustomStringConvertible, Codable {
-        case small = "SMALL"
-        case smallHq = "SMALL_HQ"
-        case large = "LARGE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ShareStatusType: String, CustomStringConvertible, Codable {
-        case success = "SUCCESS"
-        case failure = "FAILURE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PrincipalType: String, CustomStringConvertible, Codable {
-        case user = "USER"
-        case group = "GROUP"
-        case invite = "INVITE"
-        case anonymous = "ANONYMOUS"
-        case organization = "ORGANIZATION"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeUsersResponse: AWSShape {
+    public struct DeleteDocumentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Users", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "TotalNumberOfUsers", required: false, type: .long)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string)
         ]
-        /// The users.
-        public let users: [User]?
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public let marker: String?
-        /// The total number of users included in the results.
-        public let totalNumberOfUsers: Int64?
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// The ID of the document.
+        public let documentId: String
 
-        public init(users: [User]? = nil, marker: String? = nil, totalNumberOfUsers: Int64? = nil) {
-            self.users = users
-            self.marker = marker
-            self.totalNumberOfUsers = totalNumberOfUsers
+        public init(authenticationToken: String? = nil, documentId: String) {
+            self.authenticationToken = authenticationToken
+            self.documentId = documentId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case users = "Users"
-            case marker = "Marker"
-            case totalNumberOfUsers = "TotalNumberOfUsers"
+            case authenticationToken = "Authentication"
+            case documentId = "DocumentId"
         }
     }
 
-    public struct SharePrincipal: AWSShape {
+    public struct DeleteFolderContentsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Role", required: true, type: .enum), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string)
         ]
-        /// The role of the recipient.
-        public let role: RoleType
-        /// The ID of the recipient.
-        public let id: String
-        /// The type of the recipient.
-        public let `type`: PrincipalType
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// The ID of the folder.
+        public let folderId: String
 
-        public init(role: RoleType, id: String, type: PrincipalType) {
-            self.role = role
-            self.id = id
-            self.`type` = `type`
+        public init(authenticationToken: String? = nil, folderId: String) {
+            self.authenticationToken = authenticationToken
+            self.folderId = folderId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case role = "Role"
-            case id = "Id"
-            case `type` = "Type"
+            case authenticationToken = "Authentication"
+            case folderId = "FolderId"
         }
+    }
+
+    public struct DeleteFolderRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// The ID of the folder.
+        public let folderId: String
+
+        public init(authenticationToken: String? = nil, folderId: String) {
+            self.authenticationToken = authenticationToken
+            self.folderId = folderId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case folderId = "FolderId"
+        }
+    }
+
+    public struct DeleteLabelsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "DeleteAll", location: .querystring(locationName: "deleteAll"), required: false, type: .boolean), 
+            AWSShapeMember(label: "Labels", location: .querystring(locationName: "labels"), required: false, type: .list), 
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// Flag to request removal of all labels from the specified resource.
+        public let deleteAll: Bool?
+        /// List of labels to delete from the resource.
+        public let labels: [String]?
+        /// The ID of the resource.
+        public let resourceId: String
+
+        public init(authenticationToken: String? = nil, deleteAll: Bool? = nil, labels: [String]? = nil, resourceId: String) {
+            self.authenticationToken = authenticationToken
+            self.deleteAll = deleteAll
+            self.labels = labels
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case deleteAll = "deleteAll"
+            case labels = "labels"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct DeleteLabelsResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct DeleteNotificationSubscriptionRequest: AWSShape {
@@ -2701,142 +835,142 @@ extension WorkDocs {
         }
     }
 
-    public struct InitiateDocumentVersionUploadResponse: AWSShape {
+    public struct DeleteUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UploadMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "Metadata", required: false, type: .structure)
-        ]
-        /// The upload metadata.
-        public let uploadMetadata: UploadMetadata?
-        /// The document metadata.
-        public let metadata: DocumentMetadata?
-
-        public init(uploadMetadata: UploadMetadata? = nil, metadata: DocumentMetadata? = nil) {
-            self.uploadMetadata = uploadMetadata
-            self.metadata = metadata
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case uploadMetadata = "UploadMetadata"
-            case metadata = "Metadata"
-        }
-    }
-
-    public struct AddResourcePermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
-            AWSShapeMember(label: "NotificationOptions", required: false, type: .structure), 
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "Principals", required: true, type: .list)
+            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
         ]
-        /// The ID of the resource.
-        public let resourceId: String
-        /// The notification options.
-        public let notificationOptions: NotificationOptions?
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
-        /// The users, groups, or organization being granted permission.
-        public let principals: [SharePrincipal]
+        /// The ID of the user.
+        public let userId: String
 
-        public init(resourceId: String, notificationOptions: NotificationOptions? = nil, authenticationToken: String? = nil, principals: [SharePrincipal]) {
-            self.resourceId = resourceId
-            self.notificationOptions = notificationOptions
+        public init(authenticationToken: String? = nil, userId: String) {
             self.authenticationToken = authenticationToken
-            self.principals = principals
+            self.userId = userId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case notificationOptions = "NotificationOptions"
             case authenticationToken = "Authentication"
-            case principals = "Principals"
+            case userId = "UserId"
         }
     }
 
-    public struct DescribeNotificationSubscriptionsRequest: AWSShape {
+    public struct DescribeActivitiesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationId", location: .uri(locationName: "OrganizationId"), required: true, type: .string), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
-        ]
-        /// The ID of the organization.
-        public let organizationId: String
-        /// The marker for the next set of results. (You received this marker from a previous call.)
-        public let marker: String?
-        /// The maximum number of items to return with this call.
-        public let limit: Int32?
-
-        public init(organizationId: String, marker: String? = nil, limit: Int32? = nil) {
-            self.organizationId = organizationId
-            self.marker = marker
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case organizationId = "OrganizationId"
-            case marker = "marker"
-            case limit = "limit"
-        }
-    }
-
-    public struct DescribeUsersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationId", location: .querystring(locationName: "organizationId"), required: false, type: .string), 
-            AWSShapeMember(label: "Sort", location: .querystring(locationName: "sort"), required: false, type: .enum), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeMember(label: "Include", location: .querystring(locationName: "include"), required: false, type: .enum), 
-            AWSShapeMember(label: "UserIds", location: .querystring(locationName: "userIds"), required: false, type: .string), 
-            AWSShapeMember(label: "Fields", location: .querystring(locationName: "fields"), required: false, type: .string), 
-            AWSShapeMember(label: "Order", location: .querystring(locationName: "order"), required: false, type: .enum), 
+            AWSShapeMember(label: "ActivityTypes", location: .querystring(locationName: "activityTypes"), required: false, type: .string), 
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "Query", location: .querystring(locationName: "query"), required: false, type: .string)
+            AWSShapeMember(label: "EndTime", location: .querystring(locationName: "endTime"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "IncludeIndirectActivities", location: .querystring(locationName: "includeIndirectActivities"), required: false, type: .boolean), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationId", location: .querystring(locationName: "organizationId"), required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", location: .querystring(locationName: "resourceId"), required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", location: .querystring(locationName: "startTime"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "UserId", location: .querystring(locationName: "userId"), required: false, type: .string)
         ]
-        /// The ID of the organization.
-        public let organizationId: String?
-        /// The sorting criteria.
-        public let sort: UserSortType?
-        /// The marker for the next set of results. (You received this marker from a previous call.)
-        public let marker: String?
+        /// Specifies which activity types to include in the response. If this field is left empty, all activity types are returned.
+        public let activityTypes: String?
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// The timestamp that determines the end time of the activities. The response includes the activities performed before the specified timestamp.
+        public let endTime: TimeStamp?
+        /// Includes indirect activities. An indirect activity results from a direct activity performed on a parent resource. For example, sharing a parent folder (the direct activity) shares all of the subfolders and documents within the parent folder (the indirect activity).
+        public let includeIndirectActivities: Bool?
         /// The maximum number of items to return.
         public let limit: Int32?
-        /// The state of the users. Specify "ALL" to include inactive users.
-        public let include: UserFilterType?
-        /// The IDs of the users.
-        public let userIds: String?
-        /// A comma-separated list of values. Specify "STORAGE_METADATA" to include the user storage quota and utilization information.
-        public let fields: String?
-        /// The order for the results.
-        public let order: OrderType?
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
-        public let authenticationToken: String?
-        /// A query to filter users by user name.
-        public let query: String?
+        /// The marker for the next set of results.
+        public let marker: String?
+        /// The ID of the organization. This is a mandatory parameter when using administrative API (SigV4) requests.
+        public let organizationId: String?
+        /// The document or folder ID for which to describe activity types.
+        public let resourceId: String?
+        /// The timestamp that determines the starting time of the activities. The response includes the activities performed after the specified timestamp.
+        public let startTime: TimeStamp?
+        /// The ID of the user who performed the action. The response includes activities pertaining to this user. This is an optional parameter and is only applicable for administrative API (SigV4) requests.
+        public let userId: String?
 
-        public init(organizationId: String? = nil, sort: UserSortType? = nil, marker: String? = nil, limit: Int32? = nil, include: UserFilterType? = nil, userIds: String? = nil, fields: String? = nil, order: OrderType? = nil, authenticationToken: String? = nil, query: String? = nil) {
-            self.organizationId = organizationId
-            self.sort = sort
-            self.marker = marker
-            self.limit = limit
-            self.include = include
-            self.userIds = userIds
-            self.fields = fields
-            self.order = order
+        public init(activityTypes: String? = nil, authenticationToken: String? = nil, endTime: TimeStamp? = nil, includeIndirectActivities: Bool? = nil, limit: Int32? = nil, marker: String? = nil, organizationId: String? = nil, resourceId: String? = nil, startTime: TimeStamp? = nil, userId: String? = nil) {
+            self.activityTypes = activityTypes
             self.authenticationToken = authenticationToken
-            self.query = query
+            self.endTime = endTime
+            self.includeIndirectActivities = includeIndirectActivities
+            self.limit = limit
+            self.marker = marker
+            self.organizationId = organizationId
+            self.resourceId = resourceId
+            self.startTime = startTime
+            self.userId = userId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case organizationId = "organizationId"
-            case sort = "sort"
-            case marker = "marker"
-            case limit = "limit"
-            case include = "include"
-            case userIds = "userIds"
-            case fields = "fields"
-            case order = "order"
+            case activityTypes = "activityTypes"
             case authenticationToken = "Authentication"
-            case query = "query"
+            case endTime = "endTime"
+            case includeIndirectActivities = "includeIndirectActivities"
+            case limit = "limit"
+            case marker = "marker"
+            case organizationId = "organizationId"
+            case resourceId = "resourceId"
+            case startTime = "startTime"
+            case userId = "userId"
+        }
+    }
+
+    public struct DescribeActivitiesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "UserActivities", required: false, type: .list)
+        ]
+        /// The marker for the next set of results.
+        public let marker: String?
+        /// The list of activities for the specified user and time period.
+        public let userActivities: [Activity]?
+
+        public init(marker: String? = nil, userActivities: [Activity]? = nil) {
+            self.marker = marker
+            self.userActivities = userActivities
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case userActivities = "UserActivities"
+        }
+    }
+
+    public struct DescribeCommentsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// The ID of the document.
+        public let documentId: String
+        /// The maximum number of items to return.
+        public let limit: Int32?
+        /// The marker for the next set of results. This marker was received from a previous call.
+        public let marker: String?
+        /// The ID of the document version.
+        public let versionId: String
+
+        public init(authenticationToken: String? = nil, documentId: String, limit: Int32? = nil, marker: String? = nil, versionId: String) {
+            self.authenticationToken = authenticationToken
+            self.documentId = documentId
+            self.limit = limit
+            self.marker = marker
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case documentId = "DocumentId"
+            case limit = "limit"
+            case marker = "marker"
+            case versionId = "VersionId"
         }
     }
 
@@ -2861,25 +995,1903 @@ extension WorkDocs {
         }
     }
 
-    public struct DeleteUserRequest: AWSShape {
+    public struct DescribeDocumentVersionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
+            AWSShapeMember(label: "Fields", location: .querystring(locationName: "fields"), required: false, type: .string), 
+            AWSShapeMember(label: "Include", location: .querystring(locationName: "include"), required: false, type: .string), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string)
         ]
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
-        /// The ID of the user.
-        public let userId: String
+        /// The ID of the document.
+        public let documentId: String
+        /// Specify "SOURCE" to include initialized versions and a URL for the source document.
+        public let fields: String?
+        /// A comma-separated list of values. Specify "INITIALIZED" to include incomplete versions.
+        public let include: String?
+        /// The maximum number of versions to return with this call.
+        public let limit: Int32?
+        /// The marker for the next set of results. (You received this marker from a previous call.)
+        public let marker: String?
 
-        public init(authenticationToken: String? = nil, userId: String) {
+        public init(authenticationToken: String? = nil, documentId: String, fields: String? = nil, include: String? = nil, limit: Int32? = nil, marker: String? = nil) {
             self.authenticationToken = authenticationToken
+            self.documentId = documentId
+            self.fields = fields
+            self.include = include
+            self.limit = limit
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case documentId = "DocumentId"
+            case fields = "fields"
+            case include = "include"
+            case limit = "limit"
+            case marker = "marker"
+        }
+    }
+
+    public struct DescribeDocumentVersionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DocumentVersions", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// The document versions.
+        public let documentVersions: [DocumentVersionMetadata]?
+        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        public let marker: String?
+
+        public init(documentVersions: [DocumentVersionMetadata]? = nil, marker: String? = nil) {
+            self.documentVersions = documentVersions
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentVersions = "DocumentVersions"
+            case marker = "Marker"
+        }
+    }
+
+    public struct DescribeFolderContentsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string), 
+            AWSShapeMember(label: "Include", location: .querystring(locationName: "include"), required: false, type: .string), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "Order", location: .querystring(locationName: "order"), required: false, type: .enum), 
+            AWSShapeMember(label: "Sort", location: .querystring(locationName: "sort"), required: false, type: .enum), 
+            AWSShapeMember(label: "Type", location: .querystring(locationName: "type"), required: false, type: .enum)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// The ID of the folder.
+        public let folderId: String
+        /// The contents to include. Specify "INITIALIZED" to include initialized documents.
+        public let include: String?
+        /// The maximum number of items to return with this call.
+        public let limit: Int32?
+        /// The marker for the next set of results. This marker was received from a previous call.
+        public let marker: String?
+        /// The order for the contents of the folder.
+        public let order: OrderType?
+        /// The sorting criteria.
+        public let sort: ResourceSortType?
+        /// The type of items.
+        public let `type`: FolderContentType?
+
+        public init(authenticationToken: String? = nil, folderId: String, include: String? = nil, limit: Int32? = nil, marker: String? = nil, order: OrderType? = nil, sort: ResourceSortType? = nil, type: FolderContentType? = nil) {
+            self.authenticationToken = authenticationToken
+            self.folderId = folderId
+            self.include = include
+            self.limit = limit
+            self.marker = marker
+            self.order = order
+            self.sort = sort
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case folderId = "FolderId"
+            case include = "include"
+            case limit = "limit"
+            case marker = "marker"
+            case order = "order"
+            case sort = "sort"
+            case `type` = "type"
+        }
+    }
+
+    public struct DescribeFolderContentsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Documents", required: false, type: .list), 
+            AWSShapeMember(label: "Folders", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// The documents in the specified folder.
+        public let documents: [DocumentMetadata]?
+        /// The subfolders in the specified folder.
+        public let folders: [FolderMetadata]?
+        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        public let marker: String?
+
+        public init(documents: [DocumentMetadata]? = nil, folders: [FolderMetadata]? = nil, marker: String? = nil) {
+            self.documents = documents
+            self.folders = folders
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documents = "Documents"
+            case folders = "Folders"
+            case marker = "Marker"
+        }
+    }
+
+    public struct DescribeGroupsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationId", location: .querystring(locationName: "organizationId"), required: false, type: .string), 
+            AWSShapeMember(label: "SearchQuery", location: .querystring(locationName: "searchQuery"), required: true, type: .string)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// The maximum number of items to return with this call.
+        public let limit: Int32?
+        /// The marker for the next set of results. (You received this marker from a previous call.)
+        public let marker: String?
+        /// The ID of the organization.
+        public let organizationId: String?
+        /// A query to describe groups by group name.
+        public let searchQuery: String
+
+        public init(authenticationToken: String? = nil, limit: Int32? = nil, marker: String? = nil, organizationId: String? = nil, searchQuery: String) {
+            self.authenticationToken = authenticationToken
+            self.limit = limit
+            self.marker = marker
+            self.organizationId = organizationId
+            self.searchQuery = searchQuery
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case limit = "limit"
+            case marker = "marker"
+            case organizationId = "organizationId"
+            case searchQuery = "searchQuery"
+        }
+    }
+
+    public struct DescribeGroupsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Groups", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// The list of groups.
+        public let groups: [GroupMetadata]?
+        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        public let marker: String?
+
+        public init(groups: [GroupMetadata]? = nil, marker: String? = nil) {
+            self.groups = groups
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groups = "Groups"
+            case marker = "Marker"
+        }
+    }
+
+    public struct DescribeNotificationSubscriptionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationId", location: .uri(locationName: "OrganizationId"), required: true, type: .string)
+        ]
+        /// The maximum number of items to return with this call.
+        public let limit: Int32?
+        /// The marker for the next set of results. (You received this marker from a previous call.)
+        public let marker: String?
+        /// The ID of the organization.
+        public let organizationId: String
+
+        public init(limit: Int32? = nil, marker: String? = nil, organizationId: String) {
+            self.limit = limit
+            self.marker = marker
+            self.organizationId = organizationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case marker = "marker"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct DescribeNotificationSubscriptionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Subscriptions", required: false, type: .list)
+        ]
+        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        public let marker: String?
+        /// The subscriptions.
+        public let subscriptions: [Subscription]?
+
+        public init(marker: String? = nil, subscriptions: [Subscription]? = nil) {
+            self.marker = marker
+            self.subscriptions = subscriptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case subscriptions = "Subscriptions"
+        }
+    }
+
+    public struct DescribeResourcePermissionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "PrincipalId", location: .querystring(locationName: "principalId"), required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// The maximum number of items to return with this call.
+        public let limit: Int32?
+        /// The marker for the next set of results. (You received this marker from a previous call)
+        public let marker: String?
+        /// The ID of the principal to filter permissions by.
+        public let principalId: String?
+        /// The ID of the resource.
+        public let resourceId: String
+
+        public init(authenticationToken: String? = nil, limit: Int32? = nil, marker: String? = nil, principalId: String? = nil, resourceId: String) {
+            self.authenticationToken = authenticationToken
+            self.limit = limit
+            self.marker = marker
+            self.principalId = principalId
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case limit = "limit"
+            case marker = "marker"
+            case principalId = "principalId"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct DescribeResourcePermissionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Principals", required: false, type: .list)
+        ]
+        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        public let marker: String?
+        /// The principals.
+        public let principals: [Principal]?
+
+        public init(marker: String? = nil, principals: [Principal]? = nil) {
+            self.marker = marker
+            self.principals = principals
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case principals = "Principals"
+        }
+    }
+
+    public struct DescribeRootFoldersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: true, type: .string), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String
+        /// The maximum number of items to return.
+        public let limit: Int32?
+        /// The marker for the next set of results. (You received this marker from a previous call.)
+        public let marker: String?
+
+        public init(authenticationToken: String, limit: Int32? = nil, marker: String? = nil) {
+            self.authenticationToken = authenticationToken
+            self.limit = limit
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case limit = "limit"
+            case marker = "marker"
+        }
+    }
+
+    public struct DescribeRootFoldersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Folders", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// The user's special folders.
+        public let folders: [FolderMetadata]?
+        /// The marker for the next set of results.
+        public let marker: String?
+
+        public init(folders: [FolderMetadata]? = nil, marker: String? = nil) {
+            self.folders = folders
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case folders = "Folders"
+            case marker = "Marker"
+        }
+    }
+
+    public struct DescribeUsersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "Fields", location: .querystring(locationName: "fields"), required: false, type: .string), 
+            AWSShapeMember(label: "Include", location: .querystring(locationName: "include"), required: false, type: .enum), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "Order", location: .querystring(locationName: "order"), required: false, type: .enum), 
+            AWSShapeMember(label: "OrganizationId", location: .querystring(locationName: "organizationId"), required: false, type: .string), 
+            AWSShapeMember(label: "Query", location: .querystring(locationName: "query"), required: false, type: .string), 
+            AWSShapeMember(label: "Sort", location: .querystring(locationName: "sort"), required: false, type: .enum), 
+            AWSShapeMember(label: "UserIds", location: .querystring(locationName: "userIds"), required: false, type: .string)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// A comma-separated list of values. Specify "STORAGE_METADATA" to include the user storage quota and utilization information.
+        public let fields: String?
+        /// The state of the users. Specify "ALL" to include inactive users.
+        public let include: UserFilterType?
+        /// The maximum number of items to return.
+        public let limit: Int32?
+        /// The marker for the next set of results. (You received this marker from a previous call.)
+        public let marker: String?
+        /// The order for the results.
+        public let order: OrderType?
+        /// The ID of the organization.
+        public let organizationId: String?
+        /// A query to filter users by user name.
+        public let query: String?
+        /// The sorting criteria.
+        public let sort: UserSortType?
+        /// The IDs of the users.
+        public let userIds: String?
+
+        public init(authenticationToken: String? = nil, fields: String? = nil, include: UserFilterType? = nil, limit: Int32? = nil, marker: String? = nil, order: OrderType? = nil, organizationId: String? = nil, query: String? = nil, sort: UserSortType? = nil, userIds: String? = nil) {
+            self.authenticationToken = authenticationToken
+            self.fields = fields
+            self.include = include
+            self.limit = limit
+            self.marker = marker
+            self.order = order
+            self.organizationId = organizationId
+            self.query = query
+            self.sort = sort
+            self.userIds = userIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case fields = "fields"
+            case include = "include"
+            case limit = "limit"
+            case marker = "marker"
+            case order = "order"
+            case organizationId = "organizationId"
+            case query = "query"
+            case sort = "sort"
+            case userIds = "userIds"
+        }
+    }
+
+    public struct DescribeUsersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "TotalNumberOfUsers", required: false, type: .long), 
+            AWSShapeMember(label: "Users", required: false, type: .list)
+        ]
+        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        public let marker: String?
+        /// The total number of users included in the results.
+        public let totalNumberOfUsers: Int64?
+        /// The users.
+        public let users: [User]?
+
+        public init(marker: String? = nil, totalNumberOfUsers: Int64? = nil, users: [User]? = nil) {
+            self.marker = marker
+            self.totalNumberOfUsers = totalNumberOfUsers
+            self.users = users
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case totalNumberOfUsers = "TotalNumberOfUsers"
+            case users = "Users"
+        }
+    }
+
+    public struct DocumentMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreatorId", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Labels", required: false, type: .list), 
+            AWSShapeMember(label: "LatestVersionMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "ModifiedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ParentFolderId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceState", required: false, type: .enum)
+        ]
+        /// The time when the document was created.
+        public let createdTimestamp: TimeStamp?
+        /// The ID of the creator.
+        public let creatorId: String?
+        /// The ID of the document.
+        public let id: String?
+        /// List of labels on the document.
+        public let labels: [String]?
+        /// The latest version of the document.
+        public let latestVersionMetadata: DocumentVersionMetadata?
+        /// The time when the document was updated.
+        public let modifiedTimestamp: TimeStamp?
+        /// The ID of the parent folder.
+        public let parentFolderId: String?
+        /// The resource state.
+        public let resourceState: ResourceStateType?
+
+        public init(createdTimestamp: TimeStamp? = nil, creatorId: String? = nil, id: String? = nil, labels: [String]? = nil, latestVersionMetadata: DocumentVersionMetadata? = nil, modifiedTimestamp: TimeStamp? = nil, parentFolderId: String? = nil, resourceState: ResourceStateType? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.creatorId = creatorId
+            self.id = id
+            self.labels = labels
+            self.latestVersionMetadata = latestVersionMetadata
+            self.modifiedTimestamp = modifiedTimestamp
+            self.parentFolderId = parentFolderId
+            self.resourceState = resourceState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case creatorId = "CreatorId"
+            case id = "Id"
+            case labels = "Labels"
+            case latestVersionMetadata = "LatestVersionMetadata"
+            case modifiedTimestamp = "ModifiedTimestamp"
+            case parentFolderId = "ParentFolderId"
+            case resourceState = "ResourceState"
+        }
+    }
+
+    public enum DocumentSourceType: String, CustomStringConvertible, Codable {
+        case original = "ORIGINAL"
+        case withComments = "WITH_COMMENTS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentStatusType: String, CustomStringConvertible, Codable {
+        case initialized = "INITIALIZED"
+        case active = "ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentThumbnailType: String, CustomStringConvertible, Codable {
+        case small = "SMALL"
+        case smallHq = "SMALL_HQ"
+        case large = "LARGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DocumentVersionMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContentCreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ContentModifiedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ContentType", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreatorId", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "ModifiedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Signature", required: false, type: .string), 
+            AWSShapeMember(label: "Size", required: false, type: .long), 
+            AWSShapeMember(label: "Source", required: false, type: .map), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Thumbnail", required: false, type: .map)
+        ]
+        /// The timestamp when the content of the document was originally created.
+        public let contentCreatedTimestamp: TimeStamp?
+        /// The timestamp when the content of the document was modified.
+        public let contentModifiedTimestamp: TimeStamp?
+        /// The content type of the document.
+        public let contentType: String?
+        /// The timestamp when the document was first uploaded.
+        public let createdTimestamp: TimeStamp?
+        /// The ID of the creator.
+        public let creatorId: String?
+        /// The ID of the version.
+        public let id: String?
+        /// The timestamp when the document was last uploaded.
+        public let modifiedTimestamp: TimeStamp?
+        /// The name of the version.
+        public let name: String?
+        /// The signature of the document.
+        public let signature: String?
+        /// The size of the document, in bytes.
+        public let size: Int64?
+        /// The source of the document.
+        public let source: [DocumentSourceType: String]?
+        /// The status of the document.
+        public let status: DocumentStatusType?
+        /// The thumbnail of the document.
+        public let thumbnail: [DocumentThumbnailType: String]?
+
+        public init(contentCreatedTimestamp: TimeStamp? = nil, contentModifiedTimestamp: TimeStamp? = nil, contentType: String? = nil, createdTimestamp: TimeStamp? = nil, creatorId: String? = nil, id: String? = nil, modifiedTimestamp: TimeStamp? = nil, name: String? = nil, signature: String? = nil, size: Int64? = nil, source: [DocumentSourceType: String]? = nil, status: DocumentStatusType? = nil, thumbnail: [DocumentThumbnailType: String]? = nil) {
+            self.contentCreatedTimestamp = contentCreatedTimestamp
+            self.contentModifiedTimestamp = contentModifiedTimestamp
+            self.contentType = contentType
+            self.createdTimestamp = createdTimestamp
+            self.creatorId = creatorId
+            self.id = id
+            self.modifiedTimestamp = modifiedTimestamp
+            self.name = name
+            self.signature = signature
+            self.size = size
+            self.source = source
+            self.status = status
+            self.thumbnail = thumbnail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentCreatedTimestamp = "ContentCreatedTimestamp"
+            case contentModifiedTimestamp = "ContentModifiedTimestamp"
+            case contentType = "ContentType"
+            case createdTimestamp = "CreatedTimestamp"
+            case creatorId = "CreatorId"
+            case id = "Id"
+            case modifiedTimestamp = "ModifiedTimestamp"
+            case name = "Name"
+            case signature = "Signature"
+            case size = "Size"
+            case source = "Source"
+            case status = "Status"
+            case thumbnail = "Thumbnail"
+        }
+    }
+
+    public enum DocumentVersionStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FolderContentType: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case document = "DOCUMENT"
+        case folder = "FOLDER"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct FolderMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreatorId", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Labels", required: false, type: .list), 
+            AWSShapeMember(label: "LatestVersionSize", required: false, type: .long), 
+            AWSShapeMember(label: "ModifiedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ParentFolderId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceState", required: false, type: .enum), 
+            AWSShapeMember(label: "Signature", required: false, type: .string), 
+            AWSShapeMember(label: "Size", required: false, type: .long)
+        ]
+        /// The time when the folder was created.
+        public let createdTimestamp: TimeStamp?
+        /// The ID of the creator.
+        public let creatorId: String?
+        /// The ID of the folder.
+        public let id: String?
+        /// List of labels on the folder.
+        public let labels: [String]?
+        /// The size of the latest version of the folder metadata.
+        public let latestVersionSize: Int64?
+        /// The time when the folder was updated.
+        public let modifiedTimestamp: TimeStamp?
+        /// The name of the folder.
+        public let name: String?
+        /// The ID of the parent folder.
+        public let parentFolderId: String?
+        /// The resource state of the folder.
+        public let resourceState: ResourceStateType?
+        /// The unique identifier created from the subfolders and documents of the folder.
+        public let signature: String?
+        /// The size of the folder metadata.
+        public let size: Int64?
+
+        public init(createdTimestamp: TimeStamp? = nil, creatorId: String? = nil, id: String? = nil, labels: [String]? = nil, latestVersionSize: Int64? = nil, modifiedTimestamp: TimeStamp? = nil, name: String? = nil, parentFolderId: String? = nil, resourceState: ResourceStateType? = nil, signature: String? = nil, size: Int64? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.creatorId = creatorId
+            self.id = id
+            self.labels = labels
+            self.latestVersionSize = latestVersionSize
+            self.modifiedTimestamp = modifiedTimestamp
+            self.name = name
+            self.parentFolderId = parentFolderId
+            self.resourceState = resourceState
+            self.signature = signature
+            self.size = size
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case creatorId = "CreatorId"
+            case id = "Id"
+            case labels = "Labels"
+            case latestVersionSize = "LatestVersionSize"
+            case modifiedTimestamp = "ModifiedTimestamp"
+            case name = "Name"
+            case parentFolderId = "ParentFolderId"
+            case resourceState = "ResourceState"
+            case signature = "Signature"
+            case size = "Size"
+        }
+    }
+
+    public struct GetCurrentUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: true, type: .string)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String
+
+        public init(authenticationToken: String) {
+            self.authenticationToken = authenticationToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+        }
+    }
+
+    public struct GetCurrentUserResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "User", required: false, type: .structure)
+        ]
+        /// Metadata of the user.
+        public let user: User?
+
+        public init(user: User? = nil) {
+            self.user = user
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case user = "User"
+        }
+    }
+
+    public struct GetDocumentPathRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
+            AWSShapeMember(label: "Fields", location: .querystring(locationName: "fields"), required: false, type: .string), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// The ID of the document.
+        public let documentId: String
+        /// A comma-separated list of values. Specify NAME to include the names of the parent folders.
+        public let fields: String?
+        /// The maximum number of levels in the hierarchy to return.
+        public let limit: Int32?
+        /// This value is not supported.
+        public let marker: String?
+
+        public init(authenticationToken: String? = nil, documentId: String, fields: String? = nil, limit: Int32? = nil, marker: String? = nil) {
+            self.authenticationToken = authenticationToken
+            self.documentId = documentId
+            self.fields = fields
+            self.limit = limit
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case documentId = "DocumentId"
+            case fields = "fields"
+            case limit = "limit"
+            case marker = "marker"
+        }
+    }
+
+    public struct GetDocumentPathResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Path", required: false, type: .structure)
+        ]
+        /// The path information.
+        public let path: ResourcePath?
+
+        public init(path: ResourcePath? = nil) {
+            self.path = path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case path = "Path"
+        }
+    }
+
+    public struct GetDocumentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
+            AWSShapeMember(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"), required: false, type: .boolean)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// The ID of the document.
+        public let documentId: String
+        /// Set this to TRUE to include custom metadata in the response.
+        public let includeCustomMetadata: Bool?
+
+        public init(authenticationToken: String? = nil, documentId: String, includeCustomMetadata: Bool? = nil) {
+            self.authenticationToken = authenticationToken
+            self.documentId = documentId
+            self.includeCustomMetadata = includeCustomMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case documentId = "DocumentId"
+            case includeCustomMetadata = "includeCustomMetadata"
+        }
+    }
+
+    public struct GetDocumentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomMetadata", required: false, type: .map), 
+            AWSShapeMember(label: "Metadata", required: false, type: .structure)
+        ]
+        /// The custom metadata on the document.
+        public let customMetadata: [String: String]?
+        /// The metadata details of the document.
+        public let metadata: DocumentMetadata?
+
+        public init(customMetadata: [String: String]? = nil, metadata: DocumentMetadata? = nil) {
+            self.customMetadata = customMetadata
+            self.metadata = metadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customMetadata = "CustomMetadata"
+            case metadata = "Metadata"
+        }
+    }
+
+    public struct GetDocumentVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
+            AWSShapeMember(label: "Fields", location: .querystring(locationName: "fields"), required: false, type: .string), 
+            AWSShapeMember(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"), required: false, type: .boolean), 
+            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// The ID of the document.
+        public let documentId: String
+        /// A comma-separated list of values. Specify "SOURCE" to include a URL for the source document.
+        public let fields: String?
+        /// Set this to TRUE to include custom metadata in the response.
+        public let includeCustomMetadata: Bool?
+        /// The version ID of the document.
+        public let versionId: String
+
+        public init(authenticationToken: String? = nil, documentId: String, fields: String? = nil, includeCustomMetadata: Bool? = nil, versionId: String) {
+            self.authenticationToken = authenticationToken
+            self.documentId = documentId
+            self.fields = fields
+            self.includeCustomMetadata = includeCustomMetadata
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case documentId = "DocumentId"
+            case fields = "fields"
+            case includeCustomMetadata = "includeCustomMetadata"
+            case versionId = "VersionId"
+        }
+    }
+
+    public struct GetDocumentVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomMetadata", required: false, type: .map), 
+            AWSShapeMember(label: "Metadata", required: false, type: .structure)
+        ]
+        /// The custom metadata on the document version.
+        public let customMetadata: [String: String]?
+        /// The version metadata.
+        public let metadata: DocumentVersionMetadata?
+
+        public init(customMetadata: [String: String]? = nil, metadata: DocumentVersionMetadata? = nil) {
+            self.customMetadata = customMetadata
+            self.metadata = metadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customMetadata = "CustomMetadata"
+            case metadata = "Metadata"
+        }
+    }
+
+    public struct GetFolderPathRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "Fields", location: .querystring(locationName: "fields"), required: false, type: .string), 
+            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// A comma-separated list of values. Specify "NAME" to include the names of the parent folders.
+        public let fields: String?
+        /// The ID of the folder.
+        public let folderId: String
+        /// The maximum number of levels in the hierarchy to return.
+        public let limit: Int32?
+        /// This value is not supported.
+        public let marker: String?
+
+        public init(authenticationToken: String? = nil, fields: String? = nil, folderId: String, limit: Int32? = nil, marker: String? = nil) {
+            self.authenticationToken = authenticationToken
+            self.fields = fields
+            self.folderId = folderId
+            self.limit = limit
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case fields = "fields"
+            case folderId = "FolderId"
+            case limit = "limit"
+            case marker = "marker"
+        }
+    }
+
+    public struct GetFolderPathResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Path", required: false, type: .structure)
+        ]
+        /// The path information.
+        public let path: ResourcePath?
+
+        public init(path: ResourcePath? = nil) {
+            self.path = path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case path = "Path"
+        }
+    }
+
+    public struct GetFolderRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string), 
+            AWSShapeMember(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"), required: false, type: .boolean)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// The ID of the folder.
+        public let folderId: String
+        /// Set to TRUE to include custom metadata in the response.
+        public let includeCustomMetadata: Bool?
+
+        public init(authenticationToken: String? = nil, folderId: String, includeCustomMetadata: Bool? = nil) {
+            self.authenticationToken = authenticationToken
+            self.folderId = folderId
+            self.includeCustomMetadata = includeCustomMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case folderId = "FolderId"
+            case includeCustomMetadata = "includeCustomMetadata"
+        }
+    }
+
+    public struct GetFolderResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomMetadata", required: false, type: .map), 
+            AWSShapeMember(label: "Metadata", required: false, type: .structure)
+        ]
+        /// The custom metadata on the folder.
+        public let customMetadata: [String: String]?
+        /// The metadata of the folder.
+        public let metadata: FolderMetadata?
+
+        public init(customMetadata: [String: String]? = nil, metadata: FolderMetadata? = nil) {
+            self.customMetadata = customMetadata
+            self.metadata = metadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customMetadata = "CustomMetadata"
+            case metadata = "Metadata"
+        }
+    }
+
+    public struct GetResourcesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "CollectionType", location: .querystring(locationName: "collectionType"), required: false, type: .enum), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "UserId", location: .querystring(locationName: "userId"), required: false, type: .string)
+        ]
+        /// The Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API operation using AWS credentials.
+        public let authenticationToken: String?
+        /// The collection type.
+        public let collectionType: ResourceCollectionType?
+        /// The maximum number of resources to return.
+        public let limit: Int32?
+        /// The marker for the next set of results. This marker was received from a previous call.
+        public let marker: String?
+        /// The user ID for the resource collection. This is a required field for accessing the API operation using IAM credentials.
+        public let userId: String?
+
+        public init(authenticationToken: String? = nil, collectionType: ResourceCollectionType? = nil, limit: Int32? = nil, marker: String? = nil, userId: String? = nil) {
+            self.authenticationToken = authenticationToken
+            self.collectionType = collectionType
+            self.limit = limit
+            self.marker = marker
             self.userId = userId
         }
 
         private enum CodingKeys: String, CodingKey {
             case authenticationToken = "Authentication"
+            case collectionType = "collectionType"
+            case limit = "limit"
+            case marker = "marker"
+            case userId = "userId"
+        }
+    }
+
+    public struct GetResourcesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Documents", required: false, type: .list), 
+            AWSShapeMember(label: "Folders", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// The documents in the specified collection.
+        public let documents: [DocumentMetadata]?
+        /// The folders in the specified folder.
+        public let folders: [FolderMetadata]?
+        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        public let marker: String?
+
+        public init(documents: [DocumentMetadata]? = nil, folders: [FolderMetadata]? = nil, marker: String? = nil) {
+            self.documents = documents
+            self.folders = folders
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documents = "Documents"
+            case folders = "Folders"
+            case marker = "Marker"
+        }
+    }
+
+    public struct GroupMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The ID of the user group.
+        public let id: String?
+        /// The name of the group.
+        public let name: String?
+
+        public init(id: String? = nil, name: String? = nil) {
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case name = "Name"
+        }
+    }
+
+    public struct InitiateDocumentVersionUploadRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "ContentCreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ContentModifiedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ContentType", required: false, type: .string), 
+            AWSShapeMember(label: "DocumentSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ParentFolderId", required: true, type: .string)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// The timestamp when the content of the document was originally created.
+        public let contentCreatedTimestamp: TimeStamp?
+        /// The timestamp when the content of the document was modified.
+        public let contentModifiedTimestamp: TimeStamp?
+        /// The content type of the document.
+        public let contentType: String?
+        /// The size of the document, in bytes.
+        public let documentSizeInBytes: Int64?
+        /// The ID of the document.
+        public let id: String?
+        /// The name of the document.
+        public let name: String?
+        /// The ID of the parent folder.
+        public let parentFolderId: String
+
+        public init(authenticationToken: String? = nil, contentCreatedTimestamp: TimeStamp? = nil, contentModifiedTimestamp: TimeStamp? = nil, contentType: String? = nil, documentSizeInBytes: Int64? = nil, id: String? = nil, name: String? = nil, parentFolderId: String) {
+            self.authenticationToken = authenticationToken
+            self.contentCreatedTimestamp = contentCreatedTimestamp
+            self.contentModifiedTimestamp = contentModifiedTimestamp
+            self.contentType = contentType
+            self.documentSizeInBytes = documentSizeInBytes
+            self.id = id
+            self.name = name
+            self.parentFolderId = parentFolderId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case contentCreatedTimestamp = "ContentCreatedTimestamp"
+            case contentModifiedTimestamp = "ContentModifiedTimestamp"
+            case contentType = "ContentType"
+            case documentSizeInBytes = "DocumentSizeInBytes"
+            case id = "Id"
+            case name = "Name"
+            case parentFolderId = "ParentFolderId"
+        }
+    }
+
+    public struct InitiateDocumentVersionUploadResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Metadata", required: false, type: .structure), 
+            AWSShapeMember(label: "UploadMetadata", required: false, type: .structure)
+        ]
+        /// The document metadata.
+        public let metadata: DocumentMetadata?
+        /// The upload metadata.
+        public let uploadMetadata: UploadMetadata?
+
+        public init(metadata: DocumentMetadata? = nil, uploadMetadata: UploadMetadata? = nil) {
+            self.metadata = metadata
+            self.uploadMetadata = uploadMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "Metadata"
+            case uploadMetadata = "UploadMetadata"
+        }
+    }
+
+    public enum LocaleType: String, CustomStringConvertible, Codable {
+        case en = "en"
+        case fr = "fr"
+        case ko = "ko"
+        case de = "de"
+        case es = "es"
+        case ja = "ja"
+        case ru = "ru"
+        case zhCn = "zh_CN"
+        case zhTw = "zh_TW"
+        case ptBr = "pt_BR"
+        case `default` = "default"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct NotificationOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmailMessage", required: false, type: .string), 
+            AWSShapeMember(label: "SendEmail", required: false, type: .boolean)
+        ]
+        /// Text value to be included in the email body.
+        public let emailMessage: String?
+        /// Boolean value to indicate an email notification should be sent to the receipients.
+        public let sendEmail: Bool?
+
+        public init(emailMessage: String? = nil, sendEmail: Bool? = nil) {
+            self.emailMessage = emailMessage
+            self.sendEmail = sendEmail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emailMessage = "EmailMessage"
+            case sendEmail = "SendEmail"
+        }
+    }
+
+    public enum OrderType: String, CustomStringConvertible, Codable {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Participants: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Groups", required: false, type: .list), 
+            AWSShapeMember(label: "Users", required: false, type: .list)
+        ]
+        /// The list of user groups.
+        public let groups: [GroupMetadata]?
+        /// The list of users.
+        public let users: [UserMetadata]?
+
+        public init(groups: [GroupMetadata]? = nil, users: [UserMetadata]? = nil) {
+            self.groups = groups
+            self.users = users
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groups = "Groups"
+            case users = "Users"
+        }
+    }
+
+    public struct PermissionInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Role", required: false, type: .enum), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+        /// The role of the user.
+        public let role: RoleType?
+        /// The type of permissions.
+        public let `type`: RolePermissionType?
+
+        public init(role: RoleType? = nil, type: RolePermissionType? = nil) {
+            self.role = role
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case role = "Role"
+            case `type` = "Type"
+        }
+    }
+
+    public struct Principal: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Roles", required: false, type: .list), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+        /// The ID of the resource.
+        public let id: String?
+        /// The permission information for the resource.
+        public let roles: [PermissionInfo]?
+        /// The type of resource.
+        public let `type`: PrincipalType?
+
+        public init(id: String? = nil, roles: [PermissionInfo]? = nil, type: PrincipalType? = nil) {
+            self.id = id
+            self.roles = roles
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case roles = "Roles"
+            case `type` = "Type"
+        }
+    }
+
+    public enum PrincipalType: String, CustomStringConvertible, Codable {
+        case user = "USER"
+        case group = "GROUP"
+        case invite = "INVITE"
+        case anonymous = "ANONYMOUS"
+        case organization = "ORGANIZATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RemoveAllResourcePermissionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// The ID of the resource.
+        public let resourceId: String
+
+        public init(authenticationToken: String? = nil, resourceId: String) {
+            self.authenticationToken = authenticationToken
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct RemoveResourcePermissionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "PrincipalId", location: .uri(locationName: "PrincipalId"), required: true, type: .string), 
+            AWSShapeMember(label: "PrincipalType", location: .querystring(locationName: "type"), required: false, type: .enum), 
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// The principal ID of the resource.
+        public let principalId: String
+        /// The principal type of the resource.
+        public let principalType: PrincipalType?
+        /// The ID of the resource.
+        public let resourceId: String
+
+        public init(authenticationToken: String? = nil, principalId: String, principalType: PrincipalType? = nil, resourceId: String) {
+            self.authenticationToken = authenticationToken
+            self.principalId = principalId
+            self.principalType = principalType
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case principalId = "PrincipalId"
+            case principalType = "type"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public enum ResourceCollectionType: String, CustomStringConvertible, Codable {
+        case sharedWithMe = "SHARED_WITH_ME"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ResourceMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "OriginalName", required: false, type: .string), 
+            AWSShapeMember(label: "Owner", required: false, type: .structure), 
+            AWSShapeMember(label: "ParentId", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "VersionId", required: false, type: .string)
+        ]
+        /// The ID of the resource.
+        public let id: String?
+        /// The name of the resource.
+        public let name: String?
+        /// The original name of the resource before a rename operation.
+        public let originalName: String?
+        /// The owner of the resource.
+        public let owner: UserMetadata?
+        /// The parent ID of the resource before a rename operation.
+        public let parentId: String?
+        /// The type of resource.
+        public let `type`: ResourceType?
+        /// The version ID of the resource. This is an optional field and is filled for action on document version.
+        public let versionId: String?
+
+        public init(id: String? = nil, name: String? = nil, originalName: String? = nil, owner: UserMetadata? = nil, parentId: String? = nil, type: ResourceType? = nil, versionId: String? = nil) {
+            self.id = id
+            self.name = name
+            self.originalName = originalName
+            self.owner = owner
+            self.parentId = parentId
+            self.`type` = `type`
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case name = "Name"
+            case originalName = "OriginalName"
+            case owner = "Owner"
+            case parentId = "ParentId"
+            case `type` = "Type"
+            case versionId = "VersionId"
+        }
+    }
+
+    public struct ResourcePath: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Components", required: false, type: .list)
+        ]
+        /// The components of the resource path.
+        public let components: [ResourcePathComponent]?
+
+        public init(components: [ResourcePathComponent]? = nil) {
+            self.components = components
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case components = "Components"
+        }
+    }
+
+    public struct ResourcePathComponent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The ID of the resource path.
+        public let id: String?
+        /// The name of the resource path.
+        public let name: String?
+
+        public init(id: String? = nil, name: String? = nil) {
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case name = "Name"
+        }
+    }
+
+    public enum ResourceSortType: String, CustomStringConvertible, Codable {
+        case date = "DATE"
+        case name = "NAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceStateType: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case restoring = "RESTORING"
+        case recycling = "RECYCLING"
+        case recycled = "RECYCLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case folder = "FOLDER"
+        case document = "DOCUMENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RolePermissionType: String, CustomStringConvertible, Codable {
+        case direct = "DIRECT"
+        case inherited = "INHERITED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RoleType: String, CustomStringConvertible, Codable {
+        case viewer = "VIEWER"
+        case contributor = "CONTRIBUTOR"
+        case owner = "OWNER"
+        case coowner = "COOWNER"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct SharePrincipal: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "Role", required: true, type: .enum), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
+        ]
+        /// The ID of the recipient.
+        public let id: String
+        /// The role of the recipient.
+        public let role: RoleType
+        /// The type of the recipient.
+        public let `type`: PrincipalType
+
+        public init(id: String, role: RoleType, type: PrincipalType) {
+            self.id = id
+            self.role = role
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case role = "Role"
+            case `type` = "Type"
+        }
+    }
+
+    public struct ShareResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InviteePrincipalId", required: false, type: .string), 
+            AWSShapeMember(label: "PrincipalId", required: false, type: .string), 
+            AWSShapeMember(label: "Role", required: false, type: .enum), 
+            AWSShapeMember(label: "ShareId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string)
+        ]
+        /// The ID of the invited user.
+        public let inviteePrincipalId: String?
+        /// The ID of the principal.
+        public let principalId: String?
+        /// The role.
+        public let role: RoleType?
+        /// The ID of the resource that was shared.
+        public let shareId: String?
+        /// The status.
+        public let status: ShareStatusType?
+        /// The status message.
+        public let statusMessage: String?
+
+        public init(inviteePrincipalId: String? = nil, principalId: String? = nil, role: RoleType? = nil, shareId: String? = nil, status: ShareStatusType? = nil, statusMessage: String? = nil) {
+            self.inviteePrincipalId = inviteePrincipalId
+            self.principalId = principalId
+            self.role = role
+            self.shareId = shareId
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inviteePrincipalId = "InviteePrincipalId"
+            case principalId = "PrincipalId"
+            case role = "Role"
+            case shareId = "ShareId"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
+    public enum ShareStatusType: String, CustomStringConvertible, Codable {
+        case success = "SUCCESS"
+        case failure = "FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct StorageRuleType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StorageAllocatedInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "StorageType", required: false, type: .enum)
+        ]
+        /// The amount of storage allocated, in bytes.
+        public let storageAllocatedInBytes: Int64?
+        /// The type of storage.
+        public let storageType: StorageType?
+
+        public init(storageAllocatedInBytes: Int64? = nil, storageType: StorageType? = nil) {
+            self.storageAllocatedInBytes = storageAllocatedInBytes
+            self.storageType = storageType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storageAllocatedInBytes = "StorageAllocatedInBytes"
+            case storageType = "StorageType"
+        }
+    }
+
+    public enum StorageType: String, CustomStringConvertible, Codable {
+        case unlimited = "UNLIMITED"
+        case quota = "QUOTA"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Subscription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndPoint", required: false, type: .string), 
+            AWSShapeMember(label: "Protocol", required: false, type: .enum), 
+            AWSShapeMember(label: "SubscriptionId", required: false, type: .string)
+        ]
+        /// The endpoint of the subscription.
+        public let endPoint: String?
+        /// The protocol of the subscription.
+        public let `protocol`: SubscriptionProtocolType?
+        /// The ID of the subscription.
+        public let subscriptionId: String?
+
+        public init(endPoint: String? = nil, protocol: SubscriptionProtocolType? = nil, subscriptionId: String? = nil) {
+            self.endPoint = endPoint
+            self.`protocol` = `protocol`
+            self.subscriptionId = subscriptionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endPoint = "EndPoint"
+            case `protocol` = "Protocol"
+            case subscriptionId = "SubscriptionId"
+        }
+    }
+
+    public enum SubscriptionProtocolType: String, CustomStringConvertible, Codable {
+        case https = "HTTPS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SubscriptionType: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateDocumentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ParentFolderId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceState", required: false, type: .enum)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// The ID of the document.
+        public let documentId: String
+        /// The name of the document.
+        public let name: String?
+        /// The ID of the parent folder.
+        public let parentFolderId: String?
+        /// The resource state of the document. Only ACTIVE and RECYCLED are supported.
+        public let resourceState: ResourceStateType?
+
+        public init(authenticationToken: String? = nil, documentId: String, name: String? = nil, parentFolderId: String? = nil, resourceState: ResourceStateType? = nil) {
+            self.authenticationToken = authenticationToken
+            self.documentId = documentId
+            self.name = name
+            self.parentFolderId = parentFolderId
+            self.resourceState = resourceState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case documentId = "DocumentId"
+            case name = "Name"
+            case parentFolderId = "ParentFolderId"
+            case resourceState = "ResourceState"
+        }
+    }
+
+    public struct UpdateDocumentVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
+            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
+            AWSShapeMember(label: "VersionStatus", required: false, type: .enum)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// The ID of the document.
+        public let documentId: String
+        /// The version ID of the document.
+        public let versionId: String
+        /// The status of the version.
+        public let versionStatus: DocumentVersionStatus?
+
+        public init(authenticationToken: String? = nil, documentId: String, versionId: String, versionStatus: DocumentVersionStatus? = nil) {
+            self.authenticationToken = authenticationToken
+            self.documentId = documentId
+            self.versionId = versionId
+            self.versionStatus = versionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case documentId = "DocumentId"
+            case versionId = "VersionId"
+            case versionStatus = "VersionStatus"
+        }
+    }
+
+    public struct UpdateFolderRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ParentFolderId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceState", required: false, type: .enum)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// The ID of the folder.
+        public let folderId: String
+        /// The name of the folder.
+        public let name: String?
+        /// The ID of the parent folder.
+        public let parentFolderId: String?
+        /// The resource state of the folder. Only ACTIVE and RECYCLED are accepted values from the API.
+        public let resourceState: ResourceStateType?
+
+        public init(authenticationToken: String? = nil, folderId: String, name: String? = nil, parentFolderId: String? = nil, resourceState: ResourceStateType? = nil) {
+            self.authenticationToken = authenticationToken
+            self.folderId = folderId
+            self.name = name
+            self.parentFolderId = parentFolderId
+            self.resourceState = resourceState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case folderId = "FolderId"
+            case name = "Name"
+            case parentFolderId = "ParentFolderId"
+            case resourceState = "ResourceState"
+        }
+    }
+
+    public struct UpdateUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "GivenName", required: false, type: .string), 
+            AWSShapeMember(label: "GrantPoweruserPrivileges", required: false, type: .enum), 
+            AWSShapeMember(label: "Locale", required: false, type: .enum), 
+            AWSShapeMember(label: "StorageRule", required: false, type: .structure), 
+            AWSShapeMember(label: "Surname", required: false, type: .string), 
+            AWSShapeMember(label: "TimeZoneId", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
+        ]
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        public let authenticationToken: String?
+        /// The given name of the user.
+        public let givenName: String?
+        /// Boolean value to determine whether the user is granted Poweruser privileges.
+        public let grantPoweruserPrivileges: BooleanEnumType?
+        /// The locale of the user.
+        public let locale: LocaleType?
+        /// The amount of storage for the user.
+        public let storageRule: StorageRuleType?
+        /// The surname of the user.
+        public let surname: String?
+        /// The time zone ID of the user.
+        public let timeZoneId: String?
+        /// The type of the user.
+        public let `type`: UserType?
+        /// The ID of the user.
+        public let userId: String
+
+        public init(authenticationToken: String? = nil, givenName: String? = nil, grantPoweruserPrivileges: BooleanEnumType? = nil, locale: LocaleType? = nil, storageRule: StorageRuleType? = nil, surname: String? = nil, timeZoneId: String? = nil, type: UserType? = nil, userId: String) {
+            self.authenticationToken = authenticationToken
+            self.givenName = givenName
+            self.grantPoweruserPrivileges = grantPoweruserPrivileges
+            self.locale = locale
+            self.storageRule = storageRule
+            self.surname = surname
+            self.timeZoneId = timeZoneId
+            self.`type` = `type`
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case givenName = "GivenName"
+            case grantPoweruserPrivileges = "GrantPoweruserPrivileges"
+            case locale = "Locale"
+            case storageRule = "StorageRule"
+            case surname = "Surname"
+            case timeZoneId = "TimeZoneId"
+            case `type` = "Type"
             case userId = "UserId"
         }
+    }
+
+    public struct UpdateUserResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "User", required: false, type: .structure)
+        ]
+        /// The user information.
+        public let user: User?
+
+        public init(user: User? = nil) {
+            self.user = user
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case user = "User"
+        }
+    }
+
+    public struct UploadMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SignedHeaders", required: false, type: .map), 
+            AWSShapeMember(label: "UploadUrl", required: false, type: .string)
+        ]
+        /// The signed headers.
+        public let signedHeaders: [String: String]?
+        /// The URL of the upload.
+        public let uploadUrl: String?
+
+        public init(signedHeaders: [String: String]? = nil, uploadUrl: String? = nil) {
+            self.signedHeaders = signedHeaders
+            self.uploadUrl = uploadUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case signedHeaders = "SignedHeaders"
+            case uploadUrl = "UploadUrl"
+        }
+    }
+
+    public struct User: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EmailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "GivenName", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Locale", required: false, type: .enum), 
+            AWSShapeMember(label: "ModifiedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "OrganizationId", required: false, type: .string), 
+            AWSShapeMember(label: "RecycleBinFolderId", required: false, type: .string), 
+            AWSShapeMember(label: "RootFolderId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Storage", required: false, type: .structure), 
+            AWSShapeMember(label: "Surname", required: false, type: .string), 
+            AWSShapeMember(label: "TimeZoneId", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Username", required: false, type: .string)
+        ]
+        /// The time when the user was created.
+        public let createdTimestamp: TimeStamp?
+        /// The email address of the user.
+        public let emailAddress: String?
+        /// The given name of the user.
+        public let givenName: String?
+        /// The ID of the user.
+        public let id: String?
+        /// The locale of the user.
+        public let locale: LocaleType?
+        /// The time when the user was modified.
+        public let modifiedTimestamp: TimeStamp?
+        /// The ID of the organization.
+        public let organizationId: String?
+        /// The ID of the recycle bin folder.
+        public let recycleBinFolderId: String?
+        /// The ID of the root folder.
+        public let rootFolderId: String?
+        /// The status of the user.
+        public let status: UserStatusType?
+        /// The storage for the user.
+        public let storage: UserStorageMetadata?
+        /// The surname of the user.
+        public let surname: String?
+        /// The time zone ID of the user.
+        public let timeZoneId: String?
+        /// The type of user.
+        public let `type`: UserType?
+        /// The login name of the user.
+        public let username: String?
+
+        public init(createdTimestamp: TimeStamp? = nil, emailAddress: String? = nil, givenName: String? = nil, id: String? = nil, locale: LocaleType? = nil, modifiedTimestamp: TimeStamp? = nil, organizationId: String? = nil, recycleBinFolderId: String? = nil, rootFolderId: String? = nil, status: UserStatusType? = nil, storage: UserStorageMetadata? = nil, surname: String? = nil, timeZoneId: String? = nil, type: UserType? = nil, username: String? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.emailAddress = emailAddress
+            self.givenName = givenName
+            self.id = id
+            self.locale = locale
+            self.modifiedTimestamp = modifiedTimestamp
+            self.organizationId = organizationId
+            self.recycleBinFolderId = recycleBinFolderId
+            self.rootFolderId = rootFolderId
+            self.status = status
+            self.storage = storage
+            self.surname = surname
+            self.timeZoneId = timeZoneId
+            self.`type` = `type`
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case emailAddress = "EmailAddress"
+            case givenName = "GivenName"
+            case id = "Id"
+            case locale = "Locale"
+            case modifiedTimestamp = "ModifiedTimestamp"
+            case organizationId = "OrganizationId"
+            case recycleBinFolderId = "RecycleBinFolderId"
+            case rootFolderId = "RootFolderId"
+            case status = "Status"
+            case storage = "Storage"
+            case surname = "Surname"
+            case timeZoneId = "TimeZoneId"
+            case `type` = "Type"
+            case username = "Username"
+        }
+    }
+
+    public enum UserFilterType: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case activePending = "ACTIVE_PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UserMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "GivenName", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Surname", required: false, type: .string), 
+            AWSShapeMember(label: "Username", required: false, type: .string)
+        ]
+        /// The email address of the user.
+        public let emailAddress: String?
+        /// The given name of the user before a rename operation.
+        public let givenName: String?
+        /// The ID of the user.
+        public let id: String?
+        /// The surname of the user.
+        public let surname: String?
+        /// The name of the user.
+        public let username: String?
+
+        public init(emailAddress: String? = nil, givenName: String? = nil, id: String? = nil, surname: String? = nil, username: String? = nil) {
+            self.emailAddress = emailAddress
+            self.givenName = givenName
+            self.id = id
+            self.surname = surname
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emailAddress = "EmailAddress"
+            case givenName = "GivenName"
+            case id = "Id"
+            case surname = "Surname"
+            case username = "Username"
+        }
+    }
+
+    public enum UserSortType: String, CustomStringConvertible, Codable {
+        case userName = "USER_NAME"
+        case fullName = "FULL_NAME"
+        case storageLimit = "STORAGE_LIMIT"
+        case userStatus = "USER_STATUS"
+        case storageUsed = "STORAGE_USED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserStatusType: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UserStorageMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StorageRule", required: false, type: .structure), 
+            AWSShapeMember(label: "StorageUtilizedInBytes", required: false, type: .long)
+        ]
+        /// The storage for a user.
+        public let storageRule: StorageRuleType?
+        /// The amount of storage used, in bytes.
+        public let storageUtilizedInBytes: Int64?
+
+        public init(storageRule: StorageRuleType? = nil, storageUtilizedInBytes: Int64? = nil) {
+            self.storageRule = storageRule
+            self.storageUtilizedInBytes = storageUtilizedInBytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storageRule = "StorageRule"
+            case storageUtilizedInBytes = "StorageUtilizedInBytes"
+        }
+    }
+
+    public enum UserType: String, CustomStringConvertible, Codable {
+        case user = "USER"
+        case admin = "ADMIN"
+        case poweruser = "POWERUSER"
+        case minimaluser = "MINIMALUSER"
+        case workspacesuser = "WORKSPACESUSER"
+        public var description: String { return self.rawValue }
     }
 
 }

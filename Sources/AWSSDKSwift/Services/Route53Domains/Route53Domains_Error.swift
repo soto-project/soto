@@ -4,12 +4,12 @@ import AWSSDKSwiftCore
 
 /// Error enum for Route53Domains
 public enum Route53DomainsErrorType: AWSErrorType {
-    case invalidInput(message: String?)
-    case duplicateRequest(message: String?)
-    case tLDRulesViolation(message: String?)
-    case operationLimitExceeded(message: String?)
-    case unsupportedTLD(message: String?)
     case domainLimitExceeded(message: String?)
+    case duplicateRequest(message: String?)
+    case invalidInput(message: String?)
+    case operationLimitExceeded(message: String?)
+    case tLDRulesViolation(message: String?)
+    case unsupportedTLD(message: String?)
 }
 
 extension Route53DomainsErrorType {
@@ -19,18 +19,18 @@ extension Route53DomainsErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "InvalidInput":
-            self = .invalidInput(message: message)
-        case "DuplicateRequest":
-            self = .duplicateRequest(message: message)
-        case "TLDRulesViolation":
-            self = .tLDRulesViolation(message: message)
-        case "OperationLimitExceeded":
-            self = .operationLimitExceeded(message: message)
-        case "UnsupportedTLD":
-            self = .unsupportedTLD(message: message)
         case "DomainLimitExceeded":
             self = .domainLimitExceeded(message: message)
+        case "DuplicateRequest":
+            self = .duplicateRequest(message: message)
+        case "InvalidInput":
+            self = .invalidInput(message: message)
+        case "OperationLimitExceeded":
+            self = .operationLimitExceeded(message: message)
+        case "TLDRulesViolation":
+            self = .tLDRulesViolation(message: message)
+        case "UnsupportedTLD":
+            self = .unsupportedTLD(message: message)
         default:
             return nil
         }

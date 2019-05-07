@@ -5,11 +5,11 @@ import AWSSDKSwiftCore
 /// Error enum for ComprehendMedical
 public enum ComprehendMedicalErrorType: AWSErrorType {
     case internalServerException(message: String?)
-    case serviceUnavailableException(message: String?)
-    case tooManyRequestsException(message: String?)
-    case invalidRequestException(message: String?)
     case invalidEncodingException(message: String?)
+    case invalidRequestException(message: String?)
+    case serviceUnavailableException(message: String?)
     case textSizeLimitExceededException(message: String?)
+    case tooManyRequestsException(message: String?)
 }
 
 extension ComprehendMedicalErrorType {
@@ -21,16 +21,16 @@ extension ComprehendMedicalErrorType {
         switch errorCode {
         case "InternalServerException":
             self = .internalServerException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
         case "InvalidEncodingException":
             self = .invalidEncodingException(message: message)
+        case "InvalidRequestException":
+            self = .invalidRequestException(message: message)
+        case "ServiceUnavailableException":
+            self = .serviceUnavailableException(message: message)
         case "TextSizeLimitExceededException":
             self = .textSizeLimitExceededException(message: message)
+        case "TooManyRequestsException":
+            self = .tooManyRequestsException(message: message)
         default:
             return nil
         }

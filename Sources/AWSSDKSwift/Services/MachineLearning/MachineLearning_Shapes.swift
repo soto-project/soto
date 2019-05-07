@@ -5,121 +5,2472 @@ import AWSSDKSwiftCore
 
 extension MachineLearning {
 
-    public struct RDSMetadata: AWSShape {
+    public struct AddTagsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SelectSqlQuery", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseUserName", required: false, type: .string), 
-            AWSShapeMember(label: "DataPipelineId", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceRole", required: false, type: .string), 
-            AWSShapeMember(label: "Database", required: false, type: .structure), 
-            AWSShapeMember(label: "ServiceRole", required: false, type: .string)
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: true, type: .enum), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
-        /// The SQL query that is supplied during CreateDataSourceFromRDS. Returns only if Verbose is true in GetDataSourceInput. 
-        public let selectSqlQuery: String?
-        public let databaseUserName: String?
-        /// The ID of the Data Pipeline instance that is used to carry to copy data from Amazon RDS to Amazon S3. You can use the ID to find details about the instance in the Data Pipeline console.
-        public let dataPipelineId: String?
-        /// The role (DataPipelineDefaultResourceRole) assumed by an Amazon EC2 instance to carry out the copy task from Amazon RDS to Amazon S3. For more information, see Role templates for data pipelines.
-        public let resourceRole: String?
-        /// The database details required to connect to an Amazon RDS.
-        public let database: RDSDatabase?
-        /// The role (DataPipelineDefaultRole) assumed by the Data Pipeline service to monitor the progress of the copy task from Amazon RDS to Amazon S3. For more information, see Role templates for data pipelines.
-        public let serviceRole: String?
+        /// The ID of the ML object to tag. For example, exampleModelId.
+        public let resourceId: String
+        /// The type of the ML object to tag. 
+        public let resourceType: TaggableResourceType
+        /// The key-value pairs to use to create tags. If you specify a key without specifying a value, Amazon ML creates a tag with the specified key and a value of null.
+        public let tags: [Tag]
 
-        public init(selectSqlQuery: String? = nil, databaseUserName: String? = nil, dataPipelineId: String? = nil, resourceRole: String? = nil, database: RDSDatabase? = nil, serviceRole: String? = nil) {
-            self.selectSqlQuery = selectSqlQuery
-            self.databaseUserName = databaseUserName
-            self.dataPipelineId = dataPipelineId
-            self.resourceRole = resourceRole
-            self.database = database
-            self.serviceRole = serviceRole
+        public init(resourceId: String, resourceType: TaggableResourceType, tags: [Tag]) {
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case selectSqlQuery = "SelectSqlQuery"
-            case databaseUserName = "DatabaseUserName"
-            case dataPipelineId = "DataPipelineId"
-            case resourceRole = "ResourceRole"
-            case database = "Database"
-            case serviceRole = "ServiceRole"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+            case tags = "Tags"
         }
     }
 
-    public struct Evaluation: AWSShape {
+    public struct AddTagsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EvaluationDataSourceId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "FinishedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MLModelId", required: false, type: .string), 
-            AWSShapeMember(label: "InputDataLocationS3", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .enum)
+        ]
+        /// The ID of the ML object that was tagged.
+        public let resourceId: String?
+        /// The type of the ML object that was tagged.
+        public let resourceType: TaggableResourceType?
+
+        public init(resourceId: String? = nil, resourceType: TaggableResourceType? = nil) {
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public enum Algorithm: String, CustomStringConvertible, Codable {
+        case sgd = "sgd"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct BatchPrediction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BatchPredictionDataSourceId", required: false, type: .string), 
+            AWSShapeMember(label: "BatchPredictionId", required: false, type: .string), 
             AWSShapeMember(label: "ComputeTime", required: false, type: .long), 
             AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "EvaluationId", required: false, type: .string), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string), 
+            AWSShapeMember(label: "FinishedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InputDataLocationS3", required: false, type: .string), 
+            AWSShapeMember(label: "InvalidRecordCount", required: false, type: .long), 
             AWSShapeMember(label: "LastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "PerformanceMetrics", required: false, type: .structure), 
+            AWSShapeMember(label: "MLModelId", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "OutputUri", required: false, type: .string), 
             AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string)
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "TotalRecordCount", required: false, type: .long)
         ]
-        /// The ID of the DataSource that is used to evaluate the MLModel.
-        public let evaluationDataSourceId: String?
-        /// A user-supplied name or description of the Evaluation. 
-        public let name: String?
-        public let finishedAt: TimeStamp?
-        /// The ID of the MLModel that is the focus of the evaluation.
-        public let mLModelId: String?
-        /// The location and name of the data in Amazon Simple Storage Server (Amazon S3) that is used in the evaluation.
-        public let inputDataLocationS3: String?
+        /// The ID of the DataSource that points to the group of observations to predict.
+        public let batchPredictionDataSourceId: String?
+        /// The ID assigned to the BatchPrediction at creation. This value should be identical to the value of the BatchPredictionID in the request. 
+        public let batchPredictionId: String?
         public let computeTime: Int64?
-        /// The time that the Evaluation was created. The time is expressed in epoch time.
+        /// The time that the BatchPrediction was created. The time is expressed in epoch time.
         public let createdAt: TimeStamp?
-        /// The status of the evaluation. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to evaluate an MLModel.  INPROGRESS - The evaluation is underway.  FAILED - The request to evaluate an MLModel did not run to completion. It is not usable.  COMPLETED - The evaluation process completed successfully.  DELETED - The Evaluation is marked as deleted. It is not usable. 
-        public let status: EntityStatus?
-        /// The ID that is assigned to the Evaluation at creation.
-        public let evaluationId: String?
-        /// A description of the most recent details about evaluating the MLModel.
-        public let message: String?
-        /// The time of the most recent edit to the Evaluation. The time is expressed in epoch time.
-        public let lastUpdatedAt: TimeStamp?
-        /// Measurements of how well the MLModel performed, using observations referenced by the DataSource. One of the following metrics is returned, based on the type of the MLModel:    BinaryAUC: A binary MLModel uses the Area Under the Curve (AUC) technique to measure performance.    RegressionRMSE: A regression MLModel uses the Root Mean Square Error (RMSE) technique to measure performance. RMSE measures the difference between predicted and actual values for a single variable.   MulticlassAvgFScore: A multiclass MLModel uses the F1 score technique to measure performance.     For more information about performance metrics, please see the Amazon Machine Learning Developer Guide. 
-        public let performanceMetrics: PerformanceMetrics?
-        public let startedAt: TimeStamp?
-        /// The AWS user account that invoked the evaluation. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
+        /// The AWS user account that invoked the BatchPrediction. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
         public let createdByIamUser: String?
+        public let finishedAt: TimeStamp?
+        /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
+        public let inputDataLocationS3: String?
+        public let invalidRecordCount: Int64?
+        /// The time of the most recent edit to the BatchPrediction. The time is expressed in epoch time.
+        public let lastUpdatedAt: TimeStamp?
+        /// The ID of the MLModel that generated predictions for the BatchPrediction request.
+        public let mLModelId: String?
+        /// A description of the most recent details about processing the batch prediction request.
+        public let message: String?
+        /// A user-supplied name or description of the BatchPrediction.
+        public let name: String?
+        /// The location of an Amazon S3 bucket or directory to receive the operation results. The following substrings are not allowed in the s3 key portion of the outputURI field: ':', '//', '/./', '/../'.
+        public let outputUri: String?
+        public let startedAt: TimeStamp?
+        /// The status of the BatchPrediction. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to generate predictions for a batch of observations.  INPROGRESS - The process is underway.  FAILED - The request to perform a batch prediction did not run to completion. It is not usable.  COMPLETED - The batch prediction process completed successfully.  DELETED - The BatchPrediction is marked as deleted. It is not usable. 
+        public let status: EntityStatus?
+        public let totalRecordCount: Int64?
 
-        public init(evaluationDataSourceId: String? = nil, name: String? = nil, finishedAt: TimeStamp? = nil, mLModelId: String? = nil, inputDataLocationS3: String? = nil, computeTime: Int64? = nil, createdAt: TimeStamp? = nil, status: EntityStatus? = nil, evaluationId: String? = nil, message: String? = nil, lastUpdatedAt: TimeStamp? = nil, performanceMetrics: PerformanceMetrics? = nil, startedAt: TimeStamp? = nil, createdByIamUser: String? = nil) {
-            self.evaluationDataSourceId = evaluationDataSourceId
-            self.name = name
-            self.finishedAt = finishedAt
-            self.mLModelId = mLModelId
-            self.inputDataLocationS3 = inputDataLocationS3
+        public init(batchPredictionDataSourceId: String? = nil, batchPredictionId: String? = nil, computeTime: Int64? = nil, createdAt: TimeStamp? = nil, createdByIamUser: String? = nil, finishedAt: TimeStamp? = nil, inputDataLocationS3: String? = nil, invalidRecordCount: Int64? = nil, lastUpdatedAt: TimeStamp? = nil, mLModelId: String? = nil, message: String? = nil, name: String? = nil, outputUri: String? = nil, startedAt: TimeStamp? = nil, status: EntityStatus? = nil, totalRecordCount: Int64? = nil) {
+            self.batchPredictionDataSourceId = batchPredictionDataSourceId
+            self.batchPredictionId = batchPredictionId
             self.computeTime = computeTime
             self.createdAt = createdAt
-            self.status = status
-            self.evaluationId = evaluationId
-            self.message = message
-            self.lastUpdatedAt = lastUpdatedAt
-            self.performanceMetrics = performanceMetrics
-            self.startedAt = startedAt
             self.createdByIamUser = createdByIamUser
+            self.finishedAt = finishedAt
+            self.inputDataLocationS3 = inputDataLocationS3
+            self.invalidRecordCount = invalidRecordCount
+            self.lastUpdatedAt = lastUpdatedAt
+            self.mLModelId = mLModelId
+            self.message = message
+            self.name = name
+            self.outputUri = outputUri
+            self.startedAt = startedAt
+            self.status = status
+            self.totalRecordCount = totalRecordCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchPredictionDataSourceId = "BatchPredictionDataSourceId"
+            case batchPredictionId = "BatchPredictionId"
+            case computeTime = "ComputeTime"
+            case createdAt = "CreatedAt"
+            case createdByIamUser = "CreatedByIamUser"
+            case finishedAt = "FinishedAt"
+            case inputDataLocationS3 = "InputDataLocationS3"
+            case invalidRecordCount = "InvalidRecordCount"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case mLModelId = "MLModelId"
+            case message = "Message"
+            case name = "Name"
+            case outputUri = "OutputUri"
+            case startedAt = "StartedAt"
+            case status = "Status"
+            case totalRecordCount = "TotalRecordCount"
+        }
+    }
+
+    public enum BatchPredictionFilterVariable: String, CustomStringConvertible, Codable {
+        case createdat = "CreatedAt"
+        case lastupdatedat = "LastUpdatedAt"
+        case status = "Status"
+        case name = "Name"
+        case iamuser = "IAMUser"
+        case mlmodelid = "MLModelId"
+        case datasourceid = "DataSourceId"
+        case datauri = "DataURI"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateBatchPredictionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BatchPredictionDataSourceId", required: true, type: .string), 
+            AWSShapeMember(label: "BatchPredictionId", required: true, type: .string), 
+            AWSShapeMember(label: "BatchPredictionName", required: false, type: .string), 
+            AWSShapeMember(label: "MLModelId", required: true, type: .string), 
+            AWSShapeMember(label: "OutputUri", required: true, type: .string)
+        ]
+        /// The ID of the DataSource that points to the group of observations to predict.
+        public let batchPredictionDataSourceId: String
+        /// A user-supplied ID that uniquely identifies the BatchPrediction.
+        public let batchPredictionId: String
+        /// A user-supplied name or description of the BatchPrediction. BatchPredictionName can only use the UTF-8 character set.
+        public let batchPredictionName: String?
+        /// The ID of the MLModel that will generate predictions for the group of observations. 
+        public let mLModelId: String
+        /// The location of an Amazon Simple Storage Service (Amazon S3) bucket or directory to store the batch prediction results. The following substrings are not allowed in the s3 key portion of the outputURI field: ':', '//', '/./', '/../'. Amazon ML needs permissions to store and retrieve the logs on your behalf. For information about how to set permissions, see the Amazon Machine Learning Developer Guide.
+        public let outputUri: String
+
+        public init(batchPredictionDataSourceId: String, batchPredictionId: String, batchPredictionName: String? = nil, mLModelId: String, outputUri: String) {
+            self.batchPredictionDataSourceId = batchPredictionDataSourceId
+            self.batchPredictionId = batchPredictionId
+            self.batchPredictionName = batchPredictionName
+            self.mLModelId = mLModelId
+            self.outputUri = outputUri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchPredictionDataSourceId = "BatchPredictionDataSourceId"
+            case batchPredictionId = "BatchPredictionId"
+            case batchPredictionName = "BatchPredictionName"
+            case mLModelId = "MLModelId"
+            case outputUri = "OutputUri"
+        }
+    }
+
+    public struct CreateBatchPredictionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BatchPredictionId", required: false, type: .string)
+        ]
+        /// A user-supplied ID that uniquely identifies the BatchPrediction. This value is identical to the value of the BatchPredictionId in the request.
+        public let batchPredictionId: String?
+
+        public init(batchPredictionId: String? = nil) {
+            self.batchPredictionId = batchPredictionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchPredictionId = "BatchPredictionId"
+        }
+    }
+
+    public struct CreateDataSourceFromRDSInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComputeStatistics", required: false, type: .boolean), 
+            AWSShapeMember(label: "DataSourceId", required: true, type: .string), 
+            AWSShapeMember(label: "DataSourceName", required: false, type: .string), 
+            AWSShapeMember(label: "RDSData", required: true, type: .structure), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string)
+        ]
+        /// The compute statistics for a DataSource. The statistics are generated from the observation data referenced by a DataSource. Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training. 
+        public let computeStatistics: Bool?
+        /// A user-supplied ID that uniquely identifies the DataSource. Typically, an Amazon Resource Number (ARN) becomes the ID for a DataSource.
+        public let dataSourceId: String
+        /// A user-supplied name or description of the DataSource.
+        public let dataSourceName: String?
+        /// The data specification of an Amazon RDS DataSource:  DatabaseInformation -   DatabaseName - The name of the Amazon RDS database.  InstanceIdentifier  - A unique identifier for the Amazon RDS database instance.   DatabaseCredentials - AWS Identity and Access Management (IAM) credentials that are used to connect to the Amazon RDS database. ResourceRole - A role (DataPipelineDefaultResourceRole) assumed by an EC2 instance to carry out the copy task from Amazon RDS to Amazon Simple Storage Service (Amazon S3). For more information, see Role templates for data pipelines. ServiceRole - A role (DataPipelineDefaultRole) assumed by the AWS Data Pipeline service to monitor the progress of the copy task from Amazon RDS to Amazon S3. For more information, see Role templates for data pipelines. SecurityInfo - The security information to use to access an RDS DB instance. You need to set up appropriate ingress rules for the security entity IDs provided to allow access to the Amazon RDS instance. Specify a [SubnetId, SecurityGroupIds] pair for a VPC-based RDS DB instance. SelectSqlQuery - A query that is used to retrieve the observation data for the Datasource. S3StagingLocation - The Amazon S3 location for staging Amazon RDS data. The data retrieved from Amazon RDS using SelectSqlQuery is stored in this location. DataSchemaUri - The Amazon S3 location of the DataSchema. DataSchema - A JSON string representing the schema. This is not required if DataSchemaUri is specified.   DataRearrangement - A JSON string that represents the splitting and rearrangement requirements for the Datasource.    Sample -  "{\"splitting\":{\"percentBegin\":10,\"percentEnd\":60}}"   
+        public let rDSData: RDSDataSpec
+        /// The role that Amazon ML assumes on behalf of the user to create and activate a data pipeline in the user's account and copy data using the SelectSqlQuery query from Amazon RDS to Amazon S3.  
+        public let roleARN: String
+
+        public init(computeStatistics: Bool? = nil, dataSourceId: String, dataSourceName: String? = nil, rDSData: RDSDataSpec, roleARN: String) {
+            self.computeStatistics = computeStatistics
+            self.dataSourceId = dataSourceId
+            self.dataSourceName = dataSourceName
+            self.rDSData = rDSData
+            self.roleARN = roleARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeStatistics = "ComputeStatistics"
+            case dataSourceId = "DataSourceId"
+            case dataSourceName = "DataSourceName"
+            case rDSData = "RDSData"
+            case roleARN = "RoleARN"
+        }
+    }
+
+    public struct CreateDataSourceFromRDSOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceId", required: false, type: .string)
+        ]
+        /// A user-supplied ID that uniquely identifies the datasource. This value should be identical to the value of the DataSourceID in the request. 
+        public let dataSourceId: String?
+
+        public init(dataSourceId: String? = nil) {
+            self.dataSourceId = dataSourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
+        }
+    }
+
+    public struct CreateDataSourceFromRedshiftInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComputeStatistics", required: false, type: .boolean), 
+            AWSShapeMember(label: "DataSourceId", required: true, type: .string), 
+            AWSShapeMember(label: "DataSourceName", required: false, type: .string), 
+            AWSShapeMember(label: "DataSpec", required: true, type: .structure), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string)
+        ]
+        /// The compute statistics for a DataSource. The statistics are generated from the observation data referenced by a DataSource. Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training.
+        public let computeStatistics: Bool?
+        /// A user-supplied ID that uniquely identifies the DataSource.
+        public let dataSourceId: String
+        /// A user-supplied name or description of the DataSource. 
+        public let dataSourceName: String?
+        /// The data specification of an Amazon Redshift DataSource:  DatabaseInformation -   DatabaseName - The name of the Amazon Redshift database.    ClusterIdentifier - The unique ID for the Amazon Redshift cluster.  DatabaseCredentials - The AWS Identity and Access Management (IAM) credentials that are used to connect to the Amazon Redshift database. SelectSqlQuery - The query that is used to retrieve the observation data for the Datasource. S3StagingLocation - The Amazon Simple Storage Service (Amazon S3) location for staging Amazon Redshift data. The data retrieved from Amazon Redshift using the SelectSqlQuery query is stored in this location. DataSchemaUri - The Amazon S3 location of the DataSchema. DataSchema - A JSON string representing the schema. This is not required if DataSchemaUri is specified.   DataRearrangement - A JSON string that represents the splitting and rearrangement requirements for the DataSource.  Sample -  "{\"splitting\":{\"percentBegin\":10,\"percentEnd\":60}}"   
+        public let dataSpec: RedshiftDataSpec
+        /// A fully specified role Amazon Resource Name (ARN). Amazon ML assumes the role on behalf of the user to create the following:    A security group to allow Amazon ML to execute the SelectSqlQuery query on an Amazon Redshift cluster An Amazon S3 bucket policy to grant Amazon ML read/write permissions on the S3StagingLocation  
+        public let roleARN: String
+
+        public init(computeStatistics: Bool? = nil, dataSourceId: String, dataSourceName: String? = nil, dataSpec: RedshiftDataSpec, roleARN: String) {
+            self.computeStatistics = computeStatistics
+            self.dataSourceId = dataSourceId
+            self.dataSourceName = dataSourceName
+            self.dataSpec = dataSpec
+            self.roleARN = roleARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeStatistics = "ComputeStatistics"
+            case dataSourceId = "DataSourceId"
+            case dataSourceName = "DataSourceName"
+            case dataSpec = "DataSpec"
+            case roleARN = "RoleARN"
+        }
+    }
+
+    public struct CreateDataSourceFromRedshiftOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceId", required: false, type: .string)
+        ]
+        /// A user-supplied ID that uniquely identifies the datasource. This value should be identical to the value of the DataSourceID in the request. 
+        public let dataSourceId: String?
+
+        public init(dataSourceId: String? = nil) {
+            self.dataSourceId = dataSourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
+        }
+    }
+
+    public struct CreateDataSourceFromS3Input: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComputeStatistics", required: false, type: .boolean), 
+            AWSShapeMember(label: "DataSourceId", required: true, type: .string), 
+            AWSShapeMember(label: "DataSourceName", required: false, type: .string), 
+            AWSShapeMember(label: "DataSpec", required: true, type: .structure)
+        ]
+        /// The compute statistics for a DataSource. The statistics are generated from the observation data referenced by a DataSource. Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training.
+        public let computeStatistics: Bool?
+        /// A user-supplied identifier that uniquely identifies the DataSource. 
+        public let dataSourceId: String
+        /// A user-supplied name or description of the DataSource. 
+        public let dataSourceName: String?
+        /// The data specification of a DataSource:  DataLocationS3 - The Amazon S3 location of the observation data. DataSchemaLocationS3 - The Amazon S3 location of the DataSchema. DataSchema - A JSON string representing the schema. This is not required if DataSchemaUri is specified.   DataRearrangement - A JSON string that represents the splitting and rearrangement requirements for the Datasource.   Sample -  "{\"splitting\":{\"percentBegin\":10,\"percentEnd\":60}}"   
+        public let dataSpec: S3DataSpec
+
+        public init(computeStatistics: Bool? = nil, dataSourceId: String, dataSourceName: String? = nil, dataSpec: S3DataSpec) {
+            self.computeStatistics = computeStatistics
+            self.dataSourceId = dataSourceId
+            self.dataSourceName = dataSourceName
+            self.dataSpec = dataSpec
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeStatistics = "ComputeStatistics"
+            case dataSourceId = "DataSourceId"
+            case dataSourceName = "DataSourceName"
+            case dataSpec = "DataSpec"
+        }
+    }
+
+    public struct CreateDataSourceFromS3Output: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceId", required: false, type: .string)
+        ]
+        /// A user-supplied ID that uniquely identifies the DataSource. This value should be identical to the value of the DataSourceID in the request. 
+        public let dataSourceId: String?
+
+        public init(dataSourceId: String? = nil) {
+            self.dataSourceId = dataSourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
+        }
+    }
+
+    public struct CreateEvaluationInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EvaluationDataSourceId", required: true, type: .string), 
+            AWSShapeMember(label: "EvaluationId", required: true, type: .string), 
+            AWSShapeMember(label: "EvaluationName", required: false, type: .string), 
+            AWSShapeMember(label: "MLModelId", required: true, type: .string)
+        ]
+        /// The ID of the DataSource for the evaluation. The schema of the DataSource must match the schema used to create the MLModel.
+        public let evaluationDataSourceId: String
+        /// A user-supplied ID that uniquely identifies the Evaluation.
+        public let evaluationId: String
+        /// A user-supplied name or description of the Evaluation.
+        public let evaluationName: String?
+        /// The ID of the MLModel to evaluate. The schema used in creating the MLModel must match the schema of the DataSource used in the Evaluation.
+        public let mLModelId: String
+
+        public init(evaluationDataSourceId: String, evaluationId: String, evaluationName: String? = nil, mLModelId: String) {
+            self.evaluationDataSourceId = evaluationDataSourceId
+            self.evaluationId = evaluationId
+            self.evaluationName = evaluationName
+            self.mLModelId = mLModelId
         }
 
         private enum CodingKeys: String, CodingKey {
             case evaluationDataSourceId = "EvaluationDataSourceId"
-            case name = "Name"
-            case finishedAt = "FinishedAt"
+            case evaluationId = "EvaluationId"
+            case evaluationName = "EvaluationName"
             case mLModelId = "MLModelId"
-            case inputDataLocationS3 = "InputDataLocationS3"
+        }
+    }
+
+    public struct CreateEvaluationOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EvaluationId", required: false, type: .string)
+        ]
+        /// The user-supplied ID that uniquely identifies the Evaluation. This value should be identical to the value of the EvaluationId in the request.
+        public let evaluationId: String?
+
+        public init(evaluationId: String? = nil) {
+            self.evaluationId = evaluationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evaluationId = "EvaluationId"
+        }
+    }
+
+    public struct CreateMLModelInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MLModelId", required: true, type: .string), 
+            AWSShapeMember(label: "MLModelName", required: false, type: .string), 
+            AWSShapeMember(label: "MLModelType", required: true, type: .enum), 
+            AWSShapeMember(label: "Parameters", required: false, type: .map), 
+            AWSShapeMember(label: "Recipe", required: false, type: .string), 
+            AWSShapeMember(label: "RecipeUri", required: false, type: .string), 
+            AWSShapeMember(label: "TrainingDataSourceId", required: true, type: .string)
+        ]
+        /// A user-supplied ID that uniquely identifies the MLModel.
+        public let mLModelId: String
+        /// A user-supplied name or description of the MLModel.
+        public let mLModelName: String?
+        /// The category of supervised learning that this MLModel will address. Choose from the following types:  Choose REGRESSION if the MLModel will be used to predict a numeric value. Choose BINARY if the MLModel result has two possible values. Choose MULTICLASS if the MLModel result has a limited number of values.    For more information, see the Amazon Machine Learning Developer Guide.
+        public let mLModelType: MLModelType
+        /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.  sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10.  sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling the data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none. We strongly recommend that you shuffle your data.   sgd.l1RegularizationAmount - The coefficient regularization L1 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to zero, resulting in a sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.   sgd.l2RegularizationAmount - The coefficient regularization L2 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.  
+        public let parameters: [String: String]?
+        /// The data recipe for creating the MLModel. You must specify either the recipe or its URI. If you don't specify a recipe or its URI, Amazon ML creates a default.
+        public let recipe: String?
+        /// The Amazon Simple Storage Service (Amazon S3) location and file name that contains the MLModel recipe. You must specify either the recipe or its URI. If you don't specify a recipe or its URI, Amazon ML creates a default.
+        public let recipeUri: String?
+        /// The DataSource that points to the training data.
+        public let trainingDataSourceId: String
+
+        public init(mLModelId: String, mLModelName: String? = nil, mLModelType: MLModelType, parameters: [String: String]? = nil, recipe: String? = nil, recipeUri: String? = nil, trainingDataSourceId: String) {
+            self.mLModelId = mLModelId
+            self.mLModelName = mLModelName
+            self.mLModelType = mLModelType
+            self.parameters = parameters
+            self.recipe = recipe
+            self.recipeUri = recipeUri
+            self.trainingDataSourceId = trainingDataSourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mLModelId = "MLModelId"
+            case mLModelName = "MLModelName"
+            case mLModelType = "MLModelType"
+            case parameters = "Parameters"
+            case recipe = "Recipe"
+            case recipeUri = "RecipeUri"
+            case trainingDataSourceId = "TrainingDataSourceId"
+        }
+    }
+
+    public struct CreateMLModelOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MLModelId", required: false, type: .string)
+        ]
+        /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request. 
+        public let mLModelId: String?
+
+        public init(mLModelId: String? = nil) {
+            self.mLModelId = mLModelId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mLModelId = "MLModelId"
+        }
+    }
+
+    public struct CreateRealtimeEndpointInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MLModelId", required: true, type: .string)
+        ]
+        /// The ID assigned to the MLModel during creation.
+        public let mLModelId: String
+
+        public init(mLModelId: String) {
+            self.mLModelId = mLModelId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mLModelId = "MLModelId"
+        }
+    }
+
+    public struct CreateRealtimeEndpointOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MLModelId", required: false, type: .string), 
+            AWSShapeMember(label: "RealtimeEndpointInfo", required: false, type: .structure)
+        ]
+        /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request.
+        public let mLModelId: String?
+        /// The endpoint information of the MLModel 
+        public let realtimeEndpointInfo: RealtimeEndpointInfo?
+
+        public init(mLModelId: String? = nil, realtimeEndpointInfo: RealtimeEndpointInfo? = nil) {
+            self.mLModelId = mLModelId
+            self.realtimeEndpointInfo = realtimeEndpointInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mLModelId = "MLModelId"
+            case realtimeEndpointInfo = "RealtimeEndpointInfo"
+        }
+    }
+
+    public struct DataSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComputeStatistics", required: false, type: .boolean), 
+            AWSShapeMember(label: "ComputeTime", required: false, type: .long), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string), 
+            AWSShapeMember(label: "DataLocationS3", required: false, type: .string), 
+            AWSShapeMember(label: "DataRearrangement", required: false, type: .string), 
+            AWSShapeMember(label: "DataSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "DataSourceId", required: false, type: .string), 
+            AWSShapeMember(label: "FinishedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "NumberOfFiles", required: false, type: .long), 
+            AWSShapeMember(label: "RDSMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "RedshiftMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        ///  The parameter is true if statistics need to be generated from the observation data. 
+        public let computeStatistics: Bool?
+        public let computeTime: Int64?
+        /// The time that the DataSource was created. The time is expressed in epoch time.
+        public let createdAt: TimeStamp?
+        /// The AWS user account from which the DataSource was created. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
+        public let createdByIamUser: String?
+        /// The location and name of the data in Amazon Simple Storage Service (Amazon S3) that is used by a DataSource.
+        public let dataLocationS3: String?
+        /// A JSON string that represents the splitting and rearrangement requirement used when this DataSource was created.
+        public let dataRearrangement: String?
+        /// The total number of observations contained in the data files that the DataSource references.
+        public let dataSizeInBytes: Int64?
+        /// The ID that is assigned to the DataSource during creation.
+        public let dataSourceId: String?
+        public let finishedAt: TimeStamp?
+        /// The time of the most recent edit to the BatchPrediction. The time is expressed in epoch time.
+        public let lastUpdatedAt: TimeStamp?
+        /// A description of the most recent details about creating the DataSource.
+        public let message: String?
+        /// A user-supplied name or description of the DataSource.
+        public let name: String?
+        /// The number of data files referenced by the DataSource.
+        public let numberOfFiles: Int64?
+        public let rDSMetadata: RDSMetadata?
+        public let redshiftMetadata: RedshiftMetadata?
+        public let roleARN: String?
+        public let startedAt: TimeStamp?
+        /// The current status of the DataSource. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to create a DataSource. INPROGRESS - The creation process is underway. FAILED - The request to create a DataSource did not run to completion. It is not usable. COMPLETED - The creation process completed successfully. DELETED - The DataSource is marked as deleted. It is not usable. 
+        public let status: EntityStatus?
+
+        public init(computeStatistics: Bool? = nil, computeTime: Int64? = nil, createdAt: TimeStamp? = nil, createdByIamUser: String? = nil, dataLocationS3: String? = nil, dataRearrangement: String? = nil, dataSizeInBytes: Int64? = nil, dataSourceId: String? = nil, finishedAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, message: String? = nil, name: String? = nil, numberOfFiles: Int64? = nil, rDSMetadata: RDSMetadata? = nil, redshiftMetadata: RedshiftMetadata? = nil, roleARN: String? = nil, startedAt: TimeStamp? = nil, status: EntityStatus? = nil) {
+            self.computeStatistics = computeStatistics
+            self.computeTime = computeTime
+            self.createdAt = createdAt
+            self.createdByIamUser = createdByIamUser
+            self.dataLocationS3 = dataLocationS3
+            self.dataRearrangement = dataRearrangement
+            self.dataSizeInBytes = dataSizeInBytes
+            self.dataSourceId = dataSourceId
+            self.finishedAt = finishedAt
+            self.lastUpdatedAt = lastUpdatedAt
+            self.message = message
+            self.name = name
+            self.numberOfFiles = numberOfFiles
+            self.rDSMetadata = rDSMetadata
+            self.redshiftMetadata = redshiftMetadata
+            self.roleARN = roleARN
+            self.startedAt = startedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeStatistics = "ComputeStatistics"
             case computeTime = "ComputeTime"
             case createdAt = "CreatedAt"
-            case status = "Status"
-            case evaluationId = "EvaluationId"
-            case message = "Message"
+            case createdByIamUser = "CreatedByIamUser"
+            case dataLocationS3 = "DataLocationS3"
+            case dataRearrangement = "DataRearrangement"
+            case dataSizeInBytes = "DataSizeInBytes"
+            case dataSourceId = "DataSourceId"
+            case finishedAt = "FinishedAt"
             case lastUpdatedAt = "LastUpdatedAt"
+            case message = "Message"
+            case name = "Name"
+            case numberOfFiles = "NumberOfFiles"
+            case rDSMetadata = "RDSMetadata"
+            case redshiftMetadata = "RedshiftMetadata"
+            case roleARN = "RoleARN"
+            case startedAt = "StartedAt"
+            case status = "Status"
+        }
+    }
+
+    public enum DataSourceFilterVariable: String, CustomStringConvertible, Codable {
+        case createdat = "CreatedAt"
+        case lastupdatedat = "LastUpdatedAt"
+        case status = "Status"
+        case name = "Name"
+        case datalocations3 = "DataLocationS3"
+        case iamuser = "IAMUser"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteBatchPredictionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BatchPredictionId", required: true, type: .string)
+        ]
+        /// A user-supplied ID that uniquely identifies the BatchPrediction.
+        public let batchPredictionId: String
+
+        public init(batchPredictionId: String) {
+            self.batchPredictionId = batchPredictionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchPredictionId = "BatchPredictionId"
+        }
+    }
+
+    public struct DeleteBatchPredictionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BatchPredictionId", required: false, type: .string)
+        ]
+        /// A user-supplied ID that uniquely identifies the BatchPrediction. This value should be identical to the value of the BatchPredictionID in the request.
+        public let batchPredictionId: String?
+
+        public init(batchPredictionId: String? = nil) {
+            self.batchPredictionId = batchPredictionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchPredictionId = "BatchPredictionId"
+        }
+    }
+
+    public struct DeleteDataSourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceId", required: true, type: .string)
+        ]
+        /// A user-supplied ID that uniquely identifies the DataSource.
+        public let dataSourceId: String
+
+        public init(dataSourceId: String) {
+            self.dataSourceId = dataSourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
+        }
+    }
+
+    public struct DeleteDataSourceOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceId", required: false, type: .string)
+        ]
+        /// A user-supplied ID that uniquely identifies the DataSource. This value should be identical to the value of the DataSourceID in the request.
+        public let dataSourceId: String?
+
+        public init(dataSourceId: String? = nil) {
+            self.dataSourceId = dataSourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
+        }
+    }
+
+    public struct DeleteEvaluationInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EvaluationId", required: true, type: .string)
+        ]
+        /// A user-supplied ID that uniquely identifies the Evaluation to delete.
+        public let evaluationId: String
+
+        public init(evaluationId: String) {
+            self.evaluationId = evaluationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evaluationId = "EvaluationId"
+        }
+    }
+
+    public struct DeleteEvaluationOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EvaluationId", required: false, type: .string)
+        ]
+        /// A user-supplied ID that uniquely identifies the Evaluation. This value should be identical to the value of the EvaluationId in the request.
+        public let evaluationId: String?
+
+        public init(evaluationId: String? = nil) {
+            self.evaluationId = evaluationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evaluationId = "EvaluationId"
+        }
+    }
+
+    public struct DeleteMLModelInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MLModelId", required: true, type: .string)
+        ]
+        /// A user-supplied ID that uniquely identifies the MLModel.
+        public let mLModelId: String
+
+        public init(mLModelId: String) {
+            self.mLModelId = mLModelId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mLModelId = "MLModelId"
+        }
+    }
+
+    public struct DeleteMLModelOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MLModelId", required: false, type: .string)
+        ]
+        /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelID in the request.
+        public let mLModelId: String?
+
+        public init(mLModelId: String? = nil) {
+            self.mLModelId = mLModelId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mLModelId = "MLModelId"
+        }
+    }
+
+    public struct DeleteRealtimeEndpointInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MLModelId", required: true, type: .string)
+        ]
+        /// The ID assigned to the MLModel during creation.
+        public let mLModelId: String
+
+        public init(mLModelId: String) {
+            self.mLModelId = mLModelId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mLModelId = "MLModelId"
+        }
+    }
+
+    public struct DeleteRealtimeEndpointOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MLModelId", required: false, type: .string), 
+            AWSShapeMember(label: "RealtimeEndpointInfo", required: false, type: .structure)
+        ]
+        /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request.
+        public let mLModelId: String?
+        /// The endpoint information of the MLModel 
+        public let realtimeEndpointInfo: RealtimeEndpointInfo?
+
+        public init(mLModelId: String? = nil, realtimeEndpointInfo: RealtimeEndpointInfo? = nil) {
+            self.mLModelId = mLModelId
+            self.realtimeEndpointInfo = realtimeEndpointInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mLModelId = "MLModelId"
+            case realtimeEndpointInfo = "RealtimeEndpointInfo"
+        }
+    }
+
+    public struct DeleteTagsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: true, type: .enum), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+        ]
+        /// The ID of the tagged ML object. For example, exampleModelId.
+        public let resourceId: String
+        /// The type of the tagged ML object.
+        public let resourceType: TaggableResourceType
+        /// One or more tags to delete.
+        public let tagKeys: [String]
+
+        public init(resourceId: String, resourceType: TaggableResourceType, tagKeys: [String]) {
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct DeleteTagsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .enum)
+        ]
+        /// The ID of the ML object from which tags were deleted.
+        public let resourceId: String?
+        /// The type of the ML object from which tags were deleted.
+        public let resourceType: TaggableResourceType?
+
+        public init(resourceId: String? = nil, resourceType: TaggableResourceType? = nil) {
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct DescribeBatchPredictionsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EQ", required: false, type: .string), 
+            AWSShapeMember(label: "FilterVariable", required: false, type: .enum), 
+            AWSShapeMember(label: "GE", required: false, type: .string), 
+            AWSShapeMember(label: "GT", required: false, type: .string), 
+            AWSShapeMember(label: "LE", required: false, type: .string), 
+            AWSShapeMember(label: "LT", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NE", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
+        ]
+        /// The equal to operator. The BatchPrediction results will have FilterVariable values that exactly match the value specified with EQ.
+        public let eq: String?
+        /// Use one of the following variables to filter a list of BatchPrediction:   CreatedAt - Sets the search criteria to the BatchPrediction creation date.  Status - Sets the search criteria to the BatchPrediction status.  Name - Sets the search criteria to the contents of the BatchPrediction  Name.  IAMUser - Sets the search criteria to the user account that invoked the BatchPrediction creation.  MLModelId - Sets the search criteria to the MLModel used in the BatchPrediction.  DataSourceId - Sets the search criteria to the DataSource used in the BatchPrediction.  DataURI - Sets the search criteria to the data file(s) used in the BatchPrediction. The URL can identify either a file or an Amazon Simple Storage Solution (Amazon S3) bucket or directory. 
+        public let filterVariable: BatchPredictionFilterVariable?
+        /// The greater than or equal to operator. The BatchPrediction results will have FilterVariable values that are greater than or equal to the value specified with GE. 
+        public let ge: String?
+        /// The greater than operator. The BatchPrediction results will have FilterVariable values that are greater than the value specified with GT.
+        public let gt: String?
+        /// The less than or equal to operator. The BatchPrediction results will have FilterVariable values that are less than or equal to the value specified with LE.
+        public let le: String?
+        /// The less than operator. The BatchPrediction results will have FilterVariable values that are less than the value specified with LT.
+        public let lt: String?
+        /// The number of pages of information to include in the result. The range of acceptable values is 1 through 100. The default value is 100.
+        public let limit: Int32?
+        /// The not equal to operator. The BatchPrediction results will have FilterVariable values not equal to the value specified with NE.
+        public let ne: String?
+        /// An ID of the page in the paginated results.
+        public let nextToken: String?
+        /// A string that is found at the beginning of a variable, such as Name or Id. For example, a Batch Prediction operation could have the Name 2014-09-09-HolidayGiftMailer. To search for this BatchPrediction, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
+        public let prefix: String?
+        /// A two-value parameter that determines the sequence of the resulting list of MLModels.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
+        public let sortOrder: SortOrder?
+
+        public init(eq: String? = nil, filterVariable: BatchPredictionFilterVariable? = nil, ge: String? = nil, gt: String? = nil, le: String? = nil, limit: Int32? = nil, lt: String? = nil, ne: String? = nil, nextToken: String? = nil, prefix: String? = nil, sortOrder: SortOrder? = nil) {
+            self.eq = eq
+            self.filterVariable = filterVariable
+            self.ge = ge
+            self.gt = gt
+            self.le = le
+            self.lt = lt
+            self.limit = limit
+            self.ne = ne
+            self.nextToken = nextToken
+            self.prefix = prefix
+            self.sortOrder = sortOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eq = "EQ"
+            case filterVariable = "FilterVariable"
+            case ge = "GE"
+            case gt = "GT"
+            case le = "LE"
+            case lt = "LT"
+            case limit = "Limit"
+            case ne = "NE"
+            case nextToken = "NextToken"
+            case prefix = "Prefix"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct DescribeBatchPredictionsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Results", required: false, type: .list)
+        ]
+        /// The ID of the next page in the paginated results that indicates at least one more page follows.
+        public let nextToken: String?
+        /// A list of BatchPrediction objects that meet the search criteria. 
+        public let results: [BatchPrediction]?
+
+        public init(nextToken: String? = nil, results: [BatchPrediction]? = nil) {
+            self.nextToken = nextToken
+            self.results = results
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case results = "Results"
+        }
+    }
+
+    public struct DescribeDataSourcesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EQ", required: false, type: .string), 
+            AWSShapeMember(label: "FilterVariable", required: false, type: .enum), 
+            AWSShapeMember(label: "GE", required: false, type: .string), 
+            AWSShapeMember(label: "GT", required: false, type: .string), 
+            AWSShapeMember(label: "LE", required: false, type: .string), 
+            AWSShapeMember(label: "LT", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NE", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
+        ]
+        /// The equal to operator. The DataSource results will have FilterVariable values that exactly match the value specified with EQ.
+        public let eq: String?
+        /// Use one of the following variables to filter a list of DataSource:   CreatedAt - Sets the search criteria to DataSource creation dates.  Status - Sets the search criteria to DataSource statuses.  Name - Sets the search criteria to the contents of DataSource   Name.  DataUri - Sets the search criteria to the URI of data files used to create the DataSource. The URI can identify either a file or an Amazon Simple Storage Service (Amazon S3) bucket or directory.  IAMUser - Sets the search criteria to the user account that invoked the DataSource creation. 
+        public let filterVariable: DataSourceFilterVariable?
+        /// The greater than or equal to operator. The DataSource results will have FilterVariable values that are greater than or equal to the value specified with GE. 
+        public let ge: String?
+        /// The greater than operator. The DataSource results will have FilterVariable values that are greater than the value specified with GT.
+        public let gt: String?
+        /// The less than or equal to operator. The DataSource results will have FilterVariable values that are less than or equal to the value specified with LE.
+        public let le: String?
+        /// The less than operator. The DataSource results will have FilterVariable values that are less than the value specified with LT.
+        public let lt: String?
+        ///  The maximum number of DataSource to include in the result.
+        public let limit: Int32?
+        /// The not equal to operator. The DataSource results will have FilterVariable values not equal to the value specified with NE.
+        public let ne: String?
+        /// The ID of the page in the paginated results.
+        public let nextToken: String?
+        /// A string that is found at the beginning of a variable, such as Name or Id. For example, a DataSource could have the Name 2014-09-09-HolidayGiftMailer. To search for this DataSource, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
+        public let prefix: String?
+        /// A two-value parameter that determines the sequence of the resulting list of DataSource.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
+        public let sortOrder: SortOrder?
+
+        public init(eq: String? = nil, filterVariable: DataSourceFilterVariable? = nil, ge: String? = nil, gt: String? = nil, le: String? = nil, limit: Int32? = nil, lt: String? = nil, ne: String? = nil, nextToken: String? = nil, prefix: String? = nil, sortOrder: SortOrder? = nil) {
+            self.eq = eq
+            self.filterVariable = filterVariable
+            self.ge = ge
+            self.gt = gt
+            self.le = le
+            self.lt = lt
+            self.limit = limit
+            self.ne = ne
+            self.nextToken = nextToken
+            self.prefix = prefix
+            self.sortOrder = sortOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eq = "EQ"
+            case filterVariable = "FilterVariable"
+            case ge = "GE"
+            case gt = "GT"
+            case le = "LE"
+            case lt = "LT"
+            case limit = "Limit"
+            case ne = "NE"
+            case nextToken = "NextToken"
+            case prefix = "Prefix"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct DescribeDataSourcesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Results", required: false, type: .list)
+        ]
+        /// An ID of the next page in the paginated results that indicates at least one more page follows.
+        public let nextToken: String?
+        /// A list of DataSource that meet the search criteria. 
+        public let results: [DataSource]?
+
+        public init(nextToken: String? = nil, results: [DataSource]? = nil) {
+            self.nextToken = nextToken
+            self.results = results
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case results = "Results"
+        }
+    }
+
+    public struct DescribeEvaluationsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EQ", required: false, type: .string), 
+            AWSShapeMember(label: "FilterVariable", required: false, type: .enum), 
+            AWSShapeMember(label: "GE", required: false, type: .string), 
+            AWSShapeMember(label: "GT", required: false, type: .string), 
+            AWSShapeMember(label: "LE", required: false, type: .string), 
+            AWSShapeMember(label: "LT", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NE", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
+        ]
+        /// The equal to operator. The Evaluation results will have FilterVariable values that exactly match the value specified with EQ.
+        public let eq: String?
+        /// Use one of the following variable to filter a list of Evaluation objects:   CreatedAt - Sets the search criteria to the Evaluation creation date.  Status - Sets the search criteria to the Evaluation status.  Name - Sets the search criteria to the contents of Evaluation   Name.  IAMUser - Sets the search criteria to the user account that invoked an Evaluation.  MLModelId - Sets the search criteria to the MLModel that was evaluated.  DataSourceId - Sets the search criteria to the DataSource used in Evaluation.  DataUri - Sets the search criteria to the data file(s) used in Evaluation. The URL can identify either a file or an Amazon Simple Storage Solution (Amazon S3) bucket or directory. 
+        public let filterVariable: EvaluationFilterVariable?
+        /// The greater than or equal to operator. The Evaluation results will have FilterVariable values that are greater than or equal to the value specified with GE. 
+        public let ge: String?
+        /// The greater than operator. The Evaluation results will have FilterVariable values that are greater than the value specified with GT.
+        public let gt: String?
+        /// The less than or equal to operator. The Evaluation results will have FilterVariable values that are less than or equal to the value specified with LE.
+        public let le: String?
+        /// The less than operator. The Evaluation results will have FilterVariable values that are less than the value specified with LT.
+        public let lt: String?
+        ///  The maximum number of Evaluation to include in the result.
+        public let limit: Int32?
+        /// The not equal to operator. The Evaluation results will have FilterVariable values not equal to the value specified with NE.
+        public let ne: String?
+        /// The ID of the page in the paginated results.
+        public let nextToken: String?
+        /// A string that is found at the beginning of a variable, such as Name or Id. For example, an Evaluation could have the Name 2014-09-09-HolidayGiftMailer. To search for this Evaluation, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
+        public let prefix: String?
+        /// A two-value parameter that determines the sequence of the resulting list of Evaluation.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
+        public let sortOrder: SortOrder?
+
+        public init(eq: String? = nil, filterVariable: EvaluationFilterVariable? = nil, ge: String? = nil, gt: String? = nil, le: String? = nil, limit: Int32? = nil, lt: String? = nil, ne: String? = nil, nextToken: String? = nil, prefix: String? = nil, sortOrder: SortOrder? = nil) {
+            self.eq = eq
+            self.filterVariable = filterVariable
+            self.ge = ge
+            self.gt = gt
+            self.le = le
+            self.lt = lt
+            self.limit = limit
+            self.ne = ne
+            self.nextToken = nextToken
+            self.prefix = prefix
+            self.sortOrder = sortOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eq = "EQ"
+            case filterVariable = "FilterVariable"
+            case ge = "GE"
+            case gt = "GT"
+            case le = "LE"
+            case lt = "LT"
+            case limit = "Limit"
+            case ne = "NE"
+            case nextToken = "NextToken"
+            case prefix = "Prefix"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct DescribeEvaluationsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Results", required: false, type: .list)
+        ]
+        /// The ID of the next page in the paginated results that indicates at least one more page follows.
+        public let nextToken: String?
+        /// A list of Evaluation that meet the search criteria. 
+        public let results: [Evaluation]?
+
+        public init(nextToken: String? = nil, results: [Evaluation]? = nil) {
+            self.nextToken = nextToken
+            self.results = results
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case results = "Results"
+        }
+    }
+
+    public struct DescribeMLModelsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EQ", required: false, type: .string), 
+            AWSShapeMember(label: "FilterVariable", required: false, type: .enum), 
+            AWSShapeMember(label: "GE", required: false, type: .string), 
+            AWSShapeMember(label: "GT", required: false, type: .string), 
+            AWSShapeMember(label: "LE", required: false, type: .string), 
+            AWSShapeMember(label: "LT", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NE", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
+        ]
+        /// The equal to operator. The MLModel results will have FilterVariable values that exactly match the value specified with EQ.
+        public let eq: String?
+        /// Use one of the following variables to filter a list of MLModel:   CreatedAt - Sets the search criteria to MLModel creation date.  Status - Sets the search criteria to MLModel status.  Name - Sets the search criteria to the contents of MLModel  Name.  IAMUser - Sets the search criteria to the user account that invoked the MLModel creation.  TrainingDataSourceId - Sets the search criteria to the DataSource used to train one or more MLModel.  RealtimeEndpointStatus - Sets the search criteria to the MLModel real-time endpoint status.  MLModelType - Sets the search criteria to MLModel type: binary, regression, or multi-class.  Algorithm - Sets the search criteria to the algorithm that the MLModel uses.  TrainingDataURI - Sets the search criteria to the data file(s) used in training a MLModel. The URL can identify either a file or an Amazon Simple Storage Service (Amazon S3) bucket or directory. 
+        public let filterVariable: MLModelFilterVariable?
+        /// The greater than or equal to operator. The MLModel results will have FilterVariable values that are greater than or equal to the value specified with GE. 
+        public let ge: String?
+        /// The greater than operator. The MLModel results will have FilterVariable values that are greater than the value specified with GT.
+        public let gt: String?
+        /// The less than or equal to operator. The MLModel results will have FilterVariable values that are less than or equal to the value specified with LE.
+        public let le: String?
+        /// The less than operator. The MLModel results will have FilterVariable values that are less than the value specified with LT.
+        public let lt: String?
+        /// The number of pages of information to include in the result. The range of acceptable values is 1 through 100. The default value is 100.
+        public let limit: Int32?
+        /// The not equal to operator. The MLModel results will have FilterVariable values not equal to the value specified with NE.
+        public let ne: String?
+        /// The ID of the page in the paginated results.
+        public let nextToken: String?
+        /// A string that is found at the beginning of a variable, such as Name or Id. For example, an MLModel could have the Name 2014-09-09-HolidayGiftMailer. To search for this MLModel, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
+        public let prefix: String?
+        /// A two-value parameter that determines the sequence of the resulting list of MLModel.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
+        public let sortOrder: SortOrder?
+
+        public init(eq: String? = nil, filterVariable: MLModelFilterVariable? = nil, ge: String? = nil, gt: String? = nil, le: String? = nil, limit: Int32? = nil, lt: String? = nil, ne: String? = nil, nextToken: String? = nil, prefix: String? = nil, sortOrder: SortOrder? = nil) {
+            self.eq = eq
+            self.filterVariable = filterVariable
+            self.ge = ge
+            self.gt = gt
+            self.le = le
+            self.lt = lt
+            self.limit = limit
+            self.ne = ne
+            self.nextToken = nextToken
+            self.prefix = prefix
+            self.sortOrder = sortOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eq = "EQ"
+            case filterVariable = "FilterVariable"
+            case ge = "GE"
+            case gt = "GT"
+            case le = "LE"
+            case lt = "LT"
+            case limit = "Limit"
+            case ne = "NE"
+            case nextToken = "NextToken"
+            case prefix = "Prefix"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct DescribeMLModelsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Results", required: false, type: .list)
+        ]
+        /// The ID of the next page in the paginated results that indicates at least one more page follows.
+        public let nextToken: String?
+        /// A list of MLModel that meet the search criteria.
+        public let results: [MLModel]?
+
+        public init(nextToken: String? = nil, results: [MLModel]? = nil) {
+            self.nextToken = nextToken
+            self.results = results
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case results = "Results"
+        }
+    }
+
+    public struct DescribeTagsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: true, type: .enum)
+        ]
+        /// The ID of the ML object. For example, exampleModelId. 
+        public let resourceId: String
+        /// The type of the ML object.
+        public let resourceType: TaggableResourceType
+
+        public init(resourceId: String, resourceType: TaggableResourceType) {
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct DescribeTagsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// The ID of the tagged ML object.
+        public let resourceId: String?
+        /// The type of the tagged ML object.
+        public let resourceType: TaggableResourceType?
+        /// A list of tags associated with the ML object.
+        public let tags: [Tag]?
+
+        public init(resourceId: String? = nil, resourceType: TaggableResourceType? = nil, tags: [Tag]? = nil) {
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+            case tags = "Tags"
+        }
+    }
+
+    public enum DetailsAttributes: String, CustomStringConvertible, Codable {
+        case predictivemodeltype = "PredictiveModelType"
+        case algorithm = "Algorithm"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EntityStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case inprogress = "INPROGRESS"
+        case failed = "FAILED"
+        case completed = "COMPLETED"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Evaluation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComputeTime", required: false, type: .long), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string), 
+            AWSShapeMember(label: "EvaluationDataSourceId", required: false, type: .string), 
+            AWSShapeMember(label: "EvaluationId", required: false, type: .string), 
+            AWSShapeMember(label: "FinishedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InputDataLocationS3", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MLModelId", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "PerformanceMetrics", required: false, type: .structure), 
+            AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        public let computeTime: Int64?
+        /// The time that the Evaluation was created. The time is expressed in epoch time.
+        public let createdAt: TimeStamp?
+        /// The AWS user account that invoked the evaluation. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
+        public let createdByIamUser: String?
+        /// The ID of the DataSource that is used to evaluate the MLModel.
+        public let evaluationDataSourceId: String?
+        /// The ID that is assigned to the Evaluation at creation.
+        public let evaluationId: String?
+        public let finishedAt: TimeStamp?
+        /// The location and name of the data in Amazon Simple Storage Server (Amazon S3) that is used in the evaluation.
+        public let inputDataLocationS3: String?
+        /// The time of the most recent edit to the Evaluation. The time is expressed in epoch time.
+        public let lastUpdatedAt: TimeStamp?
+        /// The ID of the MLModel that is the focus of the evaluation.
+        public let mLModelId: String?
+        /// A description of the most recent details about evaluating the MLModel.
+        public let message: String?
+        /// A user-supplied name or description of the Evaluation. 
+        public let name: String?
+        /// Measurements of how well the MLModel performed, using observations referenced by the DataSource. One of the following metrics is returned, based on the type of the MLModel:    BinaryAUC: A binary MLModel uses the Area Under the Curve (AUC) technique to measure performance.    RegressionRMSE: A regression MLModel uses the Root Mean Square Error (RMSE) technique to measure performance. RMSE measures the difference between predicted and actual values for a single variable.   MulticlassAvgFScore: A multiclass MLModel uses the F1 score technique to measure performance.     For more information about performance metrics, please see the Amazon Machine Learning Developer Guide. 
+        public let performanceMetrics: PerformanceMetrics?
+        public let startedAt: TimeStamp?
+        /// The status of the evaluation. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to evaluate an MLModel.  INPROGRESS - The evaluation is underway.  FAILED - The request to evaluate an MLModel did not run to completion. It is not usable.  COMPLETED - The evaluation process completed successfully.  DELETED - The Evaluation is marked as deleted. It is not usable. 
+        public let status: EntityStatus?
+
+        public init(computeTime: Int64? = nil, createdAt: TimeStamp? = nil, createdByIamUser: String? = nil, evaluationDataSourceId: String? = nil, evaluationId: String? = nil, finishedAt: TimeStamp? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: TimeStamp? = nil, mLModelId: String? = nil, message: String? = nil, name: String? = nil, performanceMetrics: PerformanceMetrics? = nil, startedAt: TimeStamp? = nil, status: EntityStatus? = nil) {
+            self.computeTime = computeTime
+            self.createdAt = createdAt
+            self.createdByIamUser = createdByIamUser
+            self.evaluationDataSourceId = evaluationDataSourceId
+            self.evaluationId = evaluationId
+            self.finishedAt = finishedAt
+            self.inputDataLocationS3 = inputDataLocationS3
+            self.lastUpdatedAt = lastUpdatedAt
+            self.mLModelId = mLModelId
+            self.message = message
+            self.name = name
+            self.performanceMetrics = performanceMetrics
+            self.startedAt = startedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeTime = "ComputeTime"
+            case createdAt = "CreatedAt"
+            case createdByIamUser = "CreatedByIamUser"
+            case evaluationDataSourceId = "EvaluationDataSourceId"
+            case evaluationId = "EvaluationId"
+            case finishedAt = "FinishedAt"
+            case inputDataLocationS3 = "InputDataLocationS3"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case mLModelId = "MLModelId"
+            case message = "Message"
+            case name = "Name"
             case performanceMetrics = "PerformanceMetrics"
             case startedAt = "StartedAt"
+            case status = "Status"
+        }
+    }
+
+    public enum EvaluationFilterVariable: String, CustomStringConvertible, Codable {
+        case createdat = "CreatedAt"
+        case lastupdatedat = "LastUpdatedAt"
+        case status = "Status"
+        case name = "Name"
+        case iamuser = "IAMUser"
+        case mlmodelid = "MLModelId"
+        case datasourceid = "DataSourceId"
+        case datauri = "DataURI"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetBatchPredictionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BatchPredictionId", required: true, type: .string)
+        ]
+        /// An ID assigned to the BatchPrediction at creation.
+        public let batchPredictionId: String
+
+        public init(batchPredictionId: String) {
+            self.batchPredictionId = batchPredictionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchPredictionId = "BatchPredictionId"
+        }
+    }
+
+    public struct GetBatchPredictionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BatchPredictionDataSourceId", required: false, type: .string), 
+            AWSShapeMember(label: "BatchPredictionId", required: false, type: .string), 
+            AWSShapeMember(label: "ComputeTime", required: false, type: .long), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string), 
+            AWSShapeMember(label: "FinishedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InputDataLocationS3", required: false, type: .string), 
+            AWSShapeMember(label: "InvalidRecordCount", required: false, type: .long), 
+            AWSShapeMember(label: "LastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LogUri", required: false, type: .string), 
+            AWSShapeMember(label: "MLModelId", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "OutputUri", required: false, type: .string), 
+            AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "TotalRecordCount", required: false, type: .long)
+        ]
+        /// The ID of the DataSource that was used to create the BatchPrediction. 
+        public let batchPredictionDataSourceId: String?
+        /// An ID assigned to the BatchPrediction at creation. This value should be identical to the value of the BatchPredictionID in the request.
+        public let batchPredictionId: String?
+        /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the BatchPrediction, normalized and scaled on computation resources. ComputeTime is only available if the BatchPrediction is in the COMPLETED state.
+        public let computeTime: Int64?
+        /// The time when the BatchPrediction was created. The time is expressed in epoch time.
+        public let createdAt: TimeStamp?
+        /// The AWS user account that invoked the BatchPrediction. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
+        public let createdByIamUser: String?
+        /// The epoch time when Amazon Machine Learning marked the BatchPrediction as COMPLETED or FAILED. FinishedAt is only available when the BatchPrediction is in the COMPLETED or FAILED state.
+        public let finishedAt: TimeStamp?
+        /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
+        public let inputDataLocationS3: String?
+        /// The number of invalid records that Amazon Machine Learning saw while processing the BatchPrediction.
+        public let invalidRecordCount: Int64?
+        /// The time of the most recent edit to BatchPrediction. The time is expressed in epoch time.
+        public let lastUpdatedAt: TimeStamp?
+        /// A link to the file that contains logs of the CreateBatchPrediction operation.
+        public let logUri: String?
+        /// The ID of the MLModel that generated predictions for the BatchPrediction request.
+        public let mLModelId: String?
+        /// A description of the most recent details about processing the batch prediction request.
+        public let message: String?
+        /// A user-supplied name or description of the BatchPrediction.
+        public let name: String?
+        /// The location of an Amazon S3 bucket or directory to receive the operation results.
+        public let outputUri: String?
+        /// The epoch time when Amazon Machine Learning marked the BatchPrediction as INPROGRESS. StartedAt isn't available if the BatchPrediction is in the PENDING state.
+        public let startedAt: TimeStamp?
+        /// The status of the BatchPrediction, which can be one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to generate batch predictions.  INPROGRESS - The batch predictions are in progress.  FAILED - The request to perform a batch prediction did not run to completion. It is not usable.  COMPLETED - The batch prediction process completed successfully.  DELETED - The BatchPrediction is marked as deleted. It is not usable. 
+        public let status: EntityStatus?
+        /// The number of total records that Amazon Machine Learning saw while processing the BatchPrediction.
+        public let totalRecordCount: Int64?
+
+        public init(batchPredictionDataSourceId: String? = nil, batchPredictionId: String? = nil, computeTime: Int64? = nil, createdAt: TimeStamp? = nil, createdByIamUser: String? = nil, finishedAt: TimeStamp? = nil, inputDataLocationS3: String? = nil, invalidRecordCount: Int64? = nil, lastUpdatedAt: TimeStamp? = nil, logUri: String? = nil, mLModelId: String? = nil, message: String? = nil, name: String? = nil, outputUri: String? = nil, startedAt: TimeStamp? = nil, status: EntityStatus? = nil, totalRecordCount: Int64? = nil) {
+            self.batchPredictionDataSourceId = batchPredictionDataSourceId
+            self.batchPredictionId = batchPredictionId
+            self.computeTime = computeTime
+            self.createdAt = createdAt
+            self.createdByIamUser = createdByIamUser
+            self.finishedAt = finishedAt
+            self.inputDataLocationS3 = inputDataLocationS3
+            self.invalidRecordCount = invalidRecordCount
+            self.lastUpdatedAt = lastUpdatedAt
+            self.logUri = logUri
+            self.mLModelId = mLModelId
+            self.message = message
+            self.name = name
+            self.outputUri = outputUri
+            self.startedAt = startedAt
+            self.status = status
+            self.totalRecordCount = totalRecordCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchPredictionDataSourceId = "BatchPredictionDataSourceId"
+            case batchPredictionId = "BatchPredictionId"
+            case computeTime = "ComputeTime"
+            case createdAt = "CreatedAt"
             case createdByIamUser = "CreatedByIamUser"
+            case finishedAt = "FinishedAt"
+            case inputDataLocationS3 = "InputDataLocationS3"
+            case invalidRecordCount = "InvalidRecordCount"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case logUri = "LogUri"
+            case mLModelId = "MLModelId"
+            case message = "Message"
+            case name = "Name"
+            case outputUri = "OutputUri"
+            case startedAt = "StartedAt"
+            case status = "Status"
+            case totalRecordCount = "TotalRecordCount"
+        }
+    }
+
+    public struct GetDataSourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceId", required: true, type: .string), 
+            AWSShapeMember(label: "Verbose", required: false, type: .boolean)
+        ]
+        /// The ID assigned to the DataSource at creation.
+        public let dataSourceId: String
+        /// Specifies whether the GetDataSource operation should return DataSourceSchema. If true, DataSourceSchema is returned. If false, DataSourceSchema is not returned.
+        public let verbose: Bool?
+
+        public init(dataSourceId: String, verbose: Bool? = nil) {
+            self.dataSourceId = dataSourceId
+            self.verbose = verbose
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
+            case verbose = "Verbose"
+        }
+    }
+
+    public struct GetDataSourceOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComputeStatistics", required: false, type: .boolean), 
+            AWSShapeMember(label: "ComputeTime", required: false, type: .long), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string), 
+            AWSShapeMember(label: "DataLocationS3", required: false, type: .string), 
+            AWSShapeMember(label: "DataRearrangement", required: false, type: .string), 
+            AWSShapeMember(label: "DataSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "DataSourceId", required: false, type: .string), 
+            AWSShapeMember(label: "DataSourceSchema", required: false, type: .string), 
+            AWSShapeMember(label: "FinishedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LogUri", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "NumberOfFiles", required: false, type: .long), 
+            AWSShapeMember(label: "RDSMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "RedshiftMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        ///  The parameter is true if statistics need to be generated from the observation data. 
+        public let computeStatistics: Bool?
+        /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the DataSource, normalized and scaled on computation resources. ComputeTime is only available if the DataSource is in the COMPLETED state and the ComputeStatistics is set to true.
+        public let computeTime: Int64?
+        /// The time that the DataSource was created. The time is expressed in epoch time.
+        public let createdAt: TimeStamp?
+        /// The AWS user account from which the DataSource was created. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
+        public let createdByIamUser: String?
+        /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
+        public let dataLocationS3: String?
+        /// A JSON string that represents the splitting and rearrangement requirement used when this DataSource was created.
+        public let dataRearrangement: String?
+        /// The total size of observations in the data files.
+        public let dataSizeInBytes: Int64?
+        /// The ID assigned to the DataSource at creation. This value should be identical to the value of the DataSourceId in the request.
+        public let dataSourceId: String?
+        /// The schema used by all of the data files of this DataSource. Note This parameter is provided as part of the verbose format.
+        public let dataSourceSchema: String?
+        /// The epoch time when Amazon Machine Learning marked the DataSource as COMPLETED or FAILED. FinishedAt is only available when the DataSource is in the COMPLETED or FAILED state.
+        public let finishedAt: TimeStamp?
+        /// The time of the most recent edit to the DataSource. The time is expressed in epoch time.
+        public let lastUpdatedAt: TimeStamp?
+        /// A link to the file containing logs of CreateDataSourceFrom* operations.
+        public let logUri: String?
+        /// The user-supplied description of the most recent details about creating the DataSource.
+        public let message: String?
+        /// A user-supplied name or description of the DataSource.
+        public let name: String?
+        /// The number of data files referenced by the DataSource.
+        public let numberOfFiles: Int64?
+        public let rDSMetadata: RDSMetadata?
+        public let redshiftMetadata: RedshiftMetadata?
+        public let roleARN: String?
+        /// The epoch time when Amazon Machine Learning marked the DataSource as INPROGRESS. StartedAt isn't available if the DataSource is in the PENDING state.
+        public let startedAt: TimeStamp?
+        /// The current status of the DataSource. This element can have one of the following values:   PENDING - Amazon ML submitted a request to create a DataSource.  INPROGRESS - The creation process is underway.  FAILED - The request to create a DataSource did not run to completion. It is not usable.  COMPLETED - The creation process completed successfully.  DELETED - The DataSource is marked as deleted. It is not usable. 
+        public let status: EntityStatus?
+
+        public init(computeStatistics: Bool? = nil, computeTime: Int64? = nil, createdAt: TimeStamp? = nil, createdByIamUser: String? = nil, dataLocationS3: String? = nil, dataRearrangement: String? = nil, dataSizeInBytes: Int64? = nil, dataSourceId: String? = nil, dataSourceSchema: String? = nil, finishedAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, logUri: String? = nil, message: String? = nil, name: String? = nil, numberOfFiles: Int64? = nil, rDSMetadata: RDSMetadata? = nil, redshiftMetadata: RedshiftMetadata? = nil, roleARN: String? = nil, startedAt: TimeStamp? = nil, status: EntityStatus? = nil) {
+            self.computeStatistics = computeStatistics
+            self.computeTime = computeTime
+            self.createdAt = createdAt
+            self.createdByIamUser = createdByIamUser
+            self.dataLocationS3 = dataLocationS3
+            self.dataRearrangement = dataRearrangement
+            self.dataSizeInBytes = dataSizeInBytes
+            self.dataSourceId = dataSourceId
+            self.dataSourceSchema = dataSourceSchema
+            self.finishedAt = finishedAt
+            self.lastUpdatedAt = lastUpdatedAt
+            self.logUri = logUri
+            self.message = message
+            self.name = name
+            self.numberOfFiles = numberOfFiles
+            self.rDSMetadata = rDSMetadata
+            self.redshiftMetadata = redshiftMetadata
+            self.roleARN = roleARN
+            self.startedAt = startedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeStatistics = "ComputeStatistics"
+            case computeTime = "ComputeTime"
+            case createdAt = "CreatedAt"
+            case createdByIamUser = "CreatedByIamUser"
+            case dataLocationS3 = "DataLocationS3"
+            case dataRearrangement = "DataRearrangement"
+            case dataSizeInBytes = "DataSizeInBytes"
+            case dataSourceId = "DataSourceId"
+            case dataSourceSchema = "DataSourceSchema"
+            case finishedAt = "FinishedAt"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case logUri = "LogUri"
+            case message = "Message"
+            case name = "Name"
+            case numberOfFiles = "NumberOfFiles"
+            case rDSMetadata = "RDSMetadata"
+            case redshiftMetadata = "RedshiftMetadata"
+            case roleARN = "RoleARN"
+            case startedAt = "StartedAt"
+            case status = "Status"
+        }
+    }
+
+    public struct GetEvaluationInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EvaluationId", required: true, type: .string)
+        ]
+        /// The ID of the Evaluation to retrieve. The evaluation of each MLModel is recorded and cataloged. The ID provides the means to access the information. 
+        public let evaluationId: String
+
+        public init(evaluationId: String) {
+            self.evaluationId = evaluationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evaluationId = "EvaluationId"
+        }
+    }
+
+    public struct GetEvaluationOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComputeTime", required: false, type: .long), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string), 
+            AWSShapeMember(label: "EvaluationDataSourceId", required: false, type: .string), 
+            AWSShapeMember(label: "EvaluationId", required: false, type: .string), 
+            AWSShapeMember(label: "FinishedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InputDataLocationS3", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LogUri", required: false, type: .string), 
+            AWSShapeMember(label: "MLModelId", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "PerformanceMetrics", required: false, type: .structure), 
+            AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the Evaluation, normalized and scaled on computation resources. ComputeTime is only available if the Evaluation is in the COMPLETED state.
+        public let computeTime: Int64?
+        /// The time that the Evaluation was created. The time is expressed in epoch time.
+        public let createdAt: TimeStamp?
+        /// The AWS user account that invoked the evaluation. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
+        public let createdByIamUser: String?
+        /// The DataSource used for this evaluation.
+        public let evaluationDataSourceId: String?
+        /// The evaluation ID which is same as the EvaluationId in the request.
+        public let evaluationId: String?
+        /// The epoch time when Amazon Machine Learning marked the Evaluation as COMPLETED or FAILED. FinishedAt is only available when the Evaluation is in the COMPLETED or FAILED state.
+        public let finishedAt: TimeStamp?
+        /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
+        public let inputDataLocationS3: String?
+        /// The time of the most recent edit to the Evaluation. The time is expressed in epoch time.
+        public let lastUpdatedAt: TimeStamp?
+        /// A link to the file that contains logs of the CreateEvaluation operation.
+        public let logUri: String?
+        /// The ID of the MLModel that was the focus of the evaluation.
+        public let mLModelId: String?
+        /// A description of the most recent details about evaluating the MLModel.
+        public let message: String?
+        /// A user-supplied name or description of the Evaluation. 
+        public let name: String?
+        /// Measurements of how well the MLModel performed using observations referenced by the DataSource. One of the following metric is returned based on the type of the MLModel:    BinaryAUC: A binary MLModel uses the Area Under the Curve (AUC) technique to measure performance.    RegressionRMSE: A regression MLModel uses the Root Mean Square Error (RMSE) technique to measure performance. RMSE measures the difference between predicted and actual values for a single variable.   MulticlassAvgFScore: A multiclass MLModel uses the F1 score technique to measure performance.     For more information about performance metrics, please see the Amazon Machine Learning Developer Guide. 
+        public let performanceMetrics: PerformanceMetrics?
+        /// The epoch time when Amazon Machine Learning marked the Evaluation as INPROGRESS. StartedAt isn't available if the Evaluation is in the PENDING state.
+        public let startedAt: TimeStamp?
+        /// The status of the evaluation. This element can have one of the following values:   PENDING - Amazon Machine Language (Amazon ML) submitted a request to evaluate an MLModel.  INPROGRESS - The evaluation is underway.  FAILED - The request to evaluate an MLModel did not run to completion. It is not usable.  COMPLETED - The evaluation process completed successfully.  DELETED - The Evaluation is marked as deleted. It is not usable. 
+        public let status: EntityStatus?
+
+        public init(computeTime: Int64? = nil, createdAt: TimeStamp? = nil, createdByIamUser: String? = nil, evaluationDataSourceId: String? = nil, evaluationId: String? = nil, finishedAt: TimeStamp? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: TimeStamp? = nil, logUri: String? = nil, mLModelId: String? = nil, message: String? = nil, name: String? = nil, performanceMetrics: PerformanceMetrics? = nil, startedAt: TimeStamp? = nil, status: EntityStatus? = nil) {
+            self.computeTime = computeTime
+            self.createdAt = createdAt
+            self.createdByIamUser = createdByIamUser
+            self.evaluationDataSourceId = evaluationDataSourceId
+            self.evaluationId = evaluationId
+            self.finishedAt = finishedAt
+            self.inputDataLocationS3 = inputDataLocationS3
+            self.lastUpdatedAt = lastUpdatedAt
+            self.logUri = logUri
+            self.mLModelId = mLModelId
+            self.message = message
+            self.name = name
+            self.performanceMetrics = performanceMetrics
+            self.startedAt = startedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeTime = "ComputeTime"
+            case createdAt = "CreatedAt"
+            case createdByIamUser = "CreatedByIamUser"
+            case evaluationDataSourceId = "EvaluationDataSourceId"
+            case evaluationId = "EvaluationId"
+            case finishedAt = "FinishedAt"
+            case inputDataLocationS3 = "InputDataLocationS3"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case logUri = "LogUri"
+            case mLModelId = "MLModelId"
+            case message = "Message"
+            case name = "Name"
+            case performanceMetrics = "PerformanceMetrics"
+            case startedAt = "StartedAt"
+            case status = "Status"
+        }
+    }
+
+    public struct GetMLModelInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MLModelId", required: true, type: .string), 
+            AWSShapeMember(label: "Verbose", required: false, type: .boolean)
+        ]
+        /// The ID assigned to the MLModel at creation.
+        public let mLModelId: String
+        /// Specifies whether the GetMLModel operation should return Recipe. If true, Recipe is returned. If false, Recipe is not returned.
+        public let verbose: Bool?
+
+        public init(mLModelId: String, verbose: Bool? = nil) {
+            self.mLModelId = mLModelId
+            self.verbose = verbose
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mLModelId = "MLModelId"
+            case verbose = "Verbose"
+        }
+    }
+
+    public struct GetMLModelOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComputeTime", required: false, type: .long), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "FinishedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InputDataLocationS3", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LogUri", required: false, type: .string), 
+            AWSShapeMember(label: "MLModelId", required: false, type: .string), 
+            AWSShapeMember(label: "MLModelType", required: false, type: .enum), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Recipe", required: false, type: .string), 
+            AWSShapeMember(label: "Schema", required: false, type: .string), 
+            AWSShapeMember(label: "ScoreThreshold", required: false, type: .float), 
+            AWSShapeMember(label: "ScoreThresholdLastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "TrainingDataSourceId", required: false, type: .string), 
+            AWSShapeMember(label: "TrainingParameters", required: false, type: .map)
+        ]
+        /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the MLModel, normalized and scaled on computation resources. ComputeTime is only available if the MLModel is in the COMPLETED state.
+        public let computeTime: Int64?
+        /// The time that the MLModel was created. The time is expressed in epoch time.
+        public let createdAt: TimeStamp?
+        /// The AWS user account from which the MLModel was created. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
+        public let createdByIamUser: String?
+        /// The current endpoint of the MLModel
+        public let endpointInfo: RealtimeEndpointInfo?
+        /// The epoch time when Amazon Machine Learning marked the MLModel as COMPLETED or FAILED. FinishedAt is only available when the MLModel is in the COMPLETED or FAILED state.
+        public let finishedAt: TimeStamp?
+        /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
+        public let inputDataLocationS3: String?
+        /// The time of the most recent edit to the MLModel. The time is expressed in epoch time.
+        public let lastUpdatedAt: TimeStamp?
+        /// A link to the file that contains logs of the CreateMLModel operation.
+        public let logUri: String?
+        /// The MLModel ID, which is same as the MLModelId in the request.
+        public let mLModelId: String?
+        /// Identifies the MLModel category. The following are the available types:   REGRESSION -- Produces a numeric result. For example, "What price should a house be listed at?" BINARY -- Produces one of two possible results. For example, "Is this an e-commerce website?" MULTICLASS -- Produces one of several possible results. For example, "Is this a HIGH, LOW or MEDIUM risk trade?" 
+        public let mLModelType: MLModelType?
+        /// A description of the most recent details about accessing the MLModel.
+        public let message: String?
+        /// A user-supplied name or description of the MLModel.
+        public let name: String?
+        /// The recipe to use when training the MLModel. The Recipe provides detailed information about the observation data to use during training, and manipulations to perform on the observation data during training. Note This parameter is provided as part of the verbose format.
+        public let recipe: String?
+        /// The schema used by all of the data files referenced by the DataSource. Note This parameter is provided as part of the verbose format.
+        public let schema: String?
+        /// The scoring threshold is used in binary classification MLModel models. It marks the boundary between a positive prediction and a negative prediction. Output values greater than or equal to the threshold receive a positive result from the MLModel, such as true. Output values less than the threshold receive a negative response from the MLModel, such as false.
+        public let scoreThreshold: Float?
+        /// The time of the most recent edit to the ScoreThreshold. The time is expressed in epoch time.
+        public let scoreThresholdLastUpdatedAt: TimeStamp?
+        public let sizeInBytes: Int64?
+        /// The epoch time when Amazon Machine Learning marked the MLModel as INPROGRESS. StartedAt isn't available if the MLModel is in the PENDING state.
+        public let startedAt: TimeStamp?
+        /// The current status of the MLModel. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to describe a MLModel.  INPROGRESS - The request is processing.  FAILED - The request did not run to completion. The ML model isn't usable.  COMPLETED - The request completed successfully.  DELETED - The MLModel is marked as deleted. It isn't usable. 
+        public let status: EntityStatus?
+        /// The ID of the training DataSource.
+        public let trainingDataSourceId: String?
+        /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.  sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10. sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none. We strongly recommend that you shuffle your data.  sgd.l1RegularizationAmount - The coefficient regularization L1 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to zero, resulting in a sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.   sgd.l2RegularizationAmount - The coefficient regularization L2 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.  
+        public let trainingParameters: [String: String]?
+
+        public init(computeTime: Int64? = nil, createdAt: TimeStamp? = nil, createdByIamUser: String? = nil, endpointInfo: RealtimeEndpointInfo? = nil, finishedAt: TimeStamp? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: TimeStamp? = nil, logUri: String? = nil, mLModelId: String? = nil, mLModelType: MLModelType? = nil, message: String? = nil, name: String? = nil, recipe: String? = nil, schema: String? = nil, scoreThreshold: Float? = nil, scoreThresholdLastUpdatedAt: TimeStamp? = nil, sizeInBytes: Int64? = nil, startedAt: TimeStamp? = nil, status: EntityStatus? = nil, trainingDataSourceId: String? = nil, trainingParameters: [String: String]? = nil) {
+            self.computeTime = computeTime
+            self.createdAt = createdAt
+            self.createdByIamUser = createdByIamUser
+            self.endpointInfo = endpointInfo
+            self.finishedAt = finishedAt
+            self.inputDataLocationS3 = inputDataLocationS3
+            self.lastUpdatedAt = lastUpdatedAt
+            self.logUri = logUri
+            self.mLModelId = mLModelId
+            self.mLModelType = mLModelType
+            self.message = message
+            self.name = name
+            self.recipe = recipe
+            self.schema = schema
+            self.scoreThreshold = scoreThreshold
+            self.scoreThresholdLastUpdatedAt = scoreThresholdLastUpdatedAt
+            self.sizeInBytes = sizeInBytes
+            self.startedAt = startedAt
+            self.status = status
+            self.trainingDataSourceId = trainingDataSourceId
+            self.trainingParameters = trainingParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeTime = "ComputeTime"
+            case createdAt = "CreatedAt"
+            case createdByIamUser = "CreatedByIamUser"
+            case endpointInfo = "EndpointInfo"
+            case finishedAt = "FinishedAt"
+            case inputDataLocationS3 = "InputDataLocationS3"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case logUri = "LogUri"
+            case mLModelId = "MLModelId"
+            case mLModelType = "MLModelType"
+            case message = "Message"
+            case name = "Name"
+            case recipe = "Recipe"
+            case schema = "Schema"
+            case scoreThreshold = "ScoreThreshold"
+            case scoreThresholdLastUpdatedAt = "ScoreThresholdLastUpdatedAt"
+            case sizeInBytes = "SizeInBytes"
+            case startedAt = "StartedAt"
+            case status = "Status"
+            case trainingDataSourceId = "TrainingDataSourceId"
+            case trainingParameters = "TrainingParameters"
+        }
+    }
+
+    public struct MLModel: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Algorithm", required: false, type: .enum), 
+            AWSShapeMember(label: "ComputeTime", required: false, type: .long), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "FinishedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InputDataLocationS3", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MLModelId", required: false, type: .string), 
+            AWSShapeMember(label: "MLModelType", required: false, type: .enum), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ScoreThreshold", required: false, type: .float), 
+            AWSShapeMember(label: "ScoreThresholdLastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "TrainingDataSourceId", required: false, type: .string), 
+            AWSShapeMember(label: "TrainingParameters", required: false, type: .map)
+        ]
+        /// The algorithm used to train the MLModel. The following algorithm is supported:   SGD -- Stochastic gradient descent. The goal of SGD is to minimize the gradient of the loss function.  
+        public let algorithm: Algorithm?
+        public let computeTime: Int64?
+        /// The time that the MLModel was created. The time is expressed in epoch time.
+        public let createdAt: TimeStamp?
+        /// The AWS user account from which the MLModel was created. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
+        public let createdByIamUser: String?
+        /// The current endpoint of the MLModel.
+        public let endpointInfo: RealtimeEndpointInfo?
+        public let finishedAt: TimeStamp?
+        /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
+        public let inputDataLocationS3: String?
+        /// The time of the most recent edit to the MLModel. The time is expressed in epoch time.
+        public let lastUpdatedAt: TimeStamp?
+        /// The ID assigned to the MLModel at creation.
+        public let mLModelId: String?
+        /// Identifies the MLModel category. The following are the available types:   REGRESSION - Produces a numeric result. For example, "What price should a house be listed at?"  BINARY - Produces one of two possible results. For example, "Is this a child-friendly web site?".  MULTICLASS - Produces one of several possible results. For example, "Is this a HIGH-, LOW-, or MEDIUM-risk trade?". 
+        public let mLModelType: MLModelType?
+        /// A description of the most recent details about accessing the MLModel.
+        public let message: String?
+        /// A user-supplied name or description of the MLModel.
+        public let name: String?
+        public let scoreThreshold: Float?
+        /// The time of the most recent edit to the ScoreThreshold. The time is expressed in epoch time.
+        public let scoreThresholdLastUpdatedAt: TimeStamp?
+        public let sizeInBytes: Int64?
+        public let startedAt: TimeStamp?
+        /// The current status of an MLModel. This element can have one of the following values:    PENDING - Amazon Machine Learning (Amazon ML) submitted a request to create an MLModel.  INPROGRESS - The creation process is underway.  FAILED - The request to create an MLModel didn't run to completion. The model isn't usable.  COMPLETED - The creation process completed successfully.  DELETED - The MLModel is marked as deleted. It isn't usable. 
+        public let status: EntityStatus?
+        /// The ID of the training DataSource. The CreateMLModel operation uses the TrainingDataSourceId.
+        public let trainingDataSourceId: String?
+        /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.  sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10. sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling the data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none.  sgd.l1RegularizationAmount - The coefficient regularization L1 norm, which controls overfitting the data by penalizing large coefficients. This parameter tends to drive coefficients to zero, resulting in sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.   sgd.l2RegularizationAmount - The coefficient regularization L2 norm, which controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.  
+        public let trainingParameters: [String: String]?
+
+        public init(algorithm: Algorithm? = nil, computeTime: Int64? = nil, createdAt: TimeStamp? = nil, createdByIamUser: String? = nil, endpointInfo: RealtimeEndpointInfo? = nil, finishedAt: TimeStamp? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: TimeStamp? = nil, mLModelId: String? = nil, mLModelType: MLModelType? = nil, message: String? = nil, name: String? = nil, scoreThreshold: Float? = nil, scoreThresholdLastUpdatedAt: TimeStamp? = nil, sizeInBytes: Int64? = nil, startedAt: TimeStamp? = nil, status: EntityStatus? = nil, trainingDataSourceId: String? = nil, trainingParameters: [String: String]? = nil) {
+            self.algorithm = algorithm
+            self.computeTime = computeTime
+            self.createdAt = createdAt
+            self.createdByIamUser = createdByIamUser
+            self.endpointInfo = endpointInfo
+            self.finishedAt = finishedAt
+            self.inputDataLocationS3 = inputDataLocationS3
+            self.lastUpdatedAt = lastUpdatedAt
+            self.mLModelId = mLModelId
+            self.mLModelType = mLModelType
+            self.message = message
+            self.name = name
+            self.scoreThreshold = scoreThreshold
+            self.scoreThresholdLastUpdatedAt = scoreThresholdLastUpdatedAt
+            self.sizeInBytes = sizeInBytes
+            self.startedAt = startedAt
+            self.status = status
+            self.trainingDataSourceId = trainingDataSourceId
+            self.trainingParameters = trainingParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case algorithm = "Algorithm"
+            case computeTime = "ComputeTime"
+            case createdAt = "CreatedAt"
+            case createdByIamUser = "CreatedByIamUser"
+            case endpointInfo = "EndpointInfo"
+            case finishedAt = "FinishedAt"
+            case inputDataLocationS3 = "InputDataLocationS3"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case mLModelId = "MLModelId"
+            case mLModelType = "MLModelType"
+            case message = "Message"
+            case name = "Name"
+            case scoreThreshold = "ScoreThreshold"
+            case scoreThresholdLastUpdatedAt = "ScoreThresholdLastUpdatedAt"
+            case sizeInBytes = "SizeInBytes"
+            case startedAt = "StartedAt"
+            case status = "Status"
+            case trainingDataSourceId = "TrainingDataSourceId"
+            case trainingParameters = "TrainingParameters"
+        }
+    }
+
+    public enum MLModelFilterVariable: String, CustomStringConvertible, Codable {
+        case createdat = "CreatedAt"
+        case lastupdatedat = "LastUpdatedAt"
+        case status = "Status"
+        case name = "Name"
+        case iamuser = "IAMUser"
+        case trainingdatasourceid = "TrainingDataSourceId"
+        case realtimeendpointstatus = "RealtimeEndpointStatus"
+        case mlmodeltype = "MLModelType"
+        case algorithm = "Algorithm"
+        case trainingdatauri = "TrainingDataURI"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MLModelType: String, CustomStringConvertible, Codable {
+        case regression = "REGRESSION"
+        case binary = "BINARY"
+        case multiclass = "MULTICLASS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct PerformanceMetrics: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Properties", required: false, type: .map)
+        ]
+        public let properties: [String: String]?
+
+        public init(properties: [String: String]? = nil) {
+            self.properties = properties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case properties = "Properties"
+        }
+    }
+
+    public struct PredictInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MLModelId", required: true, type: .string), 
+            AWSShapeMember(label: "PredictEndpoint", required: true, type: .string), 
+            AWSShapeMember(label: "Record", required: true, type: .map)
+        ]
+        /// A unique identifier of the MLModel.
+        public let mLModelId: String
+        public let predictEndpoint: String
+        public let record: [String: String]
+
+        public init(mLModelId: String, predictEndpoint: String, record: [String: String]) {
+            self.mLModelId = mLModelId
+            self.predictEndpoint = predictEndpoint
+            self.record = record
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mLModelId = "MLModelId"
+            case predictEndpoint = "PredictEndpoint"
+            case record = "Record"
+        }
+    }
+
+    public struct PredictOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Prediction", required: false, type: .structure)
+        ]
+        public let prediction: Prediction?
+
+        public init(prediction: Prediction? = nil) {
+            self.prediction = prediction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case prediction = "Prediction"
+        }
+    }
+
+    public struct Prediction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "details", required: false, type: .map), 
+            AWSShapeMember(label: "predictedLabel", required: false, type: .string), 
+            AWSShapeMember(label: "predictedScores", required: false, type: .map), 
+            AWSShapeMember(label: "predictedValue", required: false, type: .float)
+        ]
+        public let details: [DetailsAttributes: String]?
+        /// The prediction label for either a BINARY or MULTICLASS MLModel.
+        public let predictedLabel: String?
+        public let predictedScores: [String: Float]?
+        /// The prediction value for REGRESSION MLModel.
+        public let predictedValue: Float?
+
+        public init(details: [DetailsAttributes: String]? = nil, predictedLabel: String? = nil, predictedScores: [String: Float]? = nil, predictedValue: Float? = nil) {
+            self.details = details
+            self.predictedLabel = predictedLabel
+            self.predictedScores = predictedScores
+            self.predictedValue = predictedValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
+            case predictedLabel = "predictedLabel"
+            case predictedScores = "predictedScores"
+            case predictedValue = "predictedValue"
+        }
+    }
+
+    public struct RDSDataSpec: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataRearrangement", required: false, type: .string), 
+            AWSShapeMember(label: "DataSchema", required: false, type: .string), 
+            AWSShapeMember(label: "DataSchemaUri", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseCredentials", required: true, type: .structure), 
+            AWSShapeMember(label: "DatabaseInformation", required: true, type: .structure), 
+            AWSShapeMember(label: "ResourceRole", required: true, type: .string), 
+            AWSShapeMember(label: "S3StagingLocation", required: true, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIds", required: true, type: .list), 
+            AWSShapeMember(label: "SelectSqlQuery", required: true, type: .string), 
+            AWSShapeMember(label: "ServiceRole", required: true, type: .string), 
+            AWSShapeMember(label: "SubnetId", required: true, type: .string)
+        ]
+        /// A JSON string that represents the splitting and rearrangement processing to be applied to a DataSource. If the DataRearrangement parameter is not provided, all of the input data is used to create the Datasource. There are multiple parameters that control what data is used to create a datasource:  percentBegin Use percentBegin to indicate the beginning of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. percentEnd Use percentEnd to indicate the end of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. complement The complement parameter instructs Amazon ML to use the data that is not included in the range of percentBegin to percentEnd to create a datasource. The complement parameter is useful if you need to create complementary datasources for training and evaluation. To create a complementary datasource, use the same values for percentBegin and percentEnd, along with the complement parameter. For example, the following two datasources do not share any data, and can be used to train and evaluate a model. The first datasource has 25 percent of the data, and the second one has 75 percent of the data. Datasource for evaluation: {"splitting":{"percentBegin":0, "percentEnd":25}} Datasource for training: {"splitting":{"percentBegin":0, "percentEnd":25, "complement":"true"}}  strategy To change how Amazon ML splits the data for a datasource, use the strategy parameter. The default value for the strategy parameter is sequential, meaning that Amazon ML takes all of the data records between the percentBegin and percentEnd parameters for the datasource, in the order that the records appear in the input data. The following two DataRearrangement lines are examples of sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential", "complement":"true"}} To randomly split the input data into the proportions indicated by the percentBegin and percentEnd parameters, set the strategy parameter to random and provide a string that is used as the seed value for the random data splitting (for example, you can use the S3 path to your data as the random seed string). If you choose the random split strategy, Amazon ML assigns each row of data a pseudo-random number between 0 and 100, and then selects the rows that have an assigned number between percentBegin and percentEnd. Pseudo-random numbers are assigned using both the input seed string value and the byte offset as a seed, so changing the data results in a different split. Any existing ordering is preserved. The random splitting strategy ensures that variables in the training and evaluation data are distributed similarly. It is useful in the cases where the input data may have an implicit sort order, which would otherwise result in training and evaluation datasources containing non-similar data records. The following two DataRearrangement lines are examples of non-sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}}  
+        public let dataRearrangement: String?
+        /// A JSON string that represents the schema for an Amazon RDS DataSource. The DataSchema defines the structure of the observation data in the data file(s) referenced in the DataSource. A DataSchema is not required if you specify a DataSchemaUri Define your DataSchema as a series of key-value pairs. attributes and excludedVariableNames have an array of key-value pairs for their value. Use the following format to define your DataSchema. { "version": "1.0",  "recordAnnotationFieldName": "F1",  "recordWeightFieldName": "F2",  "targetFieldName": "F3",  "dataFormat": "CSV",  "dataFileContainsHeader": true,  "attributes": [  { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2", "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" }, { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5", "fieldType": "CATEGORICAL" }, { "fieldName": "F6", "fieldType": "TEXT" }, { "fieldName": "F7", "fieldType": "WEIGHTED_INT_SEQUENCE" }, { "fieldName": "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ],  "excludedVariableNames": [ "F6" ] }  
+        public let dataSchema: String?
+        /// The Amazon S3 location of the DataSchema. 
+        public let dataSchemaUri: String?
+        /// The AWS Identity and Access Management (IAM) credentials that are used connect to the Amazon RDS database.
+        public let databaseCredentials: RDSDatabaseCredentials
+        /// Describes the DatabaseName and InstanceIdentifier of an Amazon RDS database.
+        public let databaseInformation: RDSDatabase
+        /// The role (DataPipelineDefaultResourceRole) assumed by an Amazon Elastic Compute Cloud (Amazon EC2) instance to carry out the copy operation from Amazon RDS to an Amazon S3 task. For more information, see Role templates for data pipelines.
+        public let resourceRole: String
+        /// The Amazon S3 location for staging Amazon RDS data. The data retrieved from Amazon RDS using SelectSqlQuery is stored in this location.
+        public let s3StagingLocation: String
+        /// The security group IDs to be used to access a VPC-based RDS DB instance. Ensure that there are appropriate ingress rules set up to allow access to the RDS DB instance. This attribute is used by Data Pipeline to carry out the copy operation from Amazon RDS to an Amazon S3 task.
+        public let securityGroupIds: [String]
+        /// The query that is used to retrieve the observation data for the DataSource.
+        public let selectSqlQuery: String
+        /// The role (DataPipelineDefaultRole) assumed by AWS Data Pipeline service to monitor the progress of the copy task from Amazon RDS to Amazon S3. For more information, see Role templates for data pipelines.
+        public let serviceRole: String
+        /// The subnet ID to be used to access a VPC-based RDS DB instance. This attribute is used by Data Pipeline to carry out the copy task from Amazon RDS to Amazon S3.
+        public let subnetId: String
+
+        public init(dataRearrangement: String? = nil, dataSchema: String? = nil, dataSchemaUri: String? = nil, databaseCredentials: RDSDatabaseCredentials, databaseInformation: RDSDatabase, resourceRole: String, s3StagingLocation: String, securityGroupIds: [String], selectSqlQuery: String, serviceRole: String, subnetId: String) {
+            self.dataRearrangement = dataRearrangement
+            self.dataSchema = dataSchema
+            self.dataSchemaUri = dataSchemaUri
+            self.databaseCredentials = databaseCredentials
+            self.databaseInformation = databaseInformation
+            self.resourceRole = resourceRole
+            self.s3StagingLocation = s3StagingLocation
+            self.securityGroupIds = securityGroupIds
+            self.selectSqlQuery = selectSqlQuery
+            self.serviceRole = serviceRole
+            self.subnetId = subnetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataRearrangement = "DataRearrangement"
+            case dataSchema = "DataSchema"
+            case dataSchemaUri = "DataSchemaUri"
+            case databaseCredentials = "DatabaseCredentials"
+            case databaseInformation = "DatabaseInformation"
+            case resourceRole = "ResourceRole"
+            case s3StagingLocation = "S3StagingLocation"
+            case securityGroupIds = "SecurityGroupIds"
+            case selectSqlQuery = "SelectSqlQuery"
+            case serviceRole = "ServiceRole"
+            case subnetId = "SubnetId"
+        }
+    }
+
+    public struct RDSDatabase: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceIdentifier", required: true, type: .string)
+        ]
+        public let databaseName: String
+        /// The ID of an RDS DB instance.
+        public let instanceIdentifier: String
+
+        public init(databaseName: String, instanceIdentifier: String) {
+            self.databaseName = databaseName
+            self.instanceIdentifier = instanceIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName = "DatabaseName"
+            case instanceIdentifier = "InstanceIdentifier"
+        }
+    }
+
+    public struct RDSDatabaseCredentials: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string)
+        ]
+        public let password: String
+        public let username: String
+
+        public init(password: String, username: String) {
+            self.password = password
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case password = "Password"
+            case username = "Username"
+        }
+    }
+
+    public struct RDSMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataPipelineId", required: false, type: .string), 
+            AWSShapeMember(label: "Database", required: false, type: .structure), 
+            AWSShapeMember(label: "DatabaseUserName", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceRole", required: false, type: .string), 
+            AWSShapeMember(label: "SelectSqlQuery", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceRole", required: false, type: .string)
+        ]
+        /// The ID of the Data Pipeline instance that is used to carry to copy data from Amazon RDS to Amazon S3. You can use the ID to find details about the instance in the Data Pipeline console.
+        public let dataPipelineId: String?
+        /// The database details required to connect to an Amazon RDS.
+        public let database: RDSDatabase?
+        public let databaseUserName: String?
+        /// The role (DataPipelineDefaultResourceRole) assumed by an Amazon EC2 instance to carry out the copy task from Amazon RDS to Amazon S3. For more information, see Role templates for data pipelines.
+        public let resourceRole: String?
+        /// The SQL query that is supplied during CreateDataSourceFromRDS. Returns only if Verbose is true in GetDataSourceInput. 
+        public let selectSqlQuery: String?
+        /// The role (DataPipelineDefaultRole) assumed by the Data Pipeline service to monitor the progress of the copy task from Amazon RDS to Amazon S3. For more information, see Role templates for data pipelines.
+        public let serviceRole: String?
+
+        public init(dataPipelineId: String? = nil, database: RDSDatabase? = nil, databaseUserName: String? = nil, resourceRole: String? = nil, selectSqlQuery: String? = nil, serviceRole: String? = nil) {
+            self.dataPipelineId = dataPipelineId
+            self.database = database
+            self.databaseUserName = databaseUserName
+            self.resourceRole = resourceRole
+            self.selectSqlQuery = selectSqlQuery
+            self.serviceRole = serviceRole
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataPipelineId = "DataPipelineId"
+            case database = "Database"
+            case databaseUserName = "DatabaseUserName"
+            case resourceRole = "ResourceRole"
+            case selectSqlQuery = "SelectSqlQuery"
+            case serviceRole = "ServiceRole"
+        }
+    }
+
+    public struct RealtimeEndpointInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EndpointStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "EndpointUrl", required: false, type: .string), 
+            AWSShapeMember(label: "PeakRequestsPerSecond", required: false, type: .integer)
+        ]
+        /// The time that the request to create the real-time endpoint for the MLModel was received. The time is expressed in epoch time.
+        public let createdAt: TimeStamp?
+        ///  The current status of the real-time endpoint for the MLModel. This element can have one of the following values:    NONE - Endpoint does not exist or was previously deleted.  READY - Endpoint is ready to be used for real-time predictions.  UPDATING - Updating/creating the endpoint.  
+        public let endpointStatus: RealtimeEndpointStatus?
+        /// The URI that specifies where to send real-time prediction requests for the MLModel. Note The application must wait until the real-time endpoint is ready before using this URI. 
+        public let endpointUrl: String?
+        ///  The maximum processing rate for the real-time endpoint for MLModel, measured in incoming requests per second.
+        public let peakRequestsPerSecond: Int32?
+
+        public init(createdAt: TimeStamp? = nil, endpointStatus: RealtimeEndpointStatus? = nil, endpointUrl: String? = nil, peakRequestsPerSecond: Int32? = nil) {
+            self.createdAt = createdAt
+            self.endpointStatus = endpointStatus
+            self.endpointUrl = endpointUrl
+            self.peakRequestsPerSecond = peakRequestsPerSecond
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case endpointStatus = "EndpointStatus"
+            case endpointUrl = "EndpointUrl"
+            case peakRequestsPerSecond = "PeakRequestsPerSecond"
+        }
+    }
+
+    public enum RealtimeEndpointStatus: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case ready = "READY"
+        case updating = "UPDATING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RedshiftDataSpec: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataRearrangement", required: false, type: .string), 
+            AWSShapeMember(label: "DataSchema", required: false, type: .string), 
+            AWSShapeMember(label: "DataSchemaUri", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseCredentials", required: true, type: .structure), 
+            AWSShapeMember(label: "DatabaseInformation", required: true, type: .structure), 
+            AWSShapeMember(label: "S3StagingLocation", required: true, type: .string), 
+            AWSShapeMember(label: "SelectSqlQuery", required: true, type: .string)
+        ]
+        /// A JSON string that represents the splitting and rearrangement processing to be applied to a DataSource. If the DataRearrangement parameter is not provided, all of the input data is used to create the Datasource. There are multiple parameters that control what data is used to create a datasource:  percentBegin Use percentBegin to indicate the beginning of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. percentEnd Use percentEnd to indicate the end of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. complement The complement parameter instructs Amazon ML to use the data that is not included in the range of percentBegin to percentEnd to create a datasource. The complement parameter is useful if you need to create complementary datasources for training and evaluation. To create a complementary datasource, use the same values for percentBegin and percentEnd, along with the complement parameter. For example, the following two datasources do not share any data, and can be used to train and evaluate a model. The first datasource has 25 percent of the data, and the second one has 75 percent of the data. Datasource for evaluation: {"splitting":{"percentBegin":0, "percentEnd":25}} Datasource for training: {"splitting":{"percentBegin":0, "percentEnd":25, "complement":"true"}}  strategy To change how Amazon ML splits the data for a datasource, use the strategy parameter. The default value for the strategy parameter is sequential, meaning that Amazon ML takes all of the data records between the percentBegin and percentEnd parameters for the datasource, in the order that the records appear in the input data. The following two DataRearrangement lines are examples of sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential", "complement":"true"}} To randomly split the input data into the proportions indicated by the percentBegin and percentEnd parameters, set the strategy parameter to random and provide a string that is used as the seed value for the random data splitting (for example, you can use the S3 path to your data as the random seed string). If you choose the random split strategy, Amazon ML assigns each row of data a pseudo-random number between 0 and 100, and then selects the rows that have an assigned number between percentBegin and percentEnd. Pseudo-random numbers are assigned using both the input seed string value and the byte offset as a seed, so changing the data results in a different split. Any existing ordering is preserved. The random splitting strategy ensures that variables in the training and evaluation data are distributed similarly. It is useful in the cases where the input data may have an implicit sort order, which would otherwise result in training and evaluation datasources containing non-similar data records. The following two DataRearrangement lines are examples of non-sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}}  
+        public let dataRearrangement: String?
+        /// A JSON string that represents the schema for an Amazon Redshift DataSource. The DataSchema defines the structure of the observation data in the data file(s) referenced in the DataSource. A DataSchema is not required if you specify a DataSchemaUri. Define your DataSchema as a series of key-value pairs. attributes and excludedVariableNames have an array of key-value pairs for their value. Use the following format to define your DataSchema. { "version": "1.0",  "recordAnnotationFieldName": "F1",  "recordWeightFieldName": "F2",  "targetFieldName": "F3",  "dataFormat": "CSV",  "dataFileContainsHeader": true,  "attributes": [  { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2", "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" }, { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5", "fieldType": "CATEGORICAL" }, { "fieldName": "F6", "fieldType": "TEXT" }, { "fieldName": "F7", "fieldType": "WEIGHTED_INT_SEQUENCE" }, { "fieldName": "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ],  "excludedVariableNames": [ "F6" ] } 
+        public let dataSchema: String?
+        /// Describes the schema location for an Amazon Redshift DataSource.
+        public let dataSchemaUri: String?
+        /// Describes AWS Identity and Access Management (IAM) credentials that are used connect to the Amazon Redshift database.
+        public let databaseCredentials: RedshiftDatabaseCredentials
+        /// Describes the DatabaseName and ClusterIdentifier for an Amazon Redshift DataSource.
+        public let databaseInformation: RedshiftDatabase
+        /// Describes an Amazon S3 location to store the result set of the SelectSqlQuery query.
+        public let s3StagingLocation: String
+        /// Describes the SQL Query to execute on an Amazon Redshift database for an Amazon Redshift DataSource.
+        public let selectSqlQuery: String
+
+        public init(dataRearrangement: String? = nil, dataSchema: String? = nil, dataSchemaUri: String? = nil, databaseCredentials: RedshiftDatabaseCredentials, databaseInformation: RedshiftDatabase, s3StagingLocation: String, selectSqlQuery: String) {
+            self.dataRearrangement = dataRearrangement
+            self.dataSchema = dataSchema
+            self.dataSchemaUri = dataSchemaUri
+            self.databaseCredentials = databaseCredentials
+            self.databaseInformation = databaseInformation
+            self.s3StagingLocation = s3StagingLocation
+            self.selectSqlQuery = selectSqlQuery
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataRearrangement = "DataRearrangement"
+            case dataSchema = "DataSchema"
+            case dataSchemaUri = "DataSchemaUri"
+            case databaseCredentials = "DatabaseCredentials"
+            case databaseInformation = "DatabaseInformation"
+            case s3StagingLocation = "S3StagingLocation"
+            case selectSqlQuery = "SelectSqlQuery"
+        }
+    }
+
+    public struct RedshiftDatabase: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string)
+        ]
+        public let clusterIdentifier: String
+        public let databaseName: String
+
+        public init(clusterIdentifier: String, databaseName: String) {
+            self.clusterIdentifier = clusterIdentifier
+            self.databaseName = databaseName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+            case databaseName = "DatabaseName"
+        }
+    }
+
+    public struct RedshiftDatabaseCredentials: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string)
+        ]
+        public let password: String
+        public let username: String
+
+        public init(password: String, username: String) {
+            self.password = password
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case password = "Password"
+            case username = "Username"
+        }
+    }
+
+    public struct RedshiftMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DatabaseUserName", required: false, type: .string), 
+            AWSShapeMember(label: "RedshiftDatabase", required: false, type: .structure), 
+            AWSShapeMember(label: "SelectSqlQuery", required: false, type: .string)
+        ]
+        public let databaseUserName: String?
+        public let redshiftDatabase: RedshiftDatabase?
+        ///  The SQL query that is specified during CreateDataSourceFromRedshift. Returns only if Verbose is true in GetDataSourceInput. 
+        public let selectSqlQuery: String?
+
+        public init(databaseUserName: String? = nil, redshiftDatabase: RedshiftDatabase? = nil, selectSqlQuery: String? = nil) {
+            self.databaseUserName = databaseUserName
+            self.redshiftDatabase = redshiftDatabase
+            self.selectSqlQuery = selectSqlQuery
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseUserName = "DatabaseUserName"
+            case redshiftDatabase = "RedshiftDatabase"
+            case selectSqlQuery = "SelectSqlQuery"
+        }
+    }
+
+    public struct S3DataSpec: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataLocationS3", required: true, type: .string), 
+            AWSShapeMember(label: "DataRearrangement", required: false, type: .string), 
+            AWSShapeMember(label: "DataSchema", required: false, type: .string), 
+            AWSShapeMember(label: "DataSchemaLocationS3", required: false, type: .string)
+        ]
+        /// The location of the data file(s) used by a DataSource. The URI specifies a data file or an Amazon Simple Storage Service (Amazon S3) directory or bucket containing data files.
+        public let dataLocationS3: String
+        /// A JSON string that represents the splitting and rearrangement processing to be applied to a DataSource. If the DataRearrangement parameter is not provided, all of the input data is used to create the Datasource. There are multiple parameters that control what data is used to create a datasource:  percentBegin Use percentBegin to indicate the beginning of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. percentEnd Use percentEnd to indicate the end of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. complement The complement parameter instructs Amazon ML to use the data that is not included in the range of percentBegin to percentEnd to create a datasource. The complement parameter is useful if you need to create complementary datasources for training and evaluation. To create a complementary datasource, use the same values for percentBegin and percentEnd, along with the complement parameter. For example, the following two datasources do not share any data, and can be used to train and evaluate a model. The first datasource has 25 percent of the data, and the second one has 75 percent of the data. Datasource for evaluation: {"splitting":{"percentBegin":0, "percentEnd":25}} Datasource for training: {"splitting":{"percentBegin":0, "percentEnd":25, "complement":"true"}}  strategy To change how Amazon ML splits the data for a datasource, use the strategy parameter. The default value for the strategy parameter is sequential, meaning that Amazon ML takes all of the data records between the percentBegin and percentEnd parameters for the datasource, in the order that the records appear in the input data. The following two DataRearrangement lines are examples of sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential", "complement":"true"}} To randomly split the input data into the proportions indicated by the percentBegin and percentEnd parameters, set the strategy parameter to random and provide a string that is used as the seed value for the random data splitting (for example, you can use the S3 path to your data as the random seed string). If you choose the random split strategy, Amazon ML assigns each row of data a pseudo-random number between 0 and 100, and then selects the rows that have an assigned number between percentBegin and percentEnd. Pseudo-random numbers are assigned using both the input seed string value and the byte offset as a seed, so changing the data results in a different split. Any existing ordering is preserved. The random splitting strategy ensures that variables in the training and evaluation data are distributed similarly. It is useful in the cases where the input data may have an implicit sort order, which would otherwise result in training and evaluation datasources containing non-similar data records. The following two DataRearrangement lines are examples of non-sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}}  
+        public let dataRearrangement: String?
+        ///  A JSON string that represents the schema for an Amazon S3 DataSource. The DataSchema defines the structure of the observation data in the data file(s) referenced in the DataSource. You must provide either the DataSchema or the DataSchemaLocationS3. Define your DataSchema as a series of key-value pairs. attributes and excludedVariableNames have an array of key-value pairs for their value. Use the following format to define your DataSchema. { "version": "1.0",  "recordAnnotationFieldName": "F1",  "recordWeightFieldName": "F2",  "targetFieldName": "F3",  "dataFormat": "CSV",  "dataFileContainsHeader": true,  "attributes": [  { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2", "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" }, { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5", "fieldType": "CATEGORICAL" }, { "fieldName": "F6", "fieldType": "TEXT" }, { "fieldName": "F7", "fieldType": "WEIGHTED_INT_SEQUENCE" }, { "fieldName": "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ],  "excludedVariableNames": [ "F6" ] }  
+        public let dataSchema: String?
+        /// Describes the schema location in Amazon S3. You must provide either the DataSchema or the DataSchemaLocationS3.
+        public let dataSchemaLocationS3: String?
+
+        public init(dataLocationS3: String, dataRearrangement: String? = nil, dataSchema: String? = nil, dataSchemaLocationS3: String? = nil) {
+            self.dataLocationS3 = dataLocationS3
+            self.dataRearrangement = dataRearrangement
+            self.dataSchema = dataSchema
+            self.dataSchemaLocationS3 = dataSchemaLocationS3
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataLocationS3 = "DataLocationS3"
+            case dataRearrangement = "DataRearrangement"
+            case dataSchema = "DataSchema"
+            case dataSchemaLocationS3 = "DataSchemaLocationS3"
+        }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible, Codable {
+        case asc = "asc"
+        case dsc = "dsc"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// A unique identifier for the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @.
+        public let key: String?
+        /// An optional string, typically used to describe or define the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @.
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public enum TaggableResourceType: String, CustomStringConvertible, Codable {
+        case batchprediction = "BatchPrediction"
+        case datasource = "DataSource"
+        case evaluation = "Evaluation"
+        case mlmodel = "MLModel"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateBatchPredictionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BatchPredictionId", required: true, type: .string), 
+            AWSShapeMember(label: "BatchPredictionName", required: true, type: .string)
+        ]
+        /// The ID assigned to the BatchPrediction during creation.
+        public let batchPredictionId: String
+        /// A new user-supplied name or description of the BatchPrediction.
+        public let batchPredictionName: String
+
+        public init(batchPredictionId: String, batchPredictionName: String) {
+            self.batchPredictionId = batchPredictionId
+            self.batchPredictionName = batchPredictionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchPredictionId = "BatchPredictionId"
+            case batchPredictionName = "BatchPredictionName"
+        }
+    }
+
+    public struct UpdateBatchPredictionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BatchPredictionId", required: false, type: .string)
+        ]
+        /// The ID assigned to the BatchPrediction during creation. This value should be identical to the value of the BatchPredictionId in the request.
+        public let batchPredictionId: String?
+
+        public init(batchPredictionId: String? = nil) {
+            self.batchPredictionId = batchPredictionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchPredictionId = "BatchPredictionId"
+        }
+    }
+
+    public struct UpdateDataSourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceId", required: true, type: .string), 
+            AWSShapeMember(label: "DataSourceName", required: true, type: .string)
+        ]
+        /// The ID assigned to the DataSource during creation.
+        public let dataSourceId: String
+        /// A new user-supplied name or description of the DataSource that will replace the current description. 
+        public let dataSourceName: String
+
+        public init(dataSourceId: String, dataSourceName: String) {
+            self.dataSourceId = dataSourceId
+            self.dataSourceName = dataSourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
+            case dataSourceName = "DataSourceName"
+        }
+    }
+
+    public struct UpdateDataSourceOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceId", required: false, type: .string)
+        ]
+        /// The ID assigned to the DataSource during creation. This value should be identical to the value of the DataSourceID in the request.
+        public let dataSourceId: String?
+
+        public init(dataSourceId: String? = nil) {
+            self.dataSourceId = dataSourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
+        }
+    }
+
+    public struct UpdateEvaluationInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EvaluationId", required: true, type: .string), 
+            AWSShapeMember(label: "EvaluationName", required: true, type: .string)
+        ]
+        /// The ID assigned to the Evaluation during creation.
+        public let evaluationId: String
+        /// A new user-supplied name or description of the Evaluation that will replace the current content. 
+        public let evaluationName: String
+
+        public init(evaluationId: String, evaluationName: String) {
+            self.evaluationId = evaluationId
+            self.evaluationName = evaluationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evaluationId = "EvaluationId"
+            case evaluationName = "EvaluationName"
+        }
+    }
+
+    public struct UpdateEvaluationOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EvaluationId", required: false, type: .string)
+        ]
+        /// The ID assigned to the Evaluation during creation. This value should be identical to the value of the Evaluation in the request.
+        public let evaluationId: String?
+
+        public init(evaluationId: String? = nil) {
+            self.evaluationId = evaluationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evaluationId = "EvaluationId"
         }
     }
 
@@ -149,988 +2500,6 @@ extension MachineLearning {
         }
     }
 
-    public struct PerformanceMetrics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Properties", required: false, type: .map)
-        ]
-        public let properties: [String: String]?
-
-        public init(properties: [String: String]? = nil) {
-            self.properties = properties
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case properties = "Properties"
-        }
-    }
-
-    public struct GetDataSourceOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComputeStatistics", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "NumberOfFiles", required: false, type: .long), 
-            AWSShapeMember(label: "FinishedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DataLocationS3", required: false, type: .string), 
-            AWSShapeMember(label: "ComputeTime", required: false, type: .long), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "RedshiftMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "RDSMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "DataRearrangement", required: false, type: .string), 
-            AWSShapeMember(label: "LogUri", required: false, type: .string), 
-            AWSShapeMember(label: "DataSourceSchema", required: false, type: .string), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DataSourceId", required: false, type: .string), 
-            AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "DataSizeInBytes", required: false, type: .long)
-        ]
-        ///  The parameter is true if statistics need to be generated from the observation data. 
-        public let computeStatistics: Bool?
-        /// A user-supplied name or description of the DataSource.
-        public let name: String?
-        /// The number of data files referenced by the DataSource.
-        public let numberOfFiles: Int64?
-        /// The epoch time when Amazon Machine Learning marked the DataSource as COMPLETED or FAILED. FinishedAt is only available when the DataSource is in the COMPLETED or FAILED state.
-        public let finishedAt: TimeStamp?
-        /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
-        public let dataLocationS3: String?
-        /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the DataSource, normalized and scaled on computation resources. ComputeTime is only available if the DataSource is in the COMPLETED state and the ComputeStatistics is set to true.
-        public let computeTime: Int64?
-        /// The time that the DataSource was created. The time is expressed in epoch time.
-        public let createdAt: TimeStamp?
-        /// The current status of the DataSource. This element can have one of the following values:   PENDING - Amazon ML submitted a request to create a DataSource.  INPROGRESS - The creation process is underway.  FAILED - The request to create a DataSource did not run to completion. It is not usable.  COMPLETED - The creation process completed successfully.  DELETED - The DataSource is marked as deleted. It is not usable. 
-        public let status: EntityStatus?
-        public let redshiftMetadata: RedshiftMetadata?
-        public let rDSMetadata: RDSMetadata?
-        /// A JSON string that represents the splitting and rearrangement requirement used when this DataSource was created.
-        public let dataRearrangement: String?
-        /// A link to the file containing logs of CreateDataSourceFrom* operations.
-        public let logUri: String?
-        /// The schema used by all of the data files of this DataSource. Note This parameter is provided as part of the verbose format.
-        public let dataSourceSchema: String?
-        /// The user-supplied description of the most recent details about creating the DataSource.
-        public let message: String?
-        /// The time of the most recent edit to the DataSource. The time is expressed in epoch time.
-        public let lastUpdatedAt: TimeStamp?
-        /// The ID assigned to the DataSource at creation. This value should be identical to the value of the DataSourceId in the request.
-        public let dataSourceId: String?
-        /// The epoch time when Amazon Machine Learning marked the DataSource as INPROGRESS. StartedAt isn't available if the DataSource is in the PENDING state.
-        public let startedAt: TimeStamp?
-        /// The AWS user account from which the DataSource was created. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
-        public let createdByIamUser: String?
-        public let roleARN: String?
-        /// The total size of observations in the data files.
-        public let dataSizeInBytes: Int64?
-
-        public init(computeStatistics: Bool? = nil, name: String? = nil, numberOfFiles: Int64? = nil, finishedAt: TimeStamp? = nil, dataLocationS3: String? = nil, computeTime: Int64? = nil, createdAt: TimeStamp? = nil, status: EntityStatus? = nil, redshiftMetadata: RedshiftMetadata? = nil, rDSMetadata: RDSMetadata? = nil, dataRearrangement: String? = nil, logUri: String? = nil, dataSourceSchema: String? = nil, message: String? = nil, lastUpdatedAt: TimeStamp? = nil, dataSourceId: String? = nil, startedAt: TimeStamp? = nil, createdByIamUser: String? = nil, roleARN: String? = nil, dataSizeInBytes: Int64? = nil) {
-            self.computeStatistics = computeStatistics
-            self.name = name
-            self.numberOfFiles = numberOfFiles
-            self.finishedAt = finishedAt
-            self.dataLocationS3 = dataLocationS3
-            self.computeTime = computeTime
-            self.createdAt = createdAt
-            self.status = status
-            self.redshiftMetadata = redshiftMetadata
-            self.rDSMetadata = rDSMetadata
-            self.dataRearrangement = dataRearrangement
-            self.logUri = logUri
-            self.dataSourceSchema = dataSourceSchema
-            self.message = message
-            self.lastUpdatedAt = lastUpdatedAt
-            self.dataSourceId = dataSourceId
-            self.startedAt = startedAt
-            self.createdByIamUser = createdByIamUser
-            self.roleARN = roleARN
-            self.dataSizeInBytes = dataSizeInBytes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case computeStatistics = "ComputeStatistics"
-            case name = "Name"
-            case numberOfFiles = "NumberOfFiles"
-            case finishedAt = "FinishedAt"
-            case dataLocationS3 = "DataLocationS3"
-            case computeTime = "ComputeTime"
-            case createdAt = "CreatedAt"
-            case status = "Status"
-            case redshiftMetadata = "RedshiftMetadata"
-            case rDSMetadata = "RDSMetadata"
-            case dataRearrangement = "DataRearrangement"
-            case logUri = "LogUri"
-            case dataSourceSchema = "DataSourceSchema"
-            case message = "Message"
-            case lastUpdatedAt = "LastUpdatedAt"
-            case dataSourceId = "DataSourceId"
-            case startedAt = "StartedAt"
-            case createdByIamUser = "CreatedByIamUser"
-            case roleARN = "RoleARN"
-            case dataSizeInBytes = "DataSizeInBytes"
-        }
-    }
-
-    public struct DeleteMLModelOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MLModelId", required: false, type: .string)
-        ]
-        /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelID in the request.
-        public let mLModelId: String?
-
-        public init(mLModelId: String? = nil) {
-            self.mLModelId = mLModelId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mLModelId = "MLModelId"
-        }
-    }
-
-    public enum DataSourceFilterVariable: String, CustomStringConvertible, Codable {
-        case createdat = "CreatedAt"
-        case lastupdatedat = "LastUpdatedAt"
-        case status = "Status"
-        case name = "Name"
-        case datalocations3 = "DataLocationS3"
-        case iamuser = "IAMUser"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateMLModelInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MLModelId", required: true, type: .string), 
-            AWSShapeMember(label: "TrainingDataSourceId", required: true, type: .string), 
-            AWSShapeMember(label: "Recipe", required: false, type: .string), 
-            AWSShapeMember(label: "RecipeUri", required: false, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .map), 
-            AWSShapeMember(label: "MLModelName", required: false, type: .string), 
-            AWSShapeMember(label: "MLModelType", required: true, type: .enum)
-        ]
-        /// A user-supplied ID that uniquely identifies the MLModel.
-        public let mLModelId: String
-        /// The DataSource that points to the training data.
-        public let trainingDataSourceId: String
-        /// The data recipe for creating the MLModel. You must specify either the recipe or its URI. If you don't specify a recipe or its URI, Amazon ML creates a default.
-        public let recipe: String?
-        /// The Amazon Simple Storage Service (Amazon S3) location and file name that contains the MLModel recipe. You must specify either the recipe or its URI. If you don't specify a recipe or its URI, Amazon ML creates a default.
-        public let recipeUri: String?
-        /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.  sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10.  sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling the data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none. We strongly recommend that you shuffle your data.   sgd.l1RegularizationAmount - The coefficient regularization L1 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to zero, resulting in a sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.   sgd.l2RegularizationAmount - The coefficient regularization L2 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.  
-        public let parameters: [String: String]?
-        /// A user-supplied name or description of the MLModel.
-        public let mLModelName: String?
-        /// The category of supervised learning that this MLModel will address. Choose from the following types:  Choose REGRESSION if the MLModel will be used to predict a numeric value. Choose BINARY if the MLModel result has two possible values. Choose MULTICLASS if the MLModel result has a limited number of values.    For more information, see the Amazon Machine Learning Developer Guide.
-        public let mLModelType: MLModelType
-
-        public init(mLModelId: String, trainingDataSourceId: String, recipe: String? = nil, recipeUri: String? = nil, parameters: [String: String]? = nil, mLModelName: String? = nil, mLModelType: MLModelType) {
-            self.mLModelId = mLModelId
-            self.trainingDataSourceId = trainingDataSourceId
-            self.recipe = recipe
-            self.recipeUri = recipeUri
-            self.parameters = parameters
-            self.mLModelName = mLModelName
-            self.mLModelType = mLModelType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mLModelId = "MLModelId"
-            case trainingDataSourceId = "TrainingDataSourceId"
-            case recipe = "Recipe"
-            case recipeUri = "RecipeUri"
-            case parameters = "Parameters"
-            case mLModelName = "MLModelName"
-            case mLModelType = "MLModelType"
-        }
-    }
-
-    public struct RealtimeEndpointInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointUrl", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EndpointStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "PeakRequestsPerSecond", required: false, type: .integer)
-        ]
-        /// The URI that specifies where to send real-time prediction requests for the MLModel. Note The application must wait until the real-time endpoint is ready before using this URI. 
-        public let endpointUrl: String?
-        /// The time that the request to create the real-time endpoint for the MLModel was received. The time is expressed in epoch time.
-        public let createdAt: TimeStamp?
-        ///  The current status of the real-time endpoint for the MLModel. This element can have one of the following values:    NONE - Endpoint does not exist or was previously deleted.  READY - Endpoint is ready to be used for real-time predictions.  UPDATING - Updating/creating the endpoint.  
-        public let endpointStatus: RealtimeEndpointStatus?
-        ///  The maximum processing rate for the real-time endpoint for MLModel, measured in incoming requests per second.
-        public let peakRequestsPerSecond: Int32?
-
-        public init(endpointUrl: String? = nil, createdAt: TimeStamp? = nil, endpointStatus: RealtimeEndpointStatus? = nil, peakRequestsPerSecond: Int32? = nil) {
-            self.endpointUrl = endpointUrl
-            self.createdAt = createdAt
-            self.endpointStatus = endpointStatus
-            self.peakRequestsPerSecond = peakRequestsPerSecond
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endpointUrl = "EndpointUrl"
-            case createdAt = "CreatedAt"
-            case endpointStatus = "EndpointStatus"
-            case peakRequestsPerSecond = "PeakRequestsPerSecond"
-        }
-    }
-
-    public struct PredictInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MLModelId", required: true, type: .string), 
-            AWSShapeMember(label: "PredictEndpoint", required: true, type: .string), 
-            AWSShapeMember(label: "Record", required: true, type: .map)
-        ]
-        /// A unique identifier of the MLModel.
-        public let mLModelId: String
-        public let predictEndpoint: String
-        public let record: [String: String]
-
-        public init(mLModelId: String, predictEndpoint: String, record: [String: String]) {
-            self.mLModelId = mLModelId
-            self.predictEndpoint = predictEndpoint
-            self.record = record
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mLModelId = "MLModelId"
-            case predictEndpoint = "PredictEndpoint"
-            case record = "Record"
-        }
-    }
-
-    public struct DeleteMLModelInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MLModelId", required: true, type: .string)
-        ]
-        /// A user-supplied ID that uniquely identifies the MLModel.
-        public let mLModelId: String
-
-        public init(mLModelId: String) {
-            self.mLModelId = mLModelId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mLModelId = "MLModelId"
-        }
-    }
-
-    public struct AddTagsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceType", required: true, type: .enum), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
-        /// The type of the ML object to tag. 
-        public let resourceType: TaggableResourceType
-        /// The ID of the ML object to tag. For example, exampleModelId.
-        public let resourceId: String
-        /// The key-value pairs to use to create tags. If you specify a key without specifying a value, Amazon ML creates a tag with the specified key and a value of null.
-        public let tags: [Tag]
-
-        public init(resourceType: TaggableResourceType, resourceId: String, tags: [Tag]) {
-            self.resourceType = resourceType
-            self.resourceId = resourceId
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceType = "ResourceType"
-            case resourceId = "ResourceId"
-            case tags = "Tags"
-        }
-    }
-
-    public struct CreateEvaluationOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EvaluationId", required: false, type: .string)
-        ]
-        /// The user-supplied ID that uniquely identifies the Evaluation. This value should be identical to the value of the EvaluationId in the request.
-        public let evaluationId: String?
-
-        public init(evaluationId: String? = nil) {
-            self.evaluationId = evaluationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case evaluationId = "EvaluationId"
-        }
-    }
-
-    public struct CreateDataSourceFromS3Output: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSourceId", required: false, type: .string)
-        ]
-        /// A user-supplied ID that uniquely identifies the DataSource. This value should be identical to the value of the DataSourceID in the request. 
-        public let dataSourceId: String?
-
-        public init(dataSourceId: String? = nil) {
-            self.dataSourceId = dataSourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dataSourceId = "DataSourceId"
-        }
-    }
-
-    public struct UpdateEvaluationOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EvaluationId", required: false, type: .string)
-        ]
-        /// The ID assigned to the Evaluation during creation. This value should be identical to the value of the Evaluation in the request.
-        public let evaluationId: String?
-
-        public init(evaluationId: String? = nil) {
-            self.evaluationId = evaluationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case evaluationId = "EvaluationId"
-        }
-    }
-
-    public struct AddTagsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .enum)
-        ]
-        /// The ID of the ML object that was tagged.
-        public let resourceId: String?
-        /// The type of the ML object that was tagged.
-        public let resourceType: TaggableResourceType?
-
-        public init(resourceId: String? = nil, resourceType: TaggableResourceType? = nil) {
-            self.resourceId = resourceId
-            self.resourceType = resourceType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case resourceType = "ResourceType"
-        }
-    }
-
-    public enum MLModelFilterVariable: String, CustomStringConvertible, Codable {
-        case createdat = "CreatedAt"
-        case lastupdatedat = "LastUpdatedAt"
-        case status = "Status"
-        case name = "Name"
-        case iamuser = "IAMUser"
-        case trainingdatasourceid = "TrainingDataSourceId"
-        case realtimeendpointstatus = "RealtimeEndpointStatus"
-        case mlmodeltype = "MLModelType"
-        case algorithm = "Algorithm"
-        case trainingdatauri = "TrainingDataURI"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RedshiftDatabaseCredentials: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Password", required: true, type: .string), 
-            AWSShapeMember(label: "Username", required: true, type: .string)
-        ]
-        public let password: String
-        public let username: String
-
-        public init(password: String, username: String) {
-            self.password = password
-            self.username = username
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case password = "Password"
-            case username = "Username"
-        }
-    }
-
-    public enum DetailsAttributes: String, CustomStringConvertible, Codable {
-        case predictivemodeltype = "PredictiveModelType"
-        case algorithm = "Algorithm"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TaggableResourceType: String, CustomStringConvertible, Codable {
-        case batchprediction = "BatchPrediction"
-        case datasource = "DataSource"
-        case evaluation = "Evaluation"
-        case mlmodel = "MLModel"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetMLModelInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MLModelId", required: true, type: .string), 
-            AWSShapeMember(label: "Verbose", required: false, type: .boolean)
-        ]
-        /// The ID assigned to the MLModel at creation.
-        public let mLModelId: String
-        /// Specifies whether the GetMLModel operation should return Recipe. If true, Recipe is returned. If false, Recipe is not returned.
-        public let verbose: Bool?
-
-        public init(mLModelId: String, verbose: Bool? = nil) {
-            self.mLModelId = mLModelId
-            self.verbose = verbose
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mLModelId = "MLModelId"
-            case verbose = "Verbose"
-        }
-    }
-
-    public struct GetMLModelOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "Schema", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Recipe", required: false, type: .string), 
-            AWSShapeMember(label: "TrainingDataSourceId", required: false, type: .string), 
-            AWSShapeMember(label: "FinishedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MLModelId", required: false, type: .string), 
-            AWSShapeMember(label: "InputDataLocationS3", required: false, type: .string), 
-            AWSShapeMember(label: "ComputeTime", required: false, type: .long), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "MLModelType", required: false, type: .enum), 
-            AWSShapeMember(label: "LogUri", required: false, type: .string), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "SizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "ScoreThreshold", required: false, type: .float), 
-            AWSShapeMember(label: "ScoreThresholdLastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TrainingParameters", required: false, type: .map), 
-            AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string)
-        ]
-        /// The current endpoint of the MLModel
-        public let endpointInfo: RealtimeEndpointInfo?
-        /// The schema used by all of the data files referenced by the DataSource. Note This parameter is provided as part of the verbose format.
-        public let schema: String?
-        /// A user-supplied name or description of the MLModel.
-        public let name: String?
-        /// The recipe to use when training the MLModel. The Recipe provides detailed information about the observation data to use during training, and manipulations to perform on the observation data during training. Note This parameter is provided as part of the verbose format.
-        public let recipe: String?
-        /// The ID of the training DataSource.
-        public let trainingDataSourceId: String?
-        /// The epoch time when Amazon Machine Learning marked the MLModel as COMPLETED or FAILED. FinishedAt is only available when the MLModel is in the COMPLETED or FAILED state.
-        public let finishedAt: TimeStamp?
-        /// The MLModel ID, which is same as the MLModelId in the request.
-        public let mLModelId: String?
-        /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
-        public let inputDataLocationS3: String?
-        /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the MLModel, normalized and scaled on computation resources. ComputeTime is only available if the MLModel is in the COMPLETED state.
-        public let computeTime: Int64?
-        /// The time that the MLModel was created. The time is expressed in epoch time.
-        public let createdAt: TimeStamp?
-        /// The current status of the MLModel. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to describe a MLModel.  INPROGRESS - The request is processing.  FAILED - The request did not run to completion. The ML model isn't usable.  COMPLETED - The request completed successfully.  DELETED - The MLModel is marked as deleted. It isn't usable. 
-        public let status: EntityStatus?
-        /// Identifies the MLModel category. The following are the available types:   REGRESSION -- Produces a numeric result. For example, "What price should a house be listed at?" BINARY -- Produces one of two possible results. For example, "Is this an e-commerce website?" MULTICLASS -- Produces one of several possible results. For example, "Is this a HIGH, LOW or MEDIUM risk trade?" 
-        public let mLModelType: MLModelType?
-        /// A link to the file that contains logs of the CreateMLModel operation.
-        public let logUri: String?
-        /// A description of the most recent details about accessing the MLModel.
-        public let message: String?
-        public let sizeInBytes: Int64?
-        /// The scoring threshold is used in binary classification MLModel models. It marks the boundary between a positive prediction and a negative prediction. Output values greater than or equal to the threshold receive a positive result from the MLModel, such as true. Output values less than the threshold receive a negative response from the MLModel, such as false.
-        public let scoreThreshold: Float?
-        /// The time of the most recent edit to the ScoreThreshold. The time is expressed in epoch time.
-        public let scoreThresholdLastUpdatedAt: TimeStamp?
-        /// The time of the most recent edit to the MLModel. The time is expressed in epoch time.
-        public let lastUpdatedAt: TimeStamp?
-        /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.  sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10. sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none. We strongly recommend that you shuffle your data.  sgd.l1RegularizationAmount - The coefficient regularization L1 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to zero, resulting in a sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.   sgd.l2RegularizationAmount - The coefficient regularization L2 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.  
-        public let trainingParameters: [String: String]?
-        /// The epoch time when Amazon Machine Learning marked the MLModel as INPROGRESS. StartedAt isn't available if the MLModel is in the PENDING state.
-        public let startedAt: TimeStamp?
-        /// The AWS user account from which the MLModel was created. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
-        public let createdByIamUser: String?
-
-        public init(endpointInfo: RealtimeEndpointInfo? = nil, schema: String? = nil, name: String? = nil, recipe: String? = nil, trainingDataSourceId: String? = nil, finishedAt: TimeStamp? = nil, mLModelId: String? = nil, inputDataLocationS3: String? = nil, computeTime: Int64? = nil, createdAt: TimeStamp? = nil, status: EntityStatus? = nil, mLModelType: MLModelType? = nil, logUri: String? = nil, message: String? = nil, sizeInBytes: Int64? = nil, scoreThreshold: Float? = nil, scoreThresholdLastUpdatedAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, trainingParameters: [String: String]? = nil, startedAt: TimeStamp? = nil, createdByIamUser: String? = nil) {
-            self.endpointInfo = endpointInfo
-            self.schema = schema
-            self.name = name
-            self.recipe = recipe
-            self.trainingDataSourceId = trainingDataSourceId
-            self.finishedAt = finishedAt
-            self.mLModelId = mLModelId
-            self.inputDataLocationS3 = inputDataLocationS3
-            self.computeTime = computeTime
-            self.createdAt = createdAt
-            self.status = status
-            self.mLModelType = mLModelType
-            self.logUri = logUri
-            self.message = message
-            self.sizeInBytes = sizeInBytes
-            self.scoreThreshold = scoreThreshold
-            self.scoreThresholdLastUpdatedAt = scoreThresholdLastUpdatedAt
-            self.lastUpdatedAt = lastUpdatedAt
-            self.trainingParameters = trainingParameters
-            self.startedAt = startedAt
-            self.createdByIamUser = createdByIamUser
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endpointInfo = "EndpointInfo"
-            case schema = "Schema"
-            case name = "Name"
-            case recipe = "Recipe"
-            case trainingDataSourceId = "TrainingDataSourceId"
-            case finishedAt = "FinishedAt"
-            case mLModelId = "MLModelId"
-            case inputDataLocationS3 = "InputDataLocationS3"
-            case computeTime = "ComputeTime"
-            case createdAt = "CreatedAt"
-            case status = "Status"
-            case mLModelType = "MLModelType"
-            case logUri = "LogUri"
-            case message = "Message"
-            case sizeInBytes = "SizeInBytes"
-            case scoreThreshold = "ScoreThreshold"
-            case scoreThresholdLastUpdatedAt = "ScoreThresholdLastUpdatedAt"
-            case lastUpdatedAt = "LastUpdatedAt"
-            case trainingParameters = "TrainingParameters"
-            case startedAt = "StartedAt"
-            case createdByIamUser = "CreatedByIamUser"
-        }
-    }
-
-    public struct DescribeEvaluationsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Results", required: false, type: .list)
-        ]
-        /// The ID of the next page in the paginated results that indicates at least one more page follows.
-        public let nextToken: String?
-        /// A list of Evaluation that meet the search criteria. 
-        public let results: [Evaluation]?
-
-        public init(nextToken: String? = nil, results: [Evaluation]? = nil) {
-            self.nextToken = nextToken
-            self.results = results
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case results = "Results"
-        }
-    }
-
-    public enum SortOrder: String, CustomStringConvertible, Codable {
-        case asc = "asc"
-        case dsc = "dsc"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeMLModelsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GT", required: false, type: .string), 
-            AWSShapeMember(label: "NE", required: false, type: .string), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "EQ", required: false, type: .string), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "LT", required: false, type: .string), 
-            AWSShapeMember(label: "GE", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "LE", required: false, type: .string), 
-            AWSShapeMember(label: "FilterVariable", required: false, type: .enum)
-        ]
-        /// The greater than operator. The MLModel results will have FilterVariable values that are greater than the value specified with GT.
-        public let gt: String?
-        /// The not equal to operator. The MLModel results will have FilterVariable values not equal to the value specified with NE.
-        public let ne: String?
-        /// A two-value parameter that determines the sequence of the resulting list of MLModel.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
-        public let sortOrder: SortOrder?
-        /// The equal to operator. The MLModel results will have FilterVariable values that exactly match the value specified with EQ.
-        public let eq: String?
-        /// A string that is found at the beginning of a variable, such as Name or Id. For example, an MLModel could have the Name 2014-09-09-HolidayGiftMailer. To search for this MLModel, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
-        public let prefix: String?
-        /// The less than operator. The MLModel results will have FilterVariable values that are less than the value specified with LT.
-        public let lt: String?
-        /// The greater than or equal to operator. The MLModel results will have FilterVariable values that are greater than or equal to the value specified with GE. 
-        public let ge: String?
-        /// The ID of the page in the paginated results.
-        public let nextToken: String?
-        /// The number of pages of information to include in the result. The range of acceptable values is 1 through 100. The default value is 100.
-        public let limit: Int32?
-        /// The less than or equal to operator. The MLModel results will have FilterVariable values that are less than or equal to the value specified with LE.
-        public let le: String?
-        /// Use one of the following variables to filter a list of MLModel:   CreatedAt - Sets the search criteria to MLModel creation date.  Status - Sets the search criteria to MLModel status.  Name - Sets the search criteria to the contents of MLModel  Name.  IAMUser - Sets the search criteria to the user account that invoked the MLModel creation.  TrainingDataSourceId - Sets the search criteria to the DataSource used to train one or more MLModel.  RealtimeEndpointStatus - Sets the search criteria to the MLModel real-time endpoint status.  MLModelType - Sets the search criteria to MLModel type: binary, regression, or multi-class.  Algorithm - Sets the search criteria to the algorithm that the MLModel uses.  TrainingDataURI - Sets the search criteria to the data file(s) used in training a MLModel. The URL can identify either a file or an Amazon Simple Storage Service (Amazon S3) bucket or directory. 
-        public let filterVariable: MLModelFilterVariable?
-
-        public init(gt: String? = nil, ne: String? = nil, sortOrder: SortOrder? = nil, eq: String? = nil, prefix: String? = nil, lt: String? = nil, ge: String? = nil, nextToken: String? = nil, limit: Int32? = nil, le: String? = nil, filterVariable: MLModelFilterVariable? = nil) {
-            self.gt = gt
-            self.ne = ne
-            self.sortOrder = sortOrder
-            self.eq = eq
-            self.prefix = prefix
-            self.lt = lt
-            self.ge = ge
-            self.nextToken = nextToken
-            self.limit = limit
-            self.le = le
-            self.filterVariable = filterVariable
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gt = "GT"
-            case ne = "NE"
-            case sortOrder = "SortOrder"
-            case eq = "EQ"
-            case prefix = "Prefix"
-            case lt = "LT"
-            case ge = "GE"
-            case nextToken = "NextToken"
-            case limit = "Limit"
-            case le = "LE"
-            case filterVariable = "FilterVariable"
-        }
-    }
-
-    public struct CreateDataSourceFromRDSOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSourceId", required: false, type: .string)
-        ]
-        /// A user-supplied ID that uniquely identifies the datasource. This value should be identical to the value of the DataSourceID in the request. 
-        public let dataSourceId: String?
-
-        public init(dataSourceId: String? = nil) {
-            self.dataSourceId = dataSourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dataSourceId = "DataSourceId"
-        }
-    }
-
-    public struct UpdateBatchPredictionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BatchPredictionName", required: true, type: .string), 
-            AWSShapeMember(label: "BatchPredictionId", required: true, type: .string)
-        ]
-        /// A new user-supplied name or description of the BatchPrediction.
-        public let batchPredictionName: String
-        /// The ID assigned to the BatchPrediction during creation.
-        public let batchPredictionId: String
-
-        public init(batchPredictionName: String, batchPredictionId: String) {
-            self.batchPredictionName = batchPredictionName
-            self.batchPredictionId = batchPredictionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case batchPredictionName = "BatchPredictionName"
-            case batchPredictionId = "BatchPredictionId"
-        }
-    }
-
-    public struct DescribeDataSourcesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Results", required: false, type: .list)
-        ]
-        /// An ID of the next page in the paginated results that indicates at least one more page follows.
-        public let nextToken: String?
-        /// A list of DataSource that meet the search criteria. 
-        public let results: [DataSource]?
-
-        public init(nextToken: String? = nil, results: [DataSource]? = nil) {
-            self.nextToken = nextToken
-            self.results = results
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case results = "Results"
-        }
-    }
-
-    public struct RedshiftDatabase: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string)
-        ]
-        public let clusterIdentifier: String
-        public let databaseName: String
-
-        public init(clusterIdentifier: String, databaseName: String) {
-            self.clusterIdentifier = clusterIdentifier
-            self.databaseName = databaseName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clusterIdentifier = "ClusterIdentifier"
-            case databaseName = "DatabaseName"
-        }
-    }
-
-    public struct DeleteTagsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagKeys", required: true, type: .list), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: true, type: .enum)
-        ]
-        /// One or more tags to delete.
-        public let tagKeys: [String]
-        /// The ID of the tagged ML object. For example, exampleModelId.
-        public let resourceId: String
-        /// The type of the tagged ML object.
-        public let resourceType: TaggableResourceType
-
-        public init(tagKeys: [String], resourceId: String, resourceType: TaggableResourceType) {
-            self.tagKeys = tagKeys
-            self.resourceId = resourceId
-            self.resourceType = resourceType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagKeys = "TagKeys"
-            case resourceId = "ResourceId"
-            case resourceType = "ResourceType"
-        }
-    }
-
-    public struct RedshiftMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RedshiftDatabase", required: false, type: .structure), 
-            AWSShapeMember(label: "SelectSqlQuery", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseUserName", required: false, type: .string)
-        ]
-        public let redshiftDatabase: RedshiftDatabase?
-        ///  The SQL query that is specified during CreateDataSourceFromRedshift. Returns only if Verbose is true in GetDataSourceInput. 
-        public let selectSqlQuery: String?
-        public let databaseUserName: String?
-
-        public init(redshiftDatabase: RedshiftDatabase? = nil, selectSqlQuery: String? = nil, databaseUserName: String? = nil) {
-            self.redshiftDatabase = redshiftDatabase
-            self.selectSqlQuery = selectSqlQuery
-            self.databaseUserName = databaseUserName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case redshiftDatabase = "RedshiftDatabase"
-            case selectSqlQuery = "SelectSqlQuery"
-            case databaseUserName = "DatabaseUserName"
-        }
-    }
-
-    public struct MLModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "TrainingDataSourceId", required: false, type: .string), 
-            AWSShapeMember(label: "FinishedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MLModelId", required: false, type: .string), 
-            AWSShapeMember(label: "InputDataLocationS3", required: false, type: .string), 
-            AWSShapeMember(label: "ComputeTime", required: false, type: .long), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "MLModelType", required: false, type: .enum), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "ScoreThreshold", required: false, type: .float), 
-            AWSShapeMember(label: "LastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "ScoreThresholdLastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Algorithm", required: false, type: .enum), 
-            AWSShapeMember(label: "TrainingParameters", required: false, type: .map), 
-            AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string), 
-            AWSShapeMember(label: "StartedAt", required: false, type: .timestamp)
-        ]
-        /// The current endpoint of the MLModel.
-        public let endpointInfo: RealtimeEndpointInfo?
-        /// A user-supplied name or description of the MLModel.
-        public let name: String?
-        /// The ID of the training DataSource. The CreateMLModel operation uses the TrainingDataSourceId.
-        public let trainingDataSourceId: String?
-        public let finishedAt: TimeStamp?
-        /// The ID assigned to the MLModel at creation.
-        public let mLModelId: String?
-        /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
-        public let inputDataLocationS3: String?
-        public let computeTime: Int64?
-        /// The time that the MLModel was created. The time is expressed in epoch time.
-        public let createdAt: TimeStamp?
-        /// The current status of an MLModel. This element can have one of the following values:    PENDING - Amazon Machine Learning (Amazon ML) submitted a request to create an MLModel.  INPROGRESS - The creation process is underway.  FAILED - The request to create an MLModel didn't run to completion. The model isn't usable.  COMPLETED - The creation process completed successfully.  DELETED - The MLModel is marked as deleted. It isn't usable. 
-        public let status: EntityStatus?
-        /// Identifies the MLModel category. The following are the available types:   REGRESSION - Produces a numeric result. For example, "What price should a house be listed at?"  BINARY - Produces one of two possible results. For example, "Is this a child-friendly web site?".  MULTICLASS - Produces one of several possible results. For example, "Is this a HIGH-, LOW-, or MEDIUM-risk trade?". 
-        public let mLModelType: MLModelType?
-        /// A description of the most recent details about accessing the MLModel.
-        public let message: String?
-        public let scoreThreshold: Float?
-        /// The time of the most recent edit to the MLModel. The time is expressed in epoch time.
-        public let lastUpdatedAt: TimeStamp?
-        public let sizeInBytes: Int64?
-        /// The time of the most recent edit to the ScoreThreshold. The time is expressed in epoch time.
-        public let scoreThresholdLastUpdatedAt: TimeStamp?
-        /// The algorithm used to train the MLModel. The following algorithm is supported:   SGD -- Stochastic gradient descent. The goal of SGD is to minimize the gradient of the loss function.  
-        public let algorithm: Algorithm?
-        /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.  sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10. sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling the data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none.  sgd.l1RegularizationAmount - The coefficient regularization L1 norm, which controls overfitting the data by penalizing large coefficients. This parameter tends to drive coefficients to zero, resulting in sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.   sgd.l2RegularizationAmount - The coefficient regularization L2 norm, which controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.  
-        public let trainingParameters: [String: String]?
-        /// The AWS user account from which the MLModel was created. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
-        public let createdByIamUser: String?
-        public let startedAt: TimeStamp?
-
-        public init(endpointInfo: RealtimeEndpointInfo? = nil, name: String? = nil, trainingDataSourceId: String? = nil, finishedAt: TimeStamp? = nil, mLModelId: String? = nil, inputDataLocationS3: String? = nil, computeTime: Int64? = nil, createdAt: TimeStamp? = nil, status: EntityStatus? = nil, mLModelType: MLModelType? = nil, message: String? = nil, scoreThreshold: Float? = nil, lastUpdatedAt: TimeStamp? = nil, sizeInBytes: Int64? = nil, scoreThresholdLastUpdatedAt: TimeStamp? = nil, algorithm: Algorithm? = nil, trainingParameters: [String: String]? = nil, createdByIamUser: String? = nil, startedAt: TimeStamp? = nil) {
-            self.endpointInfo = endpointInfo
-            self.name = name
-            self.trainingDataSourceId = trainingDataSourceId
-            self.finishedAt = finishedAt
-            self.mLModelId = mLModelId
-            self.inputDataLocationS3 = inputDataLocationS3
-            self.computeTime = computeTime
-            self.createdAt = createdAt
-            self.status = status
-            self.mLModelType = mLModelType
-            self.message = message
-            self.scoreThreshold = scoreThreshold
-            self.lastUpdatedAt = lastUpdatedAt
-            self.sizeInBytes = sizeInBytes
-            self.scoreThresholdLastUpdatedAt = scoreThresholdLastUpdatedAt
-            self.algorithm = algorithm
-            self.trainingParameters = trainingParameters
-            self.createdByIamUser = createdByIamUser
-            self.startedAt = startedAt
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endpointInfo = "EndpointInfo"
-            case name = "Name"
-            case trainingDataSourceId = "TrainingDataSourceId"
-            case finishedAt = "FinishedAt"
-            case mLModelId = "MLModelId"
-            case inputDataLocationS3 = "InputDataLocationS3"
-            case computeTime = "ComputeTime"
-            case createdAt = "CreatedAt"
-            case status = "Status"
-            case mLModelType = "MLModelType"
-            case message = "Message"
-            case scoreThreshold = "ScoreThreshold"
-            case lastUpdatedAt = "LastUpdatedAt"
-            case sizeInBytes = "SizeInBytes"
-            case scoreThresholdLastUpdatedAt = "ScoreThresholdLastUpdatedAt"
-            case algorithm = "Algorithm"
-            case trainingParameters = "TrainingParameters"
-            case createdByIamUser = "CreatedByIamUser"
-            case startedAt = "StartedAt"
-        }
-    }
-
-    public struct RDSDatabaseCredentials: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Password", required: true, type: .string), 
-            AWSShapeMember(label: "Username", required: true, type: .string)
-        ]
-        public let password: String
-        public let username: String
-
-        public init(password: String, username: String) {
-            self.password = password
-            self.username = username
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case password = "Password"
-            case username = "Username"
-        }
-    }
-
-    public struct Prediction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "predictedValue", required: false, type: .float), 
-            AWSShapeMember(label: "details", required: false, type: .map), 
-            AWSShapeMember(label: "predictedLabel", required: false, type: .string), 
-            AWSShapeMember(label: "predictedScores", required: false, type: .map)
-        ]
-        /// The prediction value for REGRESSION MLModel.
-        public let predictedValue: Float?
-        public let details: [DetailsAttributes: String]?
-        /// The prediction label for either a BINARY or MULTICLASS MLModel.
-        public let predictedLabel: String?
-        public let predictedScores: [String: Float]?
-
-        public init(predictedValue: Float? = nil, details: [DetailsAttributes: String]? = nil, predictedLabel: String? = nil, predictedScores: [String: Float]? = nil) {
-            self.predictedValue = predictedValue
-            self.details = details
-            self.predictedLabel = predictedLabel
-            self.predictedScores = predictedScores
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case predictedValue = "predictedValue"
-            case details = "details"
-            case predictedLabel = "predictedLabel"
-            case predictedScores = "predictedScores"
-        }
-    }
-
-    public struct GetEvaluationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EvaluationId", required: true, type: .string)
-        ]
-        /// The ID of the Evaluation to retrieve. The evaluation of each MLModel is recorded and cataloged. The ID provides the means to access the information. 
-        public let evaluationId: String
-
-        public init(evaluationId: String) {
-            self.evaluationId = evaluationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case evaluationId = "EvaluationId"
-        }
-    }
-
-    public struct DeleteDataSourceOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSourceId", required: false, type: .string)
-        ]
-        /// A user-supplied ID that uniquely identifies the DataSource. This value should be identical to the value of the DataSourceID in the request.
-        public let dataSourceId: String?
-
-        public init(dataSourceId: String? = nil) {
-            self.dataSourceId = dataSourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dataSourceId = "DataSourceId"
-        }
-    }
-
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
-        /// A unique identifier for the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @.
-        public let key: String?
-        /// An optional string, typically used to describe or define the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @.
-        public let value: String?
-
-        public init(key: String? = nil, value: String? = nil) {
-            self.key = key
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case value = "Value"
-        }
-    }
-
-    public struct DeleteDataSourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSourceId", required: true, type: .string)
-        ]
-        /// A user-supplied ID that uniquely identifies the DataSource.
-        public let dataSourceId: String
-
-        public init(dataSourceId: String) {
-            self.dataSourceId = dataSourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dataSourceId = "DataSourceId"
-        }
-    }
-
     public struct UpdateMLModelOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MLModelId", required: false, type: .string)
@@ -1144,1375 +2513,6 @@ extension MachineLearning {
 
         private enum CodingKeys: String, CodingKey {
             case mLModelId = "MLModelId"
-        }
-    }
-
-    public struct BatchPrediction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TotalRecordCount", required: false, type: .long), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "FinishedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MLModelId", required: false, type: .string), 
-            AWSShapeMember(label: "InputDataLocationS3", required: false, type: .string), 
-            AWSShapeMember(label: "ComputeTime", required: false, type: .long), 
-            AWSShapeMember(label: "InvalidRecordCount", required: false, type: .long), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "BatchPredictionDataSourceId", required: false, type: .string), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "OutputUri", required: false, type: .string), 
-            AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string), 
-            AWSShapeMember(label: "BatchPredictionId", required: false, type: .string)
-        ]
-        public let totalRecordCount: Int64?
-        /// A user-supplied name or description of the BatchPrediction.
-        public let name: String?
-        public let finishedAt: TimeStamp?
-        /// The ID of the MLModel that generated predictions for the BatchPrediction request.
-        public let mLModelId: String?
-        /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
-        public let inputDataLocationS3: String?
-        public let computeTime: Int64?
-        public let invalidRecordCount: Int64?
-        /// The time that the BatchPrediction was created. The time is expressed in epoch time.
-        public let createdAt: TimeStamp?
-        /// The status of the BatchPrediction. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to generate predictions for a batch of observations.  INPROGRESS - The process is underway.  FAILED - The request to perform a batch prediction did not run to completion. It is not usable.  COMPLETED - The batch prediction process completed successfully.  DELETED - The BatchPrediction is marked as deleted. It is not usable. 
-        public let status: EntityStatus?
-        /// The ID of the DataSource that points to the group of observations to predict.
-        public let batchPredictionDataSourceId: String?
-        /// A description of the most recent details about processing the batch prediction request.
-        public let message: String?
-        /// The time of the most recent edit to the BatchPrediction. The time is expressed in epoch time.
-        public let lastUpdatedAt: TimeStamp?
-        /// The location of an Amazon S3 bucket or directory to receive the operation results. The following substrings are not allowed in the s3 key portion of the outputURI field: ':', '//', '/./', '/../'.
-        public let outputUri: String?
-        public let startedAt: TimeStamp?
-        /// The AWS user account that invoked the BatchPrediction. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
-        public let createdByIamUser: String?
-        /// The ID assigned to the BatchPrediction at creation. This value should be identical to the value of the BatchPredictionID in the request. 
-        public let batchPredictionId: String?
-
-        public init(totalRecordCount: Int64? = nil, name: String? = nil, finishedAt: TimeStamp? = nil, mLModelId: String? = nil, inputDataLocationS3: String? = nil, computeTime: Int64? = nil, invalidRecordCount: Int64? = nil, createdAt: TimeStamp? = nil, status: EntityStatus? = nil, batchPredictionDataSourceId: String? = nil, message: String? = nil, lastUpdatedAt: TimeStamp? = nil, outputUri: String? = nil, startedAt: TimeStamp? = nil, createdByIamUser: String? = nil, batchPredictionId: String? = nil) {
-            self.totalRecordCount = totalRecordCount
-            self.name = name
-            self.finishedAt = finishedAt
-            self.mLModelId = mLModelId
-            self.inputDataLocationS3 = inputDataLocationS3
-            self.computeTime = computeTime
-            self.invalidRecordCount = invalidRecordCount
-            self.createdAt = createdAt
-            self.status = status
-            self.batchPredictionDataSourceId = batchPredictionDataSourceId
-            self.message = message
-            self.lastUpdatedAt = lastUpdatedAt
-            self.outputUri = outputUri
-            self.startedAt = startedAt
-            self.createdByIamUser = createdByIamUser
-            self.batchPredictionId = batchPredictionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case totalRecordCount = "TotalRecordCount"
-            case name = "Name"
-            case finishedAt = "FinishedAt"
-            case mLModelId = "MLModelId"
-            case inputDataLocationS3 = "InputDataLocationS3"
-            case computeTime = "ComputeTime"
-            case invalidRecordCount = "InvalidRecordCount"
-            case createdAt = "CreatedAt"
-            case status = "Status"
-            case batchPredictionDataSourceId = "BatchPredictionDataSourceId"
-            case message = "Message"
-            case lastUpdatedAt = "LastUpdatedAt"
-            case outputUri = "OutputUri"
-            case startedAt = "StartedAt"
-            case createdByIamUser = "CreatedByIamUser"
-            case batchPredictionId = "BatchPredictionId"
-        }
-    }
-
-    public struct CreateDataSourceFromRDSInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
-            AWSShapeMember(label: "ComputeStatistics", required: false, type: .boolean), 
-            AWSShapeMember(label: "RDSData", required: true, type: .structure), 
-            AWSShapeMember(label: "DataSourceName", required: false, type: .string), 
-            AWSShapeMember(label: "DataSourceId", required: true, type: .string)
-        ]
-        /// The role that Amazon ML assumes on behalf of the user to create and activate a data pipeline in the user's account and copy data using the SelectSqlQuery query from Amazon RDS to Amazon S3.  
-        public let roleARN: String
-        /// The compute statistics for a DataSource. The statistics are generated from the observation data referenced by a DataSource. Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training. 
-        public let computeStatistics: Bool?
-        /// The data specification of an Amazon RDS DataSource:  DatabaseInformation -   DatabaseName - The name of the Amazon RDS database.  InstanceIdentifier  - A unique identifier for the Amazon RDS database instance.   DatabaseCredentials - AWS Identity and Access Management (IAM) credentials that are used to connect to the Amazon RDS database. ResourceRole - A role (DataPipelineDefaultResourceRole) assumed by an EC2 instance to carry out the copy task from Amazon RDS to Amazon Simple Storage Service (Amazon S3). For more information, see Role templates for data pipelines. ServiceRole - A role (DataPipelineDefaultRole) assumed by the AWS Data Pipeline service to monitor the progress of the copy task from Amazon RDS to Amazon S3. For more information, see Role templates for data pipelines. SecurityInfo - The security information to use to access an RDS DB instance. You need to set up appropriate ingress rules for the security entity IDs provided to allow access to the Amazon RDS instance. Specify a [SubnetId, SecurityGroupIds] pair for a VPC-based RDS DB instance. SelectSqlQuery - A query that is used to retrieve the observation data for the Datasource. S3StagingLocation - The Amazon S3 location for staging Amazon RDS data. The data retrieved from Amazon RDS using SelectSqlQuery is stored in this location. DataSchemaUri - The Amazon S3 location of the DataSchema. DataSchema - A JSON string representing the schema. This is not required if DataSchemaUri is specified.   DataRearrangement - A JSON string that represents the splitting and rearrangement requirements for the Datasource.    Sample -  "{\"splitting\":{\"percentBegin\":10,\"percentEnd\":60}}"   
-        public let rDSData: RDSDataSpec
-        /// A user-supplied name or description of the DataSource.
-        public let dataSourceName: String?
-        /// A user-supplied ID that uniquely identifies the DataSource. Typically, an Amazon Resource Number (ARN) becomes the ID for a DataSource.
-        public let dataSourceId: String
-
-        public init(roleARN: String, computeStatistics: Bool? = nil, rDSData: RDSDataSpec, dataSourceName: String? = nil, dataSourceId: String) {
-            self.roleARN = roleARN
-            self.computeStatistics = computeStatistics
-            self.rDSData = rDSData
-            self.dataSourceName = dataSourceName
-            self.dataSourceId = dataSourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleARN = "RoleARN"
-            case computeStatistics = "ComputeStatistics"
-            case rDSData = "RDSData"
-            case dataSourceName = "DataSourceName"
-            case dataSourceId = "DataSourceId"
-        }
-    }
-
-    public enum RealtimeEndpointStatus: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case ready = "READY"
-        case updating = "UPDATING"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateBatchPredictionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BatchPredictionId", required: false, type: .string)
-        ]
-        /// The ID assigned to the BatchPrediction during creation. This value should be identical to the value of the BatchPredictionId in the request.
-        public let batchPredictionId: String?
-
-        public init(batchPredictionId: String? = nil) {
-            self.batchPredictionId = batchPredictionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case batchPredictionId = "BatchPredictionId"
-        }
-    }
-
-    public struct GetBatchPredictionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BatchPredictionId", required: true, type: .string)
-        ]
-        /// An ID assigned to the BatchPrediction at creation.
-        public let batchPredictionId: String
-
-        public init(batchPredictionId: String) {
-            self.batchPredictionId = batchPredictionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case batchPredictionId = "BatchPredictionId"
-        }
-    }
-
-    public struct S3DataSpec: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSchema", required: false, type: .string), 
-            AWSShapeMember(label: "DataRearrangement", required: false, type: .string), 
-            AWSShapeMember(label: "DataSchemaLocationS3", required: false, type: .string), 
-            AWSShapeMember(label: "DataLocationS3", required: true, type: .string)
-        ]
-        ///  A JSON string that represents the schema for an Amazon S3 DataSource. The DataSchema defines the structure of the observation data in the data file(s) referenced in the DataSource. You must provide either the DataSchema or the DataSchemaLocationS3. Define your DataSchema as a series of key-value pairs. attributes and excludedVariableNames have an array of key-value pairs for their value. Use the following format to define your DataSchema. { "version": "1.0",  "recordAnnotationFieldName": "F1",  "recordWeightFieldName": "F2",  "targetFieldName": "F3",  "dataFormat": "CSV",  "dataFileContainsHeader": true,  "attributes": [  { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2", "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" }, { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5", "fieldType": "CATEGORICAL" }, { "fieldName": "F6", "fieldType": "TEXT" }, { "fieldName": "F7", "fieldType": "WEIGHTED_INT_SEQUENCE" }, { "fieldName": "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ],  "excludedVariableNames": [ "F6" ] }  
-        public let dataSchema: String?
-        /// A JSON string that represents the splitting and rearrangement processing to be applied to a DataSource. If the DataRearrangement parameter is not provided, all of the input data is used to create the Datasource. There are multiple parameters that control what data is used to create a datasource:  percentBegin Use percentBegin to indicate the beginning of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. percentEnd Use percentEnd to indicate the end of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. complement The complement parameter instructs Amazon ML to use the data that is not included in the range of percentBegin to percentEnd to create a datasource. The complement parameter is useful if you need to create complementary datasources for training and evaluation. To create a complementary datasource, use the same values for percentBegin and percentEnd, along with the complement parameter. For example, the following two datasources do not share any data, and can be used to train and evaluate a model. The first datasource has 25 percent of the data, and the second one has 75 percent of the data. Datasource for evaluation: {"splitting":{"percentBegin":0, "percentEnd":25}} Datasource for training: {"splitting":{"percentBegin":0, "percentEnd":25, "complement":"true"}}  strategy To change how Amazon ML splits the data for a datasource, use the strategy parameter. The default value for the strategy parameter is sequential, meaning that Amazon ML takes all of the data records between the percentBegin and percentEnd parameters for the datasource, in the order that the records appear in the input data. The following two DataRearrangement lines are examples of sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential", "complement":"true"}} To randomly split the input data into the proportions indicated by the percentBegin and percentEnd parameters, set the strategy parameter to random and provide a string that is used as the seed value for the random data splitting (for example, you can use the S3 path to your data as the random seed string). If you choose the random split strategy, Amazon ML assigns each row of data a pseudo-random number between 0 and 100, and then selects the rows that have an assigned number between percentBegin and percentEnd. Pseudo-random numbers are assigned using both the input seed string value and the byte offset as a seed, so changing the data results in a different split. Any existing ordering is preserved. The random splitting strategy ensures that variables in the training and evaluation data are distributed similarly. It is useful in the cases where the input data may have an implicit sort order, which would otherwise result in training and evaluation datasources containing non-similar data records. The following two DataRearrangement lines are examples of non-sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}}  
-        public let dataRearrangement: String?
-        /// Describes the schema location in Amazon S3. You must provide either the DataSchema or the DataSchemaLocationS3.
-        public let dataSchemaLocationS3: String?
-        /// The location of the data file(s) used by a DataSource. The URI specifies a data file or an Amazon Simple Storage Service (Amazon S3) directory or bucket containing data files.
-        public let dataLocationS3: String
-
-        public init(dataSchema: String? = nil, dataRearrangement: String? = nil, dataSchemaLocationS3: String? = nil, dataLocationS3: String) {
-            self.dataSchema = dataSchema
-            self.dataRearrangement = dataRearrangement
-            self.dataSchemaLocationS3 = dataSchemaLocationS3
-            self.dataLocationS3 = dataLocationS3
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dataSchema = "DataSchema"
-            case dataRearrangement = "DataRearrangement"
-            case dataSchemaLocationS3 = "DataSchemaLocationS3"
-            case dataLocationS3 = "DataLocationS3"
-        }
-    }
-
-    public struct DeleteEvaluationOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EvaluationId", required: false, type: .string)
-        ]
-        /// A user-supplied ID that uniquely identifies the Evaluation. This value should be identical to the value of the EvaluationId in the request.
-        public let evaluationId: String?
-
-        public init(evaluationId: String? = nil) {
-            self.evaluationId = evaluationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case evaluationId = "EvaluationId"
-        }
-    }
-
-    public struct DeleteBatchPredictionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BatchPredictionId", required: false, type: .string)
-        ]
-        /// A user-supplied ID that uniquely identifies the BatchPrediction. This value should be identical to the value of the BatchPredictionID in the request.
-        public let batchPredictionId: String?
-
-        public init(batchPredictionId: String? = nil) {
-            self.batchPredictionId = batchPredictionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case batchPredictionId = "BatchPredictionId"
-        }
-    }
-
-    public struct RDSDatabase: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string)
-        ]
-        /// The ID of an RDS DB instance.
-        public let instanceIdentifier: String
-        public let databaseName: String
-
-        public init(instanceIdentifier: String, databaseName: String) {
-            self.instanceIdentifier = instanceIdentifier
-            self.databaseName = databaseName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceIdentifier = "InstanceIdentifier"
-            case databaseName = "DatabaseName"
-        }
-    }
-
-    public struct GetDataSourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Verbose", required: false, type: .boolean), 
-            AWSShapeMember(label: "DataSourceId", required: true, type: .string)
-        ]
-        /// Specifies whether the GetDataSource operation should return DataSourceSchema. If true, DataSourceSchema is returned. If false, DataSourceSchema is not returned.
-        public let verbose: Bool?
-        /// The ID assigned to the DataSource at creation.
-        public let dataSourceId: String
-
-        public init(verbose: Bool? = nil, dataSourceId: String) {
-            self.verbose = verbose
-            self.dataSourceId = dataSourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case verbose = "Verbose"
-            case dataSourceId = "DataSourceId"
-        }
-    }
-
-    public struct DeleteEvaluationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EvaluationId", required: true, type: .string)
-        ]
-        /// A user-supplied ID that uniquely identifies the Evaluation to delete.
-        public let evaluationId: String
-
-        public init(evaluationId: String) {
-            self.evaluationId = evaluationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case evaluationId = "EvaluationId"
-        }
-    }
-
-    public struct RDSDataSpec: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataRearrangement", required: false, type: .string), 
-            AWSShapeMember(label: "DataSchema", required: false, type: .string), 
-            AWSShapeMember(label: "S3StagingLocation", required: true, type: .string), 
-            AWSShapeMember(label: "SubnetId", required: true, type: .string), 
-            AWSShapeMember(label: "DatabaseCredentials", required: true, type: .structure), 
-            AWSShapeMember(label: "DataSchemaUri", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseInformation", required: true, type: .structure), 
-            AWSShapeMember(label: "SelectSqlQuery", required: true, type: .string), 
-            AWSShapeMember(label: "ServiceRole", required: true, type: .string), 
-            AWSShapeMember(label: "SecurityGroupIds", required: true, type: .list), 
-            AWSShapeMember(label: "ResourceRole", required: true, type: .string)
-        ]
-        /// A JSON string that represents the splitting and rearrangement processing to be applied to a DataSource. If the DataRearrangement parameter is not provided, all of the input data is used to create the Datasource. There are multiple parameters that control what data is used to create a datasource:  percentBegin Use percentBegin to indicate the beginning of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. percentEnd Use percentEnd to indicate the end of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. complement The complement parameter instructs Amazon ML to use the data that is not included in the range of percentBegin to percentEnd to create a datasource. The complement parameter is useful if you need to create complementary datasources for training and evaluation. To create a complementary datasource, use the same values for percentBegin and percentEnd, along with the complement parameter. For example, the following two datasources do not share any data, and can be used to train and evaluate a model. The first datasource has 25 percent of the data, and the second one has 75 percent of the data. Datasource for evaluation: {"splitting":{"percentBegin":0, "percentEnd":25}} Datasource for training: {"splitting":{"percentBegin":0, "percentEnd":25, "complement":"true"}}  strategy To change how Amazon ML splits the data for a datasource, use the strategy parameter. The default value for the strategy parameter is sequential, meaning that Amazon ML takes all of the data records between the percentBegin and percentEnd parameters for the datasource, in the order that the records appear in the input data. The following two DataRearrangement lines are examples of sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential", "complement":"true"}} To randomly split the input data into the proportions indicated by the percentBegin and percentEnd parameters, set the strategy parameter to random and provide a string that is used as the seed value for the random data splitting (for example, you can use the S3 path to your data as the random seed string). If you choose the random split strategy, Amazon ML assigns each row of data a pseudo-random number between 0 and 100, and then selects the rows that have an assigned number between percentBegin and percentEnd. Pseudo-random numbers are assigned using both the input seed string value and the byte offset as a seed, so changing the data results in a different split. Any existing ordering is preserved. The random splitting strategy ensures that variables in the training and evaluation data are distributed similarly. It is useful in the cases where the input data may have an implicit sort order, which would otherwise result in training and evaluation datasources containing non-similar data records. The following two DataRearrangement lines are examples of non-sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}}  
-        public let dataRearrangement: String?
-        /// A JSON string that represents the schema for an Amazon RDS DataSource. The DataSchema defines the structure of the observation data in the data file(s) referenced in the DataSource. A DataSchema is not required if you specify a DataSchemaUri Define your DataSchema as a series of key-value pairs. attributes and excludedVariableNames have an array of key-value pairs for their value. Use the following format to define your DataSchema. { "version": "1.0",  "recordAnnotationFieldName": "F1",  "recordWeightFieldName": "F2",  "targetFieldName": "F3",  "dataFormat": "CSV",  "dataFileContainsHeader": true,  "attributes": [  { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2", "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" }, { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5", "fieldType": "CATEGORICAL" }, { "fieldName": "F6", "fieldType": "TEXT" }, { "fieldName": "F7", "fieldType": "WEIGHTED_INT_SEQUENCE" }, { "fieldName": "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ],  "excludedVariableNames": [ "F6" ] }  
-        public let dataSchema: String?
-        /// The Amazon S3 location for staging Amazon RDS data. The data retrieved from Amazon RDS using SelectSqlQuery is stored in this location.
-        public let s3StagingLocation: String
-        /// The subnet ID to be used to access a VPC-based RDS DB instance. This attribute is used by Data Pipeline to carry out the copy task from Amazon RDS to Amazon S3.
-        public let subnetId: String
-        /// The AWS Identity and Access Management (IAM) credentials that are used connect to the Amazon RDS database.
-        public let databaseCredentials: RDSDatabaseCredentials
-        /// The Amazon S3 location of the DataSchema. 
-        public let dataSchemaUri: String?
-        /// Describes the DatabaseName and InstanceIdentifier of an Amazon RDS database.
-        public let databaseInformation: RDSDatabase
-        /// The query that is used to retrieve the observation data for the DataSource.
-        public let selectSqlQuery: String
-        /// The role (DataPipelineDefaultRole) assumed by AWS Data Pipeline service to monitor the progress of the copy task from Amazon RDS to Amazon S3. For more information, see Role templates for data pipelines.
-        public let serviceRole: String
-        /// The security group IDs to be used to access a VPC-based RDS DB instance. Ensure that there are appropriate ingress rules set up to allow access to the RDS DB instance. This attribute is used by Data Pipeline to carry out the copy operation from Amazon RDS to an Amazon S3 task.
-        public let securityGroupIds: [String]
-        /// The role (DataPipelineDefaultResourceRole) assumed by an Amazon Elastic Compute Cloud (Amazon EC2) instance to carry out the copy operation from Amazon RDS to an Amazon S3 task. For more information, see Role templates for data pipelines.
-        public let resourceRole: String
-
-        public init(dataRearrangement: String? = nil, dataSchema: String? = nil, s3StagingLocation: String, subnetId: String, databaseCredentials: RDSDatabaseCredentials, dataSchemaUri: String? = nil, databaseInformation: RDSDatabase, selectSqlQuery: String, serviceRole: String, securityGroupIds: [String], resourceRole: String) {
-            self.dataRearrangement = dataRearrangement
-            self.dataSchema = dataSchema
-            self.s3StagingLocation = s3StagingLocation
-            self.subnetId = subnetId
-            self.databaseCredentials = databaseCredentials
-            self.dataSchemaUri = dataSchemaUri
-            self.databaseInformation = databaseInformation
-            self.selectSqlQuery = selectSqlQuery
-            self.serviceRole = serviceRole
-            self.securityGroupIds = securityGroupIds
-            self.resourceRole = resourceRole
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dataRearrangement = "DataRearrangement"
-            case dataSchema = "DataSchema"
-            case s3StagingLocation = "S3StagingLocation"
-            case subnetId = "SubnetId"
-            case databaseCredentials = "DatabaseCredentials"
-            case dataSchemaUri = "DataSchemaUri"
-            case databaseInformation = "DatabaseInformation"
-            case selectSqlQuery = "SelectSqlQuery"
-            case serviceRole = "ServiceRole"
-            case securityGroupIds = "SecurityGroupIds"
-            case resourceRole = "ResourceRole"
-        }
-    }
-
-    public struct CreateBatchPredictionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BatchPredictionId", required: false, type: .string)
-        ]
-        /// A user-supplied ID that uniquely identifies the BatchPrediction. This value is identical to the value of the BatchPredictionId in the request.
-        public let batchPredictionId: String?
-
-        public init(batchPredictionId: String? = nil) {
-            self.batchPredictionId = batchPredictionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case batchPredictionId = "BatchPredictionId"
-        }
-    }
-
-    public struct UpdateDataSourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSourceName", required: true, type: .string), 
-            AWSShapeMember(label: "DataSourceId", required: true, type: .string)
-        ]
-        /// A new user-supplied name or description of the DataSource that will replace the current description. 
-        public let dataSourceName: String
-        /// The ID assigned to the DataSource during creation.
-        public let dataSourceId: String
-
-        public init(dataSourceName: String, dataSourceId: String) {
-            self.dataSourceName = dataSourceName
-            self.dataSourceId = dataSourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dataSourceName = "DataSourceName"
-            case dataSourceId = "DataSourceId"
-        }
-    }
-
-    public enum Algorithm: String, CustomStringConvertible, Codable {
-        case sgd = "sgd"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateRealtimeEndpointInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MLModelId", required: true, type: .string)
-        ]
-        /// The ID assigned to the MLModel during creation.
-        public let mLModelId: String
-
-        public init(mLModelId: String) {
-            self.mLModelId = mLModelId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mLModelId = "MLModelId"
-        }
-    }
-
-    public struct CreateMLModelOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MLModelId", required: false, type: .string)
-        ]
-        /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request. 
-        public let mLModelId: String?
-
-        public init(mLModelId: String? = nil) {
-            self.mLModelId = mLModelId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mLModelId = "MLModelId"
-        }
-    }
-
-    public struct DeleteBatchPredictionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BatchPredictionId", required: true, type: .string)
-        ]
-        /// A user-supplied ID that uniquely identifies the BatchPrediction.
-        public let batchPredictionId: String
-
-        public init(batchPredictionId: String) {
-            self.batchPredictionId = batchPredictionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case batchPredictionId = "BatchPredictionId"
-        }
-    }
-
-    public struct DescribeDataSourcesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GT", required: false, type: .string), 
-            AWSShapeMember(label: "NE", required: false, type: .string), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "EQ", required: false, type: .string), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "LT", required: false, type: .string), 
-            AWSShapeMember(label: "GE", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "LE", required: false, type: .string), 
-            AWSShapeMember(label: "FilterVariable", required: false, type: .enum)
-        ]
-        /// The greater than operator. The DataSource results will have FilterVariable values that are greater than the value specified with GT.
-        public let gt: String?
-        /// The not equal to operator. The DataSource results will have FilterVariable values not equal to the value specified with NE.
-        public let ne: String?
-        /// A two-value parameter that determines the sequence of the resulting list of DataSource.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
-        public let sortOrder: SortOrder?
-        /// The equal to operator. The DataSource results will have FilterVariable values that exactly match the value specified with EQ.
-        public let eq: String?
-        /// A string that is found at the beginning of a variable, such as Name or Id. For example, a DataSource could have the Name 2014-09-09-HolidayGiftMailer. To search for this DataSource, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
-        public let prefix: String?
-        /// The less than operator. The DataSource results will have FilterVariable values that are less than the value specified with LT.
-        public let lt: String?
-        /// The greater than or equal to operator. The DataSource results will have FilterVariable values that are greater than or equal to the value specified with GE. 
-        public let ge: String?
-        /// The ID of the page in the paginated results.
-        public let nextToken: String?
-        ///  The maximum number of DataSource to include in the result.
-        public let limit: Int32?
-        /// The less than or equal to operator. The DataSource results will have FilterVariable values that are less than or equal to the value specified with LE.
-        public let le: String?
-        /// Use one of the following variables to filter a list of DataSource:   CreatedAt - Sets the search criteria to DataSource creation dates.  Status - Sets the search criteria to DataSource statuses.  Name - Sets the search criteria to the contents of DataSource   Name.  DataUri - Sets the search criteria to the URI of data files used to create the DataSource. The URI can identify either a file or an Amazon Simple Storage Service (Amazon S3) bucket or directory.  IAMUser - Sets the search criteria to the user account that invoked the DataSource creation. 
-        public let filterVariable: DataSourceFilterVariable?
-
-        public init(gt: String? = nil, ne: String? = nil, sortOrder: SortOrder? = nil, eq: String? = nil, prefix: String? = nil, lt: String? = nil, ge: String? = nil, nextToken: String? = nil, limit: Int32? = nil, le: String? = nil, filterVariable: DataSourceFilterVariable? = nil) {
-            self.gt = gt
-            self.ne = ne
-            self.sortOrder = sortOrder
-            self.eq = eq
-            self.prefix = prefix
-            self.lt = lt
-            self.ge = ge
-            self.nextToken = nextToken
-            self.limit = limit
-            self.le = le
-            self.filterVariable = filterVariable
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gt = "GT"
-            case ne = "NE"
-            case sortOrder = "SortOrder"
-            case eq = "EQ"
-            case prefix = "Prefix"
-            case lt = "LT"
-            case ge = "GE"
-            case nextToken = "NextToken"
-            case limit = "Limit"
-            case le = "LE"
-            case filterVariable = "FilterVariable"
-        }
-    }
-
-    public struct CreateEvaluationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EvaluationDataSourceId", required: true, type: .string), 
-            AWSShapeMember(label: "EvaluationId", required: true, type: .string), 
-            AWSShapeMember(label: "MLModelId", required: true, type: .string), 
-            AWSShapeMember(label: "EvaluationName", required: false, type: .string)
-        ]
-        /// The ID of the DataSource for the evaluation. The schema of the DataSource must match the schema used to create the MLModel.
-        public let evaluationDataSourceId: String
-        /// A user-supplied ID that uniquely identifies the Evaluation.
-        public let evaluationId: String
-        /// The ID of the MLModel to evaluate. The schema used in creating the MLModel must match the schema of the DataSource used in the Evaluation.
-        public let mLModelId: String
-        /// A user-supplied name or description of the Evaluation.
-        public let evaluationName: String?
-
-        public init(evaluationDataSourceId: String, evaluationId: String, mLModelId: String, evaluationName: String? = nil) {
-            self.evaluationDataSourceId = evaluationDataSourceId
-            self.evaluationId = evaluationId
-            self.mLModelId = mLModelId
-            self.evaluationName = evaluationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case evaluationDataSourceId = "EvaluationDataSourceId"
-            case evaluationId = "EvaluationId"
-            case mLModelId = "MLModelId"
-            case evaluationName = "EvaluationName"
-        }
-    }
-
-    public enum EntityStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case inprogress = "INPROGRESS"
-        case failed = "FAILED"
-        case completed = "COMPLETED"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateDataSourceFromRedshiftInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSpec", required: true, type: .structure), 
-            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
-            AWSShapeMember(label: "ComputeStatistics", required: false, type: .boolean), 
-            AWSShapeMember(label: "DataSourceName", required: false, type: .string), 
-            AWSShapeMember(label: "DataSourceId", required: true, type: .string)
-        ]
-        /// The data specification of an Amazon Redshift DataSource:  DatabaseInformation -   DatabaseName - The name of the Amazon Redshift database.    ClusterIdentifier - The unique ID for the Amazon Redshift cluster.  DatabaseCredentials - The AWS Identity and Access Management (IAM) credentials that are used to connect to the Amazon Redshift database. SelectSqlQuery - The query that is used to retrieve the observation data for the Datasource. S3StagingLocation - The Amazon Simple Storage Service (Amazon S3) location for staging Amazon Redshift data. The data retrieved from Amazon Redshift using the SelectSqlQuery query is stored in this location. DataSchemaUri - The Amazon S3 location of the DataSchema. DataSchema - A JSON string representing the schema. This is not required if DataSchemaUri is specified.   DataRearrangement - A JSON string that represents the splitting and rearrangement requirements for the DataSource.  Sample -  "{\"splitting\":{\"percentBegin\":10,\"percentEnd\":60}}"   
-        public let dataSpec: RedshiftDataSpec
-        /// A fully specified role Amazon Resource Name (ARN). Amazon ML assumes the role on behalf of the user to create the following:    A security group to allow Amazon ML to execute the SelectSqlQuery query on an Amazon Redshift cluster An Amazon S3 bucket policy to grant Amazon ML read/write permissions on the S3StagingLocation  
-        public let roleARN: String
-        /// The compute statistics for a DataSource. The statistics are generated from the observation data referenced by a DataSource. Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training.
-        public let computeStatistics: Bool?
-        /// A user-supplied name or description of the DataSource. 
-        public let dataSourceName: String?
-        /// A user-supplied ID that uniquely identifies the DataSource.
-        public let dataSourceId: String
-
-        public init(dataSpec: RedshiftDataSpec, roleARN: String, computeStatistics: Bool? = nil, dataSourceName: String? = nil, dataSourceId: String) {
-            self.dataSpec = dataSpec
-            self.roleARN = roleARN
-            self.computeStatistics = computeStatistics
-            self.dataSourceName = dataSourceName
-            self.dataSourceId = dataSourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dataSpec = "DataSpec"
-            case roleARN = "RoleARN"
-            case computeStatistics = "ComputeStatistics"
-            case dataSourceName = "DataSourceName"
-            case dataSourceId = "DataSourceId"
-        }
-    }
-
-    public enum MLModelType: String, CustomStringConvertible, Codable {
-        case regression = "REGRESSION"
-        case binary = "BINARY"
-        case multiclass = "MULTICLASS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DataSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComputeStatistics", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "NumberOfFiles", required: false, type: .long), 
-            AWSShapeMember(label: "FinishedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DataLocationS3", required: false, type: .string), 
-            AWSShapeMember(label: "ComputeTime", required: false, type: .long), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "RedshiftMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "RDSMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "DataRearrangement", required: false, type: .string), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DataSourceId", required: false, type: .string), 
-            AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "DataSizeInBytes", required: false, type: .long)
-        ]
-        ///  The parameter is true if statistics need to be generated from the observation data. 
-        public let computeStatistics: Bool?
-        /// A user-supplied name or description of the DataSource.
-        public let name: String?
-        /// The number of data files referenced by the DataSource.
-        public let numberOfFiles: Int64?
-        public let finishedAt: TimeStamp?
-        /// The location and name of the data in Amazon Simple Storage Service (Amazon S3) that is used by a DataSource.
-        public let dataLocationS3: String?
-        public let computeTime: Int64?
-        /// The time that the DataSource was created. The time is expressed in epoch time.
-        public let createdAt: TimeStamp?
-        /// The current status of the DataSource. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to create a DataSource. INPROGRESS - The creation process is underway. FAILED - The request to create a DataSource did not run to completion. It is not usable. COMPLETED - The creation process completed successfully. DELETED - The DataSource is marked as deleted. It is not usable. 
-        public let status: EntityStatus?
-        public let redshiftMetadata: RedshiftMetadata?
-        public let rDSMetadata: RDSMetadata?
-        /// A JSON string that represents the splitting and rearrangement requirement used when this DataSource was created.
-        public let dataRearrangement: String?
-        /// A description of the most recent details about creating the DataSource.
-        public let message: String?
-        /// The time of the most recent edit to the BatchPrediction. The time is expressed in epoch time.
-        public let lastUpdatedAt: TimeStamp?
-        /// The ID that is assigned to the DataSource during creation.
-        public let dataSourceId: String?
-        public let startedAt: TimeStamp?
-        /// The AWS user account from which the DataSource was created. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
-        public let createdByIamUser: String?
-        public let roleARN: String?
-        /// The total number of observations contained in the data files that the DataSource references.
-        public let dataSizeInBytes: Int64?
-
-        public init(computeStatistics: Bool? = nil, name: String? = nil, numberOfFiles: Int64? = nil, finishedAt: TimeStamp? = nil, dataLocationS3: String? = nil, computeTime: Int64? = nil, createdAt: TimeStamp? = nil, status: EntityStatus? = nil, redshiftMetadata: RedshiftMetadata? = nil, rDSMetadata: RDSMetadata? = nil, dataRearrangement: String? = nil, message: String? = nil, lastUpdatedAt: TimeStamp? = nil, dataSourceId: String? = nil, startedAt: TimeStamp? = nil, createdByIamUser: String? = nil, roleARN: String? = nil, dataSizeInBytes: Int64? = nil) {
-            self.computeStatistics = computeStatistics
-            self.name = name
-            self.numberOfFiles = numberOfFiles
-            self.finishedAt = finishedAt
-            self.dataLocationS3 = dataLocationS3
-            self.computeTime = computeTime
-            self.createdAt = createdAt
-            self.status = status
-            self.redshiftMetadata = redshiftMetadata
-            self.rDSMetadata = rDSMetadata
-            self.dataRearrangement = dataRearrangement
-            self.message = message
-            self.lastUpdatedAt = lastUpdatedAt
-            self.dataSourceId = dataSourceId
-            self.startedAt = startedAt
-            self.createdByIamUser = createdByIamUser
-            self.roleARN = roleARN
-            self.dataSizeInBytes = dataSizeInBytes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case computeStatistics = "ComputeStatistics"
-            case name = "Name"
-            case numberOfFiles = "NumberOfFiles"
-            case finishedAt = "FinishedAt"
-            case dataLocationS3 = "DataLocationS3"
-            case computeTime = "ComputeTime"
-            case createdAt = "CreatedAt"
-            case status = "Status"
-            case redshiftMetadata = "RedshiftMetadata"
-            case rDSMetadata = "RDSMetadata"
-            case dataRearrangement = "DataRearrangement"
-            case message = "Message"
-            case lastUpdatedAt = "LastUpdatedAt"
-            case dataSourceId = "DataSourceId"
-            case startedAt = "StartedAt"
-            case createdByIamUser = "CreatedByIamUser"
-            case roleARN = "RoleARN"
-            case dataSizeInBytes = "DataSizeInBytes"
-        }
-    }
-
-    public struct DeleteRealtimeEndpointOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MLModelId", required: false, type: .string), 
-            AWSShapeMember(label: "RealtimeEndpointInfo", required: false, type: .structure)
-        ]
-        /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request.
-        public let mLModelId: String?
-        /// The endpoint information of the MLModel 
-        public let realtimeEndpointInfo: RealtimeEndpointInfo?
-
-        public init(mLModelId: String? = nil, realtimeEndpointInfo: RealtimeEndpointInfo? = nil) {
-            self.mLModelId = mLModelId
-            self.realtimeEndpointInfo = realtimeEndpointInfo
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mLModelId = "MLModelId"
-            case realtimeEndpointInfo = "RealtimeEndpointInfo"
-        }
-    }
-
-    public struct CreateDataSourceFromS3Input: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSpec", required: true, type: .structure), 
-            AWSShapeMember(label: "ComputeStatistics", required: false, type: .boolean), 
-            AWSShapeMember(label: "DataSourceName", required: false, type: .string), 
-            AWSShapeMember(label: "DataSourceId", required: true, type: .string)
-        ]
-        /// The data specification of a DataSource:  DataLocationS3 - The Amazon S3 location of the observation data. DataSchemaLocationS3 - The Amazon S3 location of the DataSchema. DataSchema - A JSON string representing the schema. This is not required if DataSchemaUri is specified.   DataRearrangement - A JSON string that represents the splitting and rearrangement requirements for the Datasource.   Sample -  "{\"splitting\":{\"percentBegin\":10,\"percentEnd\":60}}"   
-        public let dataSpec: S3DataSpec
-        /// The compute statistics for a DataSource. The statistics are generated from the observation data referenced by a DataSource. Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training.
-        public let computeStatistics: Bool?
-        /// A user-supplied name or description of the DataSource. 
-        public let dataSourceName: String?
-        /// A user-supplied identifier that uniquely identifies the DataSource. 
-        public let dataSourceId: String
-
-        public init(dataSpec: S3DataSpec, computeStatistics: Bool? = nil, dataSourceName: String? = nil, dataSourceId: String) {
-            self.dataSpec = dataSpec
-            self.computeStatistics = computeStatistics
-            self.dataSourceName = dataSourceName
-            self.dataSourceId = dataSourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dataSpec = "DataSpec"
-            case computeStatistics = "ComputeStatistics"
-            case dataSourceName = "DataSourceName"
-            case dataSourceId = "DataSourceId"
-        }
-    }
-
-    public struct DescribeBatchPredictionsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Results", required: false, type: .list)
-        ]
-        /// The ID of the next page in the paginated results that indicates at least one more page follows.
-        public let nextToken: String?
-        /// A list of BatchPrediction objects that meet the search criteria. 
-        public let results: [BatchPrediction]?
-
-        public init(nextToken: String? = nil, results: [BatchPrediction]? = nil) {
-            self.nextToken = nextToken
-            self.results = results
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case results = "Results"
-        }
-    }
-
-    public struct CreateRealtimeEndpointOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MLModelId", required: false, type: .string), 
-            AWSShapeMember(label: "RealtimeEndpointInfo", required: false, type: .structure)
-        ]
-        /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request.
-        public let mLModelId: String?
-        /// The endpoint information of the MLModel 
-        public let realtimeEndpointInfo: RealtimeEndpointInfo?
-
-        public init(mLModelId: String? = nil, realtimeEndpointInfo: RealtimeEndpointInfo? = nil) {
-            self.mLModelId = mLModelId
-            self.realtimeEndpointInfo = realtimeEndpointInfo
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mLModelId = "MLModelId"
-            case realtimeEndpointInfo = "RealtimeEndpointInfo"
-        }
-    }
-
-    public struct DescribeMLModelsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Results", required: false, type: .list)
-        ]
-        /// The ID of the next page in the paginated results that indicates at least one more page follows.
-        public let nextToken: String?
-        /// A list of MLModel that meet the search criteria.
-        public let results: [MLModel]?
-
-        public init(nextToken: String? = nil, results: [MLModel]? = nil) {
-            self.nextToken = nextToken
-            self.results = results
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case results = "Results"
-        }
-    }
-
-    public struct DescribeEvaluationsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GT", required: false, type: .string), 
-            AWSShapeMember(label: "NE", required: false, type: .string), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "EQ", required: false, type: .string), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "LT", required: false, type: .string), 
-            AWSShapeMember(label: "GE", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "LE", required: false, type: .string), 
-            AWSShapeMember(label: "FilterVariable", required: false, type: .enum)
-        ]
-        /// The greater than operator. The Evaluation results will have FilterVariable values that are greater than the value specified with GT.
-        public let gt: String?
-        /// The not equal to operator. The Evaluation results will have FilterVariable values not equal to the value specified with NE.
-        public let ne: String?
-        /// A two-value parameter that determines the sequence of the resulting list of Evaluation.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
-        public let sortOrder: SortOrder?
-        /// The equal to operator. The Evaluation results will have FilterVariable values that exactly match the value specified with EQ.
-        public let eq: String?
-        /// A string that is found at the beginning of a variable, such as Name or Id. For example, an Evaluation could have the Name 2014-09-09-HolidayGiftMailer. To search for this Evaluation, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
-        public let prefix: String?
-        /// The less than operator. The Evaluation results will have FilterVariable values that are less than the value specified with LT.
-        public let lt: String?
-        /// The greater than or equal to operator. The Evaluation results will have FilterVariable values that are greater than or equal to the value specified with GE. 
-        public let ge: String?
-        /// The ID of the page in the paginated results.
-        public let nextToken: String?
-        ///  The maximum number of Evaluation to include in the result.
-        public let limit: Int32?
-        /// The less than or equal to operator. The Evaluation results will have FilterVariable values that are less than or equal to the value specified with LE.
-        public let le: String?
-        /// Use one of the following variable to filter a list of Evaluation objects:   CreatedAt - Sets the search criteria to the Evaluation creation date.  Status - Sets the search criteria to the Evaluation status.  Name - Sets the search criteria to the contents of Evaluation   Name.  IAMUser - Sets the search criteria to the user account that invoked an Evaluation.  MLModelId - Sets the search criteria to the MLModel that was evaluated.  DataSourceId - Sets the search criteria to the DataSource used in Evaluation.  DataUri - Sets the search criteria to the data file(s) used in Evaluation. The URL can identify either a file or an Amazon Simple Storage Solution (Amazon S3) bucket or directory. 
-        public let filterVariable: EvaluationFilterVariable?
-
-        public init(gt: String? = nil, ne: String? = nil, sortOrder: SortOrder? = nil, eq: String? = nil, prefix: String? = nil, lt: String? = nil, ge: String? = nil, nextToken: String? = nil, limit: Int32? = nil, le: String? = nil, filterVariable: EvaluationFilterVariable? = nil) {
-            self.gt = gt
-            self.ne = ne
-            self.sortOrder = sortOrder
-            self.eq = eq
-            self.prefix = prefix
-            self.lt = lt
-            self.ge = ge
-            self.nextToken = nextToken
-            self.limit = limit
-            self.le = le
-            self.filterVariable = filterVariable
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gt = "GT"
-            case ne = "NE"
-            case sortOrder = "SortOrder"
-            case eq = "EQ"
-            case prefix = "Prefix"
-            case lt = "LT"
-            case ge = "GE"
-            case nextToken = "NextToken"
-            case limit = "Limit"
-            case le = "LE"
-            case filterVariable = "FilterVariable"
-        }
-    }
-
-    public struct DescribeTagsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .enum)
-        ]
-        /// A list of tags associated with the ML object.
-        public let tags: [Tag]?
-        /// The ID of the tagged ML object.
-        public let resourceId: String?
-        /// The type of the tagged ML object.
-        public let resourceType: TaggableResourceType?
-
-        public init(tags: [Tag]? = nil, resourceId: String? = nil, resourceType: TaggableResourceType? = nil) {
-            self.tags = tags
-            self.resourceId = resourceId
-            self.resourceType = resourceType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case resourceId = "ResourceId"
-            case resourceType = "ResourceType"
-        }
-    }
-
-    public struct PredictOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Prediction", required: false, type: .structure)
-        ]
-        public let prediction: Prediction?
-
-        public init(prediction: Prediction? = nil) {
-            self.prediction = prediction
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case prediction = "Prediction"
-        }
-    }
-
-    public struct UpdateDataSourceOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSourceId", required: false, type: .string)
-        ]
-        /// The ID assigned to the DataSource during creation. This value should be identical to the value of the DataSourceID in the request.
-        public let dataSourceId: String?
-
-        public init(dataSourceId: String? = nil) {
-            self.dataSourceId = dataSourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dataSourceId = "DataSourceId"
-        }
-    }
-
-    public struct GetEvaluationOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EvaluationDataSourceId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "FinishedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MLModelId", required: false, type: .string), 
-            AWSShapeMember(label: "InputDataLocationS3", required: false, type: .string), 
-            AWSShapeMember(label: "ComputeTime", required: false, type: .long), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "EvaluationId", required: false, type: .string), 
-            AWSShapeMember(label: "LogUri", required: false, type: .string), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "PerformanceMetrics", required: false, type: .structure), 
-            AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string)
-        ]
-        /// The DataSource used for this evaluation.
-        public let evaluationDataSourceId: String?
-        /// A user-supplied name or description of the Evaluation. 
-        public let name: String?
-        /// The epoch time when Amazon Machine Learning marked the Evaluation as COMPLETED or FAILED. FinishedAt is only available when the Evaluation is in the COMPLETED or FAILED state.
-        public let finishedAt: TimeStamp?
-        /// The ID of the MLModel that was the focus of the evaluation.
-        public let mLModelId: String?
-        /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
-        public let inputDataLocationS3: String?
-        /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the Evaluation, normalized and scaled on computation resources. ComputeTime is only available if the Evaluation is in the COMPLETED state.
-        public let computeTime: Int64?
-        /// The time that the Evaluation was created. The time is expressed in epoch time.
-        public let createdAt: TimeStamp?
-        /// The status of the evaluation. This element can have one of the following values:   PENDING - Amazon Machine Language (Amazon ML) submitted a request to evaluate an MLModel.  INPROGRESS - The evaluation is underway.  FAILED - The request to evaluate an MLModel did not run to completion. It is not usable.  COMPLETED - The evaluation process completed successfully.  DELETED - The Evaluation is marked as deleted. It is not usable. 
-        public let status: EntityStatus?
-        /// The evaluation ID which is same as the EvaluationId in the request.
-        public let evaluationId: String?
-        /// A link to the file that contains logs of the CreateEvaluation operation.
-        public let logUri: String?
-        /// A description of the most recent details about evaluating the MLModel.
-        public let message: String?
-        /// The time of the most recent edit to the Evaluation. The time is expressed in epoch time.
-        public let lastUpdatedAt: TimeStamp?
-        /// Measurements of how well the MLModel performed using observations referenced by the DataSource. One of the following metric is returned based on the type of the MLModel:    BinaryAUC: A binary MLModel uses the Area Under the Curve (AUC) technique to measure performance.    RegressionRMSE: A regression MLModel uses the Root Mean Square Error (RMSE) technique to measure performance. RMSE measures the difference between predicted and actual values for a single variable.   MulticlassAvgFScore: A multiclass MLModel uses the F1 score technique to measure performance.     For more information about performance metrics, please see the Amazon Machine Learning Developer Guide. 
-        public let performanceMetrics: PerformanceMetrics?
-        /// The epoch time when Amazon Machine Learning marked the Evaluation as INPROGRESS. StartedAt isn't available if the Evaluation is in the PENDING state.
-        public let startedAt: TimeStamp?
-        /// The AWS user account that invoked the evaluation. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
-        public let createdByIamUser: String?
-
-        public init(evaluationDataSourceId: String? = nil, name: String? = nil, finishedAt: TimeStamp? = nil, mLModelId: String? = nil, inputDataLocationS3: String? = nil, computeTime: Int64? = nil, createdAt: TimeStamp? = nil, status: EntityStatus? = nil, evaluationId: String? = nil, logUri: String? = nil, message: String? = nil, lastUpdatedAt: TimeStamp? = nil, performanceMetrics: PerformanceMetrics? = nil, startedAt: TimeStamp? = nil, createdByIamUser: String? = nil) {
-            self.evaluationDataSourceId = evaluationDataSourceId
-            self.name = name
-            self.finishedAt = finishedAt
-            self.mLModelId = mLModelId
-            self.inputDataLocationS3 = inputDataLocationS3
-            self.computeTime = computeTime
-            self.createdAt = createdAt
-            self.status = status
-            self.evaluationId = evaluationId
-            self.logUri = logUri
-            self.message = message
-            self.lastUpdatedAt = lastUpdatedAt
-            self.performanceMetrics = performanceMetrics
-            self.startedAt = startedAt
-            self.createdByIamUser = createdByIamUser
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case evaluationDataSourceId = "EvaluationDataSourceId"
-            case name = "Name"
-            case finishedAt = "FinishedAt"
-            case mLModelId = "MLModelId"
-            case inputDataLocationS3 = "InputDataLocationS3"
-            case computeTime = "ComputeTime"
-            case createdAt = "CreatedAt"
-            case status = "Status"
-            case evaluationId = "EvaluationId"
-            case logUri = "LogUri"
-            case message = "Message"
-            case lastUpdatedAt = "LastUpdatedAt"
-            case performanceMetrics = "PerformanceMetrics"
-            case startedAt = "StartedAt"
-            case createdByIamUser = "CreatedByIamUser"
-        }
-    }
-
-    public struct UpdateEvaluationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EvaluationId", required: true, type: .string), 
-            AWSShapeMember(label: "EvaluationName", required: true, type: .string)
-        ]
-        /// The ID assigned to the Evaluation during creation.
-        public let evaluationId: String
-        /// A new user-supplied name or description of the Evaluation that will replace the current content. 
-        public let evaluationName: String
-
-        public init(evaluationId: String, evaluationName: String) {
-            self.evaluationId = evaluationId
-            self.evaluationName = evaluationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case evaluationId = "EvaluationId"
-            case evaluationName = "EvaluationName"
-        }
-    }
-
-    public struct DeleteRealtimeEndpointInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MLModelId", required: true, type: .string)
-        ]
-        /// The ID assigned to the MLModel during creation.
-        public let mLModelId: String
-
-        public init(mLModelId: String) {
-            self.mLModelId = mLModelId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mLModelId = "MLModelId"
-        }
-    }
-
-    public struct RedshiftDataSpec: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataRearrangement", required: false, type: .string), 
-            AWSShapeMember(label: "DataSchema", required: false, type: .string), 
-            AWSShapeMember(label: "S3StagingLocation", required: true, type: .string), 
-            AWSShapeMember(label: "DatabaseCredentials", required: true, type: .structure), 
-            AWSShapeMember(label: "DatabaseInformation", required: true, type: .structure), 
-            AWSShapeMember(label: "DataSchemaUri", required: false, type: .string), 
-            AWSShapeMember(label: "SelectSqlQuery", required: true, type: .string)
-        ]
-        /// A JSON string that represents the splitting and rearrangement processing to be applied to a DataSource. If the DataRearrangement parameter is not provided, all of the input data is used to create the Datasource. There are multiple parameters that control what data is used to create a datasource:  percentBegin Use percentBegin to indicate the beginning of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. percentEnd Use percentEnd to indicate the end of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. complement The complement parameter instructs Amazon ML to use the data that is not included in the range of percentBegin to percentEnd to create a datasource. The complement parameter is useful if you need to create complementary datasources for training and evaluation. To create a complementary datasource, use the same values for percentBegin and percentEnd, along with the complement parameter. For example, the following two datasources do not share any data, and can be used to train and evaluate a model. The first datasource has 25 percent of the data, and the second one has 75 percent of the data. Datasource for evaluation: {"splitting":{"percentBegin":0, "percentEnd":25}} Datasource for training: {"splitting":{"percentBegin":0, "percentEnd":25, "complement":"true"}}  strategy To change how Amazon ML splits the data for a datasource, use the strategy parameter. The default value for the strategy parameter is sequential, meaning that Amazon ML takes all of the data records between the percentBegin and percentEnd parameters for the datasource, in the order that the records appear in the input data. The following two DataRearrangement lines are examples of sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential", "complement":"true"}} To randomly split the input data into the proportions indicated by the percentBegin and percentEnd parameters, set the strategy parameter to random and provide a string that is used as the seed value for the random data splitting (for example, you can use the S3 path to your data as the random seed string). If you choose the random split strategy, Amazon ML assigns each row of data a pseudo-random number between 0 and 100, and then selects the rows that have an assigned number between percentBegin and percentEnd. Pseudo-random numbers are assigned using both the input seed string value and the byte offset as a seed, so changing the data results in a different split. Any existing ordering is preserved. The random splitting strategy ensures that variables in the training and evaluation data are distributed similarly. It is useful in the cases where the input data may have an implicit sort order, which would otherwise result in training and evaluation datasources containing non-similar data records. The following two DataRearrangement lines are examples of non-sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}}  
-        public let dataRearrangement: String?
-        /// A JSON string that represents the schema for an Amazon Redshift DataSource. The DataSchema defines the structure of the observation data in the data file(s) referenced in the DataSource. A DataSchema is not required if you specify a DataSchemaUri. Define your DataSchema as a series of key-value pairs. attributes and excludedVariableNames have an array of key-value pairs for their value. Use the following format to define your DataSchema. { "version": "1.0",  "recordAnnotationFieldName": "F1",  "recordWeightFieldName": "F2",  "targetFieldName": "F3",  "dataFormat": "CSV",  "dataFileContainsHeader": true,  "attributes": [  { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2", "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" }, { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5", "fieldType": "CATEGORICAL" }, { "fieldName": "F6", "fieldType": "TEXT" }, { "fieldName": "F7", "fieldType": "WEIGHTED_INT_SEQUENCE" }, { "fieldName": "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ],  "excludedVariableNames": [ "F6" ] } 
-        public let dataSchema: String?
-        /// Describes an Amazon S3 location to store the result set of the SelectSqlQuery query.
-        public let s3StagingLocation: String
-        /// Describes AWS Identity and Access Management (IAM) credentials that are used connect to the Amazon Redshift database.
-        public let databaseCredentials: RedshiftDatabaseCredentials
-        /// Describes the DatabaseName and ClusterIdentifier for an Amazon Redshift DataSource.
-        public let databaseInformation: RedshiftDatabase
-        /// Describes the schema location for an Amazon Redshift DataSource.
-        public let dataSchemaUri: String?
-        /// Describes the SQL Query to execute on an Amazon Redshift database for an Amazon Redshift DataSource.
-        public let selectSqlQuery: String
-
-        public init(dataRearrangement: String? = nil, dataSchema: String? = nil, s3StagingLocation: String, databaseCredentials: RedshiftDatabaseCredentials, databaseInformation: RedshiftDatabase, dataSchemaUri: String? = nil, selectSqlQuery: String) {
-            self.dataRearrangement = dataRearrangement
-            self.dataSchema = dataSchema
-            self.s3StagingLocation = s3StagingLocation
-            self.databaseCredentials = databaseCredentials
-            self.databaseInformation = databaseInformation
-            self.dataSchemaUri = dataSchemaUri
-            self.selectSqlQuery = selectSqlQuery
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dataRearrangement = "DataRearrangement"
-            case dataSchema = "DataSchema"
-            case s3StagingLocation = "S3StagingLocation"
-            case databaseCredentials = "DatabaseCredentials"
-            case databaseInformation = "DatabaseInformation"
-            case dataSchemaUri = "DataSchemaUri"
-            case selectSqlQuery = "SelectSqlQuery"
-        }
-    }
-
-    public struct DescribeBatchPredictionsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GT", required: false, type: .string), 
-            AWSShapeMember(label: "NE", required: false, type: .string), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "EQ", required: false, type: .string), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "LT", required: false, type: .string), 
-            AWSShapeMember(label: "GE", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "LE", required: false, type: .string), 
-            AWSShapeMember(label: "FilterVariable", required: false, type: .enum)
-        ]
-        /// The greater than operator. The BatchPrediction results will have FilterVariable values that are greater than the value specified with GT.
-        public let gt: String?
-        /// The not equal to operator. The BatchPrediction results will have FilterVariable values not equal to the value specified with NE.
-        public let ne: String?
-        /// A two-value parameter that determines the sequence of the resulting list of MLModels.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
-        public let sortOrder: SortOrder?
-        /// The equal to operator. The BatchPrediction results will have FilterVariable values that exactly match the value specified with EQ.
-        public let eq: String?
-        /// A string that is found at the beginning of a variable, such as Name or Id. For example, a Batch Prediction operation could have the Name 2014-09-09-HolidayGiftMailer. To search for this BatchPrediction, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
-        public let prefix: String?
-        /// The less than operator. The BatchPrediction results will have FilterVariable values that are less than the value specified with LT.
-        public let lt: String?
-        /// The greater than or equal to operator. The BatchPrediction results will have FilterVariable values that are greater than or equal to the value specified with GE. 
-        public let ge: String?
-        /// An ID of the page in the paginated results.
-        public let nextToken: String?
-        /// The number of pages of information to include in the result. The range of acceptable values is 1 through 100. The default value is 100.
-        public let limit: Int32?
-        /// The less than or equal to operator. The BatchPrediction results will have FilterVariable values that are less than or equal to the value specified with LE.
-        public let le: String?
-        /// Use one of the following variables to filter a list of BatchPrediction:   CreatedAt - Sets the search criteria to the BatchPrediction creation date.  Status - Sets the search criteria to the BatchPrediction status.  Name - Sets the search criteria to the contents of the BatchPrediction  Name.  IAMUser - Sets the search criteria to the user account that invoked the BatchPrediction creation.  MLModelId - Sets the search criteria to the MLModel used in the BatchPrediction.  DataSourceId - Sets the search criteria to the DataSource used in the BatchPrediction.  DataURI - Sets the search criteria to the data file(s) used in the BatchPrediction. The URL can identify either a file or an Amazon Simple Storage Solution (Amazon S3) bucket or directory. 
-        public let filterVariable: BatchPredictionFilterVariable?
-
-        public init(gt: String? = nil, ne: String? = nil, sortOrder: SortOrder? = nil, eq: String? = nil, prefix: String? = nil, lt: String? = nil, ge: String? = nil, nextToken: String? = nil, limit: Int32? = nil, le: String? = nil, filterVariable: BatchPredictionFilterVariable? = nil) {
-            self.gt = gt
-            self.ne = ne
-            self.sortOrder = sortOrder
-            self.eq = eq
-            self.prefix = prefix
-            self.lt = lt
-            self.ge = ge
-            self.nextToken = nextToken
-            self.limit = limit
-            self.le = le
-            self.filterVariable = filterVariable
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gt = "GT"
-            case ne = "NE"
-            case sortOrder = "SortOrder"
-            case eq = "EQ"
-            case prefix = "Prefix"
-            case lt = "LT"
-            case ge = "GE"
-            case nextToken = "NextToken"
-            case limit = "Limit"
-            case le = "LE"
-            case filterVariable = "FilterVariable"
-        }
-    }
-
-    public enum BatchPredictionFilterVariable: String, CustomStringConvertible, Codable {
-        case createdat = "CreatedAt"
-        case lastupdatedat = "LastUpdatedAt"
-        case status = "Status"
-        case name = "Name"
-        case iamuser = "IAMUser"
-        case mlmodelid = "MLModelId"
-        case datasourceid = "DataSourceId"
-        case datauri = "DataURI"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetBatchPredictionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TotalRecordCount", required: false, type: .long), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "FinishedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MLModelId", required: false, type: .string), 
-            AWSShapeMember(label: "InputDataLocationS3", required: false, type: .string), 
-            AWSShapeMember(label: "ComputeTime", required: false, type: .long), 
-            AWSShapeMember(label: "InvalidRecordCount", required: false, type: .long), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "BatchPredictionDataSourceId", required: false, type: .string), 
-            AWSShapeMember(label: "LogUri", required: false, type: .string), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "OutputUri", required: false, type: .string), 
-            AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string), 
-            AWSShapeMember(label: "BatchPredictionId", required: false, type: .string)
-        ]
-        /// The number of total records that Amazon Machine Learning saw while processing the BatchPrediction.
-        public let totalRecordCount: Int64?
-        /// A user-supplied name or description of the BatchPrediction.
-        public let name: String?
-        /// The epoch time when Amazon Machine Learning marked the BatchPrediction as COMPLETED or FAILED. FinishedAt is only available when the BatchPrediction is in the COMPLETED or FAILED state.
-        public let finishedAt: TimeStamp?
-        /// The ID of the MLModel that generated predictions for the BatchPrediction request.
-        public let mLModelId: String?
-        /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
-        public let inputDataLocationS3: String?
-        /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the BatchPrediction, normalized and scaled on computation resources. ComputeTime is only available if the BatchPrediction is in the COMPLETED state.
-        public let computeTime: Int64?
-        /// The number of invalid records that Amazon Machine Learning saw while processing the BatchPrediction.
-        public let invalidRecordCount: Int64?
-        /// The time when the BatchPrediction was created. The time is expressed in epoch time.
-        public let createdAt: TimeStamp?
-        /// The status of the BatchPrediction, which can be one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to generate batch predictions.  INPROGRESS - The batch predictions are in progress.  FAILED - The request to perform a batch prediction did not run to completion. It is not usable.  COMPLETED - The batch prediction process completed successfully.  DELETED - The BatchPrediction is marked as deleted. It is not usable. 
-        public let status: EntityStatus?
-        /// The ID of the DataSource that was used to create the BatchPrediction. 
-        public let batchPredictionDataSourceId: String?
-        /// A link to the file that contains logs of the CreateBatchPrediction operation.
-        public let logUri: String?
-        /// A description of the most recent details about processing the batch prediction request.
-        public let message: String?
-        /// The time of the most recent edit to BatchPrediction. The time is expressed in epoch time.
-        public let lastUpdatedAt: TimeStamp?
-        /// The location of an Amazon S3 bucket or directory to receive the operation results.
-        public let outputUri: String?
-        /// The epoch time when Amazon Machine Learning marked the BatchPrediction as INPROGRESS. StartedAt isn't available if the BatchPrediction is in the PENDING state.
-        public let startedAt: TimeStamp?
-        /// The AWS user account that invoked the BatchPrediction. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
-        public let createdByIamUser: String?
-        /// An ID assigned to the BatchPrediction at creation. This value should be identical to the value of the BatchPredictionID in the request.
-        public let batchPredictionId: String?
-
-        public init(totalRecordCount: Int64? = nil, name: String? = nil, finishedAt: TimeStamp? = nil, mLModelId: String? = nil, inputDataLocationS3: String? = nil, computeTime: Int64? = nil, invalidRecordCount: Int64? = nil, createdAt: TimeStamp? = nil, status: EntityStatus? = nil, batchPredictionDataSourceId: String? = nil, logUri: String? = nil, message: String? = nil, lastUpdatedAt: TimeStamp? = nil, outputUri: String? = nil, startedAt: TimeStamp? = nil, createdByIamUser: String? = nil, batchPredictionId: String? = nil) {
-            self.totalRecordCount = totalRecordCount
-            self.name = name
-            self.finishedAt = finishedAt
-            self.mLModelId = mLModelId
-            self.inputDataLocationS3 = inputDataLocationS3
-            self.computeTime = computeTime
-            self.invalidRecordCount = invalidRecordCount
-            self.createdAt = createdAt
-            self.status = status
-            self.batchPredictionDataSourceId = batchPredictionDataSourceId
-            self.logUri = logUri
-            self.message = message
-            self.lastUpdatedAt = lastUpdatedAt
-            self.outputUri = outputUri
-            self.startedAt = startedAt
-            self.createdByIamUser = createdByIamUser
-            self.batchPredictionId = batchPredictionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case totalRecordCount = "TotalRecordCount"
-            case name = "Name"
-            case finishedAt = "FinishedAt"
-            case mLModelId = "MLModelId"
-            case inputDataLocationS3 = "InputDataLocationS3"
-            case computeTime = "ComputeTime"
-            case invalidRecordCount = "InvalidRecordCount"
-            case createdAt = "CreatedAt"
-            case status = "Status"
-            case batchPredictionDataSourceId = "BatchPredictionDataSourceId"
-            case logUri = "LogUri"
-            case message = "Message"
-            case lastUpdatedAt = "LastUpdatedAt"
-            case outputUri = "OutputUri"
-            case startedAt = "StartedAt"
-            case createdByIamUser = "CreatedByIamUser"
-            case batchPredictionId = "BatchPredictionId"
-        }
-    }
-
-    public struct DescribeTagsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: true, type: .enum)
-        ]
-        /// The ID of the ML object. For example, exampleModelId. 
-        public let resourceId: String
-        /// The type of the ML object.
-        public let resourceType: TaggableResourceType
-
-        public init(resourceId: String, resourceType: TaggableResourceType) {
-            self.resourceId = resourceId
-            self.resourceType = resourceType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case resourceType = "ResourceType"
-        }
-    }
-
-    public struct CreateBatchPredictionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BatchPredictionId", required: true, type: .string), 
-            AWSShapeMember(label: "BatchPredictionDataSourceId", required: true, type: .string), 
-            AWSShapeMember(label: "OutputUri", required: true, type: .string), 
-            AWSShapeMember(label: "MLModelId", required: true, type: .string), 
-            AWSShapeMember(label: "BatchPredictionName", required: false, type: .string)
-        ]
-        /// A user-supplied ID that uniquely identifies the BatchPrediction.
-        public let batchPredictionId: String
-        /// The ID of the DataSource that points to the group of observations to predict.
-        public let batchPredictionDataSourceId: String
-        /// The location of an Amazon Simple Storage Service (Amazon S3) bucket or directory to store the batch prediction results. The following substrings are not allowed in the s3 key portion of the outputURI field: ':', '//', '/./', '/../'. Amazon ML needs permissions to store and retrieve the logs on your behalf. For information about how to set permissions, see the Amazon Machine Learning Developer Guide.
-        public let outputUri: String
-        /// The ID of the MLModel that will generate predictions for the group of observations. 
-        public let mLModelId: String
-        /// A user-supplied name or description of the BatchPrediction. BatchPredictionName can only use the UTF-8 character set.
-        public let batchPredictionName: String?
-
-        public init(batchPredictionId: String, batchPredictionDataSourceId: String, outputUri: String, mLModelId: String, batchPredictionName: String? = nil) {
-            self.batchPredictionId = batchPredictionId
-            self.batchPredictionDataSourceId = batchPredictionDataSourceId
-            self.outputUri = outputUri
-            self.mLModelId = mLModelId
-            self.batchPredictionName = batchPredictionName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case batchPredictionId = "BatchPredictionId"
-            case batchPredictionDataSourceId = "BatchPredictionDataSourceId"
-            case outputUri = "OutputUri"
-            case mLModelId = "MLModelId"
-            case batchPredictionName = "BatchPredictionName"
-        }
-    }
-
-    public enum EvaluationFilterVariable: String, CustomStringConvertible, Codable {
-        case createdat = "CreatedAt"
-        case lastupdatedat = "LastUpdatedAt"
-        case status = "Status"
-        case name = "Name"
-        case iamuser = "IAMUser"
-        case mlmodelid = "MLModelId"
-        case datasourceid = "DataSourceId"
-        case datauri = "DataURI"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateDataSourceFromRedshiftOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSourceId", required: false, type: .string)
-        ]
-        /// A user-supplied ID that uniquely identifies the datasource. This value should be identical to the value of the DataSourceID in the request. 
-        public let dataSourceId: String?
-
-        public init(dataSourceId: String? = nil) {
-            self.dataSourceId = dataSourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dataSourceId = "DataSourceId"
-        }
-    }
-
-    public struct DeleteTagsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .enum)
-        ]
-        /// The ID of the ML object from which tags were deleted.
-        public let resourceId: String?
-        /// The type of the ML object from which tags were deleted.
-        public let resourceType: TaggableResourceType?
-
-        public init(resourceId: String? = nil, resourceType: TaggableResourceType? = nil) {
-            self.resourceId = resourceId
-            self.resourceType = resourceType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case resourceType = "ResourceType"
         }
     }
 

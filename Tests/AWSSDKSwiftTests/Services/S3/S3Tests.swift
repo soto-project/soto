@@ -36,17 +36,17 @@ class S3Tests: XCTestCase {
     }
 
     override func tearDown() {
-        let deleteRequest = S3.DeleteObjectRequest(key: TestData.shared.key, bucket: TestData.shared.bucket)
+        let deleteRequest = S3.DeleteObjectRequest(bucket: TestData.shared.bucket, key: TestData.shared.key)
         _ = try? client.deleteObject(deleteRequest)
     }
 
     func testPutObject() throws {
         let putRequest = S3.PutObjectRequest(
             acl: .publicRead,
-            key: TestData.shared.key,
             body: TestData.shared.bodyData,
+            bucket: TestData.shared.bucket,
             contentLength: Int64(TestData.shared.bodyData.count),
-            bucket: TestData.shared.bucket
+            key: TestData.shared.key
         )
 
         let output = try client.putObject(putRequest).wait()
@@ -57,13 +57,13 @@ class S3Tests: XCTestCase {
     func testGetObject() throws {
         let putRequest = S3.PutObjectRequest(
             acl: .publicRead,
-            key: TestData.shared.key,
             body: TestData.shared.bodyData,
+            bucket: TestData.shared.bucket,
             contentLength: Int64(TestData.shared.bodyData.count),
-            bucket: TestData.shared.bucket
+            key: TestData.shared.key
         )
 
-        _ = try client.putObject(putRequest).wait()
+        _ = try client.putObject(putRequest)
         let object = try client.getObject(S3.GetObjectRequest(bucket: TestData.shared.bucket, key: "hello.txt")).wait()
         XCTAssertEqual(object.body, TestData.shared.bodyData)
     }
@@ -71,10 +71,10 @@ class S3Tests: XCTestCase {
     func testListObjects() throws {
         let putRequest = S3.PutObjectRequest(
             acl: .publicRead,
-            key: TestData.shared.key,
             body: TestData.shared.bodyData,
+            bucket: TestData.shared.bucket,
             contentLength: Int64(TestData.shared.bodyData.count),
-            bucket: TestData.shared.bucket
+            key: TestData.shared.key
         )
 
         let putResult = try client.putObject(putRequest).wait()

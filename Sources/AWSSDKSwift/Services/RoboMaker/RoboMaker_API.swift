@@ -25,49 +25,9 @@ public struct RoboMaker {
         )
     }
 
-    ///  Describes a fleet.
-    public func describeFleet(_ input: DescribeFleetRequest) throws -> Future<DescribeFleetResponse> {
-        return try client.send(operation: "DescribeFleet", path: "/describeFleet", httpMethod: "POST", input: input)
-    }
-
     ///  Describes one or more simulation jobs.
     public func batchDescribeSimulationJob(_ input: BatchDescribeSimulationJobRequest) throws -> Future<BatchDescribeSimulationJobResponse> {
         return try client.send(operation: "BatchDescribeSimulationJob", path: "/batchDescribeSimulationJob", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns a list of fleets. You can optionally provide filters to retrieve specific fleets.
-    public func listFleets(_ input: ListFleetsRequest) throws -> Future<ListFleetsResponse> {
-        return try client.send(operation: "ListFleets", path: "/listFleets", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns a list of robots. You can optionally provide filters to retrieve specific robots.
-    public func listRobots(_ input: ListRobotsRequest) throws -> Future<ListRobotsResponse> {
-        return try client.send(operation: "ListRobots", path: "/listRobots", httpMethod: "POST", input: input)
-    }
-
-    ///  Describes a robot.
-    public func describeRobot(_ input: DescribeRobotRequest) throws -> Future<DescribeRobotResponse> {
-        return try client.send(operation: "DescribeRobot", path: "/describeRobot", httpMethod: "POST", input: input)
-    }
-
-    ///  Syncrhonizes robots in a fleet to the latest deployment. This is helpful if robots were added after a deployment.
-    public func syncDeploymentJob(_ input: SyncDeploymentJobRequest) throws -> Future<SyncDeploymentJobResponse> {
-        return try client.send(operation: "SyncDeploymentJob", path: "/syncDeploymentJob", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a simulation job.
-    public func createSimulationJob(_ input: CreateSimulationJobRequest) throws -> Future<CreateSimulationJobResponse> {
-        return try client.send(operation: "CreateSimulationJob", path: "/createSimulationJob", httpMethod: "POST", input: input)
-    }
-
-    ///  Describes a deployment job. [Does it work regardless of deployment status, e.g. Failed?]
-    public func describeDeploymentJob(_ input: DescribeDeploymentJobRequest) throws -> Future<DescribeDeploymentJobResponse> {
-        return try client.send(operation: "DescribeDeploymentJob", path: "/describeDeploymentJob", httpMethod: "POST", input: input)
-    }
-
-    ///  Deregisters a robot.
-    public func deregisterRobot(_ input: DeregisterRobotRequest) throws -> Future<DeregisterRobotResponse> {
-        return try client.send(operation: "DeregisterRobot", path: "/deregisterRobot", httpMethod: "POST", input: input)
     }
 
     ///  Cancels the specified simulation job.
@@ -75,24 +35,44 @@ public struct RoboMaker {
         return try client.send(operation: "CancelSimulationJob", path: "/cancelSimulationJob", httpMethod: "POST", input: input)
     }
 
-    ///  Updates a simulation application.
-    public func updateSimulationApplication(_ input: UpdateSimulationApplicationRequest) throws -> Future<UpdateSimulationApplicationResponse> {
-        return try client.send(operation: "UpdateSimulationApplication", path: "/updateSimulationApplication", httpMethod: "POST", input: input)
+    ///  Creates a deployment job.
+    public func createDeploymentJob(_ input: CreateDeploymentJobRequest) throws -> Future<CreateDeploymentJobResponse> {
+        return try client.send(operation: "CreateDeploymentJob", path: "/createDeploymentJob", httpMethod: "POST", input: input)
     }
 
-    ///  Describes a robot application.
-    public func describeRobotApplication(_ input: DescribeRobotApplicationRequest) throws -> Future<DescribeRobotApplicationResponse> {
-        return try client.send(operation: "DescribeRobotApplication", path: "/describeRobotApplication", httpMethod: "POST", input: input)
+    ///  Creates a fleet, a logical group of robots running the same robot application.
+    public func createFleet(_ input: CreateFleetRequest) throws -> Future<CreateFleetResponse> {
+        return try client.send(operation: "CreateFleet", path: "/createFleet", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs.
-    public func listSimulationJobs(_ input: ListSimulationJobsRequest) throws -> Future<ListSimulationJobsResponse> {
-        return try client.send(operation: "ListSimulationJobs", path: "/listSimulationJobs", httpMethod: "POST", input: input)
+    ///  Creates a robot.
+    public func createRobot(_ input: CreateRobotRequest) throws -> Future<CreateRobotResponse> {
+        return try client.send(operation: "CreateRobot", path: "/createRobot", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.
-    public func listDeploymentJobs(_ input: ListDeploymentJobsRequest) throws -> Future<ListDeploymentJobsResponse> {
-        return try client.send(operation: "ListDeploymentJobs", path: "/listDeploymentJobs", httpMethod: "POST", input: input)
+    ///  Creates a robot application. 
+    public func createRobotApplication(_ input: CreateRobotApplicationRequest) throws -> Future<CreateRobotApplicationResponse> {
+        return try client.send(operation: "CreateRobotApplication", path: "/createRobotApplication", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a version of a robot application.
+    public func createRobotApplicationVersion(_ input: CreateRobotApplicationVersionRequest) throws -> Future<CreateRobotApplicationVersionResponse> {
+        return try client.send(operation: "CreateRobotApplicationVersion", path: "/createRobotApplicationVersion", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a simulation application.
+    public func createSimulationApplication(_ input: CreateSimulationApplicationRequest) throws -> Future<CreateSimulationApplicationResponse> {
+        return try client.send(operation: "CreateSimulationApplication", path: "/createSimulationApplication", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a simulation application with a specific revision id.
+    public func createSimulationApplicationVersion(_ input: CreateSimulationApplicationVersionRequest) throws -> Future<CreateSimulationApplicationVersionResponse> {
+        return try client.send(operation: "CreateSimulationApplicationVersion", path: "/createSimulationApplicationVersion", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a simulation job.
+    public func createSimulationJob(_ input: CreateSimulationJobRequest) throws -> Future<CreateSimulationJobResponse> {
+        return try client.send(operation: "CreateSimulationJob", path: "/createSimulationJob", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a fleet.
@@ -105,34 +85,9 @@ public struct RoboMaker {
         return try client.send(operation: "DeleteRobot", path: "/deleteRobot", httpMethod: "POST", input: input)
     }
 
-    ///  Registers a robot with a fleet.
-    public func registerRobot(_ input: RegisterRobotRequest) throws -> Future<RegisterRobotResponse> {
-        return try client.send(operation: "RegisterRobot", path: "/registerRobot", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a deployment job.
-    public func createDeploymentJob(_ input: CreateDeploymentJobRequest) throws -> Future<CreateDeploymentJobResponse> {
-        return try client.send(operation: "CreateDeploymentJob", path: "/createDeploymentJob", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a version of a robot application.
-    public func createRobotApplicationVersion(_ input: CreateRobotApplicationVersionRequest) throws -> Future<CreateRobotApplicationVersionResponse> {
-        return try client.send(operation: "CreateRobotApplicationVersion", path: "/createRobotApplicationVersion", httpMethod: "POST", input: input)
-    }
-
-    ///  Restarts a running simulation job.
-    public func restartSimulationJob(_ input: RestartSimulationJobRequest) throws -> Future<RestartSimulationJobResponse> {
-        return try client.send(operation: "RestartSimulationJob", path: "/restartSimulationJob", httpMethod: "POST", input: input)
-    }
-
     ///  Deletes a robot application.
     public func deleteRobotApplication(_ input: DeleteRobotApplicationRequest) throws -> Future<DeleteRobotApplicationResponse> {
         return try client.send(operation: "DeleteRobotApplication", path: "/deleteRobotApplication", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a robot application. 
-    public func createRobotApplication(_ input: CreateRobotApplicationRequest) throws -> Future<CreateRobotApplicationResponse> {
-        return try client.send(operation: "CreateRobotApplication", path: "/createRobotApplication", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a simulation application.
@@ -140,9 +95,29 @@ public struct RoboMaker {
         return try client.send(operation: "DeleteSimulationApplication", path: "/deleteSimulationApplication", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications.
-    public func listSimulationApplications(_ input: ListSimulationApplicationsRequest) throws -> Future<ListSimulationApplicationsResponse> {
-        return try client.send(operation: "ListSimulationApplications", path: "/listSimulationApplications", httpMethod: "POST", input: input)
+    ///  Deregisters a robot.
+    public func deregisterRobot(_ input: DeregisterRobotRequest) throws -> Future<DeregisterRobotResponse> {
+        return try client.send(operation: "DeregisterRobot", path: "/deregisterRobot", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes a deployment job. [Does it work regardless of deployment status, e.g. Failed?]
+    public func describeDeploymentJob(_ input: DescribeDeploymentJobRequest) throws -> Future<DescribeDeploymentJobResponse> {
+        return try client.send(operation: "DescribeDeploymentJob", path: "/describeDeploymentJob", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes a fleet.
+    public func describeFleet(_ input: DescribeFleetRequest) throws -> Future<DescribeFleetResponse> {
+        return try client.send(operation: "DescribeFleet", path: "/describeFleet", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes a robot.
+    public func describeRobot(_ input: DescribeRobotRequest) throws -> Future<DescribeRobotResponse> {
+        return try client.send(operation: "DescribeRobot", path: "/describeRobot", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes a robot application.
+    public func describeRobotApplication(_ input: DescribeRobotApplicationRequest) throws -> Future<DescribeRobotApplicationResponse> {
+        return try client.send(operation: "DescribeRobotApplication", path: "/describeRobotApplication", httpMethod: "POST", input: input)
     }
 
     ///  Describes a simulation application.
@@ -155,24 +130,14 @@ public struct RoboMaker {
         return try client.send(operation: "DescribeSimulationJob", path: "/describeSimulationJob", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a robot.
-    public func createRobot(_ input: CreateRobotRequest) throws -> Future<CreateRobotResponse> {
-        return try client.send(operation: "CreateRobot", path: "/createRobot", httpMethod: "POST", input: input)
+    ///  Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.
+    public func listDeploymentJobs(_ input: ListDeploymentJobsRequest) throws -> Future<ListDeploymentJobsResponse> {
+        return try client.send(operation: "ListDeploymentJobs", path: "/listDeploymentJobs", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a fleet, a logical group of robots running the same robot application.
-    public func createFleet(_ input: CreateFleetRequest) throws -> Future<CreateFleetResponse> {
-        return try client.send(operation: "CreateFleet", path: "/createFleet", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a simulation application with a specific revision id.
-    public func createSimulationApplicationVersion(_ input: CreateSimulationApplicationVersionRequest) throws -> Future<CreateSimulationApplicationVersionResponse> {
-        return try client.send(operation: "CreateSimulationApplicationVersion", path: "/createSimulationApplicationVersion", httpMethod: "POST", input: input)
-    }
-
-    ///  Updates a robot application.
-    public func updateRobotApplication(_ input: UpdateRobotApplicationRequest) throws -> Future<UpdateRobotApplicationResponse> {
-        return try client.send(operation: "UpdateRobotApplication", path: "/updateRobotApplication", httpMethod: "POST", input: input)
+    ///  Returns a list of fleets. You can optionally provide filters to retrieve specific fleets.
+    public func listFleets(_ input: ListFleetsRequest) throws -> Future<ListFleetsResponse> {
+        return try client.send(operation: "ListFleets", path: "/listFleets", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of robot application. You can optionally provide filters to retrieve specific robot applications.
@@ -180,9 +145,44 @@ public struct RoboMaker {
         return try client.send(operation: "ListRobotApplications", path: "/listRobotApplications", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a simulation application.
-    public func createSimulationApplication(_ input: CreateSimulationApplicationRequest) throws -> Future<CreateSimulationApplicationResponse> {
-        return try client.send(operation: "CreateSimulationApplication", path: "/createSimulationApplication", httpMethod: "POST", input: input)
+    ///  Returns a list of robots. You can optionally provide filters to retrieve specific robots.
+    public func listRobots(_ input: ListRobotsRequest) throws -> Future<ListRobotsResponse> {
+        return try client.send(operation: "ListRobots", path: "/listRobots", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications.
+    public func listSimulationApplications(_ input: ListSimulationApplicationsRequest) throws -> Future<ListSimulationApplicationsResponse> {
+        return try client.send(operation: "ListSimulationApplications", path: "/listSimulationApplications", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs.
+    public func listSimulationJobs(_ input: ListSimulationJobsRequest) throws -> Future<ListSimulationJobsResponse> {
+        return try client.send(operation: "ListSimulationJobs", path: "/listSimulationJobs", httpMethod: "POST", input: input)
+    }
+
+    ///  Registers a robot with a fleet.
+    public func registerRobot(_ input: RegisterRobotRequest) throws -> Future<RegisterRobotResponse> {
+        return try client.send(operation: "RegisterRobot", path: "/registerRobot", httpMethod: "POST", input: input)
+    }
+
+    ///  Restarts a running simulation job.
+    public func restartSimulationJob(_ input: RestartSimulationJobRequest) throws -> Future<RestartSimulationJobResponse> {
+        return try client.send(operation: "RestartSimulationJob", path: "/restartSimulationJob", httpMethod: "POST", input: input)
+    }
+
+    ///  Syncrhonizes robots in a fleet to the latest deployment. This is helpful if robots were added after a deployment.
+    public func syncDeploymentJob(_ input: SyncDeploymentJobRequest) throws -> Future<SyncDeploymentJobResponse> {
+        return try client.send(operation: "SyncDeploymentJob", path: "/syncDeploymentJob", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates a robot application.
+    public func updateRobotApplication(_ input: UpdateRobotApplicationRequest) throws -> Future<UpdateRobotApplicationResponse> {
+        return try client.send(operation: "UpdateRobotApplication", path: "/updateRobotApplication", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates a simulation application.
+    public func updateSimulationApplication(_ input: UpdateSimulationApplicationRequest) throws -> Future<UpdateSimulationApplicationResponse> {
+        return try client.send(operation: "UpdateSimulationApplication", path: "/updateSimulationApplication", httpMethod: "POST", input: input)
     }
 
 

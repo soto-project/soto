@@ -33,7 +33,6 @@ class DynamoDBTests: XCTestCase {
 
     func prepare() throws {
         let createTableInput = DynamoDB.CreateTableInput(
-            tableName: tableName,
             attributeDefinitions: [
                 DynamoDB.AttributeDefinition(attributeName: "hashKey", attributeType: .s),
                 DynamoDB.AttributeDefinition(attributeName: "rangeKey", attributeType: .s)
@@ -42,16 +41,17 @@ class DynamoDBTests: XCTestCase {
                 DynamoDB.KeySchemaElement(attributeName: "hashKey", keyType: .hash),
                 DynamoDB.KeySchemaElement(attributeName: "rangeKey", keyType: .range)
             ],
-            provisionedThroughput: DynamoDB.ProvisionedThroughput(writeCapacityUnits: 10, readCapacityUnits: 10)
+            provisionedThroughput: DynamoDB.ProvisionedThroughput(readCapacityUnits: 10, writeCapacityUnits: 10),
+            tableName: tableName
         )
         _ = try client.createTable(createTableInput)
 
         let putItemInput = DynamoDB.PutItemInput(
-            tableName: tableName,
             item: [
                 "hashKey": DynamoDB.AttributeValue(s: "hello"),
                 "rangeKey": DynamoDB.AttributeValue(s: "world")
-            ]
+            ],
+            tableName: tableName
         )
         _ = try client.putItem(putItemInput)
     }

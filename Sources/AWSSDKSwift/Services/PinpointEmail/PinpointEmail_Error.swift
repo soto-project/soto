@@ -4,15 +4,15 @@ import AWSSDKSwiftCore
 
 /// Error enum for PinpointEmail
 public enum PinpointEmailErrorType: AWSErrorType {
-    case notFoundException(message: String?)
-    case tooManyRequestsException(message: String?)
-    case badRequestException(message: String?)
-    case alreadyExistsException(message: String?)
-    case limitExceededException(message: String?)
     case accountSuspendedException(message: String?)
-    case sendingPausedException(message: String?)
-    case messageRejected(message: String?)
+    case alreadyExistsException(message: String?)
+    case badRequestException(message: String?)
+    case limitExceededException(message: String?)
     case mailFromDomainNotVerifiedException(message: String?)
+    case messageRejected(message: String?)
+    case notFoundException(message: String?)
+    case sendingPausedException(message: String?)
+    case tooManyRequestsException(message: String?)
 }
 
 extension PinpointEmailErrorType {
@@ -22,24 +22,24 @@ extension PinpointEmailErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        case "AlreadyExistsException":
-            self = .alreadyExistsException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
         case "AccountSuspendedException":
             self = .accountSuspendedException(message: message)
-        case "SendingPausedException":
-            self = .sendingPausedException(message: message)
-        case "MessageRejected":
-            self = .messageRejected(message: message)
+        case "AlreadyExistsException":
+            self = .alreadyExistsException(message: message)
+        case "BadRequestException":
+            self = .badRequestException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
         case "MailFromDomainNotVerifiedException":
             self = .mailFromDomainNotVerifiedException(message: message)
+        case "MessageRejected":
+            self = .messageRejected(message: message)
+        case "NotFoundException":
+            self = .notFoundException(message: message)
+        case "SendingPausedException":
+            self = .sendingPausedException(message: message)
+        case "TooManyRequestsException":
+            self = .tooManyRequestsException(message: message)
         default:
             return nil
         }

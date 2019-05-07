@@ -25,54 +25,19 @@ public struct MQ {
         )
     }
 
-    ///  Returns a list of all configurations.
-    public func listConfigurations(_ input: ListConfigurationsRequest) throws -> Future<ListConfigurationsResponse> {
-        return try client.send(operation: "ListConfigurations", path: "/v1/configurations", httpMethod: "GET", input: input)
+    ///  Creates a broker. Note: This API is asynchronous.
+    public func createBroker(_ input: CreateBrokerRequest) throws -> Future<CreateBrokerResponse> {
+        return try client.send(operation: "CreateBroker", path: "/v1/brokers", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the information for an ActiveMQ user.
-    public func updateUser(_ input: UpdateUserRequest) throws -> Future<UpdateUserResponse> {
-        return try client.send(operation: "UpdateUser", path: "/v1/brokers/{broker-id}/users/{username}", httpMethod: "PUT", input: input)
-    }
-
-    ///  Returns information about the specified configuration.
-    public func describeConfiguration(_ input: DescribeConfigurationRequest) throws -> Future<DescribeConfigurationResponse> {
-        return try client.send(operation: "DescribeConfiguration", path: "/v1/configurations/{configuration-id}", httpMethod: "GET", input: input)
-    }
-
-    ///  Returns a list of all brokers.
-    public func listBrokers(_ input: ListBrokersRequest) throws -> Future<ListBrokersResponse> {
-        return try client.send(operation: "ListBrokers", path: "/v1/brokers", httpMethod: "GET", input: input)
-    }
-
-    ///  Adds a pending configuration change to a broker.
-    public func updateBroker(_ input: UpdateBrokerRequest) throws -> Future<UpdateBrokerResponse> {
-        return try client.send(operation: "UpdateBroker", path: "/v1/brokers/{broker-id}", httpMethod: "PUT", input: input)
-    }
-
-    ///  Returns the specified configuration revision for the specified configuration.
-    public func describeConfigurationRevision(_ input: DescribeConfigurationRevisionRequest) throws -> Future<DescribeConfigurationRevisionResponse> {
-        return try client.send(operation: "DescribeConfigurationRevision", path: "/v1/configurations/{configuration-id}/revisions/{configuration-revision}", httpMethod: "GET", input: input)
-    }
-
-    ///  Returns information about an ActiveMQ user.
-    public func describeUser(_ input: DescribeUserRequest) throws -> Future<DescribeUserResponse> {
-        return try client.send(operation: "DescribeUser", path: "/v1/brokers/{broker-id}/users/{username}", httpMethod: "GET", input: input)
+    ///  Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
+    public func createConfiguration(_ input: CreateConfigurationRequest) throws -> Future<CreateConfigurationResponse> {
+        return try client.send(operation: "CreateConfiguration", path: "/v1/configurations", httpMethod: "POST", input: input)
     }
 
     ///  Creates an ActiveMQ user.
     public func createUser(_ input: CreateUserRequest) throws -> Future<CreateUserResponse> {
         return try client.send(operation: "CreateUser", path: "/v1/brokers/{broker-id}/users/{username}", httpMethod: "POST", input: input)
-    }
-
-    ///  Reboots a broker. Note: This API is asynchronous.
-    public func rebootBroker(_ input: RebootBrokerRequest) throws -> Future<RebootBrokerResponse> {
-        return try client.send(operation: "RebootBroker", path: "/v1/brokers/{broker-id}/reboot", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns information about the specified broker.
-    public func describeBroker(_ input: DescribeBrokerRequest) throws -> Future<DescribeBrokerResponse> {
-        return try client.send(operation: "DescribeBroker", path: "/v1/brokers/{broker-id}", httpMethod: "GET", input: input)
     }
 
     ///  Deletes a broker. Note: This API is asynchronous.
@@ -85,19 +50,29 @@ public struct MQ {
         return try client.send(operation: "DeleteUser", path: "/v1/brokers/{broker-id}/users/{username}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Creates a broker. Note: This API is asynchronous.
-    public func createBroker(_ input: CreateBrokerRequest) throws -> Future<CreateBrokerResponse> {
-        return try client.send(operation: "CreateBroker", path: "/v1/brokers", httpMethod: "POST", input: input)
+    ///  Returns information about the specified broker.
+    public func describeBroker(_ input: DescribeBrokerRequest) throws -> Future<DescribeBrokerResponse> {
+        return try client.send(operation: "DescribeBroker", path: "/v1/brokers/{broker-id}", httpMethod: "GET", input: input)
     }
 
-    ///  Returns a list of all ActiveMQ users.
-    public func listUsers(_ input: ListUsersRequest) throws -> Future<ListUsersResponse> {
-        return try client.send(operation: "ListUsers", path: "/v1/brokers/{broker-id}/users", httpMethod: "GET", input: input)
+    ///  Returns information about the specified configuration.
+    public func describeConfiguration(_ input: DescribeConfigurationRequest) throws -> Future<DescribeConfigurationResponse> {
+        return try client.send(operation: "DescribeConfiguration", path: "/v1/configurations/{configuration-id}", httpMethod: "GET", input: input)
     }
 
-    ///  Updates the specified configuration.
-    public func updateConfiguration(_ input: UpdateConfigurationRequest) throws -> Future<UpdateConfigurationResponse> {
-        return try client.send(operation: "UpdateConfiguration", path: "/v1/configurations/{configuration-id}", httpMethod: "PUT", input: input)
+    ///  Returns the specified configuration revision for the specified configuration.
+    public func describeConfigurationRevision(_ input: DescribeConfigurationRevisionRequest) throws -> Future<DescribeConfigurationRevisionResponse> {
+        return try client.send(operation: "DescribeConfigurationRevision", path: "/v1/configurations/{configuration-id}/revisions/{configuration-revision}", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns information about an ActiveMQ user.
+    public func describeUser(_ input: DescribeUserRequest) throws -> Future<DescribeUserResponse> {
+        return try client.send(operation: "DescribeUser", path: "/v1/brokers/{broker-id}/users/{username}", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns a list of all brokers.
+    public func listBrokers(_ input: ListBrokersRequest) throws -> Future<ListBrokersResponse> {
+        return try client.send(operation: "ListBrokers", path: "/v1/brokers", httpMethod: "GET", input: input)
     }
 
     ///  Returns a list of all revisions for the specified configuration.
@@ -105,9 +80,34 @@ public struct MQ {
         return try client.send(operation: "ListConfigurationRevisions", path: "/v1/configurations/{configuration-id}/revisions", httpMethod: "GET", input: input)
     }
 
-    ///  Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
-    public func createConfiguration(_ input: CreateConfigurationRequest) throws -> Future<CreateConfigurationResponse> {
-        return try client.send(operation: "CreateConfiguration", path: "/v1/configurations", httpMethod: "POST", input: input)
+    ///  Returns a list of all configurations.
+    public func listConfigurations(_ input: ListConfigurationsRequest) throws -> Future<ListConfigurationsResponse> {
+        return try client.send(operation: "ListConfigurations", path: "/v1/configurations", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns a list of all ActiveMQ users.
+    public func listUsers(_ input: ListUsersRequest) throws -> Future<ListUsersResponse> {
+        return try client.send(operation: "ListUsers", path: "/v1/brokers/{broker-id}/users", httpMethod: "GET", input: input)
+    }
+
+    ///  Reboots a broker. Note: This API is asynchronous.
+    public func rebootBroker(_ input: RebootBrokerRequest) throws -> Future<RebootBrokerResponse> {
+        return try client.send(operation: "RebootBroker", path: "/v1/brokers/{broker-id}/reboot", httpMethod: "POST", input: input)
+    }
+
+    ///  Adds a pending configuration change to a broker.
+    public func updateBroker(_ input: UpdateBrokerRequest) throws -> Future<UpdateBrokerResponse> {
+        return try client.send(operation: "UpdateBroker", path: "/v1/brokers/{broker-id}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates the specified configuration.
+    public func updateConfiguration(_ input: UpdateConfigurationRequest) throws -> Future<UpdateConfigurationResponse> {
+        return try client.send(operation: "UpdateConfiguration", path: "/v1/configurations/{configuration-id}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates the information for an ActiveMQ user.
+    public func updateUser(_ input: UpdateUserRequest) throws -> Future<UpdateUserResponse> {
+        return try client.send(operation: "UpdateUser", path: "/v1/brokers/{broker-id}/users/{username}", httpMethod: "PUT", input: input)
     }
 
 

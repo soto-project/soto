@@ -5,247 +5,80 @@ import AWSSDKSwiftCore
 
 extension DLM {
 
-    public struct CreateRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Times", required: false, type: .list), 
-            AWSShapeMember(label: "Interval", required: true, type: .integer), 
-            AWSShapeMember(label: "IntervalUnit", required: true, type: .enum)
-        ]
-        /// The time, in UTC, to start the operation. The operation occurs within a one-hour window following the specified time.
-        public let times: [String]?
-        /// The interval. The supported values are 12 and 24.
-        public let interval: Int32
-        /// The interval unit.
-        public let intervalUnit: IntervalUnitValues
-
-        public init(times: [String]? = nil, interval: Int32, intervalUnit: IntervalUnitValues) {
-            self.times = times
-            self.interval = interval
-            self.intervalUnit = intervalUnit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case times = "Times"
-            case interval = "Interval"
-            case intervalUnit = "IntervalUnit"
-        }
-    }
-
-    public struct UpdateLifecyclePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyId", location: .uri(locationName: "policyId"), required: true, type: .string), 
-            AWSShapeMember(label: "PolicyDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "ExecutionRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// The identifier of the lifecycle policy.
-        public let policyId: String
-        /// The configuration of the lifecycle policy. Target tags cannot be re-used across policies.
-        public let policyDetails: PolicyDetails?
-        /// The desired activation state of the lifecycle policy after creation.
-        public let state: SettablePolicyStateValues?
-        /// The Amazon Resource Name (ARN) of the IAM role used to run the operations specified by the lifecycle policy.
-        public let executionRoleArn: String?
-        /// A description of the lifecycle policy.
-        public let description: String?
-
-        public init(policyId: String, policyDetails: PolicyDetails? = nil, state: SettablePolicyStateValues? = nil, executionRoleArn: String? = nil, description: String? = nil) {
-            self.policyId = policyId
-            self.policyDetails = policyDetails
-            self.state = state
-            self.executionRoleArn = executionRoleArn
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyId = "policyId"
-            case policyDetails = "PolicyDetails"
-            case state = "State"
-            case executionRoleArn = "ExecutionRoleArn"
-            case description = "Description"
-        }
-    }
-
-    public struct Schedule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreateRule", required: false, type: .structure), 
-            AWSShapeMember(label: "TagsToAdd", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "CopyTags", required: false, type: .boolean), 
-            AWSShapeMember(label: "RetainRule", required: false, type: .structure)
-        ]
-        /// The create rule.
-        public let createRule: CreateRule?
-        /// The tags to apply to policy-created resources. These user-defined tags are in addition to the AWS-added lifecycle tags.
-        public let tagsToAdd: [Tag]?
-        /// The name of the schedule.
-        public let name: String?
-        public let copyTags: Bool?
-        /// The retain rule.
-        public let retainRule: RetainRule?
-
-        public init(createRule: CreateRule? = nil, tagsToAdd: [Tag]? = nil, name: String? = nil, copyTags: Bool? = nil, retainRule: RetainRule? = nil) {
-            self.createRule = createRule
-            self.tagsToAdd = tagsToAdd
-            self.name = name
-            self.copyTags = copyTags
-            self.retainRule = retainRule
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case createRule = "CreateRule"
-            case tagsToAdd = "TagsToAdd"
-            case name = "Name"
-            case copyTags = "CopyTags"
-            case retainRule = "RetainRule"
-        }
-    }
-
-    public struct UpdateLifecyclePolicyResponse: AWSShape {
-
-    }
-
-    public struct LifecyclePolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "ExecutionRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "DateModified", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DateCreated", required: false, type: .timestamp), 
-            AWSShapeMember(label: "PolicyId", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyDetails", required: false, type: .structure)
-        ]
-        /// The activation state of the lifecycle policy.
-        public let state: GettablePolicyStateValues?
-        /// The Amazon Resource Name (ARN) of the IAM role used to run the operations specified by the lifecycle policy.
-        public let executionRoleArn: String?
-        /// The local date and time when the lifecycle policy was last modified.
-        public let dateModified: TimeStamp?
-        /// The local date and time when the lifecycle policy was created.
-        public let dateCreated: TimeStamp?
-        /// The identifier of the lifecycle policy.
-        public let policyId: String?
-        /// The description of the lifecycle policy.
-        public let description: String?
-        /// The configuration of the lifecycle policy
-        public let policyDetails: PolicyDetails?
-
-        public init(state: GettablePolicyStateValues? = nil, executionRoleArn: String? = nil, dateModified: TimeStamp? = nil, dateCreated: TimeStamp? = nil, policyId: String? = nil, description: String? = nil, policyDetails: PolicyDetails? = nil) {
-            self.state = state
-            self.executionRoleArn = executionRoleArn
-            self.dateModified = dateModified
-            self.dateCreated = dateCreated
-            self.policyId = policyId
-            self.description = description
-            self.policyDetails = policyDetails
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "State"
-            case executionRoleArn = "ExecutionRoleArn"
-            case dateModified = "DateModified"
-            case dateCreated = "DateCreated"
-            case policyId = "PolicyId"
-            case description = "Description"
-            case policyDetails = "PolicyDetails"
-        }
-    }
-
-    public struct GetLifecyclePoliciesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceTypes", location: .querystring(locationName: "resourceTypes"), required: false, type: .list), 
-            AWSShapeMember(label: "TagsToAdd", location: .querystring(locationName: "tagsToAdd"), required: false, type: .list), 
-            AWSShapeMember(label: "TargetTags", location: .querystring(locationName: "targetTags"), required: false, type: .list), 
-            AWSShapeMember(label: "State", location: .querystring(locationName: "state"), required: false, type: .enum), 
-            AWSShapeMember(label: "PolicyIds", location: .querystring(locationName: "policyIds"), required: false, type: .list)
-        ]
-        /// The resource type.
-        public let resourceTypes: [ResourceTypeValues]?
-        /// The tags to add to objects created by the policy. Tags are strings in the format key=value. These user-defined tags are added in addition to the AWS-added lifecycle tags.
-        public let tagsToAdd: [String]?
-        /// The target tag for a policy. Tags are strings in the format key=value.
-        public let targetTags: [String]?
-        /// The activation state.
-        public let state: GettablePolicyStateValues?
-        /// The identifiers of the data lifecycle policies.
-        public let policyIds: [String]?
-
-        public init(resourceTypes: [ResourceTypeValues]? = nil, tagsToAdd: [String]? = nil, targetTags: [String]? = nil, state: GettablePolicyStateValues? = nil, policyIds: [String]? = nil) {
-            self.resourceTypes = resourceTypes
-            self.tagsToAdd = tagsToAdd
-            self.targetTags = targetTags
-            self.state = state
-            self.policyIds = policyIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceTypes = "resourceTypes"
-            case tagsToAdd = "tagsToAdd"
-            case targetTags = "targetTags"
-            case state = "state"
-            case policyIds = "policyIds"
-        }
-    }
-
     public struct CreateLifecyclePolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: true, type: .string), 
             AWSShapeMember(label: "ExecutionRoleArn", required: true, type: .string), 
             AWSShapeMember(label: "PolicyDetails", required: true, type: .structure), 
-            AWSShapeMember(label: "State", required: true, type: .enum), 
-            AWSShapeMember(label: "Description", required: true, type: .string)
+            AWSShapeMember(label: "State", required: true, type: .enum)
         ]
+        /// A description of the lifecycle policy. The characters ^[0-9A-Za-z _-]+$ are supported.
+        public let description: String
         /// The Amazon Resource Name (ARN) of the IAM role used to run the operations specified by the lifecycle policy.
         public let executionRoleArn: String
         /// The configuration details of the lifecycle policy. Target tags cannot be re-used across lifecycle policies.
         public let policyDetails: PolicyDetails
         /// The desired activation state of the lifecycle policy after creation.
         public let state: SettablePolicyStateValues
-        /// A description of the lifecycle policy. The characters ^[0-9A-Za-z _-]+$ are supported.
-        public let description: String
 
-        public init(executionRoleArn: String, policyDetails: PolicyDetails, state: SettablePolicyStateValues, description: String) {
+        public init(description: String, executionRoleArn: String, policyDetails: PolicyDetails, state: SettablePolicyStateValues) {
+            self.description = description
             self.executionRoleArn = executionRoleArn
             self.policyDetails = policyDetails
             self.state = state
-            self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
+            case description = "Description"
             case executionRoleArn = "ExecutionRoleArn"
             case policyDetails = "PolicyDetails"
             case state = "State"
-            case description = "Description"
         }
     }
 
-    public struct LifecyclePolicySummary: AWSShape {
+    public struct CreateLifecyclePolicyResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyId", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
+            AWSShapeMember(label: "PolicyId", required: false, type: .string)
         ]
         /// The identifier of the lifecycle policy.
         public let policyId: String?
-        /// The activation state of the lifecycle policy.
-        public let state: GettablePolicyStateValues?
-        /// The description of the lifecycle policy.
-        public let description: String?
 
-        public init(policyId: String? = nil, state: GettablePolicyStateValues? = nil, description: String? = nil) {
+        public init(policyId: String? = nil) {
             self.policyId = policyId
-            self.state = state
-            self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
             case policyId = "PolicyId"
-            case state = "State"
-            case description = "Description"
         }
     }
 
-    public struct GetLifecyclePolicyRequest: AWSShape {
+    public struct CreateRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Interval", required: true, type: .integer), 
+            AWSShapeMember(label: "IntervalUnit", required: true, type: .enum), 
+            AWSShapeMember(label: "Times", required: false, type: .list)
+        ]
+        /// The interval. The supported values are 12 and 24.
+        public let interval: Int32
+        /// The interval unit.
+        public let intervalUnit: IntervalUnitValues
+        /// The time, in UTC, to start the operation. The operation occurs within a one-hour window following the specified time.
+        public let times: [String]?
+
+        public init(interval: Int32, intervalUnit: IntervalUnitValues, times: [String]? = nil) {
+            self.interval = interval
+            self.intervalUnit = intervalUnit
+            self.times = times
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case interval = "Interval"
+            case intervalUnit = "IntervalUnit"
+            case times = "Times"
+        }
+    }
+
+    public struct DeleteLifecyclePolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyId", location: .uri(locationName: "policyId"), required: true, type: .string)
         ]
@@ -261,14 +94,66 @@ extension DLM {
         }
     }
 
-    public enum GettablePolicyStateValues: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
+    public struct DeleteLifecyclePolicyResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
-    public struct DeleteLifecyclePolicyRequest: AWSShape {
+    public struct GetLifecyclePoliciesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyIds", location: .querystring(locationName: "policyIds"), required: false, type: .list), 
+            AWSShapeMember(label: "ResourceTypes", location: .querystring(locationName: "resourceTypes"), required: false, type: .list), 
+            AWSShapeMember(label: "State", location: .querystring(locationName: "state"), required: false, type: .enum), 
+            AWSShapeMember(label: "TagsToAdd", location: .querystring(locationName: "tagsToAdd"), required: false, type: .list), 
+            AWSShapeMember(label: "TargetTags", location: .querystring(locationName: "targetTags"), required: false, type: .list)
+        ]
+        /// The identifiers of the data lifecycle policies.
+        public let policyIds: [String]?
+        /// The resource type.
+        public let resourceTypes: [ResourceTypeValues]?
+        /// The activation state.
+        public let state: GettablePolicyStateValues?
+        /// The tags to add to objects created by the policy. Tags are strings in the format key=value. These user-defined tags are added in addition to the AWS-added lifecycle tags.
+        public let tagsToAdd: [String]?
+        /// The target tag for a policy. Tags are strings in the format key=value.
+        public let targetTags: [String]?
+
+        public init(policyIds: [String]? = nil, resourceTypes: [ResourceTypeValues]? = nil, state: GettablePolicyStateValues? = nil, tagsToAdd: [String]? = nil, targetTags: [String]? = nil) {
+            self.policyIds = policyIds
+            self.resourceTypes = resourceTypes
+            self.state = state
+            self.tagsToAdd = tagsToAdd
+            self.targetTags = targetTags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyIds = "policyIds"
+            case resourceTypes = "resourceTypes"
+            case state = "state"
+            case tagsToAdd = "tagsToAdd"
+            case targetTags = "targetTags"
+        }
+    }
+
+    public struct GetLifecyclePoliciesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policies", required: false, type: .list)
+        ]
+        /// Summary information about the lifecycle policies.
+        public let policies: [LifecyclePolicySummary]?
+
+        public init(policies: [LifecyclePolicySummary]? = nil) {
+            self.policies = policies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policies = "Policies"
+        }
+    }
+
+    public struct GetLifecyclePolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyId", location: .uri(locationName: "policyId"), required: true, type: .string)
         ]
@@ -300,87 +185,87 @@ extension DLM {
         }
     }
 
-    public struct RetainRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Count", required: true, type: .integer)
-        ]
-        /// The number of snapshots to keep for each volume, up to a maximum of 1000.
-        public let count: Int32
-
-        public init(count: Int32) {
-            self.count = count
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case count = "Count"
-        }
-    }
-
-    public struct DeleteLifecyclePolicyResponse: AWSShape {
-
-    }
-
-    public struct CreateLifecyclePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyId", required: false, type: .string)
-        ]
-        /// The identifier of the lifecycle policy.
-        public let policyId: String?
-
-        public init(policyId: String? = nil) {
-            self.policyId = policyId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyId = "PolicyId"
-        }
-    }
-
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
-        /// The tag key.
-        public let key: String
-        /// The tag value.
-        public let value: String
-
-        public init(key: String, value: String) {
-            self.key = key
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case value = "Value"
-        }
-    }
-
-    public enum ResourceTypeValues: String, CustomStringConvertible, Codable {
-        case volume = "VOLUME"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SettablePolicyStateValues: String, CustomStringConvertible, Codable {
+    public enum GettablePolicyStateValues: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case error = "ERROR"
         public var description: String { return self.rawValue }
     }
 
-    public struct GetLifecyclePoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Policies", required: false, type: .list)
-        ]
-        /// Summary information about the lifecycle policies.
-        public let policies: [LifecyclePolicySummary]?
+    public enum IntervalUnitValues: String, CustomStringConvertible, Codable {
+        case hours = "HOURS"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(policies: [LifecyclePolicySummary]? = nil) {
-            self.policies = policies
+    public struct LifecyclePolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DateCreated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DateModified", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutionRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "PolicyId", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum)
+        ]
+        /// The local date and time when the lifecycle policy was created.
+        public let dateCreated: TimeStamp?
+        /// The local date and time when the lifecycle policy was last modified.
+        public let dateModified: TimeStamp?
+        /// The description of the lifecycle policy.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the IAM role used to run the operations specified by the lifecycle policy.
+        public let executionRoleArn: String?
+        /// The configuration of the lifecycle policy
+        public let policyDetails: PolicyDetails?
+        /// The identifier of the lifecycle policy.
+        public let policyId: String?
+        /// The activation state of the lifecycle policy.
+        public let state: GettablePolicyStateValues?
+
+        public init(dateCreated: TimeStamp? = nil, dateModified: TimeStamp? = nil, description: String? = nil, executionRoleArn: String? = nil, policyDetails: PolicyDetails? = nil, policyId: String? = nil, state: GettablePolicyStateValues? = nil) {
+            self.dateCreated = dateCreated
+            self.dateModified = dateModified
+            self.description = description
+            self.executionRoleArn = executionRoleArn
+            self.policyDetails = policyDetails
+            self.policyId = policyId
+            self.state = state
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policies = "Policies"
+            case dateCreated = "DateCreated"
+            case dateModified = "DateModified"
+            case description = "Description"
+            case executionRoleArn = "ExecutionRoleArn"
+            case policyDetails = "PolicyDetails"
+            case policyId = "PolicyId"
+            case state = "State"
+        }
+    }
+
+    public struct LifecyclePolicySummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyId", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum)
+        ]
+        /// The description of the lifecycle policy.
+        public let description: String?
+        /// The identifier of the lifecycle policy.
+        public let policyId: String?
+        /// The activation state of the lifecycle policy.
+        public let state: GettablePolicyStateValues?
+
+        public init(description: String? = nil, policyId: String? = nil, state: GettablePolicyStateValues? = nil) {
+            self.description = description
+            self.policyId = policyId
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case policyId = "PolicyId"
+            case state = "State"
         }
     }
 
@@ -410,9 +295,130 @@ extension DLM {
         }
     }
 
-    public enum IntervalUnitValues: String, CustomStringConvertible, Codable {
-        case hours = "HOURS"
+    public enum ResourceTypeValues: String, CustomStringConvertible, Codable {
+        case volume = "VOLUME"
         public var description: String { return self.rawValue }
+    }
+
+    public struct RetainRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Count", required: true, type: .integer)
+        ]
+        /// The number of snapshots to keep for each volume, up to a maximum of 1000.
+        public let count: Int32
+
+        public init(count: Int32) {
+            self.count = count
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "Count"
+        }
+    }
+
+    public struct Schedule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CopyTags", required: false, type: .boolean), 
+            AWSShapeMember(label: "CreateRule", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "RetainRule", required: false, type: .structure), 
+            AWSShapeMember(label: "TagsToAdd", required: false, type: .list)
+        ]
+        public let copyTags: Bool?
+        /// The create rule.
+        public let createRule: CreateRule?
+        /// The name of the schedule.
+        public let name: String?
+        /// The retain rule.
+        public let retainRule: RetainRule?
+        /// The tags to apply to policy-created resources. These user-defined tags are in addition to the AWS-added lifecycle tags.
+        public let tagsToAdd: [Tag]?
+
+        public init(copyTags: Bool? = nil, createRule: CreateRule? = nil, name: String? = nil, retainRule: RetainRule? = nil, tagsToAdd: [Tag]? = nil) {
+            self.copyTags = copyTags
+            self.createRule = createRule
+            self.name = name
+            self.retainRule = retainRule
+            self.tagsToAdd = tagsToAdd
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case copyTags = "CopyTags"
+            case createRule = "CreateRule"
+            case name = "Name"
+            case retainRule = "RetainRule"
+            case tagsToAdd = "TagsToAdd"
+        }
+    }
+
+    public enum SettablePolicyStateValues: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+        /// The tag key.
+        public let key: String
+        /// The tag value.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct UpdateLifecyclePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutionRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "PolicyId", location: .uri(locationName: "policyId"), required: true, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum)
+        ]
+        /// A description of the lifecycle policy.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the IAM role used to run the operations specified by the lifecycle policy.
+        public let executionRoleArn: String?
+        /// The configuration of the lifecycle policy. Target tags cannot be re-used across policies.
+        public let policyDetails: PolicyDetails?
+        /// The identifier of the lifecycle policy.
+        public let policyId: String
+        /// The desired activation state of the lifecycle policy after creation.
+        public let state: SettablePolicyStateValues?
+
+        public init(description: String? = nil, executionRoleArn: String? = nil, policyDetails: PolicyDetails? = nil, policyId: String, state: SettablePolicyStateValues? = nil) {
+            self.description = description
+            self.executionRoleArn = executionRoleArn
+            self.policyDetails = policyDetails
+            self.policyId = policyId
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case executionRoleArn = "ExecutionRoleArn"
+            case policyDetails = "PolicyDetails"
+            case policyId = "policyId"
+            case state = "State"
+        }
+    }
+
+    public struct UpdateLifecyclePolicyResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
 }

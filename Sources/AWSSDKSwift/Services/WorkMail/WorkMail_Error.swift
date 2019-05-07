@@ -4,22 +4,22 @@ import AWSSDKSwiftCore
 
 /// Error enum for WorkMail
 public enum WorkMailErrorType: AWSErrorType {
-    case entityNotFoundException(message: String?)
-    case invalidParameterException(message: String?)
-    case organizationNotFoundException(message: String?)
-    case organizationStateException(message: String?)
     case directoryServiceAuthenticationFailedException(message: String?)
     case directoryUnavailableException(message: String?)
-    case entityStateException(message: String?)
-    case unsupportedOperationException(message: String?)
-    case invalidConfigurationException(message: String?)
     case emailAddressInUseException(message: String?)
+    case entityAlreadyRegisteredException(message: String?)
+    case entityNotFoundException(message: String?)
+    case entityStateException(message: String?)
+    case invalidConfigurationException(message: String?)
+    case invalidParameterException(message: String?)
+    case invalidPasswordException(message: String?)
     case mailDomainNotFoundException(message: String?)
     case mailDomainStateException(message: String?)
     case nameAvailabilityException(message: String?)
-    case invalidPasswordException(message: String?)
+    case organizationNotFoundException(message: String?)
+    case organizationStateException(message: String?)
     case reservedNameException(message: String?)
-    case entityAlreadyRegisteredException(message: String?)
+    case unsupportedOperationException(message: String?)
 }
 
 extension WorkMailErrorType {
@@ -29,38 +29,38 @@ extension WorkMailErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "EntityNotFoundException":
-            self = .entityNotFoundException(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "OrganizationNotFoundException":
-            self = .organizationNotFoundException(message: message)
-        case "OrganizationStateException":
-            self = .organizationStateException(message: message)
         case "DirectoryServiceAuthenticationFailedException":
             self = .directoryServiceAuthenticationFailedException(message: message)
         case "DirectoryUnavailableException":
             self = .directoryUnavailableException(message: message)
-        case "EntityStateException":
-            self = .entityStateException(message: message)
-        case "UnsupportedOperationException":
-            self = .unsupportedOperationException(message: message)
-        case "InvalidConfigurationException":
-            self = .invalidConfigurationException(message: message)
         case "EmailAddressInUseException":
             self = .emailAddressInUseException(message: message)
+        case "EntityAlreadyRegisteredException":
+            self = .entityAlreadyRegisteredException(message: message)
+        case "EntityNotFoundException":
+            self = .entityNotFoundException(message: message)
+        case "EntityStateException":
+            self = .entityStateException(message: message)
+        case "InvalidConfigurationException":
+            self = .invalidConfigurationException(message: message)
+        case "InvalidParameterException":
+            self = .invalidParameterException(message: message)
+        case "InvalidPasswordException":
+            self = .invalidPasswordException(message: message)
         case "MailDomainNotFoundException":
             self = .mailDomainNotFoundException(message: message)
         case "MailDomainStateException":
             self = .mailDomainStateException(message: message)
         case "NameAvailabilityException":
             self = .nameAvailabilityException(message: message)
-        case "InvalidPasswordException":
-            self = .invalidPasswordException(message: message)
+        case "OrganizationNotFoundException":
+            self = .organizationNotFoundException(message: message)
+        case "OrganizationStateException":
+            self = .organizationStateException(message: message)
         case "ReservedNameException":
             self = .reservedNameException(message: message)
-        case "EntityAlreadyRegisteredException":
-            self = .entityAlreadyRegisteredException(message: message)
+        case "UnsupportedOperationException":
+            self = .unsupportedOperationException(message: message)
         default:
             return nil
         }

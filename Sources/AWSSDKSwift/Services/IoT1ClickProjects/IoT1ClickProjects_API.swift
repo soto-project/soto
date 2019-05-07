@@ -25,14 +25,9 @@ public struct IoT1ClickProjects {
         )
     }
 
-    ///  Creates an empty project with a placement template. A project contains zero or more placements that adhere to the placement template defined in the project.
-    public func createProject(_ input: CreateProjectRequest) throws -> Future<CreateProjectResponse> {
-        return try client.send(operation: "CreateProject", path: "/projects", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists the placement(s) of a project.
-    public func listPlacements(_ input: ListPlacementsRequest) throws -> Future<ListPlacementsResponse> {
-        return try client.send(operation: "ListPlacements", path: "/projects/{projectName}/placements", httpMethod: "GET", input: input)
+    ///  Associates a physical device with a placement.
+    public func associateDeviceWithPlacement(_ input: AssociateDeviceWithPlacementRequest) throws -> Future<AssociateDeviceWithPlacementResponse> {
+        return try client.send(operation: "AssociateDeviceWithPlacement", path: "/projects/{projectName}/placements/{placementName}/devices/{deviceTemplateName}", httpMethod: "PUT", input: input)
     }
 
     ///  Creates an empty placement.
@@ -40,29 +35,14 @@ public struct IoT1ClickProjects {
         return try client.send(operation: "CreatePlacement", path: "/projects/{projectName}/placements", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the AWS IoT 1-Click project(s) associated with your AWS account and region.
-    public func listProjects(_ input: ListProjectsRequest) throws -> Future<ListProjectsResponse> {
-        return try client.send(operation: "ListProjects", path: "/projects", httpMethod: "GET", input: input)
+    ///  Creates an empty project with a placement template. A project contains zero or more placements that adhere to the placement template defined in the project.
+    public func createProject(_ input: CreateProjectRequest) throws -> Future<CreateProjectResponse> {
+        return try client.send(operation: "CreateProject", path: "/projects", httpMethod: "POST", input: input)
     }
 
-    ///  Updates a project associated with your AWS account and region. With the exception of device template names, you can pass just the values that need to be updated because the update request will change only the values that are provided. To clear a value, pass the empty string (i.e., "").
-    public func updateProject(_ input: UpdateProjectRequest) throws -> Future<UpdateProjectResponse> {
-        return try client.send(operation: "UpdateProject", path: "/projects/{projectName}", httpMethod: "PUT", input: input)
-    }
-
-    ///  Describes a placement in a project.
-    public func describePlacement(_ input: DescribePlacementRequest) throws -> Future<DescribePlacementResponse> {
-        return try client.send(operation: "DescribePlacement", path: "/projects/{projectName}/placements/{placementName}", httpMethod: "GET", input: input)
-    }
-
-    ///  Updates a placement with the given attributes. To clear an attribute, pass an empty value (i.e., "").
-    public func updatePlacement(_ input: UpdatePlacementRequest) throws -> Future<UpdatePlacementResponse> {
-        return try client.send(operation: "UpdatePlacement", path: "/projects/{projectName}/placements/{placementName}", httpMethod: "PUT", input: input)
-    }
-
-    ///  Returns an object enumerating the devices in a placement.
-    public func getDevicesInPlacement(_ input: GetDevicesInPlacementRequest) throws -> Future<GetDevicesInPlacementResponse> {
-        return try client.send(operation: "GetDevicesInPlacement", path: "/projects/{projectName}/placements/{placementName}/devices", httpMethod: "GET", input: input)
+    ///  Deletes a placement. To delete a placement, it must not have any devices associated with it.  When you delete a placement, all associated data becomes irretrievable. 
+    public func deletePlacement(_ input: DeletePlacementRequest) throws -> Future<DeletePlacementResponse> {
+        return try client.send(operation: "DeletePlacement", path: "/projects/{projectName}/placements/{placementName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a project. To delete a project, it must not have any placements associated with it.  When you delete a project, all associated data becomes irretrievable. 
@@ -70,14 +50,14 @@ public struct IoT1ClickProjects {
         return try client.send(operation: "DeleteProject", path: "/projects/{projectName}", httpMethod: "DELETE", input: input)
     }
 
+    ///  Describes a placement in a project.
+    public func describePlacement(_ input: DescribePlacementRequest) throws -> Future<DescribePlacementResponse> {
+        return try client.send(operation: "DescribePlacement", path: "/projects/{projectName}/placements/{placementName}", httpMethod: "GET", input: input)
+    }
+
     ///  Returns an object describing a project.
     public func describeProject(_ input: DescribeProjectRequest) throws -> Future<DescribeProjectResponse> {
         return try client.send(operation: "DescribeProject", path: "/projects/{projectName}", httpMethod: "GET", input: input)
-    }
-
-    ///  Associates a physical device with a placement.
-    public func associateDeviceWithPlacement(_ input: AssociateDeviceWithPlacementRequest) throws -> Future<AssociateDeviceWithPlacementResponse> {
-        return try client.send(operation: "AssociateDeviceWithPlacement", path: "/projects/{projectName}/placements/{placementName}/devices/{deviceTemplateName}", httpMethod: "PUT", input: input)
     }
 
     ///  Removes a physical device from a placement.
@@ -85,9 +65,29 @@ public struct IoT1ClickProjects {
         return try client.send(operation: "DisassociateDeviceFromPlacement", path: "/projects/{projectName}/placements/{placementName}/devices/{deviceTemplateName}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Deletes a placement. To delete a placement, it must not have any devices associated with it.  When you delete a placement, all associated data becomes irretrievable. 
-    public func deletePlacement(_ input: DeletePlacementRequest) throws -> Future<DeletePlacementResponse> {
-        return try client.send(operation: "DeletePlacement", path: "/projects/{projectName}/placements/{placementName}", httpMethod: "DELETE", input: input)
+    ///  Returns an object enumerating the devices in a placement.
+    public func getDevicesInPlacement(_ input: GetDevicesInPlacementRequest) throws -> Future<GetDevicesInPlacementResponse> {
+        return try client.send(operation: "GetDevicesInPlacement", path: "/projects/{projectName}/placements/{placementName}/devices", httpMethod: "GET", input: input)
+    }
+
+    ///  Lists the placement(s) of a project.
+    public func listPlacements(_ input: ListPlacementsRequest) throws -> Future<ListPlacementsResponse> {
+        return try client.send(operation: "ListPlacements", path: "/projects/{projectName}/placements", httpMethod: "GET", input: input)
+    }
+
+    ///  Lists the AWS IoT 1-Click project(s) associated with your AWS account and region.
+    public func listProjects(_ input: ListProjectsRequest) throws -> Future<ListProjectsResponse> {
+        return try client.send(operation: "ListProjects", path: "/projects", httpMethod: "GET", input: input)
+    }
+
+    ///  Updates a placement with the given attributes. To clear an attribute, pass an empty value (i.e., "").
+    public func updatePlacement(_ input: UpdatePlacementRequest) throws -> Future<UpdatePlacementResponse> {
+        return try client.send(operation: "UpdatePlacement", path: "/projects/{projectName}/placements/{placementName}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates a project associated with your AWS account and region. With the exception of device template names, you can pass just the values that need to be updated because the update request will change only the values that are provided. To clear a value, pass the empty string (i.e., "").
+    public func updateProject(_ input: UpdateProjectRequest) throws -> Future<UpdateProjectResponse> {
+        return try client.send(operation: "UpdateProject", path: "/projects/{projectName}", httpMethod: "PUT", input: input)
     }
 
 

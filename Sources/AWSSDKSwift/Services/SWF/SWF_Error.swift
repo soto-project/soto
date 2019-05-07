@@ -4,15 +4,15 @@ import AWSSDKSwiftCore
 
 /// Error enum for SWF
 public enum SWFErrorType: AWSErrorType {
-    case unknownResourceFault(message: String?)
-    case operationNotPermittedFault(message: String?)
-    case limitExceededFault(message: String?)
-    case typeAlreadyExistsFault(message: String?)
-    case domainDeprecatedFault(message: String?)
-    case typeDeprecatedFault(message: String?)
-    case domainAlreadyExistsFault(message: String?)
-    case workflowExecutionAlreadyStartedFault(message: String?)
     case defaultUndefinedFault(message: String?)
+    case domainAlreadyExistsFault(message: String?)
+    case domainDeprecatedFault(message: String?)
+    case limitExceededFault(message: String?)
+    case operationNotPermittedFault(message: String?)
+    case typeAlreadyExistsFault(message: String?)
+    case typeDeprecatedFault(message: String?)
+    case unknownResourceFault(message: String?)
+    case workflowExecutionAlreadyStartedFault(message: String?)
 }
 
 extension SWFErrorType {
@@ -22,24 +22,24 @@ extension SWFErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "UnknownResourceFault":
-            self = .unknownResourceFault(message: message)
-        case "OperationNotPermittedFault":
-            self = .operationNotPermittedFault(message: message)
-        case "LimitExceededFault":
-            self = .limitExceededFault(message: message)
-        case "TypeAlreadyExistsFault":
-            self = .typeAlreadyExistsFault(message: message)
-        case "DomainDeprecatedFault":
-            self = .domainDeprecatedFault(message: message)
-        case "TypeDeprecatedFault":
-            self = .typeDeprecatedFault(message: message)
-        case "DomainAlreadyExistsFault":
-            self = .domainAlreadyExistsFault(message: message)
-        case "WorkflowExecutionAlreadyStartedFault":
-            self = .workflowExecutionAlreadyStartedFault(message: message)
         case "DefaultUndefinedFault":
             self = .defaultUndefinedFault(message: message)
+        case "DomainAlreadyExistsFault":
+            self = .domainAlreadyExistsFault(message: message)
+        case "DomainDeprecatedFault":
+            self = .domainDeprecatedFault(message: message)
+        case "LimitExceededFault":
+            self = .limitExceededFault(message: message)
+        case "OperationNotPermittedFault":
+            self = .operationNotPermittedFault(message: message)
+        case "TypeAlreadyExistsFault":
+            self = .typeAlreadyExistsFault(message: message)
+        case "TypeDeprecatedFault":
+            self = .typeDeprecatedFault(message: message)
+        case "UnknownResourceFault":
+            self = .unknownResourceFault(message: message)
+        case "WorkflowExecutionAlreadyStartedFault":
+            self = .workflowExecutionAlreadyStartedFault(message: message)
         default:
             return nil
         }

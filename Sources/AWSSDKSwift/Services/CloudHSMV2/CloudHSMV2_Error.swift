@@ -4,11 +4,11 @@ import AWSSDKSwiftCore
 
 /// Error enum for CloudHSMV2
 public enum CloudHSMV2ErrorType: AWSErrorType {
-    case cloudHsmInternalFailureException(message: String?)
-    case cloudHsmServiceException(message: String?)
-    case cloudHsmInvalidRequestException(message: String?)
     case cloudHsmAccessDeniedException(message: String?)
+    case cloudHsmInternalFailureException(message: String?)
+    case cloudHsmInvalidRequestException(message: String?)
     case cloudHsmResourceNotFoundException(message: String?)
+    case cloudHsmServiceException(message: String?)
 }
 
 extension CloudHSMV2ErrorType {
@@ -18,16 +18,16 @@ extension CloudHSMV2ErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "CloudHsmInternalFailureException":
-            self = .cloudHsmInternalFailureException(message: message)
-        case "CloudHsmServiceException":
-            self = .cloudHsmServiceException(message: message)
-        case "CloudHsmInvalidRequestException":
-            self = .cloudHsmInvalidRequestException(message: message)
         case "CloudHsmAccessDeniedException":
             self = .cloudHsmAccessDeniedException(message: message)
+        case "CloudHsmInternalFailureException":
+            self = .cloudHsmInternalFailureException(message: message)
+        case "CloudHsmInvalidRequestException":
+            self = .cloudHsmInvalidRequestException(message: message)
         case "CloudHsmResourceNotFoundException":
             self = .cloudHsmResourceNotFoundException(message: message)
+        case "CloudHsmServiceException":
+            self = .cloudHsmServiceException(message: message)
         default:
             return nil
         }

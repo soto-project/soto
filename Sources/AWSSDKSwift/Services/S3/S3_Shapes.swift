@@ -5,71 +5,6 @@ import AWSSDKSwiftCore
 
 extension S3 {
 
-    public struct PublicAccessBlockConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IgnorePublicAcls", location: .body(locationName: "IgnorePublicAcls"), required: false, type: .boolean), 
-            AWSShapeMember(label: "BlockPublicAcls", location: .body(locationName: "BlockPublicAcls"), required: false, type: .boolean), 
-            AWSShapeMember(label: "BlockPublicPolicy", location: .body(locationName: "BlockPublicPolicy"), required: false, type: .boolean), 
-            AWSShapeMember(label: "RestrictPublicBuckets", location: .body(locationName: "RestrictPublicBuckets"), required: false, type: .boolean)
-        ]
-        /// Specifies whether Amazon S3 should ignore public ACLs for this bucket and objects in this bucket. Setting this element to TRUE causes Amazon S3 to ignore all public ACLs on this bucket and objects in this bucket. Enabling this setting doesn't affect the persistence of any existing ACLs and doesn't prevent new public ACLs from being set.
-        public let ignorePublicAcls: Bool?
-        /// Specifies whether Amazon S3 should block public access control lists (ACLs) for this bucket and objects in this bucket. Setting this element to TRUE causes the following behavior:   PUT Bucket acl and PUT Object acl calls fail if the specified ACL is public.   PUT Object calls fail if the request includes a public ACL.   Enabling this setting doesn't affect existing policies or ACLs.
-        public let blockPublicAcls: Bool?
-        /// Specifies whether Amazon S3 should block public bucket policies for this bucket. Setting this element to TRUE causes Amazon S3 to reject calls to PUT Bucket policy if the specified bucket policy allows public access.  Enabling this setting doesn't affect existing bucket policies.
-        public let blockPublicPolicy: Bool?
-        /// Specifies whether Amazon S3 should restrict public bucket policies for this bucket. Setting this element to TRUE restricts access to this bucket to only AWS services and authorized users within this account if the bucket has a public policy. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked.
-        public let restrictPublicBuckets: Bool?
-
-        public init(ignorePublicAcls: Bool? = nil, blockPublicAcls: Bool? = nil, blockPublicPolicy: Bool? = nil, restrictPublicBuckets: Bool? = nil) {
-            self.ignorePublicAcls = ignorePublicAcls
-            self.blockPublicAcls = blockPublicAcls
-            self.blockPublicPolicy = blockPublicPolicy
-            self.restrictPublicBuckets = restrictPublicBuckets
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ignorePublicAcls = "IgnorePublicAcls"
-            case blockPublicAcls = "BlockPublicAcls"
-            case blockPublicPolicy = "BlockPublicPolicy"
-            case restrictPublicBuckets = "RestrictPublicBuckets"
-        }
-    }
-
-    public enum ServerSideEncryption: String, CustomStringConvertible, Codable {
-        case aes256 = "AES256"
-        case awsKms = "aws:kms"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct PutPublicAccessBlockRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "PublicAccessBlockConfiguration"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "PublicAccessBlockConfiguration", location: .body(locationName: "PublicAccessBlockConfiguration"), required: true, type: .structure), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        /// The MD5 hash of the PutPublicAccessBlock request body. 
-        public let contentMD5: String?
-        /// The PublicAccessBlock configuration that you want to apply to this Amazon S3 bucket. You can enable the configuration options in any combination. For more information about when Amazon S3 considers a bucket or object public, see The Meaning of "Public" in the Amazon Simple Storage Service Developer Guide.
-        public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration
-        /// The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want to set.
-        public let bucket: String
-
-        public init(contentMD5: String? = nil, publicAccessBlockConfiguration: PublicAccessBlockConfiguration, bucket: String) {
-            self.contentMD5 = contentMD5
-            self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case contentMD5 = "Content-MD5"
-            case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
-            case bucket = "Bucket"
-        }
-    }
-
     public struct AbortIncompleteMultipartUpload: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DaysAfterInitiation", required: false, type: .integer)
@@ -86,544 +21,144 @@ extension S3 {
         }
     }
 
-    public enum ReplicationRuleStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case disabled = "Disabled"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct QueueConfiguration: AWSShape {
+    public struct AbortMultipartUploadOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "QueueArn", location: .body(locationName: "Queue"), required: true, type: .string), 
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: true, type: .list)
-        ]
-        public let id: String?
-        /// The Amazon Resource Name (ARN) of the Amazon SQS queue to which Amazon S3 will publish a message when it detects events of the specified type.
-        public let queueArn: String
-        public let filter: NotificationConfigurationFilter?
-        public let events: [Event]
-
-        public init(id: String? = nil, queueArn: String, filter: NotificationConfigurationFilter? = nil, events: [Event]) {
-            self.id = id
-            self.queueArn = queueArn
-            self.filter = filter
-            self.events = events
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case queueArn = "Queue"
-            case filter = "Filter"
-            case events = "Event"
-        }
-    }
-
-    public enum FilterRuleName: String, CustomStringConvertible, Codable {
-        case prefix = "prefix"
-        case suffix = "suffix"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct OutputLocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3", required: false, type: .structure)
-        ]
-        /// Describes an S3 location that will receive the results of the restore request.
-        public let s3: S3Location?
-
-        public init(s3: S3Location? = nil) {
-            self.s3 = s3
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3 = "S3"
-        }
-    }
-
-    public struct EndEvent: AWSShape {
-
-    }
-
-    public struct PutBucketLoggingRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "BucketLoggingStatus"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "BucketLoggingStatus", location: .body(locationName: "BucketLoggingStatus"), required: true, type: .structure), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        public let contentMD5: String?
-        public let bucketLoggingStatus: BucketLoggingStatus
-        public let bucket: String
-
-        public init(contentMD5: String? = nil, bucketLoggingStatus: BucketLoggingStatus, bucket: String) {
-            self.contentMD5 = contentMD5
-            self.bucketLoggingStatus = bucketLoggingStatus
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case contentMD5 = "Content-MD5"
-            case bucketLoggingStatus = "BucketLoggingStatus"
-            case bucket = "Bucket"
-        }
-    }
-
-    public enum MFADelete: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case disabled = "Disabled"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct PutObjectOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Expiration", location: .header(locationName: "x-amz-expiration"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
-            AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string), 
-            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
             AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
         ]
-        /// If the object expiration is configured, this will contain the expiration date (expiry-date) and rule ID (rule-id). The value of rule-id is URL encoded.
-        public let expiration: String?
-        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
-        public let sSECustomerAlgorithm: String?
-        /// Entity tag for the uploaded object.
-        public let eTag: String?
-        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
-        public let sSECustomerKeyMD5: String?
-        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public let serverSideEncryption: ServerSideEncryption?
-        /// Version of the object.
-        public let versionId: String?
-        /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
-        public let sSEKMSKeyId: String?
         public let requestCharged: RequestCharged?
 
-        public init(expiration: String? = nil, sSECustomerAlgorithm: String? = nil, eTag: String? = nil, sSECustomerKeyMD5: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, versionId: String? = nil, sSEKMSKeyId: String? = nil, requestCharged: RequestCharged? = nil) {
-            self.expiration = expiration
-            self.sSECustomerAlgorithm = sSECustomerAlgorithm
-            self.eTag = eTag
-            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
-            self.serverSideEncryption = serverSideEncryption
-            self.versionId = versionId
-            self.sSEKMSKeyId = sSEKMSKeyId
+        public init(requestCharged: RequestCharged? = nil) {
             self.requestCharged = requestCharged
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expiration = "x-amz-expiration"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case eTag = "ETag"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case serverSideEncryption = "x-amz-server-side-encryption"
-            case versionId = "x-amz-version-id"
-            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
             case requestCharged = "x-amz-request-charged"
         }
     }
 
-    public struct GetObjectLegalHoldRequest: AWSShape {
+    public struct AbortMultipartUploadRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum)
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
+            AWSShapeMember(label: "UploadId", location: .querystring(locationName: "uploadId"), required: true, type: .string)
         ]
-        /// The key name for the object whose Legal Hold status you want to retrieve.
+        public let bucket: String
         public let key: String
-        /// The version ID of the object whose Legal Hold status you want to retrieve.
-        public let versionId: String?
-        /// The bucket containing the object whose Legal Hold status you want to retrieve.
-        public let bucket: String
         public let requestPayer: RequestPayer?
+        public let uploadId: String
 
-        public init(key: String, versionId: String? = nil, bucket: String, requestPayer: RequestPayer? = nil) {
-            self.key = key
-            self.versionId = versionId
+        public init(bucket: String, key: String, requestPayer: RequestPayer? = nil, uploadId: String) {
             self.bucket = bucket
+            self.key = key
             self.requestPayer = requestPayer
+            self.uploadId = uploadId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case versionId = "versionId"
             case bucket = "Bucket"
+            case key = "Key"
             case requestPayer = "x-amz-request-payer"
+            case uploadId = "uploadId"
         }
     }
 
-    public struct InventoryFilter: AWSShape {
+    public struct AccelerateConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Prefix", required: true, type: .string)
+            AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
-        /// The prefix that an object must have to be included in the inventory results.
-        public let prefix: String
+        /// The accelerate configuration of the bucket.
+        public let status: BucketAccelerateStatus?
 
-        public init(prefix: String) {
-            self.prefix = prefix
+        public init(status: BucketAccelerateStatus? = nil) {
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case prefix = "Prefix"
+            case status = "Status"
         }
     }
 
-    public struct GetBucketEncryptionOutput: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "ServerSideEncryptionConfiguration"
+    public struct AccessControlPolicy: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerSideEncryptionConfiguration", required: false, type: .structure)
+            AWSShapeMember(label: "Grants", location: .body(locationName: "AccessControlList"), required: false, type: .structure), 
+            AWSShapeMember(label: "Owner", required: false, type: .structure)
         ]
-        public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
-
-        public init(serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil) {
-            self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
-        }
-    }
-
-    public struct MetricsConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Filter", required: false, type: .structure)
-        ]
-        /// The ID used to identify the metrics configuration.
-        public let id: String
-        /// Specifies a metrics configuration filter. The metrics configuration will only include objects that meet the filter's criteria. A filter must be a prefix, a tag, or a conjunction (MetricsAndOperator).
-        public let filter: MetricsFilter?
-
-        public init(id: String, filter: MetricsFilter? = nil) {
-            self.id = id
-            self.filter = filter
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case filter = "Filter"
-        }
-    }
-
-    public struct ListObjectVersionsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextKeyMarker", required: false, type: .string), 
-            AWSShapeMember(label: "CommonPrefixes", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Delimiter", required: false, type: .string), 
-            AWSShapeMember(label: "Versions", location: .body(locationName: "Version"), required: false, type: .list), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "DeleteMarkers", location: .body(locationName: "DeleteMarker"), required: false, type: .list), 
-            AWSShapeMember(label: "VersionIdMarker", required: false, type: .string), 
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "KeyMarker", required: false, type: .string), 
-            AWSShapeMember(label: "EncodingType", required: false, type: .enum), 
-            AWSShapeMember(label: "MaxKeys", required: false, type: .integer), 
-            AWSShapeMember(label: "NextVersionIdMarker", required: false, type: .string)
-        ]
-        /// Use this value for the key marker request parameter in a subsequent request.
-        public let nextKeyMarker: String?
-        public let commonPrefixes: [CommonPrefix]?
-        public let name: String?
-        public let delimiter: String?
-        public let versions: [ObjectVersion]?
-        public let prefix: String?
-        public let deleteMarkers: [DeleteMarkerEntry]?
-        public let versionIdMarker: String?
-        /// A flag that indicates whether or not Amazon S3 returned all of the results that satisfied the search criteria. If your results were truncated, you can make a follow-up paginated request using the NextKeyMarker and NextVersionIdMarker response parameters as a starting place in another request to return the rest of the results.
-        public let isTruncated: Bool?
-        /// Marks the last Key returned in a truncated response.
-        public let keyMarker: String?
-        /// Encoding type used by Amazon S3 to encode object keys in the response.
-        public let encodingType: EncodingType?
-        public let maxKeys: Int32?
-        /// Use this value for the next version id marker parameter in a subsequent request.
-        public let nextVersionIdMarker: String?
-
-        public init(nextKeyMarker: String? = nil, commonPrefixes: [CommonPrefix]? = nil, name: String? = nil, delimiter: String? = nil, versions: [ObjectVersion]? = nil, prefix: String? = nil, deleteMarkers: [DeleteMarkerEntry]? = nil, versionIdMarker: String? = nil, isTruncated: Bool? = nil, keyMarker: String? = nil, encodingType: EncodingType? = nil, maxKeys: Int32? = nil, nextVersionIdMarker: String? = nil) {
-            self.nextKeyMarker = nextKeyMarker
-            self.commonPrefixes = commonPrefixes
-            self.name = name
-            self.delimiter = delimiter
-            self.versions = versions
-            self.prefix = prefix
-            self.deleteMarkers = deleteMarkers
-            self.versionIdMarker = versionIdMarker
-            self.isTruncated = isTruncated
-            self.keyMarker = keyMarker
-            self.encodingType = encodingType
-            self.maxKeys = maxKeys
-            self.nextVersionIdMarker = nextVersionIdMarker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextKeyMarker = "NextKeyMarker"
-            case commonPrefixes = "CommonPrefixes"
-            case name = "Name"
-            case delimiter = "Delimiter"
-            case versions = "Version"
-            case prefix = "Prefix"
-            case deleteMarkers = "DeleteMarker"
-            case versionIdMarker = "VersionIdMarker"
-            case isTruncated = "IsTruncated"
-            case keyMarker = "KeyMarker"
-            case encodingType = "EncodingType"
-            case maxKeys = "MaxKeys"
-            case nextVersionIdMarker = "NextVersionIdMarker"
-        }
-    }
-
-    public enum StorageClass: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
-        case reducedRedundancy = "REDUCED_REDUNDANCY"
-        case standardIa = "STANDARD_IA"
-        case onezoneIa = "ONEZONE_IA"
-        case intelligentTiering = "INTELLIGENT_TIERING"
-        case glacier = "GLACIER"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetBucketReplicationOutput: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "ReplicationConfiguration"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationConfiguration", required: false, type: .structure)
-        ]
-        public let replicationConfiguration: ReplicationConfiguration?
-
-        public init(replicationConfiguration: ReplicationConfiguration? = nil) {
-            self.replicationConfiguration = replicationConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationConfiguration = "ReplicationConfiguration"
-        }
-    }
-
-    public struct NotificationConfigurationFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", location: .body(locationName: "S3Key"), required: false, type: .structure)
-        ]
-        public let key: S3KeyFilter?
-
-        public init(key: S3KeyFilter? = nil) {
-            self.key = key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "S3Key"
-        }
-    }
-
-    public struct PutBucketLifecycleRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "LifecycleConfiguration"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "LifecycleConfiguration", location: .body(locationName: "LifecycleConfiguration"), required: false, type: .structure), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        public let contentMD5: String?
-        public let lifecycleConfiguration: LifecycleConfiguration?
-        public let bucket: String
-
-        public init(contentMD5: String? = nil, lifecycleConfiguration: LifecycleConfiguration? = nil, bucket: String) {
-            self.contentMD5 = contentMD5
-            self.lifecycleConfiguration = lifecycleConfiguration
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case contentMD5 = "Content-MD5"
-            case lifecycleConfiguration = "LifecycleConfiguration"
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct CreateBucketRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "CreateBucketConfiguration"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "GrantFullControl", location: .header(locationName: "x-amz-grant-full-control"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string), 
-            AWSShapeMember(label: "ObjectLockEnabledForBucket", location: .header(locationName: "x-amz-bucket-object-lock-enabled"), required: false, type: .boolean), 
-            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum), 
-            AWSShapeMember(label: "GrantRead", location: .header(locationName: "x-amz-grant-read"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantWrite", location: .header(locationName: "x-amz-grant-write"), required: false, type: .string), 
-            AWSShapeMember(label: "CreateBucketConfiguration", location: .body(locationName: "CreateBucketConfiguration"), required: false, type: .structure)
-        ]
-        public let bucket: String
-        /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
-        public let grantFullControl: String?
-        /// Allows grantee to write the ACL for the applicable bucket.
-        public let grantWriteACP: String?
-        /// Specifies whether you want S3 Object Lock to be enabled for the new bucket.
-        public let objectLockEnabledForBucket: Bool?
-        /// The canned ACL to apply to the bucket.
-        public let acl: BucketCannedACL?
-        /// Allows grantee to list the objects in the bucket.
-        public let grantRead: String?
-        /// Allows grantee to read the bucket ACL.
-        public let grantReadACP: String?
-        /// Allows grantee to create, overwrite, and delete any object in the bucket.
-        public let grantWrite: String?
-        public let createBucketConfiguration: CreateBucketConfiguration?
-
-        public init(bucket: String, grantFullControl: String? = nil, grantWriteACP: String? = nil, objectLockEnabledForBucket: Bool? = nil, acl: BucketCannedACL? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, createBucketConfiguration: CreateBucketConfiguration? = nil) {
-            self.bucket = bucket
-            self.grantFullControl = grantFullControl
-            self.grantWriteACP = grantWriteACP
-            self.objectLockEnabledForBucket = objectLockEnabledForBucket
-            self.acl = acl
-            self.grantRead = grantRead
-            self.grantReadACP = grantReadACP
-            self.grantWrite = grantWrite
-            self.createBucketConfiguration = createBucketConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case grantFullControl = "x-amz-grant-full-control"
-            case grantWriteACP = "x-amz-grant-write-acp"
-            case objectLockEnabledForBucket = "x-amz-bucket-object-lock-enabled"
-            case acl = "x-amz-acl"
-            case grantRead = "x-amz-grant-read"
-            case grantReadACP = "x-amz-grant-read-acp"
-            case grantWrite = "x-amz-grant-write"
-            case createBucketConfiguration = "CreateBucketConfiguration"
-        }
-    }
-
-    public enum QuoteFields: String, CustomStringConvertible, Codable {
-        case always = "ALWAYS"
-        case asneeded = "ASNEEDED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ObjectLockRetentionMode: String, CustomStringConvertible, Codable {
-        case governance = "GOVERNANCE"
-        case compliance = "COMPLIANCE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetBucketVersioningRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        public let bucket: String
-
-        public init(bucket: String) {
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct AnalyticsS3BucketDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", required: true, type: .string), 
-            AWSShapeMember(label: "Format", required: true, type: .enum), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string)
-        ]
-        /// The account ID that owns the destination bucket. If no account ID is provided, the owner will not be validated prior to exporting data.
-        public let bucketAccountId: String?
-        /// The Amazon resource name (ARN) of the bucket to which data is exported.
-        public let bucket: String
-        /// The file format used when exporting data to Amazon S3.
-        public let format: AnalyticsS3ExportFileFormat
-        /// The prefix to use when exporting data. The exported data begins with this prefix.
-        public let prefix: String?
-
-        public init(bucketAccountId: String? = nil, bucket: String, format: AnalyticsS3ExportFileFormat, prefix: String? = nil) {
-            self.bucketAccountId = bucketAccountId
-            self.bucket = bucket
-            self.format = format
-            self.prefix = prefix
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucketAccountId = "BucketAccountId"
-            case bucket = "Bucket"
-            case format = "Format"
-            case prefix = "Prefix"
-        }
-    }
-
-    public struct PolicyStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IsPublic", location: .body(locationName: "IsPublic"), required: false, type: .boolean)
-        ]
-        /// The policy status for this bucket. TRUE indicates that this bucket is public. FALSE indicates that the bucket is not public.
-        public let isPublic: Bool?
-
-        public init(isPublic: Bool? = nil) {
-            self.isPublic = isPublic
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case isPublic = "IsPublic"
-        }
-    }
-
-    public struct DeleteMarkerEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string), 
-            AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Owner", required: false, type: .structure), 
-            AWSShapeMember(label: "IsLatest", required: false, type: .boolean)
-        ]
-        /// The object key.
-        public let key: String?
-        /// Version ID of an object.
-        public let versionId: String?
-        /// Date and time the object was last modified.
-        public let lastModified: TimeStamp?
+        /// A list of grants.
+        public let grants: Grants?
         public let owner: Owner?
-        /// Specifies whether the object is (true) or is not (false) the latest version of an object.
-        public let isLatest: Bool?
 
-        public init(key: String? = nil, versionId: String? = nil, lastModified: TimeStamp? = nil, owner: Owner? = nil, isLatest: Bool? = nil) {
-            self.key = key
-            self.versionId = versionId
-            self.lastModified = lastModified
+        public init(grants: Grants? = nil, owner: Owner? = nil) {
+            self.grants = grants
             self.owner = owner
-            self.isLatest = isLatest
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case versionId = "VersionId"
-            case lastModified = "LastModified"
+            case grants = "AccessControlList"
             case owner = "Owner"
-            case isLatest = "IsLatest"
         }
     }
 
-    public struct GetBucketRequestPaymentOutput: AWSShape {
+    public struct AccessControlTranslation: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Payer", required: false, type: .enum)
+            AWSShapeMember(label: "Owner", required: true, type: .enum)
         ]
-        /// Specifies who pays for the download and request fees.
-        public let payer: Payer?
+        /// The override value for the owner of the replica object.
+        public let owner: OwnerOverride
 
-        public init(payer: Payer? = nil) {
-            self.payer = payer
+        public init(owner: OwnerOverride) {
+            self.owner = owner
         }
 
         private enum CodingKeys: String, CodingKey {
-            case payer = "Payer"
+            case owner = "Owner"
+        }
+    }
+
+    public struct AnalyticsAndOperator: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .structure)
+        ]
+        /// The prefix to use when evaluating an AND predicate.
+        public let prefix: String?
+        /// The list of tags to use when evaluating an AND predicate.
+        public let tags: TagSet?
+
+        public init(prefix: String? = nil, tags: TagSet? = nil) {
+            self.prefix = prefix
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case prefix = "Prefix"
+            case tags = "Tag"
+        }
+    }
+
+    public struct AnalyticsConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "StorageClassAnalysis", required: true, type: .structure)
+        ]
+        /// The filter used to describe a set of objects for analyses. A filter must have exactly one prefix, one tag, or one conjunction (AnalyticsAndOperator). If no filter is provided, all objects will be considered in any analysis.
+        public let filter: AnalyticsFilter?
+        /// The identifier used to represent an analytics configuration.
+        public let id: String
+        /// If present, it indicates that data related to access patterns will be collected and made available to analyze the tradeoffs between different storage classes.
+        public let storageClassAnalysis: StorageClassAnalysis
+
+        public init(filter: AnalyticsFilter? = nil, id: String, storageClassAnalysis: StorageClassAnalysis) {
+            self.filter = filter
+            self.id = id
+            self.storageClassAnalysis = storageClassAnalysis
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case id = "Id"
+            case storageClassAnalysis = "StorageClassAnalysis"
         }
     }
 
@@ -643,188 +178,20 @@ extension S3 {
         }
     }
 
-    public struct DeleteObjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "MFA", location: .header(locationName: "x-amz-mfa"), required: false, type: .string), 
-            AWSShapeMember(label: "BypassGovernanceRetention", location: .header(locationName: "x-amz-bypass-governance-retention"), required: false, type: .boolean)
-        ]
-        public let key: String
-        /// VersionId used to reference a specific version of the object.
-        public let versionId: String?
-        public let bucket: String
-        public let requestPayer: RequestPayer?
-        /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
-        public let mfa: String?
-        /// Indicates whether S3 Object Lock should bypass Governance-mode restrictions to process this operation.
-        public let bypassGovernanceRetention: Bool?
-
-        public init(key: String, versionId: String? = nil, bucket: String, requestPayer: RequestPayer? = nil, mfa: String? = nil, bypassGovernanceRetention: Bool? = nil) {
-            self.key = key
-            self.versionId = versionId
-            self.bucket = bucket
-            self.requestPayer = requestPayer
-            self.mfa = mfa
-            self.bypassGovernanceRetention = bypassGovernanceRetention
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case versionId = "versionId"
-            case bucket = "Bucket"
-            case requestPayer = "x-amz-request-payer"
-            case mfa = "x-amz-mfa"
-            case bypassGovernanceRetention = "x-amz-bypass-governance-retention"
-        }
-    }
-
-    public struct InventoryConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "Destination", required: true, type: .structure), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "IncludedObjectVersions", required: true, type: .enum), 
-            AWSShapeMember(label: "IsEnabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "Schedule", required: true, type: .structure), 
-            AWSShapeMember(label: "OptionalFields", required: false, type: .structure)
-        ]
-        /// Specifies an inventory filter. The inventory only includes objects that meet the filter's criteria.
-        public let filter: InventoryFilter?
-        /// Contains information about where to publish the inventory results.
-        public let destination: InventoryDestination
-        /// The ID used to identify the inventory configuration.
-        public let id: String
-        /// Specifies which object version(s) to included in the inventory results.
-        public let includedObjectVersions: InventoryIncludedObjectVersions
-        /// Specifies whether the inventory is enabled or disabled.
-        public let isEnabled: Bool
-        /// Specifies the schedule for generating inventory results.
-        public let schedule: InventorySchedule
-        /// Contains the optional fields that are included in the inventory results.
-        public let optionalFields: InventoryOptionalFields?
-
-        public init(filter: InventoryFilter? = nil, destination: InventoryDestination, id: String, includedObjectVersions: InventoryIncludedObjectVersions, isEnabled: Bool, schedule: InventorySchedule, optionalFields: InventoryOptionalFields? = nil) {
-            self.filter = filter
-            self.destination = destination
-            self.id = id
-            self.includedObjectVersions = includedObjectVersions
-            self.isEnabled = isEnabled
-            self.schedule = schedule
-            self.optionalFields = optionalFields
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case filter = "Filter"
-            case destination = "Destination"
-            case id = "Id"
-            case includedObjectVersions = "IncludedObjectVersions"
-            case isEnabled = "IsEnabled"
-            case schedule = "Schedule"
-            case optionalFields = "OptionalFields"
-        }
-    }
-
-    public struct Part: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Size", required: false, type: .integer), 
-            AWSShapeMember(label: "ETag", required: false, type: .string), 
-            AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
-            AWSShapeMember(label: "PartNumber", required: false, type: .integer)
-        ]
-        /// Size in bytes of the uploaded part data.
-        public let size: Int32?
-        /// Entity tag returned when the part was uploaded.
-        public let eTag: String?
-        /// Date and time at which the part was uploaded.
-        public let lastModified: TimeStamp?
-        /// Part number identifying the part. This is a positive integer between 1 and 10,000.
-        public let partNumber: Int32?
-
-        public init(size: Int32? = nil, eTag: String? = nil, lastModified: TimeStamp? = nil, partNumber: Int32? = nil) {
-            self.size = size
-            self.eTag = eTag
-            self.lastModified = lastModified
-            self.partNumber = partNumber
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case size = "Size"
-            case eTag = "ETag"
-            case lastModified = "LastModified"
-            case partNumber = "PartNumber"
-        }
-    }
-
-    public struct PutBucketEncryptionRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "ServerSideEncryptionConfiguration"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "ServerSideEncryptionConfiguration", location: .body(locationName: "ServerSideEncryptionConfiguration"), required: true, type: .structure)
-        ]
-        /// The base64-encoded 128-bit MD5 digest of the server-side encryption configuration.
-        public let contentMD5: String?
-        /// The name of the bucket for which the server-side encryption configuration is set.
-        public let bucket: String
-        public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration
-
-        public init(contentMD5: String? = nil, bucket: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration) {
-            self.contentMD5 = contentMD5
-            self.bucket = bucket
-            self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case contentMD5 = "Content-MD5"
-            case bucket = "Bucket"
-            case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
-        }
-    }
-
-    public struct AnalyticsConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StorageClassAnalysis", required: true, type: .structure), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Filter", required: false, type: .structure)
-        ]
-        /// If present, it indicates that data related to access patterns will be collected and made available to analyze the tradeoffs between different storage classes.
-        public let storageClassAnalysis: StorageClassAnalysis
-        /// The identifier used to represent an analytics configuration.
-        public let id: String
-        /// The filter used to describe a set of objects for analyses. A filter must have exactly one prefix, one tag, or one conjunction (AnalyticsAndOperator). If no filter is provided, all objects will be considered in any analysis.
-        public let filter: AnalyticsFilter?
-
-        public init(storageClassAnalysis: StorageClassAnalysis, id: String, filter: AnalyticsFilter? = nil) {
-            self.storageClassAnalysis = storageClassAnalysis
-            self.id = id
-            self.filter = filter
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case storageClassAnalysis = "StorageClassAnalysis"
-            case id = "Id"
-            case filter = "Filter"
-        }
-    }
-
-    public struct MetricsFilter: AWSShape {
+    public struct AnalyticsFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "And", required: false, type: .structure), 
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "Tag", required: false, type: .structure)
         ]
-        /// A conjunction (logical AND) of predicates, which is used in evaluating a metrics filter. The operator must have at least two predicates, and an object must match all of the predicates in order for the filter to apply.
-        public let and: MetricsAndOperator?
-        /// The prefix used when evaluating a metrics filter.
+        /// A conjunction (logical AND) of predicates, which is used in evaluating an analytics filter. The operator must have at least two predicates.
+        public let and: AnalyticsAndOperator?
+        /// The prefix to use when evaluating an analytics filter.
         public let prefix: String?
-        /// The tag used when evaluating a metrics filter.
+        /// The tag to use when evaluating an analytics filter.
         public let tag: Tag?
 
-        public init(and: MetricsAndOperator? = nil, prefix: String? = nil, tag: Tag? = nil) {
+        public init(and: AnalyticsAndOperator? = nil, prefix: String? = nil, tag: Tag? = nil) {
             self.and = and
             self.prefix = prefix
             self.tag = tag
@@ -837,206 +204,380 @@ extension S3 {
         }
     }
 
-    public struct RestoreObjectRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "RestoreRequest"
+    public struct AnalyticsS3BucketDestination: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "RestoreRequest", location: .body(locationName: "RestoreRequest"), required: false, type: .structure)
+            AWSShapeMember(label: "Bucket", required: true, type: .string), 
+            AWSShapeMember(label: "BucketAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "Format", required: true, type: .enum), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string)
         ]
-        public let key: String
-        public let versionId: String?
+        /// The Amazon resource name (ARN) of the bucket to which data is exported.
         public let bucket: String
-        public let requestPayer: RequestPayer?
-        public let restoreRequest: RestoreRequest?
-
-        public init(key: String, versionId: String? = nil, bucket: String, requestPayer: RequestPayer? = nil, restoreRequest: RestoreRequest? = nil) {
-            self.key = key
-            self.versionId = versionId
-            self.bucket = bucket
-            self.requestPayer = requestPayer
-            self.restoreRequest = restoreRequest
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case versionId = "versionId"
-            case bucket = "Bucket"
-            case requestPayer = "x-amz-request-payer"
-            case restoreRequest = "RestoreRequest"
-        }
-    }
-
-    public struct LifecycleRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Expiration", required: false, type: .structure), 
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "NoncurrentVersionTransitions", location: .body(locationName: "NoncurrentVersionTransition"), required: false, type: .list), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: true, type: .enum), 
-            AWSShapeMember(label: "AbortIncompleteMultipartUpload", required: false, type: .structure), 
-            AWSShapeMember(label: "Transitions", location: .body(locationName: "Transition"), required: false, type: .list), 
-            AWSShapeMember(label: "ID", required: false, type: .string), 
-            AWSShapeMember(label: "NoncurrentVersionExpiration", required: false, type: .structure)
-        ]
-        public let expiration: LifecycleExpiration?
-        public let filter: LifecycleRuleFilter?
-        public let noncurrentVersionTransitions: [NoncurrentVersionTransition]?
-        /// Prefix identifying one or more objects to which the rule applies. This is deprecated; use Filter instead.
+        /// The account ID that owns the destination bucket. If no account ID is provided, the owner will not be validated prior to exporting data.
+        public let bucketAccountId: String?
+        /// The file format used when exporting data to Amazon S3.
+        public let format: AnalyticsS3ExportFileFormat
+        /// The prefix to use when exporting data. The exported data begins with this prefix.
         public let prefix: String?
-        /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule is not currently being applied.
-        public let status: ExpirationStatus
-        public let abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload?
-        public let transitions: [Transition]?
-        /// Unique identifier for the rule. The value cannot be longer than 255 characters.
-        public let id: String?
-        public let noncurrentVersionExpiration: NoncurrentVersionExpiration?
 
-        public init(expiration: LifecycleExpiration? = nil, filter: LifecycleRuleFilter? = nil, noncurrentVersionTransitions: [NoncurrentVersionTransition]? = nil, prefix: String? = nil, status: ExpirationStatus, abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, transitions: [Transition]? = nil, id: String? = nil, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil) {
-            self.expiration = expiration
-            self.filter = filter
-            self.noncurrentVersionTransitions = noncurrentVersionTransitions
+        public init(bucket: String, bucketAccountId: String? = nil, format: AnalyticsS3ExportFileFormat, prefix: String? = nil) {
+            self.bucket = bucket
+            self.bucketAccountId = bucketAccountId
+            self.format = format
             self.prefix = prefix
-            self.status = status
-            self.abortIncompleteMultipartUpload = abortIncompleteMultipartUpload
-            self.transitions = transitions
-            self.id = id
-            self.noncurrentVersionExpiration = noncurrentVersionExpiration
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expiration = "Expiration"
-            case filter = "Filter"
-            case noncurrentVersionTransitions = "NoncurrentVersionTransition"
+            case bucket = "Bucket"
+            case bucketAccountId = "BucketAccountId"
+            case format = "Format"
             case prefix = "Prefix"
-            case status = "Status"
-            case abortIncompleteMultipartUpload = "AbortIncompleteMultipartUpload"
-            case transitions = "Transition"
-            case id = "ID"
-            case noncurrentVersionExpiration = "NoncurrentVersionExpiration"
         }
     }
 
-    public struct PutObjectLegalHoldRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "LegalHold"
+    public enum AnalyticsS3ExportFileFormat: String, CustomStringConvertible, Codable {
+        case csv = "CSV"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Bucket: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "LegalHold", location: .body(locationName: "LegalHold"), required: false, type: .structure), 
-            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
-        /// The MD5 hash for the request body.
-        public let contentMD5: String?
-        /// The key name for the object that you want to place a Legal Hold on.
-        public let key: String
-        /// The bucket containing the object that you want to place a Legal Hold on.
-        public let bucket: String
-        public let requestPayer: RequestPayer?
-        /// Container element for the Legal Hold configuration you want to apply to the specified object.
-        public let legalHold: ObjectLockLegalHold?
-        /// The version ID of the object that you want to place a Legal Hold on.
+        /// Date the bucket was created.
+        public let creationDate: TimeStamp?
+        /// The name of the bucket.
+        public let name: String?
+
+        public init(creationDate: TimeStamp? = nil, name: String? = nil) {
+            self.creationDate = creationDate
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "CreationDate"
+            case name = "Name"
+        }
+    }
+
+    public enum BucketAccelerateStatus: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case suspended = "Suspended"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BucketCannedACL: String, CustomStringConvertible, Codable {
+        case `private` = "private"
+        case publicRead = "public-read"
+        case publicReadWrite = "public-read-write"
+        case authenticatedRead = "authenticated-read"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct BucketLifecycleConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: true, type: .list)
+        ]
+        public let rules: [LifecycleRule]
+
+        public init(rules: [LifecycleRule]) {
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules = "Rule"
+        }
+    }
+
+    public enum BucketLocationConstraint: String, CustomStringConvertible, Codable {
+        case eu = "EU"
+        case euWest1 = "eu-west-1"
+        case usWest1 = "us-west-1"
+        case usWest2 = "us-west-2"
+        case apSouth1 = "ap-south-1"
+        case apSoutheast1 = "ap-southeast-1"
+        case apSoutheast2 = "ap-southeast-2"
+        case apNortheast1 = "ap-northeast-1"
+        case saEast1 = "sa-east-1"
+        case cnNorth1 = "cn-north-1"
+        case euCentral1 = "eu-central-1"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct BucketLoggingStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoggingEnabled", required: false, type: .structure)
+        ]
+        public let loggingEnabled: LoggingEnabled?
+
+        public init(loggingEnabled: LoggingEnabled? = nil) {
+            self.loggingEnabled = loggingEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loggingEnabled = "LoggingEnabled"
+        }
+    }
+
+    public enum BucketLogsPermission: String, CustomStringConvertible, Codable {
+        case fullControl = "FULL_CONTROL"
+        case read = "READ"
+        case write = "WRITE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BucketVersioningStatus: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case suspended = "Suspended"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Buckets: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", required: false, type: .list)
+        ]
+        public let bucket: [Bucket]?
+
+        public init(bucket: [Bucket]? = nil) {
+            self.bucket = bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+        }
+    }
+
+    public struct CORSConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CORSRules", location: .body(locationName: "CORSRule"), required: true, type: .list)
+        ]
+        public let cORSRules: [CORSRule]
+
+        public init(cORSRules: [CORSRule]) {
+            self.cORSRules = cORSRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cORSRules = "CORSRule"
+        }
+    }
+
+    public struct CORSRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowedHeaders", location: .body(locationName: "AllowedHeader"), required: false, type: .list), 
+            AWSShapeMember(label: "AllowedMethods", location: .body(locationName: "AllowedMethod"), required: true, type: .list), 
+            AWSShapeMember(label: "AllowedOrigins", location: .body(locationName: "AllowedOrigin"), required: true, type: .list), 
+            AWSShapeMember(label: "ExposeHeaders", location: .body(locationName: "ExposeHeader"), required: false, type: .list), 
+            AWSShapeMember(label: "MaxAgeSeconds", required: false, type: .integer)
+        ]
+        /// Specifies which headers are allowed in a pre-flight OPTIONS request.
+        public let allowedHeaders: [String]?
+        /// Identifies HTTP methods that the domain/origin specified in the rule is allowed to execute.
+        public let allowedMethods: [String]
+        /// One or more origins you want customers to be able to access the bucket from.
+        public let allowedOrigins: [String]
+        /// One or more headers in the response that you want customers to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object).
+        public let exposeHeaders: [String]?
+        /// The time in seconds that your browser is to cache the preflight response for the specified resource.
+        public let maxAgeSeconds: Int32?
+
+        public init(allowedHeaders: [String]? = nil, allowedMethods: [String], allowedOrigins: [String], exposeHeaders: [String]? = nil, maxAgeSeconds: Int32? = nil) {
+            self.allowedHeaders = allowedHeaders
+            self.allowedMethods = allowedMethods
+            self.allowedOrigins = allowedOrigins
+            self.exposeHeaders = exposeHeaders
+            self.maxAgeSeconds = maxAgeSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedHeaders = "AllowedHeader"
+            case allowedMethods = "AllowedMethod"
+            case allowedOrigins = "AllowedOrigin"
+            case exposeHeaders = "ExposeHeader"
+            case maxAgeSeconds = "MaxAgeSeconds"
+        }
+    }
+
+    public struct CSVInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowQuotedRecordDelimiter", required: false, type: .boolean), 
+            AWSShapeMember(label: "Comments", required: false, type: .string), 
+            AWSShapeMember(label: "FieldDelimiter", required: false, type: .string), 
+            AWSShapeMember(label: "FileHeaderInfo", required: false, type: .enum), 
+            AWSShapeMember(label: "QuoteCharacter", required: false, type: .string), 
+            AWSShapeMember(label: "QuoteEscapeCharacter", required: false, type: .string), 
+            AWSShapeMember(label: "RecordDelimiter", required: false, type: .string)
+        ]
+        /// Specifies that CSV field values may contain quoted record delimiters and such records should be allowed. Default value is FALSE. Setting this value to TRUE may lower performance.
+        public let allowQuotedRecordDelimiter: Bool?
+        /// The single character used to indicate a row should be ignored when present at the start of a row.
+        public let comments: String?
+        /// The value used to separate individual fields in a record.
+        public let fieldDelimiter: String?
+        /// Describes the first line of input. Valid values: None, Ignore, Use.
+        public let fileHeaderInfo: FileHeaderInfo?
+        /// Value used for escaping where the field delimiter is part of the value.
+        public let quoteCharacter: String?
+        /// The single character used for escaping the quote character inside an already escaped value.
+        public let quoteEscapeCharacter: String?
+        /// The value used to separate individual records.
+        public let recordDelimiter: String?
+
+        public init(allowQuotedRecordDelimiter: Bool? = nil, comments: String? = nil, fieldDelimiter: String? = nil, fileHeaderInfo: FileHeaderInfo? = nil, quoteCharacter: String? = nil, quoteEscapeCharacter: String? = nil, recordDelimiter: String? = nil) {
+            self.allowQuotedRecordDelimiter = allowQuotedRecordDelimiter
+            self.comments = comments
+            self.fieldDelimiter = fieldDelimiter
+            self.fileHeaderInfo = fileHeaderInfo
+            self.quoteCharacter = quoteCharacter
+            self.quoteEscapeCharacter = quoteEscapeCharacter
+            self.recordDelimiter = recordDelimiter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowQuotedRecordDelimiter = "AllowQuotedRecordDelimiter"
+            case comments = "Comments"
+            case fieldDelimiter = "FieldDelimiter"
+            case fileHeaderInfo = "FileHeaderInfo"
+            case quoteCharacter = "QuoteCharacter"
+            case quoteEscapeCharacter = "QuoteEscapeCharacter"
+            case recordDelimiter = "RecordDelimiter"
+        }
+    }
+
+    public struct CSVOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FieldDelimiter", required: false, type: .string), 
+            AWSShapeMember(label: "QuoteCharacter", required: false, type: .string), 
+            AWSShapeMember(label: "QuoteEscapeCharacter", required: false, type: .string), 
+            AWSShapeMember(label: "QuoteFields", required: false, type: .enum), 
+            AWSShapeMember(label: "RecordDelimiter", required: false, type: .string)
+        ]
+        /// The value used to separate individual fields in a record.
+        public let fieldDelimiter: String?
+        /// The value used for escaping where the field delimiter is part of the value.
+        public let quoteCharacter: String?
+        /// Th single character used for escaping the quote character inside an already escaped value.
+        public let quoteEscapeCharacter: String?
+        /// Indicates whether or not all output fields should be quoted.
+        public let quoteFields: QuoteFields?
+        /// The value used to separate individual records.
+        public let recordDelimiter: String?
+
+        public init(fieldDelimiter: String? = nil, quoteCharacter: String? = nil, quoteEscapeCharacter: String? = nil, quoteFields: QuoteFields? = nil, recordDelimiter: String? = nil) {
+            self.fieldDelimiter = fieldDelimiter
+            self.quoteCharacter = quoteCharacter
+            self.quoteEscapeCharacter = quoteEscapeCharacter
+            self.quoteFields = quoteFields
+            self.recordDelimiter = recordDelimiter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldDelimiter = "FieldDelimiter"
+            case quoteCharacter = "QuoteCharacter"
+            case quoteEscapeCharacter = "QuoteEscapeCharacter"
+            case quoteFields = "QuoteFields"
+            case recordDelimiter = "RecordDelimiter"
+        }
+    }
+
+    public struct CloudFunctionConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudFunction", required: false, type: .string), 
+            AWSShapeMember(label: "Event", required: false, type: .enum), 
+            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: false, type: .list), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "InvocationRole", required: false, type: .string)
+        ]
+        public let cloudFunction: String?
+        public let event: Event?
+        public let events: [Event]?
+        public let id: String?
+        public let invocationRole: String?
+
+        public init(cloudFunction: String? = nil, event: Event? = nil, events: [Event]? = nil, id: String? = nil, invocationRole: String? = nil) {
+            self.cloudFunction = cloudFunction
+            self.event = event
+            self.events = events
+            self.id = id
+            self.invocationRole = invocationRole
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudFunction = "CloudFunction"
+            case event = "Event"
+            // TODO this is temporary measure for avoiding CondingKey duplication.
+            // Should decode duplidated paths with same type for JSON
+            case events = "_Event"
+            case id = "Id"
+            case invocationRole = "InvocationRole"
+        }
+    }
+
+    public struct CommonPrefix: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Prefix", required: false, type: .string)
+        ]
+        public let prefix: String?
+
+        public init(prefix: String? = nil) {
+            self.prefix = prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case prefix = "Prefix"
+        }
+    }
+
+    public struct CompleteMultipartUploadOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", required: false, type: .string), 
+            AWSShapeMember(label: "ETag", required: false, type: .string), 
+            AWSShapeMember(label: "Expiration", location: .header(locationName: "x-amz-expiration"), required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Location", required: false, type: .string), 
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
+            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
+            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
+            AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string)
+        ]
+        public let bucket: String?
+        /// Entity tag of the object.
+        public let eTag: String?
+        /// If the object expiration is configured, this will contain the expiration date (expiry-date) and rule ID (rule-id). The value of rule-id is URL encoded.
+        public let expiration: String?
+        public let key: String?
+        public let location: String?
+        public let requestCharged: RequestCharged?
+        /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
+        public let sSEKMSKeyId: String?
+        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
+        public let serverSideEncryption: ServerSideEncryption?
+        /// Version of the object.
         public let versionId: String?
 
-        public init(contentMD5: String? = nil, key: String, bucket: String, requestPayer: RequestPayer? = nil, legalHold: ObjectLockLegalHold? = nil, versionId: String? = nil) {
-            self.contentMD5 = contentMD5
-            self.key = key
+        public init(bucket: String? = nil, eTag: String? = nil, expiration: String? = nil, key: String? = nil, location: String? = nil, requestCharged: RequestCharged? = nil, sSEKMSKeyId: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, versionId: String? = nil) {
             self.bucket = bucket
-            self.requestPayer = requestPayer
-            self.legalHold = legalHold
+            self.eTag = eTag
+            self.expiration = expiration
+            self.key = key
+            self.location = location
+            self.requestCharged = requestCharged
+            self.sSEKMSKeyId = sSEKMSKeyId
+            self.serverSideEncryption = serverSideEncryption
             self.versionId = versionId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentMD5 = "Content-MD5"
+            case bucket = "Bucket"
+            case eTag = "ETag"
+            case expiration = "x-amz-expiration"
             case key = "Key"
-            case bucket = "Bucket"
-            case requestPayer = "x-amz-request-payer"
-            case legalHold = "LegalHold"
-            case versionId = "versionId"
-        }
-    }
-
-    public struct TargetGrants: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Grant", required: false, type: .list)
-        ]
-        public let grant: [TargetGrant]?
-
-        public init(grant: [TargetGrant]? = nil) {
-            self.grant = grant
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case grant = "Grant"
-        }
-    }
-
-    public struct PutObjectLockConfigurationRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "ObjectLockConfiguration"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectLockConfiguration", location: .body(locationName: "ObjectLockConfiguration"), required: false, type: .structure), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "Token", location: .header(locationName: "x-amz-bucket-object-lock-token"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string)
-        ]
-        /// The Object Lock configuration that you want to apply to the specified bucket.
-        public let objectLockConfiguration: ObjectLockConfiguration?
-        /// The bucket whose Object Lock configuration you want to create or replace.
-        public let bucket: String
-        public let token: String?
-        public let requestPayer: RequestPayer?
-        /// The MD5 hash for the request body.
-        public let contentMD5: String?
-
-        public init(objectLockConfiguration: ObjectLockConfiguration? = nil, bucket: String, token: String? = nil, requestPayer: RequestPayer? = nil, contentMD5: String? = nil) {
-            self.objectLockConfiguration = objectLockConfiguration
-            self.bucket = bucket
-            self.token = token
-            self.requestPayer = requestPayer
-            self.contentMD5 = contentMD5
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case objectLockConfiguration = "ObjectLockConfiguration"
-            case bucket = "Bucket"
-            case token = "x-amz-bucket-object-lock-token"
-            case requestPayer = "x-amz-request-payer"
-            case contentMD5 = "Content-MD5"
-        }
-    }
-
-    public struct WebsiteConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorDocument", required: false, type: .structure), 
-            AWSShapeMember(label: "IndexDocument", required: false, type: .structure), 
-            AWSShapeMember(label: "RedirectAllRequestsTo", required: false, type: .structure), 
-            AWSShapeMember(label: "RoutingRules", required: false, type: .structure)
-        ]
-        public let errorDocument: ErrorDocument?
-        public let indexDocument: IndexDocument?
-        public let redirectAllRequestsTo: RedirectAllRequestsTo?
-        public let routingRules: RoutingRules?
-
-        public init(errorDocument: ErrorDocument? = nil, indexDocument: IndexDocument? = nil, redirectAllRequestsTo: RedirectAllRequestsTo? = nil, routingRules: RoutingRules? = nil) {
-            self.errorDocument = errorDocument
-            self.indexDocument = indexDocument
-            self.redirectAllRequestsTo = redirectAllRequestsTo
-            self.routingRules = routingRules
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorDocument = "ErrorDocument"
-            case indexDocument = "IndexDocument"
-            case redirectAllRequestsTo = "RedirectAllRequestsTo"
-            case routingRules = "RoutingRules"
+            case location = "Location"
+            case requestCharged = "x-amz-request-charged"
+            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
+            case serverSideEncryption = "x-amz-server-side-encryption"
+            case versionId = "x-amz-version-id"
         }
     }
 
@@ -1044,101 +585,826 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "MultipartUpload"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
             AWSShapeMember(label: "MultipartUpload", location: .body(locationName: "CompleteMultipartUpload"), required: false, type: .structure), 
             AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
             AWSShapeMember(label: "UploadId", location: .querystring(locationName: "uploadId"), required: true, type: .string)
         ]
-        public let key: String
         public let bucket: String
+        public let key: String
         public let multipartUpload: CompletedMultipartUpload?
         public let requestPayer: RequestPayer?
         public let uploadId: String
 
-        public init(key: String, bucket: String, multipartUpload: CompletedMultipartUpload? = nil, requestPayer: RequestPayer? = nil, uploadId: String) {
-            self.key = key
+        public init(bucket: String, key: String, multipartUpload: CompletedMultipartUpload? = nil, requestPayer: RequestPayer? = nil, uploadId: String) {
             self.bucket = bucket
+            self.key = key
             self.multipartUpload = multipartUpload
             self.requestPayer = requestPayer
             self.uploadId = uploadId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key = "Key"
             case bucket = "Bucket"
+            case key = "Key"
             case multipartUpload = "CompleteMultipartUpload"
             case requestPayer = "x-amz-request-payer"
             case uploadId = "uploadId"
         }
     }
 
-    public struct S3Location: AWSShape {
+    public struct CompletedMultipartUpload: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketName", required: true, type: .string), 
-            AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
-            AWSShapeMember(label: "CannedACL", required: false, type: .enum), 
-            AWSShapeMember(label: "UserMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "Prefix", required: true, type: .string), 
-            AWSShapeMember(label: "Encryption", required: false, type: .structure), 
-            AWSShapeMember(label: "Tagging", required: false, type: .structure), 
-            AWSShapeMember(label: "AccessControlList", required: false, type: .structure)
+            AWSShapeMember(label: "Parts", location: .body(locationName: "Part"), required: false, type: .list)
         ]
-        /// The name of the bucket where the restore results will be placed.
-        public let bucketName: String
-        /// The class of storage used to store the restore results.
-        public let storageClass: StorageClass?
-        /// The canned ACL to apply to the restore results.
-        public let cannedACL: ObjectCannedACL?
-        /// A list of metadata to store with the restore results in S3.
-        public let userMetadata: UserMetadata?
-        /// The prefix that is prepended to the restore results for this request.
-        public let prefix: String
-        public let encryption: Encryption?
-        /// The tag-set that is applied to the restore results.
-        public let tagging: Tagging?
-        /// A list of grants that control access to the staged results.
-        public let accessControlList: Grants?
+        public let parts: [CompletedPart]?
 
-        public init(bucketName: String, storageClass: StorageClass? = nil, cannedACL: ObjectCannedACL? = nil, userMetadata: UserMetadata? = nil, prefix: String, encryption: Encryption? = nil, tagging: Tagging? = nil, accessControlList: Grants? = nil) {
-            self.bucketName = bucketName
-            self.storageClass = storageClass
-            self.cannedACL = cannedACL
-            self.userMetadata = userMetadata
-            self.prefix = prefix
-            self.encryption = encryption
-            self.tagging = tagging
-            self.accessControlList = accessControlList
+        public init(parts: [CompletedPart]? = nil) {
+            self.parts = parts
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName = "BucketName"
-            case storageClass = "StorageClass"
-            case cannedACL = "CannedACL"
-            case userMetadata = "UserMetadata"
-            case prefix = "Prefix"
-            case encryption = "Encryption"
-            case tagging = "Tagging"
-            case accessControlList = "AccessControlList"
+            case parts = "Part"
         }
     }
 
-    public struct Owner: AWSShape {
+    public struct CompletedPart: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ID", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string)
+            AWSShapeMember(label: "ETag", required: false, type: .string), 
+            AWSShapeMember(label: "PartNumber", required: false, type: .integer)
         ]
-        public let id: String?
-        public let displayName: String?
+        /// Entity tag returned when the part was uploaded.
+        public let eTag: String?
+        /// Part number that identifies the part. This is a positive integer between 1 and 10,000.
+        public let partNumber: Int32?
 
-        public init(id: String? = nil, displayName: String? = nil) {
-            self.id = id
-            self.displayName = displayName
+        public init(eTag: String? = nil, partNumber: Int32? = nil) {
+            self.eTag = eTag
+            self.partNumber = partNumber
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "ID"
-            case displayName = "DisplayName"
+            case eTag = "ETag"
+            case partNumber = "PartNumber"
+        }
+    }
+
+    public enum CompressionType: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case gzip = "GZIP"
+        case bzip2 = "BZIP2"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Condition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HttpErrorCodeReturnedEquals", required: false, type: .string), 
+            AWSShapeMember(label: "KeyPrefixEquals", required: false, type: .string)
+        ]
+        /// The HTTP error code when the redirect is applied. In the event of an error, if the error code equals this value, then the specified redirect is applied. Required when parent element Condition is specified and sibling KeyPrefixEquals is not specified. If both are specified, then both must be true for the redirect to be applied.
+        public let httpErrorCodeReturnedEquals: String?
+        /// The object key name prefix when the redirect is applied. For example, to redirect requests for ExamplePage.html, the key prefix will be ExamplePage.html. To redirect request for all pages with the prefix docs/, the key prefix will be /docs, which identifies all objects in the docs/ folder. Required when the parent element Condition is specified and sibling HttpErrorCodeReturnedEquals is not specified. If both conditions are specified, both must be true for the redirect to be applied.
+        public let keyPrefixEquals: String?
+
+        public init(httpErrorCodeReturnedEquals: String? = nil, keyPrefixEquals: String? = nil) {
+            self.httpErrorCodeReturnedEquals = httpErrorCodeReturnedEquals
+            self.keyPrefixEquals = keyPrefixEquals
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case httpErrorCodeReturnedEquals = "HttpErrorCodeReturnedEquals"
+            case keyPrefixEquals = "KeyPrefixEquals"
+        }
+    }
+
+    public struct ContinuationEvent: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct CopyObjectOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "CopyObjectResult"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CopyObjectResult", required: false, type: .structure), 
+            AWSShapeMember(label: "CopySourceVersionId", location: .header(locationName: "x-amz-copy-source-version-id"), required: false, type: .string), 
+            AWSShapeMember(label: "Expiration", location: .header(locationName: "x-amz-expiration"), required: false, type: .string), 
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
+            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
+            AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string)
+        ]
+        public let copyObjectResult: CopyObjectResult?
+        public let copySourceVersionId: String?
+        /// If the object expiration is configured, the response includes this header.
+        public let expiration: String?
+        public let requestCharged: RequestCharged?
+        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
+        public let sSECustomerAlgorithm: String?
+        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
+        public let sSECustomerKeyMD5: String?
+        /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
+        public let sSEKMSKeyId: String?
+        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
+        public let serverSideEncryption: ServerSideEncryption?
+        /// Version ID of the newly created copy.
+        public let versionId: String?
+
+        public init(copyObjectResult: CopyObjectResult? = nil, copySourceVersionId: String? = nil, expiration: String? = nil, requestCharged: RequestCharged? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, versionId: String? = nil) {
+            self.copyObjectResult = copyObjectResult
+            self.copySourceVersionId = copySourceVersionId
+            self.expiration = expiration
+            self.requestCharged = requestCharged
+            self.sSECustomerAlgorithm = sSECustomerAlgorithm
+            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
+            self.sSEKMSKeyId = sSEKMSKeyId
+            self.serverSideEncryption = serverSideEncryption
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case copyObjectResult = "CopyObjectResult"
+            case copySourceVersionId = "x-amz-copy-source-version-id"
+            case expiration = "x-amz-expiration"
+            case requestCharged = "x-amz-request-charged"
+            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
+            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
+            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
+            case serverSideEncryption = "x-amz-server-side-encryption"
+            case versionId = "x-amz-version-id"
+        }
+    }
+
+    public struct CopyObjectRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum), 
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string), 
+            AWSShapeMember(label: "ContentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string), 
+            AWSShapeMember(label: "ContentEncoding", location: .header(locationName: "Content-Encoding"), required: false, type: .string), 
+            AWSShapeMember(label: "ContentLanguage", location: .header(locationName: "Content-Language"), required: false, type: .string), 
+            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
+            AWSShapeMember(label: "CopySource", location: .header(locationName: "x-amz-copy-source"), required: true, type: .string), 
+            AWSShapeMember(label: "CopySourceIfMatch", location: .header(locationName: "x-amz-copy-source-if-match"), required: false, type: .string), 
+            AWSShapeMember(label: "CopySourceIfModifiedSince", location: .header(locationName: "x-amz-copy-source-if-modified-since"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "CopySourceIfNoneMatch", location: .header(locationName: "x-amz-copy-source-if-none-match"), required: false, type: .string), 
+            AWSShapeMember(label: "CopySourceIfUnmodifiedSince", location: .header(locationName: "x-amz-copy-source-if-unmodified-since"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "CopySourceSSECustomerAlgorithm", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-algorithm"), required: false, type: .string), 
+            AWSShapeMember(label: "CopySourceSSECustomerKey", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key"), required: false, type: .string), 
+            AWSShapeMember(label: "CopySourceSSECustomerKeyMD5", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "Expires", location: .header(locationName: "Expires"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "GrantFullControl", location: .header(locationName: "x-amz-grant-full-control"), required: false, type: .string), 
+            AWSShapeMember(label: "GrantRead", location: .header(locationName: "x-amz-grant-read"), required: false, type: .string), 
+            AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string), 
+            AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string), 
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
+            AWSShapeMember(label: "Metadata", required: false, type: .map), 
+            AWSShapeMember(label: "MetadataDirective", location: .header(locationName: "x-amz-metadata-directive"), required: false, type: .enum), 
+            AWSShapeMember(label: "ObjectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold"), required: false, type: .enum), 
+            AWSShapeMember(label: "ObjectLockMode", location: .header(locationName: "x-amz-object-lock-mode"), required: false, type: .enum), 
+            AWSShapeMember(label: "ObjectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
+            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
+            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum), 
+            AWSShapeMember(label: "Tagging", location: .header(locationName: "x-amz-tagging"), required: false, type: .string), 
+            AWSShapeMember(label: "TaggingDirective", location: .header(locationName: "x-amz-tagging-directive"), required: false, type: .enum), 
+            AWSShapeMember(label: "WebsiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"), required: false, type: .string)
+        ]
+        /// The canned ACL to apply to the object.
+        public let acl: ObjectCannedACL?
+        public let bucket: String
+        /// Specifies caching behavior along the request/reply chain.
+        public let cacheControl: String?
+        /// Specifies presentational information for the object.
+        public let contentDisposition: String?
+        /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
+        public let contentEncoding: String?
+        /// The language the content is in.
+        public let contentLanguage: String?
+        /// A standard MIME type describing the format of the object data.
+        public let contentType: String?
+        /// The name of the source bucket and key name of the source object, separated by a slash (/). Must be URL-encoded.
+        public let copySource: String
+        /// Copies the object if its entity tag (ETag) matches the specified tag.
+        public let copySourceIfMatch: String?
+        /// Copies the object if it has been modified since the specified time.
+        public let copySourceIfModifiedSince: TimeStamp?
+        /// Copies the object if its entity tag (ETag) is different than the specified ETag.
+        public let copySourceIfNoneMatch: String?
+        /// Copies the object if it hasn't been modified since the specified time.
+        public let copySourceIfUnmodifiedSince: TimeStamp?
+        /// Specifies the algorithm to use when decrypting the source object (e.g., AES256).
+        public let copySourceSSECustomerAlgorithm: String?
+        /// Specifies the customer-provided encryption key for Amazon S3 to use to decrypt the source object. The encryption key provided in this header must be one that was used when the source object was created.
+        public let copySourceSSECustomerKey: String?
+        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
+        public let copySourceSSECustomerKeyMD5: String?
+        /// The date and time at which the object is no longer cacheable.
+        public let expires: TimeStamp?
+        /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
+        public let grantFullControl: String?
+        /// Allows grantee to read the object data and its metadata.
+        public let grantRead: String?
+        /// Allows grantee to read the object ACL.
+        public let grantReadACP: String?
+        /// Allows grantee to write the ACL for the applicable object.
+        public let grantWriteACP: String?
+        public let key: String
+        /// A map of metadata to store with the object in S3.
+        public let metadata: [String: String]?
+        /// Specifies whether the metadata is copied from the source object or replaced with metadata provided in the request.
+        public let metadataDirective: MetadataDirective?
+        /// Specifies whether you want to apply a Legal Hold to the copied object.
+        public let objectLockLegalHoldStatus: ObjectLockLegalHoldStatus?
+        /// The Object Lock mode that you want to apply to the copied object.
+        public let objectLockMode: ObjectLockMode?
+        /// The date and time when you want the copied object's Object Lock to expire.
+        public let objectLockRetainUntilDate: TimeStamp?
+        public let requestPayer: RequestPayer?
+        /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
+        public let sSECustomerAlgorithm: String?
+        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
+        public let sSECustomerKey: String?
+        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
+        public let sSECustomerKeyMD5: String?
+        /// Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. Documentation on configuring any of the officially supported AWS SDKs and CLI can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
+        public let sSEKMSKeyId: String?
+        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
+        public let serverSideEncryption: ServerSideEncryption?
+        /// The type of storage to use for the object. Defaults to 'STANDARD'.
+        public let storageClass: StorageClass?
+        /// The tag-set for the object destination object this value must be used in conjunction with the TaggingDirective. The tag-set must be encoded as URL Query parameters
+        public let tagging: String?
+        /// Specifies whether the object tag-set are copied from the source object or replaced with tag-set provided in the request.
+        public let taggingDirective: TaggingDirective?
+        /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
+        public let websiteRedirectLocation: String?
+
+        public init(acl: ObjectCannedACL? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: TimeStamp? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: TimeStamp? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, expires: TimeStamp? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, metadataDirective: MetadataDirective? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, taggingDirective: TaggingDirective? = nil, websiteRedirectLocation: String? = nil) {
+            self.acl = acl
+            self.bucket = bucket
+            self.cacheControl = cacheControl
+            self.contentDisposition = contentDisposition
+            self.contentEncoding = contentEncoding
+            self.contentLanguage = contentLanguage
+            self.contentType = contentType
+            self.copySource = copySource
+            self.copySourceIfMatch = copySourceIfMatch
+            self.copySourceIfModifiedSince = copySourceIfModifiedSince
+            self.copySourceIfNoneMatch = copySourceIfNoneMatch
+            self.copySourceIfUnmodifiedSince = copySourceIfUnmodifiedSince
+            self.copySourceSSECustomerAlgorithm = copySourceSSECustomerAlgorithm
+            self.copySourceSSECustomerKey = copySourceSSECustomerKey
+            self.copySourceSSECustomerKeyMD5 = copySourceSSECustomerKeyMD5
+            self.expires = expires
+            self.grantFullControl = grantFullControl
+            self.grantRead = grantRead
+            self.grantReadACP = grantReadACP
+            self.grantWriteACP = grantWriteACP
+            self.key = key
+            self.metadata = metadata
+            self.metadataDirective = metadataDirective
+            self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
+            self.objectLockMode = objectLockMode
+            self.objectLockRetainUntilDate = objectLockRetainUntilDate
+            self.requestPayer = requestPayer
+            self.sSECustomerAlgorithm = sSECustomerAlgorithm
+            self.sSECustomerKey = sSECustomerKey
+            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
+            self.sSEKMSKeyId = sSEKMSKeyId
+            self.serverSideEncryption = serverSideEncryption
+            self.storageClass = storageClass
+            self.tagging = tagging
+            self.taggingDirective = taggingDirective
+            self.websiteRedirectLocation = websiteRedirectLocation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acl = "x-amz-acl"
+            case bucket = "Bucket"
+            case cacheControl = "Cache-Control"
+            case contentDisposition = "Content-Disposition"
+            case contentEncoding = "Content-Encoding"
+            case contentLanguage = "Content-Language"
+            case contentType = "Content-Type"
+            case copySource = "x-amz-copy-source"
+            case copySourceIfMatch = "x-amz-copy-source-if-match"
+            case copySourceIfModifiedSince = "x-amz-copy-source-if-modified-since"
+            case copySourceIfNoneMatch = "x-amz-copy-source-if-none-match"
+            case copySourceIfUnmodifiedSince = "x-amz-copy-source-if-unmodified-since"
+            case copySourceSSECustomerAlgorithm = "x-amz-copy-source-server-side-encryption-customer-algorithm"
+            case copySourceSSECustomerKey = "x-amz-copy-source-server-side-encryption-customer-key"
+            case copySourceSSECustomerKeyMD5 = "x-amz-copy-source-server-side-encryption-customer-key-MD5"
+            case expires = "Expires"
+            case grantFullControl = "x-amz-grant-full-control"
+            case grantRead = "x-amz-grant-read"
+            case grantReadACP = "x-amz-grant-read-acp"
+            case grantWriteACP = "x-amz-grant-write-acp"
+            case key = "Key"
+            case metadata = "Metadata"
+            case metadataDirective = "x-amz-metadata-directive"
+            case objectLockLegalHoldStatus = "x-amz-object-lock-legal-hold"
+            case objectLockMode = "x-amz-object-lock-mode"
+            case objectLockRetainUntilDate = "x-amz-object-lock-retain-until-date"
+            case requestPayer = "x-amz-request-payer"
+            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
+            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
+            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
+            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
+            case serverSideEncryption = "x-amz-server-side-encryption"
+            case storageClass = "x-amz-storage-class"
+            case tagging = "x-amz-tagging"
+            case taggingDirective = "x-amz-tagging-directive"
+            case websiteRedirectLocation = "x-amz-website-redirect-location"
+        }
+    }
+
+    public struct CopyObjectResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", required: false, type: .string), 
+            AWSShapeMember(label: "LastModified", required: false, type: .timestamp)
+        ]
+        public let eTag: String?
+        public let lastModified: TimeStamp?
+
+        public init(eTag: String? = nil, lastModified: TimeStamp? = nil) {
+            self.eTag = eTag
+            self.lastModified = lastModified
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case lastModified = "LastModified"
+        }
+    }
+
+    public struct CopyPartResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", required: false, type: .string), 
+            AWSShapeMember(label: "LastModified", required: false, type: .timestamp)
+        ]
+        /// Entity tag of the object.
+        public let eTag: String?
+        /// Date and time at which the object was uploaded.
+        public let lastModified: TimeStamp?
+
+        public init(eTag: String? = nil, lastModified: TimeStamp? = nil) {
+            self.eTag = eTag
+            self.lastModified = lastModified
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case lastModified = "LastModified"
+        }
+    }
+
+    public struct CreateBucketConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LocationConstraint", required: false, type: .enum)
+        ]
+        /// Specifies the region where the bucket will be created. If you don't specify a region, the bucket will be created in US Standard.
+        public let locationConstraint: BucketLocationConstraint?
+
+        public init(locationConstraint: BucketLocationConstraint? = nil) {
+            self.locationConstraint = locationConstraint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationConstraint = "LocationConstraint"
+        }
+    }
+
+    public struct CreateBucketOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string)
+        ]
+        public let location: String?
+
+        public init(location: String? = nil) {
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "Location"
+        }
+    }
+
+    public struct CreateBucketRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "CreateBucketConfiguration"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum), 
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "CreateBucketConfiguration", location: .body(locationName: "CreateBucketConfiguration"), required: false, type: .structure), 
+            AWSShapeMember(label: "GrantFullControl", location: .header(locationName: "x-amz-grant-full-control"), required: false, type: .string), 
+            AWSShapeMember(label: "GrantRead", location: .header(locationName: "x-amz-grant-read"), required: false, type: .string), 
+            AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string), 
+            AWSShapeMember(label: "GrantWrite", location: .header(locationName: "x-amz-grant-write"), required: false, type: .string), 
+            AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string), 
+            AWSShapeMember(label: "ObjectLockEnabledForBucket", location: .header(locationName: "x-amz-bucket-object-lock-enabled"), required: false, type: .boolean)
+        ]
+        /// The canned ACL to apply to the bucket.
+        public let acl: BucketCannedACL?
+        public let bucket: String
+        public let createBucketConfiguration: CreateBucketConfiguration?
+        /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
+        public let grantFullControl: String?
+        /// Allows grantee to list the objects in the bucket.
+        public let grantRead: String?
+        /// Allows grantee to read the bucket ACL.
+        public let grantReadACP: String?
+        /// Allows grantee to create, overwrite, and delete any object in the bucket.
+        public let grantWrite: String?
+        /// Allows grantee to write the ACL for the applicable bucket.
+        public let grantWriteACP: String?
+        /// Specifies whether you want S3 Object Lock to be enabled for the new bucket.
+        public let objectLockEnabledForBucket: Bool?
+
+        public init(acl: BucketCannedACL? = nil, bucket: String, createBucketConfiguration: CreateBucketConfiguration? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil, objectLockEnabledForBucket: Bool? = nil) {
+            self.acl = acl
+            self.bucket = bucket
+            self.createBucketConfiguration = createBucketConfiguration
+            self.grantFullControl = grantFullControl
+            self.grantRead = grantRead
+            self.grantReadACP = grantReadACP
+            self.grantWrite = grantWrite
+            self.grantWriteACP = grantWriteACP
+            self.objectLockEnabledForBucket = objectLockEnabledForBucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acl = "x-amz-acl"
+            case bucket = "Bucket"
+            case createBucketConfiguration = "CreateBucketConfiguration"
+            case grantFullControl = "x-amz-grant-full-control"
+            case grantRead = "x-amz-grant-read"
+            case grantReadACP = "x-amz-grant-read-acp"
+            case grantWrite = "x-amz-grant-write"
+            case grantWriteACP = "x-amz-grant-write-acp"
+            case objectLockEnabledForBucket = "x-amz-bucket-object-lock-enabled"
+        }
+    }
+
+    public struct CreateMultipartUploadOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AbortDate", location: .header(locationName: "x-amz-abort-date"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "AbortRuleId", location: .header(locationName: "x-amz-abort-rule-id"), required: false, type: .string), 
+            AWSShapeMember(label: "Bucket", location: .body(locationName: "Bucket"), required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
+            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
+            AWSShapeMember(label: "UploadId", required: false, type: .string)
+        ]
+        /// Date when multipart upload will become eligible for abort operation by lifecycle.
+        public let abortDate: TimeStamp?
+        /// Id of the lifecycle rule that makes a multipart upload eligible for abort operation.
+        public let abortRuleId: String?
+        /// Name of the bucket to which the multipart upload was initiated.
+        public let bucket: String?
+        /// Object key for which the multipart upload was initiated.
+        public let key: String?
+        public let requestCharged: RequestCharged?
+        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
+        public let sSECustomerAlgorithm: String?
+        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
+        public let sSECustomerKeyMD5: String?
+        /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
+        public let sSEKMSKeyId: String?
+        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
+        public let serverSideEncryption: ServerSideEncryption?
+        /// ID for the initiated multipart upload.
+        public let uploadId: String?
+
+        public init(abortDate: TimeStamp? = nil, abortRuleId: String? = nil, bucket: String? = nil, key: String? = nil, requestCharged: RequestCharged? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, uploadId: String? = nil) {
+            self.abortDate = abortDate
+            self.abortRuleId = abortRuleId
+            self.bucket = bucket
+            self.key = key
+            self.requestCharged = requestCharged
+            self.sSECustomerAlgorithm = sSECustomerAlgorithm
+            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
+            self.sSEKMSKeyId = sSEKMSKeyId
+            self.serverSideEncryption = serverSideEncryption
+            self.uploadId = uploadId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case abortDate = "x-amz-abort-date"
+            case abortRuleId = "x-amz-abort-rule-id"
+            case bucket = "Bucket"
+            case key = "Key"
+            case requestCharged = "x-amz-request-charged"
+            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
+            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
+            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
+            case serverSideEncryption = "x-amz-server-side-encryption"
+            case uploadId = "UploadId"
+        }
+    }
+
+    public struct CreateMultipartUploadRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum), 
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string), 
+            AWSShapeMember(label: "ContentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string), 
+            AWSShapeMember(label: "ContentEncoding", location: .header(locationName: "Content-Encoding"), required: false, type: .string), 
+            AWSShapeMember(label: "ContentLanguage", location: .header(locationName: "Content-Language"), required: false, type: .string), 
+            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
+            AWSShapeMember(label: "Expires", location: .header(locationName: "Expires"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "GrantFullControl", location: .header(locationName: "x-amz-grant-full-control"), required: false, type: .string), 
+            AWSShapeMember(label: "GrantRead", location: .header(locationName: "x-amz-grant-read"), required: false, type: .string), 
+            AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string), 
+            AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string), 
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
+            AWSShapeMember(label: "Metadata", required: false, type: .map), 
+            AWSShapeMember(label: "ObjectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold"), required: false, type: .enum), 
+            AWSShapeMember(label: "ObjectLockMode", location: .header(locationName: "x-amz-object-lock-mode"), required: false, type: .enum), 
+            AWSShapeMember(label: "ObjectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
+            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
+            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum), 
+            AWSShapeMember(label: "Tagging", location: .header(locationName: "x-amz-tagging"), required: false, type: .string), 
+            AWSShapeMember(label: "WebsiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"), required: false, type: .string)
+        ]
+        /// The canned ACL to apply to the object.
+        public let acl: ObjectCannedACL?
+        public let bucket: String
+        /// Specifies caching behavior along the request/reply chain.
+        public let cacheControl: String?
+        /// Specifies presentational information for the object.
+        public let contentDisposition: String?
+        /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
+        public let contentEncoding: String?
+        /// The language the content is in.
+        public let contentLanguage: String?
+        /// A standard MIME type describing the format of the object data.
+        public let contentType: String?
+        /// The date and time at which the object is no longer cacheable.
+        public let expires: TimeStamp?
+        /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
+        public let grantFullControl: String?
+        /// Allows grantee to read the object data and its metadata.
+        public let grantRead: String?
+        /// Allows grantee to read the object ACL.
+        public let grantReadACP: String?
+        /// Allows grantee to write the ACL for the applicable object.
+        public let grantWriteACP: String?
+        public let key: String
+        /// A map of metadata to store with the object in S3.
+        public let metadata: [String: String]?
+        /// Specifies whether you want to apply a Legal Hold to the uploaded object.
+        public let objectLockLegalHoldStatus: ObjectLockLegalHoldStatus?
+        /// Specifies the Object Lock mode that you want to apply to the uploaded object.
+        public let objectLockMode: ObjectLockMode?
+        /// Specifies the date and time when you want the Object Lock to expire.
+        public let objectLockRetainUntilDate: TimeStamp?
+        public let requestPayer: RequestPayer?
+        /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
+        public let sSECustomerAlgorithm: String?
+        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
+        public let sSECustomerKey: String?
+        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
+        public let sSECustomerKeyMD5: String?
+        /// Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. Documentation on configuring any of the officially supported AWS SDKs and CLI can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
+        public let sSEKMSKeyId: String?
+        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
+        public let serverSideEncryption: ServerSideEncryption?
+        /// The type of storage to use for the object. Defaults to 'STANDARD'.
+        public let storageClass: StorageClass?
+        /// The tag-set for the object. The tag-set must be encoded as URL Query parameters
+        public let tagging: String?
+        /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
+        public let websiteRedirectLocation: String?
+
+        public init(acl: ObjectCannedACL? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, expires: TimeStamp? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
+            self.acl = acl
+            self.bucket = bucket
+            self.cacheControl = cacheControl
+            self.contentDisposition = contentDisposition
+            self.contentEncoding = contentEncoding
+            self.contentLanguage = contentLanguage
+            self.contentType = contentType
+            self.expires = expires
+            self.grantFullControl = grantFullControl
+            self.grantRead = grantRead
+            self.grantReadACP = grantReadACP
+            self.grantWriteACP = grantWriteACP
+            self.key = key
+            self.metadata = metadata
+            self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
+            self.objectLockMode = objectLockMode
+            self.objectLockRetainUntilDate = objectLockRetainUntilDate
+            self.requestPayer = requestPayer
+            self.sSECustomerAlgorithm = sSECustomerAlgorithm
+            self.sSECustomerKey = sSECustomerKey
+            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
+            self.sSEKMSKeyId = sSEKMSKeyId
+            self.serverSideEncryption = serverSideEncryption
+            self.storageClass = storageClass
+            self.tagging = tagging
+            self.websiteRedirectLocation = websiteRedirectLocation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acl = "x-amz-acl"
+            case bucket = "Bucket"
+            case cacheControl = "Cache-Control"
+            case contentDisposition = "Content-Disposition"
+            case contentEncoding = "Content-Encoding"
+            case contentLanguage = "Content-Language"
+            case contentType = "Content-Type"
+            case expires = "Expires"
+            case grantFullControl = "x-amz-grant-full-control"
+            case grantRead = "x-amz-grant-read"
+            case grantReadACP = "x-amz-grant-read-acp"
+            case grantWriteACP = "x-amz-grant-write-acp"
+            case key = "Key"
+            case metadata = "Metadata"
+            case objectLockLegalHoldStatus = "x-amz-object-lock-legal-hold"
+            case objectLockMode = "x-amz-object-lock-mode"
+            case objectLockRetainUntilDate = "x-amz-object-lock-retain-until-date"
+            case requestPayer = "x-amz-request-payer"
+            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
+            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
+            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
+            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
+            case serverSideEncryption = "x-amz-server-side-encryption"
+            case storageClass = "x-amz-storage-class"
+            case tagging = "x-amz-tagging"
+            case websiteRedirectLocation = "x-amz-website-redirect-location"
+        }
+    }
+
+    public struct DefaultRetention: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Days", required: false, type: .integer), 
+            AWSShapeMember(label: "Mode", required: false, type: .enum), 
+            AWSShapeMember(label: "Years", required: false, type: .integer)
+        ]
+        /// The number of days that you want to specify for the default retention period.
+        public let days: Int32?
+        /// The default Object Lock retention mode you want to apply to new objects placed in the specified bucket.
+        public let mode: ObjectLockRetentionMode?
+        /// The number of years that you want to specify for the default retention period.
+        public let years: Int32?
+
+        public init(days: Int32? = nil, mode: ObjectLockRetentionMode? = nil, years: Int32? = nil) {
+            self.days = days
+            self.mode = mode
+            self.years = years
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case days = "Days"
+            case mode = "Mode"
+            case years = "Years"
+        }
+    }
+
+    public struct Delete: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Objects", location: .body(locationName: "Object"), required: true, type: .list), 
+            AWSShapeMember(label: "Quiet", required: false, type: .boolean)
+        ]
+        public let objects: [ObjectIdentifier]
+        /// Element to enable quiet mode for the request. When you add this element, you must set its value to true.
+        public let quiet: Bool?
+
+        public init(objects: [ObjectIdentifier], quiet: Bool? = nil) {
+            self.objects = objects
+            self.quiet = quiet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objects = "Object"
+            case quiet = "Quiet"
+        }
+    }
+
+    public struct DeleteBucketAnalyticsConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string)
+        ]
+        /// The name of the bucket from which an analytics configuration is deleted.
+        public let bucket: String
+        /// The identifier used to represent an analytics configuration.
+        public let id: String
+
+        public init(bucket: String, id: String) {
+            self.bucket = bucket
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case id = "id"
+        }
+    }
+
+    public struct DeleteBucketCorsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+        ]
+        public let bucket: String
+
+        public init(bucket: String) {
+            self.bucket = bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+        }
+    }
+
+    public struct DeleteBucketEncryptionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+        ]
+        /// The name of the bucket containing the server-side encryption configuration to delete.
+        public let bucket: String
+
+        public init(bucket: String) {
+            self.bucket = bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+        }
+    }
+
+    public struct DeleteBucketInventoryConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string)
+        ]
+        /// The name of the bucket containing the inventory configuration to delete.
+        public let bucket: String
+        /// The ID used to identify the inventory configuration.
+        public let id: String
+
+        public init(bucket: String, id: String) {
+            self.bucket = bucket
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case id = "id"
+        }
+    }
+
+    public struct DeleteBucketLifecycleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+        ]
+        public let bucket: String
+
+        public init(bucket: String) {
+            self.bucket = bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+        }
+    }
+
+    public struct DeleteBucketMetricsConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string)
+        ]
+        /// The name of the bucket containing the metrics configuration to delete.
+        public let bucket: String
+        /// The ID used to identify the metrics configuration.
+        public let id: String
+
+        public init(bucket: String, id: String) {
+            self.bucket = bucket
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case id = "id"
         }
     }
 
@@ -1157,108 +1423,11 @@ extension S3 {
         }
     }
 
-    public struct RestoreObjectOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
-            AWSShapeMember(label: "RestoreOutputPath", location: .header(locationName: "x-amz-restore-output-path"), required: false, type: .string)
-        ]
-        public let requestCharged: RequestCharged?
-        /// Indicates the path in the provided S3 output location where Select results will be restored to.
-        public let restoreOutputPath: String?
-
-        public init(requestCharged: RequestCharged? = nil, restoreOutputPath: String? = nil) {
-            self.requestCharged = requestCharged
-            self.restoreOutputPath = restoreOutputPath
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case requestCharged = "x-amz-request-charged"
-            case restoreOutputPath = "x-amz-restore-output-path"
-        }
-    }
-
-    public struct ContinuationEvent: AWSShape {
-
-    }
-
-    public struct PutObjectTaggingRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "Tagging"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
-            AWSShapeMember(label: "Tagging", location: .body(locationName: "Tagging"), required: true, type: .structure)
-        ]
-        public let contentMD5: String?
-        public let key: String
-        public let bucket: String
-        public let versionId: String?
-        public let tagging: Tagging
-
-        public init(contentMD5: String? = nil, key: String, bucket: String, versionId: String? = nil, tagging: Tagging) {
-            self.contentMD5 = contentMD5
-            self.key = key
-            self.bucket = bucket
-            self.versionId = versionId
-            self.tagging = tagging
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case contentMD5 = "Content-MD5"
-            case key = "Key"
-            case bucket = "Bucket"
-            case versionId = "versionId"
-            case tagging = "Tagging"
-        }
-    }
-
-    public struct UploadPartOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
-            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string)
-        ]
-        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
-        public let sSECustomerKeyMD5: String?
-        /// Entity tag for the uploaded object.
-        public let eTag: String?
-        public let requestCharged: RequestCharged?
-        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
-        public let sSECustomerAlgorithm: String?
-        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public let serverSideEncryption: ServerSideEncryption?
-        /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
-        public let sSEKMSKeyId: String?
-
-        public init(sSECustomerKeyMD5: String? = nil, eTag: String? = nil, requestCharged: RequestCharged? = nil, sSECustomerAlgorithm: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSEKMSKeyId: String? = nil) {
-            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
-            self.eTag = eTag
-            self.requestCharged = requestCharged
-            self.sSECustomerAlgorithm = sSECustomerAlgorithm
-            self.serverSideEncryption = serverSideEncryption
-            self.sSEKMSKeyId = sSEKMSKeyId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case eTag = "ETag"
-            case requestCharged = "x-amz-request-charged"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case serverSideEncryption = "x-amz-server-side-encryption"
-            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
-        }
-    }
-
-    public struct GetBucketEncryptionRequest: AWSShape {
+    public struct DeleteBucketReplicationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
-        /// The name of the bucket from which the server-side encryption configuration is retrieved.
+        ///  The bucket name.   It can take a while to propagate the deletion of a replication configuration to all Amazon S3 systems. 
         public let bucket: String
 
         public init(bucket: String) {
@@ -1270,33 +1439,22 @@ extension S3 {
         }
     }
 
-    public struct Progress: AWSShape {
+    public struct DeleteBucketRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BytesReturned", required: false, type: .long), 
-            AWSShapeMember(label: "BytesProcessed", required: false, type: .long), 
-            AWSShapeMember(label: "BytesScanned", required: false, type: .long)
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
-        /// The current number of bytes of records payload data returned.
-        public let bytesReturned: Int64?
-        /// The current number of uncompressed object bytes processed.
-        public let bytesProcessed: Int64?
-        /// The current number of object bytes scanned.
-        public let bytesScanned: Int64?
+        public let bucket: String
 
-        public init(bytesReturned: Int64? = nil, bytesProcessed: Int64? = nil, bytesScanned: Int64? = nil) {
-            self.bytesReturned = bytesReturned
-            self.bytesProcessed = bytesProcessed
-            self.bytesScanned = bytesScanned
+        public init(bucket: String) {
+            self.bucket = bucket
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bytesReturned = "BytesReturned"
-            case bytesProcessed = "BytesProcessed"
-            case bytesScanned = "BytesScanned"
+            case bucket = "Bucket"
         }
     }
 
-    public struct GetBucketLifecycleConfigurationRequest: AWSShape {
+    public struct DeleteBucketTaggingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
@@ -1326,12 +1484,39 @@ extension S3 {
         }
     }
 
-    public enum BucketCannedACL: String, CustomStringConvertible, Codable {
-        case `private` = "private"
-        case publicRead = "public-read"
-        case publicReadWrite = "public-read-write"
-        case authenticatedRead = "authenticated-read"
-        public var description: String { return self.rawValue }
+    public struct DeleteMarkerEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsLatest", required: false, type: .boolean), 
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Owner", required: false, type: .structure), 
+            AWSShapeMember(label: "VersionId", required: false, type: .string)
+        ]
+        /// Specifies whether the object is (true) or is not (false) the latest version of an object.
+        public let isLatest: Bool?
+        /// The object key.
+        public let key: String?
+        /// Date and time the object was last modified.
+        public let lastModified: TimeStamp?
+        public let owner: Owner?
+        /// Version ID of an object.
+        public let versionId: String?
+
+        public init(isLatest: Bool? = nil, key: String? = nil, lastModified: TimeStamp? = nil, owner: Owner? = nil, versionId: String? = nil) {
+            self.isLatest = isLatest
+            self.key = key
+            self.lastModified = lastModified
+            self.owner = owner
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isLatest = "IsLatest"
+            case key = "Key"
+            case lastModified = "LastModified"
+            case owner = "Owner"
+            case versionId = "VersionId"
+        }
     }
 
     public struct DeleteMarkerReplication: AWSShape {
@@ -1350,97 +1535,461 @@ extension S3 {
         }
     }
 
-    public struct VersioningConfiguration: AWSShape {
+    public enum DeleteMarkerReplicationStatus: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteObjectOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MFADelete", location: .body(locationName: "MfaDelete"), required: false, type: .enum), 
+            AWSShapeMember(label: "DeleteMarker", location: .header(locationName: "x-amz-delete-marker"), required: false, type: .boolean), 
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
+            AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string)
+        ]
+        /// Specifies whether the versioned object that was permanently deleted was (true) or was not (false) a delete marker.
+        public let deleteMarker: Bool?
+        public let requestCharged: RequestCharged?
+        /// Returns the version ID of the delete marker created as a result of the DELETE operation.
+        public let versionId: String?
+
+        public init(deleteMarker: Bool? = nil, requestCharged: RequestCharged? = nil, versionId: String? = nil) {
+            self.deleteMarker = deleteMarker
+            self.requestCharged = requestCharged
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleteMarker = "x-amz-delete-marker"
+            case requestCharged = "x-amz-request-charged"
+            case versionId = "x-amz-version-id"
+        }
+    }
+
+    public struct DeleteObjectRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "BypassGovernanceRetention", location: .header(locationName: "x-amz-bypass-governance-retention"), required: false, type: .boolean), 
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
+            AWSShapeMember(label: "MFA", location: .header(locationName: "x-amz-mfa"), required: false, type: .string), 
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
+        ]
+        public let bucket: String
+        /// Indicates whether S3 Object Lock should bypass Governance-mode restrictions to process this operation.
+        public let bypassGovernanceRetention: Bool?
+        public let key: String
+        /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
+        public let mfa: String?
+        public let requestPayer: RequestPayer?
+        /// VersionId used to reference a specific version of the object.
+        public let versionId: String?
+
+        public init(bucket: String, bypassGovernanceRetention: Bool? = nil, key: String, mfa: String? = nil, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
+            self.bucket = bucket
+            self.bypassGovernanceRetention = bypassGovernanceRetention
+            self.key = key
+            self.mfa = mfa
+            self.requestPayer = requestPayer
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case bypassGovernanceRetention = "x-amz-bypass-governance-retention"
+            case key = "Key"
+            case mfa = "x-amz-mfa"
+            case requestPayer = "x-amz-request-payer"
+            case versionId = "versionId"
+        }
+    }
+
+    public struct DeleteObjectTaggingOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string)
+        ]
+        /// The versionId of the object the tag-set was removed from.
+        public let versionId: String?
+
+        public init(versionId: String? = nil) {
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case versionId = "x-amz-version-id"
+        }
+    }
+
+    public struct DeleteObjectTaggingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
+        ]
+        public let bucket: String
+        public let key: String
+        /// The versionId of the object that the tag-set will be removed from.
+        public let versionId: String?
+
+        public init(bucket: String, key: String, versionId: String? = nil) {
+            self.bucket = bucket
+            self.key = key
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case key = "Key"
+            case versionId = "versionId"
+        }
+    }
+
+    public struct DeleteObjectsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Deleted", required: false, type: .list), 
+            AWSShapeMember(label: "Errors", location: .body(locationName: "Error"), required: false, type: .list), 
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
+        ]
+        public let deleted: [DeletedObject]?
+        public let errors: [Error]?
+        public let requestCharged: RequestCharged?
+
+        public init(deleted: [DeletedObject]? = nil, errors: [Error]? = nil, requestCharged: RequestCharged? = nil) {
+            self.deleted = deleted
+            self.errors = errors
+            self.requestCharged = requestCharged
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleted = "Deleted"
+            case errors = "Error"
+            case requestCharged = "x-amz-request-charged"
+        }
+    }
+
+    public struct DeleteObjectsRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "Delete"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "BypassGovernanceRetention", location: .header(locationName: "x-amz-bypass-governance-retention"), required: false, type: .boolean), 
+            AWSShapeMember(label: "Delete", location: .body(locationName: "Delete"), required: true, type: .structure), 
+            AWSShapeMember(label: "MFA", location: .header(locationName: "x-amz-mfa"), required: false, type: .string), 
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum)
+        ]
+        public let bucket: String
+        /// Specifies whether you want to delete this object even if it has a Governance-type Object Lock in place. You must have sufficient permissions to perform this operation.
+        public let bypassGovernanceRetention: Bool?
+        public let delete: Delete
+        /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
+        public let mfa: String?
+        public let requestPayer: RequestPayer?
+
+        public init(bucket: String, bypassGovernanceRetention: Bool? = nil, delete: Delete, mfa: String? = nil, requestPayer: RequestPayer? = nil) {
+            self.bucket = bucket
+            self.bypassGovernanceRetention = bypassGovernanceRetention
+            self.delete = delete
+            self.mfa = mfa
+            self.requestPayer = requestPayer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case bypassGovernanceRetention = "x-amz-bypass-governance-retention"
+            case delete = "Delete"
+            case mfa = "x-amz-mfa"
+            case requestPayer = "x-amz-request-payer"
+        }
+    }
+
+    public struct DeletePublicAccessBlockRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+        ]
+        /// The Amazon S3 bucket whose PublicAccessBlock configuration you want to delete. 
+        public let bucket: String
+
+        public init(bucket: String) {
+            self.bucket = bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+        }
+    }
+
+    public struct DeletedObject: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeleteMarker", required: false, type: .boolean), 
+            AWSShapeMember(label: "DeleteMarkerVersionId", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "VersionId", required: false, type: .string)
+        ]
+        public let deleteMarker: Bool?
+        public let deleteMarkerVersionId: String?
+        public let key: String?
+        public let versionId: String?
+
+        public init(deleteMarker: Bool? = nil, deleteMarkerVersionId: String? = nil, key: String? = nil, versionId: String? = nil) {
+            self.deleteMarker = deleteMarker
+            self.deleteMarkerVersionId = deleteMarkerVersionId
+            self.key = key
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleteMarker = "DeleteMarker"
+            case deleteMarkerVersionId = "DeleteMarkerVersionId"
+            case key = "Key"
+            case versionId = "VersionId"
+        }
+    }
+
+    public struct Destination: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessControlTranslation", required: false, type: .structure), 
+            AWSShapeMember(label: "Account", required: false, type: .string), 
+            AWSShapeMember(label: "Bucket", required: true, type: .string), 
+            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "StorageClass", required: false, type: .enum)
+        ]
+        /// A container for information about access control for replicas.  Use this element only in a cross-account scenario where source and destination bucket owners are not the same to change replica ownership to the AWS account that owns the destination bucket. If you don't add this element to the replication configuration, the replicas are owned by same AWS account that owns the source object. 
+        public let accessControlTranslation: AccessControlTranslation?
+        /// The account ID of the destination bucket. Currently, Amazon S3 verifies this value only if Access Control Translation is enabled.  In a cross-account scenario, if you change replica ownership to the AWS account that owns the destination bucket by adding the AccessControlTranslation element, this is the account ID of the owner of the destination bucket. 
+        public let account: String?
+        ///  The Amazon Resource Name (ARN) of the bucket where you want Amazon S3 to store replicas of the object identified by the rule.   If there are multiple rules in your replication configuration, all rules must specify the same bucket as the destination. A replication configuration can replicate objects to only one destination bucket. 
+        public let bucket: String
+        /// A container that provides information about encryption. If SourceSelectionCriteria is specified, you must specify this element. 
+        public let encryptionConfiguration: EncryptionConfiguration?
+        ///  The class of storage used to store the object. By default Amazon S3 uses storage class of the source object when creating a replica. 
+        public let storageClass: StorageClass?
+
+        public init(accessControlTranslation: AccessControlTranslation? = nil, account: String? = nil, bucket: String, encryptionConfiguration: EncryptionConfiguration? = nil, storageClass: StorageClass? = nil) {
+            self.accessControlTranslation = accessControlTranslation
+            self.account = account
+            self.bucket = bucket
+            self.encryptionConfiguration = encryptionConfiguration
+            self.storageClass = storageClass
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessControlTranslation = "AccessControlTranslation"
+            case account = "Account"
+            case bucket = "Bucket"
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case storageClass = "StorageClass"
+        }
+    }
+
+    public enum EncodingType: String, CustomStringConvertible, Codable {
+        case url = "url"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Encryption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionType", required: true, type: .enum), 
+            AWSShapeMember(label: "KMSContext", required: false, type: .string), 
+            AWSShapeMember(label: "KMSKeyId", required: false, type: .string)
+        ]
+        /// The server-side encryption algorithm used when storing job results in Amazon S3 (e.g., AES256, aws:kms).
+        public let encryptionType: ServerSideEncryption
+        /// If the encryption type is aws:kms, this optional value can be used to specify the encryption context for the restore results.
+        public let kMSContext: String?
+        /// If the encryption type is aws:kms, this optional value specifies the AWS KMS key ID to use for encryption of job results.
+        public let kMSKeyId: String?
+
+        public init(encryptionType: ServerSideEncryption, kMSContext: String? = nil, kMSKeyId: String? = nil) {
+            self.encryptionType = encryptionType
+            self.kMSContext = kMSContext
+            self.kMSKeyId = kMSKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionType = "EncryptionType"
+            case kMSContext = "KMSContext"
+            case kMSKeyId = "KMSKeyId"
+        }
+    }
+
+    public struct EncryptionConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicaKmsKeyID", required: false, type: .string)
+        ]
+        /// The ID of the AWS KMS key for the AWS Region where the destination bucket resides. Amazon S3 uses this key to encrypt the replica object. 
+        public let replicaKmsKeyID: String?
+
+        public init(replicaKmsKeyID: String? = nil) {
+            self.replicaKmsKeyID = replicaKmsKeyID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicaKmsKeyID = "ReplicaKmsKeyID"
+        }
+    }
+
+    public struct EndEvent: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct Error: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Code", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "VersionId", required: false, type: .string)
+        ]
+        public let code: String?
+        public let key: String?
+        public let message: String?
+        public let versionId: String?
+
+        public init(code: String? = nil, key: String? = nil, message: String? = nil, versionId: String? = nil) {
+            self.code = code
+            self.key = key
+            self.message = message
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case key = "Key"
+            case message = "Message"
+            case versionId = "VersionId"
+        }
+    }
+
+    public struct ErrorDocument: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string)
+        ]
+        /// The object key name to use when a 4XX class error occurs.
+        public let key: String
+
+        public init(key: String) {
+            self.key = key
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+        }
+    }
+
+    public enum Event: String, CustomStringConvertible, Codable {
+        case s3Reducedredundancylostobject = "s3:ReducedRedundancyLostObject"
+        case s3ObjectcreatedAll = "s3:ObjectCreated:*"
+        case s3ObjectcreatedPut = "s3:ObjectCreated:Put"
+        case s3ObjectcreatedPost = "s3:ObjectCreated:Post"
+        case s3ObjectcreatedCopy = "s3:ObjectCreated:Copy"
+        case s3ObjectcreatedCompletemultipartupload = "s3:ObjectCreated:CompleteMultipartUpload"
+        case s3ObjectremovedAll = "s3:ObjectRemoved:*"
+        case s3ObjectremovedDelete = "s3:ObjectRemoved:Delete"
+        case s3ObjectremovedDeletemarkercreated = "s3:ObjectRemoved:DeleteMarkerCreated"
+        case s3ObjectrestorePost = "s3:ObjectRestore:Post"
+        case s3ObjectrestoreCompleted = "s3:ObjectRestore:Completed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExpirationStatus: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExpressionType: String, CustomStringConvertible, Codable {
+        case sql = "SQL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FileHeaderInfo: String, CustomStringConvertible, Codable {
+        case use = "USE"
+        case ignore = "IGNORE"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct FilterRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .enum), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The object key name prefix or suffix identifying one or more objects to which the filtering rule applies. The maximum prefix length is 1,024 characters. Overlapping prefixes and suffixes are not supported. For more information, see Configuring Event Notifications in the Amazon Simple Storage Service Developer Guide.
+        public let name: FilterRuleName?
+        public let value: String?
+
+        public init(name: FilterRuleName? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
+    public enum FilterRuleName: String, CustomStringConvertible, Codable {
+        case prefix = "prefix"
+        case suffix = "suffix"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetBucketAccelerateConfigurationOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
-        /// Specifies whether MFA delete is enabled in the bucket versioning configuration. This element is only returned if the bucket has been configured with MFA delete. If the bucket has never been so configured, this element is not returned.
-        public let mFADelete: MFADelete?
-        /// The versioning state of the bucket.
-        public let status: BucketVersioningStatus?
+        /// The accelerate configuration of the bucket.
+        public let status: BucketAccelerateStatus?
 
-        public init(mFADelete: MFADelete? = nil, status: BucketVersioningStatus? = nil) {
-            self.mFADelete = mFADelete
+        public init(status: BucketAccelerateStatus? = nil) {
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mFADelete = "MfaDelete"
             case status = "Status"
         }
     }
 
-    public struct ReplicationConfiguration: AWSShape {
+    public struct GetBucketAccelerateConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: true, type: .list), 
-            AWSShapeMember(label: "Role", required: true, type: .string)
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
-        /// A container for one or more replication rules. A replication configuration must have at least one rule and can contain a maximum of 1,000 rules. 
-        public let rules: [ReplicationRule]
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that Amazon S3 can assume when replicating the objects.
-        public let role: String
+        /// Name of the bucket for which the accelerate configuration is retrieved.
+        public let bucket: String
 
-        public init(rules: [ReplicationRule], role: String) {
-            self.rules = rules
-            self.role = role
+        public init(bucket: String) {
+            self.bucket = bucket
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rules = "Rule"
-            case role = "Role"
+            case bucket = "Bucket"
         }
     }
 
-    public enum AnalyticsS3ExportFileFormat: String, CustomStringConvertible, Codable {
-        case csv = "CSV"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct NotificationConfigurationDeprecated: AWSShape {
+    public struct GetBucketAclOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TopicConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "CloudFunctionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "QueueConfiguration", required: false, type: .structure)
+            AWSShapeMember(label: "Grants", location: .body(locationName: "AccessControlList"), required: false, type: .structure), 
+            AWSShapeMember(label: "Owner", required: false, type: .structure)
         ]
-        public let topicConfiguration: TopicConfigurationDeprecated?
-        public let cloudFunctionConfiguration: CloudFunctionConfiguration?
-        public let queueConfiguration: QueueConfigurationDeprecated?
+        /// A list of grants.
+        public let grants: Grants?
+        public let owner: Owner?
 
-        public init(topicConfiguration: TopicConfigurationDeprecated? = nil, cloudFunctionConfiguration: CloudFunctionConfiguration? = nil, queueConfiguration: QueueConfigurationDeprecated? = nil) {
-            self.topicConfiguration = topicConfiguration
-            self.cloudFunctionConfiguration = cloudFunctionConfiguration
-            self.queueConfiguration = queueConfiguration
+        public init(grants: Grants? = nil, owner: Owner? = nil) {
+            self.grants = grants
+            self.owner = owner
         }
 
         private enum CodingKeys: String, CodingKey {
-            case topicConfiguration = "TopicConfiguration"
-            case cloudFunctionConfiguration = "CloudFunctionConfiguration"
-            case queueConfiguration = "QueueConfiguration"
+            case grants = "AccessControlList"
+            case owner = "Owner"
         }
     }
 
-    public struct TargetGrant: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Permission", required: false, type: .enum), 
-            AWSShapeMember(label: "Grantee", required: false, type: .structure)
-        ]
-        /// Logging permissions assigned to the Grantee for the bucket.
-        public let permission: BucketLogsPermission?
-        public let grantee: Grantee?
-
-        public init(permission: BucketLogsPermission? = nil, grantee: Grantee? = nil) {
-            self.permission = permission
-            self.grantee = grantee
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case permission = "Permission"
-            case grantee = "Grantee"
-        }
-    }
-
-    public struct DeleteBucketCorsRequest: AWSShape {
+    public struct GetBucketAclRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
@@ -1455,24 +2004,1006 @@ extension S3 {
         }
     }
 
-    public struct DeleteBucketAnalyticsConfigurationRequest: AWSShape {
+    public struct GetBucketAnalyticsConfigurationOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "AnalyticsConfiguration"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+            AWSShapeMember(label: "AnalyticsConfiguration", required: false, type: .structure)
         ]
+        /// The configuration and any analyses for the analytics filter.
+        public let analyticsConfiguration: AnalyticsConfiguration?
+
+        public init(analyticsConfiguration: AnalyticsConfiguration? = nil) {
+            self.analyticsConfiguration = analyticsConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analyticsConfiguration = "AnalyticsConfiguration"
+        }
+    }
+
+    public struct GetBucketAnalyticsConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string)
+        ]
+        /// The name of the bucket from which an analytics configuration is retrieved.
+        public let bucket: String
         /// The identifier used to represent an analytics configuration.
         public let id: String
-        /// The name of the bucket from which an analytics configuration is deleted.
+
+        public init(bucket: String, id: String) {
+            self.bucket = bucket
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case id = "id"
+        }
+    }
+
+    public struct GetBucketCorsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CORSRules", location: .body(locationName: "CORSRule"), required: false, type: .list)
+        ]
+        public let cORSRules: [CORSRule]?
+
+        public init(cORSRules: [CORSRule]? = nil) {
+            self.cORSRules = cORSRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cORSRules = "CORSRule"
+        }
+    }
+
+    public struct GetBucketCorsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+        ]
         public let bucket: String
 
-        public init(id: String, bucket: String) {
-            self.id = id
+        public init(bucket: String) {
             self.bucket = bucket
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "id"
             case bucket = "Bucket"
+        }
+    }
+
+    public struct GetBucketEncryptionOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "ServerSideEncryptionConfiguration"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerSideEncryptionConfiguration", required: false, type: .structure)
+        ]
+        public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
+
+        public init(serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil) {
+            self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
+        }
+    }
+
+    public struct GetBucketEncryptionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+        ]
+        /// The name of the bucket from which the server-side encryption configuration is retrieved.
+        public let bucket: String
+
+        public init(bucket: String) {
+            self.bucket = bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+        }
+    }
+
+    public struct GetBucketInventoryConfigurationOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "InventoryConfiguration"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InventoryConfiguration", required: false, type: .structure)
+        ]
+        /// Specifies the inventory configuration.
+        public let inventoryConfiguration: InventoryConfiguration?
+
+        public init(inventoryConfiguration: InventoryConfiguration? = nil) {
+            self.inventoryConfiguration = inventoryConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inventoryConfiguration = "InventoryConfiguration"
+        }
+    }
+
+    public struct GetBucketInventoryConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string)
+        ]
+        /// The name of the bucket containing the inventory configuration to retrieve.
+        public let bucket: String
+        /// The ID used to identify the inventory configuration.
+        public let id: String
+
+        public init(bucket: String, id: String) {
+            self.bucket = bucket
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case id = "id"
+        }
+    }
+
+    public struct GetBucketLifecycleConfigurationOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: false, type: .list)
+        ]
+        public let rules: [LifecycleRule]?
+
+        public init(rules: [LifecycleRule]? = nil) {
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules = "Rule"
+        }
+    }
+
+    public struct GetBucketLifecycleConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+        ]
+        public let bucket: String
+
+        public init(bucket: String) {
+            self.bucket = bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+        }
+    }
+
+    public struct GetBucketLifecycleOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: false, type: .list)
+        ]
+        public let rules: [Rule]?
+
+        public init(rules: [Rule]? = nil) {
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules = "Rule"
+        }
+    }
+
+    public struct GetBucketLifecycleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+        ]
+        public let bucket: String
+
+        public init(bucket: String) {
+            self.bucket = bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+        }
+    }
+
+    public struct GetBucketLocationOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LocationConstraint", required: false, type: .enum)
+        ]
+        public let locationConstraint: BucketLocationConstraint?
+
+        public init(locationConstraint: BucketLocationConstraint? = nil) {
+            self.locationConstraint = locationConstraint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationConstraint = "LocationConstraint"
+        }
+    }
+
+    public struct GetBucketLocationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+        ]
+        public let bucket: String
+
+        public init(bucket: String) {
+            self.bucket = bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+        }
+    }
+
+    public struct GetBucketLoggingOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoggingEnabled", required: false, type: .structure)
+        ]
+        public let loggingEnabled: LoggingEnabled?
+
+        public init(loggingEnabled: LoggingEnabled? = nil) {
+            self.loggingEnabled = loggingEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loggingEnabled = "LoggingEnabled"
+        }
+    }
+
+    public struct GetBucketLoggingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+        ]
+        public let bucket: String
+
+        public init(bucket: String) {
+            self.bucket = bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+        }
+    }
+
+    public struct GetBucketMetricsConfigurationOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "MetricsConfiguration"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MetricsConfiguration", required: false, type: .structure)
+        ]
+        /// Specifies the metrics configuration.
+        public let metricsConfiguration: MetricsConfiguration?
+
+        public init(metricsConfiguration: MetricsConfiguration? = nil) {
+            self.metricsConfiguration = metricsConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricsConfiguration = "MetricsConfiguration"
+        }
+    }
+
+    public struct GetBucketMetricsConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string)
+        ]
+        /// The name of the bucket containing the metrics configuration to retrieve.
+        public let bucket: String
+        /// The ID used to identify the metrics configuration.
+        public let id: String
+
+        public init(bucket: String, id: String) {
+            self.bucket = bucket
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case id = "id"
+        }
+    }
+
+    public struct GetBucketNotificationConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+        ]
+        /// Name of the bucket to get the notification configuration for.
+        public let bucket: String
+
+        public init(bucket: String) {
+            self.bucket = bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+        }
+    }
+
+    public struct GetBucketPolicyOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "Policy"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: false, type: .string)
+        ]
+        /// The bucket policy as a JSON document.
+        public let policy: String?
+
+        public init(policy: String? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+        }
+    }
+
+    public struct GetBucketPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+        ]
+        public let bucket: String
+
+        public init(bucket: String) {
+            self.bucket = bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+        }
+    }
+
+    public struct GetBucketPolicyStatusOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "PolicyStatus"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyStatus", required: false, type: .structure)
+        ]
+        /// The policy status for the specified bucket.
+        public let policyStatus: PolicyStatus?
+
+        public init(policyStatus: PolicyStatus? = nil) {
+            self.policyStatus = policyStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyStatus = "PolicyStatus"
+        }
+    }
+
+    public struct GetBucketPolicyStatusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+        ]
+        /// The name of the Amazon S3 bucket whose policy status you want to retrieve.
+        public let bucket: String
+
+        public init(bucket: String) {
+            self.bucket = bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+        }
+    }
+
+    public struct GetBucketReplicationOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "ReplicationConfiguration"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationConfiguration", required: false, type: .structure)
+        ]
+        public let replicationConfiguration: ReplicationConfiguration?
+
+        public init(replicationConfiguration: ReplicationConfiguration? = nil) {
+            self.replicationConfiguration = replicationConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationConfiguration = "ReplicationConfiguration"
+        }
+    }
+
+    public struct GetBucketReplicationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+        ]
+        public let bucket: String
+
+        public init(bucket: String) {
+            self.bucket = bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+        }
+    }
+
+    public struct GetBucketRequestPaymentOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Payer", required: false, type: .enum)
+        ]
+        /// Specifies who pays for the download and request fees.
+        public let payer: Payer?
+
+        public init(payer: Payer? = nil) {
+            self.payer = payer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case payer = "Payer"
+        }
+    }
+
+    public struct GetBucketRequestPaymentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+        ]
+        public let bucket: String
+
+        public init(bucket: String) {
+            self.bucket = bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+        }
+    }
+
+    public struct GetBucketTaggingOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagSet", required: true, type: .structure)
+        ]
+        public let tagSet: TagSet
+
+        public init(tagSet: TagSet) {
+            self.tagSet = tagSet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagSet = "TagSet"
+        }
+    }
+
+    public struct GetBucketTaggingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+        ]
+        public let bucket: String
+
+        public init(bucket: String) {
+            self.bucket = bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+        }
+    }
+
+    public struct GetBucketVersioningOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MFADelete", location: .body(locationName: "MfaDelete"), required: false, type: .enum), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        /// Specifies whether MFA delete is enabled in the bucket versioning configuration. This element is only returned if the bucket has been configured with MFA delete. If the bucket has never been so configured, this element is not returned.
+        public let mFADelete: MFADeleteStatus?
+        /// The versioning state of the bucket.
+        public let status: BucketVersioningStatus?
+
+        public init(mFADelete: MFADeleteStatus? = nil, status: BucketVersioningStatus? = nil) {
+            self.mFADelete = mFADelete
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mFADelete = "MfaDelete"
+            case status = "Status"
+        }
+    }
+
+    public struct GetBucketVersioningRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+        ]
+        public let bucket: String
+
+        public init(bucket: String) {
+            self.bucket = bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+        }
+    }
+
+    public struct GetBucketWebsiteOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorDocument", required: false, type: .structure), 
+            AWSShapeMember(label: "IndexDocument", required: false, type: .structure), 
+            AWSShapeMember(label: "RedirectAllRequestsTo", required: false, type: .structure), 
+            AWSShapeMember(label: "RoutingRules", required: false, type: .structure)
+        ]
+        public let errorDocument: ErrorDocument?
+        public let indexDocument: IndexDocument?
+        public let redirectAllRequestsTo: RedirectAllRequestsTo?
+        public let routingRules: RoutingRules?
+
+        public init(errorDocument: ErrorDocument? = nil, indexDocument: IndexDocument? = nil, redirectAllRequestsTo: RedirectAllRequestsTo? = nil, routingRules: RoutingRules? = nil) {
+            self.errorDocument = errorDocument
+            self.indexDocument = indexDocument
+            self.redirectAllRequestsTo = redirectAllRequestsTo
+            self.routingRules = routingRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorDocument = "ErrorDocument"
+            case indexDocument = "IndexDocument"
+            case redirectAllRequestsTo = "RedirectAllRequestsTo"
+            case routingRules = "RoutingRules"
+        }
+    }
+
+    public struct GetBucketWebsiteRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+        ]
+        public let bucket: String
+
+        public init(bucket: String) {
+            self.bucket = bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+        }
+    }
+
+    public struct GetObjectAclOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Grants", location: .body(locationName: "AccessControlList"), required: false, type: .structure), 
+            AWSShapeMember(label: "Owner", required: false, type: .structure), 
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
+        ]
+        /// A list of grants.
+        public let grants: Grants?
+        public let owner: Owner?
+        public let requestCharged: RequestCharged?
+
+        public init(grants: Grants? = nil, owner: Owner? = nil, requestCharged: RequestCharged? = nil) {
+            self.grants = grants
+            self.owner = owner
+            self.requestCharged = requestCharged
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grants = "AccessControlList"
+            case owner = "Owner"
+            case requestCharged = "x-amz-request-charged"
+        }
+    }
+
+    public struct GetObjectAclRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
+        ]
+        public let bucket: String
+        public let key: String
+        public let requestPayer: RequestPayer?
+        /// VersionId used to reference a specific version of the object.
+        public let versionId: String?
+
+        public init(bucket: String, key: String, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
+            self.bucket = bucket
+            self.key = key
+            self.requestPayer = requestPayer
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case key = "Key"
+            case requestPayer = "x-amz-request-payer"
+            case versionId = "versionId"
+        }
+    }
+
+    public struct GetObjectLegalHoldOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "LegalHold"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LegalHold", required: false, type: .structure)
+        ]
+        /// The current Legal Hold status for the specified object.
+        public let legalHold: ObjectLockLegalHold?
+
+        public init(legalHold: ObjectLockLegalHold? = nil) {
+            self.legalHold = legalHold
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case legalHold = "LegalHold"
+        }
+    }
+
+    public struct GetObjectLegalHoldRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
+        ]
+        /// The bucket containing the object whose Legal Hold status you want to retrieve.
+        public let bucket: String
+        /// The key name for the object whose Legal Hold status you want to retrieve.
+        public let key: String
+        public let requestPayer: RequestPayer?
+        /// The version ID of the object whose Legal Hold status you want to retrieve.
+        public let versionId: String?
+
+        public init(bucket: String, key: String, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
+            self.bucket = bucket
+            self.key = key
+            self.requestPayer = requestPayer
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case key = "Key"
+            case requestPayer = "x-amz-request-payer"
+            case versionId = "versionId"
+        }
+    }
+
+    public struct GetObjectLockConfigurationOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "ObjectLockConfiguration"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectLockConfiguration", required: false, type: .structure)
+        ]
+        /// The specified bucket's Object Lock configuration.
+        public let objectLockConfiguration: ObjectLockConfiguration?
+
+        public init(objectLockConfiguration: ObjectLockConfiguration? = nil) {
+            self.objectLockConfiguration = objectLockConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectLockConfiguration = "ObjectLockConfiguration"
+        }
+    }
+
+    public struct GetObjectLockConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+        ]
+        /// The bucket whose Object Lock configuration you want to retrieve.
+        public let bucket: String
+
+        public init(bucket: String) {
+            self.bucket = bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+        }
+    }
+
+    public struct GetObjectOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "Body"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptRanges", location: .header(locationName: "accept-ranges"), required: false, type: .string), 
+            AWSShapeMember(label: "Body", required: false, type: .blob), 
+            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string), 
+            AWSShapeMember(label: "ContentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string), 
+            AWSShapeMember(label: "ContentEncoding", location: .header(locationName: "Content-Encoding"), required: false, type: .string), 
+            AWSShapeMember(label: "ContentLanguage", location: .header(locationName: "Content-Language"), required: false, type: .string), 
+            AWSShapeMember(label: "ContentLength", location: .header(locationName: "Content-Length"), required: false, type: .long), 
+            AWSShapeMember(label: "ContentRange", location: .header(locationName: "Content-Range"), required: false, type: .string), 
+            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
+            AWSShapeMember(label: "DeleteMarker", location: .header(locationName: "x-amz-delete-marker"), required: false, type: .boolean), 
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "Expiration", location: .header(locationName: "x-amz-expiration"), required: false, type: .string), 
+            AWSShapeMember(label: "Expires", location: .header(locationName: "Expires"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastModified", location: .header(locationName: "Last-Modified"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "Metadata", required: false, type: .map), 
+            AWSShapeMember(label: "MissingMeta", location: .header(locationName: "x-amz-missing-meta"), required: false, type: .integer), 
+            AWSShapeMember(label: "ObjectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold"), required: false, type: .enum), 
+            AWSShapeMember(label: "ObjectLockMode", location: .header(locationName: "x-amz-object-lock-mode"), required: false, type: .enum), 
+            AWSShapeMember(label: "ObjectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "PartsCount", location: .header(locationName: "x-amz-mp-parts-count"), required: false, type: .integer), 
+            AWSShapeMember(label: "ReplicationStatus", location: .header(locationName: "x-amz-replication-status"), required: false, type: .enum), 
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
+            AWSShapeMember(label: "Restore", location: .header(locationName: "x-amz-restore"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
+            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
+            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum), 
+            AWSShapeMember(label: "TagCount", location: .header(locationName: "x-amz-tagging-count"), required: false, type: .integer), 
+            AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string), 
+            AWSShapeMember(label: "WebsiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"), required: false, type: .string)
+        ]
+        public let acceptRanges: String?
+        /// Object data.
+        public let body: Data?
+        /// Specifies caching behavior along the request/reply chain.
+        public let cacheControl: String?
+        /// Specifies presentational information for the object.
+        public let contentDisposition: String?
+        /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
+        public let contentEncoding: String?
+        /// The language the content is in.
+        public let contentLanguage: String?
+        /// Size of the body in bytes.
+        public let contentLength: Int64?
+        /// The portion of the object returned in the response.
+        public let contentRange: String?
+        /// A standard MIME type describing the format of the object data.
+        public let contentType: String?
+        /// Specifies whether the object retrieved was (true) or was not (false) a Delete Marker. If false, this response header does not appear in the response.
+        public let deleteMarker: Bool?
+        /// An ETag is an opaque identifier assigned by a web server to a specific version of a resource found at a URL
+        public let eTag: String?
+        /// If the object expiration is configured (see PUT Bucket lifecycle), the response includes this header. It includes the expiry-date and rule-id key value pairs providing object expiration information. The value of the rule-id is URL encoded.
+        public let expiration: String?
+        /// The date and time at which the object is no longer cacheable.
+        public let expires: TimeStamp?
+        /// Last modified date of the object
+        public let lastModified: TimeStamp?
+        /// A map of metadata to store with the object in S3.
+        public let metadata: [String: String]?
+        /// This is set to the number of metadata entries not returned in x-amz-meta headers. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you can create metadata whose values are not legal HTTP headers.
+        public let missingMeta: Int32?
+        /// Indicates whether this object has an active legal hold. This field is only returned if you have permission to view an object's legal hold status.
+        public let objectLockLegalHoldStatus: ObjectLockLegalHoldStatus?
+        /// The Object Lock mode currently in place for this object.
+        public let objectLockMode: ObjectLockMode?
+        /// The date and time when this object's Object Lock will expire.
+        public let objectLockRetainUntilDate: TimeStamp?
+        /// The count of parts this object has.
+        public let partsCount: Int32?
+        public let replicationStatus: ReplicationStatus?
+        public let requestCharged: RequestCharged?
+        /// Provides information about object restoration operation and expiration time of the restored object copy.
+        public let restore: String?
+        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
+        public let sSECustomerAlgorithm: String?
+        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
+        public let sSECustomerKeyMD5: String?
+        /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
+        public let sSEKMSKeyId: String?
+        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
+        public let serverSideEncryption: ServerSideEncryption?
+        public let storageClass: StorageClass?
+        /// The number of tags, if any, on the object.
+        public let tagCount: Int32?
+        /// Version of the object.
+        public let versionId: String?
+        /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
+        public let websiteRedirectLocation: String?
+
+        public init(acceptRanges: String? = nil, body: Data? = nil, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: TimeStamp? = nil, lastModified: TimeStamp? = nil, metadata: [String: String]? = nil, missingMeta: Int32? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, partsCount: Int32? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, storageClass: StorageClass? = nil, tagCount: Int32? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
+            self.acceptRanges = acceptRanges
+            self.body = body
+            self.cacheControl = cacheControl
+            self.contentDisposition = contentDisposition
+            self.contentEncoding = contentEncoding
+            self.contentLanguage = contentLanguage
+            self.contentLength = contentLength
+            self.contentRange = contentRange
+            self.contentType = contentType
+            self.deleteMarker = deleteMarker
+            self.eTag = eTag
+            self.expiration = expiration
+            self.expires = expires
+            self.lastModified = lastModified
+            self.metadata = metadata
+            self.missingMeta = missingMeta
+            self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
+            self.objectLockMode = objectLockMode
+            self.objectLockRetainUntilDate = objectLockRetainUntilDate
+            self.partsCount = partsCount
+            self.replicationStatus = replicationStatus
+            self.requestCharged = requestCharged
+            self.restore = restore
+            self.sSECustomerAlgorithm = sSECustomerAlgorithm
+            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
+            self.sSEKMSKeyId = sSEKMSKeyId
+            self.serverSideEncryption = serverSideEncryption
+            self.storageClass = storageClass
+            self.tagCount = tagCount
+            self.versionId = versionId
+            self.websiteRedirectLocation = websiteRedirectLocation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptRanges = "accept-ranges"
+            case body = "Body"
+            case cacheControl = "Cache-Control"
+            case contentDisposition = "Content-Disposition"
+            case contentEncoding = "Content-Encoding"
+            case contentLanguage = "Content-Language"
+            case contentLength = "Content-Length"
+            case contentRange = "Content-Range"
+            case contentType = "Content-Type"
+            case deleteMarker = "x-amz-delete-marker"
+            case eTag = "ETag"
+            case expiration = "x-amz-expiration"
+            case expires = "Expires"
+            case lastModified = "Last-Modified"
+            case metadata = "Metadata"
+            case missingMeta = "x-amz-missing-meta"
+            case objectLockLegalHoldStatus = "x-amz-object-lock-legal-hold"
+            case objectLockMode = "x-amz-object-lock-mode"
+            case objectLockRetainUntilDate = "x-amz-object-lock-retain-until-date"
+            case partsCount = "x-amz-mp-parts-count"
+            case replicationStatus = "x-amz-replication-status"
+            case requestCharged = "x-amz-request-charged"
+            case restore = "x-amz-restore"
+            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
+            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
+            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
+            case serverSideEncryption = "x-amz-server-side-encryption"
+            case storageClass = "x-amz-storage-class"
+            case tagCount = "x-amz-tagging-count"
+            case versionId = "x-amz-version-id"
+            case websiteRedirectLocation = "x-amz-website-redirect-location"
+        }
+    }
+
+    public struct GetObjectRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
+            AWSShapeMember(label: "IfModifiedSince", location: .header(locationName: "If-Modified-Since"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "IfNoneMatch", location: .header(locationName: "If-None-Match"), required: false, type: .string), 
+            AWSShapeMember(label: "IfUnmodifiedSince", location: .header(locationName: "If-Unmodified-Since"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
+            AWSShapeMember(label: "PartNumber", location: .querystring(locationName: "partNumber"), required: false, type: .integer), 
+            AWSShapeMember(label: "Range", location: .header(locationName: "Range"), required: false, type: .string), 
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
+            AWSShapeMember(label: "ResponseCacheControl", location: .querystring(locationName: "response-cache-control"), required: false, type: .string), 
+            AWSShapeMember(label: "ResponseContentDisposition", location: .querystring(locationName: "response-content-disposition"), required: false, type: .string), 
+            AWSShapeMember(label: "ResponseContentEncoding", location: .querystring(locationName: "response-content-encoding"), required: false, type: .string), 
+            AWSShapeMember(label: "ResponseContentLanguage", location: .querystring(locationName: "response-content-language"), required: false, type: .string), 
+            AWSShapeMember(label: "ResponseContentType", location: .querystring(locationName: "response-content-type"), required: false, type: .string), 
+            AWSShapeMember(label: "ResponseExpires", location: .querystring(locationName: "response-expires"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
+        ]
+        public let bucket: String
+        /// Return the object only if its entity tag (ETag) is the same as the one specified, otherwise return a 412 (precondition failed).
+        public let ifMatch: String?
+        /// Return the object only if it has been modified since the specified time, otherwise return a 304 (not modified).
+        public let ifModifiedSince: TimeStamp?
+        /// Return the object only if its entity tag (ETag) is different from the one specified, otherwise return a 304 (not modified).
+        public let ifNoneMatch: String?
+        /// Return the object only if it has not been modified since the specified time, otherwise return a 412 (precondition failed).
+        public let ifUnmodifiedSince: TimeStamp?
+        public let key: String
+        /// Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' GET request for the part specified. Useful for downloading just a part of an object.
+        public let partNumber: Int32?
+        /// Downloads the specified range bytes of an object. For more information about the HTTP Range header, go to http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
+        public let range: String?
+        public let requestPayer: RequestPayer?
+        /// Sets the Cache-Control header of the response.
+        public let responseCacheControl: String?
+        /// Sets the Content-Disposition header of the response
+        public let responseContentDisposition: String?
+        /// Sets the Content-Encoding header of the response.
+        public let responseContentEncoding: String?
+        /// Sets the Content-Language header of the response.
+        public let responseContentLanguage: String?
+        /// Sets the Content-Type header of the response.
+        public let responseContentType: String?
+        /// Sets the Expires header of the response.
+        public let responseExpires: TimeStamp?
+        /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
+        public let sSECustomerAlgorithm: String?
+        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
+        public let sSECustomerKey: String?
+        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
+        public let sSECustomerKeyMD5: String?
+        /// VersionId used to reference a specific version of the object.
+        public let versionId: String?
+
+        public init(bucket: String, ifMatch: String? = nil, ifModifiedSince: TimeStamp? = nil, ifNoneMatch: String? = nil, ifUnmodifiedSince: TimeStamp? = nil, key: String, partNumber: Int32? = nil, range: String? = nil, requestPayer: RequestPayer? = nil, responseCacheControl: String? = nil, responseContentDisposition: String? = nil, responseContentEncoding: String? = nil, responseContentLanguage: String? = nil, responseContentType: String? = nil, responseExpires: TimeStamp? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, versionId: String? = nil) {
+            self.bucket = bucket
+            self.ifMatch = ifMatch
+            self.ifModifiedSince = ifModifiedSince
+            self.ifNoneMatch = ifNoneMatch
+            self.ifUnmodifiedSince = ifUnmodifiedSince
+            self.key = key
+            self.partNumber = partNumber
+            self.range = range
+            self.requestPayer = requestPayer
+            self.responseCacheControl = responseCacheControl
+            self.responseContentDisposition = responseContentDisposition
+            self.responseContentEncoding = responseContentEncoding
+            self.responseContentLanguage = responseContentLanguage
+            self.responseContentType = responseContentType
+            self.responseExpires = responseExpires
+            self.sSECustomerAlgorithm = sSECustomerAlgorithm
+            self.sSECustomerKey = sSECustomerKey
+            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case ifMatch = "If-Match"
+            case ifModifiedSince = "If-Modified-Since"
+            case ifNoneMatch = "If-None-Match"
+            case ifUnmodifiedSince = "If-Unmodified-Since"
+            case key = "Key"
+            case partNumber = "partNumber"
+            case range = "Range"
+            case requestPayer = "x-amz-request-payer"
+            case responseCacheControl = "response-cache-control"
+            case responseContentDisposition = "response-content-disposition"
+            case responseContentEncoding = "response-content-encoding"
+            case responseContentLanguage = "response-content-language"
+            case responseContentType = "response-content-type"
+            case responseExpires = "response-expires"
+            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
+            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
+            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
+            case versionId = "versionId"
+        }
+    }
+
+    public struct GetObjectRetentionOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "Retention"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Retention", required: false, type: .structure)
+        ]
+        /// The container element for an object's retention settings.
+        public let retention: ObjectLockRetention?
+
+        public init(retention: ObjectLockRetention? = nil) {
+            self.retention = retention
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retention = "Retention"
+        }
+    }
+
+    public struct GetObjectRetentionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
+        ]
+        /// The bucket containing the object whose retention settings you want to retrieve.
+        public let bucket: String
+        /// The key name for the object whose retention settings you want to retrieve.
+        public let key: String
+        public let requestPayer: RequestPayer?
+        /// The version ID for the object whose retention settings you want to retrieve.
+        public let versionId: String?
+
+        public init(bucket: String, key: String, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
+            self.bucket = bucket
+            self.key = key
+            self.requestPayer = requestPayer
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case key = "Key"
+            case requestPayer = "x-amz-request-payer"
+            case versionId = "versionId"
         }
     }
 
@@ -1495,6 +3026,1681 @@ extension S3 {
         }
     }
 
+    public struct GetObjectTaggingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
+        ]
+        public let bucket: String
+        public let key: String
+        public let versionId: String?
+
+        public init(bucket: String, key: String, versionId: String? = nil) {
+            self.bucket = bucket
+            self.key = key
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case key = "Key"
+            case versionId = "versionId"
+        }
+    }
+
+    public struct GetObjectTorrentOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "Body"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Body", required: false, type: .blob), 
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
+        ]
+        public let body: Data?
+        public let requestCharged: RequestCharged?
+
+        public init(body: Data? = nil, requestCharged: RequestCharged? = nil) {
+            self.body = body
+            self.requestCharged = requestCharged
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "Body"
+            case requestCharged = "x-amz-request-charged"
+        }
+    }
+
+    public struct GetObjectTorrentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum)
+        ]
+        public let bucket: String
+        public let key: String
+        public let requestPayer: RequestPayer?
+
+        public init(bucket: String, key: String, requestPayer: RequestPayer? = nil) {
+            self.bucket = bucket
+            self.key = key
+            self.requestPayer = requestPayer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case key = "Key"
+            case requestPayer = "x-amz-request-payer"
+        }
+    }
+
+    public struct GetPublicAccessBlockOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "PublicAccessBlockConfiguration"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PublicAccessBlockConfiguration", required: false, type: .structure)
+        ]
+        /// The PublicAccessBlock configuration currently in effect for this Amazon S3 bucket.
+        public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
+
+        public init(publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil) {
+            self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
+        }
+    }
+
+    public struct GetPublicAccessBlockRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+        ]
+        /// The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want to retrieve. 
+        public let bucket: String
+
+        public init(bucket: String) {
+            self.bucket = bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+        }
+    }
+
+    public struct GlacierJobParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tier", required: true, type: .enum)
+        ]
+        /// Glacier retrieval tier at which the restore will be processed.
+        public let tier: Tier
+
+        public init(tier: Tier) {
+            self.tier = tier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tier = "Tier"
+        }
+    }
+
+    public struct Grant: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Grantee", required: false, type: .structure), 
+            AWSShapeMember(label: "Permission", required: false, type: .enum)
+        ]
+        public let grantee: Grantee?
+        /// Specifies the permission given to the grantee.
+        public let permission: Permission?
+
+        public init(grantee: Grantee? = nil, permission: Permission? = nil) {
+            self.grantee = grantee
+            self.permission = permission
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grantee = "Grantee"
+            case permission = "Permission"
+        }
+    }
+
+    public struct Grantee: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "EmailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "ID", required: false, type: .string), 
+            AWSShapeMember(label: "Type", location: .body(locationName: "xsi:type"), required: true, type: .enum), 
+            AWSShapeMember(label: "URI", required: false, type: .string)
+        ]
+        /// Screen name of the grantee.
+        public let displayName: String?
+        /// Email address of the grantee.
+        public let emailAddress: String?
+        /// The canonical user ID of the grantee.
+        public let id: String?
+        /// Type of grantee
+        public let `type`: `Type`
+        /// URI of the grantee group.
+        public let uri: String?
+
+        public init(displayName: String? = nil, emailAddress: String? = nil, id: String? = nil, type: `Type`, uri: String? = nil) {
+            self.displayName = displayName
+            self.emailAddress = emailAddress
+            self.id = id
+            self.`type` = `type`
+            self.uri = uri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "DisplayName"
+            case emailAddress = "EmailAddress"
+            case id = "ID"
+            case `type` = "xsi:type"
+            case uri = "URI"
+        }
+    }
+
+    public struct Grants: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Grant", required: false, type: .list)
+        ]
+        public let grant: [Grant]?
+
+        public init(grant: [Grant]? = nil) {
+            self.grant = grant
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grant = "Grant"
+        }
+    }
+
+    public struct HeadBucketRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+        ]
+        public let bucket: String
+
+        public init(bucket: String) {
+            self.bucket = bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+        }
+    }
+
+    public struct HeadObjectOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptRanges", location: .header(locationName: "accept-ranges"), required: false, type: .string), 
+            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string), 
+            AWSShapeMember(label: "ContentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string), 
+            AWSShapeMember(label: "ContentEncoding", location: .header(locationName: "Content-Encoding"), required: false, type: .string), 
+            AWSShapeMember(label: "ContentLanguage", location: .header(locationName: "Content-Language"), required: false, type: .string), 
+            AWSShapeMember(label: "ContentLength", location: .header(locationName: "Content-Length"), required: false, type: .long), 
+            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
+            AWSShapeMember(label: "DeleteMarker", location: .header(locationName: "x-amz-delete-marker"), required: false, type: .boolean), 
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "Expiration", location: .header(locationName: "x-amz-expiration"), required: false, type: .string), 
+            AWSShapeMember(label: "Expires", location: .header(locationName: "Expires"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastModified", location: .header(locationName: "Last-Modified"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "Metadata", required: false, type: .map), 
+            AWSShapeMember(label: "MissingMeta", location: .header(locationName: "x-amz-missing-meta"), required: false, type: .integer), 
+            AWSShapeMember(label: "ObjectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold"), required: false, type: .enum), 
+            AWSShapeMember(label: "ObjectLockMode", location: .header(locationName: "x-amz-object-lock-mode"), required: false, type: .enum), 
+            AWSShapeMember(label: "ObjectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "PartsCount", location: .header(locationName: "x-amz-mp-parts-count"), required: false, type: .integer), 
+            AWSShapeMember(label: "ReplicationStatus", location: .header(locationName: "x-amz-replication-status"), required: false, type: .enum), 
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
+            AWSShapeMember(label: "Restore", location: .header(locationName: "x-amz-restore"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
+            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
+            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum), 
+            AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string), 
+            AWSShapeMember(label: "WebsiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"), required: false, type: .string)
+        ]
+        public let acceptRanges: String?
+        /// Specifies caching behavior along the request/reply chain.
+        public let cacheControl: String?
+        /// Specifies presentational information for the object.
+        public let contentDisposition: String?
+        /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
+        public let contentEncoding: String?
+        /// The language the content is in.
+        public let contentLanguage: String?
+        /// Size of the body in bytes.
+        public let contentLength: Int64?
+        /// A standard MIME type describing the format of the object data.
+        public let contentType: String?
+        /// Specifies whether the object retrieved was (true) or was not (false) a Delete Marker. If false, this response header does not appear in the response.
+        public let deleteMarker: Bool?
+        /// An ETag is an opaque identifier assigned by a web server to a specific version of a resource found at a URL
+        public let eTag: String?
+        /// If the object expiration is configured (see PUT Bucket lifecycle), the response includes this header. It includes the expiry-date and rule-id key value pairs providing object expiration information. The value of the rule-id is URL encoded.
+        public let expiration: String?
+        /// The date and time at which the object is no longer cacheable.
+        public let expires: TimeStamp?
+        /// Last modified date of the object
+        public let lastModified: TimeStamp?
+        /// A map of metadata to store with the object in S3.
+        public let metadata: [String: String]?
+        /// This is set to the number of metadata entries not returned in x-amz-meta headers. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you can create metadata whose values are not legal HTTP headers.
+        public let missingMeta: Int32?
+        /// The Legal Hold status for the specified object.
+        public let objectLockLegalHoldStatus: ObjectLockLegalHoldStatus?
+        /// The Object Lock mode currently in place for this object.
+        public let objectLockMode: ObjectLockMode?
+        /// The date and time when this object's Object Lock will expire.
+        public let objectLockRetainUntilDate: TimeStamp?
+        /// The count of parts this object has.
+        public let partsCount: Int32?
+        public let replicationStatus: ReplicationStatus?
+        public let requestCharged: RequestCharged?
+        /// Provides information about object restoration operation and expiration time of the restored object copy.
+        public let restore: String?
+        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
+        public let sSECustomerAlgorithm: String?
+        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
+        public let sSECustomerKeyMD5: String?
+        /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
+        public let sSEKMSKeyId: String?
+        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
+        public let serverSideEncryption: ServerSideEncryption?
+        public let storageClass: StorageClass?
+        /// Version of the object.
+        public let versionId: String?
+        /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
+        public let websiteRedirectLocation: String?
+
+        public init(acceptRanges: String? = nil, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: TimeStamp? = nil, lastModified: TimeStamp? = nil, metadata: [String: String]? = nil, missingMeta: Int32? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, partsCount: Int32? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, storageClass: StorageClass? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
+            self.acceptRanges = acceptRanges
+            self.cacheControl = cacheControl
+            self.contentDisposition = contentDisposition
+            self.contentEncoding = contentEncoding
+            self.contentLanguage = contentLanguage
+            self.contentLength = contentLength
+            self.contentType = contentType
+            self.deleteMarker = deleteMarker
+            self.eTag = eTag
+            self.expiration = expiration
+            self.expires = expires
+            self.lastModified = lastModified
+            self.metadata = metadata
+            self.missingMeta = missingMeta
+            self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
+            self.objectLockMode = objectLockMode
+            self.objectLockRetainUntilDate = objectLockRetainUntilDate
+            self.partsCount = partsCount
+            self.replicationStatus = replicationStatus
+            self.requestCharged = requestCharged
+            self.restore = restore
+            self.sSECustomerAlgorithm = sSECustomerAlgorithm
+            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
+            self.sSEKMSKeyId = sSEKMSKeyId
+            self.serverSideEncryption = serverSideEncryption
+            self.storageClass = storageClass
+            self.versionId = versionId
+            self.websiteRedirectLocation = websiteRedirectLocation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptRanges = "accept-ranges"
+            case cacheControl = "Cache-Control"
+            case contentDisposition = "Content-Disposition"
+            case contentEncoding = "Content-Encoding"
+            case contentLanguage = "Content-Language"
+            case contentLength = "Content-Length"
+            case contentType = "Content-Type"
+            case deleteMarker = "x-amz-delete-marker"
+            case eTag = "ETag"
+            case expiration = "x-amz-expiration"
+            case expires = "Expires"
+            case lastModified = "Last-Modified"
+            case metadata = "Metadata"
+            case missingMeta = "x-amz-missing-meta"
+            case objectLockLegalHoldStatus = "x-amz-object-lock-legal-hold"
+            case objectLockMode = "x-amz-object-lock-mode"
+            case objectLockRetainUntilDate = "x-amz-object-lock-retain-until-date"
+            case partsCount = "x-amz-mp-parts-count"
+            case replicationStatus = "x-amz-replication-status"
+            case requestCharged = "x-amz-request-charged"
+            case restore = "x-amz-restore"
+            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
+            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
+            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
+            case serverSideEncryption = "x-amz-server-side-encryption"
+            case storageClass = "x-amz-storage-class"
+            case versionId = "x-amz-version-id"
+            case websiteRedirectLocation = "x-amz-website-redirect-location"
+        }
+    }
+
+    public struct HeadObjectRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
+            AWSShapeMember(label: "IfModifiedSince", location: .header(locationName: "If-Modified-Since"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "IfNoneMatch", location: .header(locationName: "If-None-Match"), required: false, type: .string), 
+            AWSShapeMember(label: "IfUnmodifiedSince", location: .header(locationName: "If-Unmodified-Since"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
+            AWSShapeMember(label: "PartNumber", location: .querystring(locationName: "partNumber"), required: false, type: .integer), 
+            AWSShapeMember(label: "Range", location: .header(locationName: "Range"), required: false, type: .string), 
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
+        ]
+        public let bucket: String
+        /// Return the object only if its entity tag (ETag) is the same as the one specified, otherwise return a 412 (precondition failed).
+        public let ifMatch: String?
+        /// Return the object only if it has been modified since the specified time, otherwise return a 304 (not modified).
+        public let ifModifiedSince: TimeStamp?
+        /// Return the object only if its entity tag (ETag) is different from the one specified, otherwise return a 304 (not modified).
+        public let ifNoneMatch: String?
+        /// Return the object only if it has not been modified since the specified time, otherwise return a 412 (precondition failed).
+        public let ifUnmodifiedSince: TimeStamp?
+        public let key: String
+        /// Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' HEAD request for the part specified. Useful querying about the size of the part and the number of parts in this object.
+        public let partNumber: Int32?
+        /// Downloads the specified range bytes of an object. For more information about the HTTP Range header, go to http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
+        public let range: String?
+        public let requestPayer: RequestPayer?
+        /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
+        public let sSECustomerAlgorithm: String?
+        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
+        public let sSECustomerKey: String?
+        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
+        public let sSECustomerKeyMD5: String?
+        /// VersionId used to reference a specific version of the object.
+        public let versionId: String?
+
+        public init(bucket: String, ifMatch: String? = nil, ifModifiedSince: TimeStamp? = nil, ifNoneMatch: String? = nil, ifUnmodifiedSince: TimeStamp? = nil, key: String, partNumber: Int32? = nil, range: String? = nil, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, versionId: String? = nil) {
+            self.bucket = bucket
+            self.ifMatch = ifMatch
+            self.ifModifiedSince = ifModifiedSince
+            self.ifNoneMatch = ifNoneMatch
+            self.ifUnmodifiedSince = ifUnmodifiedSince
+            self.key = key
+            self.partNumber = partNumber
+            self.range = range
+            self.requestPayer = requestPayer
+            self.sSECustomerAlgorithm = sSECustomerAlgorithm
+            self.sSECustomerKey = sSECustomerKey
+            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case ifMatch = "If-Match"
+            case ifModifiedSince = "If-Modified-Since"
+            case ifNoneMatch = "If-None-Match"
+            case ifUnmodifiedSince = "If-Unmodified-Since"
+            case key = "Key"
+            case partNumber = "partNumber"
+            case range = "Range"
+            case requestPayer = "x-amz-request-payer"
+            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
+            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
+            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
+            case versionId = "versionId"
+        }
+    }
+
+    public struct IndexDocument: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Suffix", required: true, type: .string)
+        ]
+        /// A suffix that is appended to a request that is for a directory on the website endpoint (e.g. if the suffix is index.html and you make a request to samplebucket/images/ the data that is returned will be for the object with the key name images/index.html) The suffix must not be empty and must not include a slash character.
+        public let suffix: String
+
+        public init(suffix: String) {
+            self.suffix = suffix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case suffix = "Suffix"
+        }
+    }
+
+    public struct Initiator: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "ID", required: false, type: .string)
+        ]
+        /// Name of the Principal.
+        public let displayName: String?
+        /// If the principal is an AWS account, it provides the Canonical User ID. If the principal is an IAM User, it provides a user ARN value.
+        public let id: String?
+
+        public init(displayName: String? = nil, id: String? = nil) {
+            self.displayName = displayName
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "DisplayName"
+            case id = "ID"
+        }
+    }
+
+    public struct InputSerialization: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CSV", required: false, type: .structure), 
+            AWSShapeMember(label: "CompressionType", required: false, type: .enum), 
+            AWSShapeMember(label: "JSON", required: false, type: .structure), 
+            AWSShapeMember(label: "Parquet", required: false, type: .structure)
+        ]
+        /// Describes the serialization of a CSV-encoded object.
+        public let csv: CSVInput?
+        /// Specifies object's compression format. Valid values: NONE, GZIP, BZIP2. Default Value: NONE.
+        public let compressionType: CompressionType?
+        /// Specifies JSON as object's input serialization format.
+        public let json: JSONInput?
+        /// Specifies Parquet as object's input serialization format.
+        public let parquet: ParquetInput?
+
+        public init(compressionType: CompressionType? = nil, csv: CSVInput? = nil, json: JSONInput? = nil, parquet: ParquetInput? = nil) {
+            self.csv = csv
+            self.compressionType = compressionType
+            self.json = json
+            self.parquet = parquet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case csv = "CSV"
+            case compressionType = "CompressionType"
+            case json = "JSON"
+            case parquet = "Parquet"
+        }
+    }
+
+    public struct InventoryConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Destination", required: true, type: .structure), 
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "IncludedObjectVersions", required: true, type: .enum), 
+            AWSShapeMember(label: "IsEnabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "OptionalFields", required: false, type: .structure), 
+            AWSShapeMember(label: "Schedule", required: true, type: .structure)
+        ]
+        /// Contains information about where to publish the inventory results.
+        public let destination: InventoryDestination
+        /// Specifies an inventory filter. The inventory only includes objects that meet the filter's criteria.
+        public let filter: InventoryFilter?
+        /// The ID used to identify the inventory configuration.
+        public let id: String
+        /// Specifies which object version(s) to included in the inventory results.
+        public let includedObjectVersions: InventoryIncludedObjectVersions
+        /// Specifies whether the inventory is enabled or disabled.
+        public let isEnabled: Bool
+        /// Contains the optional fields that are included in the inventory results.
+        public let optionalFields: InventoryOptionalFields?
+        /// Specifies the schedule for generating inventory results.
+        public let schedule: InventorySchedule
+
+        public init(destination: InventoryDestination, filter: InventoryFilter? = nil, id: String, includedObjectVersions: InventoryIncludedObjectVersions, isEnabled: Bool, optionalFields: InventoryOptionalFields? = nil, schedule: InventorySchedule) {
+            self.destination = destination
+            self.filter = filter
+            self.id = id
+            self.includedObjectVersions = includedObjectVersions
+            self.isEnabled = isEnabled
+            self.optionalFields = optionalFields
+            self.schedule = schedule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+            case filter = "Filter"
+            case id = "Id"
+            case includedObjectVersions = "IncludedObjectVersions"
+            case isEnabled = "IsEnabled"
+            case optionalFields = "OptionalFields"
+            case schedule = "Schedule"
+        }
+    }
+
+    public struct InventoryDestination: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3BucketDestination", required: true, type: .structure)
+        ]
+        /// Contains the bucket name, file format, bucket owner (optional), and prefix (optional) where inventory results are published.
+        public let s3BucketDestination: InventoryS3BucketDestination
+
+        public init(s3BucketDestination: InventoryS3BucketDestination) {
+            self.s3BucketDestination = s3BucketDestination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3BucketDestination = "S3BucketDestination"
+        }
+    }
+
+    public struct InventoryEncryption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SSEKMS", location: .body(locationName: "SSE-KMS"), required: false, type: .structure), 
+            AWSShapeMember(label: "SSES3", location: .body(locationName: "SSE-S3"), required: false, type: .structure)
+        ]
+        /// Specifies the use of SSE-KMS to encrypt delivered Inventory reports.
+        public let ssekms: SSEKMS?
+        /// Specifies the use of SSE-S3 to encrypt delivered Inventory reports.
+        public let sses3: SSES3?
+
+        public init(ssekms: SSEKMS? = nil, sses3: SSES3? = nil) {
+            self.ssekms = ssekms
+            self.sses3 = sses3
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ssekms = "SSE-KMS"
+            case sses3 = "SSE-S3"
+        }
+    }
+
+    public struct InventoryFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Prefix", required: true, type: .string)
+        ]
+        /// The prefix that an object must have to be included in the inventory results.
+        public let prefix: String
+
+        public init(prefix: String) {
+            self.prefix = prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case prefix = "Prefix"
+        }
+    }
+
+    public enum InventoryFormat: String, CustomStringConvertible, Codable {
+        case csv = "CSV"
+        case orc = "ORC"
+        case parquet = "Parquet"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InventoryFrequency: String, CustomStringConvertible, Codable {
+        case daily = "Daily"
+        case weekly = "Weekly"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InventoryIncludedObjectVersions: String, CustomStringConvertible, Codable {
+        case all = "All"
+        case current = "Current"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InventoryOptionalField: String, CustomStringConvertible, Codable {
+        case size = "Size"
+        case lastmodifieddate = "LastModifiedDate"
+        case storageclass = "StorageClass"
+        case etag = "ETag"
+        case ismultipartuploaded = "IsMultipartUploaded"
+        case replicationstatus = "ReplicationStatus"
+        case encryptionstatus = "EncryptionStatus"
+        case objectlockretainuntildate = "ObjectLockRetainUntilDate"
+        case objectlockmode = "ObjectLockMode"
+        case objectlocklegalholdstatus = "ObjectLockLegalHoldStatus"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct InventoryOptionalFields: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Field", required: false, type: .list)
+        ]
+        public let field: [InventoryOptionalField]?
+
+        public init(field: [InventoryOptionalField]? = nil) {
+            self.field = field
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case field = "Field"
+        }
+    }
+
+    public struct InventoryS3BucketDestination: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "Bucket", required: true, type: .string), 
+            AWSShapeMember(label: "Encryption", required: false, type: .structure), 
+            AWSShapeMember(label: "Format", required: true, type: .enum), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string)
+        ]
+        /// The ID of the account that owns the destination bucket.
+        public let accountId: String?
+        /// The Amazon resource name (ARN) of the bucket where inventory results will be published.
+        public let bucket: String
+        /// Contains the type of server-side encryption used to encrypt the inventory results.
+        public let encryption: InventoryEncryption?
+        /// Specifies the output format of the inventory results.
+        public let format: InventoryFormat
+        /// The prefix that is prepended to all inventory results.
+        public let prefix: String?
+
+        public init(accountId: String? = nil, bucket: String, encryption: InventoryEncryption? = nil, format: InventoryFormat, prefix: String? = nil) {
+            self.accountId = accountId
+            self.bucket = bucket
+            self.encryption = encryption
+            self.format = format
+            self.prefix = prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case bucket = "Bucket"
+            case encryption = "Encryption"
+            case format = "Format"
+            case prefix = "Prefix"
+        }
+    }
+
+    public struct InventorySchedule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Frequency", required: true, type: .enum)
+        ]
+        /// Specifies how frequently inventory results are produced.
+        public let frequency: InventoryFrequency
+
+        public init(frequency: InventoryFrequency) {
+            self.frequency = frequency
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case frequency = "Frequency"
+        }
+    }
+
+    public struct JSONInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+        /// The type of JSON. Valid values: Document, Lines.
+        public let `type`: JSONType?
+
+        public init(type: JSONType? = nil) {
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+        }
+    }
+
+    public struct JSONOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordDelimiter", required: false, type: .string)
+        ]
+        /// The value used to separate individual records in the output.
+        public let recordDelimiter: String?
+
+        public init(recordDelimiter: String? = nil) {
+            self.recordDelimiter = recordDelimiter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordDelimiter = "RecordDelimiter"
+        }
+    }
+
+    public enum JSONType: String, CustomStringConvertible, Codable {
+        case document = "DOCUMENT"
+        case lines = "LINES"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct LambdaFunctionConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: true, type: .list), 
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "LambdaFunctionArn", location: .body(locationName: "CloudFunction"), required: true, type: .string)
+        ]
+        public let events: [Event]
+        public let filter: NotificationConfigurationFilter?
+        public let id: String?
+        /// The Amazon Resource Name (ARN) of the Lambda cloud function that Amazon S3 can invoke when it detects events of the specified type.
+        public let lambdaFunctionArn: String
+
+        public init(events: [Event], filter: NotificationConfigurationFilter? = nil, id: String? = nil, lambdaFunctionArn: String) {
+            self.events = events
+            self.filter = filter
+            self.id = id
+            self.lambdaFunctionArn = lambdaFunctionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case events = "Event"
+            case filter = "Filter"
+            case id = "Id"
+            case lambdaFunctionArn = "CloudFunction"
+        }
+    }
+
+    public struct LifecycleConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: true, type: .list)
+        ]
+        public let rules: [Rule]
+
+        public init(rules: [Rule]) {
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules = "Rule"
+        }
+    }
+
+    public struct LifecycleExpiration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Date", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Days", required: false, type: .integer), 
+            AWSShapeMember(label: "ExpiredObjectDeleteMarker", required: false, type: .boolean)
+        ]
+        /// Indicates at what date the object is to be moved or deleted. Should be in GMT ISO 8601 Format.
+        public let date: TimeStamp?
+        /// Indicates the lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer.
+        public let days: Int32?
+        /// Indicates whether Amazon S3 will remove a delete marker with no noncurrent versions. If set to true, the delete marker will be expired; if set to false the policy takes no action. This cannot be specified with Days or Date in a Lifecycle Expiration Policy.
+        public let expiredObjectDeleteMarker: Bool?
+
+        public init(date: TimeStamp? = nil, days: Int32? = nil, expiredObjectDeleteMarker: Bool? = nil) {
+            self.date = date
+            self.days = days
+            self.expiredObjectDeleteMarker = expiredObjectDeleteMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case date = "Date"
+            case days = "Days"
+            case expiredObjectDeleteMarker = "ExpiredObjectDeleteMarker"
+        }
+    }
+
+    public struct LifecycleRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AbortIncompleteMultipartUpload", required: false, type: .structure), 
+            AWSShapeMember(label: "Expiration", required: false, type: .structure), 
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "ID", required: false, type: .string), 
+            AWSShapeMember(label: "NoncurrentVersionExpiration", required: false, type: .structure), 
+            AWSShapeMember(label: "NoncurrentVersionTransitions", location: .body(locationName: "NoncurrentVersionTransition"), required: false, type: .list), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .enum), 
+            AWSShapeMember(label: "Transitions", location: .body(locationName: "Transition"), required: false, type: .list)
+        ]
+        public let abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload?
+        public let expiration: LifecycleExpiration?
+        public let filter: LifecycleRuleFilter?
+        /// Unique identifier for the rule. The value cannot be longer than 255 characters.
+        public let id: String?
+        public let noncurrentVersionExpiration: NoncurrentVersionExpiration?
+        public let noncurrentVersionTransitions: [NoncurrentVersionTransition]?
+        /// Prefix identifying one or more objects to which the rule applies. This is deprecated; use Filter instead.
+        public let prefix: String?
+        /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule is not currently being applied.
+        public let status: ExpirationStatus
+        public let transitions: [Transition]?
+
+        public init(abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, expiration: LifecycleExpiration? = nil, filter: LifecycleRuleFilter? = nil, id: String? = nil, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, noncurrentVersionTransitions: [NoncurrentVersionTransition]? = nil, prefix: String? = nil, status: ExpirationStatus, transitions: [Transition]? = nil) {
+            self.abortIncompleteMultipartUpload = abortIncompleteMultipartUpload
+            self.expiration = expiration
+            self.filter = filter
+            self.id = id
+            self.noncurrentVersionExpiration = noncurrentVersionExpiration
+            self.noncurrentVersionTransitions = noncurrentVersionTransitions
+            self.prefix = prefix
+            self.status = status
+            self.transitions = transitions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case abortIncompleteMultipartUpload = "AbortIncompleteMultipartUpload"
+            case expiration = "Expiration"
+            case filter = "Filter"
+            case id = "ID"
+            case noncurrentVersionExpiration = "NoncurrentVersionExpiration"
+            case noncurrentVersionTransitions = "NoncurrentVersionTransition"
+            case prefix = "Prefix"
+            case status = "Status"
+            case transitions = "Transition"
+        }
+    }
+
+    public struct LifecycleRuleAndOperator: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .structure)
+        ]
+        public let prefix: String?
+        /// All of these tags must exist in the object's tag set in order for the rule to apply.
+        public let tags: TagSet?
+
+        public init(prefix: String? = nil, tags: TagSet? = nil) {
+            self.prefix = prefix
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case prefix = "Prefix"
+            case tags = "Tag"
+        }
+    }
+
+    public struct LifecycleRuleFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "And", required: false, type: .structure), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "Tag", required: false, type: .structure)
+        ]
+        public let and: LifecycleRuleAndOperator?
+        /// Prefix identifying one or more objects to which the rule applies.
+        public let prefix: String?
+        /// This tag must exist in the object's tag set in order for the rule to apply.
+        public let tag: Tag?
+
+        public init(and: LifecycleRuleAndOperator? = nil, prefix: String? = nil, tag: Tag? = nil) {
+            self.and = and
+            self.prefix = prefix
+            self.tag = tag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case and = "And"
+            case prefix = "Prefix"
+            case tag = "Tag"
+        }
+    }
+
+    public struct ListBucketAnalyticsConfigurationsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnalyticsConfigurationList", location: .body(locationName: "AnalyticsConfiguration"), required: false, type: .list), 
+            AWSShapeMember(label: "ContinuationToken", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "NextContinuationToken", required: false, type: .string)
+        ]
+        /// The list of analytics configurations for a bucket.
+        public let analyticsConfigurationList: [AnalyticsConfiguration]?
+        /// The ContinuationToken that represents where this request began.
+        public let continuationToken: String?
+        /// Indicates whether the returned list of analytics configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken will be provided for a subsequent request.
+        public let isTruncated: Bool?
+        /// NextContinuationToken is sent when isTruncated is true, which indicates that there are more analytics configurations to list. The next request must include this NextContinuationToken. The token is obfuscated and is not a usable value.
+        public let nextContinuationToken: String?
+
+        public init(analyticsConfigurationList: [AnalyticsConfiguration]? = nil, continuationToken: String? = nil, isTruncated: Bool? = nil, nextContinuationToken: String? = nil) {
+            self.analyticsConfigurationList = analyticsConfigurationList
+            self.continuationToken = continuationToken
+            self.isTruncated = isTruncated
+            self.nextContinuationToken = nextContinuationToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analyticsConfigurationList = "AnalyticsConfiguration"
+            case continuationToken = "ContinuationToken"
+            case isTruncated = "IsTruncated"
+            case nextContinuationToken = "NextContinuationToken"
+        }
+    }
+
+    public struct ListBucketAnalyticsConfigurationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "ContinuationToken", location: .querystring(locationName: "continuation-token"), required: false, type: .string)
+        ]
+        /// The name of the bucket from which analytics configurations are retrieved.
+        public let bucket: String
+        /// The ContinuationToken that represents a placeholder from where this request should begin.
+        public let continuationToken: String?
+
+        public init(bucket: String, continuationToken: String? = nil) {
+            self.bucket = bucket
+            self.continuationToken = continuationToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case continuationToken = "continuation-token"
+        }
+    }
+
+    public struct ListBucketInventoryConfigurationsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContinuationToken", required: false, type: .string), 
+            AWSShapeMember(label: "InventoryConfigurationList", location: .body(locationName: "InventoryConfiguration"), required: false, type: .list), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "NextContinuationToken", required: false, type: .string)
+        ]
+        /// If sent in the request, the marker that is used as a starting point for this inventory configuration list response.
+        public let continuationToken: String?
+        /// The list of inventory configurations for a bucket.
+        public let inventoryConfigurationList: [InventoryConfiguration]?
+        /// Indicates whether the returned list of inventory configurations is truncated in this response. A value of true indicates that the list is truncated.
+        public let isTruncated: Bool?
+        /// The marker used to continue this inventory configuration listing. Use the NextContinuationToken from this response to continue the listing in a subsequent request. The continuation token is an opaque value that Amazon S3 understands.
+        public let nextContinuationToken: String?
+
+        public init(continuationToken: String? = nil, inventoryConfigurationList: [InventoryConfiguration]? = nil, isTruncated: Bool? = nil, nextContinuationToken: String? = nil) {
+            self.continuationToken = continuationToken
+            self.inventoryConfigurationList = inventoryConfigurationList
+            self.isTruncated = isTruncated
+            self.nextContinuationToken = nextContinuationToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case continuationToken = "ContinuationToken"
+            case inventoryConfigurationList = "InventoryConfiguration"
+            case isTruncated = "IsTruncated"
+            case nextContinuationToken = "NextContinuationToken"
+        }
+    }
+
+    public struct ListBucketInventoryConfigurationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "ContinuationToken", location: .querystring(locationName: "continuation-token"), required: false, type: .string)
+        ]
+        /// The name of the bucket containing the inventory configurations to retrieve.
+        public let bucket: String
+        /// The marker used to continue an inventory configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
+        public let continuationToken: String?
+
+        public init(bucket: String, continuationToken: String? = nil) {
+            self.bucket = bucket
+            self.continuationToken = continuationToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case continuationToken = "continuation-token"
+        }
+    }
+
+    public struct ListBucketMetricsConfigurationsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContinuationToken", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "MetricsConfigurationList", location: .body(locationName: "MetricsConfiguration"), required: false, type: .list), 
+            AWSShapeMember(label: "NextContinuationToken", required: false, type: .string)
+        ]
+        /// The marker that is used as a starting point for this metrics configuration list response. This value is present if it was sent in the request.
+        public let continuationToken: String?
+        /// Indicates whether the returned list of metrics configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken will be provided for a subsequent request.
+        public let isTruncated: Bool?
+        /// The list of metrics configurations for a bucket.
+        public let metricsConfigurationList: [MetricsConfiguration]?
+        /// The marker used to continue a metrics configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
+        public let nextContinuationToken: String?
+
+        public init(continuationToken: String? = nil, isTruncated: Bool? = nil, metricsConfigurationList: [MetricsConfiguration]? = nil, nextContinuationToken: String? = nil) {
+            self.continuationToken = continuationToken
+            self.isTruncated = isTruncated
+            self.metricsConfigurationList = metricsConfigurationList
+            self.nextContinuationToken = nextContinuationToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case continuationToken = "ContinuationToken"
+            case isTruncated = "IsTruncated"
+            case metricsConfigurationList = "MetricsConfiguration"
+            case nextContinuationToken = "NextContinuationToken"
+        }
+    }
+
+    public struct ListBucketMetricsConfigurationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "ContinuationToken", location: .querystring(locationName: "continuation-token"), required: false, type: .string)
+        ]
+        /// The name of the bucket containing the metrics configurations to retrieve.
+        public let bucket: String
+        /// The marker that is used to continue a metrics configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
+        public let continuationToken: String?
+
+        public init(bucket: String, continuationToken: String? = nil) {
+            self.bucket = bucket
+            self.continuationToken = continuationToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case continuationToken = "continuation-token"
+        }
+    }
+
+    public struct ListBucketsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Buckets", required: false, type: .structure), 
+            AWSShapeMember(label: "Owner", required: false, type: .structure)
+        ]
+        public let buckets: Buckets?
+        public let owner: Owner?
+
+        public init(buckets: Buckets? = nil, owner: Owner? = nil) {
+            self.buckets = buckets
+            self.owner = owner
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case buckets = "Buckets"
+            case owner = "Owner"
+        }
+    }
+
+    public struct ListMultipartUploadsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", required: false, type: .string), 
+            AWSShapeMember(label: "CommonPrefixes", required: false, type: .list), 
+            AWSShapeMember(label: "Delimiter", required: false, type: .string), 
+            AWSShapeMember(label: "EncodingType", required: false, type: .enum), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "KeyMarker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxUploads", required: false, type: .integer), 
+            AWSShapeMember(label: "NextKeyMarker", required: false, type: .string), 
+            AWSShapeMember(label: "NextUploadIdMarker", required: false, type: .string), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "UploadIdMarker", required: false, type: .string), 
+            AWSShapeMember(label: "Uploads", location: .body(locationName: "Upload"), required: false, type: .list)
+        ]
+        /// Name of the bucket to which the multipart upload was initiated.
+        public let bucket: String?
+        public let commonPrefixes: [CommonPrefix]?
+        public let delimiter: String?
+        /// Encoding type used by Amazon S3 to encode object keys in the response.
+        public let encodingType: EncodingType?
+        /// Indicates whether the returned list of multipart uploads is truncated. A value of true indicates that the list was truncated. The list can be truncated if the number of multipart uploads exceeds the limit allowed or specified by max uploads.
+        public let isTruncated: Bool?
+        /// The key at or after which the listing began.
+        public let keyMarker: String?
+        /// Maximum number of multipart uploads that could have been included in the response.
+        public let maxUploads: Int32?
+        /// When a list is truncated, this element specifies the value that should be used for the key-marker request parameter in a subsequent request.
+        public let nextKeyMarker: String?
+        /// When a list is truncated, this element specifies the value that should be used for the upload-id-marker request parameter in a subsequent request.
+        public let nextUploadIdMarker: String?
+        /// When a prefix is provided in the request, this field contains the specified prefix. The result contains only keys starting with the specified prefix.
+        public let prefix: String?
+        /// Upload ID after which listing began.
+        public let uploadIdMarker: String?
+        public let uploads: [MultipartUpload]?
+
+        public init(bucket: String? = nil, commonPrefixes: [CommonPrefix]? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, isTruncated: Bool? = nil, keyMarker: String? = nil, maxUploads: Int32? = nil, nextKeyMarker: String? = nil, nextUploadIdMarker: String? = nil, prefix: String? = nil, uploadIdMarker: String? = nil, uploads: [MultipartUpload]? = nil) {
+            self.bucket = bucket
+            self.commonPrefixes = commonPrefixes
+            self.delimiter = delimiter
+            self.encodingType = encodingType
+            self.isTruncated = isTruncated
+            self.keyMarker = keyMarker
+            self.maxUploads = maxUploads
+            self.nextKeyMarker = nextKeyMarker
+            self.nextUploadIdMarker = nextUploadIdMarker
+            self.prefix = prefix
+            self.uploadIdMarker = uploadIdMarker
+            self.uploads = uploads
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case commonPrefixes = "CommonPrefixes"
+            case delimiter = "Delimiter"
+            case encodingType = "EncodingType"
+            case isTruncated = "IsTruncated"
+            case keyMarker = "KeyMarker"
+            case maxUploads = "MaxUploads"
+            case nextKeyMarker = "NextKeyMarker"
+            case nextUploadIdMarker = "NextUploadIdMarker"
+            case prefix = "Prefix"
+            case uploadIdMarker = "UploadIdMarker"
+            case uploads = "Upload"
+        }
+    }
+
+    public struct ListMultipartUploadsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "Delimiter", location: .querystring(locationName: "delimiter"), required: false, type: .string), 
+            AWSShapeMember(label: "EncodingType", location: .querystring(locationName: "encoding-type"), required: false, type: .enum), 
+            AWSShapeMember(label: "KeyMarker", location: .querystring(locationName: "key-marker"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxUploads", location: .querystring(locationName: "max-uploads"), required: false, type: .integer), 
+            AWSShapeMember(label: "Prefix", location: .querystring(locationName: "prefix"), required: false, type: .string), 
+            AWSShapeMember(label: "UploadIdMarker", location: .querystring(locationName: "upload-id-marker"), required: false, type: .string)
+        ]
+        public let bucket: String
+        /// Character you use to group keys.
+        public let delimiter: String?
+        public let encodingType: EncodingType?
+        /// Together with upload-id-marker, this parameter specifies the multipart upload after which listing should begin.
+        public let keyMarker: String?
+        /// Sets the maximum number of multipart uploads, from 1 to 1,000, to return in the response body. 1,000 is the maximum number of uploads that can be returned in a response.
+        public let maxUploads: Int32?
+        /// Lists in-progress uploads only for those keys that begin with the specified prefix.
+        public let prefix: String?
+        /// Together with key-marker, specifies the multipart upload after which listing should begin. If key-marker is not specified, the upload-id-marker parameter is ignored.
+        public let uploadIdMarker: String?
+
+        public init(bucket: String, delimiter: String? = nil, encodingType: EncodingType? = nil, keyMarker: String? = nil, maxUploads: Int32? = nil, prefix: String? = nil, uploadIdMarker: String? = nil) {
+            self.bucket = bucket
+            self.delimiter = delimiter
+            self.encodingType = encodingType
+            self.keyMarker = keyMarker
+            self.maxUploads = maxUploads
+            self.prefix = prefix
+            self.uploadIdMarker = uploadIdMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case delimiter = "delimiter"
+            case encodingType = "encoding-type"
+            case keyMarker = "key-marker"
+            case maxUploads = "max-uploads"
+            case prefix = "prefix"
+            case uploadIdMarker = "upload-id-marker"
+        }
+    }
+
+    public struct ListObjectVersionsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CommonPrefixes", required: false, type: .list), 
+            AWSShapeMember(label: "DeleteMarkers", location: .body(locationName: "DeleteMarker"), required: false, type: .list), 
+            AWSShapeMember(label: "Delimiter", required: false, type: .string), 
+            AWSShapeMember(label: "EncodingType", required: false, type: .enum), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "KeyMarker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxKeys", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "NextKeyMarker", required: false, type: .string), 
+            AWSShapeMember(label: "NextVersionIdMarker", required: false, type: .string), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "VersionIdMarker", required: false, type: .string), 
+            AWSShapeMember(label: "Versions", location: .body(locationName: "Version"), required: false, type: .list)
+        ]
+        public let commonPrefixes: [CommonPrefix]?
+        public let deleteMarkers: [DeleteMarkerEntry]?
+        public let delimiter: String?
+        /// Encoding type used by Amazon S3 to encode object keys in the response.
+        public let encodingType: EncodingType?
+        /// A flag that indicates whether or not Amazon S3 returned all of the results that satisfied the search criteria. If your results were truncated, you can make a follow-up paginated request using the NextKeyMarker and NextVersionIdMarker response parameters as a starting place in another request to return the rest of the results.
+        public let isTruncated: Bool?
+        /// Marks the last Key returned in a truncated response.
+        public let keyMarker: String?
+        public let maxKeys: Int32?
+        public let name: String?
+        /// Use this value for the key marker request parameter in a subsequent request.
+        public let nextKeyMarker: String?
+        /// Use this value for the next version id marker parameter in a subsequent request.
+        public let nextVersionIdMarker: String?
+        public let prefix: String?
+        public let versionIdMarker: String?
+        public let versions: [ObjectVersion]?
+
+        public init(commonPrefixes: [CommonPrefix]? = nil, deleteMarkers: [DeleteMarkerEntry]? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, isTruncated: Bool? = nil, keyMarker: String? = nil, maxKeys: Int32? = nil, name: String? = nil, nextKeyMarker: String? = nil, nextVersionIdMarker: String? = nil, prefix: String? = nil, versionIdMarker: String? = nil, versions: [ObjectVersion]? = nil) {
+            self.commonPrefixes = commonPrefixes
+            self.deleteMarkers = deleteMarkers
+            self.delimiter = delimiter
+            self.encodingType = encodingType
+            self.isTruncated = isTruncated
+            self.keyMarker = keyMarker
+            self.maxKeys = maxKeys
+            self.name = name
+            self.nextKeyMarker = nextKeyMarker
+            self.nextVersionIdMarker = nextVersionIdMarker
+            self.prefix = prefix
+            self.versionIdMarker = versionIdMarker
+            self.versions = versions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commonPrefixes = "CommonPrefixes"
+            case deleteMarkers = "DeleteMarker"
+            case delimiter = "Delimiter"
+            case encodingType = "EncodingType"
+            case isTruncated = "IsTruncated"
+            case keyMarker = "KeyMarker"
+            case maxKeys = "MaxKeys"
+            case name = "Name"
+            case nextKeyMarker = "NextKeyMarker"
+            case nextVersionIdMarker = "NextVersionIdMarker"
+            case prefix = "Prefix"
+            case versionIdMarker = "VersionIdMarker"
+            case versions = "Version"
+        }
+    }
+
+    public struct ListObjectVersionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "Delimiter", location: .querystring(locationName: "delimiter"), required: false, type: .string), 
+            AWSShapeMember(label: "EncodingType", location: .querystring(locationName: "encoding-type"), required: false, type: .enum), 
+            AWSShapeMember(label: "KeyMarker", location: .querystring(locationName: "key-marker"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxKeys", location: .querystring(locationName: "max-keys"), required: false, type: .integer), 
+            AWSShapeMember(label: "Prefix", location: .querystring(locationName: "prefix"), required: false, type: .string), 
+            AWSShapeMember(label: "VersionIdMarker", location: .querystring(locationName: "version-id-marker"), required: false, type: .string)
+        ]
+        public let bucket: String
+        /// A delimiter is a character you use to group keys.
+        public let delimiter: String?
+        public let encodingType: EncodingType?
+        /// Specifies the key to start with when listing objects in a bucket.
+        public let keyMarker: String?
+        /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
+        public let maxKeys: Int32?
+        /// Limits the response to keys that begin with the specified prefix.
+        public let prefix: String?
+        /// Specifies the object version you want to start listing from.
+        public let versionIdMarker: String?
+
+        public init(bucket: String, delimiter: String? = nil, encodingType: EncodingType? = nil, keyMarker: String? = nil, maxKeys: Int32? = nil, prefix: String? = nil, versionIdMarker: String? = nil) {
+            self.bucket = bucket
+            self.delimiter = delimiter
+            self.encodingType = encodingType
+            self.keyMarker = keyMarker
+            self.maxKeys = maxKeys
+            self.prefix = prefix
+            self.versionIdMarker = versionIdMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case delimiter = "delimiter"
+            case encodingType = "encoding-type"
+            case keyMarker = "key-marker"
+            case maxKeys = "max-keys"
+            case prefix = "prefix"
+            case versionIdMarker = "version-id-marker"
+        }
+    }
+
+    public struct ListObjectsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CommonPrefixes", required: false, type: .list), 
+            AWSShapeMember(label: "Contents", required: false, type: .list), 
+            AWSShapeMember(label: "Delimiter", required: false, type: .string), 
+            AWSShapeMember(label: "EncodingType", required: false, type: .enum), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxKeys", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string)
+        ]
+        public let commonPrefixes: [CommonPrefix]?
+        public let contents: [Object]?
+        public let delimiter: String?
+        /// Encoding type used by Amazon S3 to encode object keys in the response.
+        public let encodingType: EncodingType?
+        /// A flag that indicates whether or not Amazon S3 returned all of the results that satisfied the search criteria.
+        public let isTruncated: Bool?
+        public let marker: String?
+        public let maxKeys: Int32?
+        public let name: String?
+        /// When response is truncated (the IsTruncated element value in the response is true), you can use the key name in this field as marker in the subsequent request to get next set of objects. Amazon S3 lists objects in alphabetical order Note: This element is returned only if you have delimiter request parameter specified. If response does not include the NextMaker and it is truncated, you can use the value of the last Key in the response as the marker in the subsequent request to get the next set of object keys.
+        public let nextMarker: String?
+        public let prefix: String?
+
+        public init(commonPrefixes: [CommonPrefix]? = nil, contents: [Object]? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, isTruncated: Bool? = nil, marker: String? = nil, maxKeys: Int32? = nil, name: String? = nil, nextMarker: String? = nil, prefix: String? = nil) {
+            self.commonPrefixes = commonPrefixes
+            self.contents = contents
+            self.delimiter = delimiter
+            self.encodingType = encodingType
+            self.isTruncated = isTruncated
+            self.marker = marker
+            self.maxKeys = maxKeys
+            self.name = name
+            self.nextMarker = nextMarker
+            self.prefix = prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commonPrefixes = "CommonPrefixes"
+            case contents = "Contents"
+            case delimiter = "Delimiter"
+            case encodingType = "EncodingType"
+            case isTruncated = "IsTruncated"
+            case marker = "Marker"
+            case maxKeys = "MaxKeys"
+            case name = "Name"
+            case nextMarker = "NextMarker"
+            case prefix = "Prefix"
+        }
+    }
+
+    public struct ListObjectsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "Delimiter", location: .querystring(locationName: "delimiter"), required: false, type: .string), 
+            AWSShapeMember(label: "EncodingType", location: .querystring(locationName: "encoding-type"), required: false, type: .enum), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxKeys", location: .querystring(locationName: "max-keys"), required: false, type: .integer), 
+            AWSShapeMember(label: "Prefix", location: .querystring(locationName: "prefix"), required: false, type: .string), 
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum)
+        ]
+        public let bucket: String
+        /// A delimiter is a character you use to group keys.
+        public let delimiter: String?
+        public let encodingType: EncodingType?
+        /// Specifies the key to start with when listing objects in a bucket.
+        public let marker: String?
+        /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
+        public let maxKeys: Int32?
+        /// Limits the response to keys that begin with the specified prefix.
+        public let prefix: String?
+        /// Confirms that the requester knows that she or he will be charged for the list objects request. Bucket owners need not specify this parameter in their requests.
+        public let requestPayer: RequestPayer?
+
+        public init(bucket: String, delimiter: String? = nil, encodingType: EncodingType? = nil, marker: String? = nil, maxKeys: Int32? = nil, prefix: String? = nil, requestPayer: RequestPayer? = nil) {
+            self.bucket = bucket
+            self.delimiter = delimiter
+            self.encodingType = encodingType
+            self.marker = marker
+            self.maxKeys = maxKeys
+            self.prefix = prefix
+            self.requestPayer = requestPayer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case delimiter = "delimiter"
+            case encodingType = "encoding-type"
+            case marker = "marker"
+            case maxKeys = "max-keys"
+            case prefix = "prefix"
+            case requestPayer = "x-amz-request-payer"
+        }
+    }
+
+    public struct ListObjectsV2Output: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CommonPrefixes", required: false, type: .list), 
+            AWSShapeMember(label: "Contents", required: false, type: .list), 
+            AWSShapeMember(label: "ContinuationToken", required: false, type: .string), 
+            AWSShapeMember(label: "Delimiter", required: false, type: .string), 
+            AWSShapeMember(label: "EncodingType", required: false, type: .enum), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "KeyCount", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxKeys", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "NextContinuationToken", required: false, type: .string), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "StartAfter", required: false, type: .string)
+        ]
+        /// CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by delimiter
+        public let commonPrefixes: [CommonPrefix]?
+        /// Metadata about each object returned.
+        public let contents: [Object]?
+        /// ContinuationToken indicates Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key
+        public let continuationToken: String?
+        /// A delimiter is a character you use to group keys.
+        public let delimiter: String?
+        /// Encoding type used by Amazon S3 to encode object keys in the response.
+        public let encodingType: EncodingType?
+        /// A flag that indicates whether or not Amazon S3 returned all of the results that satisfied the search criteria.
+        public let isTruncated: Bool?
+        /// KeyCount is the number of keys returned with this request. KeyCount will always be less than equals to MaxKeys field. Say you ask for 50 keys, your result will include less than equals 50 keys 
+        public let keyCount: Int32?
+        /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
+        public let maxKeys: Int32?
+        /// Name of the bucket to list.
+        public let name: String?
+        /// NextContinuationToken is sent when isTruncated is true which means there are more keys in the bucket that can be listed. The next list requests to Amazon S3 can be continued with this NextContinuationToken. NextContinuationToken is obfuscated and is not a real key
+        public let nextContinuationToken: String?
+        /// Limits the response to keys that begin with the specified prefix.
+        public let prefix: String?
+        /// StartAfter is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. StartAfter can be any key in the bucket
+        public let startAfter: String?
+
+        public init(commonPrefixes: [CommonPrefix]? = nil, contents: [Object]? = nil, continuationToken: String? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, isTruncated: Bool? = nil, keyCount: Int32? = nil, maxKeys: Int32? = nil, name: String? = nil, nextContinuationToken: String? = nil, prefix: String? = nil, startAfter: String? = nil) {
+            self.commonPrefixes = commonPrefixes
+            self.contents = contents
+            self.continuationToken = continuationToken
+            self.delimiter = delimiter
+            self.encodingType = encodingType
+            self.isTruncated = isTruncated
+            self.keyCount = keyCount
+            self.maxKeys = maxKeys
+            self.name = name
+            self.nextContinuationToken = nextContinuationToken
+            self.prefix = prefix
+            self.startAfter = startAfter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commonPrefixes = "CommonPrefixes"
+            case contents = "Contents"
+            case continuationToken = "ContinuationToken"
+            case delimiter = "Delimiter"
+            case encodingType = "EncodingType"
+            case isTruncated = "IsTruncated"
+            case keyCount = "KeyCount"
+            case maxKeys = "MaxKeys"
+            case name = "Name"
+            case nextContinuationToken = "NextContinuationToken"
+            case prefix = "Prefix"
+            case startAfter = "StartAfter"
+        }
+    }
+
+    public struct ListObjectsV2Request: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "ContinuationToken", location: .querystring(locationName: "continuation-token"), required: false, type: .string), 
+            AWSShapeMember(label: "Delimiter", location: .querystring(locationName: "delimiter"), required: false, type: .string), 
+            AWSShapeMember(label: "EncodingType", location: .querystring(locationName: "encoding-type"), required: false, type: .enum), 
+            AWSShapeMember(label: "FetchOwner", location: .querystring(locationName: "fetch-owner"), required: false, type: .boolean), 
+            AWSShapeMember(label: "MaxKeys", location: .querystring(locationName: "max-keys"), required: false, type: .integer), 
+            AWSShapeMember(label: "Prefix", location: .querystring(locationName: "prefix"), required: false, type: .string), 
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
+            AWSShapeMember(label: "StartAfter", location: .querystring(locationName: "start-after"), required: false, type: .string)
+        ]
+        /// Name of the bucket to list.
+        public let bucket: String
+        /// ContinuationToken indicates Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key
+        public let continuationToken: String?
+        /// A delimiter is a character you use to group keys.
+        public let delimiter: String?
+        /// Encoding type used by Amazon S3 to encode object keys in the response.
+        public let encodingType: EncodingType?
+        /// The owner field is not present in listV2 by default, if you want to return owner field with each key in the result then set the fetch owner field to true
+        public let fetchOwner: Bool?
+        /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
+        public let maxKeys: Int32?
+        /// Limits the response to keys that begin with the specified prefix.
+        public let prefix: String?
+        /// Confirms that the requester knows that she or he will be charged for the list objects request in V2 style. Bucket owners need not specify this parameter in their requests.
+        public let requestPayer: RequestPayer?
+        /// StartAfter is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. StartAfter can be any key in the bucket
+        public let startAfter: String?
+
+        public init(bucket: String, continuationToken: String? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, fetchOwner: Bool? = nil, maxKeys: Int32? = nil, prefix: String? = nil, requestPayer: RequestPayer? = nil, startAfter: String? = nil) {
+            self.bucket = bucket
+            self.continuationToken = continuationToken
+            self.delimiter = delimiter
+            self.encodingType = encodingType
+            self.fetchOwner = fetchOwner
+            self.maxKeys = maxKeys
+            self.prefix = prefix
+            self.requestPayer = requestPayer
+            self.startAfter = startAfter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case continuationToken = "continuation-token"
+            case delimiter = "delimiter"
+            case encodingType = "encoding-type"
+            case fetchOwner = "fetch-owner"
+            case maxKeys = "max-keys"
+            case prefix = "prefix"
+            case requestPayer = "x-amz-request-payer"
+            case startAfter = "start-after"
+        }
+    }
+
+    public struct ListPartsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AbortDate", location: .header(locationName: "x-amz-abort-date"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "AbortRuleId", location: .header(locationName: "x-amz-abort-rule-id"), required: false, type: .string), 
+            AWSShapeMember(label: "Bucket", required: false, type: .string), 
+            AWSShapeMember(label: "Initiator", required: false, type: .structure), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "MaxParts", required: false, type: .integer), 
+            AWSShapeMember(label: "NextPartNumberMarker", required: false, type: .integer), 
+            AWSShapeMember(label: "Owner", required: false, type: .structure), 
+            AWSShapeMember(label: "PartNumberMarker", required: false, type: .integer), 
+            AWSShapeMember(label: "Parts", location: .body(locationName: "Part"), required: false, type: .list), 
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
+            AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
+            AWSShapeMember(label: "UploadId", required: false, type: .string)
+        ]
+        /// Date when multipart upload will become eligible for abort operation by lifecycle.
+        public let abortDate: TimeStamp?
+        /// Id of the lifecycle rule that makes a multipart upload eligible for abort operation.
+        public let abortRuleId: String?
+        /// Name of the bucket to which the multipart upload was initiated.
+        public let bucket: String?
+        /// Identifies who initiated the multipart upload.
+        public let initiator: Initiator?
+        /// Indicates whether the returned list of parts is truncated.
+        public let isTruncated: Bool?
+        /// Object key for which the multipart upload was initiated.
+        public let key: String?
+        /// Maximum number of parts that were allowed in the response.
+        public let maxParts: Int32?
+        /// When a list is truncated, this element specifies the last part in the list, as well as the value to use for the part-number-marker request parameter in a subsequent request.
+        public let nextPartNumberMarker: Int32?
+        public let owner: Owner?
+        /// Part number after which listing begins.
+        public let partNumberMarker: Int32?
+        public let parts: [Part]?
+        public let requestCharged: RequestCharged?
+        /// The class of storage used to store the object.
+        public let storageClass: StorageClass?
+        /// Upload ID identifying the multipart upload whose parts are being listed.
+        public let uploadId: String?
+
+        public init(abortDate: TimeStamp? = nil, abortRuleId: String? = nil, bucket: String? = nil, initiator: Initiator? = nil, isTruncated: Bool? = nil, key: String? = nil, maxParts: Int32? = nil, nextPartNumberMarker: Int32? = nil, owner: Owner? = nil, partNumberMarker: Int32? = nil, parts: [Part]? = nil, requestCharged: RequestCharged? = nil, storageClass: StorageClass? = nil, uploadId: String? = nil) {
+            self.abortDate = abortDate
+            self.abortRuleId = abortRuleId
+            self.bucket = bucket
+            self.initiator = initiator
+            self.isTruncated = isTruncated
+            self.key = key
+            self.maxParts = maxParts
+            self.nextPartNumberMarker = nextPartNumberMarker
+            self.owner = owner
+            self.partNumberMarker = partNumberMarker
+            self.parts = parts
+            self.requestCharged = requestCharged
+            self.storageClass = storageClass
+            self.uploadId = uploadId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case abortDate = "x-amz-abort-date"
+            case abortRuleId = "x-amz-abort-rule-id"
+            case bucket = "Bucket"
+            case initiator = "Initiator"
+            case isTruncated = "IsTruncated"
+            case key = "Key"
+            case maxParts = "MaxParts"
+            case nextPartNumberMarker = "NextPartNumberMarker"
+            case owner = "Owner"
+            case partNumberMarker = "PartNumberMarker"
+            case parts = "Part"
+            case requestCharged = "x-amz-request-charged"
+            case storageClass = "StorageClass"
+            case uploadId = "UploadId"
+        }
+    }
+
+    public struct ListPartsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxParts", location: .querystring(locationName: "max-parts"), required: false, type: .integer), 
+            AWSShapeMember(label: "PartNumberMarker", location: .querystring(locationName: "part-number-marker"), required: false, type: .integer), 
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
+            AWSShapeMember(label: "UploadId", location: .querystring(locationName: "uploadId"), required: true, type: .string)
+        ]
+        public let bucket: String
+        public let key: String
+        /// Sets the maximum number of parts to return.
+        public let maxParts: Int32?
+        /// Specifies the part after which listing should begin. Only parts with higher part numbers will be listed.
+        public let partNumberMarker: Int32?
+        public let requestPayer: RequestPayer?
+        /// Upload ID identifying the multipart upload whose parts are being listed.
+        public let uploadId: String
+
+        public init(bucket: String, key: String, maxParts: Int32? = nil, partNumberMarker: Int32? = nil, requestPayer: RequestPayer? = nil, uploadId: String) {
+            self.bucket = bucket
+            self.key = key
+            self.maxParts = maxParts
+            self.partNumberMarker = partNumberMarker
+            self.requestPayer = requestPayer
+            self.uploadId = uploadId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case key = "Key"
+            case maxParts = "max-parts"
+            case partNumberMarker = "part-number-marker"
+            case requestPayer = "x-amz-request-payer"
+            case uploadId = "uploadId"
+        }
+    }
+
+    public struct LoggingEnabled: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetBucket", required: true, type: .string), 
+            AWSShapeMember(label: "TargetGrants", required: false, type: .structure), 
+            AWSShapeMember(label: "TargetPrefix", required: true, type: .string)
+        ]
+        /// Specifies the bucket where you want Amazon S3 to store server access logs. You can have your logs delivered to any bucket that you own, including the same bucket that is being logged. You can also configure multiple buckets to deliver their logs to the same target bucket. In this case you should choose a different TargetPrefix for each source bucket so that the delivered log files can be distinguished by key.
+        public let targetBucket: String
+        public let targetGrants: TargetGrants?
+        /// This element lets you specify a prefix for the keys that the log files will be stored under.
+        public let targetPrefix: String
+
+        public init(targetBucket: String, targetGrants: TargetGrants? = nil, targetPrefix: String) {
+            self.targetBucket = targetBucket
+            self.targetGrants = targetGrants
+            self.targetPrefix = targetPrefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetBucket = "TargetBucket"
+            case targetGrants = "TargetGrants"
+            case targetPrefix = "TargetPrefix"
+        }
+    }
+
+    public enum MFADelete: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MFADeleteStatus: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetadataDirective: String, CustomStringConvertible, Codable {
+        case copy = "COPY"
+        case replace = "REPLACE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct MetadataEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -1514,42 +4720,647 @@ extension S3 {
         }
     }
 
-    public struct GetObjectTorrentRequest: AWSShape {
+    public struct MetricsAndOperator: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .structure)
         ]
-        public let key: String
-        public let requestPayer: RequestPayer?
-        public let bucket: String
+        /// The prefix used when evaluating an AND predicate.
+        public let prefix: String?
+        /// The list of tags used when evaluating an AND predicate.
+        public let tags: TagSet?
 
-        public init(key: String, requestPayer: RequestPayer? = nil, bucket: String) {
+        public init(prefix: String? = nil, tags: TagSet? = nil) {
+            self.prefix = prefix
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case prefix = "Prefix"
+            case tags = "Tag"
+        }
+    }
+
+    public struct MetricsConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
+        ]
+        /// Specifies a metrics configuration filter. The metrics configuration will only include objects that meet the filter's criteria. A filter must be a prefix, a tag, or a conjunction (MetricsAndOperator).
+        public let filter: MetricsFilter?
+        /// The ID used to identify the metrics configuration.
+        public let id: String
+
+        public init(filter: MetricsFilter? = nil, id: String) {
+            self.filter = filter
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case id = "Id"
+        }
+    }
+
+    public struct MetricsFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "And", required: false, type: .structure), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "Tag", required: false, type: .structure)
+        ]
+        /// A conjunction (logical AND) of predicates, which is used in evaluating a metrics filter. The operator must have at least two predicates, and an object must match all of the predicates in order for the filter to apply.
+        public let and: MetricsAndOperator?
+        /// The prefix used when evaluating a metrics filter.
+        public let prefix: String?
+        /// The tag used when evaluating a metrics filter.
+        public let tag: Tag?
+
+        public init(and: MetricsAndOperator? = nil, prefix: String? = nil, tag: Tag? = nil) {
+            self.and = and
+            self.prefix = prefix
+            self.tag = tag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case and = "And"
+            case prefix = "Prefix"
+            case tag = "Tag"
+        }
+    }
+
+    public struct MultipartUpload: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Initiated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Initiator", required: false, type: .structure), 
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Owner", required: false, type: .structure), 
+            AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
+            AWSShapeMember(label: "UploadId", required: false, type: .string)
+        ]
+        /// Date and time at which the multipart upload was initiated.
+        public let initiated: TimeStamp?
+        /// Identifies who initiated the multipart upload.
+        public let initiator: Initiator?
+        /// Key of the object for which the multipart upload was initiated.
+        public let key: String?
+        public let owner: Owner?
+        /// The class of storage used to store the object.
+        public let storageClass: StorageClass?
+        /// Upload ID that identifies the multipart upload.
+        public let uploadId: String?
+
+        public init(initiated: TimeStamp? = nil, initiator: Initiator? = nil, key: String? = nil, owner: Owner? = nil, storageClass: StorageClass? = nil, uploadId: String? = nil) {
+            self.initiated = initiated
+            self.initiator = initiator
             self.key = key
-            self.requestPayer = requestPayer
-            self.bucket = bucket
+            self.owner = owner
+            self.storageClass = storageClass
+            self.uploadId = uploadId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case initiated = "Initiated"
+            case initiator = "Initiator"
+            case key = "Key"
+            case owner = "Owner"
+            case storageClass = "StorageClass"
+            case uploadId = "UploadId"
+        }
+    }
+
+    public struct NoncurrentVersionExpiration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NoncurrentDays", required: false, type: .integer)
+        ]
+        /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates When an Object Became Noncurrent in the Amazon Simple Storage Service Developer Guide.
+        public let noncurrentDays: Int32?
+
+        public init(noncurrentDays: Int32? = nil) {
+            self.noncurrentDays = noncurrentDays
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case noncurrentDays = "NoncurrentDays"
+        }
+    }
+
+    public struct NoncurrentVersionTransition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NoncurrentDays", required: false, type: .integer), 
+            AWSShapeMember(label: "StorageClass", required: false, type: .enum)
+        ]
+        /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates When an Object Became Noncurrent in the Amazon Simple Storage Service Developer Guide.
+        public let noncurrentDays: Int32?
+        /// The class of storage used to store the object.
+        public let storageClass: TransitionStorageClass?
+
+        public init(noncurrentDays: Int32? = nil, storageClass: TransitionStorageClass? = nil) {
+            self.noncurrentDays = noncurrentDays
+            self.storageClass = storageClass
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case noncurrentDays = "NoncurrentDays"
+            case storageClass = "StorageClass"
+        }
+    }
+
+    public struct NotificationConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LambdaFunctionConfigurations", location: .body(locationName: "CloudFunctionConfiguration"), required: false, type: .list), 
+            AWSShapeMember(label: "QueueConfigurations", location: .body(locationName: "QueueConfiguration"), required: false, type: .list), 
+            AWSShapeMember(label: "TopicConfigurations", location: .body(locationName: "TopicConfiguration"), required: false, type: .list)
+        ]
+        public let lambdaFunctionConfigurations: [LambdaFunctionConfiguration]?
+        public let queueConfigurations: [QueueConfiguration]?
+        public let topicConfigurations: [TopicConfiguration]?
+
+        public init(lambdaFunctionConfigurations: [LambdaFunctionConfiguration]? = nil, queueConfigurations: [QueueConfiguration]? = nil, topicConfigurations: [TopicConfiguration]? = nil) {
+            self.lambdaFunctionConfigurations = lambdaFunctionConfigurations
+            self.queueConfigurations = queueConfigurations
+            self.topicConfigurations = topicConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lambdaFunctionConfigurations = "CloudFunctionConfiguration"
+            case queueConfigurations = "QueueConfiguration"
+            case topicConfigurations = "TopicConfiguration"
+        }
+    }
+
+    public struct NotificationConfigurationDeprecated: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudFunctionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "QueueConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "TopicConfiguration", required: false, type: .structure)
+        ]
+        public let cloudFunctionConfiguration: CloudFunctionConfiguration?
+        public let queueConfiguration: QueueConfigurationDeprecated?
+        public let topicConfiguration: TopicConfigurationDeprecated?
+
+        public init(cloudFunctionConfiguration: CloudFunctionConfiguration? = nil, queueConfiguration: QueueConfigurationDeprecated? = nil, topicConfiguration: TopicConfigurationDeprecated? = nil) {
+            self.cloudFunctionConfiguration = cloudFunctionConfiguration
+            self.queueConfiguration = queueConfiguration
+            self.topicConfiguration = topicConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudFunctionConfiguration = "CloudFunctionConfiguration"
+            case queueConfiguration = "QueueConfiguration"
+            case topicConfiguration = "TopicConfiguration"
+        }
+    }
+
+    public struct NotificationConfigurationFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", location: .body(locationName: "S3Key"), required: false, type: .structure)
+        ]
+        public let key: S3KeyFilter?
+
+        public init(key: S3KeyFilter? = nil) {
+            self.key = key
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "S3Key"
+        }
+    }
+
+    public struct Object: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Owner", required: false, type: .structure), 
+            AWSShapeMember(label: "Size", required: false, type: .integer), 
+            AWSShapeMember(label: "StorageClass", required: false, type: .enum)
+        ]
+        public let eTag: String?
+        public let key: String?
+        public let lastModified: TimeStamp?
+        public let owner: Owner?
+        public let size: Int32?
+        /// The class of storage used to store the object.
+        public let storageClass: ObjectStorageClass?
+
+        public init(eTag: String? = nil, key: String? = nil, lastModified: TimeStamp? = nil, owner: Owner? = nil, size: Int32? = nil, storageClass: ObjectStorageClass? = nil) {
+            self.eTag = eTag
+            self.key = key
+            self.lastModified = lastModified
+            self.owner = owner
+            self.size = size
+            self.storageClass = storageClass
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case key = "Key"
+            case lastModified = "LastModified"
+            case owner = "Owner"
+            case size = "Size"
+            case storageClass = "StorageClass"
+        }
+    }
+
+    public enum ObjectCannedACL: String, CustomStringConvertible, Codable {
+        case `private` = "private"
+        case publicRead = "public-read"
+        case publicReadWrite = "public-read-write"
+        case authenticatedRead = "authenticated-read"
+        case awsExecRead = "aws-exec-read"
+        case bucketOwnerRead = "bucket-owner-read"
+        case bucketOwnerFullControl = "bucket-owner-full-control"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ObjectIdentifier: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "VersionId", required: false, type: .string)
+        ]
+        /// Key name of the object to delete.
+        public let key: String
+        /// VersionId for the specific version of the object to delete.
+        public let versionId: String?
+
+        public init(key: String, versionId: String? = nil) {
+            self.key = key
+            self.versionId = versionId
         }
 
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
-            case requestPayer = "x-amz-request-payer"
-            case bucket = "Bucket"
+            case versionId = "VersionId"
         }
     }
 
-    public struct AccessControlTranslation: AWSShape {
+    public struct ObjectLockConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Owner", required: true, type: .enum)
+            AWSShapeMember(label: "ObjectLockEnabled", required: false, type: .enum), 
+            AWSShapeMember(label: "Rule", required: false, type: .structure)
         ]
-        /// The override value for the owner of the replica object.
-        public let owner: OwnerOverride
+        /// Indicates whether this bucket has an Object Lock configuration enabled.
+        public let objectLockEnabled: ObjectLockEnabled?
+        /// The Object Lock rule in place for the specified object.
+        public let rule: ObjectLockRule?
 
-        public init(owner: OwnerOverride) {
-            self.owner = owner
+        public init(objectLockEnabled: ObjectLockEnabled? = nil, rule: ObjectLockRule? = nil) {
+            self.objectLockEnabled = objectLockEnabled
+            self.rule = rule
         }
 
         private enum CodingKeys: String, CodingKey {
+            case objectLockEnabled = "ObjectLockEnabled"
+            case rule = "Rule"
+        }
+    }
+
+    public enum ObjectLockEnabled: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ObjectLockLegalHold: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        /// Indicates whether the specified object has a Legal Hold in place.
+        public let status: ObjectLockLegalHoldStatus?
+
+        public init(status: ObjectLockLegalHoldStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
+    public enum ObjectLockLegalHoldStatus: String, CustomStringConvertible, Codable {
+        case on = "ON"
+        case off = "OFF"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ObjectLockMode: String, CustomStringConvertible, Codable {
+        case governance = "GOVERNANCE"
+        case compliance = "COMPLIANCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ObjectLockRetention: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Mode", required: false, type: .enum), 
+            AWSShapeMember(label: "RetainUntilDate", required: false, type: .timestamp)
+        ]
+        /// Indicates the Retention mode for the specified object.
+        public let mode: ObjectLockRetentionMode?
+        /// The date on which this Object Lock Retention will expire.
+        public let retainUntilDate: TimeStamp?
+
+        public init(mode: ObjectLockRetentionMode? = nil, retainUntilDate: TimeStamp? = nil) {
+            self.mode = mode
+            self.retainUntilDate = retainUntilDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "Mode"
+            case retainUntilDate = "RetainUntilDate"
+        }
+    }
+
+    public enum ObjectLockRetentionMode: String, CustomStringConvertible, Codable {
+        case governance = "GOVERNANCE"
+        case compliance = "COMPLIANCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ObjectLockRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultRetention", required: false, type: .structure)
+        ]
+        /// The default retention period that you want to apply to new objects placed in the specified bucket.
+        public let defaultRetention: DefaultRetention?
+
+        public init(defaultRetention: DefaultRetention? = nil) {
+            self.defaultRetention = defaultRetention
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultRetention = "DefaultRetention"
+        }
+    }
+
+    public enum ObjectStorageClass: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        case reducedRedundancy = "REDUCED_REDUNDANCY"
+        case glacier = "GLACIER"
+        case standardIa = "STANDARD_IA"
+        case onezoneIa = "ONEZONE_IA"
+        case intelligentTiering = "INTELLIGENT_TIERING"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ObjectVersion: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", required: false, type: .string), 
+            AWSShapeMember(label: "IsLatest", required: false, type: .boolean), 
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Owner", required: false, type: .structure), 
+            AWSShapeMember(label: "Size", required: false, type: .integer), 
+            AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
+            AWSShapeMember(label: "VersionId", required: false, type: .string)
+        ]
+        public let eTag: String?
+        /// Specifies whether the object is (true) or is not (false) the latest version of an object.
+        public let isLatest: Bool?
+        /// The object key.
+        public let key: String?
+        /// Date and time the object was last modified.
+        public let lastModified: TimeStamp?
+        public let owner: Owner?
+        /// Size in bytes of the object.
+        public let size: Int32?
+        /// The class of storage used to store the object.
+        public let storageClass: ObjectVersionStorageClass?
+        /// Version ID of an object.
+        public let versionId: String?
+
+        public init(eTag: String? = nil, isLatest: Bool? = nil, key: String? = nil, lastModified: TimeStamp? = nil, owner: Owner? = nil, size: Int32? = nil, storageClass: ObjectVersionStorageClass? = nil, versionId: String? = nil) {
+            self.eTag = eTag
+            self.isLatest = isLatest
+            self.key = key
+            self.lastModified = lastModified
+            self.owner = owner
+            self.size = size
+            self.storageClass = storageClass
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case isLatest = "IsLatest"
+            case key = "Key"
+            case lastModified = "LastModified"
             case owner = "Owner"
+            case size = "Size"
+            case storageClass = "StorageClass"
+            case versionId = "VersionId"
+        }
+    }
+
+    public enum ObjectVersionStorageClass: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct OutputLocation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3", required: false, type: .structure)
+        ]
+        /// Describes an S3 location that will receive the results of the restore request.
+        public let s3: S3Location?
+
+        public init(s3: S3Location? = nil) {
+            self.s3 = s3
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3 = "S3"
+        }
+    }
+
+    public struct OutputSerialization: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CSV", required: false, type: .structure), 
+            AWSShapeMember(label: "JSON", required: false, type: .structure)
+        ]
+        /// Describes the serialization of CSV-encoded Select results.
+        public let csv: CSVOutput?
+        /// Specifies JSON as request's output serialization format.
+        public let json: JSONOutput?
+
+        public init(csv: CSVOutput? = nil, json: JSONOutput? = nil) {
+            self.csv = csv
+            self.json = json
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case csv = "CSV"
+            case json = "JSON"
+        }
+    }
+
+    public struct Owner: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "ID", required: false, type: .string)
+        ]
+        public let displayName: String?
+        public let id: String?
+
+        public init(displayName: String? = nil, id: String? = nil) {
+            self.displayName = displayName
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "DisplayName"
+            case id = "ID"
+        }
+    }
+
+    public enum OwnerOverride: String, CustomStringConvertible, Codable {
+        case destination = "Destination"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ParquetInput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct Part: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", required: false, type: .string), 
+            AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
+            AWSShapeMember(label: "PartNumber", required: false, type: .integer), 
+            AWSShapeMember(label: "Size", required: false, type: .integer)
+        ]
+        /// Entity tag returned when the part was uploaded.
+        public let eTag: String?
+        /// Date and time at which the part was uploaded.
+        public let lastModified: TimeStamp?
+        /// Part number identifying the part. This is a positive integer between 1 and 10,000.
+        public let partNumber: Int32?
+        /// Size in bytes of the uploaded part data.
+        public let size: Int32?
+
+        public init(eTag: String? = nil, lastModified: TimeStamp? = nil, partNumber: Int32? = nil, size: Int32? = nil) {
+            self.eTag = eTag
+            self.lastModified = lastModified
+            self.partNumber = partNumber
+            self.size = size
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case lastModified = "LastModified"
+            case partNumber = "PartNumber"
+            case size = "Size"
+        }
+    }
+
+    public enum Payer: String, CustomStringConvertible, Codable {
+        case requester = "Requester"
+        case bucketowner = "BucketOwner"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Permission: String, CustomStringConvertible, Codable {
+        case fullControl = "FULL_CONTROL"
+        case write = "WRITE"
+        case writeAcp = "WRITE_ACP"
+        case read = "READ"
+        case readAcp = "READ_ACP"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct PolicyStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsPublic", location: .body(locationName: "IsPublic"), required: false, type: .boolean)
+        ]
+        /// The policy status for this bucket. TRUE indicates that this bucket is public. FALSE indicates that the bucket is not public.
+        public let isPublic: Bool?
+
+        public init(isPublic: Bool? = nil) {
+            self.isPublic = isPublic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isPublic = "IsPublic"
+        }
+    }
+
+    public struct Progress: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BytesProcessed", required: false, type: .long), 
+            AWSShapeMember(label: "BytesReturned", required: false, type: .long), 
+            AWSShapeMember(label: "BytesScanned", required: false, type: .long)
+        ]
+        /// The current number of uncompressed object bytes processed.
+        public let bytesProcessed: Int64?
+        /// The current number of bytes of records payload data returned.
+        public let bytesReturned: Int64?
+        /// The current number of object bytes scanned.
+        public let bytesScanned: Int64?
+
+        public init(bytesProcessed: Int64? = nil, bytesReturned: Int64? = nil, bytesScanned: Int64? = nil) {
+            self.bytesProcessed = bytesProcessed
+            self.bytesReturned = bytesReturned
+            self.bytesScanned = bytesScanned
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytesProcessed = "BytesProcessed"
+            case bytesReturned = "BytesReturned"
+            case bytesScanned = "BytesScanned"
+        }
+    }
+
+    public struct ProgressEvent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Details", required: false, type: .structure)
+        ]
+        /// The Progress event details.
+        public let details: Progress?
+
+        public init(details: Progress? = nil) {
+            self.details = details
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case details = "Details"
+        }
+    }
+
+    public enum `Protocol`: String, CustomStringConvertible, Codable {
+        case http = "http"
+        case https = "https"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct PublicAccessBlockConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BlockPublicAcls", location: .body(locationName: "BlockPublicAcls"), required: false, type: .boolean), 
+            AWSShapeMember(label: "BlockPublicPolicy", location: .body(locationName: "BlockPublicPolicy"), required: false, type: .boolean), 
+            AWSShapeMember(label: "IgnorePublicAcls", location: .body(locationName: "IgnorePublicAcls"), required: false, type: .boolean), 
+            AWSShapeMember(label: "RestrictPublicBuckets", location: .body(locationName: "RestrictPublicBuckets"), required: false, type: .boolean)
+        ]
+        /// Specifies whether Amazon S3 should block public access control lists (ACLs) for this bucket and objects in this bucket. Setting this element to TRUE causes the following behavior:   PUT Bucket acl and PUT Object acl calls fail if the specified ACL is public.   PUT Object calls fail if the request includes a public ACL.   Enabling this setting doesn't affect existing policies or ACLs.
+        public let blockPublicAcls: Bool?
+        /// Specifies whether Amazon S3 should block public bucket policies for this bucket. Setting this element to TRUE causes Amazon S3 to reject calls to PUT Bucket policy if the specified bucket policy allows public access.  Enabling this setting doesn't affect existing bucket policies.
+        public let blockPublicPolicy: Bool?
+        /// Specifies whether Amazon S3 should ignore public ACLs for this bucket and objects in this bucket. Setting this element to TRUE causes Amazon S3 to ignore all public ACLs on this bucket and objects in this bucket. Enabling this setting doesn't affect the persistence of any existing ACLs and doesn't prevent new public ACLs from being set.
+        public let ignorePublicAcls: Bool?
+        /// Specifies whether Amazon S3 should restrict public bucket policies for this bucket. Setting this element to TRUE restricts access to this bucket to only AWS services and authorized users within this account if the bucket has a public policy. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked.
+        public let restrictPublicBuckets: Bool?
+
+        public init(blockPublicAcls: Bool? = nil, blockPublicPolicy: Bool? = nil, ignorePublicAcls: Bool? = nil, restrictPublicBuckets: Bool? = nil) {
+            self.blockPublicAcls = blockPublicAcls
+            self.blockPublicPolicy = blockPublicPolicy
+            self.ignorePublicAcls = ignorePublicAcls
+            self.restrictPublicBuckets = restrictPublicBuckets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blockPublicAcls = "BlockPublicAcls"
+            case blockPublicPolicy = "BlockPublicPolicy"
+            case ignorePublicAcls = "IgnorePublicAcls"
+            case restrictPublicBuckets = "RestrictPublicBuckets"
         }
     }
 
@@ -1576,156 +5387,138 @@ extension S3 {
         }
     }
 
-    public struct InventoryEncryption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SSEKMS", location: .body(locationName: "SSE-KMS"), required: false, type: .structure), 
-            AWSShapeMember(label: "SSES3", location: .body(locationName: "SSE-S3"), required: false, type: .structure)
-        ]
-        /// Specifies the use of SSE-KMS to encrypt delivered Inventory reports.
-        public let ssekms: SSEKMS?
-        /// Specifies the use of SSE-S3 to encrypt delivered Inventory reports.
-        public let sses3: SSES3?
-
-        public init(ssekms: SSEKMS? = nil, sses3: SSES3? = nil) {
-            self.ssekms = ssekms
-            self.sses3 = sses3
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ssekms = "SSE-KMS"
-            case sses3 = "SSE-S3"
-        }
-    }
-
-    public struct RedirectAllRequestsTo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Protocol", required: false, type: .enum), 
-            AWSShapeMember(label: "HostName", required: true, type: .string)
-        ]
-        /// Protocol to use (http, https) when redirecting requests. The default is the protocol that is used in the original request.
-        public let `protocol`: Protocol?
-        /// Name of the host where requests will be redirected.
-        public let hostName: String
-
-        public init(protocol: Protocol? = nil, hostName: String) {
-            self.`protocol` = `protocol`
-            self.hostName = hostName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `protocol` = "Protocol"
-            case hostName = "HostName"
-        }
-    }
-
-    public struct ListObjectsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "EncodingType", location: .querystring(locationName: "encoding-type"), required: false, type: .enum), 
-            AWSShapeMember(label: "Prefix", location: .querystring(locationName: "prefix"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxKeys", location: .querystring(locationName: "max-keys"), required: false, type: .integer), 
-            AWSShapeMember(label: "Delimiter", location: .querystring(locationName: "delimiter"), required: false, type: .string)
-        ]
-        public let bucket: String
-        /// Confirms that the requester knows that she or he will be charged for the list objects request. Bucket owners need not specify this parameter in their requests.
-        public let requestPayer: RequestPayer?
-        /// Specifies the key to start with when listing objects in a bucket.
-        public let marker: String?
-        public let encodingType: EncodingType?
-        /// Limits the response to keys that begin with the specified prefix.
-        public let prefix: String?
-        /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
-        public let maxKeys: Int32?
-        /// A delimiter is a character you use to group keys.
-        public let delimiter: String?
-
-        public init(bucket: String, requestPayer: RequestPayer? = nil, marker: String? = nil, encodingType: EncodingType? = nil, prefix: String? = nil, maxKeys: Int32? = nil, delimiter: String? = nil) {
-            self.bucket = bucket
-            self.requestPayer = requestPayer
-            self.marker = marker
-            self.encodingType = encodingType
-            self.prefix = prefix
-            self.maxKeys = maxKeys
-            self.delimiter = delimiter
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case requestPayer = "x-amz-request-payer"
-            case marker = "marker"
-            case encodingType = "encoding-type"
-            case prefix = "prefix"
-            case maxKeys = "max-keys"
-            case delimiter = "delimiter"
-        }
-    }
-
-    public struct InventorySchedule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Frequency", required: true, type: .enum)
-        ]
-        /// Specifies how frequently inventory results are produced.
-        public let frequency: InventoryFrequency
-
-        public init(frequency: InventoryFrequency) {
-            self.frequency = frequency
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case frequency = "Frequency"
-        }
-    }
-
-    public struct DeleteObjectsRequest: AWSShape {
+    public struct PutBucketAclRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "Delete"
+        public static let payloadPath: String? = "AccessControlPolicy"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum), 
+            AWSShapeMember(label: "AccessControlPolicy", location: .body(locationName: "AccessControlPolicy"), required: false, type: .structure), 
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "GrantFullControl", location: .header(locationName: "x-amz-grant-full-control"), required: false, type: .string), 
+            AWSShapeMember(label: "GrantRead", location: .header(locationName: "x-amz-grant-read"), required: false, type: .string), 
+            AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string), 
+            AWSShapeMember(label: "GrantWrite", location: .header(locationName: "x-amz-grant-write"), required: false, type: .string), 
+            AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string)
+        ]
+        /// The canned ACL to apply to the bucket.
+        public let acl: BucketCannedACL?
+        public let accessControlPolicy: AccessControlPolicy?
+        public let bucket: String
+        public let contentMD5: String?
+        /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
+        public let grantFullControl: String?
+        /// Allows grantee to list the objects in the bucket.
+        public let grantRead: String?
+        /// Allows grantee to read the bucket ACL.
+        public let grantReadACP: String?
+        /// Allows grantee to create, overwrite, and delete any object in the bucket.
+        public let grantWrite: String?
+        /// Allows grantee to write the ACL for the applicable bucket.
+        public let grantWriteACP: String?
+
+        public init(accessControlPolicy: AccessControlPolicy? = nil, acl: BucketCannedACL? = nil, bucket: String, contentMD5: String? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil) {
+            self.acl = acl
+            self.accessControlPolicy = accessControlPolicy
+            self.bucket = bucket
+            self.contentMD5 = contentMD5
+            self.grantFullControl = grantFullControl
+            self.grantRead = grantRead
+            self.grantReadACP = grantReadACP
+            self.grantWrite = grantWrite
+            self.grantWriteACP = grantWriteACP
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acl = "x-amz-acl"
+            case accessControlPolicy = "AccessControlPolicy"
+            case bucket = "Bucket"
+            case contentMD5 = "Content-MD5"
+            case grantFullControl = "x-amz-grant-full-control"
+            case grantRead = "x-amz-grant-read"
+            case grantReadACP = "x-amz-grant-read-acp"
+            case grantWrite = "x-amz-grant-write"
+            case grantWriteACP = "x-amz-grant-write-acp"
+        }
+    }
+
+    public struct PutBucketAnalyticsConfigurationRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "AnalyticsConfiguration"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnalyticsConfiguration", location: .body(locationName: "AnalyticsConfiguration"), required: true, type: .structure), 
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string)
+        ]
+        /// The configuration and any analyses for the analytics filter.
+        public let analyticsConfiguration: AnalyticsConfiguration
+        /// The name of the bucket to which an analytics configuration is stored.
+        public let bucket: String
+        /// The identifier used to represent an analytics configuration.
+        public let id: String
+
+        public init(analyticsConfiguration: AnalyticsConfiguration, bucket: String, id: String) {
+            self.analyticsConfiguration = analyticsConfiguration
+            self.bucket = bucket
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analyticsConfiguration = "AnalyticsConfiguration"
+            case bucket = "Bucket"
+            case id = "id"
+        }
+    }
+
+    public struct PutBucketCorsRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "CORSConfiguration"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "MFA", location: .header(locationName: "x-amz-mfa"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "BypassGovernanceRetention", location: .header(locationName: "x-amz-bypass-governance-retention"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Delete", location: .body(locationName: "Delete"), required: true, type: .structure)
+            AWSShapeMember(label: "CORSConfiguration", location: .body(locationName: "CORSConfiguration"), required: true, type: .structure), 
+            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string)
         ]
         public let bucket: String
-        /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
-        public let mfa: String?
-        public let requestPayer: RequestPayer?
-        /// Specifies whether you want to delete this object even if it has a Governance-type Object Lock in place. You must have sufficient permissions to perform this operation.
-        public let bypassGovernanceRetention: Bool?
-        public let delete: Delete
+        public let cORSConfiguration: CORSConfiguration
+        public let contentMD5: String?
 
-        public init(bucket: String, mfa: String? = nil, requestPayer: RequestPayer? = nil, bypassGovernanceRetention: Bool? = nil, delete: Delete) {
+        public init(bucket: String, cORSConfiguration: CORSConfiguration, contentMD5: String? = nil) {
             self.bucket = bucket
-            self.mfa = mfa
-            self.requestPayer = requestPayer
-            self.bypassGovernanceRetention = bypassGovernanceRetention
-            self.delete = delete
+            self.cORSConfiguration = cORSConfiguration
+            self.contentMD5 = contentMD5
         }
 
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
-            case mfa = "x-amz-mfa"
-            case requestPayer = "x-amz-request-payer"
-            case bypassGovernanceRetention = "x-amz-bypass-governance-retention"
-            case delete = "Delete"
+            case cORSConfiguration = "CORSConfiguration"
+            case contentMD5 = "Content-MD5"
         }
     }
 
-    public struct StatsEvent: AWSShape {
+    public struct PutBucketEncryptionRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "ServerSideEncryptionConfiguration"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Details", required: false, type: .structure)
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "ServerSideEncryptionConfiguration", location: .body(locationName: "ServerSideEncryptionConfiguration"), required: true, type: .structure)
         ]
-        /// The Stats event details.
-        public let details: Stats?
+        /// The name of the bucket for which the server-side encryption configuration is set.
+        public let bucket: String
+        /// The base64-encoded 128-bit MD5 digest of the server-side encryption configuration.
+        public let contentMD5: String?
+        public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration
 
-        public init(details: Stats? = nil) {
-            self.details = details
+        public init(bucket: String, contentMD5: String? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration) {
+            self.bucket = bucket
+            self.contentMD5 = contentMD5
+            self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details = "Details"
+            case bucket = "Bucket"
+            case contentMD5 = "Content-MD5"
+            case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
         }
     }
 
@@ -1733,733 +5526,98 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "InventoryConfiguration"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InventoryConfiguration", location: .body(locationName: "InventoryConfiguration"), required: true, type: .structure), 
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+            AWSShapeMember(label: "InventoryConfiguration", location: .body(locationName: "InventoryConfiguration"), required: true, type: .structure)
         ]
-        /// Specifies the inventory configuration.
-        public let inventoryConfiguration: InventoryConfiguration
-        /// The ID used to identify the inventory configuration.
-        public let id: String
         /// The name of the bucket where the inventory configuration will be stored.
         public let bucket: String
+        /// The ID used to identify the inventory configuration.
+        public let id: String
+        /// Specifies the inventory configuration.
+        public let inventoryConfiguration: InventoryConfiguration
 
-        public init(inventoryConfiguration: InventoryConfiguration, id: String, bucket: String) {
-            self.inventoryConfiguration = inventoryConfiguration
+        public init(bucket: String, id: String, inventoryConfiguration: InventoryConfiguration) {
+            self.bucket = bucket
             self.id = id
-            self.bucket = bucket
+            self.inventoryConfiguration = inventoryConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inventoryConfiguration = "InventoryConfiguration"
+            case bucket = "Bucket"
             case id = "id"
-            case bucket = "Bucket"
+            case inventoryConfiguration = "InventoryConfiguration"
         }
     }
 
-    public enum Payer: String, CustomStringConvertible, Codable {
-        case requester = "Requester"
-        case bucketowner = "BucketOwner"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListBucketAnalyticsConfigurationsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "NextContinuationToken", required: false, type: .string), 
-            AWSShapeMember(label: "ContinuationToken", required: false, type: .string), 
-            AWSShapeMember(label: "AnalyticsConfigurationList", location: .body(locationName: "AnalyticsConfiguration"), required: false, type: .list)
-        ]
-        /// Indicates whether the returned list of analytics configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken will be provided for a subsequent request.
-        public let isTruncated: Bool?
-        /// NextContinuationToken is sent when isTruncated is true, which indicates that there are more analytics configurations to list. The next request must include this NextContinuationToken. The token is obfuscated and is not a usable value.
-        public let nextContinuationToken: String?
-        /// The ContinuationToken that represents where this request began.
-        public let continuationToken: String?
-        /// The list of analytics configurations for a bucket.
-        public let analyticsConfigurationList: [AnalyticsConfiguration]?
-
-        public init(isTruncated: Bool? = nil, nextContinuationToken: String? = nil, continuationToken: String? = nil, analyticsConfigurationList: [AnalyticsConfiguration]? = nil) {
-            self.isTruncated = isTruncated
-            self.nextContinuationToken = nextContinuationToken
-            self.continuationToken = continuationToken
-            self.analyticsConfigurationList = analyticsConfigurationList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case isTruncated = "IsTruncated"
-            case nextContinuationToken = "NextContinuationToken"
-            case continuationToken = "ContinuationToken"
-            case analyticsConfigurationList = "AnalyticsConfiguration"
-        }
-    }
-
-    public struct StorageClassAnalysis: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataExport", required: false, type: .structure)
-        ]
-        /// A container used to describe how data related to the storage class analysis should be exported.
-        public let dataExport: StorageClassAnalysisDataExport?
-
-        public init(dataExport: StorageClassAnalysisDataExport? = nil) {
-            self.dataExport = dataExport
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dataExport = "DataExport"
-        }
-    }
-
-    public struct PutObjectRetentionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
-        ]
-        public let requestCharged: RequestCharged?
-
-        public init(requestCharged: RequestCharged? = nil) {
-            self.requestCharged = requestCharged
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case requestCharged = "x-amz-request-charged"
-        }
-    }
-
-    public struct ListObjectVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KeyMarker", location: .querystring(locationName: "key-marker"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionIdMarker", location: .querystring(locationName: "version-id-marker"), required: false, type: .string), 
-            AWSShapeMember(label: "Prefix", location: .querystring(locationName: "prefix"), required: false, type: .string), 
-            AWSShapeMember(label: "EncodingType", location: .querystring(locationName: "encoding-type"), required: false, type: .enum), 
-            AWSShapeMember(label: "MaxKeys", location: .querystring(locationName: "max-keys"), required: false, type: .integer), 
-            AWSShapeMember(label: "Delimiter", location: .querystring(locationName: "delimiter"), required: false, type: .string)
-        ]
-        /// Specifies the key to start with when listing objects in a bucket.
-        public let keyMarker: String?
-        public let bucket: String
-        /// Specifies the object version you want to start listing from.
-        public let versionIdMarker: String?
-        /// Limits the response to keys that begin with the specified prefix.
-        public let prefix: String?
-        public let encodingType: EncodingType?
-        /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
-        public let maxKeys: Int32?
-        /// A delimiter is a character you use to group keys.
-        public let delimiter: String?
-
-        public init(keyMarker: String? = nil, bucket: String, versionIdMarker: String? = nil, prefix: String? = nil, encodingType: EncodingType? = nil, maxKeys: Int32? = nil, delimiter: String? = nil) {
-            self.keyMarker = keyMarker
-            self.bucket = bucket
-            self.versionIdMarker = versionIdMarker
-            self.prefix = prefix
-            self.encodingType = encodingType
-            self.maxKeys = maxKeys
-            self.delimiter = delimiter
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case keyMarker = "key-marker"
-            case bucket = "Bucket"
-            case versionIdMarker = "version-id-marker"
-            case prefix = "prefix"
-            case encodingType = "encoding-type"
-            case maxKeys = "max-keys"
-            case delimiter = "delimiter"
-        }
-    }
-
-    public struct HeadBucketRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        public let bucket: String
-
-        public init(bucket: String) {
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct HeadObjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
-            AWSShapeMember(label: "IfNoneMatch", location: .header(locationName: "If-None-Match"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "IfUnmodifiedSince", location: .header(locationName: "If-Unmodified-Since"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
-            AWSShapeMember(label: "Range", location: .header(locationName: "Range"), required: false, type: .string), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "IfModifiedSince", location: .header(locationName: "If-Modified-Since"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "PartNumber", location: .querystring(locationName: "partNumber"), required: false, type: .integer)
-        ]
-        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
-        public let sSECustomerKey: String?
-        /// Return the object only if its entity tag (ETag) is different from the one specified, otherwise return a 304 (not modified).
-        public let ifNoneMatch: String?
-        /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        public let sSECustomerAlgorithm: String?
-        /// Return the object only if its entity tag (ETag) is the same as the one specified, otherwise return a 412 (precondition failed).
-        public let ifMatch: String?
-        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        public let sSECustomerKeyMD5: String?
-        /// Return the object only if it has not been modified since the specified time, otherwise return a 412 (precondition failed).
-        public let ifUnmodifiedSince: TimeStamp?
-        /// VersionId used to reference a specific version of the object.
-        public let versionId: String?
-        /// Downloads the specified range bytes of an object. For more information about the HTTP Range header, go to http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
-        public let range: String?
-        public let key: String
-        public let requestPayer: RequestPayer?
-        public let bucket: String
-        /// Return the object only if it has been modified since the specified time, otherwise return a 304 (not modified).
-        public let ifModifiedSince: TimeStamp?
-        /// Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' HEAD request for the part specified. Useful querying about the size of the part and the number of parts in this object.
-        public let partNumber: Int32?
-
-        public init(sSECustomerKey: String? = nil, ifNoneMatch: String? = nil, sSECustomerAlgorithm: String? = nil, ifMatch: String? = nil, sSECustomerKeyMD5: String? = nil, ifUnmodifiedSince: TimeStamp? = nil, versionId: String? = nil, range: String? = nil, key: String, requestPayer: RequestPayer? = nil, bucket: String, ifModifiedSince: TimeStamp? = nil, partNumber: Int32? = nil) {
-            self.sSECustomerKey = sSECustomerKey
-            self.ifNoneMatch = ifNoneMatch
-            self.sSECustomerAlgorithm = sSECustomerAlgorithm
-            self.ifMatch = ifMatch
-            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
-            self.ifUnmodifiedSince = ifUnmodifiedSince
-            self.versionId = versionId
-            self.range = range
-            self.key = key
-            self.requestPayer = requestPayer
-            self.bucket = bucket
-            self.ifModifiedSince = ifModifiedSince
-            self.partNumber = partNumber
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
-            case ifNoneMatch = "If-None-Match"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case ifMatch = "If-Match"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case ifUnmodifiedSince = "If-Unmodified-Since"
-            case versionId = "versionId"
-            case range = "Range"
-            case key = "Key"
-            case requestPayer = "x-amz-request-payer"
-            case bucket = "Bucket"
-            case ifModifiedSince = "If-Modified-Since"
-            case partNumber = "partNumber"
-        }
-    }
-
-    public enum InventoryOptionalField: String, CustomStringConvertible, Codable {
-        case size = "Size"
-        case lastmodifieddate = "LastModifiedDate"
-        case storageclass = "StorageClass"
-        case etag = "ETag"
-        case ismultipartuploaded = "IsMultipartUploaded"
-        case replicationstatus = "ReplicationStatus"
-        case encryptionstatus = "EncryptionStatus"
-        case objectlockretainuntildate = "ObjectLockRetainUntilDate"
-        case objectlockmode = "ObjectLockMode"
-        case objectlocklegalholdstatus = "ObjectLockLegalHoldStatus"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeletedObject: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string), 
-            AWSShapeMember(label: "DeleteMarkerVersionId", required: false, type: .string), 
-            AWSShapeMember(label: "DeleteMarker", required: false, type: .boolean)
-        ]
-        public let key: String?
-        public let versionId: String?
-        public let deleteMarkerVersionId: String?
-        public let deleteMarker: Bool?
-
-        public init(key: String? = nil, versionId: String? = nil, deleteMarkerVersionId: String? = nil, deleteMarker: Bool? = nil) {
-            self.key = key
-            self.versionId = versionId
-            self.deleteMarkerVersionId = deleteMarkerVersionId
-            self.deleteMarker = deleteMarker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case versionId = "VersionId"
-            case deleteMarkerVersionId = "DeleteMarkerVersionId"
-            case deleteMarker = "DeleteMarker"
-        }
-    }
-
-    public enum RequestCharged: String, CustomStringConvertible, Codable {
-        case requester = "requester"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ObjectVersionStorageClass: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ObjectLockLegalHoldStatus: String, CustomStringConvertible, Codable {
-        case on = "ON"
-        case off = "OFF"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct SSES3: AWSShape {
-
-    }
-
-    public struct PutObjectAclOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
-        ]
-        public let requestCharged: RequestCharged?
-
-        public init(requestCharged: RequestCharged? = nil) {
-            self.requestCharged = requestCharged
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case requestCharged = "x-amz-request-charged"
-        }
-    }
-
-    public struct HeadObjectOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "Expiration", location: .header(locationName: "x-amz-expiration"), required: false, type: .string), 
-            AWSShapeMember(label: "DeleteMarker", location: .header(locationName: "x-amz-delete-marker"), required: false, type: .boolean), 
-            AWSShapeMember(label: "WebsiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"), required: false, type: .string), 
-            AWSShapeMember(label: "ObjectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
-            AWSShapeMember(label: "Expires", location: .header(locationName: "Expires"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ReplicationStatus", location: .header(locationName: "x-amz-replication-status"), required: false, type: .enum), 
-            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
-            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum), 
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentLength", location: .header(locationName: "Content-Length"), required: false, type: .long), 
-            AWSShapeMember(label: "Restore", location: .header(locationName: "x-amz-restore"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string), 
-            AWSShapeMember(label: "ObjectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold"), required: false, type: .enum), 
-            AWSShapeMember(label: "LastModified", location: .header(locationName: "Last-Modified"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ContentEncoding", location: .header(locationName: "Content-Encoding"), required: false, type: .string), 
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentLanguage", location: .header(locationName: "Content-Language"), required: false, type: .string), 
-            AWSShapeMember(label: "AcceptRanges", location: .header(locationName: "accept-ranges"), required: false, type: .string), 
-            AWSShapeMember(label: "ObjectLockMode", location: .header(locationName: "x-amz-object-lock-mode"), required: false, type: .enum), 
-            AWSShapeMember(label: "PartsCount", location: .header(locationName: "x-amz-mp-parts-count"), required: false, type: .integer), 
-            AWSShapeMember(label: "Metadata", required: false, type: .map), 
-            AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string), 
-            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string), 
-            AWSShapeMember(label: "MissingMeta", location: .header(locationName: "x-amz-missing-meta"), required: false, type: .integer)
-        ]
-        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public let serverSideEncryption: ServerSideEncryption?
-        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
-        public let sSECustomerAlgorithm: String?
-        /// If the object expiration is configured (see PUT Bucket lifecycle), the response includes this header. It includes the expiry-date and rule-id key value pairs providing object expiration information. The value of the rule-id is URL encoded.
-        public let expiration: String?
-        /// Specifies whether the object retrieved was (true) or was not (false) a Delete Marker. If false, this response header does not appear in the response.
-        public let deleteMarker: Bool?
-        /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
-        public let websiteRedirectLocation: String?
-        /// The date and time when this object's Object Lock will expire.
-        public let objectLockRetainUntilDate: TimeStamp?
-        /// A standard MIME type describing the format of the object data.
-        public let contentType: String?
-        /// The date and time at which the object is no longer cacheable.
-        public let expires: TimeStamp?
-        public let replicationStatus: ReplicationStatus?
-        /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
-        public let sSEKMSKeyId: String?
-        public let storageClass: StorageClass?
-        public let requestCharged: RequestCharged?
-        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
-        public let sSECustomerKeyMD5: String?
-        /// Size of the body in bytes.
-        public let contentLength: Int64?
-        /// Provides information about object restoration operation and expiration time of the restored object copy.
-        public let restore: String?
-        /// Specifies presentational information for the object.
-        public let contentDisposition: String?
-        /// The Legal Hold status for the specified object.
-        public let objectLockLegalHoldStatus: ObjectLockLegalHoldStatus?
-        /// Last modified date of the object
-        public let lastModified: TimeStamp?
-        /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
-        public let contentEncoding: String?
-        /// An ETag is an opaque identifier assigned by a web server to a specific version of a resource found at a URL
-        public let eTag: String?
-        /// The language the content is in.
-        public let contentLanguage: String?
-        public let acceptRanges: String?
-        /// The Object Lock mode currently in place for this object.
-        public let objectLockMode: ObjectLockMode?
-        /// The count of parts this object has.
-        public let partsCount: Int32?
-        /// A map of metadata to store with the object in S3.
-        public let metadata: [String: String]?
-        /// Version of the object.
-        public let versionId: String?
-        /// Specifies caching behavior along the request/reply chain.
-        public let cacheControl: String?
-        /// This is set to the number of metadata entries not returned in x-amz-meta headers. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you can create metadata whose values are not legal HTTP headers.
-        public let missingMeta: Int32?
-
-        public init(serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, expiration: String? = nil, deleteMarker: Bool? = nil, websiteRedirectLocation: String? = nil, objectLockRetainUntilDate: TimeStamp? = nil, contentType: String? = nil, expires: TimeStamp? = nil, replicationStatus: ReplicationStatus? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, requestCharged: RequestCharged? = nil, sSECustomerKeyMD5: String? = nil, contentLength: Int64? = nil, restore: String? = nil, contentDisposition: String? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, lastModified: TimeStamp? = nil, contentEncoding: String? = nil, eTag: String? = nil, contentLanguage: String? = nil, acceptRanges: String? = nil, objectLockMode: ObjectLockMode? = nil, partsCount: Int32? = nil, metadata: [String: String]? = nil, versionId: String? = nil, cacheControl: String? = nil, missingMeta: Int32? = nil) {
-            self.serverSideEncryption = serverSideEncryption
-            self.sSECustomerAlgorithm = sSECustomerAlgorithm
-            self.expiration = expiration
-            self.deleteMarker = deleteMarker
-            self.websiteRedirectLocation = websiteRedirectLocation
-            self.objectLockRetainUntilDate = objectLockRetainUntilDate
-            self.contentType = contentType
-            self.expires = expires
-            self.replicationStatus = replicationStatus
-            self.sSEKMSKeyId = sSEKMSKeyId
-            self.storageClass = storageClass
-            self.requestCharged = requestCharged
-            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
-            self.contentLength = contentLength
-            self.restore = restore
-            self.contentDisposition = contentDisposition
-            self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
-            self.lastModified = lastModified
-            self.contentEncoding = contentEncoding
-            self.eTag = eTag
-            self.contentLanguage = contentLanguage
-            self.acceptRanges = acceptRanges
-            self.objectLockMode = objectLockMode
-            self.partsCount = partsCount
-            self.metadata = metadata
-            self.versionId = versionId
-            self.cacheControl = cacheControl
-            self.missingMeta = missingMeta
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverSideEncryption = "x-amz-server-side-encryption"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case expiration = "x-amz-expiration"
-            case deleteMarker = "x-amz-delete-marker"
-            case websiteRedirectLocation = "x-amz-website-redirect-location"
-            case objectLockRetainUntilDate = "x-amz-object-lock-retain-until-date"
-            case contentType = "Content-Type"
-            case expires = "Expires"
-            case replicationStatus = "x-amz-replication-status"
-            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
-            case storageClass = "x-amz-storage-class"
-            case requestCharged = "x-amz-request-charged"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case contentLength = "Content-Length"
-            case restore = "x-amz-restore"
-            case contentDisposition = "Content-Disposition"
-            case objectLockLegalHoldStatus = "x-amz-object-lock-legal-hold"
-            case lastModified = "Last-Modified"
-            case contentEncoding = "Content-Encoding"
-            case eTag = "ETag"
-            case contentLanguage = "Content-Language"
-            case acceptRanges = "accept-ranges"
-            case objectLockMode = "x-amz-object-lock-mode"
-            case partsCount = "x-amz-mp-parts-count"
-            case metadata = "Metadata"
-            case versionId = "x-amz-version-id"
-            case cacheControl = "Cache-Control"
-            case missingMeta = "x-amz-missing-meta"
-        }
-    }
-
-    public struct LifecycleExpiration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExpiredObjectDeleteMarker", required: false, type: .boolean), 
-            AWSShapeMember(label: "Days", required: false, type: .integer), 
-            AWSShapeMember(label: "Date", required: false, type: .timestamp)
-        ]
-        /// Indicates whether Amazon S3 will remove a delete marker with no noncurrent versions. If set to true, the delete marker will be expired; if set to false the policy takes no action. This cannot be specified with Days or Date in a Lifecycle Expiration Policy.
-        public let expiredObjectDeleteMarker: Bool?
-        /// Indicates the lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer.
-        public let days: Int32?
-        /// Indicates at what date the object is to be moved or deleted. Should be in GMT ISO 8601 Format.
-        public let date: TimeStamp?
-
-        public init(expiredObjectDeleteMarker: Bool? = nil, days: Int32? = nil, date: TimeStamp? = nil) {
-            self.expiredObjectDeleteMarker = expiredObjectDeleteMarker
-            self.days = days
-            self.date = date
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case expiredObjectDeleteMarker = "ExpiredObjectDeleteMarker"
-            case days = "Days"
-            case date = "Date"
-        }
-    }
-
-    public struct CORSConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CORSRules", location: .body(locationName: "CORSRule"), required: true, type: .list)
-        ]
-        public let cORSRules: [CORSRule]
-
-        public init(cORSRules: [CORSRule]) {
-            self.cORSRules = cORSRules
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cORSRules = "CORSRule"
-        }
-    }
-
-    public struct DeleteObjectsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
-            AWSShapeMember(label: "Errors", location: .body(locationName: "Error"), required: false, type: .list), 
-            AWSShapeMember(label: "Deleted", required: false, type: .list)
-        ]
-        public let requestCharged: RequestCharged?
-        public let errors: [Error]?
-        public let deleted: [DeletedObject]?
-
-        public init(requestCharged: RequestCharged? = nil, errors: [Error]? = nil, deleted: [DeletedObject]? = nil) {
-            self.requestCharged = requestCharged
-            self.errors = errors
-            self.deleted = deleted
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case requestCharged = "x-amz-request-charged"
-            case errors = "Error"
-            case deleted = "Deleted"
-        }
-    }
-
-    public struct LifecycleConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: true, type: .list)
-        ]
-        public let rules: [Rule]
-
-        public init(rules: [Rule]) {
-            self.rules = rules
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rules = "Rule"
-        }
-    }
-
-    public struct ProgressEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Details", required: false, type: .structure)
-        ]
-        /// The Progress event details.
-        public let details: Progress?
-
-        public init(details: Progress? = nil) {
-            self.details = details
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case details = "Details"
-        }
-    }
-
-    public enum MFADeleteStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case disabled = "Disabled"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct PutObjectRequest: AWSShape {
+    public struct PutBucketLifecycleConfigurationRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "Body"
+        public static let payloadPath: String? = "LifecycleConfiguration"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tagging", location: .header(locationName: "x-amz-tagging"), required: false, type: .string), 
-            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantFullControl", location: .header(locationName: "x-amz-grant-full-control"), required: false, type: .string), 
-            AWSShapeMember(label: "WebsiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum), 
-            AWSShapeMember(label: "ObjectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
-            AWSShapeMember(label: "Expires", location: .header(locationName: "Expires"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
-            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "Body", required: false, type: .blob), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentLength", location: .header(locationName: "Content-Length"), required: false, type: .long), 
-            AWSShapeMember(label: "ContentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string), 
-            AWSShapeMember(label: "ObjectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold"), required: false, type: .enum), 
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "ContentEncoding", location: .header(locationName: "Content-Encoding"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentLanguage", location: .header(locationName: "Content-Language"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
-            AWSShapeMember(label: "ObjectLockMode", location: .header(locationName: "x-amz-object-lock-mode"), required: false, type: .enum), 
-            AWSShapeMember(label: "Metadata", required: false, type: .map), 
-            AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantRead", location: .header(locationName: "x-amz-grant-read"), required: false, type: .string), 
-            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string)
+            AWSShapeMember(label: "LifecycleConfiguration", location: .body(locationName: "LifecycleConfiguration"), required: false, type: .structure)
         ]
-        /// The tag-set for the object. The tag-set must be encoded as URL Query parameters. (For example, "Key1=Value1")
-        public let tagging: String?
-        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public let serverSideEncryption: ServerSideEncryption?
-        /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        public let sSECustomerAlgorithm: String?
-        /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
-        public let grantFullControl: String?
-        /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
-        public let websiteRedirectLocation: String?
-        /// The base64-encoded 128-bit MD5 digest of the part data.
-        public let contentMD5: String?
-        /// The canned ACL to apply to the object.
-        public let acl: ObjectCannedACL?
-        /// The date and time when you want this object's Object Lock to expire.
-        public let objectLockRetainUntilDate: TimeStamp?
-        /// A standard MIME type describing the format of the object data.
-        public let contentType: String?
-        /// The date and time at which the object is no longer cacheable.
-        public let expires: TimeStamp?
-        public let requestPayer: RequestPayer?
-        /// Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. Documentation on configuring any of the officially supported AWS SDKs and CLI can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
-        public let sSEKMSKeyId: String?
-        /// The type of storage to use for the object. Defaults to 'STANDARD'.
-        public let storageClass: StorageClass?
-        /// Object key for which the PUT operation was initiated.
-        public let key: String
-        /// Object data.
-        public let body: Data?
-        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        public let sSECustomerKeyMD5: String?
-        /// Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically.
-        public let contentLength: Int64?
-        /// Specifies presentational information for the object.
-        public let contentDisposition: String?
-        /// The Legal Hold status that you want to apply to the specified object.
-        public let objectLockLegalHoldStatus: ObjectLockLegalHoldStatus?
-        /// Name of the bucket to which the PUT operation was initiated.
         public let bucket: String
-        /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
-        public let contentEncoding: String?
-        /// Allows grantee to write the ACL for the applicable object.
-        public let grantWriteACP: String?
-        /// The language the content is in.
-        public let contentLanguage: String?
-        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
-        public let sSECustomerKey: String?
-        /// The Object Lock mode that you want to apply to this object.
-        public let objectLockMode: ObjectLockMode?
-        /// A map of metadata to store with the object in S3.
-        public let metadata: [String: String]?
-        /// Allows grantee to read the object ACL.
-        public let grantReadACP: String?
-        /// Allows grantee to read the object data and its metadata.
-        public let grantRead: String?
-        /// Specifies caching behavior along the request/reply chain.
-        public let cacheControl: String?
+        public let lifecycleConfiguration: BucketLifecycleConfiguration?
 
-        public init(tagging: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, grantFullControl: String? = nil, websiteRedirectLocation: String? = nil, contentMD5: String? = nil, acl: ObjectCannedACL? = nil, objectLockRetainUntilDate: TimeStamp? = nil, contentType: String? = nil, expires: TimeStamp? = nil, requestPayer: RequestPayer? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, key: String, body: Data? = nil, sSECustomerKeyMD5: String? = nil, contentLength: Int64? = nil, contentDisposition: String? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, bucket: String, contentEncoding: String? = nil, grantWriteACP: String? = nil, contentLanguage: String? = nil, sSECustomerKey: String? = nil, objectLockMode: ObjectLockMode? = nil, metadata: [String: String]? = nil, grantReadACP: String? = nil, grantRead: String? = nil, cacheControl: String? = nil) {
-            self.tagging = tagging
-            self.serverSideEncryption = serverSideEncryption
-            self.sSECustomerAlgorithm = sSECustomerAlgorithm
-            self.grantFullControl = grantFullControl
-            self.websiteRedirectLocation = websiteRedirectLocation
-            self.contentMD5 = contentMD5
-            self.acl = acl
-            self.objectLockRetainUntilDate = objectLockRetainUntilDate
-            self.contentType = contentType
-            self.expires = expires
-            self.requestPayer = requestPayer
-            self.sSEKMSKeyId = sSEKMSKeyId
-            self.storageClass = storageClass
-            self.key = key
-            self.body = body
-            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
-            self.contentLength = contentLength
-            self.contentDisposition = contentDisposition
-            self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
+        public init(bucket: String, lifecycleConfiguration: BucketLifecycleConfiguration? = nil) {
             self.bucket = bucket
-            self.contentEncoding = contentEncoding
-            self.grantWriteACP = grantWriteACP
-            self.contentLanguage = contentLanguage
-            self.sSECustomerKey = sSECustomerKey
-            self.objectLockMode = objectLockMode
-            self.metadata = metadata
-            self.grantReadACP = grantReadACP
-            self.grantRead = grantRead
-            self.cacheControl = cacheControl
+            self.lifecycleConfiguration = lifecycleConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tagging = "x-amz-tagging"
-            case serverSideEncryption = "x-amz-server-side-encryption"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case grantFullControl = "x-amz-grant-full-control"
-            case websiteRedirectLocation = "x-amz-website-redirect-location"
-            case contentMD5 = "Content-MD5"
-            case acl = "x-amz-acl"
-            case objectLockRetainUntilDate = "x-amz-object-lock-retain-until-date"
-            case contentType = "Content-Type"
-            case expires = "Expires"
-            case requestPayer = "x-amz-request-payer"
-            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
-            case storageClass = "x-amz-storage-class"
-            case key = "Key"
-            case body = "Body"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case contentLength = "Content-Length"
-            case contentDisposition = "Content-Disposition"
-            case objectLockLegalHoldStatus = "x-amz-object-lock-legal-hold"
             case bucket = "Bucket"
-            case contentEncoding = "Content-Encoding"
-            case grantWriteACP = "x-amz-grant-write-acp"
-            case contentLanguage = "Content-Language"
-            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
-            case objectLockMode = "x-amz-object-lock-mode"
-            case metadata = "Metadata"
-            case grantReadACP = "x-amz-grant-read-acp"
-            case grantRead = "x-amz-grant-read"
-            case cacheControl = "Cache-Control"
+            case lifecycleConfiguration = "LifecycleConfiguration"
         }
     }
 
-    public struct PutBucketNotificationRequest: AWSShape {
+    public struct PutBucketLifecycleRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "NotificationConfiguration"
+        public static let payloadPath: String? = "LifecycleConfiguration"
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "NotificationConfiguration", location: .body(locationName: "NotificationConfiguration"), required: true, type: .structure), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+            AWSShapeMember(label: "LifecycleConfiguration", location: .body(locationName: "LifecycleConfiguration"), required: false, type: .structure)
         ]
-        public let contentMD5: String?
-        public let notificationConfiguration: NotificationConfigurationDeprecated
         public let bucket: String
+        public let contentMD5: String?
+        public let lifecycleConfiguration: LifecycleConfiguration?
 
-        public init(contentMD5: String? = nil, notificationConfiguration: NotificationConfigurationDeprecated, bucket: String) {
-            self.contentMD5 = contentMD5
-            self.notificationConfiguration = notificationConfiguration
+        public init(bucket: String, contentMD5: String? = nil, lifecycleConfiguration: LifecycleConfiguration? = nil) {
             self.bucket = bucket
+            self.contentMD5 = contentMD5
+            self.lifecycleConfiguration = lifecycleConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentMD5 = "Content-MD5"
-            case notificationConfiguration = "NotificationConfiguration"
             case bucket = "Bucket"
+            case contentMD5 = "Content-MD5"
+            case lifecycleConfiguration = "LifecycleConfiguration"
+        }
+    }
+
+    public struct PutBucketLoggingRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "BucketLoggingStatus"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "BucketLoggingStatus", location: .body(locationName: "BucketLoggingStatus"), required: true, type: .structure), 
+            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string)
+        ]
+        public let bucket: String
+        public let bucketLoggingStatus: BucketLoggingStatus
+        public let contentMD5: String?
+
+        public init(bucket: String, bucketLoggingStatus: BucketLoggingStatus, contentMD5: String? = nil) {
+            self.bucket = bucket
+            self.bucketLoggingStatus = bucketLoggingStatus
+            self.contentMD5 = contentMD5
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case bucketLoggingStatus = "BucketLoggingStatus"
+            case contentMD5 = "Content-MD5"
         }
     }
 
@@ -2491,860 +5649,185 @@ extension S3 {
         }
     }
 
-    public struct GetObjectRetentionOutput: AWSShape {
+    public struct PutBucketNotificationConfigurationRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "Retention"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Retention", required: false, type: .structure)
-        ]
-        /// The container element for an object's retention settings.
-        public let retention: ObjectLockRetention?
-
-        public init(retention: ObjectLockRetention? = nil) {
-            self.retention = retention
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case retention = "Retention"
-        }
-    }
-
-    public struct GetObjectLockConfigurationOutput: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "ObjectLockConfiguration"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectLockConfiguration", required: false, type: .structure)
-        ]
-        /// The specified bucket's Object Lock configuration.
-        public let objectLockConfiguration: ObjectLockConfiguration?
-
-        public init(objectLockConfiguration: ObjectLockConfiguration? = nil) {
-            self.objectLockConfiguration = objectLockConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case objectLockConfiguration = "ObjectLockConfiguration"
-        }
-    }
-
-    public struct TopicConfigurationDeprecated: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Event", required: false, type: .enum), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: false, type: .list), 
-            AWSShapeMember(label: "Topic", required: false, type: .string)
-        ]
-        /// Bucket event for which to send notifications.
-        public let event: Event?
-        public let id: String?
-        public let events: [Event]?
-        /// Amazon SNS topic to which Amazon S3 will publish a message to report the specified events for the bucket.
-        public let topic: String?
-
-        public init(event: Event? = nil, id: String? = nil, events: [Event]? = nil, topic: String? = nil) {
-            self.event = event
-            self.id = id
-            self.events = events
-            self.topic = topic
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case event = "Event"
-            case id = "Id"
-            // TODO this is temporary measure for avoiding CondingKey duplication.
-            // Should decode duplidated paths with same type for JSON
-            case events = "_Event"
-            case topic = "Topic"
-        }
-    }
-
-    public struct InventoryOptionalFields: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Field", required: false, type: .list)
-        ]
-        public let field: [InventoryOptionalField]?
-
-        public init(field: [InventoryOptionalField]? = nil) {
-            self.field = field
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case field = "Field"
-        }
-    }
-
-    public struct CopyObjectOutput: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "CopyObjectResult"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Expiration", location: .header(locationName: "x-amz-expiration"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "CopySourceVersionId", location: .header(locationName: "x-amz-copy-source-version-id"), required: false, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string), 
-            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
-            AWSShapeMember(label: "CopyObjectResult", required: false, type: .structure)
-        ]
-        /// If the object expiration is configured, the response includes this header.
-        public let expiration: String?
-        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
-        public let sSECustomerAlgorithm: String?
-        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public let serverSideEncryption: ServerSideEncryption?
-        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
-        public let sSECustomerKeyMD5: String?
-        public let copySourceVersionId: String?
-        /// Version ID of the newly created copy.
-        public let versionId: String?
-        /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
-        public let sSEKMSKeyId: String?
-        public let requestCharged: RequestCharged?
-        public let copyObjectResult: CopyObjectResult?
-
-        public init(expiration: String? = nil, sSECustomerAlgorithm: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerKeyMD5: String? = nil, copySourceVersionId: String? = nil, versionId: String? = nil, sSEKMSKeyId: String? = nil, requestCharged: RequestCharged? = nil, copyObjectResult: CopyObjectResult? = nil) {
-            self.expiration = expiration
-            self.sSECustomerAlgorithm = sSECustomerAlgorithm
-            self.serverSideEncryption = serverSideEncryption
-            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
-            self.copySourceVersionId = copySourceVersionId
-            self.versionId = versionId
-            self.sSEKMSKeyId = sSEKMSKeyId
-            self.requestCharged = requestCharged
-            self.copyObjectResult = copyObjectResult
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case expiration = "x-amz-expiration"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case serverSideEncryption = "x-amz-server-side-encryption"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case copySourceVersionId = "x-amz-copy-source-version-id"
-            case versionId = "x-amz-version-id"
-            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
-            case requestCharged = "x-amz-request-charged"
-            case copyObjectResult = "CopyObjectResult"
-        }
-    }
-
-    public struct ListPartsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "PartNumberMarker", location: .querystring(locationName: "part-number-marker"), required: false, type: .integer), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "MaxParts", location: .querystring(locationName: "max-parts"), required: false, type: .integer), 
-            AWSShapeMember(label: "UploadId", location: .querystring(locationName: "uploadId"), required: true, type: .string)
-        ]
-        public let key: String
-        /// Specifies the part after which listing should begin. Only parts with higher part numbers will be listed.
-        public let partNumberMarker: Int32?
-        public let bucket: String
-        public let requestPayer: RequestPayer?
-        /// Sets the maximum number of parts to return.
-        public let maxParts: Int32?
-        /// Upload ID identifying the multipart upload whose parts are being listed.
-        public let uploadId: String
-
-        public init(key: String, partNumberMarker: Int32? = nil, bucket: String, requestPayer: RequestPayer? = nil, maxParts: Int32? = nil, uploadId: String) {
-            self.key = key
-            self.partNumberMarker = partNumberMarker
-            self.bucket = bucket
-            self.requestPayer = requestPayer
-            self.maxParts = maxParts
-            self.uploadId = uploadId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case partNumberMarker = "part-number-marker"
-            case bucket = "Bucket"
-            case requestPayer = "x-amz-request-payer"
-            case maxParts = "max-parts"
-            case uploadId = "uploadId"
-        }
-    }
-
-    public struct RestoreRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Days", required: false, type: .integer), 
-            AWSShapeMember(label: "Tier", required: false, type: .enum), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "SelectParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "OutputLocation", required: false, type: .structure), 
-            AWSShapeMember(label: "GlacierJobParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// Lifetime of the active copy in days. Do not use with restores that specify OutputLocation.
-        public let days: Int32?
-        /// Glacier retrieval tier at which the restore will be processed.
-        public let tier: Tier?
-        /// Type of restore request.
-        public let `type`: RestoreRequestType?
-        /// Describes the parameters for Select job types.
-        public let selectParameters: SelectParameters?
-        /// Describes the location where the restore job's output is stored.
-        public let outputLocation: OutputLocation?
-        /// Glacier related parameters pertaining to this job. Do not use with restores that specify OutputLocation.
-        public let glacierJobParameters: GlacierJobParameters?
-        /// The optional description for the job.
-        public let description: String?
-
-        public init(days: Int32? = nil, tier: Tier? = nil, type: RestoreRequestType? = nil, selectParameters: SelectParameters? = nil, outputLocation: OutputLocation? = nil, glacierJobParameters: GlacierJobParameters? = nil, description: String? = nil) {
-            self.days = days
-            self.tier = tier
-            self.`type` = `type`
-            self.selectParameters = selectParameters
-            self.outputLocation = outputLocation
-            self.glacierJobParameters = glacierJobParameters
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case days = "Days"
-            case tier = "Tier"
-            case `type` = "Type"
-            case selectParameters = "SelectParameters"
-            case outputLocation = "OutputLocation"
-            case glacierJobParameters = "GlacierJobParameters"
-            case description = "Description"
-        }
-    }
-
-    public enum ExpressionType: String, CustomStringConvertible, Codable {
-        case sql = "SQL"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct InputSerialization: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JSON", required: false, type: .structure), 
-            AWSShapeMember(label: "CompressionType", required: false, type: .enum), 
-            AWSShapeMember(label: "Parquet", required: false, type: .structure), 
-            AWSShapeMember(label: "CSV", required: false, type: .structure)
-        ]
-        /// Specifies JSON as object's input serialization format.
-        public let json: JSONInput?
-        /// Specifies object's compression format. Valid values: NONE, GZIP, BZIP2. Default Value: NONE.
-        public let compressionType: CompressionType?
-        /// Specifies Parquet as object's input serialization format.
-        public let parquet: ParquetInput?
-        /// Describes the serialization of a CSV-encoded object.
-        public let csv: CSVInput?
-
-        public init(json: JSONInput? = nil, compressionType: CompressionType? = nil, parquet: ParquetInput? = nil, csv: CSVInput? = nil) {
-            self.json = json
-            self.compressionType = compressionType
-            self.parquet = parquet
-            self.csv = csv
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case json = "JSON"
-            case compressionType = "CompressionType"
-            case parquet = "Parquet"
-            case csv = "CSV"
-        }
-    }
-
-    public enum `Type`: String, CustomStringConvertible, Codable {
-        case canonicaluser = "CanonicalUser"
-        case amazoncustomerbyemail = "AmazonCustomerByEmail"
-        case group = "Group"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Buckets: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", required: false, type: .list)
-        ]
-        public let bucket: [Bucket]?
-
-        public init(bucket: [Bucket]? = nil) {
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct UploadPartCopyOutput: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "CopyPartResult"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "CopySourceVersionId", location: .header(locationName: "x-amz-copy-source-version-id"), required: false, type: .string), 
-            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
-            AWSShapeMember(label: "CopyPartResult", required: false, type: .structure)
-        ]
-        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
-        public let sSECustomerAlgorithm: String?
-        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public let serverSideEncryption: ServerSideEncryption?
-        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
-        public let sSECustomerKeyMD5: String?
-        /// The version of the source object that was copied, if you have enabled versioning on the source bucket.
-        public let copySourceVersionId: String?
-        /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
-        public let sSEKMSKeyId: String?
-        public let requestCharged: RequestCharged?
-        public let copyPartResult: CopyPartResult?
-
-        public init(sSECustomerAlgorithm: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerKeyMD5: String? = nil, copySourceVersionId: String? = nil, sSEKMSKeyId: String? = nil, requestCharged: RequestCharged? = nil, copyPartResult: CopyPartResult? = nil) {
-            self.sSECustomerAlgorithm = sSECustomerAlgorithm
-            self.serverSideEncryption = serverSideEncryption
-            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
-            self.copySourceVersionId = copySourceVersionId
-            self.sSEKMSKeyId = sSEKMSKeyId
-            self.requestCharged = requestCharged
-            self.copyPartResult = copyPartResult
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case serverSideEncryption = "x-amz-server-side-encryption"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case copySourceVersionId = "x-amz-copy-source-version-id"
-            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
-            case requestCharged = "x-amz-request-charged"
-            case copyPartResult = "CopyPartResult"
-        }
-    }
-
-    public struct DeleteBucketMetricsConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        /// The ID used to identify the metrics configuration.
-        public let id: String
-        /// The name of the bucket containing the metrics configuration to delete.
-        public let bucket: String
-
-        public init(id: String, bucket: String) {
-            self.id = id
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct ReplicationRuleAndOperator: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .structure), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string)
-        ]
-        public let tags: TagSet?
-        public let prefix: String?
-
-        public init(tags: TagSet? = nil, prefix: String? = nil) {
-            self.tags = tags
-            self.prefix = prefix
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tag"
-            case prefix = "Prefix"
-        }
-    }
-
-    public struct GetObjectRequest: AWSShape {
+        public static let payloadPath: String? = "NotificationConfiguration"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
-            AWSShapeMember(label: "IfNoneMatch", location: .header(locationName: "If-None-Match"), required: false, type: .string), 
-            AWSShapeMember(label: "ResponseContentDisposition", location: .querystring(locationName: "response-content-disposition"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "ResponseExpires", location: .querystring(locationName: "response-expires"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "IfUnmodifiedSince", location: .header(locationName: "If-Unmodified-Since"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ResponseCacheControl", location: .querystring(locationName: "response-cache-control"), required: false, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
-            AWSShapeMember(label: "IfModifiedSince", location: .header(locationName: "If-Modified-Since"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "PartNumber", location: .querystring(locationName: "partNumber"), required: false, type: .integer), 
-            AWSShapeMember(label: "Range", location: .header(locationName: "Range"), required: false, type: .string), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "ResponseContentLanguage", location: .querystring(locationName: "response-content-language"), required: false, type: .string), 
-            AWSShapeMember(label: "ResponseContentEncoding", location: .querystring(locationName: "response-content-encoding"), required: false, type: .string), 
-            AWSShapeMember(label: "ResponseContentType", location: .querystring(locationName: "response-content-type"), required: false, type: .string)
+            AWSShapeMember(label: "NotificationConfiguration", location: .body(locationName: "NotificationConfiguration"), required: true, type: .structure)
         ]
         public let bucket: String
-        public let requestPayer: RequestPayer?
-        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
-        public let sSECustomerKey: String?
-        /// Return the object only if its entity tag (ETag) is different from the one specified, otherwise return a 304 (not modified).
-        public let ifNoneMatch: String?
-        /// Sets the Content-Disposition header of the response
-        public let responseContentDisposition: String?
-        /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        public let sSECustomerAlgorithm: String?
-        /// Return the object only if its entity tag (ETag) is the same as the one specified, otherwise return a 412 (precondition failed).
-        public let ifMatch: String?
-        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        public let sSECustomerKeyMD5: String?
-        /// Sets the Expires header of the response.
-        public let responseExpires: TimeStamp?
-        /// Return the object only if it has not been modified since the specified time, otherwise return a 412 (precondition failed).
-        public let ifUnmodifiedSince: TimeStamp?
-        /// Sets the Cache-Control header of the response.
-        public let responseCacheControl: String?
-        /// VersionId used to reference a specific version of the object.
-        public let versionId: String?
-        /// Return the object only if it has been modified since the specified time, otherwise return a 304 (not modified).
-        public let ifModifiedSince: TimeStamp?
-        /// Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' GET request for the part specified. Useful for downloading just a part of an object.
-        public let partNumber: Int32?
-        /// Downloads the specified range bytes of an object. For more information about the HTTP Range header, go to http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
-        public let range: String?
-        public let key: String
-        /// Sets the Content-Language header of the response.
-        public let responseContentLanguage: String?
-        /// Sets the Content-Encoding header of the response.
-        public let responseContentEncoding: String?
-        /// Sets the Content-Type header of the response.
-        public let responseContentType: String?
+        public let notificationConfiguration: NotificationConfiguration
 
-        public init(bucket: String, requestPayer: RequestPayer? = nil, sSECustomerKey: String? = nil, ifNoneMatch: String? = nil, responseContentDisposition: String? = nil, sSECustomerAlgorithm: String? = nil, ifMatch: String? = nil, sSECustomerKeyMD5: String? = nil, responseExpires: TimeStamp? = nil, ifUnmodifiedSince: TimeStamp? = nil, responseCacheControl: String? = nil, versionId: String? = nil, ifModifiedSince: TimeStamp? = nil, partNumber: Int32? = nil, range: String? = nil, key: String, responseContentLanguage: String? = nil, responseContentEncoding: String? = nil, responseContentType: String? = nil) {
+        public init(bucket: String, notificationConfiguration: NotificationConfiguration) {
             self.bucket = bucket
-            self.requestPayer = requestPayer
-            self.sSECustomerKey = sSECustomerKey
-            self.ifNoneMatch = ifNoneMatch
-            self.responseContentDisposition = responseContentDisposition
-            self.sSECustomerAlgorithm = sSECustomerAlgorithm
-            self.ifMatch = ifMatch
-            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
-            self.responseExpires = responseExpires
-            self.ifUnmodifiedSince = ifUnmodifiedSince
-            self.responseCacheControl = responseCacheControl
-            self.versionId = versionId
-            self.ifModifiedSince = ifModifiedSince
-            self.partNumber = partNumber
-            self.range = range
-            self.key = key
-            self.responseContentLanguage = responseContentLanguage
-            self.responseContentEncoding = responseContentEncoding
-            self.responseContentType = responseContentType
+            self.notificationConfiguration = notificationConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
-            case requestPayer = "x-amz-request-payer"
-            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
-            case ifNoneMatch = "If-None-Match"
-            case responseContentDisposition = "response-content-disposition"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case ifMatch = "If-Match"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case responseExpires = "response-expires"
-            case ifUnmodifiedSince = "If-Unmodified-Since"
-            case responseCacheControl = "response-cache-control"
-            case versionId = "versionId"
-            case ifModifiedSince = "If-Modified-Since"
-            case partNumber = "partNumber"
-            case range = "Range"
-            case key = "Key"
-            case responseContentLanguage = "response-content-language"
-            case responseContentEncoding = "response-content-encoding"
-            case responseContentType = "response-content-type"
+            case notificationConfiguration = "NotificationConfiguration"
         }
     }
 
-    public struct NoncurrentVersionExpiration: AWSShape {
+    public struct PutBucketNotificationRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "NotificationConfiguration"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NoncurrentDays", required: false, type: .integer)
-        ]
-        /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates When an Object Became Noncurrent in the Amazon Simple Storage Service Developer Guide.
-        public let noncurrentDays: Int32?
-
-        public init(noncurrentDays: Int32? = nil) {
-            self.noncurrentDays = noncurrentDays
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case noncurrentDays = "NoncurrentDays"
-        }
-    }
-
-    public struct GetBucketLoggingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        public let bucket: String
-
-        public init(bucket: String) {
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct CreateBucketConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocationConstraint", required: false, type: .enum)
-        ]
-        /// Specifies the region where the bucket will be created. If you don't specify a region, the bucket will be created in US Standard.
-        public let locationConstraint: BucketLocationConstraint?
-
-        public init(locationConstraint: BucketLocationConstraint? = nil) {
-            self.locationConstraint = locationConstraint
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case locationConstraint = "LocationConstraint"
-        }
-    }
-
-    public struct CommonPrefix: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Prefix", required: false, type: .string)
-        ]
-        public let prefix: String?
-
-        public init(prefix: String? = nil) {
-            self.prefix = prefix
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case prefix = "Prefix"
-        }
-    }
-
-    public struct InventoryDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3BucketDestination", required: true, type: .structure)
-        ]
-        /// Contains the bucket name, file format, bucket owner (optional), and prefix (optional) where inventory results are published.
-        public let s3BucketDestination: InventoryS3BucketDestination
-
-        public init(s3BucketDestination: InventoryS3BucketDestination) {
-            self.s3BucketDestination = s3BucketDestination
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3BucketDestination = "S3BucketDestination"
-        }
-    }
-
-    public struct RequestProgress: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
-        ]
-        /// Specifies whether periodic QueryProgress frames should be sent. Valid values: TRUE, FALSE. Default value: FALSE.
-        public let enabled: Bool?
-
-        public init(enabled: Bool? = nil) {
-            self.enabled = enabled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case enabled = "Enabled"
-        }
-    }
-
-    public struct CreateMultipartUploadRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tagging", location: .header(locationName: "x-amz-tagging"), required: false, type: .string), 
-            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantFullControl", location: .header(locationName: "x-amz-grant-full-control"), required: false, type: .string), 
-            AWSShapeMember(label: "WebsiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"), required: false, type: .string), 
-            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum), 
-            AWSShapeMember(label: "ObjectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
-            AWSShapeMember(label: "Expires", location: .header(locationName: "Expires"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
-            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string), 
-            AWSShapeMember(label: "ObjectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold"), required: false, type: .enum), 
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "ContentEncoding", location: .header(locationName: "Content-Encoding"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentLanguage", location: .header(locationName: "Content-Language"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
-            AWSShapeMember(label: "ObjectLockMode", location: .header(locationName: "x-amz-object-lock-mode"), required: false, type: .enum), 
-            AWSShapeMember(label: "Metadata", required: false, type: .map), 
-            AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantRead", location: .header(locationName: "x-amz-grant-read"), required: false, type: .string), 
-            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string)
+            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "NotificationConfiguration", location: .body(locationName: "NotificationConfiguration"), required: true, type: .structure)
         ]
-        /// The tag-set for the object. The tag-set must be encoded as URL Query parameters
-        public let tagging: String?
-        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public let serverSideEncryption: ServerSideEncryption?
-        /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        public let sSECustomerAlgorithm: String?
-        /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
-        public let grantFullControl: String?
-        /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
-        public let websiteRedirectLocation: String?
-        /// The canned ACL to apply to the object.
-        public let acl: ObjectCannedACL?
-        /// Specifies the date and time when you want the Object Lock to expire.
-        public let objectLockRetainUntilDate: TimeStamp?
-        /// A standard MIME type describing the format of the object data.
-        public let contentType: String?
-        /// The date and time at which the object is no longer cacheable.
-        public let expires: TimeStamp?
-        public let requestPayer: RequestPayer?
-        /// Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. Documentation on configuring any of the officially supported AWS SDKs and CLI can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
-        public let sSEKMSKeyId: String?
-        /// The type of storage to use for the object. Defaults to 'STANDARD'.
-        public let storageClass: StorageClass?
-        public let key: String
-        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        public let sSECustomerKeyMD5: String?
-        /// Specifies presentational information for the object.
-        public let contentDisposition: String?
-        /// Specifies whether you want to apply a Legal Hold to the uploaded object.
-        public let objectLockLegalHoldStatus: ObjectLockLegalHoldStatus?
         public let bucket: String
-        /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
-        public let contentEncoding: String?
-        /// Allows grantee to write the ACL for the applicable object.
-        public let grantWriteACP: String?
-        /// The language the content is in.
-        public let contentLanguage: String?
-        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
-        public let sSECustomerKey: String?
-        /// Specifies the Object Lock mode that you want to apply to the uploaded object.
-        public let objectLockMode: ObjectLockMode?
-        /// A map of metadata to store with the object in S3.
-        public let metadata: [String: String]?
-        /// Allows grantee to read the object ACL.
-        public let grantReadACP: String?
-        /// Allows grantee to read the object data and its metadata.
-        public let grantRead: String?
-        /// Specifies caching behavior along the request/reply chain.
-        public let cacheControl: String?
+        public let contentMD5: String?
+        public let notificationConfiguration: NotificationConfigurationDeprecated
 
-        public init(tagging: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, grantFullControl: String? = nil, websiteRedirectLocation: String? = nil, acl: ObjectCannedACL? = nil, objectLockRetainUntilDate: TimeStamp? = nil, contentType: String? = nil, expires: TimeStamp? = nil, requestPayer: RequestPayer? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, key: String, sSECustomerKeyMD5: String? = nil, contentDisposition: String? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, bucket: String, contentEncoding: String? = nil, grantWriteACP: String? = nil, contentLanguage: String? = nil, sSECustomerKey: String? = nil, objectLockMode: ObjectLockMode? = nil, metadata: [String: String]? = nil, grantReadACP: String? = nil, grantRead: String? = nil, cacheControl: String? = nil) {
+        public init(bucket: String, contentMD5: String? = nil, notificationConfiguration: NotificationConfigurationDeprecated) {
+            self.bucket = bucket
+            self.contentMD5 = contentMD5
+            self.notificationConfiguration = notificationConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case contentMD5 = "Content-MD5"
+            case notificationConfiguration = "NotificationConfiguration"
+        }
+    }
+
+    public struct PutBucketPolicyRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "Policy"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "ConfirmRemoveSelfBucketAccess", location: .header(locationName: "x-amz-confirm-remove-self-bucket-access"), required: false, type: .boolean), 
+            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "Policy", required: true, type: .string)
+        ]
+        public let bucket: String
+        /// Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in the future.
+        public let confirmRemoveSelfBucketAccess: Bool?
+        public let contentMD5: String?
+        /// The bucket policy as a JSON document.
+        public let policy: String
+
+        public init(bucket: String, confirmRemoveSelfBucketAccess: Bool? = nil, contentMD5: String? = nil, policy: String) {
+            self.bucket = bucket
+            self.confirmRemoveSelfBucketAccess = confirmRemoveSelfBucketAccess
+            self.contentMD5 = contentMD5
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case confirmRemoveSelfBucketAccess = "x-amz-confirm-remove-self-bucket-access"
+            case contentMD5 = "Content-MD5"
+            case policy = "Policy"
+        }
+    }
+
+    public struct PutBucketReplicationRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "ReplicationConfiguration"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationConfiguration", location: .body(locationName: "ReplicationConfiguration"), required: true, type: .structure)
+        ]
+        public let bucket: String
+        public let contentMD5: String?
+        public let replicationConfiguration: ReplicationConfiguration
+
+        public init(bucket: String, contentMD5: String? = nil, replicationConfiguration: ReplicationConfiguration) {
+            self.bucket = bucket
+            self.contentMD5 = contentMD5
+            self.replicationConfiguration = replicationConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case contentMD5 = "Content-MD5"
+            case replicationConfiguration = "ReplicationConfiguration"
+        }
+    }
+
+    public struct PutBucketRequestPaymentRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "RequestPaymentConfiguration"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "RequestPaymentConfiguration", location: .body(locationName: "RequestPaymentConfiguration"), required: true, type: .structure)
+        ]
+        public let bucket: String
+        public let contentMD5: String?
+        public let requestPaymentConfiguration: RequestPaymentConfiguration
+
+        public init(bucket: String, contentMD5: String? = nil, requestPaymentConfiguration: RequestPaymentConfiguration) {
+            self.bucket = bucket
+            self.contentMD5 = contentMD5
+            self.requestPaymentConfiguration = requestPaymentConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case contentMD5 = "Content-MD5"
+            case requestPaymentConfiguration = "RequestPaymentConfiguration"
+        }
+    }
+
+    public struct PutBucketTaggingRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "Tagging"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "Tagging", location: .body(locationName: "Tagging"), required: true, type: .structure)
+        ]
+        public let bucket: String
+        public let contentMD5: String?
+        public let tagging: Tagging
+
+        public init(bucket: String, contentMD5: String? = nil, tagging: Tagging) {
+            self.bucket = bucket
+            self.contentMD5 = contentMD5
             self.tagging = tagging
-            self.serverSideEncryption = serverSideEncryption
-            self.sSECustomerAlgorithm = sSECustomerAlgorithm
-            self.grantFullControl = grantFullControl
-            self.websiteRedirectLocation = websiteRedirectLocation
-            self.acl = acl
-            self.objectLockRetainUntilDate = objectLockRetainUntilDate
-            self.contentType = contentType
-            self.expires = expires
-            self.requestPayer = requestPayer
-            self.sSEKMSKeyId = sSEKMSKeyId
-            self.storageClass = storageClass
-            self.key = key
-            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
-            self.contentDisposition = contentDisposition
-            self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
-            self.bucket = bucket
-            self.contentEncoding = contentEncoding
-            self.grantWriteACP = grantWriteACP
-            self.contentLanguage = contentLanguage
-            self.sSECustomerKey = sSECustomerKey
-            self.objectLockMode = objectLockMode
-            self.metadata = metadata
-            self.grantReadACP = grantReadACP
-            self.grantRead = grantRead
-            self.cacheControl = cacheControl
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tagging = "x-amz-tagging"
-            case serverSideEncryption = "x-amz-server-side-encryption"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case grantFullControl = "x-amz-grant-full-control"
-            case websiteRedirectLocation = "x-amz-website-redirect-location"
-            case acl = "x-amz-acl"
-            case objectLockRetainUntilDate = "x-amz-object-lock-retain-until-date"
-            case contentType = "Content-Type"
-            case expires = "Expires"
-            case requestPayer = "x-amz-request-payer"
-            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
-            case storageClass = "x-amz-storage-class"
-            case key = "Key"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case contentDisposition = "Content-Disposition"
-            case objectLockLegalHoldStatus = "x-amz-object-lock-legal-hold"
             case bucket = "Bucket"
-            case contentEncoding = "Content-Encoding"
-            case grantWriteACP = "x-amz-grant-write-acp"
-            case contentLanguage = "Content-Language"
-            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
-            case objectLockMode = "x-amz-object-lock-mode"
-            case metadata = "Metadata"
-            case grantReadACP = "x-amz-grant-read-acp"
-            case grantRead = "x-amz-grant-read"
-            case cacheControl = "Cache-Control"
+            case contentMD5 = "Content-MD5"
+            case tagging = "Tagging"
         }
     }
 
-    public struct TagSet: AWSShape {
+    public struct PutBucketVersioningRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "VersioningConfiguration"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tag", required: false, type: .list)
-        ]
-        public let tag: [Tag]?
-
-        public init(tag: [Tag]? = nil) {
-            self.tag = tag
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tag = "Tag"
-        }
-    }
-
-    public struct SelectObjectContentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExpressionType", required: true, type: .enum), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "OutputSerialization", required: true, type: .structure), 
-            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
-            AWSShapeMember(label: "InputSerialization", required: true, type: .structure), 
-            AWSShapeMember(label: "RequestProgress", required: false, type: .structure), 
-            AWSShapeMember(label: "Expression", required: true, type: .string)
-        ]
-        /// The type of the provided expression (for example., SQL).
-        public let expressionType: ExpressionType
-        /// The SSE Algorithm used to encrypt the object. For more information, see  Server-Side Encryption (Using Customer-Provided Encryption Keys. 
-        public let sSECustomerAlgorithm: String?
-        /// The SSE Customer Key MD5. For more information, see  Server-Side Encryption (Using Customer-Provided Encryption Keys. 
-        public let sSECustomerKeyMD5: String?
-        /// The S3 bucket.
-        public let bucket: String
-        /// The object key.
-        public let key: String
-        /// Describes the format of the data that you want Amazon S3 to return in response.
-        public let outputSerialization: OutputSerialization
-        /// The SSE Customer Key. For more information, see  Server-Side Encryption (Using Customer-Provided Encryption Keys. 
-        public let sSECustomerKey: String?
-        /// Describes the format of the data in the object that is being queried.
-        public let inputSerialization: InputSerialization
-        /// Specifies if periodic request progress information should be enabled.
-        public let requestProgress: RequestProgress?
-        /// The expression that is used to query the object.
-        public let expression: String
-
-        public init(expressionType: ExpressionType, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, bucket: String, key: String, outputSerialization: OutputSerialization, sSECustomerKey: String? = nil, inputSerialization: InputSerialization, requestProgress: RequestProgress? = nil, expression: String) {
-            self.expressionType = expressionType
-            self.sSECustomerAlgorithm = sSECustomerAlgorithm
-            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
-            self.bucket = bucket
-            self.key = key
-            self.outputSerialization = outputSerialization
-            self.sSECustomerKey = sSECustomerKey
-            self.inputSerialization = inputSerialization
-            self.requestProgress = requestProgress
-            self.expression = expression
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case expressionType = "ExpressionType"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case bucket = "Bucket"
-            case key = "Key"
-            case outputSerialization = "OutputSerialization"
-            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
-            case inputSerialization = "InputSerialization"
-            case requestProgress = "RequestProgress"
-            case expression = "Expression"
-        }
-    }
-
-    public struct Redirect: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HttpRedirectCode", required: false, type: .string), 
-            AWSShapeMember(label: "ReplaceKeyPrefixWith", required: false, type: .string), 
-            AWSShapeMember(label: "Protocol", required: false, type: .enum), 
-            AWSShapeMember(label: "ReplaceKeyWith", required: false, type: .string), 
-            AWSShapeMember(label: "HostName", required: false, type: .string)
-        ]
-        /// The HTTP redirect code to use on the response. Not required if one of the siblings is present.
-        public let httpRedirectCode: String?
-        /// The object key prefix to use in the redirect request. For example, to redirect requests for all pages with prefix docs/ (objects in the docs/ folder) to documents/, you can set a condition block with KeyPrefixEquals set to docs/ and in the Redirect set ReplaceKeyPrefixWith to /documents. Not required if one of the siblings is present. Can be present only if ReplaceKeyWith is not provided.
-        public let replaceKeyPrefixWith: String?
-        /// Protocol to use (http, https) when redirecting requests. The default is the protocol that is used in the original request.
-        public let `protocol`: Protocol?
-        /// The specific object key to use in the redirect request. For example, redirect request to error.html. Not required if one of the sibling is present. Can be present only if ReplaceKeyPrefixWith is not provided.
-        public let replaceKeyWith: String?
-        /// The host name to use in the redirect request.
-        public let hostName: String?
-
-        public init(httpRedirectCode: String? = nil, replaceKeyPrefixWith: String? = nil, protocol: Protocol? = nil, replaceKeyWith: String? = nil, hostName: String? = nil) {
-            self.httpRedirectCode = httpRedirectCode
-            self.replaceKeyPrefixWith = replaceKeyPrefixWith
-            self.`protocol` = `protocol`
-            self.replaceKeyWith = replaceKeyWith
-            self.hostName = hostName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case httpRedirectCode = "HttpRedirectCode"
-            case replaceKeyPrefixWith = "ReplaceKeyPrefixWith"
-            case `protocol` = "Protocol"
-            case replaceKeyWith = "ReplaceKeyWith"
-            case hostName = "HostName"
-        }
-    }
-
-    public enum ObjectStorageClass: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
-        case reducedRedundancy = "REDUCED_REDUNDANCY"
-        case glacier = "GLACIER"
-        case standardIa = "STANDARD_IA"
-        case onezoneIa = "ONEZONE_IA"
-        case intelligentTiering = "INTELLIGENT_TIERING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct FilterRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .enum), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
-        /// The object key name prefix or suffix identifying one or more objects to which the filtering rule applies. The maximum prefix length is 1,024 characters. Overlapping prefixes and suffixes are not supported. For more information, see Configuring Event Notifications in the Amazon Simple Storage Service Developer Guide.
-        public let name: FilterRuleName?
-        public let value: String?
-
-        public init(name: FilterRuleName? = nil, value: String? = nil) {
-            self.name = name
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case value = "Value"
-        }
-    }
-
-    public struct GetBucketCorsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "MFA", location: .header(locationName: "x-amz-mfa"), required: false, type: .string), 
+            AWSShapeMember(label: "VersioningConfiguration", location: .body(locationName: "VersioningConfiguration"), required: true, type: .structure)
         ]
         public let bucket: String
+        public let contentMD5: String?
+        /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
+        public let mfa: String?
+        public let versioningConfiguration: VersioningConfiguration
 
-        public init(bucket: String) {
+        public init(bucket: String, contentMD5: String? = nil, mfa: String? = nil, versioningConfiguration: VersioningConfiguration) {
             self.bucket = bucket
+            self.contentMD5 = contentMD5
+            self.mfa = mfa
+            self.versioningConfiguration = versioningConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
+            case contentMD5 = "Content-MD5"
+            case mfa = "x-amz-mfa"
+            case versioningConfiguration = "VersioningConfiguration"
         }
     }
 
@@ -3352,355 +5835,491 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "WebsiteConfiguration"
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "WebsiteConfiguration", location: .body(locationName: "WebsiteConfiguration"), required: true, type: .structure), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+            AWSShapeMember(label: "WebsiteConfiguration", location: .body(locationName: "WebsiteConfiguration"), required: true, type: .structure)
         ]
+        public let bucket: String
         public let contentMD5: String?
         public let websiteConfiguration: WebsiteConfiguration
-        public let bucket: String
 
-        public init(contentMD5: String? = nil, websiteConfiguration: WebsiteConfiguration, bucket: String) {
+        public init(bucket: String, contentMD5: String? = nil, websiteConfiguration: WebsiteConfiguration) {
+            self.bucket = bucket
             self.contentMD5 = contentMD5
             self.websiteConfiguration = websiteConfiguration
-            self.bucket = bucket
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
             case contentMD5 = "Content-MD5"
             case websiteConfiguration = "WebsiteConfiguration"
-            case bucket = "Bucket"
         }
     }
 
-    public struct GetBucketTaggingOutput: AWSShape {
+    public struct PutObjectAclOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagSet", required: true, type: .structure)
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
         ]
-        public let tagSet: TagSet
-
-        public init(tagSet: TagSet) {
-            self.tagSet = tagSet
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagSet = "TagSet"
-        }
-    }
-
-    public struct GetObjectAclOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Owner", required: false, type: .structure), 
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
-            AWSShapeMember(label: "Grants", location: .body(locationName: "AccessControlList"), required: false, type: .structure)
-        ]
-        public let owner: Owner?
         public let requestCharged: RequestCharged?
-        /// A list of grants.
-        public let grants: Grants?
 
-        public init(owner: Owner? = nil, requestCharged: RequestCharged? = nil, grants: Grants? = nil) {
-            self.owner = owner
+        public init(requestCharged: RequestCharged? = nil) {
             self.requestCharged = requestCharged
-            self.grants = grants
         }
 
         private enum CodingKeys: String, CodingKey {
-            case owner = "Owner"
             case requestCharged = "x-amz-request-charged"
-            case grants = "AccessControlList"
         }
     }
 
-    public struct Transition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Days", required: false, type: .integer), 
-            AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
-            AWSShapeMember(label: "Date", required: false, type: .timestamp)
-        ]
-        /// Indicates the lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer.
-        public let days: Int32?
-        /// The class of storage used to store the object.
-        public let storageClass: TransitionStorageClass?
-        /// Indicates at what date the object is to be moved or deleted. Should be in GMT ISO 8601 Format.
-        public let date: TimeStamp?
-
-        public init(days: Int32? = nil, storageClass: TransitionStorageClass? = nil, date: TimeStamp? = nil) {
-            self.days = days
-            self.storageClass = storageClass
-            self.date = date
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case days = "Days"
-            case storageClass = "StorageClass"
-            case date = "Date"
-        }
-    }
-
-    public struct GetPublicAccessBlockOutput: AWSShape {
+    public struct PutObjectAclRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "PublicAccessBlockConfiguration"
+        public static let payloadPath: String? = "AccessControlPolicy"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PublicAccessBlockConfiguration", required: false, type: .structure)
-        ]
-        /// The PublicAccessBlock configuration currently in effect for this Amazon S3 bucket.
-        public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
-
-        public init(publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil) {
-            self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
-        }
-    }
-
-    public struct AnalyticsAndOperator: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .structure), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string)
-        ]
-        /// The list of tags to use when evaluating an AND predicate.
-        public let tags: TagSet?
-        /// The prefix to use when evaluating an AND predicate.
-        public let prefix: String?
-
-        public init(tags: TagSet? = nil, prefix: String? = nil) {
-            self.tags = tags
-            self.prefix = prefix
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tag"
-            case prefix = "Prefix"
-        }
-    }
-
-    public struct ListBucketInventoryConfigurationsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "NextContinuationToken", required: false, type: .string), 
-            AWSShapeMember(label: "ContinuationToken", required: false, type: .string), 
-            AWSShapeMember(label: "InventoryConfigurationList", location: .body(locationName: "InventoryConfiguration"), required: false, type: .list)
-        ]
-        /// Indicates whether the returned list of inventory configurations is truncated in this response. A value of true indicates that the list is truncated.
-        public let isTruncated: Bool?
-        /// The marker used to continue this inventory configuration listing. Use the NextContinuationToken from this response to continue the listing in a subsequent request. The continuation token is an opaque value that Amazon S3 understands.
-        public let nextContinuationToken: String?
-        /// If sent in the request, the marker that is used as a starting point for this inventory configuration list response.
-        public let continuationToken: String?
-        /// The list of inventory configurations for a bucket.
-        public let inventoryConfigurationList: [InventoryConfiguration]?
-
-        public init(isTruncated: Bool? = nil, nextContinuationToken: String? = nil, continuationToken: String? = nil, inventoryConfigurationList: [InventoryConfiguration]? = nil) {
-            self.isTruncated = isTruncated
-            self.nextContinuationToken = nextContinuationToken
-            self.continuationToken = continuationToken
-            self.inventoryConfigurationList = inventoryConfigurationList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case isTruncated = "IsTruncated"
-            case nextContinuationToken = "NextContinuationToken"
-            case continuationToken = "ContinuationToken"
-            case inventoryConfigurationList = "InventoryConfiguration"
-        }
-    }
-
-    public struct PutBucketCorsRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "CORSConfiguration"
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum), 
+            AWSShapeMember(label: "AccessControlPolicy", location: .body(locationName: "AccessControlPolicy"), required: false, type: .structure), 
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "CORSConfiguration", location: .body(locationName: "CORSConfiguration"), required: true, type: .structure), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+            AWSShapeMember(label: "GrantFullControl", location: .header(locationName: "x-amz-grant-full-control"), required: false, type: .string), 
+            AWSShapeMember(label: "GrantRead", location: .header(locationName: "x-amz-grant-read"), required: false, type: .string), 
+            AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string), 
+            AWSShapeMember(label: "GrantWrite", location: .header(locationName: "x-amz-grant-write"), required: false, type: .string), 
+            AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string), 
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
         ]
+        /// The canned ACL to apply to the object.
+        public let acl: ObjectCannedACL?
+        public let accessControlPolicy: AccessControlPolicy?
+        public let bucket: String
         public let contentMD5: String?
-        public let cORSConfiguration: CORSConfiguration
-        public let bucket: String
+        /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
+        public let grantFullControl: String?
+        /// Allows grantee to list the objects in the bucket.
+        public let grantRead: String?
+        /// Allows grantee to read the bucket ACL.
+        public let grantReadACP: String?
+        /// Allows grantee to create, overwrite, and delete any object in the bucket.
+        public let grantWrite: String?
+        /// Allows grantee to write the ACL for the applicable bucket.
+        public let grantWriteACP: String?
+        public let key: String
+        public let requestPayer: RequestPayer?
+        /// VersionId used to reference a specific version of the object.
+        public let versionId: String?
 
-        public init(contentMD5: String? = nil, cORSConfiguration: CORSConfiguration, bucket: String) {
+        public init(accessControlPolicy: AccessControlPolicy? = nil, acl: ObjectCannedACL? = nil, bucket: String, contentMD5: String? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil, key: String, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
+            self.acl = acl
+            self.accessControlPolicy = accessControlPolicy
+            self.bucket = bucket
             self.contentMD5 = contentMD5
-            self.cORSConfiguration = cORSConfiguration
-            self.bucket = bucket
+            self.grantFullControl = grantFullControl
+            self.grantRead = grantRead
+            self.grantReadACP = grantReadACP
+            self.grantWrite = grantWrite
+            self.grantWriteACP = grantWriteACP
+            self.key = key
+            self.requestPayer = requestPayer
+            self.versionId = versionId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case acl = "x-amz-acl"
+            case accessControlPolicy = "AccessControlPolicy"
+            case bucket = "Bucket"
             case contentMD5 = "Content-MD5"
-            case cORSConfiguration = "CORSConfiguration"
-            case bucket = "Bucket"
+            case grantFullControl = "x-amz-grant-full-control"
+            case grantRead = "x-amz-grant-read"
+            case grantReadACP = "x-amz-grant-read-acp"
+            case grantWrite = "x-amz-grant-write"
+            case grantWriteACP = "x-amz-grant-write-acp"
+            case key = "Key"
+            case requestPayer = "x-amz-request-payer"
+            case versionId = "versionId"
         }
     }
 
-    public struct GetBucketTaggingRequest: AWSShape {
+    public struct PutObjectLegalHoldOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
         ]
-        public let bucket: String
+        public let requestCharged: RequestCharged?
 
-        public init(bucket: String) {
-            self.bucket = bucket
+        public init(requestCharged: RequestCharged? = nil) {
+            self.requestCharged = requestCharged
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
+            case requestCharged = "x-amz-request-charged"
         }
     }
 
-    public enum ObjectCannedACL: String, CustomStringConvertible, Codable {
-        case `private` = "private"
-        case publicRead = "public-read"
-        case publicReadWrite = "public-read-write"
-        case authenticatedRead = "authenticated-read"
-        case awsExecRead = "aws-exec-read"
-        case bucketOwnerRead = "bucket-owner-read"
-        case bucketOwnerFullControl = "bucket-owner-full-control"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DefaultRetention: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Years", required: false, type: .integer), 
-            AWSShapeMember(label: "Days", required: false, type: .integer), 
-            AWSShapeMember(label: "Mode", required: false, type: .enum)
-        ]
-        /// The number of years that you want to specify for the default retention period.
-        public let years: Int32?
-        /// The number of days that you want to specify for the default retention period.
-        public let days: Int32?
-        /// The default Object Lock retention mode you want to apply to new objects placed in the specified bucket.
-        public let mode: ObjectLockRetentionMode?
-
-        public init(years: Int32? = nil, days: Int32? = nil, mode: ObjectLockRetentionMode? = nil) {
-            self.years = years
-            self.days = days
-            self.mode = mode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case years = "Years"
-            case days = "Days"
-            case mode = "Mode"
-        }
-    }
-
-    public struct GetBucketInventoryConfigurationOutput: AWSShape {
+    public struct PutObjectLegalHoldRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "InventoryConfiguration"
+        public static let payloadPath: String? = "LegalHold"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InventoryConfiguration", required: false, type: .structure)
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
+            AWSShapeMember(label: "LegalHold", location: .body(locationName: "LegalHold"), required: false, type: .structure), 
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
         ]
-        /// Specifies the inventory configuration.
-        public let inventoryConfiguration: InventoryConfiguration?
-
-        public init(inventoryConfiguration: InventoryConfiguration? = nil) {
-            self.inventoryConfiguration = inventoryConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inventoryConfiguration = "InventoryConfiguration"
-        }
-    }
-
-    public struct InventoryS3BucketDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", required: true, type: .string), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "Format", required: true, type: .enum), 
-            AWSShapeMember(label: "Encryption", required: false, type: .structure)
-        ]
-        /// The ID of the account that owns the destination bucket.
-        public let accountId: String?
-        /// The Amazon resource name (ARN) of the bucket where inventory results will be published.
+        /// The bucket containing the object that you want to place a Legal Hold on.
         public let bucket: String
-        /// The prefix that is prepended to all inventory results.
-        public let prefix: String?
-        /// Specifies the output format of the inventory results.
-        public let format: InventoryFormat
-        /// Contains the type of server-side encryption used to encrypt the inventory results.
-        public let encryption: InventoryEncryption?
+        /// The MD5 hash for the request body.
+        public let contentMD5: String?
+        /// The key name for the object that you want to place a Legal Hold on.
+        public let key: String
+        /// Container element for the Legal Hold configuration you want to apply to the specified object.
+        public let legalHold: ObjectLockLegalHold?
+        public let requestPayer: RequestPayer?
+        /// The version ID of the object that you want to place a Legal Hold on.
+        public let versionId: String?
 
-        public init(accountId: String? = nil, bucket: String, prefix: String? = nil, format: InventoryFormat, encryption: InventoryEncryption? = nil) {
-            self.accountId = accountId
+        public init(bucket: String, contentMD5: String? = nil, key: String, legalHold: ObjectLockLegalHold? = nil, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
             self.bucket = bucket
-            self.prefix = prefix
-            self.format = format
-            self.encryption = encryption
+            self.contentMD5 = contentMD5
+            self.key = key
+            self.legalHold = legalHold
+            self.requestPayer = requestPayer
+            self.versionId = versionId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "AccountId"
             case bucket = "Bucket"
-            case prefix = "Prefix"
-            case format = "Format"
-            case encryption = "Encryption"
+            case contentMD5 = "Content-MD5"
+            case key = "Key"
+            case legalHold = "LegalHold"
+            case requestPayer = "x-amz-request-payer"
+            case versionId = "versionId"
         }
     }
 
-    public struct CSVOutput: AWSShape {
+    public struct PutObjectLockConfigurationOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecordDelimiter", required: false, type: .string), 
-            AWSShapeMember(label: "QuoteCharacter", required: false, type: .string), 
-            AWSShapeMember(label: "QuoteFields", required: false, type: .enum), 
-            AWSShapeMember(label: "FieldDelimiter", required: false, type: .string), 
-            AWSShapeMember(label: "QuoteEscapeCharacter", required: false, type: .string)
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
         ]
-        /// The value used to separate individual records.
-        public let recordDelimiter: String?
-        /// The value used for escaping where the field delimiter is part of the value.
-        public let quoteCharacter: String?
-        /// Indicates whether or not all output fields should be quoted.
-        public let quoteFields: QuoteFields?
-        /// The value used to separate individual fields in a record.
-        public let fieldDelimiter: String?
-        /// Th single character used for escaping the quote character inside an already escaped value.
-        public let quoteEscapeCharacter: String?
+        public let requestCharged: RequestCharged?
 
-        public init(recordDelimiter: String? = nil, quoteCharacter: String? = nil, quoteFields: QuoteFields? = nil, fieldDelimiter: String? = nil, quoteEscapeCharacter: String? = nil) {
-            self.recordDelimiter = recordDelimiter
-            self.quoteCharacter = quoteCharacter
-            self.quoteFields = quoteFields
-            self.fieldDelimiter = fieldDelimiter
-            self.quoteEscapeCharacter = quoteEscapeCharacter
+        public init(requestCharged: RequestCharged? = nil) {
+            self.requestCharged = requestCharged
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recordDelimiter = "RecordDelimiter"
-            case quoteCharacter = "QuoteCharacter"
-            case quoteFields = "QuoteFields"
-            case fieldDelimiter = "FieldDelimiter"
-            case quoteEscapeCharacter = "QuoteEscapeCharacter"
+            case requestCharged = "x-amz-request-charged"
         }
     }
 
-    public struct CopyPartResult: AWSShape {
+    public struct PutObjectLockConfigurationRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "ObjectLockConfiguration"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ETag", required: false, type: .string), 
-            AWSShapeMember(label: "LastModified", required: false, type: .timestamp)
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "ObjectLockConfiguration", location: .body(locationName: "ObjectLockConfiguration"), required: false, type: .structure), 
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
+            AWSShapeMember(label: "Token", location: .header(locationName: "x-amz-bucket-object-lock-token"), required: false, type: .string)
         ]
-        /// Entity tag of the object.
-        public let eTag: String?
-        /// Date and time at which the object was uploaded.
-        public let lastModified: TimeStamp?
+        /// The bucket whose Object Lock configuration you want to create or replace.
+        public let bucket: String
+        /// The MD5 hash for the request body.
+        public let contentMD5: String?
+        /// The Object Lock configuration that you want to apply to the specified bucket.
+        public let objectLockConfiguration: ObjectLockConfiguration?
+        public let requestPayer: RequestPayer?
+        public let token: String?
 
-        public init(eTag: String? = nil, lastModified: TimeStamp? = nil) {
+        public init(bucket: String, contentMD5: String? = nil, objectLockConfiguration: ObjectLockConfiguration? = nil, requestPayer: RequestPayer? = nil, token: String? = nil) {
+            self.bucket = bucket
+            self.contentMD5 = contentMD5
+            self.objectLockConfiguration = objectLockConfiguration
+            self.requestPayer = requestPayer
+            self.token = token
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case contentMD5 = "Content-MD5"
+            case objectLockConfiguration = "ObjectLockConfiguration"
+            case requestPayer = "x-amz-request-payer"
+            case token = "x-amz-bucket-object-lock-token"
+        }
+    }
+
+    public struct PutObjectOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "Expiration", location: .header(locationName: "x-amz-expiration"), required: false, type: .string), 
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
+            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
+            AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string)
+        ]
+        /// Entity tag for the uploaded object.
+        public let eTag: String?
+        /// If the object expiration is configured, this will contain the expiration date (expiry-date) and rule ID (rule-id). The value of rule-id is URL encoded.
+        public let expiration: String?
+        public let requestCharged: RequestCharged?
+        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
+        public let sSECustomerAlgorithm: String?
+        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
+        public let sSECustomerKeyMD5: String?
+        /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
+        public let sSEKMSKeyId: String?
+        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
+        public let serverSideEncryption: ServerSideEncryption?
+        /// Version of the object.
+        public let versionId: String?
+
+        public init(eTag: String? = nil, expiration: String? = nil, requestCharged: RequestCharged? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, versionId: String? = nil) {
             self.eTag = eTag
-            self.lastModified = lastModified
+            self.expiration = expiration
+            self.requestCharged = requestCharged
+            self.sSECustomerAlgorithm = sSECustomerAlgorithm
+            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
+            self.sSEKMSKeyId = sSEKMSKeyId
+            self.serverSideEncryption = serverSideEncryption
+            self.versionId = versionId
         }
 
         private enum CodingKeys: String, CodingKey {
             case eTag = "ETag"
-            case lastModified = "LastModified"
+            case expiration = "x-amz-expiration"
+            case requestCharged = "x-amz-request-charged"
+            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
+            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
+            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
+            case serverSideEncryption = "x-amz-server-side-encryption"
+            case versionId = "x-amz-version-id"
         }
     }
 
-    public struct DeleteObjectTaggingOutput: AWSShape {
+    public struct PutObjectRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "Body"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum), 
+            AWSShapeMember(label: "Body", required: false, type: .blob), 
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string), 
+            AWSShapeMember(label: "ContentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string), 
+            AWSShapeMember(label: "ContentEncoding", location: .header(locationName: "Content-Encoding"), required: false, type: .string), 
+            AWSShapeMember(label: "ContentLanguage", location: .header(locationName: "Content-Language"), required: false, type: .string), 
+            AWSShapeMember(label: "ContentLength", location: .header(locationName: "Content-Length"), required: false, type: .long), 
+            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
+            AWSShapeMember(label: "Expires", location: .header(locationName: "Expires"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "GrantFullControl", location: .header(locationName: "x-amz-grant-full-control"), required: false, type: .string), 
+            AWSShapeMember(label: "GrantRead", location: .header(locationName: "x-amz-grant-read"), required: false, type: .string), 
+            AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string), 
+            AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string), 
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
+            AWSShapeMember(label: "Metadata", required: false, type: .map), 
+            AWSShapeMember(label: "ObjectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold"), required: false, type: .enum), 
+            AWSShapeMember(label: "ObjectLockMode", location: .header(locationName: "x-amz-object-lock-mode"), required: false, type: .enum), 
+            AWSShapeMember(label: "ObjectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
+            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
+            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum), 
+            AWSShapeMember(label: "Tagging", location: .header(locationName: "x-amz-tagging"), required: false, type: .string), 
+            AWSShapeMember(label: "WebsiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"), required: false, type: .string)
+        ]
+        /// The canned ACL to apply to the object.
+        public let acl: ObjectCannedACL?
+        /// Object data.
+        public let body: Data?
+        /// Name of the bucket to which the PUT operation was initiated.
+        public let bucket: String
+        /// Specifies caching behavior along the request/reply chain.
+        public let cacheControl: String?
+        /// Specifies presentational information for the object.
+        public let contentDisposition: String?
+        /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
+        public let contentEncoding: String?
+        /// The language the content is in.
+        public let contentLanguage: String?
+        /// Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically.
+        public let contentLength: Int64?
+        /// The base64-encoded 128-bit MD5 digest of the part data.
+        public let contentMD5: String?
+        /// A standard MIME type describing the format of the object data.
+        public let contentType: String?
+        /// The date and time at which the object is no longer cacheable.
+        public let expires: TimeStamp?
+        /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
+        public let grantFullControl: String?
+        /// Allows grantee to read the object data and its metadata.
+        public let grantRead: String?
+        /// Allows grantee to read the object ACL.
+        public let grantReadACP: String?
+        /// Allows grantee to write the ACL for the applicable object.
+        public let grantWriteACP: String?
+        /// Object key for which the PUT operation was initiated.
+        public let key: String
+        /// A map of metadata to store with the object in S3.
+        public let metadata: [String: String]?
+        /// The Legal Hold status that you want to apply to the specified object.
+        public let objectLockLegalHoldStatus: ObjectLockLegalHoldStatus?
+        /// The Object Lock mode that you want to apply to this object.
+        public let objectLockMode: ObjectLockMode?
+        /// The date and time when you want this object's Object Lock to expire.
+        public let objectLockRetainUntilDate: TimeStamp?
+        public let requestPayer: RequestPayer?
+        /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
+        public let sSECustomerAlgorithm: String?
+        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
+        public let sSECustomerKey: String?
+        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
+        public let sSECustomerKeyMD5: String?
+        /// Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. Documentation on configuring any of the officially supported AWS SDKs and CLI can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
+        public let sSEKMSKeyId: String?
+        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
+        public let serverSideEncryption: ServerSideEncryption?
+        /// The type of storage to use for the object. Defaults to 'STANDARD'.
+        public let storageClass: StorageClass?
+        /// The tag-set for the object. The tag-set must be encoded as URL Query parameters. (For example, "Key1=Value1")
+        public let tagging: String?
+        /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
+        public let websiteRedirectLocation: String?
+
+        public init(acl: ObjectCannedACL? = nil, body: Data? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expires: TimeStamp? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
+            self.acl = acl
+            self.body = body
+            self.bucket = bucket
+            self.cacheControl = cacheControl
+            self.contentDisposition = contentDisposition
+            self.contentEncoding = contentEncoding
+            self.contentLanguage = contentLanguage
+            self.contentLength = contentLength
+            self.contentMD5 = contentMD5
+            self.contentType = contentType
+            self.expires = expires
+            self.grantFullControl = grantFullControl
+            self.grantRead = grantRead
+            self.grantReadACP = grantReadACP
+            self.grantWriteACP = grantWriteACP
+            self.key = key
+            self.metadata = metadata
+            self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
+            self.objectLockMode = objectLockMode
+            self.objectLockRetainUntilDate = objectLockRetainUntilDate
+            self.requestPayer = requestPayer
+            self.sSECustomerAlgorithm = sSECustomerAlgorithm
+            self.sSECustomerKey = sSECustomerKey
+            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
+            self.sSEKMSKeyId = sSEKMSKeyId
+            self.serverSideEncryption = serverSideEncryption
+            self.storageClass = storageClass
+            self.tagging = tagging
+            self.websiteRedirectLocation = websiteRedirectLocation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acl = "x-amz-acl"
+            case body = "Body"
+            case bucket = "Bucket"
+            case cacheControl = "Cache-Control"
+            case contentDisposition = "Content-Disposition"
+            case contentEncoding = "Content-Encoding"
+            case contentLanguage = "Content-Language"
+            case contentLength = "Content-Length"
+            case contentMD5 = "Content-MD5"
+            case contentType = "Content-Type"
+            case expires = "Expires"
+            case grantFullControl = "x-amz-grant-full-control"
+            case grantRead = "x-amz-grant-read"
+            case grantReadACP = "x-amz-grant-read-acp"
+            case grantWriteACP = "x-amz-grant-write-acp"
+            case key = "Key"
+            case metadata = "Metadata"
+            case objectLockLegalHoldStatus = "x-amz-object-lock-legal-hold"
+            case objectLockMode = "x-amz-object-lock-mode"
+            case objectLockRetainUntilDate = "x-amz-object-lock-retain-until-date"
+            case requestPayer = "x-amz-request-payer"
+            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
+            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
+            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
+            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
+            case serverSideEncryption = "x-amz-server-side-encryption"
+            case storageClass = "x-amz-storage-class"
+            case tagging = "x-amz-tagging"
+            case websiteRedirectLocation = "x-amz-website-redirect-location"
+        }
+    }
+
+    public struct PutObjectRetentionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
+        ]
+        public let requestCharged: RequestCharged?
+
+        public init(requestCharged: RequestCharged? = nil) {
+            self.requestCharged = requestCharged
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestCharged = "x-amz-request-charged"
+        }
+    }
+
+    public struct PutObjectRetentionRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "Retention"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "BypassGovernanceRetention", location: .header(locationName: "x-amz-bypass-governance-retention"), required: false, type: .boolean), 
+            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
+            AWSShapeMember(label: "Retention", location: .body(locationName: "Retention"), required: false, type: .structure), 
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
+        ]
+        /// The bucket that contains the object you want to apply this Object Retention configuration to.
+        public let bucket: String
+        /// Indicates whether this operation should bypass Governance-mode restrictions.j
+        public let bypassGovernanceRetention: Bool?
+        /// The MD5 hash for the request body.
+        public let contentMD5: String?
+        /// The key name for the object that you want to apply this Object Retention configuration to.
+        public let key: String
+        public let requestPayer: RequestPayer?
+        /// The container element for the Object Retention configuration.
+        public let retention: ObjectLockRetention?
+        /// The version ID for the object that you want to apply this Object Retention configuration to.
+        public let versionId: String?
+
+        public init(bucket: String, bypassGovernanceRetention: Bool? = nil, contentMD5: String? = nil, key: String, requestPayer: RequestPayer? = nil, retention: ObjectLockRetention? = nil, versionId: String? = nil) {
+            self.bucket = bucket
+            self.bypassGovernanceRetention = bypassGovernanceRetention
+            self.contentMD5 = contentMD5
+            self.key = key
+            self.requestPayer = requestPayer
+            self.retention = retention
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case bypassGovernanceRetention = "x-amz-bypass-governance-retention"
+            case contentMD5 = "Content-MD5"
+            case key = "Key"
+            case requestPayer = "x-amz-request-payer"
+            case retention = "Retention"
+            case versionId = "versionId"
+        }
+    }
+
+    public struct PutObjectTaggingOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string)
         ]
-        /// The versionId of the object the tag-set was removed from.
         public let versionId: String?
 
         public init(versionId: String? = nil) {
@@ -3712,881 +6331,289 @@ extension S3 {
         }
     }
 
-    public struct DeleteBucketTaggingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        public let bucket: String
-
-        public init(bucket: String) {
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct DeleteBucketRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        public let bucket: String
-
-        public init(bucket: String) {
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct S3KeyFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FilterRules", location: .body(locationName: "FilterRule"), required: false, type: .list)
-        ]
-        public let filterRules: [FilterRule]?
-
-        public init(filterRules: [FilterRule]? = nil) {
-            self.filterRules = filterRules
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case filterRules = "FilterRule"
-        }
-    }
-
-    public struct ListBucketMetricsConfigurationsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "MetricsConfigurationList", location: .body(locationName: "MetricsConfiguration"), required: false, type: .list), 
-            AWSShapeMember(label: "NextContinuationToken", required: false, type: .string), 
-            AWSShapeMember(label: "ContinuationToken", required: false, type: .string)
-        ]
-        /// Indicates whether the returned list of metrics configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken will be provided for a subsequent request.
-        public let isTruncated: Bool?
-        /// The list of metrics configurations for a bucket.
-        public let metricsConfigurationList: [MetricsConfiguration]?
-        /// The marker used to continue a metrics configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
-        public let nextContinuationToken: String?
-        /// The marker that is used as a starting point for this metrics configuration list response. This value is present if it was sent in the request.
-        public let continuationToken: String?
-
-        public init(isTruncated: Bool? = nil, metricsConfigurationList: [MetricsConfiguration]? = nil, nextContinuationToken: String? = nil, continuationToken: String? = nil) {
-            self.isTruncated = isTruncated
-            self.metricsConfigurationList = metricsConfigurationList
-            self.nextContinuationToken = nextContinuationToken
-            self.continuationToken = continuationToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case isTruncated = "IsTruncated"
-            case metricsConfigurationList = "MetricsConfiguration"
-            case nextContinuationToken = "NextContinuationToken"
-            case continuationToken = "ContinuationToken"
-        }
-    }
-
-    public struct UserMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MetadataEntry", required: false, type: .list)
-        ]
-        public let metadataEntry: [MetadataEntry]?
-
-        public init(metadataEntry: [MetadataEntry]? = nil) {
-            self.metadataEntry = metadataEntry
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case metadataEntry = "MetadataEntry"
-        }
-    }
-
-    public struct GetObjectOutput: AWSShape {
+    public struct PutObjectTaggingRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "Body"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "Expiration", location: .header(locationName: "x-amz-expiration"), required: false, type: .string), 
-            AWSShapeMember(label: "DeleteMarker", location: .header(locationName: "x-amz-delete-marker"), required: false, type: .boolean), 
-            AWSShapeMember(label: "WebsiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"), required: false, type: .string), 
-            AWSShapeMember(label: "ObjectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
-            AWSShapeMember(label: "Expires", location: .header(locationName: "Expires"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ReplicationStatus", location: .header(locationName: "x-amz-replication-status"), required: false, type: .enum), 
-            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
-            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum), 
-            AWSShapeMember(label: "Body", required: false, type: .blob), 
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentLength", location: .header(locationName: "Content-Length"), required: false, type: .long), 
-            AWSShapeMember(label: "Restore", location: .header(locationName: "x-amz-restore"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string), 
-            AWSShapeMember(label: "ObjectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold"), required: false, type: .enum), 
-            AWSShapeMember(label: "LastModified", location: .header(locationName: "Last-Modified"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ContentEncoding", location: .header(locationName: "Content-Encoding"), required: false, type: .string), 
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "TagCount", location: .header(locationName: "x-amz-tagging-count"), required: false, type: .integer), 
-            AWSShapeMember(label: "ContentLanguage", location: .header(locationName: "Content-Language"), required: false, type: .string), 
-            AWSShapeMember(label: "AcceptRanges", location: .header(locationName: "accept-ranges"), required: false, type: .string), 
-            AWSShapeMember(label: "PartsCount", location: .header(locationName: "x-amz-mp-parts-count"), required: false, type: .integer), 
-            AWSShapeMember(label: "ObjectLockMode", location: .header(locationName: "x-amz-object-lock-mode"), required: false, type: .enum), 
-            AWSShapeMember(label: "Metadata", required: false, type: .map), 
-            AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentRange", location: .header(locationName: "Content-Range"), required: false, type: .string), 
-            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string), 
-            AWSShapeMember(label: "MissingMeta", location: .header(locationName: "x-amz-missing-meta"), required: false, type: .integer)
-        ]
-        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public let serverSideEncryption: ServerSideEncryption?
-        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
-        public let sSECustomerAlgorithm: String?
-        /// If the object expiration is configured (see PUT Bucket lifecycle), the response includes this header. It includes the expiry-date and rule-id key value pairs providing object expiration information. The value of the rule-id is URL encoded.
-        public let expiration: String?
-        /// Specifies whether the object retrieved was (true) or was not (false) a Delete Marker. If false, this response header does not appear in the response.
-        public let deleteMarker: Bool?
-        /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
-        public let websiteRedirectLocation: String?
-        /// The date and time when this object's Object Lock will expire.
-        public let objectLockRetainUntilDate: TimeStamp?
-        /// A standard MIME type describing the format of the object data.
-        public let contentType: String?
-        /// The date and time at which the object is no longer cacheable.
-        public let expires: TimeStamp?
-        public let replicationStatus: ReplicationStatus?
-        /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
-        public let sSEKMSKeyId: String?
-        public let storageClass: StorageClass?
-        /// Object data.
-        public let body: Data?
-        public let requestCharged: RequestCharged?
-        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
-        public let sSECustomerKeyMD5: String?
-        /// Size of the body in bytes.
-        public let contentLength: Int64?
-        /// Provides information about object restoration operation and expiration time of the restored object copy.
-        public let restore: String?
-        /// Specifies presentational information for the object.
-        public let contentDisposition: String?
-        /// Indicates whether this object has an active legal hold. This field is only returned if you have permission to view an object's legal hold status.
-        public let objectLockLegalHoldStatus: ObjectLockLegalHoldStatus?
-        /// Last modified date of the object
-        public let lastModified: TimeStamp?
-        /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
-        public let contentEncoding: String?
-        /// An ETag is an opaque identifier assigned by a web server to a specific version of a resource found at a URL
-        public let eTag: String?
-        /// The number of tags, if any, on the object.
-        public let tagCount: Int32?
-        /// The language the content is in.
-        public let contentLanguage: String?
-        public let acceptRanges: String?
-        /// The count of parts this object has.
-        public let partsCount: Int32?
-        /// The Object Lock mode currently in place for this object.
-        public let objectLockMode: ObjectLockMode?
-        /// A map of metadata to store with the object in S3.
-        public let metadata: [String: String]?
-        /// Version of the object.
-        public let versionId: String?
-        /// The portion of the object returned in the response.
-        public let contentRange: String?
-        /// Specifies caching behavior along the request/reply chain.
-        public let cacheControl: String?
-        /// This is set to the number of metadata entries not returned in x-amz-meta headers. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you can create metadata whose values are not legal HTTP headers.
-        public let missingMeta: Int32?
-
-        public init(serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, expiration: String? = nil, deleteMarker: Bool? = nil, websiteRedirectLocation: String? = nil, objectLockRetainUntilDate: TimeStamp? = nil, contentType: String? = nil, expires: TimeStamp? = nil, replicationStatus: ReplicationStatus? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, body: Data? = nil, requestCharged: RequestCharged? = nil, sSECustomerKeyMD5: String? = nil, contentLength: Int64? = nil, restore: String? = nil, contentDisposition: String? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, lastModified: TimeStamp? = nil, contentEncoding: String? = nil, eTag: String? = nil, tagCount: Int32? = nil, contentLanguage: String? = nil, acceptRanges: String? = nil, partsCount: Int32? = nil, objectLockMode: ObjectLockMode? = nil, metadata: [String: String]? = nil, versionId: String? = nil, contentRange: String? = nil, cacheControl: String? = nil, missingMeta: Int32? = nil) {
-            self.serverSideEncryption = serverSideEncryption
-            self.sSECustomerAlgorithm = sSECustomerAlgorithm
-            self.expiration = expiration
-            self.deleteMarker = deleteMarker
-            self.websiteRedirectLocation = websiteRedirectLocation
-            self.objectLockRetainUntilDate = objectLockRetainUntilDate
-            self.contentType = contentType
-            self.expires = expires
-            self.replicationStatus = replicationStatus
-            self.sSEKMSKeyId = sSEKMSKeyId
-            self.storageClass = storageClass
-            self.body = body
-            self.requestCharged = requestCharged
-            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
-            self.contentLength = contentLength
-            self.restore = restore
-            self.contentDisposition = contentDisposition
-            self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
-            self.lastModified = lastModified
-            self.contentEncoding = contentEncoding
-            self.eTag = eTag
-            self.tagCount = tagCount
-            self.contentLanguage = contentLanguage
-            self.acceptRanges = acceptRanges
-            self.partsCount = partsCount
-            self.objectLockMode = objectLockMode
-            self.metadata = metadata
-            self.versionId = versionId
-            self.contentRange = contentRange
-            self.cacheControl = cacheControl
-            self.missingMeta = missingMeta
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverSideEncryption = "x-amz-server-side-encryption"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case expiration = "x-amz-expiration"
-            case deleteMarker = "x-amz-delete-marker"
-            case websiteRedirectLocation = "x-amz-website-redirect-location"
-            case objectLockRetainUntilDate = "x-amz-object-lock-retain-until-date"
-            case contentType = "Content-Type"
-            case expires = "Expires"
-            case replicationStatus = "x-amz-replication-status"
-            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
-            case storageClass = "x-amz-storage-class"
-            case body = "Body"
-            case requestCharged = "x-amz-request-charged"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case contentLength = "Content-Length"
-            case restore = "x-amz-restore"
-            case contentDisposition = "Content-Disposition"
-            case objectLockLegalHoldStatus = "x-amz-object-lock-legal-hold"
-            case lastModified = "Last-Modified"
-            case contentEncoding = "Content-Encoding"
-            case eTag = "ETag"
-            case tagCount = "x-amz-tagging-count"
-            case contentLanguage = "Content-Language"
-            case acceptRanges = "accept-ranges"
-            case partsCount = "x-amz-mp-parts-count"
-            case objectLockMode = "x-amz-object-lock-mode"
-            case metadata = "Metadata"
-            case versionId = "x-amz-version-id"
-            case contentRange = "Content-Range"
-            case cacheControl = "Cache-Control"
-            case missingMeta = "x-amz-missing-meta"
-        }
-    }
-
-    public struct Condition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KeyPrefixEquals", required: false, type: .string), 
-            AWSShapeMember(label: "HttpErrorCodeReturnedEquals", required: false, type: .string)
-        ]
-        /// The object key name prefix when the redirect is applied. For example, to redirect requests for ExamplePage.html, the key prefix will be ExamplePage.html. To redirect request for all pages with the prefix docs/, the key prefix will be /docs, which identifies all objects in the docs/ folder. Required when the parent element Condition is specified and sibling HttpErrorCodeReturnedEquals is not specified. If both conditions are specified, both must be true for the redirect to be applied.
-        public let keyPrefixEquals: String?
-        /// The HTTP error code when the redirect is applied. In the event of an error, if the error code equals this value, then the specified redirect is applied. Required when parent element Condition is specified and sibling KeyPrefixEquals is not specified. If both are specified, then both must be true for the redirect to be applied.
-        public let httpErrorCodeReturnedEquals: String?
-
-        public init(keyPrefixEquals: String? = nil, httpErrorCodeReturnedEquals: String? = nil) {
-            self.keyPrefixEquals = keyPrefixEquals
-            self.httpErrorCodeReturnedEquals = httpErrorCodeReturnedEquals
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case keyPrefixEquals = "KeyPrefixEquals"
-            case httpErrorCodeReturnedEquals = "HttpErrorCodeReturnedEquals"
-        }
-    }
-
-    public struct ListBucketAnalyticsConfigurationsRequest: AWSShape {
+        public static let payloadPath: String? = "Tagging"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "ContinuationToken", location: .querystring(locationName: "continuation-token"), required: false, type: .string)
+            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
+            AWSShapeMember(label: "Tagging", location: .body(locationName: "Tagging"), required: true, type: .structure), 
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
         ]
-        /// The name of the bucket from which analytics configurations are retrieved.
         public let bucket: String
-        /// The ContinuationToken that represents a placeholder from where this request should begin.
-        public let continuationToken: String?
-
-        public init(bucket: String, continuationToken: String? = nil) {
-            self.bucket = bucket
-            self.continuationToken = continuationToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case continuationToken = "continuation-token"
-        }
-    }
-
-    public struct JSONInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
-        /// The type of JSON. Valid values: Document, Lines.
-        public let `type`: JSONType?
-
-        public init(type: JSONType? = nil) {
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-        }
-    }
-
-    public struct ObjectLockRetention: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RetainUntilDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Mode", required: false, type: .enum)
-        ]
-        /// The date on which this Object Lock Retention will expire.
-        public let retainUntilDate: TimeStamp?
-        /// Indicates the Retention mode for the specified object.
-        public let mode: ObjectLockRetentionMode?
-
-        public init(retainUntilDate: TimeStamp? = nil, mode: ObjectLockRetentionMode? = nil) {
-            self.retainUntilDate = retainUntilDate
-            self.mode = mode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case retainUntilDate = "RetainUntilDate"
-            case mode = "Mode"
-        }
-    }
-
-    public struct MetricsAndOperator: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .structure), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string)
-        ]
-        /// The list of tags used when evaluating an AND predicate.
-        public let tags: TagSet?
-        /// The prefix used when evaluating an AND predicate.
-        public let prefix: String?
-
-        public init(tags: TagSet? = nil, prefix: String? = nil) {
-            self.tags = tags
-            self.prefix = prefix
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tag"
-            case prefix = "Prefix"
-        }
-    }
-
-    public struct Bucket: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// Date the bucket was created.
-        public let creationDate: TimeStamp?
-        /// The name of the bucket.
-        public let name: String?
-
-        public init(creationDate: TimeStamp? = nil, name: String? = nil) {
-            self.creationDate = creationDate
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationDate = "CreationDate"
-            case name = "Name"
-        }
-    }
-
-    public struct RequestPaymentConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Payer", required: true, type: .enum)
-        ]
-        /// Specifies who pays for the download and request fees.
-        public let payer: Payer
-
-        public init(payer: Payer) {
-            self.payer = payer
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case payer = "Payer"
-        }
-    }
-
-    public struct TopicConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TopicArn", location: .body(locationName: "Topic"), required: true, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: true, type: .list)
-        ]
-        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which Amazon S3 will publish a message when it detects events of the specified type.
-        public let topicArn: String
-        public let id: String?
-        public let filter: NotificationConfigurationFilter?
-        public let events: [Event]
-
-        public init(topicArn: String, id: String? = nil, filter: NotificationConfigurationFilter? = nil, events: [Event]) {
-            self.topicArn = topicArn
-            self.id = id
-            self.filter = filter
-            self.events = events
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case topicArn = "Topic"
-            case id = "Id"
-            case filter = "Filter"
-            case events = "Event"
-        }
-    }
-
-    public struct DeleteObjectOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeleteMarker", location: .header(locationName: "x-amz-delete-marker"), required: false, type: .boolean), 
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
-            AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string)
-        ]
-        /// Specifies whether the versioned object that was permanently deleted was (true) or was not (false) a delete marker.
-        public let deleteMarker: Bool?
-        public let requestCharged: RequestCharged?
-        /// Returns the version ID of the delete marker created as a result of the DELETE operation.
+        public let contentMD5: String?
+        public let key: String
+        public let tagging: Tagging
         public let versionId: String?
 
-        public init(deleteMarker: Bool? = nil, requestCharged: RequestCharged? = nil, versionId: String? = nil) {
-            self.deleteMarker = deleteMarker
-            self.requestCharged = requestCharged
+        public init(bucket: String, contentMD5: String? = nil, key: String, tagging: Tagging, versionId: String? = nil) {
+            self.bucket = bucket
+            self.contentMD5 = contentMD5
+            self.key = key
+            self.tagging = tagging
             self.versionId = versionId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deleteMarker = "x-amz-delete-marker"
-            case requestCharged = "x-amz-request-charged"
-            case versionId = "x-amz-version-id"
+            case bucket = "Bucket"
+            case contentMD5 = "Content-MD5"
+            case key = "Key"
+            case tagging = "Tagging"
+            case versionId = "versionId"
         }
     }
 
-    public struct SseKmsEncryptedObjects: AWSShape {
+    public struct PutPublicAccessBlockRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "PublicAccessBlockConfiguration"
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "PublicAccessBlockConfiguration", location: .body(locationName: "PublicAccessBlockConfiguration"), required: true, type: .structure)
+        ]
+        /// The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want to set.
+        public let bucket: String
+        /// The MD5 hash of the PutPublicAccessBlock request body. 
+        public let contentMD5: String?
+        /// The PublicAccessBlock configuration that you want to apply to this Amazon S3 bucket. You can enable the configuration options in any combination. For more information about when Amazon S3 considers a bucket or object public, see The Meaning of "Public" in the Amazon Simple Storage Service Developer Guide.
+        public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration
+
+        public init(bucket: String, contentMD5: String? = nil, publicAccessBlockConfiguration: PublicAccessBlockConfiguration) {
+            self.bucket = bucket
+            self.contentMD5 = contentMD5
+            self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case contentMD5 = "Content-MD5"
+            case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
+        }
+    }
+
+    public struct QueueConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: true, type: .list), 
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "QueueArn", location: .body(locationName: "Queue"), required: true, type: .string)
+        ]
+        public let events: [Event]
+        public let filter: NotificationConfigurationFilter?
+        public let id: String?
+        /// The Amazon Resource Name (ARN) of the Amazon SQS queue to which Amazon S3 will publish a message when it detects events of the specified type.
+        public let queueArn: String
+
+        public init(events: [Event], filter: NotificationConfigurationFilter? = nil, id: String? = nil, queueArn: String) {
+            self.events = events
+            self.filter = filter
+            self.id = id
+            self.queueArn = queueArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case events = "Event"
+            case filter = "Filter"
+            case id = "Id"
+            case queueArn = "Queue"
+        }
+    }
+
+    public struct QueueConfigurationDeprecated: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Event", required: false, type: .enum), 
+            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: false, type: .list), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Queue", required: false, type: .string)
+        ]
+        public let event: Event?
+        public let events: [Event]?
+        public let id: String?
+        public let queue: String?
+
+        public init(event: Event? = nil, events: [Event]? = nil, id: String? = nil, queue: String? = nil) {
+            self.event = event
+            self.events = events
+            self.id = id
+            self.queue = queue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case event = "Event"
+            // TODO this is temporary measure for avoiding CondingKey duplication.
+            // Should decode duplidated paths with same type for JSON
+            case events = "_Event"
+            case id = "Id"
+            case queue = "Queue"
+        }
+    }
+
+    public enum QuoteFields: String, CustomStringConvertible, Codable {
+        case always = "ALWAYS"
+        case asneeded = "ASNEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RecordsEvent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Payload", required: false, type: .blob)
+        ]
+        /// The byte array of partial, one or more result records.
+        public let payload: Data?
+
+        public init(payload: Data? = nil) {
+            self.payload = payload
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case payload = "Payload"
+        }
+    }
+
+    public struct Redirect: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HostName", required: false, type: .string), 
+            AWSShapeMember(label: "HttpRedirectCode", required: false, type: .string), 
+            AWSShapeMember(label: "Protocol", required: false, type: .enum), 
+            AWSShapeMember(label: "ReplaceKeyPrefixWith", required: false, type: .string), 
+            AWSShapeMember(label: "ReplaceKeyWith", required: false, type: .string)
+        ]
+        /// The host name to use in the redirect request.
+        public let hostName: String?
+        /// The HTTP redirect code to use on the response. Not required if one of the siblings is present.
+        public let httpRedirectCode: String?
+        /// Protocol to use (http, https) when redirecting requests. The default is the protocol that is used in the original request.
+        public let `protocol`: Protocol?
+        /// The object key prefix to use in the redirect request. For example, to redirect requests for all pages with prefix docs/ (objects in the docs/ folder) to documents/, you can set a condition block with KeyPrefixEquals set to docs/ and in the Redirect set ReplaceKeyPrefixWith to /documents. Not required if one of the siblings is present. Can be present only if ReplaceKeyWith is not provided.
+        public let replaceKeyPrefixWith: String?
+        /// The specific object key to use in the redirect request. For example, redirect request to error.html. Not required if one of the sibling is present. Can be present only if ReplaceKeyPrefixWith is not provided.
+        public let replaceKeyWith: String?
+
+        public init(hostName: String? = nil, httpRedirectCode: String? = nil, protocol: Protocol? = nil, replaceKeyPrefixWith: String? = nil, replaceKeyWith: String? = nil) {
+            self.hostName = hostName
+            self.httpRedirectCode = httpRedirectCode
+            self.`protocol` = `protocol`
+            self.replaceKeyPrefixWith = replaceKeyPrefixWith
+            self.replaceKeyWith = replaceKeyWith
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostName = "HostName"
+            case httpRedirectCode = "HttpRedirectCode"
+            case `protocol` = "Protocol"
+            case replaceKeyPrefixWith = "ReplaceKeyPrefixWith"
+            case replaceKeyWith = "ReplaceKeyWith"
+        }
+    }
+
+    public struct RedirectAllRequestsTo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HostName", required: true, type: .string), 
+            AWSShapeMember(label: "Protocol", required: false, type: .enum)
+        ]
+        /// Name of the host where requests will be redirected.
+        public let hostName: String
+        /// Protocol to use (http, https) when redirecting requests. The default is the protocol that is used in the original request.
+        public let `protocol`: Protocol?
+
+        public init(hostName: String, protocol: Protocol? = nil) {
+            self.hostName = hostName
+            self.`protocol` = `protocol`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostName = "HostName"
+            case `protocol` = "Protocol"
+        }
+    }
+
+    public struct ReplicationConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Role", required: true, type: .string), 
+            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that Amazon S3 can assume when replicating the objects.
+        public let role: String
+        /// A container for one or more replication rules. A replication configuration must have at least one rule and can contain a maximum of 1,000 rules. 
+        public let rules: [ReplicationRule]
+
+        public init(role: String, rules: [ReplicationRule]) {
+            self.role = role
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case role = "Role"
+            case rules = "Rule"
+        }
+    }
+
+    public struct ReplicationRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeleteMarkerReplication", required: false, type: .structure), 
+            AWSShapeMember(label: "Destination", required: true, type: .structure), 
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "ID", required: false, type: .string), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "Priority", required: false, type: .integer), 
+            AWSShapeMember(label: "SourceSelectionCriteria", required: false, type: .structure), 
             AWSShapeMember(label: "Status", required: true, type: .enum)
         ]
-        ///  If the status is not Enabled, replication for S3 objects encrypted with AWS KMS is disabled.
-        public let status: SseKmsEncryptedObjectsStatus
+        public let deleteMarkerReplication: DeleteMarkerReplication?
+        /// A container for information about the replication destination.
+        public let destination: Destination
+        public let filter: ReplicationRuleFilter?
+        /// A unique identifier for the rule. The maximum value is 255 characters.
+        public let id: String?
+        /// An object keyname prefix that identifies the object or objects to which the rule applies. The maximum prefix length is 1,024 characters. 
+        public let prefix: String?
+        /// The priority associated with the rule. If you specify multiple rules in a replication configuration, Amazon S3 prioritizes the rules to prevent conflicts when filtering. If two or more rules identify the same object based on a specified filter, the rule with higher priority takes precedence. For example:   Same object quality prefix based filter criteria If prefixes you specified in multiple rules overlap    Same object qualify tag based filter criteria specified in multiple rules   For more information, see Cross-Region Replication (CRR) in the Amazon S3 Developer Guide.
+        public let priority: Int32?
+        /// A container that describes additional filters for identifying the source objects that you want to replicate. You can choose to enable or disable the replication of these objects. Currently, Amazon S3 supports only the filter that you can specify for objects created with server-side encryption using an AWS KMS-Managed Key (SSE-KMS).   If you want Amazon S3 to replicate objects created with server-side encryption using AWS KMS-Managed Keys. 
+        public let sourceSelectionCriteria: SourceSelectionCriteria?
+        /// If status isn't enabled, the rule is ignored.
+        public let status: ReplicationRuleStatus
 
-        public init(status: SseKmsEncryptedObjectsStatus) {
+        public init(deleteMarkerReplication: DeleteMarkerReplication? = nil, destination: Destination, filter: ReplicationRuleFilter? = nil, id: String? = nil, prefix: String? = nil, priority: Int32? = nil, sourceSelectionCriteria: SourceSelectionCriteria? = nil, status: ReplicationRuleStatus) {
+            self.deleteMarkerReplication = deleteMarkerReplication
+            self.destination = destination
+            self.filter = filter
+            self.id = id
+            self.prefix = prefix
+            self.priority = priority
+            self.sourceSelectionCriteria = sourceSelectionCriteria
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deleteMarkerReplication = "DeleteMarkerReplication"
+            case destination = "Destination"
+            case filter = "Filter"
+            case id = "ID"
+            case prefix = "Prefix"
+            case priority = "Priority"
+            case sourceSelectionCriteria = "SourceSelectionCriteria"
             case status = "Status"
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct ReplicationRuleAndOperator: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .structure)
         ]
-        /// Name of the tag.
-        public let key: String
-        /// Value of the tag.
-        public let value: String
-
-        public init(key: String, value: String) {
-            self.key = key
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case value = "Value"
-        }
-    }
-
-    public struct CreateMultipartUploadOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "UploadId", required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .body(locationName: "Bucket"), required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "AbortDate", location: .header(locationName: "x-amz-abort-date"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
-            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
-            AWSShapeMember(label: "AbortRuleId", location: .header(locationName: "x-amz-abort-rule-id"), required: false, type: .string)
-        ]
-        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
-        public let sSECustomerAlgorithm: String?
-        /// ID for the initiated multipart upload.
-        public let uploadId: String?
-        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
-        public let sSECustomerKeyMD5: String?
-        /// Name of the bucket to which the multipart upload was initiated.
-        public let bucket: String?
-        /// Object key for which the multipart upload was initiated.
-        public let key: String?
-        /// Date when multipart upload will become eligible for abort operation by lifecycle.
-        public let abortDate: TimeStamp?
-        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public let serverSideEncryption: ServerSideEncryption?
-        /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
-        public let sSEKMSKeyId: String?
-        public let requestCharged: RequestCharged?
-        /// Id of the lifecycle rule that makes a multipart upload eligible for abort operation.
-        public let abortRuleId: String?
-
-        public init(sSECustomerAlgorithm: String? = nil, uploadId: String? = nil, sSECustomerKeyMD5: String? = nil, bucket: String? = nil, key: String? = nil, abortDate: TimeStamp? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSEKMSKeyId: String? = nil, requestCharged: RequestCharged? = nil, abortRuleId: String? = nil) {
-            self.sSECustomerAlgorithm = sSECustomerAlgorithm
-            self.uploadId = uploadId
-            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
-            self.bucket = bucket
-            self.key = key
-            self.abortDate = abortDate
-            self.serverSideEncryption = serverSideEncryption
-            self.sSEKMSKeyId = sSEKMSKeyId
-            self.requestCharged = requestCharged
-            self.abortRuleId = abortRuleId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case uploadId = "UploadId"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case bucket = "Bucket"
-            case key = "Key"
-            case abortDate = "x-amz-abort-date"
-            case serverSideEncryption = "x-amz-server-side-encryption"
-            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
-            case requestCharged = "x-amz-request-charged"
-            case abortRuleId = "x-amz-abort-rule-id"
-        }
-    }
-
-    public struct PutBucketRequestPaymentRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "RequestPaymentConfiguration"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "RequestPaymentConfiguration", location: .body(locationName: "RequestPaymentConfiguration"), required: true, type: .structure)
-        ]
-        public let contentMD5: String?
-        public let bucket: String
-        public let requestPaymentConfiguration: RequestPaymentConfiguration
-
-        public init(contentMD5: String? = nil, bucket: String, requestPaymentConfiguration: RequestPaymentConfiguration) {
-            self.contentMD5 = contentMD5
-            self.bucket = bucket
-            self.requestPaymentConfiguration = requestPaymentConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case contentMD5 = "Content-MD5"
-            case bucket = "Bucket"
-            case requestPaymentConfiguration = "RequestPaymentConfiguration"
-        }
-    }
-
-    public struct ListObjectsV2Request: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StartAfter", location: .querystring(locationName: "start-after"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "FetchOwner", location: .querystring(locationName: "fetch-owner"), required: false, type: .boolean), 
-            AWSShapeMember(label: "EncodingType", location: .querystring(locationName: "encoding-type"), required: false, type: .enum), 
-            AWSShapeMember(label: "Prefix", location: .querystring(locationName: "prefix"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxKeys", location: .querystring(locationName: "max-keys"), required: false, type: .integer), 
-            AWSShapeMember(label: "ContinuationToken", location: .querystring(locationName: "continuation-token"), required: false, type: .string), 
-            AWSShapeMember(label: "Delimiter", location: .querystring(locationName: "delimiter"), required: false, type: .string)
-        ]
-        /// StartAfter is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. StartAfter can be any key in the bucket
-        public let startAfter: String?
-        /// Name of the bucket to list.
-        public let bucket: String
-        /// Confirms that the requester knows that she or he will be charged for the list objects request in V2 style. Bucket owners need not specify this parameter in their requests.
-        public let requestPayer: RequestPayer?
-        /// The owner field is not present in listV2 by default, if you want to return owner field with each key in the result then set the fetch owner field to true
-        public let fetchOwner: Bool?
-        /// Encoding type used by Amazon S3 to encode object keys in the response.
-        public let encodingType: EncodingType?
-        /// Limits the response to keys that begin with the specified prefix.
         public let prefix: String?
-        /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
-        public let maxKeys: Int32?
-        /// ContinuationToken indicates Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key
-        public let continuationToken: String?
-        /// A delimiter is a character you use to group keys.
-        public let delimiter: String?
+        public let tags: TagSet?
 
-        public init(startAfter: String? = nil, bucket: String, requestPayer: RequestPayer? = nil, fetchOwner: Bool? = nil, encodingType: EncodingType? = nil, prefix: String? = nil, maxKeys: Int32? = nil, continuationToken: String? = nil, delimiter: String? = nil) {
-            self.startAfter = startAfter
-            self.bucket = bucket
-            self.requestPayer = requestPayer
-            self.fetchOwner = fetchOwner
-            self.encodingType = encodingType
+        public init(prefix: String? = nil, tags: TagSet? = nil) {
             self.prefix = prefix
-            self.maxKeys = maxKeys
-            self.continuationToken = continuationToken
-            self.delimiter = delimiter
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case startAfter = "start-after"
-            case bucket = "Bucket"
-            case requestPayer = "x-amz-request-payer"
-            case fetchOwner = "fetch-owner"
-            case encodingType = "encoding-type"
-            case prefix = "prefix"
-            case maxKeys = "max-keys"
-            case continuationToken = "continuation-token"
-            case delimiter = "delimiter"
-        }
-    }
-
-    public struct GetObjectLockConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        /// The bucket whose Object Lock configuration you want to retrieve.
-        public let bucket: String
-
-        public init(bucket: String) {
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct Object: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "ETag", required: false, type: .string), 
-            AWSShapeMember(label: "Size", required: false, type: .integer), 
-            AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Owner", required: false, type: .structure), 
-            AWSShapeMember(label: "StorageClass", required: false, type: .enum)
-        ]
-        public let key: String?
-        public let eTag: String?
-        public let size: Int32?
-        public let lastModified: TimeStamp?
-        public let owner: Owner?
-        /// The class of storage used to store the object.
-        public let storageClass: ObjectStorageClass?
-
-        public init(key: String? = nil, eTag: String? = nil, size: Int32? = nil, lastModified: TimeStamp? = nil, owner: Owner? = nil, storageClass: ObjectStorageClass? = nil) {
-            self.key = key
-            self.eTag = eTag
-            self.size = size
-            self.lastModified = lastModified
-            self.owner = owner
-            self.storageClass = storageClass
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case eTag = "ETag"
-            case size = "Size"
-            case lastModified = "LastModified"
-            case owner = "Owner"
-            case storageClass = "StorageClass"
-        }
-    }
-
-    public struct DeleteBucketReplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        ///  The bucket name.   It can take a while to propagate the deletion of a replication configuration to all Amazon S3 systems. 
-        public let bucket: String
-
-        public init(bucket: String) {
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct UploadPartCopyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CopySource", location: .header(locationName: "x-amz-copy-source"), required: true, type: .string), 
-            AWSShapeMember(label: "CopySourceIfModifiedSince", location: .header(locationName: "x-amz-copy-source-if-modified-since"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
-            AWSShapeMember(label: "CopySourceIfNoneMatch", location: .header(locationName: "x-amz-copy-source-if-none-match"), required: false, type: .string), 
-            AWSShapeMember(label: "UploadId", location: .querystring(locationName: "uploadId"), required: true, type: .string), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "CopySourceSSECustomerKeyMD5", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "CopySourceSSECustomerAlgorithm", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "CopySourceIfUnmodifiedSince", location: .header(locationName: "x-amz-copy-source-if-unmodified-since"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "CopySourceSSECustomerKey", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key"), required: false, type: .string), 
-            AWSShapeMember(label: "CopySourceRange", location: .header(locationName: "x-amz-copy-source-range"), required: false, type: .string), 
-            AWSShapeMember(label: "CopySourceIfMatch", location: .header(locationName: "x-amz-copy-source-if-match"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "PartNumber", location: .querystring(locationName: "partNumber"), required: true, type: .integer)
-        ]
-        /// The name of the source bucket and key name of the source object, separated by a slash (/). Must be URL-encoded.
-        public let copySource: String
-        /// Copies the object if it has been modified since the specified time.
-        public let copySourceIfModifiedSince: TimeStamp?
-        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header. This must be the same encryption key specified in the initiate multipart upload request.
-        public let sSECustomerKey: String?
-        /// Copies the object if its entity tag (ETag) is different than the specified ETag.
-        public let copySourceIfNoneMatch: String?
-        /// Upload ID identifying the multipart upload whose part is being copied.
-        public let uploadId: String
-        /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        public let sSECustomerAlgorithm: String?
-        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        public let copySourceSSECustomerKeyMD5: String?
-        /// Specifies the algorithm to use when decrypting the source object (e.g., AES256).
-        public let copySourceSSECustomerAlgorithm: String?
-        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        public let sSECustomerKeyMD5: String?
-        /// Copies the object if it hasn't been modified since the specified time.
-        public let copySourceIfUnmodifiedSince: TimeStamp?
-        /// Specifies the customer-provided encryption key for Amazon S3 to use to decrypt the source object. The encryption key provided in this header must be one that was used when the source object was created.
-        public let copySourceSSECustomerKey: String?
-        /// The range of bytes to copy from the source object. The range value must use the form bytes=first-last, where the first and last are the zero-based byte offsets to copy. For example, bytes=0-9 indicates that you want to copy the first ten bytes of the source. You can copy a range only if the source object is greater than 5 GB.
-        public let copySourceRange: String?
-        /// Copies the object if its entity tag (ETag) matches the specified tag.
-        public let copySourceIfMatch: String?
-        public let bucket: String
-        public let key: String
-        public let requestPayer: RequestPayer?
-        /// Part number of part being copied. This is a positive integer between 1 and 10,000.
-        public let partNumber: Int32
-
-        public init(copySource: String, copySourceIfModifiedSince: TimeStamp? = nil, sSECustomerKey: String? = nil, copySourceIfNoneMatch: String? = nil, uploadId: String, sSECustomerAlgorithm: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, copySourceSSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, copySourceIfUnmodifiedSince: TimeStamp? = nil, copySourceSSECustomerKey: String? = nil, copySourceRange: String? = nil, copySourceIfMatch: String? = nil, bucket: String, key: String, requestPayer: RequestPayer? = nil, partNumber: Int32) {
-            self.copySource = copySource
-            self.copySourceIfModifiedSince = copySourceIfModifiedSince
-            self.sSECustomerKey = sSECustomerKey
-            self.copySourceIfNoneMatch = copySourceIfNoneMatch
-            self.uploadId = uploadId
-            self.sSECustomerAlgorithm = sSECustomerAlgorithm
-            self.copySourceSSECustomerKeyMD5 = copySourceSSECustomerKeyMD5
-            self.copySourceSSECustomerAlgorithm = copySourceSSECustomerAlgorithm
-            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
-            self.copySourceIfUnmodifiedSince = copySourceIfUnmodifiedSince
-            self.copySourceSSECustomerKey = copySourceSSECustomerKey
-            self.copySourceRange = copySourceRange
-            self.copySourceIfMatch = copySourceIfMatch
-            self.bucket = bucket
-            self.key = key
-            self.requestPayer = requestPayer
-            self.partNumber = partNumber
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case copySource = "x-amz-copy-source"
-            case copySourceIfModifiedSince = "x-amz-copy-source-if-modified-since"
-            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
-            case copySourceIfNoneMatch = "x-amz-copy-source-if-none-match"
-            case uploadId = "uploadId"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case copySourceSSECustomerKeyMD5 = "x-amz-copy-source-server-side-encryption-customer-key-MD5"
-            case copySourceSSECustomerAlgorithm = "x-amz-copy-source-server-side-encryption-customer-algorithm"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case copySourceIfUnmodifiedSince = "x-amz-copy-source-if-unmodified-since"
-            case copySourceSSECustomerKey = "x-amz-copy-source-server-side-encryption-customer-key"
-            case copySourceRange = "x-amz-copy-source-range"
-            case copySourceIfMatch = "x-amz-copy-source-if-match"
-            case bucket = "Bucket"
-            case key = "Key"
-            case requestPayer = "x-amz-request-payer"
-            case partNumber = "partNumber"
-        }
-    }
-
-    public struct GetBucketPolicyStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        /// The name of the Amazon S3 bucket whose policy status you want to retrieve.
-        public let bucket: String
-
-        public init(bucket: String) {
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
-    }
-
-    public enum ObjectLockMode: String, CustomStringConvertible, Codable {
-        case governance = "GOVERNANCE"
-        case compliance = "COMPLIANCE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct MultipartUpload: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Initiator", required: false, type: .structure), 
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Owner", required: false, type: .structure), 
-            AWSShapeMember(label: "Initiated", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
-            AWSShapeMember(label: "UploadId", required: false, type: .string)
-        ]
-        /// Identifies who initiated the multipart upload.
-        public let initiator: Initiator?
-        /// Key of the object for which the multipart upload was initiated.
-        public let key: String?
-        public let owner: Owner?
-        /// Date and time at which the multipart upload was initiated.
-        public let initiated: TimeStamp?
-        /// The class of storage used to store the object.
-        public let storageClass: StorageClass?
-        /// Upload ID that identifies the multipart upload.
-        public let uploadId: String?
-
-        public init(initiator: Initiator? = nil, key: String? = nil, owner: Owner? = nil, initiated: TimeStamp? = nil, storageClass: StorageClass? = nil, uploadId: String? = nil) {
-            self.initiator = initiator
-            self.key = key
-            self.owner = owner
-            self.initiated = initiated
-            self.storageClass = storageClass
-            self.uploadId = uploadId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case initiator = "Initiator"
-            case key = "Key"
-            case owner = "Owner"
-            case initiated = "Initiated"
-            case storageClass = "StorageClass"
-            case uploadId = "UploadId"
-        }
-    }
-
-    public enum EncodingType: String, CustomStringConvertible, Codable {
-        case url = "url"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetBucketWebsiteOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorDocument", required: false, type: .structure), 
-            AWSShapeMember(label: "IndexDocument", required: false, type: .structure), 
-            AWSShapeMember(label: "RedirectAllRequestsTo", required: false, type: .structure), 
-            AWSShapeMember(label: "RoutingRules", required: false, type: .structure)
-        ]
-        public let errorDocument: ErrorDocument?
-        public let indexDocument: IndexDocument?
-        public let redirectAllRequestsTo: RedirectAllRequestsTo?
-        public let routingRules: RoutingRules?
-
-        public init(errorDocument: ErrorDocument? = nil, indexDocument: IndexDocument? = nil, redirectAllRequestsTo: RedirectAllRequestsTo? = nil, routingRules: RoutingRules? = nil) {
-            self.errorDocument = errorDocument
-            self.indexDocument = indexDocument
-            self.redirectAllRequestsTo = redirectAllRequestsTo
-            self.routingRules = routingRules
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorDocument = "ErrorDocument"
-            case indexDocument = "IndexDocument"
-            case redirectAllRequestsTo = "RedirectAllRequestsTo"
-            case routingRules = "RoutingRules"
+            case prefix = "Prefix"
+            case tags = "Tag"
         }
     }
 
@@ -4616,1224 +6643,164 @@ extension S3 {
         }
     }
 
-    public struct EncryptionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicaKmsKeyID", required: false, type: .string)
-        ]
-        /// The ID of the AWS KMS key for the AWS Region where the destination bucket resides. Amazon S3 uses this key to encrypt the replica object. 
-        public let replicaKmsKeyID: String?
-
-        public init(replicaKmsKeyID: String? = nil) {
-            self.replicaKmsKeyID = replicaKmsKeyID
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicaKmsKeyID = "ReplicaKmsKeyID"
-        }
-    }
-
-    public enum InventoryFrequency: String, CustomStringConvertible, Codable {
-        case daily = "Daily"
-        case weekly = "Weekly"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Initiator: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ID", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string)
-        ]
-        /// If the principal is an AWS account, it provides the Canonical User ID. If the principal is an IAM User, it provides a user ARN value.
-        public let id: String?
-        /// Name of the Principal.
-        public let displayName: String?
-
-        public init(id: String? = nil, displayName: String? = nil) {
-            self.id = id
-            self.displayName = displayName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "ID"
-            case displayName = "DisplayName"
-        }
-    }
-
-    public struct Grant: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Permission", required: false, type: .enum), 
-            AWSShapeMember(label: "Grantee", required: false, type: .structure)
-        ]
-        /// Specifies the permission given to the grantee.
-        public let permission: Permission?
-        public let grantee: Grantee?
-
-        public init(permission: Permission? = nil, grantee: Grantee? = nil) {
-            self.permission = permission
-            self.grantee = grantee
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case permission = "Permission"
-            case grantee = "Grantee"
-        }
-    }
-
-    public struct PutObjectTaggingOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string)
-        ]
-        public let versionId: String?
-
-        public init(versionId: String? = nil) {
-            self.versionId = versionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case versionId = "x-amz-version-id"
-        }
-    }
-
-    public struct AbortMultipartUploadOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
-        ]
-        public let requestCharged: RequestCharged?
-
-        public init(requestCharged: RequestCharged? = nil) {
-            self.requestCharged = requestCharged
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case requestCharged = "x-amz-request-charged"
-        }
-    }
-
-    public struct Tagging: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagSet", required: true, type: .structure)
-        ]
-        public let tagSet: TagSet
-
-        public init(tagSet: TagSet) {
-            self.tagSet = tagSet
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagSet = "TagSet"
-        }
-    }
-
-    public enum ObjectLockEnabled: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Delete: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Objects", location: .body(locationName: "Object"), required: true, type: .list), 
-            AWSShapeMember(label: "Quiet", required: false, type: .boolean)
-        ]
-        public let objects: [ObjectIdentifier]
-        /// Element to enable quiet mode for the request. When you add this element, you must set its value to true.
-        public let quiet: Bool?
-
-        public init(objects: [ObjectIdentifier], quiet: Bool? = nil) {
-            self.objects = objects
-            self.quiet = quiet
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case objects = "Object"
-            case quiet = "Quiet"
-        }
-    }
-
-    public struct GetBucketRequestPaymentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        public let bucket: String
-
-        public init(bucket: String) {
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct PutBucketVersioningRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "VersioningConfiguration"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "MFA", location: .header(locationName: "x-amz-mfa"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "VersioningConfiguration", location: .body(locationName: "VersioningConfiguration"), required: true, type: .structure)
-        ]
-        public let contentMD5: String?
-        /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
-        public let mfa: String?
-        public let bucket: String
-        public let versioningConfiguration: VersioningConfiguration
-
-        public init(contentMD5: String? = nil, mfa: String? = nil, bucket: String, versioningConfiguration: VersioningConfiguration) {
-            self.contentMD5 = contentMD5
-            self.mfa = mfa
-            self.bucket = bucket
-            self.versioningConfiguration = versioningConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case contentMD5 = "Content-MD5"
-            case mfa = "x-amz-mfa"
-            case bucket = "Bucket"
-            case versioningConfiguration = "VersioningConfiguration"
-        }
-    }
-
-    public enum InventoryFormat: String, CustomStringConvertible, Codable {
-        case csv = "CSV"
-        case orc = "ORC"
-        case parquet = "Parquet"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListObjectsV2Output: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Delimiter", required: false, type: .string), 
-            AWSShapeMember(label: "StartAfter", required: false, type: .string), 
-            AWSShapeMember(label: "CommonPrefixes", required: false, type: .list), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "EncodingType", required: false, type: .enum), 
-            AWSShapeMember(label: "MaxKeys", required: false, type: .integer), 
-            AWSShapeMember(label: "Contents", required: false, type: .list), 
-            AWSShapeMember(label: "NextContinuationToken", required: false, type: .string), 
-            AWSShapeMember(label: "KeyCount", required: false, type: .integer), 
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "ContinuationToken", required: false, type: .string)
-        ]
-        /// Name of the bucket to list.
-        public let name: String?
-        /// A delimiter is a character you use to group keys.
-        public let delimiter: String?
-        /// StartAfter is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. StartAfter can be any key in the bucket
-        public let startAfter: String?
-        /// CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by delimiter
-        public let commonPrefixes: [CommonPrefix]?
-        /// Limits the response to keys that begin with the specified prefix.
-        public let prefix: String?
-        /// Encoding type used by Amazon S3 to encode object keys in the response.
-        public let encodingType: EncodingType?
-        /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
-        public let maxKeys: Int32?
-        /// Metadata about each object returned.
-        public let contents: [Object]?
-        /// NextContinuationToken is sent when isTruncated is true which means there are more keys in the bucket that can be listed. The next list requests to Amazon S3 can be continued with this NextContinuationToken. NextContinuationToken is obfuscated and is not a real key
-        public let nextContinuationToken: String?
-        /// KeyCount is the number of keys returned with this request. KeyCount will always be less than equals to MaxKeys field. Say you ask for 50 keys, your result will include less than equals 50 keys 
-        public let keyCount: Int32?
-        /// A flag that indicates whether or not Amazon S3 returned all of the results that satisfied the search criteria.
-        public let isTruncated: Bool?
-        /// ContinuationToken indicates Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key
-        public let continuationToken: String?
-
-        public init(name: String? = nil, delimiter: String? = nil, startAfter: String? = nil, commonPrefixes: [CommonPrefix]? = nil, prefix: String? = nil, encodingType: EncodingType? = nil, maxKeys: Int32? = nil, contents: [Object]? = nil, nextContinuationToken: String? = nil, keyCount: Int32? = nil, isTruncated: Bool? = nil, continuationToken: String? = nil) {
-            self.name = name
-            self.delimiter = delimiter
-            self.startAfter = startAfter
-            self.commonPrefixes = commonPrefixes
-            self.prefix = prefix
-            self.encodingType = encodingType
-            self.maxKeys = maxKeys
-            self.contents = contents
-            self.nextContinuationToken = nextContinuationToken
-            self.keyCount = keyCount
-            self.isTruncated = isTruncated
-            self.continuationToken = continuationToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case delimiter = "Delimiter"
-            case startAfter = "StartAfter"
-            case commonPrefixes = "CommonPrefixes"
-            case prefix = "Prefix"
-            case encodingType = "EncodingType"
-            case maxKeys = "MaxKeys"
-            case contents = "Contents"
-            case nextContinuationToken = "NextContinuationToken"
-            case keyCount = "KeyCount"
-            case isTruncated = "IsTruncated"
-            case continuationToken = "ContinuationToken"
-        }
-    }
-
-    public enum StorageClassAnalysisSchemaVersion: String, CustomStringConvertible, Codable {
-        case v1 = "V_1"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FileHeaderInfo: String, CustomStringConvertible, Codable {
-        case use = "USE"
-        case ignore = "IGNORE"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct PutBucketTaggingRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "Tagging"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "Tagging", location: .body(locationName: "Tagging"), required: true, type: .structure)
-        ]
-        public let contentMD5: String?
-        public let bucket: String
-        public let tagging: Tagging
-
-        public init(contentMD5: String? = nil, bucket: String, tagging: Tagging) {
-            self.contentMD5 = contentMD5
-            self.bucket = bucket
-            self.tagging = tagging
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case contentMD5 = "Content-MD5"
-            case bucket = "Bucket"
-            case tagging = "Tagging"
-        }
-    }
-
-    public struct CreateBucketOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string)
-        ]
-        public let location: String?
-
-        public init(location: String? = nil) {
-            self.location = location
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case location = "Location"
-        }
-    }
-
-    public enum SseKmsEncryptedObjectsStatus: String, CustomStringConvertible, Codable {
+    public enum ReplicationRuleStatus: String, CustomStringConvertible, Codable {
         case enabled = "Enabled"
         case disabled = "Disabled"
         public var description: String { return self.rawValue }
     }
 
-    public struct GetBucketLocationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        public let bucket: String
-
-        public init(bucket: String) {
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
-    }
-
-    public enum Event: String, CustomStringConvertible, Codable {
-        case s3Reducedredundancylostobject = "s3:ReducedRedundancyLostObject"
-        case s3ObjectcreatedAll = "s3:ObjectCreated:*"
-        case s3ObjectcreatedPut = "s3:ObjectCreated:Put"
-        case s3ObjectcreatedPost = "s3:ObjectCreated:Post"
-        case s3ObjectcreatedCopy = "s3:ObjectCreated:Copy"
-        case s3ObjectcreatedCompletemultipartupload = "s3:ObjectCreated:CompleteMultipartUpload"
-        case s3ObjectremovedAll = "s3:ObjectRemoved:*"
-        case s3ObjectremovedDelete = "s3:ObjectRemoved:Delete"
-        case s3ObjectremovedDeletemarkercreated = "s3:ObjectRemoved:DeleteMarkerCreated"
-        case s3ObjectrestorePost = "s3:ObjectRestore:Post"
-        case s3ObjectrestoreCompleted = "s3:ObjectRestore:Completed"
+    public enum ReplicationStatus: String, CustomStringConvertible, Codable {
+        case completed = "COMPLETED"
+        case pending = "PENDING"
+        case failed = "FAILED"
+        case replica = "REPLICA"
         public var description: String { return self.rawValue }
     }
 
-    public enum BucketAccelerateStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case suspended = "Suspended"
+    public enum RequestCharged: String, CustomStringConvertible, Codable {
+        case requester = "requester"
         public var description: String { return self.rawValue }
     }
 
-    public struct ErrorDocument: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string)
-        ]
-        /// The object key name to use when a 4XX class error occurs.
-        public let key: String
+    public enum RequestPayer: String, CustomStringConvertible, Codable {
+        case requester = "requester"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(key: String) {
-            self.key = key
+    public struct RequestPaymentConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Payer", required: true, type: .enum)
+        ]
+        /// Specifies who pays for the download and request fees.
+        public let payer: Payer
+
+        public init(payer: Payer) {
+            self.payer = payer
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key = "Key"
+            case payer = "Payer"
         }
     }
 
-    public struct PutBucketLifecycleConfigurationRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "LifecycleConfiguration"
+    public struct RequestProgress: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LifecycleConfiguration", location: .body(locationName: "LifecycleConfiguration"), required: false, type: .structure), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
         ]
-        public let lifecycleConfiguration: BucketLifecycleConfiguration?
-        public let bucket: String
+        /// Specifies whether periodic QueryProgress frames should be sent. Valid values: TRUE, FALSE. Default value: FALSE.
+        public let enabled: Bool?
 
-        public init(lifecycleConfiguration: BucketLifecycleConfiguration? = nil, bucket: String) {
-            self.lifecycleConfiguration = lifecycleConfiguration
-            self.bucket = bucket
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lifecycleConfiguration = "LifecycleConfiguration"
-            case bucket = "Bucket"
+            case enabled = "Enabled"
         }
     }
 
-    public struct AccessControlPolicy: AWSShape {
+    public struct RestoreObjectOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Owner", required: false, type: .structure), 
-            AWSShapeMember(label: "Grants", location: .body(locationName: "AccessControlList"), required: false, type: .structure)
-        ]
-        public let owner: Owner?
-        /// A list of grants.
-        public let grants: Grants?
-
-        public init(owner: Owner? = nil, grants: Grants? = nil) {
-            self.owner = owner
-            self.grants = grants
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case owner = "Owner"
-            case grants = "AccessControlList"
-        }
-    }
-
-    public struct GetObjectTaggingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        public let key: String
-        public let versionId: String?
-        public let bucket: String
-
-        public init(key: String, versionId: String? = nil, bucket: String) {
-            self.key = key
-            self.versionId = versionId
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case versionId = "versionId"
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct GetBucketNotificationConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        /// Name of the bucket to get the notification configuration for.
-        public let bucket: String
-
-        public init(bucket: String) {
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct PutBucketReplicationRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "ReplicationConfiguration"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationConfiguration", location: .body(locationName: "ReplicationConfiguration"), required: true, type: .structure), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        public let contentMD5: String?
-        public let replicationConfiguration: ReplicationConfiguration
-        public let bucket: String
-
-        public init(contentMD5: String? = nil, replicationConfiguration: ReplicationConfiguration, bucket: String) {
-            self.contentMD5 = contentMD5
-            self.replicationConfiguration = replicationConfiguration
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case contentMD5 = "Content-MD5"
-            case replicationConfiguration = "ReplicationConfiguration"
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct DeleteObjectTaggingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        public let key: String
-        /// The versionId of the object that the tag-set will be removed from.
-        public let versionId: String?
-        public let bucket: String
-
-        public init(key: String, versionId: String? = nil, bucket: String) {
-            self.key = key
-            self.versionId = versionId
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case versionId = "versionId"
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct ObjectLockConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rule", required: false, type: .structure), 
-            AWSShapeMember(label: "ObjectLockEnabled", required: false, type: .enum)
-        ]
-        /// The Object Lock rule in place for the specified object.
-        public let rule: ObjectLockRule?
-        /// Indicates whether this bucket has an Object Lock configuration enabled.
-        public let objectLockEnabled: ObjectLockEnabled?
-
-        public init(rule: ObjectLockRule? = nil, objectLockEnabled: ObjectLockEnabled? = nil) {
-            self.rule = rule
-            self.objectLockEnabled = objectLockEnabled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rule = "Rule"
-            case objectLockEnabled = "ObjectLockEnabled"
-        }
-    }
-
-    public struct ObjectIdentifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string)
-        ]
-        /// Key name of the object to delete.
-        public let key: String
-        /// VersionId for the specific version of the object to delete.
-        public let versionId: String?
-
-        public init(key: String, versionId: String? = nil) {
-            self.key = key
-            self.versionId = versionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case versionId = "VersionId"
-        }
-    }
-
-    public struct PutObjectLockConfigurationOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
+            AWSShapeMember(label: "RestoreOutputPath", location: .header(locationName: "x-amz-restore-output-path"), required: false, type: .string)
         ]
         public let requestCharged: RequestCharged?
+        /// Indicates the path in the provided S3 output location where Select results will be restored to.
+        public let restoreOutputPath: String?
 
-        public init(requestCharged: RequestCharged? = nil) {
+        public init(requestCharged: RequestCharged? = nil, restoreOutputPath: String? = nil) {
             self.requestCharged = requestCharged
+            self.restoreOutputPath = restoreOutputPath
         }
 
         private enum CodingKeys: String, CodingKey {
             case requestCharged = "x-amz-request-charged"
+            case restoreOutputPath = "x-amz-restore-output-path"
         }
     }
 
-    public struct Grants: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Grant", required: false, type: .list)
-        ]
-        public let grant: [Grant]?
-
-        public init(grant: [Grant]? = nil) {
-            self.grant = grant
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case grant = "Grant"
-        }
-    }
-
-    public struct GetBucketVersioningOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MFADelete", location: .body(locationName: "MfaDelete"), required: false, type: .enum), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
-        /// Specifies whether MFA delete is enabled in the bucket versioning configuration. This element is only returned if the bucket has been configured with MFA delete. If the bucket has never been so configured, this element is not returned.
-        public let mFADelete: MFADeleteStatus?
-        /// The versioning state of the bucket.
-        public let status: BucketVersioningStatus?
-
-        public init(mFADelete: MFADeleteStatus? = nil, status: BucketVersioningStatus? = nil) {
-            self.mFADelete = mFADelete
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mFADelete = "MfaDelete"
-            case status = "Status"
-        }
-    }
-
-    public struct CloudFunctionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Event", required: false, type: .enum), 
-            AWSShapeMember(label: "InvocationRole", required: false, type: .string), 
-            AWSShapeMember(label: "CloudFunction", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: false, type: .list)
-        ]
-        public let event: Event?
-        public let invocationRole: String?
-        public let cloudFunction: String?
-        public let id: String?
-        public let events: [Event]?
-
-        public init(event: Event? = nil, invocationRole: String? = nil, cloudFunction: String? = nil, id: String? = nil, events: [Event]? = nil) {
-            self.event = event
-            self.invocationRole = invocationRole
-            self.cloudFunction = cloudFunction
-            self.id = id
-            self.events = events
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case event = "Event"
-            case invocationRole = "InvocationRole"
-            case cloudFunction = "CloudFunction"
-            case id = "Id"
-            // TODO this is temporary measure for avoiding CondingKey duplication.
-            // Should decode duplidated paths with same type for JSON
-            case events = "_Event"
-        }
-    }
-
-    public struct ReplicationRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destination", required: true, type: .structure), 
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "Status", required: true, type: .enum), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "SourceSelectionCriteria", required: false, type: .structure), 
-            AWSShapeMember(label: "Priority", required: false, type: .integer), 
-            AWSShapeMember(label: "DeleteMarkerReplication", required: false, type: .structure), 
-            AWSShapeMember(label: "ID", required: false, type: .string)
-        ]
-        /// A container for information about the replication destination.
-        public let destination: Destination
-        public let filter: ReplicationRuleFilter?
-        /// If status isn't enabled, the rule is ignored.
-        public let status: ReplicationRuleStatus
-        /// An object keyname prefix that identifies the object or objects to which the rule applies. The maximum prefix length is 1,024 characters. 
-        public let prefix: String?
-        /// A container that describes additional filters for identifying the source objects that you want to replicate. You can choose to enable or disable the replication of these objects. Currently, Amazon S3 supports only the filter that you can specify for objects created with server-side encryption using an AWS KMS-Managed Key (SSE-KMS).   If you want Amazon S3 to replicate objects created with server-side encryption using AWS KMS-Managed Keys. 
-        public let sourceSelectionCriteria: SourceSelectionCriteria?
-        /// The priority associated with the rule. If you specify multiple rules in a replication configuration, Amazon S3 prioritizes the rules to prevent conflicts when filtering. If two or more rules identify the same object based on a specified filter, the rule with higher priority takes precedence. For example:   Same object quality prefix based filter criteria If prefixes you specified in multiple rules overlap    Same object qualify tag based filter criteria specified in multiple rules   For more information, see Cross-Region Replication (CRR) in the Amazon S3 Developer Guide.
-        public let priority: Int32?
-        public let deleteMarkerReplication: DeleteMarkerReplication?
-        /// A unique identifier for the rule. The maximum value is 255 characters.
-        public let id: String?
-
-        public init(destination: Destination, filter: ReplicationRuleFilter? = nil, status: ReplicationRuleStatus, prefix: String? = nil, sourceSelectionCriteria: SourceSelectionCriteria? = nil, priority: Int32? = nil, deleteMarkerReplication: DeleteMarkerReplication? = nil, id: String? = nil) {
-            self.destination = destination
-            self.filter = filter
-            self.status = status
-            self.prefix = prefix
-            self.sourceSelectionCriteria = sourceSelectionCriteria
-            self.priority = priority
-            self.deleteMarkerReplication = deleteMarkerReplication
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destination = "Destination"
-            case filter = "Filter"
-            case status = "Status"
-            case prefix = "Prefix"
-            case sourceSelectionCriteria = "SourceSelectionCriteria"
-            case priority = "Priority"
-            case deleteMarkerReplication = "DeleteMarkerReplication"
-            case id = "ID"
-        }
-    }
-
-    public struct StorageClassAnalysisDataExport: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OutputSchemaVersion", required: true, type: .enum), 
-            AWSShapeMember(label: "Destination", required: true, type: .structure)
-        ]
-        /// The version of the output schema to use when exporting data. Must be V_1.
-        public let outputSchemaVersion: StorageClassAnalysisSchemaVersion
-        /// The place to store the data for an analysis.
-        public let destination: AnalyticsExportDestination
-
-        public init(outputSchemaVersion: StorageClassAnalysisSchemaVersion, destination: AnalyticsExportDestination) {
-            self.outputSchemaVersion = outputSchemaVersion
-            self.destination = destination
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case outputSchemaVersion = "OutputSchemaVersion"
-            case destination = "Destination"
-        }
-    }
-
-    public struct ListBucketInventoryConfigurationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "ContinuationToken", location: .querystring(locationName: "continuation-token"), required: false, type: .string)
-        ]
-        /// The name of the bucket containing the inventory configurations to retrieve.
-        public let bucket: String
-        /// The marker used to continue an inventory configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
-        public let continuationToken: String?
-
-        public init(bucket: String, continuationToken: String? = nil) {
-            self.bucket = bucket
-            self.continuationToken = continuationToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case continuationToken = "continuation-token"
-        }
-    }
-
-    public struct GetBucketLifecycleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        public let bucket: String
-
-        public init(bucket: String) {
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct RecordsEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Payload", required: false, type: .blob)
-        ]
-        /// The byte array of partial, one or more result records.
-        public let payload: Data?
-
-        public init(payload: Data? = nil) {
-            self.payload = payload
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case payload = "Payload"
-        }
-    }
-
-    public struct AbortMultipartUploadRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "UploadId", location: .querystring(locationName: "uploadId"), required: true, type: .string)
-        ]
-        public let key: String
-        public let bucket: String
-        public let requestPayer: RequestPayer?
-        public let uploadId: String
-
-        public init(key: String, bucket: String, requestPayer: RequestPayer? = nil, uploadId: String) {
-            self.key = key
-            self.bucket = bucket
-            self.requestPayer = requestPayer
-            self.uploadId = uploadId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case bucket = "Bucket"
-            case requestPayer = "x-amz-request-payer"
-            case uploadId = "uploadId"
-        }
-    }
-
-    public struct Destination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Account", required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", required: true, type: .string), 
-            AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
-            AWSShapeMember(label: "AccessControlTranslation", required: false, type: .structure), 
-            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure)
-        ]
-        /// The account ID of the destination bucket. Currently, Amazon S3 verifies this value only if Access Control Translation is enabled.  In a cross-account scenario, if you change replica ownership to the AWS account that owns the destination bucket by adding the AccessControlTranslation element, this is the account ID of the owner of the destination bucket. 
-        public let account: String?
-        ///  The Amazon Resource Name (ARN) of the bucket where you want Amazon S3 to store replicas of the object identified by the rule.   If there are multiple rules in your replication configuration, all rules must specify the same bucket as the destination. A replication configuration can replicate objects to only one destination bucket. 
-        public let bucket: String
-        ///  The class of storage used to store the object. By default Amazon S3 uses storage class of the source object when creating a replica. 
-        public let storageClass: StorageClass?
-        /// A container for information about access control for replicas.  Use this element only in a cross-account scenario where source and destination bucket owners are not the same to change replica ownership to the AWS account that owns the destination bucket. If you don't add this element to the replication configuration, the replicas are owned by same AWS account that owns the source object. 
-        public let accessControlTranslation: AccessControlTranslation?
-        /// A container that provides information about encryption. If SourceSelectionCriteria is specified, you must specify this element. 
-        public let encryptionConfiguration: EncryptionConfiguration?
-
-        public init(account: String? = nil, bucket: String, storageClass: StorageClass? = nil, accessControlTranslation: AccessControlTranslation? = nil, encryptionConfiguration: EncryptionConfiguration? = nil) {
-            self.account = account
-            self.bucket = bucket
-            self.storageClass = storageClass
-            self.accessControlTranslation = accessControlTranslation
-            self.encryptionConfiguration = encryptionConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case account = "Account"
-            case bucket = "Bucket"
-            case storageClass = "StorageClass"
-            case accessControlTranslation = "AccessControlTranslation"
-            case encryptionConfiguration = "EncryptionConfiguration"
-        }
-    }
-
-    public struct GetPublicAccessBlockRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        /// The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want to retrieve. 
-        public let bucket: String
-
-        public init(bucket: String) {
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct CompletedMultipartUpload: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Parts", location: .body(locationName: "Part"), required: false, type: .list)
-        ]
-        public let parts: [CompletedPart]?
-
-        public init(parts: [CompletedPart]? = nil) {
-            self.parts = parts
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case parts = "Part"
-        }
-    }
-
-    public struct ObjectLockRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultRetention", required: false, type: .structure)
-        ]
-        /// The default retention period that you want to apply to new objects placed in the specified bucket.
-        public let defaultRetention: DefaultRetention?
-
-        public init(defaultRetention: DefaultRetention? = nil) {
-            self.defaultRetention = defaultRetention
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case defaultRetention = "DefaultRetention"
-        }
-    }
-
-    public struct PutObjectAclRequest: AWSShape {
+    public struct RestoreObjectRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "AccessControlPolicy"
+        public static let payloadPath: String? = "RestoreRequest"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessControlPolicy", location: .body(locationName: "AccessControlPolicy"), required: false, type: .structure), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "GrantFullControl", location: .header(locationName: "x-amz-grant-full-control"), required: false, type: .string), 
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
             AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string), 
-            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum), 
-            AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantRead", location: .header(locationName: "x-amz-grant-read"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantWrite", location: .header(locationName: "x-amz-grant-write"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string)
+            AWSShapeMember(label: "RestoreRequest", location: .body(locationName: "RestoreRequest"), required: false, type: .structure), 
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
         ]
-        public let accessControlPolicy: AccessControlPolicy?
-        public let key: String
         public let bucket: String
-        /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
-        public let grantFullControl: String?
+        public let key: String
         public let requestPayer: RequestPayer?
-        /// VersionId used to reference a specific version of the object.
+        public let restoreRequest: RestoreRequest?
         public let versionId: String?
-        /// Allows grantee to write the ACL for the applicable bucket.
-        public let grantWriteACP: String?
-        /// The canned ACL to apply to the object.
-        public let acl: ObjectCannedACL?
-        /// Allows grantee to read the bucket ACL.
-        public let grantReadACP: String?
-        /// Allows grantee to list the objects in the bucket.
-        public let grantRead: String?
-        /// Allows grantee to create, overwrite, and delete any object in the bucket.
-        public let grantWrite: String?
-        public let contentMD5: String?
 
-        public init(accessControlPolicy: AccessControlPolicy? = nil, key: String, bucket: String, grantFullControl: String? = nil, requestPayer: RequestPayer? = nil, versionId: String? = nil, grantWriteACP: String? = nil, acl: ObjectCannedACL? = nil, grantReadACP: String? = nil, grantRead: String? = nil, grantWrite: String? = nil, contentMD5: String? = nil) {
-            self.accessControlPolicy = accessControlPolicy
-            self.key = key
+        public init(bucket: String, key: String, requestPayer: RequestPayer? = nil, restoreRequest: RestoreRequest? = nil, versionId: String? = nil) {
             self.bucket = bucket
-            self.grantFullControl = grantFullControl
+            self.key = key
             self.requestPayer = requestPayer
+            self.restoreRequest = restoreRequest
             self.versionId = versionId
-            self.grantWriteACP = grantWriteACP
-            self.acl = acl
-            self.grantReadACP = grantReadACP
-            self.grantRead = grantRead
-            self.grantWrite = grantWrite
-            self.contentMD5 = contentMD5
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessControlPolicy = "AccessControlPolicy"
-            case key = "Key"
             case bucket = "Bucket"
-            case grantFullControl = "x-amz-grant-full-control"
+            case key = "Key"
             case requestPayer = "x-amz-request-payer"
+            case restoreRequest = "RestoreRequest"
             case versionId = "versionId"
-            case grantWriteACP = "x-amz-grant-write-acp"
-            case acl = "x-amz-acl"
-            case grantReadACP = "x-amz-grant-read-acp"
-            case grantRead = "x-amz-grant-read"
-            case grantWrite = "x-amz-grant-write"
-            case contentMD5 = "Content-MD5"
         }
     }
 
-    public struct GetBucketWebsiteRequest: AWSShape {
+    public struct RestoreRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+            AWSShapeMember(label: "Days", required: false, type: .integer), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "GlacierJobParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "OutputLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "SelectParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "Tier", required: false, type: .enum), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
-        public let bucket: String
+        /// Lifetime of the active copy in days. Do not use with restores that specify OutputLocation.
+        public let days: Int32?
+        /// The optional description for the job.
+        public let description: String?
+        /// Glacier related parameters pertaining to this job. Do not use with restores that specify OutputLocation.
+        public let glacierJobParameters: GlacierJobParameters?
+        /// Describes the location where the restore job's output is stored.
+        public let outputLocation: OutputLocation?
+        /// Describes the parameters for Select job types.
+        public let selectParameters: SelectParameters?
+        /// Glacier retrieval tier at which the restore will be processed.
+        public let tier: Tier?
+        /// Type of restore request.
+        public let `type`: RestoreRequestType?
 
-        public init(bucket: String) {
-            self.bucket = bucket
+        public init(days: Int32? = nil, description: String? = nil, glacierJobParameters: GlacierJobParameters? = nil, outputLocation: OutputLocation? = nil, selectParameters: SelectParameters? = nil, tier: Tier? = nil, type: RestoreRequestType? = nil) {
+            self.days = days
+            self.description = description
+            self.glacierJobParameters = glacierJobParameters
+            self.outputLocation = outputLocation
+            self.selectParameters = selectParameters
+            self.tier = tier
+            self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
+            case days = "Days"
+            case description = "Description"
+            case glacierJobParameters = "GlacierJobParameters"
+            case outputLocation = "OutputLocation"
+            case selectParameters = "SelectParameters"
+            case tier = "Tier"
+            case `type` = "Type"
         }
     }
 
-    public struct GetBucketCorsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CORSRules", location: .body(locationName: "CORSRule"), required: false, type: .list)
-        ]
-        public let cORSRules: [CORSRule]?
-
-        public init(cORSRules: [CORSRule]? = nil) {
-            self.cORSRules = cORSRules
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cORSRules = "CORSRule"
-        }
-    }
-
-    public enum JSONType: String, CustomStringConvertible, Codable {
-        case document = "DOCUMENT"
-        case lines = "LINES"
+    public enum RestoreRequestType: String, CustomStringConvertible, Codable {
+        case select = "SELECT"
         public var description: String { return self.rawValue }
-    }
-
-    public struct ServerSideEncryptionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: true, type: .list)
-        ]
-        /// Container for information about a particular server-side encryption configuration rule.
-        public let rules: [ServerSideEncryptionRule]
-
-        public init(rules: [ServerSideEncryptionRule]) {
-            self.rules = rules
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rules = "Rule"
-        }
-    }
-
-    public struct DeleteBucketLifecycleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        public let bucket: String
-
-        public init(bucket: String) {
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct UploadPartRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "Body"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Body", required: false, type: .blob), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "UploadId", location: .querystring(locationName: "uploadId"), required: true, type: .string), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "PartNumber", location: .querystring(locationName: "partNumber"), required: true, type: .integer), 
-            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentLength", location: .header(locationName: "Content-Length"), required: false, type: .long)
-        ]
-        /// Object data.
-        public let body: Data?
-        /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        public let sSECustomerAlgorithm: String?
-        /// Upload ID identifying the multipart upload whose part is being uploaded.
-        public let uploadId: String
-        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        public let sSECustomerKeyMD5: String?
-        /// Name of the bucket to which the multipart upload was initiated.
-        public let bucket: String
-        /// Object key for which the multipart upload was initiated.
-        public let key: String
-        public let requestPayer: RequestPayer?
-        /// Part number of part being uploaded. This is a positive integer between 1 and 10,000.
-        public let partNumber: Int32
-        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header. This must be the same encryption key specified in the initiate multipart upload request.
-        public let sSECustomerKey: String?
-        /// The base64-encoded 128-bit MD5 digest of the part data.
-        public let contentMD5: String?
-        /// Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically.
-        public let contentLength: Int64?
-
-        public init(body: Data? = nil, sSECustomerAlgorithm: String? = nil, uploadId: String, sSECustomerKeyMD5: String? = nil, bucket: String, key: String, requestPayer: RequestPayer? = nil, partNumber: Int32, sSECustomerKey: String? = nil, contentMD5: String? = nil, contentLength: Int64? = nil) {
-            self.body = body
-            self.sSECustomerAlgorithm = sSECustomerAlgorithm
-            self.uploadId = uploadId
-            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
-            self.bucket = bucket
-            self.key = key
-            self.requestPayer = requestPayer
-            self.partNumber = partNumber
-            self.sSECustomerKey = sSECustomerKey
-            self.contentMD5 = contentMD5
-            self.contentLength = contentLength
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case body = "Body"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case uploadId = "uploadId"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case bucket = "Bucket"
-            case key = "Key"
-            case requestPayer = "x-amz-request-payer"
-            case partNumber = "partNumber"
-            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
-            case contentMD5 = "Content-MD5"
-            case contentLength = "Content-Length"
-        }
-    }
-
-    public enum BucketLocationConstraint: String, CustomStringConvertible, Codable {
-        case eu = "EU"
-        case euWest1 = "eu-west-1"
-        case usWest1 = "us-west-1"
-        case usWest2 = "us-west-2"
-        case apSouth1 = "ap-south-1"
-        case apSoutheast1 = "ap-southeast-1"
-        case apSoutheast2 = "ap-southeast-2"
-        case apNortheast1 = "ap-northeast-1"
-        case saEast1 = "sa-east-1"
-        case cnNorth1 = "cn-north-1"
-        case euCentral1 = "eu-central-1"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct SourceSelectionCriteria: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SseKmsEncryptedObjects", required: false, type: .structure)
-        ]
-        ///  A container for filter information for the selection of S3 objects encrypted with AWS KMS. If you include SourceSelectionCriteria in the replication configuration, this element is required. 
-        public let sseKmsEncryptedObjects: SseKmsEncryptedObjects?
-
-        public init(sseKmsEncryptedObjects: SseKmsEncryptedObjects? = nil) {
-            self.sseKmsEncryptedObjects = sseKmsEncryptedObjects
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sseKmsEncryptedObjects = "SseKmsEncryptedObjects"
-        }
-    }
-
-    public enum OwnerOverride: String, CustomStringConvertible, Codable {
-        case destination = "Destination"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetObjectLegalHoldOutput: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "LegalHold"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LegalHold", required: false, type: .structure)
-        ]
-        /// The current Legal Hold status for the specified object.
-        public let legalHold: ObjectLockLegalHold?
-
-        public init(legalHold: ObjectLockLegalHold? = nil) {
-            self.legalHold = legalHold
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case legalHold = "LegalHold"
-        }
-    }
-
-    public struct CSVInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileHeaderInfo", required: false, type: .enum), 
-            AWSShapeMember(label: "QuoteEscapeCharacter", required: false, type: .string), 
-            AWSShapeMember(label: "FieldDelimiter", required: false, type: .string), 
-            AWSShapeMember(label: "RecordDelimiter", required: false, type: .string), 
-            AWSShapeMember(label: "AllowQuotedRecordDelimiter", required: false, type: .boolean), 
-            AWSShapeMember(label: "Comments", required: false, type: .string), 
-            AWSShapeMember(label: "QuoteCharacter", required: false, type: .string)
-        ]
-        /// Describes the first line of input. Valid values: None, Ignore, Use.
-        public let fileHeaderInfo: FileHeaderInfo?
-        /// The single character used for escaping the quote character inside an already escaped value.
-        public let quoteEscapeCharacter: String?
-        /// The value used to separate individual fields in a record.
-        public let fieldDelimiter: String?
-        /// The value used to separate individual records.
-        public let recordDelimiter: String?
-        /// Specifies that CSV field values may contain quoted record delimiters and such records should be allowed. Default value is FALSE. Setting this value to TRUE may lower performance.
-        public let allowQuotedRecordDelimiter: Bool?
-        /// The single character used to indicate a row should be ignored when present at the start of a row.
-        public let comments: String?
-        /// Value used for escaping where the field delimiter is part of the value.
-        public let quoteCharacter: String?
-
-        public init(fileHeaderInfo: FileHeaderInfo? = nil, quoteEscapeCharacter: String? = nil, fieldDelimiter: String? = nil, recordDelimiter: String? = nil, allowQuotedRecordDelimiter: Bool? = nil, comments: String? = nil, quoteCharacter: String? = nil) {
-            self.fileHeaderInfo = fileHeaderInfo
-            self.quoteEscapeCharacter = quoteEscapeCharacter
-            self.fieldDelimiter = fieldDelimiter
-            self.recordDelimiter = recordDelimiter
-            self.allowQuotedRecordDelimiter = allowQuotedRecordDelimiter
-            self.comments = comments
-            self.quoteCharacter = quoteCharacter
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fileHeaderInfo = "FileHeaderInfo"
-            case quoteEscapeCharacter = "QuoteEscapeCharacter"
-            case fieldDelimiter = "FieldDelimiter"
-            case recordDelimiter = "RecordDelimiter"
-            case allowQuotedRecordDelimiter = "AllowQuotedRecordDelimiter"
-            case comments = "Comments"
-            case quoteCharacter = "QuoteCharacter"
-        }
-    }
-
-    public struct ListMultipartUploadsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KeyMarker", location: .querystring(locationName: "key-marker"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "Prefix", location: .querystring(locationName: "prefix"), required: false, type: .string), 
-            AWSShapeMember(label: "EncodingType", location: .querystring(locationName: "encoding-type"), required: false, type: .enum), 
-            AWSShapeMember(label: "MaxUploads", location: .querystring(locationName: "max-uploads"), required: false, type: .integer), 
-            AWSShapeMember(label: "UploadIdMarker", location: .querystring(locationName: "upload-id-marker"), required: false, type: .string), 
-            AWSShapeMember(label: "Delimiter", location: .querystring(locationName: "delimiter"), required: false, type: .string)
-        ]
-        /// Together with upload-id-marker, this parameter specifies the multipart upload after which listing should begin.
-        public let keyMarker: String?
-        public let bucket: String
-        /// Lists in-progress uploads only for those keys that begin with the specified prefix.
-        public let prefix: String?
-        public let encodingType: EncodingType?
-        /// Sets the maximum number of multipart uploads, from 1 to 1,000, to return in the response body. 1,000 is the maximum number of uploads that can be returned in a response.
-        public let maxUploads: Int32?
-        /// Together with key-marker, specifies the multipart upload after which listing should begin. If key-marker is not specified, the upload-id-marker parameter is ignored.
-        public let uploadIdMarker: String?
-        /// Character you use to group keys.
-        public let delimiter: String?
-
-        public init(keyMarker: String? = nil, bucket: String, prefix: String? = nil, encodingType: EncodingType? = nil, maxUploads: Int32? = nil, uploadIdMarker: String? = nil, delimiter: String? = nil) {
-            self.keyMarker = keyMarker
-            self.bucket = bucket
-            self.prefix = prefix
-            self.encodingType = encodingType
-            self.maxUploads = maxUploads
-            self.uploadIdMarker = uploadIdMarker
-            self.delimiter = delimiter
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case keyMarker = "key-marker"
-            case bucket = "Bucket"
-            case prefix = "prefix"
-            case encodingType = "encoding-type"
-            case maxUploads = "max-uploads"
-            case uploadIdMarker = "upload-id-marker"
-            case delimiter = "delimiter"
-        }
-    }
-
-    public struct GetBucketAnalyticsConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        /// The identifier used to represent an analytics configuration.
-        public let id: String
-        /// The name of the bucket from which an analytics configuration is retrieved.
-        public let bucket: String
-
-        public init(id: String, bucket: String) {
-            self.id = id
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case bucket = "Bucket"
-        }
     }
 
     public struct RoutingRule: AWSShape {
@@ -5857,598 +6824,6 @@ extension S3 {
         }
     }
 
-    public struct PutBucketAnalyticsConfigurationRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "AnalyticsConfiguration"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnalyticsConfiguration", location: .body(locationName: "AnalyticsConfiguration"), required: true, type: .structure), 
-            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        /// The configuration and any analyses for the analytics filter.
-        public let analyticsConfiguration: AnalyticsConfiguration
-        /// The identifier used to represent an analytics configuration.
-        public let id: String
-        /// The name of the bucket to which an analytics configuration is stored.
-        public let bucket: String
-
-        public init(analyticsConfiguration: AnalyticsConfiguration, id: String, bucket: String) {
-            self.analyticsConfiguration = analyticsConfiguration
-            self.id = id
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case analyticsConfiguration = "AnalyticsConfiguration"
-            case id = "id"
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct ObjectVersion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
-            AWSShapeMember(label: "ETag", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string), 
-            AWSShapeMember(label: "Owner", required: false, type: .structure), 
-            AWSShapeMember(label: "IsLatest", required: false, type: .boolean), 
-            AWSShapeMember(label: "Size", required: false, type: .integer)
-        ]
-        /// Date and time the object was last modified.
-        public let lastModified: TimeStamp?
-        /// The class of storage used to store the object.
-        public let storageClass: ObjectVersionStorageClass?
-        public let eTag: String?
-        /// The object key.
-        public let key: String?
-        /// Version ID of an object.
-        public let versionId: String?
-        public let owner: Owner?
-        /// Specifies whether the object is (true) or is not (false) the latest version of an object.
-        public let isLatest: Bool?
-        /// Size in bytes of the object.
-        public let size: Int32?
-
-        public init(lastModified: TimeStamp? = nil, storageClass: ObjectVersionStorageClass? = nil, eTag: String? = nil, key: String? = nil, versionId: String? = nil, owner: Owner? = nil, isLatest: Bool? = nil, size: Int32? = nil) {
-            self.lastModified = lastModified
-            self.storageClass = storageClass
-            self.eTag = eTag
-            self.key = key
-            self.versionId = versionId
-            self.owner = owner
-            self.isLatest = isLatest
-            self.size = size
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastModified = "LastModified"
-            case storageClass = "StorageClass"
-            case eTag = "ETag"
-            case key = "Key"
-            case versionId = "VersionId"
-            case owner = "Owner"
-            case isLatest = "IsLatest"
-            case size = "Size"
-        }
-    }
-
-    public struct ServerSideEncryptionByDefault: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SSEAlgorithm", required: true, type: .enum), 
-            AWSShapeMember(label: "KMSMasterKeyID", required: false, type: .string)
-        ]
-        /// Server-side encryption algorithm to use for the default encryption.
-        public let sSEAlgorithm: ServerSideEncryption
-        /// KMS master key ID to use for the default encryption. This parameter is allowed if SSEAlgorithm is aws:kms.
-        public let kMSMasterKeyID: String?
-
-        public init(sSEAlgorithm: ServerSideEncryption, kMSMasterKeyID: String? = nil) {
-            self.sSEAlgorithm = sSEAlgorithm
-            self.kMSMasterKeyID = kMSMasterKeyID
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sSEAlgorithm = "SSEAlgorithm"
-            case kMSMasterKeyID = "KMSMasterKeyID"
-        }
-    }
-
-    public struct GetObjectRetentionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum)
-        ]
-        /// The key name for the object whose retention settings you want to retrieve.
-        public let key: String
-        /// The version ID for the object whose retention settings you want to retrieve.
-        public let versionId: String?
-        /// The bucket containing the object whose retention settings you want to retrieve.
-        public let bucket: String
-        public let requestPayer: RequestPayer?
-
-        public init(key: String, versionId: String? = nil, bucket: String, requestPayer: RequestPayer? = nil) {
-            self.key = key
-            self.versionId = versionId
-            self.bucket = bucket
-            self.requestPayer = requestPayer
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case versionId = "versionId"
-            case bucket = "Bucket"
-            case requestPayer = "x-amz-request-payer"
-        }
-    }
-
-    public enum Tier: String, CustomStringConvertible, Codable {
-        case standard = "Standard"
-        case bulk = "Bulk"
-        case expedited = "Expedited"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetBucketLocationOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocationConstraint", required: false, type: .enum)
-        ]
-        public let locationConstraint: BucketLocationConstraint?
-
-        public init(locationConstraint: BucketLocationConstraint? = nil) {
-            self.locationConstraint = locationConstraint
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case locationConstraint = "LocationConstraint"
-        }
-    }
-
-    public struct GlacierJobParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tier", required: true, type: .enum)
-        ]
-        /// Glacier retrieval tier at which the restore will be processed.
-        public let tier: Tier
-
-        public init(tier: Tier) {
-            self.tier = tier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tier = "Tier"
-        }
-    }
-
-    public struct GetBucketLifecycleOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: false, type: .list)
-        ]
-        public let rules: [Rule]?
-
-        public init(rules: [Rule]? = nil) {
-            self.rules = rules
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rules = "Rule"
-        }
-    }
-
-    public struct CORSRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowedHeaders", location: .body(locationName: "AllowedHeader"), required: false, type: .list), 
-            AWSShapeMember(label: "ExposeHeaders", location: .body(locationName: "ExposeHeader"), required: false, type: .list), 
-            AWSShapeMember(label: "AllowedMethods", location: .body(locationName: "AllowedMethod"), required: true, type: .list), 
-            AWSShapeMember(label: "MaxAgeSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "AllowedOrigins", location: .body(locationName: "AllowedOrigin"), required: true, type: .list)
-        ]
-        /// Specifies which headers are allowed in a pre-flight OPTIONS request.
-        public let allowedHeaders: [String]?
-        /// One or more headers in the response that you want customers to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object).
-        public let exposeHeaders: [String]?
-        /// Identifies HTTP methods that the domain/origin specified in the rule is allowed to execute.
-        public let allowedMethods: [String]
-        /// The time in seconds that your browser is to cache the preflight response for the specified resource.
-        public let maxAgeSeconds: Int32?
-        /// One or more origins you want customers to be able to access the bucket from.
-        public let allowedOrigins: [String]
-
-        public init(allowedHeaders: [String]? = nil, exposeHeaders: [String]? = nil, allowedMethods: [String], maxAgeSeconds: Int32? = nil, allowedOrigins: [String]) {
-            self.allowedHeaders = allowedHeaders
-            self.exposeHeaders = exposeHeaders
-            self.allowedMethods = allowedMethods
-            self.maxAgeSeconds = maxAgeSeconds
-            self.allowedOrigins = allowedOrigins
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case allowedHeaders = "AllowedHeader"
-            case exposeHeaders = "ExposeHeader"
-            case allowedMethods = "AllowedMethod"
-            case maxAgeSeconds = "MaxAgeSeconds"
-            case allowedOrigins = "AllowedOrigin"
-        }
-    }
-
-    public struct ListObjectsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CommonPrefixes", required: false, type: .list), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "EncodingType", required: false, type: .enum), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "MaxKeys", required: false, type: .integer), 
-            AWSShapeMember(label: "Contents", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Delimiter", required: false, type: .string), 
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
-        ]
-        public let commonPrefixes: [CommonPrefix]?
-        /// When response is truncated (the IsTruncated element value in the response is true), you can use the key name in this field as marker in the subsequent request to get next set of objects. Amazon S3 lists objects in alphabetical order Note: This element is returned only if you have delimiter request parameter specified. If response does not include the NextMaker and it is truncated, you can use the value of the last Key in the response as the marker in the subsequent request to get the next set of object keys.
-        public let nextMarker: String?
-        public let marker: String?
-        /// Encoding type used by Amazon S3 to encode object keys in the response.
-        public let encodingType: EncodingType?
-        public let prefix: String?
-        public let maxKeys: Int32?
-        public let contents: [Object]?
-        public let name: String?
-        public let delimiter: String?
-        /// A flag that indicates whether or not Amazon S3 returned all of the results that satisfied the search criteria.
-        public let isTruncated: Bool?
-
-        public init(commonPrefixes: [CommonPrefix]? = nil, nextMarker: String? = nil, marker: String? = nil, encodingType: EncodingType? = nil, prefix: String? = nil, maxKeys: Int32? = nil, contents: [Object]? = nil, name: String? = nil, delimiter: String? = nil, isTruncated: Bool? = nil) {
-            self.commonPrefixes = commonPrefixes
-            self.nextMarker = nextMarker
-            self.marker = marker
-            self.encodingType = encodingType
-            self.prefix = prefix
-            self.maxKeys = maxKeys
-            self.contents = contents
-            self.name = name
-            self.delimiter = delimiter
-            self.isTruncated = isTruncated
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case commonPrefixes = "CommonPrefixes"
-            case nextMarker = "NextMarker"
-            case marker = "Marker"
-            case encodingType = "EncodingType"
-            case prefix = "Prefix"
-            case maxKeys = "MaxKeys"
-            case contents = "Contents"
-            case name = "Name"
-            case delimiter = "Delimiter"
-            case isTruncated = "IsTruncated"
-        }
-    }
-
-    public struct GetBucketReplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        public let bucket: String
-
-        public init(bucket: String) {
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct SelectParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExpressionType", required: true, type: .enum), 
-            AWSShapeMember(label: "InputSerialization", required: true, type: .structure), 
-            AWSShapeMember(label: "Expression", required: true, type: .string), 
-            AWSShapeMember(label: "OutputSerialization", required: true, type: .structure)
-        ]
-        /// The type of the provided expression (e.g., SQL).
-        public let expressionType: ExpressionType
-        /// Describes the serialization format of the object.
-        public let inputSerialization: InputSerialization
-        /// The expression that is used to query the object.
-        public let expression: String
-        /// Describes how the results of the Select job are serialized.
-        public let outputSerialization: OutputSerialization
-
-        public init(expressionType: ExpressionType, inputSerialization: InputSerialization, expression: String, outputSerialization: OutputSerialization) {
-            self.expressionType = expressionType
-            self.inputSerialization = inputSerialization
-            self.expression = expression
-            self.outputSerialization = outputSerialization
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case expressionType = "ExpressionType"
-            case inputSerialization = "InputSerialization"
-            case expression = "Expression"
-            case outputSerialization = "OutputSerialization"
-        }
-    }
-
-    public struct Error: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Code", required: false, type: .string), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string), 
-            AWSShapeMember(label: "Message", required: false, type: .string)
-        ]
-        public let key: String?
-        public let code: String?
-        public let versionId: String?
-        public let message: String?
-
-        public init(key: String? = nil, code: String? = nil, versionId: String? = nil, message: String? = nil) {
-            self.key = key
-            self.code = code
-            self.versionId = versionId
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case code = "Code"
-            case versionId = "VersionId"
-            case message = "Message"
-        }
-    }
-
-    public struct GetBucketPolicyOutput: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "Policy"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Policy", required: false, type: .string)
-        ]
-        /// The bucket policy as a JSON document.
-        public let policy: String?
-
-        public init(policy: String? = nil) {
-            self.policy = policy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policy = "Policy"
-        }
-    }
-
-    public struct DeleteBucketEncryptionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        /// The name of the bucket containing the server-side encryption configuration to delete.
-        public let bucket: String
-
-        public init(bucket: String) {
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
-    }
-
-    public enum TransitionStorageClass: String, CustomStringConvertible, Codable {
-        case glacier = "GLACIER"
-        case standardIa = "STANDARD_IA"
-        case onezoneIa = "ONEZONE_IA"
-        case intelligentTiering = "INTELLIGENT_TIERING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetBucketMetricsConfigurationOutput: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "MetricsConfiguration"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MetricsConfiguration", required: false, type: .structure)
-        ]
-        /// Specifies the metrics configuration.
-        public let metricsConfiguration: MetricsConfiguration?
-
-        public init(metricsConfiguration: MetricsConfiguration? = nil) {
-            self.metricsConfiguration = metricsConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case metricsConfiguration = "MetricsConfiguration"
-        }
-    }
-
-    public struct PutBucketPolicyRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "Policy"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "ConfirmRemoveSelfBucketAccess", location: .header(locationName: "x-amz-confirm-remove-self-bucket-access"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Policy", required: true, type: .string)
-        ]
-        public let contentMD5: String?
-        public let bucket: String
-        /// Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in the future.
-        public let confirmRemoveSelfBucketAccess: Bool?
-        /// The bucket policy as a JSON document.
-        public let policy: String
-
-        public init(contentMD5: String? = nil, bucket: String, confirmRemoveSelfBucketAccess: Bool? = nil, policy: String) {
-            self.contentMD5 = contentMD5
-            self.bucket = bucket
-            self.confirmRemoveSelfBucketAccess = confirmRemoveSelfBucketAccess
-            self.policy = policy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case contentMD5 = "Content-MD5"
-            case bucket = "Bucket"
-            case confirmRemoveSelfBucketAccess = "x-amz-confirm-remove-self-bucket-access"
-            case policy = "Policy"
-        }
-    }
-
-    public struct GetBucketAnalyticsConfigurationOutput: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "AnalyticsConfiguration"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnalyticsConfiguration", required: false, type: .structure)
-        ]
-        /// The configuration and any analyses for the analytics filter.
-        public let analyticsConfiguration: AnalyticsConfiguration?
-
-        public init(analyticsConfiguration: AnalyticsConfiguration? = nil) {
-            self.analyticsConfiguration = analyticsConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case analyticsConfiguration = "AnalyticsConfiguration"
-        }
-    }
-
-    public struct JSONOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecordDelimiter", required: false, type: .string)
-        ]
-        /// The value used to separate individual records in the output.
-        public let recordDelimiter: String?
-
-        public init(recordDelimiter: String? = nil) {
-            self.recordDelimiter = recordDelimiter
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case recordDelimiter = "RecordDelimiter"
-        }
-    }
-
-    public enum CompressionType: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case gzip = "GZIP"
-        case bzip2 = "BZIP2"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct PutBucketAclRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "AccessControlPolicy"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessControlPolicy", location: .body(locationName: "AccessControlPolicy"), required: false, type: .structure), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "GrantFullControl", location: .header(locationName: "x-amz-grant-full-control"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string), 
-            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum), 
-            AWSShapeMember(label: "GrantRead", location: .header(locationName: "x-amz-grant-read"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantWrite", location: .header(locationName: "x-amz-grant-write"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string)
-        ]
-        public let accessControlPolicy: AccessControlPolicy?
-        public let bucket: String
-        /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
-        public let grantFullControl: String?
-        /// Allows grantee to write the ACL for the applicable bucket.
-        public let grantWriteACP: String?
-        /// The canned ACL to apply to the bucket.
-        public let acl: BucketCannedACL?
-        /// Allows grantee to list the objects in the bucket.
-        public let grantRead: String?
-        /// Allows grantee to read the bucket ACL.
-        public let grantReadACP: String?
-        /// Allows grantee to create, overwrite, and delete any object in the bucket.
-        public let grantWrite: String?
-        public let contentMD5: String?
-
-        public init(accessControlPolicy: AccessControlPolicy? = nil, bucket: String, grantFullControl: String? = nil, grantWriteACP: String? = nil, acl: BucketCannedACL? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, contentMD5: String? = nil) {
-            self.accessControlPolicy = accessControlPolicy
-            self.bucket = bucket
-            self.grantFullControl = grantFullControl
-            self.grantWriteACP = grantWriteACP
-            self.acl = acl
-            self.grantRead = grantRead
-            self.grantReadACP = grantReadACP
-            self.grantWrite = grantWrite
-            self.contentMD5 = contentMD5
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accessControlPolicy = "AccessControlPolicy"
-            case bucket = "Bucket"
-            case grantFullControl = "x-amz-grant-full-control"
-            case grantWriteACP = "x-amz-grant-write-acp"
-            case acl = "x-amz-acl"
-            case grantRead = "x-amz-grant-read"
-            case grantReadACP = "x-amz-grant-read-acp"
-            case grantWrite = "x-amz-grant-write"
-            case contentMD5 = "Content-MD5"
-        }
-    }
-
-    public struct Rule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Expiration", required: false, type: .structure), 
-            AWSShapeMember(label: "NoncurrentVersionTransition", required: false, type: .structure), 
-            AWSShapeMember(label: "Transition", required: false, type: .structure), 
-            AWSShapeMember(label: "Status", required: true, type: .enum), 
-            AWSShapeMember(label: "Prefix", required: true, type: .string), 
-            AWSShapeMember(label: "AbortIncompleteMultipartUpload", required: false, type: .structure), 
-            AWSShapeMember(label: "ID", required: false, type: .string), 
-            AWSShapeMember(label: "NoncurrentVersionExpiration", required: false, type: .structure)
-        ]
-        public let expiration: LifecycleExpiration?
-        public let noncurrentVersionTransition: NoncurrentVersionTransition?
-        public let transition: Transition?
-        /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule is not currently being applied.
-        public let status: ExpirationStatus
-        /// Prefix identifying one or more objects to which the rule applies.
-        public let prefix: String
-        public let abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload?
-        /// Unique identifier for the rule. The value cannot be longer than 255 characters.
-        public let id: String?
-        public let noncurrentVersionExpiration: NoncurrentVersionExpiration?
-
-        public init(expiration: LifecycleExpiration? = nil, noncurrentVersionTransition: NoncurrentVersionTransition? = nil, transition: Transition? = nil, status: ExpirationStatus, prefix: String, abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, id: String? = nil, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil) {
-            self.expiration = expiration
-            self.noncurrentVersionTransition = noncurrentVersionTransition
-            self.transition = transition
-            self.status = status
-            self.prefix = prefix
-            self.abortIncompleteMultipartUpload = abortIncompleteMultipartUpload
-            self.id = id
-            self.noncurrentVersionExpiration = noncurrentVersionExpiration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case expiration = "Expiration"
-            case noncurrentVersionTransition = "NoncurrentVersionTransition"
-            case transition = "Transition"
-            case status = "Status"
-            case prefix = "Prefix"
-            case abortIncompleteMultipartUpload = "AbortIncompleteMultipartUpload"
-            case id = "ID"
-            case noncurrentVersionExpiration = "NoncurrentVersionExpiration"
-        }
-    }
-
-    public struct BucketLifecycleConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: true, type: .list)
-        ]
-        public let rules: [LifecycleRule]
-
-        public init(rules: [LifecycleRule]) {
-            self.rules = rules
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rules = "Rule"
-        }
-    }
-
     public struct RoutingRules: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RoutingRule", required: false, type: .list)
@@ -6464,1179 +6839,114 @@ extension S3 {
         }
     }
 
-    public struct LifecycleRuleAndOperator: AWSShape {
+    public struct Rule: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .structure), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string)
+            AWSShapeMember(label: "AbortIncompleteMultipartUpload", required: false, type: .structure), 
+            AWSShapeMember(label: "Expiration", required: false, type: .structure), 
+            AWSShapeMember(label: "ID", required: false, type: .string), 
+            AWSShapeMember(label: "NoncurrentVersionExpiration", required: false, type: .structure), 
+            AWSShapeMember(label: "NoncurrentVersionTransition", required: false, type: .structure), 
+            AWSShapeMember(label: "Prefix", required: true, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .enum), 
+            AWSShapeMember(label: "Transition", required: false, type: .structure)
         ]
-        /// All of these tags must exist in the object's tag set in order for the rule to apply.
-        public let tags: TagSet?
-        public let prefix: String?
-
-        public init(tags: TagSet? = nil, prefix: String? = nil) {
-            self.tags = tags
-            self.prefix = prefix
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tag"
-            case prefix = "Prefix"
-        }
-    }
-
-    public struct NotificationConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TopicConfigurations", location: .body(locationName: "TopicConfiguration"), required: false, type: .list), 
-            AWSShapeMember(label: "LambdaFunctionConfigurations", location: .body(locationName: "CloudFunctionConfiguration"), required: false, type: .list), 
-            AWSShapeMember(label: "QueueConfigurations", location: .body(locationName: "QueueConfiguration"), required: false, type: .list)
-        ]
-        public let topicConfigurations: [TopicConfiguration]?
-        public let lambdaFunctionConfigurations: [LambdaFunctionConfiguration]?
-        public let queueConfigurations: [QueueConfiguration]?
-
-        public init(topicConfigurations: [TopicConfiguration]? = nil, lambdaFunctionConfigurations: [LambdaFunctionConfiguration]? = nil, queueConfigurations: [QueueConfiguration]? = nil) {
-            self.topicConfigurations = topicConfigurations
-            self.lambdaFunctionConfigurations = lambdaFunctionConfigurations
-            self.queueConfigurations = queueConfigurations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case topicConfigurations = "TopicConfiguration"
-            case lambdaFunctionConfigurations = "CloudFunctionConfiguration"
-            case queueConfigurations = "QueueConfiguration"
-        }
-    }
-
-    public struct AccelerateConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
-        /// The accelerate configuration of the bucket.
-        public let status: BucketAccelerateStatus?
-
-        public init(status: BucketAccelerateStatus? = nil) {
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-        }
-    }
-
-    public struct Stats: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BytesReturned", required: false, type: .long), 
-            AWSShapeMember(label: "BytesProcessed", required: false, type: .long), 
-            AWSShapeMember(label: "BytesScanned", required: false, type: .long)
-        ]
-        /// The total number of bytes of records payload data returned.
-        public let bytesReturned: Int64?
-        /// The total number of uncompressed object bytes processed.
-        public let bytesProcessed: Int64?
-        /// The total number of object bytes scanned.
-        public let bytesScanned: Int64?
-
-        public init(bytesReturned: Int64? = nil, bytesProcessed: Int64? = nil, bytesScanned: Int64? = nil) {
-            self.bytesReturned = bytesReturned
-            self.bytesProcessed = bytesProcessed
-            self.bytesScanned = bytesScanned
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bytesReturned = "BytesReturned"
-            case bytesProcessed = "BytesProcessed"
-            case bytesScanned = "BytesScanned"
-        }
-    }
-
-    public struct GetBucketAclOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Owner", required: false, type: .structure), 
-            AWSShapeMember(label: "Grants", location: .body(locationName: "AccessControlList"), required: false, type: .structure)
-        ]
-        public let owner: Owner?
-        /// A list of grants.
-        public let grants: Grants?
-
-        public init(owner: Owner? = nil, grants: Grants? = nil) {
-            self.owner = owner
-            self.grants = grants
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case owner = "Owner"
-            case grants = "AccessControlList"
-        }
-    }
-
-    public struct CopyObjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tagging", location: .header(locationName: "x-amz-tagging"), required: false, type: .string), 
-            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
-            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantFullControl", location: .header(locationName: "x-amz-grant-full-control"), required: false, type: .string), 
-            AWSShapeMember(label: "MetadataDirective", location: .header(locationName: "x-amz-metadata-directive"), required: false, type: .enum), 
-            AWSShapeMember(label: "CopySourceSSECustomerKeyMD5", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "WebsiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"), required: false, type: .string), 
-            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum), 
-            AWSShapeMember(label: "ObjectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
-            AWSShapeMember(label: "CopySourceSSECustomerAlgorithm", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-algorithm"), required: false, type: .string), 
-            AWSShapeMember(label: "Expires", location: .header(locationName: "Expires"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "CopySourceIfMatch", location: .header(locationName: "x-amz-copy-source-if-match"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
-            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "CopySourceIfUnmodifiedSince", location: .header(locationName: "x-amz-copy-source-if-unmodified-since"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string), 
-            AWSShapeMember(label: "ObjectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold"), required: false, type: .enum), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "CopySource", location: .header(locationName: "x-amz-copy-source"), required: true, type: .string), 
-            AWSShapeMember(label: "ContentEncoding", location: .header(locationName: "Content-Encoding"), required: false, type: .string), 
-            AWSShapeMember(label: "CopySourceIfModifiedSince", location: .header(locationName: "x-amz-copy-source-if-modified-since"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string), 
-            AWSShapeMember(label: "CopySourceIfNoneMatch", location: .header(locationName: "x-amz-copy-source-if-none-match"), required: false, type: .string), 
-            AWSShapeMember(label: "TaggingDirective", location: .header(locationName: "x-amz-tagging-directive"), required: false, type: .enum), 
-            AWSShapeMember(label: "ContentLanguage", location: .header(locationName: "Content-Language"), required: false, type: .string), 
-            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
-            AWSShapeMember(label: "ObjectLockMode", location: .header(locationName: "x-amz-object-lock-mode"), required: false, type: .enum), 
-            AWSShapeMember(label: "Metadata", required: false, type: .map), 
-            AWSShapeMember(label: "CopySourceSSECustomerKey", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string), 
-            AWSShapeMember(label: "GrantRead", location: .header(locationName: "x-amz-grant-read"), required: false, type: .string), 
-            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string)
-        ]
-        /// The tag-set for the object destination object this value must be used in conjunction with the TaggingDirective. The tag-set must be encoded as URL Query parameters
-        public let tagging: String?
-        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public let serverSideEncryption: ServerSideEncryption?
-        /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        public let sSECustomerAlgorithm: String?
-        /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
-        public let grantFullControl: String?
-        /// Specifies whether the metadata is copied from the source object or replaced with metadata provided in the request.
-        public let metadataDirective: MetadataDirective?
-        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        public let copySourceSSECustomerKeyMD5: String?
-        /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
-        public let websiteRedirectLocation: String?
-        /// The canned ACL to apply to the object.
-        public let acl: ObjectCannedACL?
-        /// The date and time when you want the copied object's Object Lock to expire.
-        public let objectLockRetainUntilDate: TimeStamp?
-        /// A standard MIME type describing the format of the object data.
-        public let contentType: String?
-        /// Specifies the algorithm to use when decrypting the source object (e.g., AES256).
-        public let copySourceSSECustomerAlgorithm: String?
-        /// The date and time at which the object is no longer cacheable.
-        public let expires: TimeStamp?
-        /// Copies the object if its entity tag (ETag) matches the specified tag.
-        public let copySourceIfMatch: String?
-        public let requestPayer: RequestPayer?
-        /// Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. Documentation on configuring any of the officially supported AWS SDKs and CLI can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
-        public let sSEKMSKeyId: String?
-        /// The type of storage to use for the object. Defaults to 'STANDARD'.
-        public let storageClass: StorageClass?
-        public let key: String
-        /// Copies the object if it hasn't been modified since the specified time.
-        public let copySourceIfUnmodifiedSince: TimeStamp?
-        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        public let sSECustomerKeyMD5: String?
-        /// Specifies presentational information for the object.
-        public let contentDisposition: String?
-        /// Specifies whether you want to apply a Legal Hold to the copied object.
-        public let objectLockLegalHoldStatus: ObjectLockLegalHoldStatus?
-        public let bucket: String
-        /// The name of the source bucket and key name of the source object, separated by a slash (/). Must be URL-encoded.
-        public let copySource: String
-        /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
-        public let contentEncoding: String?
-        /// Copies the object if it has been modified since the specified time.
-        public let copySourceIfModifiedSince: TimeStamp?
-        /// Allows grantee to write the ACL for the applicable object.
-        public let grantWriteACP: String?
-        /// Copies the object if its entity tag (ETag) is different than the specified ETag.
-        public let copySourceIfNoneMatch: String?
-        /// Specifies whether the object tag-set are copied from the source object or replaced with tag-set provided in the request.
-        public let taggingDirective: TaggingDirective?
-        /// The language the content is in.
-        public let contentLanguage: String?
-        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
-        public let sSECustomerKey: String?
-        /// The Object Lock mode that you want to apply to the copied object.
-        public let objectLockMode: ObjectLockMode?
-        /// A map of metadata to store with the object in S3.
-        public let metadata: [String: String]?
-        /// Specifies the customer-provided encryption key for Amazon S3 to use to decrypt the source object. The encryption key provided in this header must be one that was used when the source object was created.
-        public let copySourceSSECustomerKey: String?
-        /// Allows grantee to read the object ACL.
-        public let grantReadACP: String?
-        /// Allows grantee to read the object data and its metadata.
-        public let grantRead: String?
-        /// Specifies caching behavior along the request/reply chain.
-        public let cacheControl: String?
-
-        public init(tagging: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, grantFullControl: String? = nil, metadataDirective: MetadataDirective? = nil, copySourceSSECustomerKeyMD5: String? = nil, websiteRedirectLocation: String? = nil, acl: ObjectCannedACL? = nil, objectLockRetainUntilDate: TimeStamp? = nil, contentType: String? = nil, copySourceSSECustomerAlgorithm: String? = nil, expires: TimeStamp? = nil, copySourceIfMatch: String? = nil, requestPayer: RequestPayer? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, key: String, copySourceIfUnmodifiedSince: TimeStamp? = nil, sSECustomerKeyMD5: String? = nil, contentDisposition: String? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, bucket: String, copySource: String, contentEncoding: String? = nil, copySourceIfModifiedSince: TimeStamp? = nil, grantWriteACP: String? = nil, copySourceIfNoneMatch: String? = nil, taggingDirective: TaggingDirective? = nil, contentLanguage: String? = nil, sSECustomerKey: String? = nil, objectLockMode: ObjectLockMode? = nil, metadata: [String: String]? = nil, copySourceSSECustomerKey: String? = nil, grantReadACP: String? = nil, grantRead: String? = nil, cacheControl: String? = nil) {
-            self.tagging = tagging
-            self.serverSideEncryption = serverSideEncryption
-            self.sSECustomerAlgorithm = sSECustomerAlgorithm
-            self.grantFullControl = grantFullControl
-            self.metadataDirective = metadataDirective
-            self.copySourceSSECustomerKeyMD5 = copySourceSSECustomerKeyMD5
-            self.websiteRedirectLocation = websiteRedirectLocation
-            self.acl = acl
-            self.objectLockRetainUntilDate = objectLockRetainUntilDate
-            self.contentType = contentType
-            self.copySourceSSECustomerAlgorithm = copySourceSSECustomerAlgorithm
-            self.expires = expires
-            self.copySourceIfMatch = copySourceIfMatch
-            self.requestPayer = requestPayer
-            self.sSEKMSKeyId = sSEKMSKeyId
-            self.storageClass = storageClass
-            self.key = key
-            self.copySourceIfUnmodifiedSince = copySourceIfUnmodifiedSince
-            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
-            self.contentDisposition = contentDisposition
-            self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
-            self.bucket = bucket
-            self.copySource = copySource
-            self.contentEncoding = contentEncoding
-            self.copySourceIfModifiedSince = copySourceIfModifiedSince
-            self.grantWriteACP = grantWriteACP
-            self.copySourceIfNoneMatch = copySourceIfNoneMatch
-            self.taggingDirective = taggingDirective
-            self.contentLanguage = contentLanguage
-            self.sSECustomerKey = sSECustomerKey
-            self.objectLockMode = objectLockMode
-            self.metadata = metadata
-            self.copySourceSSECustomerKey = copySourceSSECustomerKey
-            self.grantReadACP = grantReadACP
-            self.grantRead = grantRead
-            self.cacheControl = cacheControl
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagging = "x-amz-tagging"
-            case serverSideEncryption = "x-amz-server-side-encryption"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case grantFullControl = "x-amz-grant-full-control"
-            case metadataDirective = "x-amz-metadata-directive"
-            case copySourceSSECustomerKeyMD5 = "x-amz-copy-source-server-side-encryption-customer-key-MD5"
-            case websiteRedirectLocation = "x-amz-website-redirect-location"
-            case acl = "x-amz-acl"
-            case objectLockRetainUntilDate = "x-amz-object-lock-retain-until-date"
-            case contentType = "Content-Type"
-            case copySourceSSECustomerAlgorithm = "x-amz-copy-source-server-side-encryption-customer-algorithm"
-            case expires = "Expires"
-            case copySourceIfMatch = "x-amz-copy-source-if-match"
-            case requestPayer = "x-amz-request-payer"
-            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
-            case storageClass = "x-amz-storage-class"
-            case key = "Key"
-            case copySourceIfUnmodifiedSince = "x-amz-copy-source-if-unmodified-since"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case contentDisposition = "Content-Disposition"
-            case objectLockLegalHoldStatus = "x-amz-object-lock-legal-hold"
-            case bucket = "Bucket"
-            case copySource = "x-amz-copy-source"
-            case contentEncoding = "Content-Encoding"
-            case copySourceIfModifiedSince = "x-amz-copy-source-if-modified-since"
-            case grantWriteACP = "x-amz-grant-write-acp"
-            case copySourceIfNoneMatch = "x-amz-copy-source-if-none-match"
-            case taggingDirective = "x-amz-tagging-directive"
-            case contentLanguage = "Content-Language"
-            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
-            case objectLockMode = "x-amz-object-lock-mode"
-            case metadata = "Metadata"
-            case copySourceSSECustomerKey = "x-amz-copy-source-server-side-encryption-customer-key"
-            case grantReadACP = "x-amz-grant-read-acp"
-            case grantRead = "x-amz-grant-read"
-            case cacheControl = "Cache-Control"
-        }
-    }
-
-    public struct ListBucketsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Owner", required: false, type: .structure), 
-            AWSShapeMember(label: "Buckets", required: false, type: .structure)
-        ]
-        public let owner: Owner?
-        public let buckets: Buckets?
-
-        public init(owner: Owner? = nil, buckets: Buckets? = nil) {
-            self.owner = owner
-            self.buckets = buckets
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case owner = "Owner"
-            case buckets = "Buckets"
-        }
-    }
-
-    public struct DeletePublicAccessBlockRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        /// The Amazon S3 bucket whose PublicAccessBlock configuration you want to delete. 
-        public let bucket: String
-
-        public init(bucket: String) {
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct ParquetInput: AWSShape {
-
-    }
-
-    public enum BucketLogsPermission: String, CustomStringConvertible, Codable {
-        case fullControl = "FULL_CONTROL"
-        case read = "READ"
-        case write = "WRITE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetBucketMetricsConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        /// The ID used to identify the metrics configuration.
-        public let id: String
-        /// The name of the bucket containing the metrics configuration to retrieve.
-        public let bucket: String
-
-        public init(id: String, bucket: String) {
-            self.id = id
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct GetBucketAccelerateConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        /// Name of the bucket for which the accelerate configuration is retrieved.
-        public let bucket: String
-
-        public init(bucket: String) {
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct LambdaFunctionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LambdaFunctionArn", location: .body(locationName: "CloudFunction"), required: true, type: .string), 
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: true, type: .list)
-        ]
+        public let abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload?
+        public let expiration: LifecycleExpiration?
+        /// Unique identifier for the rule. The value cannot be longer than 255 characters.
         public let id: String?
-        /// The Amazon Resource Name (ARN) of the Lambda cloud function that Amazon S3 can invoke when it detects events of the specified type.
-        public let lambdaFunctionArn: String
-        public let filter: NotificationConfigurationFilter?
-        public let events: [Event]
-
-        public init(id: String? = nil, lambdaFunctionArn: String, filter: NotificationConfigurationFilter? = nil, events: [Event]) {
-            self.id = id
-            self.lambdaFunctionArn = lambdaFunctionArn
-            self.filter = filter
-            self.events = events
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case lambdaFunctionArn = "CloudFunction"
-            case filter = "Filter"
-            case events = "Event"
-        }
-    }
-
-    public struct GetBucketLifecycleConfigurationOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: false, type: .list)
-        ]
-        public let rules: [LifecycleRule]?
-
-        public init(rules: [LifecycleRule]? = nil) {
-            self.rules = rules
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rules = "Rule"
-        }
-    }
-
-    public enum RestoreRequestType: String, CustomStringConvertible, Codable {
-        case select = "SELECT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct OutputSerialization: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CSV", required: false, type: .structure), 
-            AWSShapeMember(label: "JSON", required: false, type: .structure)
-        ]
-        /// Describes the serialization of CSV-encoded Select results.
-        public let csv: CSVOutput?
-        /// Specifies JSON as request's output serialization format.
-        public let json: JSONOutput?
-
-        public init(csv: CSVOutput? = nil, json: JSONOutput? = nil) {
-            self.csv = csv
-            self.json = json
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case csv = "CSV"
-            case json = "JSON"
-        }
-    }
-
-    public struct GetBucketAclRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        public let bucket: String
-
-        public init(bucket: String) {
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct GetBucketInventoryConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        /// The ID used to identify the inventory configuration.
-        public let id: String
-        /// The name of the bucket containing the inventory configuration to retrieve.
-        public let bucket: String
-
-        public init(id: String, bucket: String) {
-            self.id = id
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct GetBucketAccelerateConfigurationOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
-        /// The accelerate configuration of the bucket.
-        public let status: BucketAccelerateStatus?
-
-        public init(status: BucketAccelerateStatus? = nil) {
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-        }
-    }
-
-    public struct ListBucketMetricsConfigurationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "ContinuationToken", location: .querystring(locationName: "continuation-token"), required: false, type: .string)
-        ]
-        /// The name of the bucket containing the metrics configurations to retrieve.
-        public let bucket: String
-        /// The marker that is used to continue a metrics configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
-        public let continuationToken: String?
-
-        public init(bucket: String, continuationToken: String? = nil) {
-            self.bucket = bucket
-            self.continuationToken = continuationToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case continuationToken = "continuation-token"
-        }
-    }
-
-    public struct PutBucketNotificationConfigurationRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "NotificationConfiguration"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotificationConfiguration", location: .body(locationName: "NotificationConfiguration"), required: true, type: .structure), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        public let notificationConfiguration: NotificationConfiguration
-        public let bucket: String
-
-        public init(notificationConfiguration: NotificationConfiguration, bucket: String) {
-            self.notificationConfiguration = notificationConfiguration
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case notificationConfiguration = "NotificationConfiguration"
-            case bucket = "Bucket"
-        }
-    }
-
-    public enum `Protocol`: String, CustomStringConvertible, Codable {
-        case http = "http"
-        case https = "https"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum BucketVersioningStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case suspended = "Suspended"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListMultipartUploadsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KeyMarker", required: false, type: .string), 
-            AWSShapeMember(label: "Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "CommonPrefixes", required: false, type: .list), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "EncodingType", required: false, type: .enum), 
-            AWSShapeMember(label: "NextUploadIdMarker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxUploads", required: false, type: .integer), 
-            AWSShapeMember(label: "NextKeyMarker", required: false, type: .string), 
-            AWSShapeMember(label: "UploadIdMarker", required: false, type: .string), 
-            AWSShapeMember(label: "Uploads", location: .body(locationName: "Upload"), required: false, type: .list), 
-            AWSShapeMember(label: "Delimiter", required: false, type: .string), 
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
-        ]
-        /// The key at or after which the listing began.
-        public let keyMarker: String?
-        /// Name of the bucket to which the multipart upload was initiated.
-        public let bucket: String?
-        public let commonPrefixes: [CommonPrefix]?
-        /// When a prefix is provided in the request, this field contains the specified prefix. The result contains only keys starting with the specified prefix.
-        public let prefix: String?
-        /// Encoding type used by Amazon S3 to encode object keys in the response.
-        public let encodingType: EncodingType?
-        /// When a list is truncated, this element specifies the value that should be used for the upload-id-marker request parameter in a subsequent request.
-        public let nextUploadIdMarker: String?
-        /// Maximum number of multipart uploads that could have been included in the response.
-        public let maxUploads: Int32?
-        /// When a list is truncated, this element specifies the value that should be used for the key-marker request parameter in a subsequent request.
-        public let nextKeyMarker: String?
-        /// Upload ID after which listing began.
-        public let uploadIdMarker: String?
-        public let uploads: [MultipartUpload]?
-        public let delimiter: String?
-        /// Indicates whether the returned list of multipart uploads is truncated. A value of true indicates that the list was truncated. The list can be truncated if the number of multipart uploads exceeds the limit allowed or specified by max uploads.
-        public let isTruncated: Bool?
-
-        public init(keyMarker: String? = nil, bucket: String? = nil, commonPrefixes: [CommonPrefix]? = nil, prefix: String? = nil, encodingType: EncodingType? = nil, nextUploadIdMarker: String? = nil, maxUploads: Int32? = nil, nextKeyMarker: String? = nil, uploadIdMarker: String? = nil, uploads: [MultipartUpload]? = nil, delimiter: String? = nil, isTruncated: Bool? = nil) {
-            self.keyMarker = keyMarker
-            self.bucket = bucket
-            self.commonPrefixes = commonPrefixes
-            self.prefix = prefix
-            self.encodingType = encodingType
-            self.nextUploadIdMarker = nextUploadIdMarker
-            self.maxUploads = maxUploads
-            self.nextKeyMarker = nextKeyMarker
-            self.uploadIdMarker = uploadIdMarker
-            self.uploads = uploads
-            self.delimiter = delimiter
-            self.isTruncated = isTruncated
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case keyMarker = "KeyMarker"
-            case bucket = "Bucket"
-            case commonPrefixes = "CommonPrefixes"
-            case prefix = "Prefix"
-            case encodingType = "EncodingType"
-            case nextUploadIdMarker = "NextUploadIdMarker"
-            case maxUploads = "MaxUploads"
-            case nextKeyMarker = "NextKeyMarker"
-            case uploadIdMarker = "UploadIdMarker"
-            case uploads = "Upload"
-            case delimiter = "Delimiter"
-            case isTruncated = "IsTruncated"
-        }
-    }
-
-    public struct PutObjectRetentionRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "Retention"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BypassGovernanceRetention", location: .header(locationName: "x-amz-bypass-governance-retention"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "Retention", location: .body(locationName: "Retention"), required: false, type: .structure), 
-            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string)
-        ]
-        /// Indicates whether this operation should bypass Governance-mode restrictions.j
-        public let bypassGovernanceRetention: Bool?
-        /// The bucket that contains the object you want to apply this Object Retention configuration to.
-        public let bucket: String
-        /// The version ID for the object that you want to apply this Object Retention configuration to.
-        public let versionId: String?
-        /// The key name for the object that you want to apply this Object Retention configuration to.
-        public let key: String
-        public let requestPayer: RequestPayer?
-        /// The container element for the Object Retention configuration.
-        public let retention: ObjectLockRetention?
-        /// The MD5 hash for the request body.
-        public let contentMD5: String?
-
-        public init(bypassGovernanceRetention: Bool? = nil, bucket: String, versionId: String? = nil, key: String, requestPayer: RequestPayer? = nil, retention: ObjectLockRetention? = nil, contentMD5: String? = nil) {
-            self.bypassGovernanceRetention = bypassGovernanceRetention
-            self.bucket = bucket
-            self.versionId = versionId
-            self.key = key
-            self.requestPayer = requestPayer
-            self.retention = retention
-            self.contentMD5 = contentMD5
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bypassGovernanceRetention = "x-amz-bypass-governance-retention"
-            case bucket = "Bucket"
-            case versionId = "versionId"
-            case key = "Key"
-            case requestPayer = "x-amz-request-payer"
-            case retention = "Retention"
-            case contentMD5 = "Content-MD5"
-        }
-    }
-
-    public struct CompletedPart: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PartNumber", required: false, type: .integer), 
-            AWSShapeMember(label: "ETag", required: false, type: .string)
-        ]
-        /// Part number that identifies the part. This is a positive integer between 1 and 10,000.
-        public let partNumber: Int32?
-        /// Entity tag returned when the part was uploaded.
-        public let eTag: String?
-
-        public init(partNumber: Int32? = nil, eTag: String? = nil) {
-            self.partNumber = partNumber
-            self.eTag = eTag
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case partNumber = "PartNumber"
-            case eTag = "ETag"
-        }
-    }
-
-    public enum TaggingDirective: String, CustomStringConvertible, Codable {
-        case copy = "COPY"
-        case replace = "REPLACE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InventoryIncludedObjectVersions: String, CustomStringConvertible, Codable {
-        case all = "All"
-        case current = "Current"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct LifecycleRuleFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "And", required: false, type: .structure), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "Tag", required: false, type: .structure)
-        ]
-        public let and: LifecycleRuleAndOperator?
+        public let noncurrentVersionExpiration: NoncurrentVersionExpiration?
+        public let noncurrentVersionTransition: NoncurrentVersionTransition?
         /// Prefix identifying one or more objects to which the rule applies.
-        public let prefix: String?
-        /// This tag must exist in the object's tag set in order for the rule to apply.
-        public let tag: Tag?
+        public let prefix: String
+        /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule is not currently being applied.
+        public let status: ExpirationStatus
+        public let transition: Transition?
 
-        public init(and: LifecycleRuleAndOperator? = nil, prefix: String? = nil, tag: Tag? = nil) {
-            self.and = and
-            self.prefix = prefix
-            self.tag = tag
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case and = "And"
-            case prefix = "Prefix"
-            case tag = "Tag"
-        }
-    }
-
-    public struct AnalyticsFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "And", required: false, type: .structure), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "Tag", required: false, type: .structure)
-        ]
-        /// A conjunction (logical AND) of predicates, which is used in evaluating an analytics filter. The operator must have at least two predicates.
-        public let and: AnalyticsAndOperator?
-        /// The prefix to use when evaluating an analytics filter.
-        public let prefix: String?
-        /// The tag to use when evaluating an analytics filter.
-        public let tag: Tag?
-
-        public init(and: AnalyticsAndOperator? = nil, prefix: String? = nil, tag: Tag? = nil) {
-            self.and = and
-            self.prefix = prefix
-            self.tag = tag
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case and = "And"
-            case prefix = "Prefix"
-            case tag = "Tag"
-        }
-    }
-
-    public struct GetBucketPolicyStatusOutput: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "PolicyStatus"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyStatus", required: false, type: .structure)
-        ]
-        /// The policy status for the specified bucket.
-        public let policyStatus: PolicyStatus?
-
-        public init(policyStatus: PolicyStatus? = nil) {
-            self.policyStatus = policyStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyStatus = "PolicyStatus"
-        }
-    }
-
-    public enum RequestPayer: String, CustomStringConvertible, Codable {
-        case requester = "requester"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MetadataDirective: String, CustomStringConvertible, Codable {
-        case copy = "COPY"
-        case replace = "REPLACE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct LoggingEnabled: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetGrants", required: false, type: .structure), 
-            AWSShapeMember(label: "TargetPrefix", required: true, type: .string), 
-            AWSShapeMember(label: "TargetBucket", required: true, type: .string)
-        ]
-        public let targetGrants: TargetGrants?
-        /// This element lets you specify a prefix for the keys that the log files will be stored under.
-        public let targetPrefix: String
-        /// Specifies the bucket where you want Amazon S3 to store server access logs. You can have your logs delivered to any bucket that you own, including the same bucket that is being logged. You can also configure multiple buckets to deliver their logs to the same target bucket. In this case you should choose a different TargetPrefix for each source bucket so that the delivered log files can be distinguished by key.
-        public let targetBucket: String
-
-        public init(targetGrants: TargetGrants? = nil, targetPrefix: String, targetBucket: String) {
-            self.targetGrants = targetGrants
-            self.targetPrefix = targetPrefix
-            self.targetBucket = targetBucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetGrants = "TargetGrants"
-            case targetPrefix = "TargetPrefix"
-            case targetBucket = "TargetBucket"
-        }
-    }
-
-    public enum Permission: String, CustomStringConvertible, Codable {
-        case fullControl = "FULL_CONTROL"
-        case write = "WRITE"
-        case writeAcp = "WRITE_ACP"
-        case read = "READ"
-        case readAcp = "READ_ACP"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ExpirationStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case disabled = "Disabled"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct QueueConfigurationDeprecated: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Event", required: false, type: .enum), 
-            AWSShapeMember(label: "Queue", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: false, type: .list)
-        ]
-        public let event: Event?
-        public let queue: String?
-        public let id: String?
-        public let events: [Event]?
-
-        public init(event: Event? = nil, queue: String? = nil, id: String? = nil, events: [Event]? = nil) {
-            self.event = event
-            self.queue = queue
-            self.id = id
-            self.events = events
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case event = "Event"
-            case queue = "Queue"
-            case id = "Id"
-            // TODO this is temporary measure for avoiding CondingKey duplication.
-            // Should decode duplidated paths with same type for JSON
-            case events = "_Event"
-        }
-    }
-
-    public struct GetBucketLoggingOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoggingEnabled", required: false, type: .structure)
-        ]
-        public let loggingEnabled: LoggingEnabled?
-
-        public init(loggingEnabled: LoggingEnabled? = nil) {
-            self.loggingEnabled = loggingEnabled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loggingEnabled = "LoggingEnabled"
-        }
-    }
-
-    public struct IndexDocument: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Suffix", required: true, type: .string)
-        ]
-        /// A suffix that is appended to a request that is for a directory on the website endpoint (e.g. if the suffix is index.html and you make a request to samplebucket/images/ the data that is returned will be for the object with the key name images/index.html) The suffix must not be empty and must not include a slash character.
-        public let suffix: String
-
-        public init(suffix: String) {
-            self.suffix = suffix
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case suffix = "Suffix"
-        }
-    }
-
-    public struct Encryption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KMSKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "EncryptionType", required: true, type: .enum), 
-            AWSShapeMember(label: "KMSContext", required: false, type: .string)
-        ]
-        /// If the encryption type is aws:kms, this optional value specifies the AWS KMS key ID to use for encryption of job results.
-        public let kMSKeyId: String?
-        /// The server-side encryption algorithm used when storing job results in Amazon S3 (e.g., AES256, aws:kms).
-        public let encryptionType: ServerSideEncryption
-        /// If the encryption type is aws:kms, this optional value can be used to specify the encryption context for the restore results.
-        public let kMSContext: String?
-
-        public init(kMSKeyId: String? = nil, encryptionType: ServerSideEncryption, kMSContext: String? = nil) {
-            self.kMSKeyId = kMSKeyId
-            self.encryptionType = encryptionType
-            self.kMSContext = kMSContext
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case kMSKeyId = "KMSKeyId"
-            case encryptionType = "EncryptionType"
-            case kMSContext = "KMSContext"
-        }
-    }
-
-    public struct PutObjectLegalHoldOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
-        ]
-        public let requestCharged: RequestCharged?
-
-        public init(requestCharged: RequestCharged? = nil) {
-            self.requestCharged = requestCharged
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case requestCharged = "x-amz-request-charged"
-        }
-    }
-
-    public struct GetBucketPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        public let bucket: String
-
-        public init(bucket: String) {
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
-    }
-
-    public struct GetObjectTorrentOutput: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "Body"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
-            AWSShapeMember(label: "Body", required: false, type: .blob)
-        ]
-        public let requestCharged: RequestCharged?
-        public let body: Data?
-
-        public init(requestCharged: RequestCharged? = nil, body: Data? = nil) {
-            self.requestCharged = requestCharged
-            self.body = body
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case requestCharged = "x-amz-request-charged"
-            case body = "Body"
-        }
-    }
-
-    public struct CompleteMultipartUploadOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Expiration", location: .header(locationName: "x-amz-expiration"), required: false, type: .string), 
-            AWSShapeMember(label: "Location", required: false, type: .string), 
-            AWSShapeMember(label: "ETag", required: false, type: .string), 
-            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
-            AWSShapeMember(label: "Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string), 
-            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
-        ]
-        /// If the object expiration is configured, this will contain the expiration date (expiry-date) and rule ID (rule-id). The value of rule-id is URL encoded.
-        public let expiration: String?
-        public let location: String?
-        /// Entity tag of the object.
-        public let eTag: String?
-        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public let serverSideEncryption: ServerSideEncryption?
-        public let bucket: String?
-        public let key: String?
-        /// Version of the object.
-        public let versionId: String?
-        /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
-        public let sSEKMSKeyId: String?
-        public let requestCharged: RequestCharged?
-
-        public init(expiration: String? = nil, location: String? = nil, eTag: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, bucket: String? = nil, key: String? = nil, versionId: String? = nil, sSEKMSKeyId: String? = nil, requestCharged: RequestCharged? = nil) {
+        public init(abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, expiration: LifecycleExpiration? = nil, id: String? = nil, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, noncurrentVersionTransition: NoncurrentVersionTransition? = nil, prefix: String, status: ExpirationStatus, transition: Transition? = nil) {
+            self.abortIncompleteMultipartUpload = abortIncompleteMultipartUpload
             self.expiration = expiration
-            self.location = location
-            self.eTag = eTag
-            self.serverSideEncryption = serverSideEncryption
-            self.bucket = bucket
-            self.key = key
-            self.versionId = versionId
-            self.sSEKMSKeyId = sSEKMSKeyId
-            self.requestCharged = requestCharged
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case expiration = "x-amz-expiration"
-            case location = "Location"
-            case eTag = "ETag"
-            case serverSideEncryption = "x-amz-server-side-encryption"
-            case bucket = "Bucket"
-            case key = "Key"
-            case versionId = "x-amz-version-id"
-            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
-            case requestCharged = "x-amz-request-charged"
-        }
-    }
-
-    public enum DeleteMarkerReplicationStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case disabled = "Disabled"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListPartsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
-            AWSShapeMember(label: "MaxParts", required: false, type: .integer), 
-            AWSShapeMember(label: "AbortDate", location: .header(locationName: "x-amz-abort-date"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
-            AWSShapeMember(label: "UploadId", required: false, type: .string), 
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "NextPartNumberMarker", required: false, type: .integer), 
-            AWSShapeMember(label: "AbortRuleId", location: .header(locationName: "x-amz-abort-rule-id"), required: false, type: .string), 
-            AWSShapeMember(label: "Initiator", required: false, type: .structure), 
-            AWSShapeMember(label: "Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Parts", location: .body(locationName: "Part"), required: false, type: .list), 
-            AWSShapeMember(label: "Owner", required: false, type: .structure), 
-            AWSShapeMember(label: "PartNumberMarker", required: false, type: .integer)
-        ]
-        public let requestCharged: RequestCharged?
-        /// Maximum number of parts that were allowed in the response.
-        public let maxParts: Int32?
-        /// Date when multipart upload will become eligible for abort operation by lifecycle.
-        public let abortDate: TimeStamp?
-        /// The class of storage used to store the object.
-        public let storageClass: StorageClass?
-        /// Upload ID identifying the multipart upload whose parts are being listed.
-        public let uploadId: String?
-        /// Indicates whether the returned list of parts is truncated.
-        public let isTruncated: Bool?
-        /// When a list is truncated, this element specifies the last part in the list, as well as the value to use for the part-number-marker request parameter in a subsequent request.
-        public let nextPartNumberMarker: Int32?
-        /// Id of the lifecycle rule that makes a multipart upload eligible for abort operation.
-        public let abortRuleId: String?
-        /// Identifies who initiated the multipart upload.
-        public let initiator: Initiator?
-        /// Name of the bucket to which the multipart upload was initiated.
-        public let bucket: String?
-        /// Object key for which the multipart upload was initiated.
-        public let key: String?
-        public let parts: [Part]?
-        public let owner: Owner?
-        /// Part number after which listing begins.
-        public let partNumberMarker: Int32?
-
-        public init(requestCharged: RequestCharged? = nil, maxParts: Int32? = nil, abortDate: TimeStamp? = nil, storageClass: StorageClass? = nil, uploadId: String? = nil, isTruncated: Bool? = nil, nextPartNumberMarker: Int32? = nil, abortRuleId: String? = nil, initiator: Initiator? = nil, bucket: String? = nil, key: String? = nil, parts: [Part]? = nil, owner: Owner? = nil, partNumberMarker: Int32? = nil) {
-            self.requestCharged = requestCharged
-            self.maxParts = maxParts
-            self.abortDate = abortDate
-            self.storageClass = storageClass
-            self.uploadId = uploadId
-            self.isTruncated = isTruncated
-            self.nextPartNumberMarker = nextPartNumberMarker
-            self.abortRuleId = abortRuleId
-            self.initiator = initiator
-            self.bucket = bucket
-            self.key = key
-            self.parts = parts
-            self.owner = owner
-            self.partNumberMarker = partNumberMarker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case requestCharged = "x-amz-request-charged"
-            case maxParts = "MaxParts"
-            case abortDate = "x-amz-abort-date"
-            case storageClass = "StorageClass"
-            case uploadId = "UploadId"
-            case isTruncated = "IsTruncated"
-            case nextPartNumberMarker = "NextPartNumberMarker"
-            case abortRuleId = "x-amz-abort-rule-id"
-            case initiator = "Initiator"
-            case bucket = "Bucket"
-            case key = "Key"
-            case parts = "Part"
-            case owner = "Owner"
-            case partNumberMarker = "PartNumberMarker"
-        }
-    }
-
-    public struct NoncurrentVersionTransition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NoncurrentDays", required: false, type: .integer), 
-            AWSShapeMember(label: "StorageClass", required: false, type: .enum)
-        ]
-        /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates When an Object Became Noncurrent in the Amazon Simple Storage Service Developer Guide.
-        public let noncurrentDays: Int32?
-        /// The class of storage used to store the object.
-        public let storageClass: TransitionStorageClass?
-
-        public init(noncurrentDays: Int32? = nil, storageClass: TransitionStorageClass? = nil) {
-            self.noncurrentDays = noncurrentDays
-            self.storageClass = storageClass
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case noncurrentDays = "NoncurrentDays"
-            case storageClass = "StorageClass"
-        }
-    }
-
-    public enum ReplicationStatus: String, CustomStringConvertible, Codable {
-        case completed = "COMPLETED"
-        case pending = "PENDING"
-        case failed = "FAILED"
-        case replica = "REPLICA"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CopyObjectResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ETag", required: false, type: .string), 
-            AWSShapeMember(label: "LastModified", required: false, type: .timestamp)
-        ]
-        public let eTag: String?
-        public let lastModified: TimeStamp?
-
-        public init(eTag: String? = nil, lastModified: TimeStamp? = nil) {
-            self.eTag = eTag
-            self.lastModified = lastModified
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case lastModified = "LastModified"
-        }
-    }
-
-    public struct BucketLoggingStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoggingEnabled", required: false, type: .structure)
-        ]
-        public let loggingEnabled: LoggingEnabled?
-
-        public init(loggingEnabled: LoggingEnabled? = nil) {
-            self.loggingEnabled = loggingEnabled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loggingEnabled = "LoggingEnabled"
-        }
-    }
-
-    public struct DeleteBucketInventoryConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string), 
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
-        ]
-        /// The ID used to identify the inventory configuration.
-        public let id: String
-        /// The name of the bucket containing the inventory configuration to delete.
-        public let bucket: String
-
-        public init(id: String, bucket: String) {
             self.id = id
-            self.bucket = bucket
+            self.noncurrentVersionExpiration = noncurrentVersionExpiration
+            self.noncurrentVersionTransition = noncurrentVersionTransition
+            self.prefix = prefix
+            self.status = status
+            self.transition = transition
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case bucket = "Bucket"
+            case abortIncompleteMultipartUpload = "AbortIncompleteMultipartUpload"
+            case expiration = "Expiration"
+            case id = "ID"
+            case noncurrentVersionExpiration = "NoncurrentVersionExpiration"
+            case noncurrentVersionTransition = "NoncurrentVersionTransition"
+            case prefix = "Prefix"
+            case status = "Status"
+            case transition = "Transition"
+        }
+    }
+
+    public struct S3KeyFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FilterRules", location: .body(locationName: "FilterRule"), required: false, type: .list)
+        ]
+        public let filterRules: [FilterRule]?
+
+        public init(filterRules: [FilterRule]? = nil) {
+            self.filterRules = filterRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterRules = "FilterRule"
+        }
+    }
+
+    public struct S3Location: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessControlList", required: false, type: .structure), 
+            AWSShapeMember(label: "BucketName", required: true, type: .string), 
+            AWSShapeMember(label: "CannedACL", required: false, type: .enum), 
+            AWSShapeMember(label: "Encryption", required: false, type: .structure), 
+            AWSShapeMember(label: "Prefix", required: true, type: .string), 
+            AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
+            AWSShapeMember(label: "Tagging", required: false, type: .structure), 
+            AWSShapeMember(label: "UserMetadata", required: false, type: .structure)
+        ]
+        /// A list of grants that control access to the staged results.
+        public let accessControlList: Grants?
+        /// The name of the bucket where the restore results will be placed.
+        public let bucketName: String
+        /// The canned ACL to apply to the restore results.
+        public let cannedACL: ObjectCannedACL?
+        public let encryption: Encryption?
+        /// The prefix that is prepended to the restore results for this request.
+        public let prefix: String
+        /// The class of storage used to store the restore results.
+        public let storageClass: StorageClass?
+        /// The tag-set that is applied to the restore results.
+        public let tagging: Tagging?
+        /// A list of metadata to store with the restore results in S3.
+        public let userMetadata: UserMetadata?
+
+        public init(accessControlList: Grants? = nil, bucketName: String, cannedACL: ObjectCannedACL? = nil, encryption: Encryption? = nil, prefix: String, storageClass: StorageClass? = nil, tagging: Tagging? = nil, userMetadata: UserMetadata? = nil) {
+            self.accessControlList = accessControlList
+            self.bucketName = bucketName
+            self.cannedACL = cannedACL
+            self.encryption = encryption
+            self.prefix = prefix
+            self.storageClass = storageClass
+            self.tagging = tagging
+            self.userMetadata = userMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessControlList = "AccessControlList"
+            case bucketName = "BucketName"
+            case cannedACL = "CannedACL"
+            case encryption = "Encryption"
+            case prefix = "Prefix"
+            case storageClass = "StorageClass"
+            case tagging = "Tagging"
+            case userMetadata = "UserMetadata"
         }
     }
 
@@ -7656,83 +6966,145 @@ extension S3 {
         }
     }
 
-    public struct Grantee: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "URI", required: false, type: .string), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "xsi:type"), required: true, type: .enum), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "EmailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "ID", required: false, type: .string)
-        ]
-        /// URI of the grantee group.
-        public let uri: String?
-        /// Type of grantee
-        public let `type`: `Type`
-        /// Screen name of the grantee.
-        public let displayName: String?
-        /// Email address of the grantee.
-        public let emailAddress: String?
-        /// The canonical user ID of the grantee.
-        public let id: String?
+    public struct SSES3: AWSShape {
 
-        public init(uri: String? = nil, type: `Type`, displayName: String? = nil, emailAddress: String? = nil, id: String? = nil) {
-            self.uri = uri
-            self.`type` = `type`
-            self.displayName = displayName
-            self.emailAddress = emailAddress
-            self.id = id
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case uri = "URI"
-            case `type` = "xsi:type"
-            case displayName = "DisplayName"
-            case emailAddress = "EmailAddress"
-            case id = "ID"
-        }
     }
 
-    public struct GetObjectAclRequest: AWSShape {
+    public struct SelectObjectContentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum)
+            AWSShapeMember(label: "Expression", required: true, type: .string), 
+            AWSShapeMember(label: "ExpressionType", required: true, type: .enum), 
+            AWSShapeMember(label: "InputSerialization", required: true, type: .structure), 
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
+            AWSShapeMember(label: "OutputSerialization", required: true, type: .structure), 
+            AWSShapeMember(label: "RequestProgress", required: false, type: .structure), 
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string)
         ]
-        public let key: String
-        /// VersionId used to reference a specific version of the object.
-        public let versionId: String?
+        /// The S3 bucket.
         public let bucket: String
-        public let requestPayer: RequestPayer?
+        /// The expression that is used to query the object.
+        public let expression: String
+        /// The type of the provided expression (for example., SQL).
+        public let expressionType: ExpressionType
+        /// Describes the format of the data in the object that is being queried.
+        public let inputSerialization: InputSerialization
+        /// The object key.
+        public let key: String
+        /// Describes the format of the data that you want Amazon S3 to return in response.
+        public let outputSerialization: OutputSerialization
+        /// Specifies if periodic request progress information should be enabled.
+        public let requestProgress: RequestProgress?
+        /// The SSE Algorithm used to encrypt the object. For more information, see  Server-Side Encryption (Using Customer-Provided Encryption Keys. 
+        public let sSECustomerAlgorithm: String?
+        /// The SSE Customer Key. For more information, see  Server-Side Encryption (Using Customer-Provided Encryption Keys. 
+        public let sSECustomerKey: String?
+        /// The SSE Customer Key MD5. For more information, see  Server-Side Encryption (Using Customer-Provided Encryption Keys. 
+        public let sSECustomerKeyMD5: String?
 
-        public init(key: String, versionId: String? = nil, bucket: String, requestPayer: RequestPayer? = nil) {
-            self.key = key
-            self.versionId = versionId
+        public init(bucket: String, expression: String, expressionType: ExpressionType, inputSerialization: InputSerialization, key: String, outputSerialization: OutputSerialization, requestProgress: RequestProgress? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil) {
             self.bucket = bucket
-            self.requestPayer = requestPayer
+            self.expression = expression
+            self.expressionType = expressionType
+            self.inputSerialization = inputSerialization
+            self.key = key
+            self.outputSerialization = outputSerialization
+            self.requestProgress = requestProgress
+            self.sSECustomerAlgorithm = sSECustomerAlgorithm
+            self.sSECustomerKey = sSECustomerKey
+            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case versionId = "versionId"
             case bucket = "Bucket"
-            case requestPayer = "x-amz-request-payer"
+            case expression = "Expression"
+            case expressionType = "ExpressionType"
+            case inputSerialization = "InputSerialization"
+            case key = "Key"
+            case outputSerialization = "OutputSerialization"
+            case requestProgress = "RequestProgress"
+            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
+            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
+            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
         }
     }
 
-    public struct ObjectLockLegalHold: AWSShape {
+    public struct SelectParameters: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .enum)
+            AWSShapeMember(label: "Expression", required: true, type: .string), 
+            AWSShapeMember(label: "ExpressionType", required: true, type: .enum), 
+            AWSShapeMember(label: "InputSerialization", required: true, type: .structure), 
+            AWSShapeMember(label: "OutputSerialization", required: true, type: .structure)
         ]
-        /// Indicates whether the specified object has a Legal Hold in place.
-        public let status: ObjectLockLegalHoldStatus?
+        /// The expression that is used to query the object.
+        public let expression: String
+        /// The type of the provided expression (e.g., SQL).
+        public let expressionType: ExpressionType
+        /// Describes the serialization format of the object.
+        public let inputSerialization: InputSerialization
+        /// Describes how the results of the Select job are serialized.
+        public let outputSerialization: OutputSerialization
 
-        public init(status: ObjectLockLegalHoldStatus? = nil) {
-            self.status = status
+        public init(expression: String, expressionType: ExpressionType, inputSerialization: InputSerialization, outputSerialization: OutputSerialization) {
+            self.expression = expression
+            self.expressionType = expressionType
+            self.inputSerialization = inputSerialization
+            self.outputSerialization = outputSerialization
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status = "Status"
+            case expression = "Expression"
+            case expressionType = "ExpressionType"
+            case inputSerialization = "InputSerialization"
+            case outputSerialization = "OutputSerialization"
+        }
+    }
+
+    public enum ServerSideEncryption: String, CustomStringConvertible, Codable {
+        case aes256 = "AES256"
+        case awsKms = "aws:kms"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ServerSideEncryptionByDefault: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KMSMasterKeyID", required: false, type: .string), 
+            AWSShapeMember(label: "SSEAlgorithm", required: true, type: .enum)
+        ]
+        /// KMS master key ID to use for the default encryption. This parameter is allowed if SSEAlgorithm is aws:kms.
+        public let kMSMasterKeyID: String?
+        /// Server-side encryption algorithm to use for the default encryption.
+        public let sSEAlgorithm: ServerSideEncryption
+
+        public init(kMSMasterKeyID: String? = nil, sSEAlgorithm: ServerSideEncryption) {
+            self.kMSMasterKeyID = kMSMasterKeyID
+            self.sSEAlgorithm = sSEAlgorithm
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kMSMasterKeyID = "KMSMasterKeyID"
+            case sSEAlgorithm = "SSEAlgorithm"
+        }
+    }
+
+    public struct ServerSideEncryptionConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: true, type: .list)
+        ]
+        /// Container for information about a particular server-side encryption configuration rule.
+        public let rules: [ServerSideEncryptionRule]
+
+        public init(rules: [ServerSideEncryptionRule]) {
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules = "Rule"
         }
     }
 
@@ -7749,6 +7121,646 @@ extension S3 {
 
         private enum CodingKeys: String, CodingKey {
             case applyServerSideEncryptionByDefault = "ApplyServerSideEncryptionByDefault"
+        }
+    }
+
+    public struct SourceSelectionCriteria: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SseKmsEncryptedObjects", required: false, type: .structure)
+        ]
+        ///  A container for filter information for the selection of S3 objects encrypted with AWS KMS. If you include SourceSelectionCriteria in the replication configuration, this element is required. 
+        public let sseKmsEncryptedObjects: SseKmsEncryptedObjects?
+
+        public init(sseKmsEncryptedObjects: SseKmsEncryptedObjects? = nil) {
+            self.sseKmsEncryptedObjects = sseKmsEncryptedObjects
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sseKmsEncryptedObjects = "SseKmsEncryptedObjects"
+        }
+    }
+
+    public struct SseKmsEncryptedObjects: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: true, type: .enum)
+        ]
+        ///  If the status is not Enabled, replication for S3 objects encrypted with AWS KMS is disabled.
+        public let status: SseKmsEncryptedObjectsStatus
+
+        public init(status: SseKmsEncryptedObjectsStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
+    public enum SseKmsEncryptedObjectsStatus: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Stats: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BytesProcessed", required: false, type: .long), 
+            AWSShapeMember(label: "BytesReturned", required: false, type: .long), 
+            AWSShapeMember(label: "BytesScanned", required: false, type: .long)
+        ]
+        /// The total number of uncompressed object bytes processed.
+        public let bytesProcessed: Int64?
+        /// The total number of bytes of records payload data returned.
+        public let bytesReturned: Int64?
+        /// The total number of object bytes scanned.
+        public let bytesScanned: Int64?
+
+        public init(bytesProcessed: Int64? = nil, bytesReturned: Int64? = nil, bytesScanned: Int64? = nil) {
+            self.bytesProcessed = bytesProcessed
+            self.bytesReturned = bytesReturned
+            self.bytesScanned = bytesScanned
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytesProcessed = "BytesProcessed"
+            case bytesReturned = "BytesReturned"
+            case bytesScanned = "BytesScanned"
+        }
+    }
+
+    public struct StatsEvent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Details", required: false, type: .structure)
+        ]
+        /// The Stats event details.
+        public let details: Stats?
+
+        public init(details: Stats? = nil) {
+            self.details = details
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case details = "Details"
+        }
+    }
+
+    public enum StorageClass: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        case reducedRedundancy = "REDUCED_REDUNDANCY"
+        case standardIa = "STANDARD_IA"
+        case onezoneIa = "ONEZONE_IA"
+        case intelligentTiering = "INTELLIGENT_TIERING"
+        case glacier = "GLACIER"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct StorageClassAnalysis: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataExport", required: false, type: .structure)
+        ]
+        /// A container used to describe how data related to the storage class analysis should be exported.
+        public let dataExport: StorageClassAnalysisDataExport?
+
+        public init(dataExport: StorageClassAnalysisDataExport? = nil) {
+            self.dataExport = dataExport
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataExport = "DataExport"
+        }
+    }
+
+    public struct StorageClassAnalysisDataExport: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Destination", required: true, type: .structure), 
+            AWSShapeMember(label: "OutputSchemaVersion", required: true, type: .enum)
+        ]
+        /// The place to store the data for an analysis.
+        public let destination: AnalyticsExportDestination
+        /// The version of the output schema to use when exporting data. Must be V_1.
+        public let outputSchemaVersion: StorageClassAnalysisSchemaVersion
+
+        public init(destination: AnalyticsExportDestination, outputSchemaVersion: StorageClassAnalysisSchemaVersion) {
+            self.destination = destination
+            self.outputSchemaVersion = outputSchemaVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+            case outputSchemaVersion = "OutputSchemaVersion"
+        }
+    }
+
+    public enum StorageClassAnalysisSchemaVersion: String, CustomStringConvertible, Codable {
+        case v1 = "V_1"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+        /// Name of the tag.
+        public let key: String
+        /// Value of the tag.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagSet: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tag", required: false, type: .list)
+        ]
+        public let tag: [Tag]?
+
+        public init(tag: [Tag]? = nil) {
+            self.tag = tag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tag = "Tag"
+        }
+    }
+
+    public struct Tagging: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagSet", required: true, type: .structure)
+        ]
+        public let tagSet: TagSet
+
+        public init(tagSet: TagSet) {
+            self.tagSet = tagSet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagSet = "TagSet"
+        }
+    }
+
+    public enum TaggingDirective: String, CustomStringConvertible, Codable {
+        case copy = "COPY"
+        case replace = "REPLACE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct TargetGrant: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Grantee", required: false, type: .structure), 
+            AWSShapeMember(label: "Permission", required: false, type: .enum)
+        ]
+        public let grantee: Grantee?
+        /// Logging permissions assigned to the Grantee for the bucket.
+        public let permission: BucketLogsPermission?
+
+        public init(grantee: Grantee? = nil, permission: BucketLogsPermission? = nil) {
+            self.grantee = grantee
+            self.permission = permission
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grantee = "Grantee"
+            case permission = "Permission"
+        }
+    }
+
+    public struct TargetGrants: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Grant", required: false, type: .list)
+        ]
+        public let grant: [TargetGrant]?
+
+        public init(grant: [TargetGrant]? = nil) {
+            self.grant = grant
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grant = "Grant"
+        }
+    }
+
+    public enum Tier: String, CustomStringConvertible, Codable {
+        case standard = "Standard"
+        case bulk = "Bulk"
+        case expedited = "Expedited"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct TopicConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: true, type: .list), 
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "TopicArn", location: .body(locationName: "Topic"), required: true, type: .string)
+        ]
+        public let events: [Event]
+        public let filter: NotificationConfigurationFilter?
+        public let id: String?
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which Amazon S3 will publish a message when it detects events of the specified type.
+        public let topicArn: String
+
+        public init(events: [Event], filter: NotificationConfigurationFilter? = nil, id: String? = nil, topicArn: String) {
+            self.events = events
+            self.filter = filter
+            self.id = id
+            self.topicArn = topicArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case events = "Event"
+            case filter = "Filter"
+            case id = "Id"
+            case topicArn = "Topic"
+        }
+    }
+
+    public struct TopicConfigurationDeprecated: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Event", required: false, type: .enum), 
+            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: false, type: .list), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Topic", required: false, type: .string)
+        ]
+        /// Bucket event for which to send notifications.
+        public let event: Event?
+        public let events: [Event]?
+        public let id: String?
+        /// Amazon SNS topic to which Amazon S3 will publish a message to report the specified events for the bucket.
+        public let topic: String?
+
+        public init(event: Event? = nil, events: [Event]? = nil, id: String? = nil, topic: String? = nil) {
+            self.event = event
+            self.events = events
+            self.id = id
+            self.topic = topic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case event = "Event"
+            // TODO this is temporary measure for avoiding CondingKey duplication.
+            // Should decode duplidated paths with same type for JSON
+            case events = "_Event"
+            case id = "Id"
+            case topic = "Topic"
+        }
+    }
+
+    public struct Transition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Date", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Days", required: false, type: .integer), 
+            AWSShapeMember(label: "StorageClass", required: false, type: .enum)
+        ]
+        /// Indicates at what date the object is to be moved or deleted. Should be in GMT ISO 8601 Format.
+        public let date: TimeStamp?
+        /// Indicates the lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer.
+        public let days: Int32?
+        /// The class of storage used to store the object.
+        public let storageClass: TransitionStorageClass?
+
+        public init(date: TimeStamp? = nil, days: Int32? = nil, storageClass: TransitionStorageClass? = nil) {
+            self.date = date
+            self.days = days
+            self.storageClass = storageClass
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case date = "Date"
+            case days = "Days"
+            case storageClass = "StorageClass"
+        }
+    }
+
+    public enum TransitionStorageClass: String, CustomStringConvertible, Codable {
+        case glacier = "GLACIER"
+        case standardIa = "STANDARD_IA"
+        case onezoneIa = "ONEZONE_IA"
+        case intelligentTiering = "INTELLIGENT_TIERING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Type`: String, CustomStringConvertible, Codable {
+        case canonicaluser = "CanonicalUser"
+        case amazoncustomerbyemail = "AmazonCustomerByEmail"
+        case group = "Group"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UploadPartCopyOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "CopyPartResult"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CopyPartResult", required: false, type: .structure), 
+            AWSShapeMember(label: "CopySourceVersionId", location: .header(locationName: "x-amz-copy-source-version-id"), required: false, type: .string), 
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
+            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum)
+        ]
+        public let copyPartResult: CopyPartResult?
+        /// The version of the source object that was copied, if you have enabled versioning on the source bucket.
+        public let copySourceVersionId: String?
+        public let requestCharged: RequestCharged?
+        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
+        public let sSECustomerAlgorithm: String?
+        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
+        public let sSECustomerKeyMD5: String?
+        /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
+        public let sSEKMSKeyId: String?
+        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
+        public let serverSideEncryption: ServerSideEncryption?
+
+        public init(copyPartResult: CopyPartResult? = nil, copySourceVersionId: String? = nil, requestCharged: RequestCharged? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, serverSideEncryption: ServerSideEncryption? = nil) {
+            self.copyPartResult = copyPartResult
+            self.copySourceVersionId = copySourceVersionId
+            self.requestCharged = requestCharged
+            self.sSECustomerAlgorithm = sSECustomerAlgorithm
+            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
+            self.sSEKMSKeyId = sSEKMSKeyId
+            self.serverSideEncryption = serverSideEncryption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case copyPartResult = "CopyPartResult"
+            case copySourceVersionId = "x-amz-copy-source-version-id"
+            case requestCharged = "x-amz-request-charged"
+            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
+            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
+            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
+            case serverSideEncryption = "x-amz-server-side-encryption"
+        }
+    }
+
+    public struct UploadPartCopyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "CopySource", location: .header(locationName: "x-amz-copy-source"), required: true, type: .string), 
+            AWSShapeMember(label: "CopySourceIfMatch", location: .header(locationName: "x-amz-copy-source-if-match"), required: false, type: .string), 
+            AWSShapeMember(label: "CopySourceIfModifiedSince", location: .header(locationName: "x-amz-copy-source-if-modified-since"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "CopySourceIfNoneMatch", location: .header(locationName: "x-amz-copy-source-if-none-match"), required: false, type: .string), 
+            AWSShapeMember(label: "CopySourceIfUnmodifiedSince", location: .header(locationName: "x-amz-copy-source-if-unmodified-since"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "CopySourceRange", location: .header(locationName: "x-amz-copy-source-range"), required: false, type: .string), 
+            AWSShapeMember(label: "CopySourceSSECustomerAlgorithm", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-algorithm"), required: false, type: .string), 
+            AWSShapeMember(label: "CopySourceSSECustomerKey", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key"), required: false, type: .string), 
+            AWSShapeMember(label: "CopySourceSSECustomerKeyMD5", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
+            AWSShapeMember(label: "PartNumber", location: .querystring(locationName: "partNumber"), required: true, type: .integer), 
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "UploadId", location: .querystring(locationName: "uploadId"), required: true, type: .string)
+        ]
+        public let bucket: String
+        /// The name of the source bucket and key name of the source object, separated by a slash (/). Must be URL-encoded.
+        public let copySource: String
+        /// Copies the object if its entity tag (ETag) matches the specified tag.
+        public let copySourceIfMatch: String?
+        /// Copies the object if it has been modified since the specified time.
+        public let copySourceIfModifiedSince: TimeStamp?
+        /// Copies the object if its entity tag (ETag) is different than the specified ETag.
+        public let copySourceIfNoneMatch: String?
+        /// Copies the object if it hasn't been modified since the specified time.
+        public let copySourceIfUnmodifiedSince: TimeStamp?
+        /// The range of bytes to copy from the source object. The range value must use the form bytes=first-last, where the first and last are the zero-based byte offsets to copy. For example, bytes=0-9 indicates that you want to copy the first ten bytes of the source. You can copy a range only if the source object is greater than 5 GB.
+        public let copySourceRange: String?
+        /// Specifies the algorithm to use when decrypting the source object (e.g., AES256).
+        public let copySourceSSECustomerAlgorithm: String?
+        /// Specifies the customer-provided encryption key for Amazon S3 to use to decrypt the source object. The encryption key provided in this header must be one that was used when the source object was created.
+        public let copySourceSSECustomerKey: String?
+        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
+        public let copySourceSSECustomerKeyMD5: String?
+        public let key: String
+        /// Part number of part being copied. This is a positive integer between 1 and 10,000.
+        public let partNumber: Int32
+        public let requestPayer: RequestPayer?
+        /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
+        public let sSECustomerAlgorithm: String?
+        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header. This must be the same encryption key specified in the initiate multipart upload request.
+        public let sSECustomerKey: String?
+        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
+        public let sSECustomerKeyMD5: String?
+        /// Upload ID identifying the multipart upload whose part is being copied.
+        public let uploadId: String
+
+        public init(bucket: String, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: TimeStamp? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: TimeStamp? = nil, copySourceRange: String? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, key: String, partNumber: Int32, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, uploadId: String) {
+            self.bucket = bucket
+            self.copySource = copySource
+            self.copySourceIfMatch = copySourceIfMatch
+            self.copySourceIfModifiedSince = copySourceIfModifiedSince
+            self.copySourceIfNoneMatch = copySourceIfNoneMatch
+            self.copySourceIfUnmodifiedSince = copySourceIfUnmodifiedSince
+            self.copySourceRange = copySourceRange
+            self.copySourceSSECustomerAlgorithm = copySourceSSECustomerAlgorithm
+            self.copySourceSSECustomerKey = copySourceSSECustomerKey
+            self.copySourceSSECustomerKeyMD5 = copySourceSSECustomerKeyMD5
+            self.key = key
+            self.partNumber = partNumber
+            self.requestPayer = requestPayer
+            self.sSECustomerAlgorithm = sSECustomerAlgorithm
+            self.sSECustomerKey = sSECustomerKey
+            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
+            self.uploadId = uploadId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case copySource = "x-amz-copy-source"
+            case copySourceIfMatch = "x-amz-copy-source-if-match"
+            case copySourceIfModifiedSince = "x-amz-copy-source-if-modified-since"
+            case copySourceIfNoneMatch = "x-amz-copy-source-if-none-match"
+            case copySourceIfUnmodifiedSince = "x-amz-copy-source-if-unmodified-since"
+            case copySourceRange = "x-amz-copy-source-range"
+            case copySourceSSECustomerAlgorithm = "x-amz-copy-source-server-side-encryption-customer-algorithm"
+            case copySourceSSECustomerKey = "x-amz-copy-source-server-side-encryption-customer-key"
+            case copySourceSSECustomerKeyMD5 = "x-amz-copy-source-server-side-encryption-customer-key-MD5"
+            case key = "Key"
+            case partNumber = "partNumber"
+            case requestPayer = "x-amz-request-payer"
+            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
+            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
+            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
+            case uploadId = "uploadId"
+        }
+    }
+
+    public struct UploadPartOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
+            AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum)
+        ]
+        /// Entity tag for the uploaded object.
+        public let eTag: String?
+        public let requestCharged: RequestCharged?
+        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
+        public let sSECustomerAlgorithm: String?
+        /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
+        public let sSECustomerKeyMD5: String?
+        /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
+        public let sSEKMSKeyId: String?
+        /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
+        public let serverSideEncryption: ServerSideEncryption?
+
+        public init(eTag: String? = nil, requestCharged: RequestCharged? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, serverSideEncryption: ServerSideEncryption? = nil) {
+            self.eTag = eTag
+            self.requestCharged = requestCharged
+            self.sSECustomerAlgorithm = sSECustomerAlgorithm
+            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
+            self.sSEKMSKeyId = sSEKMSKeyId
+            self.serverSideEncryption = serverSideEncryption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case requestCharged = "x-amz-request-charged"
+            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
+            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
+            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
+            case serverSideEncryption = "x-amz-server-side-encryption"
+        }
+    }
+
+    public struct UploadPartRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "Body"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Body", required: false, type: .blob), 
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "ContentLength", location: .header(locationName: "Content-Length"), required: false, type: .long), 
+            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
+            AWSShapeMember(label: "PartNumber", location: .querystring(locationName: "partNumber"), required: true, type: .integer), 
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
+            AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
+            AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "UploadId", location: .querystring(locationName: "uploadId"), required: true, type: .string)
+        ]
+        /// Object data.
+        public let body: Data?
+        /// Name of the bucket to which the multipart upload was initiated.
+        public let bucket: String
+        /// Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically.
+        public let contentLength: Int64?
+        /// The base64-encoded 128-bit MD5 digest of the part data.
+        public let contentMD5: String?
+        /// Object key for which the multipart upload was initiated.
+        public let key: String
+        /// Part number of part being uploaded. This is a positive integer between 1 and 10,000.
+        public let partNumber: Int32
+        public let requestPayer: RequestPayer?
+        /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
+        public let sSECustomerAlgorithm: String?
+        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header. This must be the same encryption key specified in the initiate multipart upload request.
+        public let sSECustomerKey: String?
+        /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
+        public let sSECustomerKeyMD5: String?
+        /// Upload ID identifying the multipart upload whose part is being uploaded.
+        public let uploadId: String
+
+        public init(body: Data? = nil, bucket: String, contentLength: Int64? = nil, contentMD5: String? = nil, key: String, partNumber: Int32, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, uploadId: String) {
+            self.body = body
+            self.bucket = bucket
+            self.contentLength = contentLength
+            self.contentMD5 = contentMD5
+            self.key = key
+            self.partNumber = partNumber
+            self.requestPayer = requestPayer
+            self.sSECustomerAlgorithm = sSECustomerAlgorithm
+            self.sSECustomerKey = sSECustomerKey
+            self.sSECustomerKeyMD5 = sSECustomerKeyMD5
+            self.uploadId = uploadId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "Body"
+            case bucket = "Bucket"
+            case contentLength = "Content-Length"
+            case contentMD5 = "Content-MD5"
+            case key = "Key"
+            case partNumber = "partNumber"
+            case requestPayer = "x-amz-request-payer"
+            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
+            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
+            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
+            case uploadId = "uploadId"
+        }
+    }
+
+    public struct UserMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MetadataEntry", required: false, type: .list)
+        ]
+        public let metadataEntry: [MetadataEntry]?
+
+        public init(metadataEntry: [MetadataEntry]? = nil) {
+            self.metadataEntry = metadataEntry
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataEntry = "MetadataEntry"
+        }
+    }
+
+    public struct VersioningConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MFADelete", location: .body(locationName: "MfaDelete"), required: false, type: .enum), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        /// Specifies whether MFA delete is enabled in the bucket versioning configuration. This element is only returned if the bucket has been configured with MFA delete. If the bucket has never been so configured, this element is not returned.
+        public let mFADelete: MFADelete?
+        /// The versioning state of the bucket.
+        public let status: BucketVersioningStatus?
+
+        public init(mFADelete: MFADelete? = nil, status: BucketVersioningStatus? = nil) {
+            self.mFADelete = mFADelete
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mFADelete = "MfaDelete"
+            case status = "Status"
+        }
+    }
+
+    public struct WebsiteConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorDocument", required: false, type: .structure), 
+            AWSShapeMember(label: "IndexDocument", required: false, type: .structure), 
+            AWSShapeMember(label: "RedirectAllRequestsTo", required: false, type: .structure), 
+            AWSShapeMember(label: "RoutingRules", required: false, type: .structure)
+        ]
+        public let errorDocument: ErrorDocument?
+        public let indexDocument: IndexDocument?
+        public let redirectAllRequestsTo: RedirectAllRequestsTo?
+        public let routingRules: RoutingRules?
+
+        public init(errorDocument: ErrorDocument? = nil, indexDocument: IndexDocument? = nil, redirectAllRequestsTo: RedirectAllRequestsTo? = nil, routingRules: RoutingRules? = nil) {
+            self.errorDocument = errorDocument
+            self.indexDocument = indexDocument
+            self.redirectAllRequestsTo = redirectAllRequestsTo
+            self.routingRules = routingRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorDocument = "ErrorDocument"
+            case indexDocument = "IndexDocument"
+            case redirectAllRequestsTo = "RedirectAllRequestsTo"
+            case routingRules = "RoutingRules"
         }
     }
 

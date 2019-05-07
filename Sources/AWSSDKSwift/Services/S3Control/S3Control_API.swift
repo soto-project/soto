@@ -20,20 +20,20 @@ public struct S3Control {
             serviceProtocol: ServiceProtocol(type: .restxml),
             apiVersion: "2018-08-20",
             endpoint: endpoint,
-            serviceEndpoints: ["ap-southeast-1": "s3-control.ap-southeast-1.amazonaws.com", "ca-central-1": "s3-control.ca-central-1.amazonaws.com", "us-east-1": "s3-control.us-east-1.amazonaws.com", "eu-west-1": "s3-control.eu-west-1.amazonaws.com", "us-east-2-fips": "s3-control-fips.us-east-2.amazonaws.com", "us-east-2": "s3-control.us-east-2.amazonaws.com", "ap-south-1": "s3-control.ap-south-1.amazonaws.com", "eu-west-3": "s3-control.eu-west-3.amazonaws.com", "eu-central-1": "s3-control.eu-central-1.amazonaws.com", "us-east-1-fips": "s3-control-fips.us-east-1.amazonaws.com", "sa-east-1": "s3-control.sa-east-1.amazonaws.com", "eu-west-2": "s3-control.eu-west-2.amazonaws.com", "us-west-1": "s3-control.us-west-1.amazonaws.com", "us-west-2-fips": "s3-control-fips.us-west-2.amazonaws.com", "ap-northeast-1": "s3-control.ap-northeast-1.amazonaws.com", "us-west-2": "s3-control.us-west-2.amazonaws.com", "ap-southeast-2": "s3-control.ap-southeast-2.amazonaws.com", "ap-northeast-2": "s3-control.ap-northeast-2.amazonaws.com", "us-west-1-fips": "s3-control-fips.us-west-1.amazonaws.com"],
+            serviceEndpoints: ["ap-northeast-1": "s3-control.ap-northeast-1.amazonaws.com", "ap-northeast-2": "s3-control.ap-northeast-2.amazonaws.com", "ap-south-1": "s3-control.ap-south-1.amazonaws.com", "ap-southeast-1": "s3-control.ap-southeast-1.amazonaws.com", "ap-southeast-2": "s3-control.ap-southeast-2.amazonaws.com", "ca-central-1": "s3-control.ca-central-1.amazonaws.com", "eu-central-1": "s3-control.eu-central-1.amazonaws.com", "eu-west-1": "s3-control.eu-west-1.amazonaws.com", "eu-west-2": "s3-control.eu-west-2.amazonaws.com", "eu-west-3": "s3-control.eu-west-3.amazonaws.com", "sa-east-1": "s3-control.sa-east-1.amazonaws.com", "us-east-1": "s3-control.us-east-1.amazonaws.com", "us-east-1-fips": "s3-control-fips.us-east-1.amazonaws.com", "us-east-2": "s3-control.us-east-2.amazonaws.com", "us-east-2-fips": "s3-control-fips.us-east-2.amazonaws.com", "us-west-1": "s3-control.us-west-1.amazonaws.com", "us-west-1-fips": "s3-control-fips.us-west-1.amazonaws.com", "us-west-2": "s3-control.us-west-2.amazonaws.com", "us-west-2-fips": "s3-control-fips.us-west-2.amazonaws.com"],
             middlewares: [],
             possibleErrorTypes: [S3ControlErrorType.self]
         )
     }
 
-    ///  Retrieves the Public Access Block configuration for an Amazon Web Services account.
-    public func getPublicAccessBlock(_ input: GetPublicAccessBlockRequest) throws -> Future<GetPublicAccessBlockOutput> {
-        return try client.send(operation: "GetPublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "GET", input: input)
-    }
-
     ///  Removes the Public Access Block configuration for an Amazon Web Services account.
     public func deletePublicAccessBlock(_ input: DeletePublicAccessBlockRequest) throws {
         _ = try client.send(operation: "DeletePublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Retrieves the Public Access Block configuration for an Amazon Web Services account.
+    public func getPublicAccessBlock(_ input: GetPublicAccessBlockRequest) throws -> Future<GetPublicAccessBlockOutput> {
+        return try client.send(operation: "GetPublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "GET", input: input)
     }
 
     ///  Creates or modifies the Public Access Block configuration for an Amazon Web Services account.

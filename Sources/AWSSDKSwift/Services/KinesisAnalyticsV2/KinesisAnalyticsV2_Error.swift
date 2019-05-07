@@ -4,18 +4,18 @@ import AWSSDKSwiftCore
 
 /// Error enum for KinesisAnalyticsV2
 public enum KinesisAnalyticsV2ErrorType: AWSErrorType {
-    case resourceNotFoundException(message: String?)
-    case resourceInUseException(message: String?)
-    case invalidArgumentException(message: String?)
+    case codeValidationException(message: String?)
     case concurrentModificationException(message: String?)
+    case invalidApplicationConfigurationException(message: String?)
+    case invalidArgumentException(message: String?)
     case invalidRequestException(message: String?)
-    case unsupportedOperationException(message: String?)
     case limitExceededException(message: String?)
-    case unableToDetectSchemaException(message: String?)
+    case resourceInUseException(message: String?)
+    case resourceNotFoundException(message: String?)
     case resourceProvisionedThroughputExceededException(message: String?)
     case serviceUnavailableException(message: String?)
-    case codeValidationException(message: String?)
-    case invalidApplicationConfigurationException(message: String?)
+    case unableToDetectSchemaException(message: String?)
+    case unsupportedOperationException(message: String?)
 }
 
 extension KinesisAnalyticsV2ErrorType {
@@ -25,30 +25,30 @@ extension KinesisAnalyticsV2ErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
-        case "InvalidArgumentException":
-            self = .invalidArgumentException(message: message)
+        case "CodeValidationException":
+            self = .codeValidationException(message: message)
         case "ConcurrentModificationException":
             self = .concurrentModificationException(message: message)
+        case "InvalidApplicationConfigurationException":
+            self = .invalidApplicationConfigurationException(message: message)
+        case "InvalidArgumentException":
+            self = .invalidArgumentException(message: message)
         case "InvalidRequestException":
             self = .invalidRequestException(message: message)
-        case "UnsupportedOperationException":
-            self = .unsupportedOperationException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
-        case "UnableToDetectSchemaException":
-            self = .unableToDetectSchemaException(message: message)
+        case "ResourceInUseException":
+            self = .resourceInUseException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         case "ResourceProvisionedThroughputExceededException":
             self = .resourceProvisionedThroughputExceededException(message: message)
         case "ServiceUnavailableException":
             self = .serviceUnavailableException(message: message)
-        case "CodeValidationException":
-            self = .codeValidationException(message: message)
-        case "InvalidApplicationConfigurationException":
-            self = .invalidApplicationConfigurationException(message: message)
+        case "UnableToDetectSchemaException":
+            self = .unableToDetectSchemaException(message: message)
+        case "UnsupportedOperationException":
+            self = .unsupportedOperationException(message: message)
         default:
             return nil
         }

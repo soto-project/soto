@@ -5,248 +5,522 @@ import AWSSDKSwiftCore
 
 extension CodeBuild {
 
-    public struct NetworkInterface: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "networkInterfaceId", required: false, type: .string), 
-            AWSShapeMember(label: "subnetId", required: false, type: .string)
-        ]
-        /// The ID of the network interface.
-        public let networkInterfaceId: String?
-        /// The ID of the subnet.
-        public let subnetId: String?
-
-        public init(networkInterfaceId: String? = nil, subnetId: String? = nil) {
-            self.networkInterfaceId = networkInterfaceId
-            self.subnetId = subnetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case networkInterfaceId = "networkInterfaceId"
-            case subnetId = "subnetId"
-        }
+    public enum ArtifactNamespace: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case buildId = "BUILD_ID"
+        public var description: String { return self.rawValue }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable {
-        case codecommit = "CODECOMMIT"
+    public enum ArtifactPackaging: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case zip = "ZIP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ArtifactsType: String, CustomStringConvertible, Codable {
         case codepipeline = "CODEPIPELINE"
-        case github = "GITHUB"
         case s3 = "S3"
-        case bitbucket = "BITBUCKET"
-        case githubEnterprise = "GITHUB_ENTERPRISE"
-        case noSource = "NO_SOURCE"
+        case noArtifacts = "NO_ARTIFACTS"
         public var description: String { return self.rawValue }
     }
 
-    public struct UpdateWebhookOutput: AWSShape {
+    public struct BatchDeleteBuildsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "webhook", required: false, type: .structure)
+            AWSShapeMember(label: "ids", required: true, type: .list)
         ]
-        ///  Information about a repository's webhook that is associated with a project in AWS CodeBuild. 
-        public let webhook: Webhook?
+        /// The IDs of the builds to delete.
+        public let ids: [String]
 
-        public init(webhook: Webhook? = nil) {
-            self.webhook = webhook
+        public init(ids: [String]) {
+            self.ids = ids
         }
 
         private enum CodingKeys: String, CodingKey {
-            case webhook = "webhook"
+            case ids = "ids"
         }
     }
 
-    public struct ProjectSource: AWSShape {
+    public struct BatchDeleteBuildsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "buildspec", required: false, type: .string), 
-            AWSShapeMember(label: "auth", required: false, type: .structure), 
-            AWSShapeMember(label: "insecureSsl", required: false, type: .boolean), 
-            AWSShapeMember(label: "reportBuildStatus", required: false, type: .boolean), 
-            AWSShapeMember(label: "type", required: true, type: .enum), 
-            AWSShapeMember(label: "gitCloneDepth", required: false, type: .integer), 
-            AWSShapeMember(label: "sourceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "location", required: false, type: .string)
+            AWSShapeMember(label: "buildsDeleted", required: false, type: .list), 
+            AWSShapeMember(label: "buildsNotDeleted", required: false, type: .list)
         ]
-        /// The build spec declaration to use for the builds in this build project. If this value is not specified, a build spec must be included along with the source code to be built.
-        public let buildspec: String?
-        /// Information about the authorization settings for AWS CodeBuild to access the source code to be built. This information is for the AWS CodeBuild console's use only. Your code should not get or set this information directly (unless the build project's source type value is BITBUCKET or GITHUB).
-        public let auth: SourceAuth?
-        /// Enable this flag to ignore SSL warnings while connecting to the project source code.
-        public let insecureSsl: Bool?
-        ///  Set to true to report the status of a build's start and finish to your source provider. This option is valid only when your source provider is GitHub, GitHub Enterprise, or Bitbucket. If this is set and you use a different source provider, an invalidInputException is thrown. 
-        public let reportBuildStatus: Bool?
-        /// The type of repository that contains the source code to be built. Valid values include:    BITBUCKET: The source code is in a Bitbucket repository.    CODECOMMIT: The source code is in an AWS CodeCommit repository.    CODEPIPELINE: The source code settings are specified in the source action of a pipeline in AWS CodePipeline.    GITHUB: The source code is in a GitHub repository.    NO_SOURCE: The project does not have input source code.    S3: The source code is in an Amazon Simple Storage Service (Amazon S3) input bucket.  
-        public let `type`: SourceType
-        /// Information about the git clone depth for the build project.
-        public let gitCloneDepth: Int32?
-        ///  An identifier for this project source. 
-        public let sourceIdentifier: String?
-        /// Information about the location of the source code to be built. Valid values include:   For source code settings that are specified in the source action of a pipeline in AWS CodePipeline, location should not be specified. If it is specified, AWS CodePipeline ignores it. This is because AWS CodePipeline uses the settings in a pipeline's source action instead of this value.   For source code in an AWS CodeCommit repository, the HTTPS clone URL to the repository that contains the source code and the build spec (for example, https://git-codecommit.region-ID.amazonaws.com/v1/repos/repo-name ).   For source code in an Amazon Simple Storage Service (Amazon S3) input bucket, one of the following.     The path to the ZIP file that contains the source code (for example,  bucket-name/path/to/object-name.zip).     The path to the folder that contains the source code (for example,  bucket-name/path/to/source-code/folder/).      For source code in a GitHub repository, the HTTPS clone URL to the repository that contains the source and the build spec. You must connect your AWS account to your GitHub account. Use the AWS CodeBuild console to start creating a build project. When you use the console to connect (or reconnect) with GitHub, on the GitHub Authorize application page, for Organization access, choose Request access next to each repository you want to allow AWS CodeBuild to have access to, and then choose Authorize application. (After you have connected to your GitHub account, you do not need to finish creating the build project. You can leave the AWS CodeBuild console.) To instruct AWS CodeBuild to use this connection, in the source object, set the auth object's type value to OAUTH.   For source code in a Bitbucket repository, the HTTPS clone URL to the repository that contains the source and the build spec. You must connect your AWS account to your Bitbucket account. Use the AWS CodeBuild console to start creating a build project. When you use the console to connect (or reconnect) with Bitbucket, on the Bitbucket Confirm access to your account page, choose Grant access. (After you have connected to your Bitbucket account, you do not need to finish creating the build project. You can leave the AWS CodeBuild console.) To instruct AWS CodeBuild to use this connection, in the source object, set the auth object's type value to OAUTH.  
-        public let location: String?
+        /// The IDs of the builds that were successfully deleted.
+        public let buildsDeleted: [String]?
+        /// Information about any builds that could not be successfully deleted.
+        public let buildsNotDeleted: [BuildNotDeleted]?
 
-        public init(buildspec: String? = nil, auth: SourceAuth? = nil, insecureSsl: Bool? = nil, reportBuildStatus: Bool? = nil, type: SourceType, gitCloneDepth: Int32? = nil, sourceIdentifier: String? = nil, location: String? = nil) {
-            self.buildspec = buildspec
-            self.auth = auth
-            self.insecureSsl = insecureSsl
-            self.reportBuildStatus = reportBuildStatus
-            self.`type` = `type`
-            self.gitCloneDepth = gitCloneDepth
-            self.sourceIdentifier = sourceIdentifier
-            self.location = location
+        public init(buildsDeleted: [String]? = nil, buildsNotDeleted: [BuildNotDeleted]? = nil) {
+            self.buildsDeleted = buildsDeleted
+            self.buildsNotDeleted = buildsNotDeleted
         }
 
         private enum CodingKeys: String, CodingKey {
-            case buildspec = "buildspec"
-            case auth = "auth"
-            case insecureSsl = "insecureSsl"
-            case reportBuildStatus = "reportBuildStatus"
-            case `type` = "type"
-            case gitCloneDepth = "gitCloneDepth"
-            case sourceIdentifier = "sourceIdentifier"
-            case location = "location"
+            case buildsDeleted = "buildsDeleted"
+            case buildsNotDeleted = "buildsNotDeleted"
         }
     }
 
-    public enum LanguageType: String, CustomStringConvertible, Codable {
-        case java = "JAVA"
-        case python = "PYTHON"
-        case nodeJs = "NODE_JS"
-        case ruby = "RUBY"
-        case golang = "GOLANG"
-        case docker = "DOCKER"
-        case android = "ANDROID"
-        case dotnet = "DOTNET"
-        case base = "BASE"
-        case php = "PHP"
-        public var description: String { return self.rawValue }
+    public struct BatchGetBuildsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ids", required: true, type: .list)
+        ]
+        /// The IDs of the builds.
+        public let ids: [String]
+
+        public init(ids: [String]) {
+            self.ids = ids
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ids = "ids"
+        }
+    }
+
+    public struct BatchGetBuildsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "builds", required: false, type: .list), 
+            AWSShapeMember(label: "buildsNotFound", required: false, type: .list)
+        ]
+        /// Information about the requested builds.
+        public let builds: [Build]?
+        /// The IDs of builds for which information could not be found.
+        public let buildsNotFound: [String]?
+
+        public init(builds: [Build]? = nil, buildsNotFound: [String]? = nil) {
+            self.builds = builds
+            self.buildsNotFound = buildsNotFound
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case builds = "builds"
+            case buildsNotFound = "buildsNotFound"
+        }
+    }
+
+    public struct BatchGetProjectsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "names", required: true, type: .list)
+        ]
+        /// The names of the build projects.
+        public let names: [String]
+
+        public init(names: [String]) {
+            self.names = names
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case names = "names"
+        }
+    }
+
+    public struct BatchGetProjectsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "projects", required: false, type: .list), 
+            AWSShapeMember(label: "projectsNotFound", required: false, type: .list)
+        ]
+        /// Information about the requested build projects.
+        public let projects: [Project]?
+        /// The names of build projects for which information could not be found.
+        public let projectsNotFound: [String]?
+
+        public init(projects: [Project]? = nil, projectsNotFound: [String]? = nil) {
+            self.projects = projects
+            self.projectsNotFound = projectsNotFound
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projects = "projects"
+            case projectsNotFound = "projectsNotFound"
+        }
+    }
+
+    public struct Build: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "artifacts", required: false, type: .structure), 
+            AWSShapeMember(label: "buildComplete", required: false, type: .boolean), 
+            AWSShapeMember(label: "buildStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "cache", required: false, type: .structure), 
+            AWSShapeMember(label: "currentPhase", required: false, type: .string), 
+            AWSShapeMember(label: "encryptionKey", required: false, type: .string), 
+            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "environment", required: false, type: .structure), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "initiator", required: false, type: .string), 
+            AWSShapeMember(label: "logs", required: false, type: .structure), 
+            AWSShapeMember(label: "networkInterface", required: false, type: .structure), 
+            AWSShapeMember(label: "phases", required: false, type: .list), 
+            AWSShapeMember(label: "projectName", required: false, type: .string), 
+            AWSShapeMember(label: "queuedTimeoutInMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "resolvedSourceVersion", required: false, type: .string), 
+            AWSShapeMember(label: "secondaryArtifacts", required: false, type: .list), 
+            AWSShapeMember(label: "secondarySourceVersions", required: false, type: .list), 
+            AWSShapeMember(label: "secondarySources", required: false, type: .list), 
+            AWSShapeMember(label: "serviceRole", required: false, type: .string), 
+            AWSShapeMember(label: "source", required: false, type: .structure), 
+            AWSShapeMember(label: "sourceVersion", required: false, type: .string), 
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "timeoutInMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
+        ]
+        /// The Amazon Resource Name (ARN) of the build.
+        public let arn: String?
+        /// Information about the output artifacts for the build.
+        public let artifacts: BuildArtifacts?
+        /// Whether the build is complete. True if complete; otherwise, false.
+        public let buildComplete: Bool?
+        /// The current status of the build. Valid values include:    FAILED: The build failed.    FAULT: The build faulted.    IN_PROGRESS: The build is still in progress.    STOPPED: The build stopped.    SUCCEEDED: The build succeeded.    TIMED_OUT: The build timed out.  
+        public let buildStatus: StatusType?
+        /// Information about the cache for the build.
+        public let cache: ProjectCache?
+        /// The current build phase.
+        public let currentPhase: String?
+        /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build output artifacts. This is expressed either as the Amazon Resource Name (ARN) of the CMK or, if specified, the CMK's alias (using the format alias/alias-name ).
+        public let encryptionKey: String?
+        /// When the build process ended, expressed in Unix time format.
+        public let endTime: TimeStamp?
+        /// Information about the build environment for this build.
+        public let environment: ProjectEnvironment?
+        /// The unique ID for the build.
+        public let id: String?
+        /// The entity that started the build. Valid values include:   If AWS CodePipeline started the build, the pipeline's name (for example, codepipeline/my-demo-pipeline).   If an AWS Identity and Access Management (IAM) user started the build, the user's name (for example, MyUserName).   If the Jenkins plugin for AWS CodeBuild started the build, the string CodeBuild-Jenkins-Plugin.  
+        public let initiator: String?
+        /// Information about the build's logs in Amazon CloudWatch Logs.
+        public let logs: LogsLocation?
+        /// Describes a network interface.
+        public let networkInterface: NetworkInterface?
+        /// Information about all previous build phases that are complete and information about any current build phase that is not yet complete.
+        public let phases: [BuildPhase]?
+        /// The name of the AWS CodeBuild project.
+        public let projectName: String?
+        ///  The number of minutes a build is allowed to be queued before it times out. 
+        public let queuedTimeoutInMinutes: Int32?
+        ///  An identifier for the version of this build's source code.     For AWS CodeCommit, GitHub, GitHub Enterprise, and BitBucket, the commit ID.     For AWS CodePipeline, the source revision provided by AWS CodePipeline.     For Amazon Simple Storage Service (Amazon S3), this does not apply.   
+        public let resolvedSourceVersion: String?
+        ///  An array of ProjectArtifacts objects. 
+        public let secondaryArtifacts: [BuildArtifacts]?
+        ///  An array of ProjectSourceVersion objects. Each ProjectSourceVersion must be one of:    For AWS CodeCommit: the commit ID to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example, pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.  
+        public let secondarySourceVersions: [ProjectSourceVersion]?
+        ///  An array of ProjectSource objects. 
+        public let secondarySources: [ProjectSource]?
+        /// The name of a service role used for this build.
+        public let serviceRole: String?
+        /// Information about the source code to be built.
+        public let source: ProjectSource?
+        /// Any version identifier for the version of the source code to be built.
+        public let sourceVersion: String?
+        /// When the build process started, expressed in Unix time format.
+        public let startTime: TimeStamp?
+        /// How long, in minutes, for AWS CodeBuild to wait before timing out this build if it does not get marked as completed.
+        public let timeoutInMinutes: Int32?
+        /// If your AWS CodeBuild project accesses resources in an Amazon VPC, you provide this parameter that identifies the VPC ID and the list of security group IDs and subnet IDs. The security groups and subnets must belong to the same VPC. You must provide at least one security group and one subnet ID.
+        public let vpcConfig: VpcConfig?
+
+        public init(arn: String? = nil, artifacts: BuildArtifacts? = nil, buildComplete: Bool? = nil, buildStatus: StatusType? = nil, cache: ProjectCache? = nil, currentPhase: String? = nil, encryptionKey: String? = nil, endTime: TimeStamp? = nil, environment: ProjectEnvironment? = nil, id: String? = nil, initiator: String? = nil, logs: LogsLocation? = nil, networkInterface: NetworkInterface? = nil, phases: [BuildPhase]? = nil, projectName: String? = nil, queuedTimeoutInMinutes: Int32? = nil, resolvedSourceVersion: String? = nil, secondaryArtifacts: [BuildArtifacts]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, secondarySources: [ProjectSource]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, startTime: TimeStamp? = nil, timeoutInMinutes: Int32? = nil, vpcConfig: VpcConfig? = nil) {
+            self.arn = arn
+            self.artifacts = artifacts
+            self.buildComplete = buildComplete
+            self.buildStatus = buildStatus
+            self.cache = cache
+            self.currentPhase = currentPhase
+            self.encryptionKey = encryptionKey
+            self.endTime = endTime
+            self.environment = environment
+            self.id = id
+            self.initiator = initiator
+            self.logs = logs
+            self.networkInterface = networkInterface
+            self.phases = phases
+            self.projectName = projectName
+            self.queuedTimeoutInMinutes = queuedTimeoutInMinutes
+            self.resolvedSourceVersion = resolvedSourceVersion
+            self.secondaryArtifacts = secondaryArtifacts
+            self.secondarySourceVersions = secondarySourceVersions
+            self.secondarySources = secondarySources
+            self.serviceRole = serviceRole
+            self.source = source
+            self.sourceVersion = sourceVersion
+            self.startTime = startTime
+            self.timeoutInMinutes = timeoutInMinutes
+            self.vpcConfig = vpcConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case artifacts = "artifacts"
+            case buildComplete = "buildComplete"
+            case buildStatus = "buildStatus"
+            case cache = "cache"
+            case currentPhase = "currentPhase"
+            case encryptionKey = "encryptionKey"
+            case endTime = "endTime"
+            case environment = "environment"
+            case id = "id"
+            case initiator = "initiator"
+            case logs = "logs"
+            case networkInterface = "networkInterface"
+            case phases = "phases"
+            case projectName = "projectName"
+            case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"
+            case resolvedSourceVersion = "resolvedSourceVersion"
+            case secondaryArtifacts = "secondaryArtifacts"
+            case secondarySourceVersions = "secondarySourceVersions"
+            case secondarySources = "secondarySources"
+            case serviceRole = "serviceRole"
+            case source = "source"
+            case sourceVersion = "sourceVersion"
+            case startTime = "startTime"
+            case timeoutInMinutes = "timeoutInMinutes"
+            case vpcConfig = "vpcConfig"
+        }
     }
 
     public struct BuildArtifacts: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "md5sum", required: false, type: .string), 
+            AWSShapeMember(label: "artifactIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "encryptionDisabled", required: false, type: .boolean), 
             AWSShapeMember(label: "location", required: false, type: .string), 
-            AWSShapeMember(label: "sha256sum", required: false, type: .string), 
+            AWSShapeMember(label: "md5sum", required: false, type: .string), 
             AWSShapeMember(label: "overrideArtifactName", required: false, type: .boolean), 
-            AWSShapeMember(label: "artifactIdentifier", required: false, type: .string)
+            AWSShapeMember(label: "sha256sum", required: false, type: .string)
         ]
-        /// The MD5 hash of the build artifact. You can use this hash along with a checksum tool to confirm file integrity and authenticity.  This value is available only if the build project's packaging value is set to ZIP. 
-        public let md5sum: String?
+        ///  An identifier for this artifact definition. 
+        public let artifactIdentifier: String?
         ///  Information that tells you if encryption for build artifacts is disabled. 
         public let encryptionDisabled: Bool?
         /// Information about the location of the build artifacts.
         public let location: String?
-        /// The SHA-256 hash of the build artifact. You can use this hash along with a checksum tool to confirm file integrity and authenticity.  This value is available only if the build project's packaging value is set to ZIP. 
-        public let sha256sum: String?
+        /// The MD5 hash of the build artifact. You can use this hash along with a checksum tool to confirm file integrity and authenticity.  This value is available only if the build project's packaging value is set to ZIP. 
+        public let md5sum: String?
         ///  If this flag is set, a name specified in the build spec file overrides the artifact name. The name specified in a build spec file is calculated at build time and uses the Shell Command Language. For example, you can append a date and time to your artifact name so that it is always unique. 
         public let overrideArtifactName: Bool?
-        ///  An identifier for this artifact definition. 
-        public let artifactIdentifier: String?
+        /// The SHA-256 hash of the build artifact. You can use this hash along with a checksum tool to confirm file integrity and authenticity.  This value is available only if the build project's packaging value is set to ZIP. 
+        public let sha256sum: String?
 
-        public init(md5sum: String? = nil, encryptionDisabled: Bool? = nil, location: String? = nil, sha256sum: String? = nil, overrideArtifactName: Bool? = nil, artifactIdentifier: String? = nil) {
-            self.md5sum = md5sum
+        public init(artifactIdentifier: String? = nil, encryptionDisabled: Bool? = nil, location: String? = nil, md5sum: String? = nil, overrideArtifactName: Bool? = nil, sha256sum: String? = nil) {
+            self.artifactIdentifier = artifactIdentifier
             self.encryptionDisabled = encryptionDisabled
             self.location = location
-            self.sha256sum = sha256sum
+            self.md5sum = md5sum
             self.overrideArtifactName = overrideArtifactName
-            self.artifactIdentifier = artifactIdentifier
+            self.sha256sum = sha256sum
         }
 
         private enum CodingKeys: String, CodingKey {
-            case md5sum = "md5sum"
+            case artifactIdentifier = "artifactIdentifier"
             case encryptionDisabled = "encryptionDisabled"
             case location = "location"
-            case sha256sum = "sha256sum"
+            case md5sum = "md5sum"
             case overrideArtifactName = "overrideArtifactName"
-            case artifactIdentifier = "artifactIdentifier"
+            case sha256sum = "sha256sum"
         }
+    }
+
+    public struct BuildNotDeleted: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "statusCode", required: false, type: .string)
+        ]
+        /// The ID of the build that could not be successfully deleted.
+        public let id: String?
+        /// Additional information about the build that could not be successfully deleted.
+        public let statusCode: String?
+
+        public init(id: String? = nil, statusCode: String? = nil) {
+            self.id = id
+            self.statusCode = statusCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case statusCode = "statusCode"
+        }
+    }
+
+    public struct BuildPhase: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "contexts", required: false, type: .list), 
+            AWSShapeMember(label: "durationInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "phaseStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "phaseType", required: false, type: .enum), 
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp)
+        ]
+        /// Additional information about a build phase, especially to help troubleshoot a failed build.
+        public let contexts: [PhaseContext]?
+        /// How long, in seconds, between the starting and ending times of the build's phase.
+        public let durationInSeconds: Int64?
+        /// When the build phase ended, expressed in Unix time format.
+        public let endTime: TimeStamp?
+        /// The current status of the build phase. Valid values include:    FAILED: The build phase failed.    FAULT: The build phase faulted.    IN_PROGRESS: The build phase is still in progress.    QUEUED: The build has been submitted and is queued behind other submitted builds.    STOPPED: The build phase stopped.    SUCCEEDED: The build phase succeeded.    TIMED_OUT: The build phase timed out.  
+        public let phaseStatus: StatusType?
+        /// The name of the build phase. Valid values include:    BUILD: Core build activities typically occur in this build phase.    COMPLETED: The build has been completed.    DOWNLOAD_SOURCE: Source code is being downloaded in this build phase.    FINALIZING: The build process is completing in this build phase.    INSTALL: Installation activities typically occur in this build phase.    POST_BUILD: Post-build activities typically occur in this build phase.    PRE_BUILD: Pre-build activities typically occur in this build phase.    PROVISIONING: The build environment is being set up.    QUEUED: The build has been submitted and is queued behind other submitted builds.    SUBMITTED: The build has been submitted.    UPLOAD_ARTIFACTS: Build output artifacts are being uploaded to the output location.  
+        public let phaseType: BuildPhaseType?
+        /// When the build phase started, expressed in Unix time format.
+        public let startTime: TimeStamp?
+
+        public init(contexts: [PhaseContext]? = nil, durationInSeconds: Int64? = nil, endTime: TimeStamp? = nil, phaseStatus: StatusType? = nil, phaseType: BuildPhaseType? = nil, startTime: TimeStamp? = nil) {
+            self.contexts = contexts
+            self.durationInSeconds = durationInSeconds
+            self.endTime = endTime
+            self.phaseStatus = phaseStatus
+            self.phaseType = phaseType
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contexts = "contexts"
+            case durationInSeconds = "durationInSeconds"
+            case endTime = "endTime"
+            case phaseStatus = "phaseStatus"
+            case phaseType = "phaseType"
+            case startTime = "startTime"
+        }
+    }
+
+    public enum BuildPhaseType: String, CustomStringConvertible, Codable {
+        case submitted = "SUBMITTED"
+        case queued = "QUEUED"
+        case provisioning = "PROVISIONING"
+        case downloadSource = "DOWNLOAD_SOURCE"
+        case install = "INSTALL"
+        case preBuild = "PRE_BUILD"
+        case build = "BUILD"
+        case postBuild = "POST_BUILD"
+        case uploadArtifacts = "UPLOAD_ARTIFACTS"
+        case finalizing = "FINALIZING"
+        case completed = "COMPLETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CacheType: String, CustomStringConvertible, Codable {
+        case noCache = "NO_CACHE"
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CloudWatchLogsConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "groupName", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: true, type: .enum), 
+            AWSShapeMember(label: "streamName", required: false, type: .string)
+        ]
+        ///  The group name of the logs in Amazon CloudWatch Logs. For more information, see Working with Log Groups and Log Streams. 
+        public let groupName: String?
+        /// The current status of the logs in Amazon CloudWatch Logs for a build project. Valid values are:    ENABLED: Amazon CloudWatch Logs are enabled for this build project.    DISABLED: Amazon CloudWatch Logs are not enabled for this build project.  
+        public let status: LogsConfigStatusType
+        ///  The prefix of the stream name of the Amazon CloudWatch Logs. For more information, see Working with Log Groups and Log Streams. 
+        public let streamName: String?
+
+        public init(groupName: String? = nil, status: LogsConfigStatusType, streamName: String? = nil) {
+            self.groupName = groupName
+            self.status = status
+            self.streamName = streamName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupName = "groupName"
+            case status = "status"
+            case streamName = "streamName"
+        }
+    }
+
+    public enum ComputeType: String, CustomStringConvertible, Codable {
+        case buildGeneral1Small = "BUILD_GENERAL1_SMALL"
+        case buildGeneral1Medium = "BUILD_GENERAL1_MEDIUM"
+        case buildGeneral1Large = "BUILD_GENERAL1_LARGE"
+        public var description: String { return self.rawValue }
     }
 
     public struct CreateProjectInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "serviceRole", required: true, type: .string), 
-            AWSShapeMember(label: "environment", required: true, type: .structure), 
-            AWSShapeMember(label: "badgeEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "queuedTimeoutInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "source", required: true, type: .structure), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "cache", required: false, type: .structure), 
-            AWSShapeMember(label: "secondarySources", required: false, type: .list), 
-            AWSShapeMember(label: "logsConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "vpcConfig", required: false, type: .structure), 
             AWSShapeMember(label: "artifacts", required: true, type: .structure), 
-            AWSShapeMember(label: "timeoutInMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "badgeEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "cache", required: false, type: .structure), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "encryptionKey", required: false, type: .string), 
-            AWSShapeMember(label: "secondaryArtifacts", required: false, type: .list)
+            AWSShapeMember(label: "environment", required: true, type: .structure), 
+            AWSShapeMember(label: "logsConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "queuedTimeoutInMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "secondaryArtifacts", required: false, type: .list), 
+            AWSShapeMember(label: "secondarySources", required: false, type: .list), 
+            AWSShapeMember(label: "serviceRole", required: true, type: .string), 
+            AWSShapeMember(label: "source", required: true, type: .structure), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "timeoutInMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
         ]
-        /// The ARN of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
-        public let serviceRole: String
-        /// Information about the build environment for the build project.
-        public let environment: ProjectEnvironment
-        /// Set this to true to generate a publicly accessible URL for your project's build badge.
-        public let badgeEnabled: Bool?
-        ///  The number of minutes a build is allowed to be queued before it times out. 
-        public let queuedTimeoutInMinutes: Int32?
-        /// The name of the build project.
-        public let name: String
-        /// Information about the build input source code for the build project.
-        public let source: ProjectSource
-        /// A description that makes the build project easy to identify.
-        public let description: String?
-        /// Stores recently used information so that it can be quickly accessed at a later time.
-        public let cache: ProjectCache?
-        ///  An array of ProjectSource objects. 
-        public let secondarySources: [ProjectSource]?
-        ///  Information about logs for the build project. These can be logs in Amazon CloudWatch Logs, logs uploaded to a specified S3 bucket, or both. 
-        public let logsConfig: LogsConfig?
-        /// A set of tags for this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
-        public let tags: [Tag]?
-        /// VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
-        public let vpcConfig: VpcConfig?
         /// Information about the build output artifacts for the build project.
         public let artifacts: ProjectArtifacts
-        /// How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before it times out any build that has not been marked as completed. The default is 60 minutes.
-        public let timeoutInMinutes: Int32?
+        /// Set this to true to generate a publicly accessible URL for your project's build badge.
+        public let badgeEnabled: Bool?
+        /// Stores recently used information so that it can be quickly accessed at a later time.
+        public let cache: ProjectCache?
+        /// A description that makes the build project easy to identify.
+        public let description: String?
         /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build output artifacts. You can specify either the Amazon Resource Name (ARN) of the CMK or, if available, the CMK's alias (using the format alias/alias-name ).
         public let encryptionKey: String?
+        /// Information about the build environment for the build project.
+        public let environment: ProjectEnvironment
+        ///  Information about logs for the build project. These can be logs in Amazon CloudWatch Logs, logs uploaded to a specified S3 bucket, or both. 
+        public let logsConfig: LogsConfig?
+        /// The name of the build project.
+        public let name: String
+        ///  The number of minutes a build is allowed to be queued before it times out. 
+        public let queuedTimeoutInMinutes: Int32?
         ///  An array of ProjectArtifacts objects. 
         public let secondaryArtifacts: [ProjectArtifacts]?
+        ///  An array of ProjectSource objects. 
+        public let secondarySources: [ProjectSource]?
+        /// The ARN of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
+        public let serviceRole: String
+        /// Information about the build input source code for the build project.
+        public let source: ProjectSource
+        /// A set of tags for this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
+        public let tags: [Tag]?
+        /// How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before it times out any build that has not been marked as completed. The default is 60 minutes.
+        public let timeoutInMinutes: Int32?
+        /// VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
+        public let vpcConfig: VpcConfig?
 
-        public init(serviceRole: String, environment: ProjectEnvironment, badgeEnabled: Bool? = nil, queuedTimeoutInMinutes: Int32? = nil, name: String, source: ProjectSource, description: String? = nil, cache: ProjectCache? = nil, secondarySources: [ProjectSource]? = nil, logsConfig: LogsConfig? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil, artifacts: ProjectArtifacts, timeoutInMinutes: Int32? = nil, encryptionKey: String? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil) {
-            self.serviceRole = serviceRole
-            self.environment = environment
-            self.badgeEnabled = badgeEnabled
-            self.queuedTimeoutInMinutes = queuedTimeoutInMinutes
-            self.name = name
-            self.source = source
-            self.description = description
-            self.cache = cache
-            self.secondarySources = secondarySources
-            self.logsConfig = logsConfig
-            self.tags = tags
-            self.vpcConfig = vpcConfig
+        public init(artifacts: ProjectArtifacts, badgeEnabled: Bool? = nil, cache: ProjectCache? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment, logsConfig: LogsConfig? = nil, name: String, queuedTimeoutInMinutes: Int32? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, serviceRole: String, source: ProjectSource, tags: [Tag]? = nil, timeoutInMinutes: Int32? = nil, vpcConfig: VpcConfig? = nil) {
             self.artifacts = artifacts
-            self.timeoutInMinutes = timeoutInMinutes
+            self.badgeEnabled = badgeEnabled
+            self.cache = cache
+            self.description = description
             self.encryptionKey = encryptionKey
+            self.environment = environment
+            self.logsConfig = logsConfig
+            self.name = name
+            self.queuedTimeoutInMinutes = queuedTimeoutInMinutes
             self.secondaryArtifacts = secondaryArtifacts
+            self.secondarySources = secondarySources
+            self.serviceRole = serviceRole
+            self.source = source
+            self.tags = tags
+            self.timeoutInMinutes = timeoutInMinutes
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceRole = "serviceRole"
-            case environment = "environment"
-            case badgeEnabled = "badgeEnabled"
-            case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"
-            case name = "name"
-            case source = "source"
-            case description = "description"
-            case cache = "cache"
-            case secondarySources = "secondarySources"
-            case logsConfig = "logsConfig"
-            case tags = "tags"
-            case vpcConfig = "vpcConfig"
             case artifacts = "artifacts"
-            case timeoutInMinutes = "timeoutInMinutes"
+            case badgeEnabled = "badgeEnabled"
+            case cache = "cache"
+            case description = "description"
             case encryptionKey = "encryptionKey"
+            case environment = "environment"
+            case logsConfig = "logsConfig"
+            case name = "name"
+            case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"
             case secondaryArtifacts = "secondaryArtifacts"
+            case secondarySources = "secondarySources"
+            case serviceRole = "serviceRole"
+            case source = "source"
+            case tags = "tags"
+            case timeoutInMinutes = "timeoutInMinutes"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -266,50 +540,341 @@ extension CodeBuild {
         }
     }
 
-    public enum ArtifactPackaging: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case zip = "ZIP"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct BuildPhase: AWSShape {
+    public struct CreateWebhookInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "durationInSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "contexts", required: false, type: .list), 
-            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "phaseStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "phaseType", required: false, type: .enum)
+            AWSShapeMember(label: "branchFilter", required: false, type: .string), 
+            AWSShapeMember(label: "projectName", required: true, type: .string)
         ]
-        /// How long, in seconds, between the starting and ending times of the build's phase.
-        public let durationInSeconds: Int64?
-        /// Additional information about a build phase, especially to help troubleshoot a failed build.
-        public let contexts: [PhaseContext]?
-        /// When the build phase ended, expressed in Unix time format.
-        public let endTime: TimeStamp?
-        /// When the build phase started, expressed in Unix time format.
-        public let startTime: TimeStamp?
-        /// The current status of the build phase. Valid values include:    FAILED: The build phase failed.    FAULT: The build phase faulted.    IN_PROGRESS: The build phase is still in progress.    QUEUED: The build has been submitted and is queued behind other submitted builds.    STOPPED: The build phase stopped.    SUCCEEDED: The build phase succeeded.    TIMED_OUT: The build phase timed out.  
-        public let phaseStatus: StatusType?
-        /// The name of the build phase. Valid values include:    BUILD: Core build activities typically occur in this build phase.    COMPLETED: The build has been completed.    DOWNLOAD_SOURCE: Source code is being downloaded in this build phase.    FINALIZING: The build process is completing in this build phase.    INSTALL: Installation activities typically occur in this build phase.    POST_BUILD: Post-build activities typically occur in this build phase.    PRE_BUILD: Pre-build activities typically occur in this build phase.    PROVISIONING: The build environment is being set up.    QUEUED: The build has been submitted and is queued behind other submitted builds.    SUBMITTED: The build has been submitted.    UPLOAD_ARTIFACTS: Build output artifacts are being uploaded to the output location.  
-        public let phaseType: BuildPhaseType?
+        /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built.
+        public let branchFilter: String?
+        /// The name of the AWS CodeBuild project.
+        public let projectName: String
 
-        public init(durationInSeconds: Int64? = nil, contexts: [PhaseContext]? = nil, endTime: TimeStamp? = nil, startTime: TimeStamp? = nil, phaseStatus: StatusType? = nil, phaseType: BuildPhaseType? = nil) {
-            self.durationInSeconds = durationInSeconds
-            self.contexts = contexts
-            self.endTime = endTime
-            self.startTime = startTime
-            self.phaseStatus = phaseStatus
-            self.phaseType = phaseType
+        public init(branchFilter: String? = nil, projectName: String) {
+            self.branchFilter = branchFilter
+            self.projectName = projectName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case durationInSeconds = "durationInSeconds"
-            case contexts = "contexts"
-            case endTime = "endTime"
-            case startTime = "startTime"
-            case phaseStatus = "phaseStatus"
-            case phaseType = "phaseType"
+            case branchFilter = "branchFilter"
+            case projectName = "projectName"
+        }
+    }
+
+    public struct CreateWebhookOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "webhook", required: false, type: .structure)
+        ]
+        /// Information about a webhook that connects repository events to a build project in AWS CodeBuild.
+        public let webhook: Webhook?
+
+        public init(webhook: Webhook? = nil) {
+            self.webhook = webhook
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webhook = "webhook"
+        }
+    }
+
+    public struct DeleteProjectInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string)
+        ]
+        /// The name of the build project.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct DeleteProjectOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteWebhookInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "projectName", required: true, type: .string)
+        ]
+        /// The name of the AWS CodeBuild project.
+        public let projectName: String
+
+        public init(projectName: String) {
+            self.projectName = projectName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectName = "projectName"
+        }
+    }
+
+    public struct DeleteWebhookOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct EnvironmentImage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "versions", required: false, type: .list)
+        ]
+        /// The description of the Docker image.
+        public let description: String?
+        /// The name of the Docker image.
+        public let name: String?
+        /// A list of environment image versions.
+        public let versions: [String]?
+
+        public init(description: String? = nil, name: String? = nil, versions: [String]? = nil) {
+            self.description = description
+            self.name = name
+            self.versions = versions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case versions = "versions"
+        }
+    }
+
+    public struct EnvironmentLanguage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "images", required: false, type: .list), 
+            AWSShapeMember(label: "language", required: false, type: .enum)
+        ]
+        /// The list of Docker images that are related by the specified programming language.
+        public let images: [EnvironmentImage]?
+        /// The programming language for the Docker images.
+        public let language: LanguageType?
+
+        public init(images: [EnvironmentImage]? = nil, language: LanguageType? = nil) {
+            self.images = images
+            self.language = language
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case images = "images"
+            case language = "language"
+        }
+    }
+
+    public struct EnvironmentPlatform: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "languages", required: false, type: .list), 
+            AWSShapeMember(label: "platform", required: false, type: .enum)
+        ]
+        /// The list of programming languages that are available for the specified platform.
+        public let languages: [EnvironmentLanguage]?
+        /// The platform's name.
+        public let platform: PlatformType?
+
+        public init(languages: [EnvironmentLanguage]? = nil, platform: PlatformType? = nil) {
+            self.languages = languages
+            self.platform = platform
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case languages = "languages"
+            case platform = "platform"
+        }
+    }
+
+    public enum EnvironmentType: String, CustomStringConvertible, Codable {
+        case windowsContainer = "WINDOWS_CONTAINER"
+        case linuxContainer = "LINUX_CONTAINER"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct EnvironmentVariable: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "value", required: true, type: .string)
+        ]
+        /// The name or key of the environment variable.
+        public let name: String
+        /// The type of environment variable. Valid values include:    PARAMETER_STORE: An environment variable stored in Amazon EC2 Systems Manager Parameter Store.    PLAINTEXT: An environment variable in plaintext format.  
+        public let `type`: EnvironmentVariableType?
+        /// The value of the environment variable.  We strongly discourage the use of environment variables to store sensitive values, especially AWS secret key IDs and secret access keys. Environment variables can be displayed in plain text using the AWS CodeBuild console and the AWS Command Line Interface (AWS CLI). 
+        public let value: String
+
+        public init(name: String, type: EnvironmentVariableType? = nil, value: String) {
+            self.name = name
+            self.`type` = `type`
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case `type` = "type"
+            case value = "value"
+        }
+    }
+
+    public enum EnvironmentVariableType: String, CustomStringConvertible, Codable {
+        case plaintext = "PLAINTEXT"
+        case parameterStore = "PARAMETER_STORE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct InvalidateProjectCacheInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "projectName", required: true, type: .string)
+        ]
+        /// The name of the AWS CodeBuild build project that the cache is reset for.
+        public let projectName: String
+
+        public init(projectName: String) {
+            self.projectName = projectName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectName = "projectName"
+        }
+    }
+
+    public struct InvalidateProjectCacheOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public enum LanguageType: String, CustomStringConvertible, Codable {
+        case java = "JAVA"
+        case python = "PYTHON"
+        case nodeJs = "NODE_JS"
+        case ruby = "RUBY"
+        case golang = "GOLANG"
+        case docker = "DOCKER"
+        case android = "ANDROID"
+        case dotnet = "DOTNET"
+        case base = "BASE"
+        case php = "PHP"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListBuildsForProjectInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "projectName", required: true, type: .string), 
+            AWSShapeMember(label: "sortOrder", required: false, type: .enum)
+        ]
+        /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
+        public let nextToken: String?
+        /// The name of the AWS CodeBuild project.
+        public let projectName: String
+        /// The order to list build IDs. Valid values include:    ASCENDING: List the build IDs in ascending order by build ID.    DESCENDING: List the build IDs in descending order by build ID.  
+        public let sortOrder: SortOrderType?
+
+        public init(nextToken: String? = nil, projectName: String, sortOrder: SortOrderType? = nil) {
+            self.nextToken = nextToken
+            self.projectName = projectName
+            self.sortOrder = sortOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case projectName = "projectName"
+            case sortOrder = "sortOrder"
+        }
+    }
+
+    public struct ListBuildsForProjectOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ids", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// A list of build IDs for the specified build project, with each build ID representing a single build.
+        public let ids: [String]?
+        /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
+        public let nextToken: String?
+
+        public init(ids: [String]? = nil, nextToken: String? = nil) {
+            self.ids = ids
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ids = "ids"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListBuildsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "sortOrder", required: false, type: .enum)
+        ]
+        /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
+        public let nextToken: String?
+        /// The order to list build IDs. Valid values include:    ASCENDING: List the build IDs in ascending order by build ID.    DESCENDING: List the build IDs in descending order by build ID.  
+        public let sortOrder: SortOrderType?
+
+        public init(nextToken: String? = nil, sortOrder: SortOrderType? = nil) {
+            self.nextToken = nextToken
+            self.sortOrder = sortOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case sortOrder = "sortOrder"
+        }
+    }
+
+    public struct ListBuildsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ids", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// A list of build IDs, with each build ID representing a single build.
+        public let ids: [String]?
+        /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
+        public let nextToken: String?
+
+        public init(ids: [String]? = nil, nextToken: String? = nil) {
+            self.ids = ids
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ids = "ids"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListCuratedEnvironmentImagesInput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct ListCuratedEnvironmentImagesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "platforms", required: false, type: .list)
+        ]
+        /// Information about supported platforms for Docker images that are managed by AWS CodeBuild.
+        public let platforms: [EnvironmentPlatform]?
+
+        public init(platforms: [EnvironmentPlatform]? = nil) {
+            self.platforms = platforms
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case platforms = "platforms"
         }
     }
 
@@ -339,328 +904,6 @@ extension CodeBuild {
         }
     }
 
-    public enum ProjectSortByType: String, CustomStringConvertible, Codable {
-        case name = "NAME"
-        case createdTime = "CREATED_TIME"
-        case lastModifiedTime = "LAST_MODIFIED_TIME"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum StatusType: String, CustomStringConvertible, Codable {
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        case fault = "FAULT"
-        case timedOut = "TIMED_OUT"
-        case inProgress = "IN_PROGRESS"
-        case stopped = "STOPPED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct SourceAuth: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "type", required: true, type: .enum), 
-            AWSShapeMember(label: "resource", required: false, type: .string)
-        ]
-        /// The authorization type to use. The only valid value is OAUTH, which represents the OAuth authorization type.
-        public let `type`: SourceAuthType
-        /// The resource value that applies to the specified authorization type.
-        public let resource: String?
-
-        public init(type: SourceAuthType, resource: String? = nil) {
-            self.`type` = `type`
-            self.resource = resource
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "type"
-            case resource = "resource"
-        }
-    }
-
-    public struct DeleteProjectOutput: AWSShape {
-
-    }
-
-    public struct UpdateProjectInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "serviceRole", required: false, type: .string), 
-            AWSShapeMember(label: "environment", required: false, type: .structure), 
-            AWSShapeMember(label: "badgeEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "queuedTimeoutInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "source", required: false, type: .structure), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "cache", required: false, type: .structure), 
-            AWSShapeMember(label: "secondarySources", required: false, type: .list), 
-            AWSShapeMember(label: "logsConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "vpcConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "artifacts", required: false, type: .structure), 
-            AWSShapeMember(label: "timeoutInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "encryptionKey", required: false, type: .string), 
-            AWSShapeMember(label: "secondaryArtifacts", required: false, type: .list)
-        ]
-        /// The replacement ARN of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
-        public let serviceRole: String?
-        /// Information to be changed about the build environment for the build project.
-        public let environment: ProjectEnvironment?
-        /// Set this to true to generate a publicly accessible URL for your project's build badge.
-        public let badgeEnabled: Bool?
-        ///  The number of minutes a build is allowed to be queued before it times out. 
-        public let queuedTimeoutInMinutes: Int32?
-        /// The name of the build project.  You cannot change a build project's name. 
-        public let name: String
-        /// Information to be changed about the build input source code for the build project.
-        public let source: ProjectSource?
-        /// A new or replacement description of the build project.
-        public let description: String?
-        /// Stores recently used information so that it can be quickly accessed at a later time.
-        public let cache: ProjectCache?
-        ///  An array of ProjectSource objects. 
-        public let secondarySources: [ProjectSource]?
-        ///  Information about logs for the build project. A project can create logs in Amazon CloudWatch Logs, logs in an S3 bucket, or both. 
-        public let logsConfig: LogsConfig?
-        /// The replacement set of tags for this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
-        public let tags: [Tag]?
-        /// VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
-        public let vpcConfig: VpcConfig?
-        /// Information to be changed about the build output artifacts for the build project.
-        public let artifacts: ProjectArtifacts?
-        /// The replacement value in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before timing out any related build that did not get marked as completed.
-        public let timeoutInMinutes: Int32?
-        /// The replacement AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build output artifacts. You can specify either the Amazon Resource Name (ARN)of the CMK or, if available, the CMK's alias (using the format alias/alias-name ).
-        public let encryptionKey: String?
-        ///  An array of ProjectSource objects. 
-        public let secondaryArtifacts: [ProjectArtifacts]?
-
-        public init(serviceRole: String? = nil, environment: ProjectEnvironment? = nil, badgeEnabled: Bool? = nil, queuedTimeoutInMinutes: Int32? = nil, name: String, source: ProjectSource? = nil, description: String? = nil, cache: ProjectCache? = nil, secondarySources: [ProjectSource]? = nil, logsConfig: LogsConfig? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil, artifacts: ProjectArtifacts? = nil, timeoutInMinutes: Int32? = nil, encryptionKey: String? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil) {
-            self.serviceRole = serviceRole
-            self.environment = environment
-            self.badgeEnabled = badgeEnabled
-            self.queuedTimeoutInMinutes = queuedTimeoutInMinutes
-            self.name = name
-            self.source = source
-            self.description = description
-            self.cache = cache
-            self.secondarySources = secondarySources
-            self.logsConfig = logsConfig
-            self.tags = tags
-            self.vpcConfig = vpcConfig
-            self.artifacts = artifacts
-            self.timeoutInMinutes = timeoutInMinutes
-            self.encryptionKey = encryptionKey
-            self.secondaryArtifacts = secondaryArtifacts
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serviceRole = "serviceRole"
-            case environment = "environment"
-            case badgeEnabled = "badgeEnabled"
-            case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"
-            case name = "name"
-            case source = "source"
-            case description = "description"
-            case cache = "cache"
-            case secondarySources = "secondarySources"
-            case logsConfig = "logsConfig"
-            case tags = "tags"
-            case vpcConfig = "vpcConfig"
-            case artifacts = "artifacts"
-            case timeoutInMinutes = "timeoutInMinutes"
-            case encryptionKey = "encryptionKey"
-            case secondaryArtifacts = "secondaryArtifacts"
-        }
-    }
-
-    public struct ListBuildsForProjectInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "sortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "projectName", required: true, type: .string)
-        ]
-        /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
-        public let nextToken: String?
-        /// The order to list build IDs. Valid values include:    ASCENDING: List the build IDs in ascending order by build ID.    DESCENDING: List the build IDs in descending order by build ID.  
-        public let sortOrder: SortOrderType?
-        /// The name of the AWS CodeBuild project.
-        public let projectName: String
-
-        public init(nextToken: String? = nil, sortOrder: SortOrderType? = nil, projectName: String) {
-            self.nextToken = nextToken
-            self.sortOrder = sortOrder
-            self.projectName = projectName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case sortOrder = "sortOrder"
-            case projectName = "projectName"
-        }
-    }
-
-    public enum LogsConfigStatusType: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct BatchGetBuildsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "buildsNotFound", required: false, type: .list), 
-            AWSShapeMember(label: "builds", required: false, type: .list)
-        ]
-        /// The IDs of builds for which information could not be found.
-        public let buildsNotFound: [String]?
-        /// Information about the requested builds.
-        public let builds: [Build]?
-
-        public init(buildsNotFound: [String]? = nil, builds: [Build]? = nil) {
-            self.buildsNotFound = buildsNotFound
-            self.builds = builds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case buildsNotFound = "buildsNotFound"
-            case builds = "builds"
-        }
-    }
-
-    public struct VpcConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "vpcId", required: false, type: .string), 
-            AWSShapeMember(label: "subnets", required: false, type: .list), 
-            AWSShapeMember(label: "securityGroupIds", required: false, type: .list)
-        ]
-        /// The ID of the Amazon VPC.
-        public let vpcId: String?
-        /// A list of one or more subnet IDs in your Amazon VPC.
-        public let subnets: [String]?
-        /// A list of one or more security groups IDs in your Amazon VPC.
-        public let securityGroupIds: [String]?
-
-        public init(vpcId: String? = nil, subnets: [String]? = nil, securityGroupIds: [String]? = nil) {
-            self.vpcId = vpcId
-            self.subnets = subnets
-            self.securityGroupIds = securityGroupIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vpcId = "vpcId"
-            case subnets = "subnets"
-            case securityGroupIds = "securityGroupIds"
-        }
-    }
-
-    public struct BatchGetProjectsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projects", required: false, type: .list), 
-            AWSShapeMember(label: "projectsNotFound", required: false, type: .list)
-        ]
-        /// Information about the requested build projects.
-        public let projects: [Project]?
-        /// The names of build projects for which information could not be found.
-        public let projectsNotFound: [String]?
-
-        public init(projects: [Project]? = nil, projectsNotFound: [String]? = nil) {
-            self.projects = projects
-            self.projectsNotFound = projectsNotFound
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case projects = "projects"
-            case projectsNotFound = "projectsNotFound"
-        }
-    }
-
-    public struct EnvironmentVariable: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "value", required: true, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
-        /// The value of the environment variable.  We strongly discourage the use of environment variables to store sensitive values, especially AWS secret key IDs and secret access keys. Environment variables can be displayed in plain text using the AWS CodeBuild console and the AWS Command Line Interface (AWS CLI). 
-        public let value: String
-        /// The type of environment variable. Valid values include:    PARAMETER_STORE: An environment variable stored in Amazon EC2 Systems Manager Parameter Store.    PLAINTEXT: An environment variable in plaintext format.  
-        public let `type`: EnvironmentVariableType?
-        /// The name or key of the environment variable.
-        public let name: String
-
-        public init(value: String, type: EnvironmentVariableType? = nil, name: String) {
-            self.value = value
-            self.`type` = `type`
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "value"
-            case `type` = "type"
-            case name = "name"
-        }
-    }
-
-    public struct EnvironmentImage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "versions", required: false, type: .list), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
-        /// A list of environment image versions.
-        public let versions: [String]?
-        /// The description of the Docker image.
-        public let description: String?
-        /// The name of the Docker image.
-        public let name: String?
-
-        public init(versions: [String]? = nil, description: String? = nil, name: String? = nil) {
-            self.versions = versions
-            self.description = description
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case versions = "versions"
-            case description = "description"
-            case name = "name"
-        }
-    }
-
-    public struct BatchDeleteBuildsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ids", required: true, type: .list)
-        ]
-        /// The IDs of the builds to delete.
-        public let ids: [String]
-
-        public init(ids: [String]) {
-            self.ids = ids
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ids = "ids"
-        }
-    }
-
-    public struct PhaseContext: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "statusCode", required: false, type: .string)
-        ]
-        /// An explanation of the build phase's context. This might include a command ID and an exit code.
-        public let message: String?
-        /// The status code for the context of the build phase.
-        public let statusCode: String?
-
-        public init(message: String? = nil, statusCode: String? = nil) {
-            self.message = message
-            self.statusCode = statusCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-            case statusCode = "statusCode"
-        }
-    }
-
     public struct ListProjectsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
@@ -679,897 +922,6 @@ extension CodeBuild {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case projects = "projects"
-        }
-    }
-
-    public struct ProjectBadge: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "badgeEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "badgeRequestUrl", required: false, type: .string)
-        ]
-        /// Set this to true to generate a publicly accessible URL for your project's build badge.
-        public let badgeEnabled: Bool?
-        /// The publicly-accessible URL through which you can access the build badge for your project.  The publicly accessible URL through which you can access the build badge for your project. 
-        public let badgeRequestUrl: String?
-
-        public init(badgeEnabled: Bool? = nil, badgeRequestUrl: String? = nil) {
-            self.badgeEnabled = badgeEnabled
-            self.badgeRequestUrl = badgeRequestUrl
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case badgeEnabled = "badgeEnabled"
-            case badgeRequestUrl = "badgeRequestUrl"
-        }
-    }
-
-    public struct StopBuildInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string)
-        ]
-        /// The ID of the build.
-        public let id: String
-
-        public init(id: String) {
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
-    }
-
-    public struct ListCuratedEnvironmentImagesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "platforms", required: false, type: .list)
-        ]
-        /// Information about supported platforms for Docker images that are managed by AWS CodeBuild.
-        public let platforms: [EnvironmentPlatform]?
-
-        public init(platforms: [EnvironmentPlatform]? = nil) {
-            self.platforms = platforms
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case platforms = "platforms"
-        }
-    }
-
-    public struct ProjectCache: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "location", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
-        /// Information about the cache location:     NO_CACHE: This value is ignored.    S3: This is the S3 bucket name/prefix.  
-        public let location: String?
-        /// The type of cache used by the build project. Valid values include:    NO_CACHE: The build project does not use any cache.    S3: The build project reads and writes from and to S3.  
-        public let `type`: CacheType
-
-        public init(location: String? = nil, type: CacheType) {
-            self.location = location
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case location = "location"
-            case `type` = "type"
-        }
-    }
-
-    public enum ArtifactNamespace: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case buildId = "BUILD_ID"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EnvironmentType: String, CustomStringConvertible, Codable {
-        case windowsContainer = "WINDOWS_CONTAINER"
-        case linuxContainer = "LINUX_CONTAINER"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct S3LogsConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "location", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: true, type: .enum)
-        ]
-        ///  The ARN of an S3 bucket and the path prefix for S3 logs. If your Amazon S3 bucket name is my-bucket, and your path prefix is build-log, then acceptable formats are my-bucket/build-log or arn:aws:s3:::my-bucket/build-log. 
-        public let location: String?
-        /// The current status of the S3 build logs. Valid values are:    ENABLED: S3 build logs are enabled for this build project.    DISABLED: S3 build logs are not enabled for this build project.  
-        public let status: LogsConfigStatusType
-
-        public init(location: String? = nil, status: LogsConfigStatusType) {
-            self.location = location
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case location = "location"
-            case status = "status"
-        }
-    }
-
-    public struct InvalidateProjectCacheInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectName", required: true, type: .string)
-        ]
-        /// The name of the AWS CodeBuild build project that the cache is reset for.
-        public let projectName: String
-
-        public init(projectName: String) {
-            self.projectName = projectName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case projectName = "projectName"
-        }
-    }
-
-    public struct LogsLocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cloudWatchLogs", required: false, type: .structure), 
-            AWSShapeMember(label: "s3DeepLink", required: false, type: .string), 
-            AWSShapeMember(label: "streamName", required: false, type: .string), 
-            AWSShapeMember(label: "groupName", required: false, type: .string), 
-            AWSShapeMember(label: "s3Logs", required: false, type: .structure), 
-            AWSShapeMember(label: "deepLink", required: false, type: .string)
-        ]
-        ///  Information about Amazon CloudWatch Logs for a build project. 
-        public let cloudWatchLogs: CloudWatchLogsConfig?
-        ///  The URL to a build log in an S3 bucket. 
-        public let s3DeepLink: String?
-        /// The name of the Amazon CloudWatch Logs stream for the build logs.
-        public let streamName: String?
-        /// The name of the Amazon CloudWatch Logs group for the build logs.
-        public let groupName: String?
-        ///  Information about S3 logs for a build project. 
-        public let s3Logs: S3LogsConfig?
-        /// The URL to an individual build log in Amazon CloudWatch Logs.
-        public let deepLink: String?
-
-        public init(cloudWatchLogs: CloudWatchLogsConfig? = nil, s3DeepLink: String? = nil, streamName: String? = nil, groupName: String? = nil, s3Logs: S3LogsConfig? = nil, deepLink: String? = nil) {
-            self.cloudWatchLogs = cloudWatchLogs
-            self.s3DeepLink = s3DeepLink
-            self.streamName = streamName
-            self.groupName = groupName
-            self.s3Logs = s3Logs
-            self.deepLink = deepLink
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cloudWatchLogs = "cloudWatchLogs"
-            case s3DeepLink = "s3DeepLink"
-            case streamName = "streamName"
-            case groupName = "groupName"
-            case s3Logs = "s3Logs"
-            case deepLink = "deepLink"
-        }
-    }
-
-    public struct ProjectEnvironment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "privilegedMode", required: false, type: .boolean), 
-            AWSShapeMember(label: "computeType", required: true, type: .enum), 
-            AWSShapeMember(label: "environmentVariables", required: false, type: .list), 
-            AWSShapeMember(label: "certificate", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: true, type: .enum), 
-            AWSShapeMember(label: "image", required: true, type: .string)
-        ]
-        /// Enables running the Docker daemon inside a Docker container. Set to true only if the build project is be used to build Docker images, and the specified build environment image is not provided by AWS CodeBuild with Docker support. Otherwise, all associated builds that attempt to interact with the Docker daemon fail. You must also start the Docker daemon so that builds can interact with it. One way to do this is to initialize the Docker daemon during the install phase of your build spec by running the following build commands. (Do not run these commands if the specified build environment image is provided by AWS CodeBuild with Docker support.) If the operating system's base image is Ubuntu Linux:  - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 --storage-driver=overlay&amp; - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"  If the operating system's base image is Alpine Linux, add the -t argument to timeout:  - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 --storage-driver=overlay&amp; - timeout 15 -t sh -c "until docker info; do echo .; sleep 1; done" 
-        public let privilegedMode: Bool?
-        /// Information about the compute resources the build project uses. Available values include:    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 15 GB memory and 8 vCPUs for builds.  
-        public let computeType: ComputeType
-        /// A set of environment variables to make available to builds for this build project.
-        public let environmentVariables: [EnvironmentVariable]?
-        /// The certificate to use with this build project.
-        public let certificate: String?
-        /// The type of build environment to use for related builds.
-        public let `type`: EnvironmentType
-        /// The ID of the Docker image to use for this build project.
-        public let image: String
-
-        public init(privilegedMode: Bool? = nil, computeType: ComputeType, environmentVariables: [EnvironmentVariable]? = nil, certificate: String? = nil, type: EnvironmentType, image: String) {
-            self.privilegedMode = privilegedMode
-            self.computeType = computeType
-            self.environmentVariables = environmentVariables
-            self.certificate = certificate
-            self.`type` = `type`
-            self.image = image
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case privilegedMode = "privilegedMode"
-            case computeType = "computeType"
-            case environmentVariables = "environmentVariables"
-            case certificate = "certificate"
-            case `type` = "type"
-            case image = "image"
-        }
-    }
-
-    public enum SortOrderType: String, CustomStringConvertible, Codable {
-        case ascending = "ASCENDING"
-        case descending = "DESCENDING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "key", required: false, type: .string), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
-        /// The tag's key.
-        public let key: String?
-        /// The tag's value.
-        public let value: String?
-
-        public init(key: String? = nil, value: String? = nil) {
-            self.key = key
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "key"
-            case value = "value"
-        }
-    }
-
-    public struct InvalidateProjectCacheOutput: AWSShape {
-
-    }
-
-    public struct Project: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "serviceRole", required: false, type: .string), 
-            AWSShapeMember(label: "created", required: false, type: .timestamp), 
-            AWSShapeMember(label: "environment", required: false, type: .structure), 
-            AWSShapeMember(label: "badge", required: false, type: .structure), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "queuedTimeoutInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "webhook", required: false, type: .structure), 
-            AWSShapeMember(label: "source", required: false, type: .structure), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "cache", required: false, type: .structure), 
-            AWSShapeMember(label: "secondarySources", required: false, type: .list), 
-            AWSShapeMember(label: "logsConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "vpcConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "artifacts", required: false, type: .structure), 
-            AWSShapeMember(label: "timeoutInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "lastModified", required: false, type: .timestamp), 
-            AWSShapeMember(label: "encryptionKey", required: false, type: .string), 
-            AWSShapeMember(label: "secondaryArtifacts", required: false, type: .list)
-        ]
-        /// The ARN of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
-        public let serviceRole: String?
-        /// When the build project was created, expressed in Unix time format.
-        public let created: TimeStamp?
-        /// Information about the build environment for this build project.
-        public let environment: ProjectEnvironment?
-        /// Information about the build badge for the build project.
-        public let badge: ProjectBadge?
-        /// The Amazon Resource Name (ARN) of the build project.
-        public let arn: String?
-        ///  The number of minutes a build is allowed to be queued before it times out. 
-        public let queuedTimeoutInMinutes: Int32?
-        /// The name of the build project.
-        public let name: String?
-        /// Information about a webhook that connects repository events to a build project in AWS CodeBuild.
-        public let webhook: Webhook?
-        /// Information about the build input source code for this build project.
-        public let source: ProjectSource?
-        /// A description that makes the build project easy to identify.
-        public let description: String?
-        /// Information about the cache for the build project.
-        public let cache: ProjectCache?
-        ///  An array of ProjectSource objects. 
-        public let secondarySources: [ProjectSource]?
-        ///  Information about logs for the build project. A project can create logs in Amazon CloudWatch Logs, an S3 bucket, or both. 
-        public let logsConfig: LogsConfig?
-        /// The tags for this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
-        public let tags: [Tag]?
-        /// Information about the VPC configuration that AWS CodeBuild accesses.
-        public let vpcConfig: VpcConfig?
-        /// Information about the build output artifacts for the build project.
-        public let artifacts: ProjectArtifacts?
-        /// How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before timing out any related build that did not get marked as completed. The default is 60 minutes.
-        public let timeoutInMinutes: Int32?
-        /// When the build project's settings were last modified, expressed in Unix time format.
-        public let lastModified: TimeStamp?
-        /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build output artifacts. This is expressed either as the Amazon Resource Name (ARN) of the CMK or, if specified, the CMK's alias (using the format alias/alias-name ).
-        public let encryptionKey: String?
-        ///  An array of ProjectArtifacts objects. 
-        public let secondaryArtifacts: [ProjectArtifacts]?
-
-        public init(serviceRole: String? = nil, created: TimeStamp? = nil, environment: ProjectEnvironment? = nil, badge: ProjectBadge? = nil, arn: String? = nil, queuedTimeoutInMinutes: Int32? = nil, name: String? = nil, webhook: Webhook? = nil, source: ProjectSource? = nil, description: String? = nil, cache: ProjectCache? = nil, secondarySources: [ProjectSource]? = nil, logsConfig: LogsConfig? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil, artifacts: ProjectArtifacts? = nil, timeoutInMinutes: Int32? = nil, lastModified: TimeStamp? = nil, encryptionKey: String? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil) {
-            self.serviceRole = serviceRole
-            self.created = created
-            self.environment = environment
-            self.badge = badge
-            self.arn = arn
-            self.queuedTimeoutInMinutes = queuedTimeoutInMinutes
-            self.name = name
-            self.webhook = webhook
-            self.source = source
-            self.description = description
-            self.cache = cache
-            self.secondarySources = secondarySources
-            self.logsConfig = logsConfig
-            self.tags = tags
-            self.vpcConfig = vpcConfig
-            self.artifacts = artifacts
-            self.timeoutInMinutes = timeoutInMinutes
-            self.lastModified = lastModified
-            self.encryptionKey = encryptionKey
-            self.secondaryArtifacts = secondaryArtifacts
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serviceRole = "serviceRole"
-            case created = "created"
-            case environment = "environment"
-            case badge = "badge"
-            case arn = "arn"
-            case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"
-            case name = "name"
-            case webhook = "webhook"
-            case source = "source"
-            case description = "description"
-            case cache = "cache"
-            case secondarySources = "secondarySources"
-            case logsConfig = "logsConfig"
-            case tags = "tags"
-            case vpcConfig = "vpcConfig"
-            case artifacts = "artifacts"
-            case timeoutInMinutes = "timeoutInMinutes"
-            case lastModified = "lastModified"
-            case encryptionKey = "encryptionKey"
-            case secondaryArtifacts = "secondaryArtifacts"
-        }
-    }
-
-    public struct DeleteProjectInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
-        /// The name of the build project.
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
-    }
-
-    public struct EnvironmentPlatform: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "platform", required: false, type: .enum), 
-            AWSShapeMember(label: "languages", required: false, type: .list)
-        ]
-        /// The platform's name.
-        public let platform: PlatformType?
-        /// The list of programming languages that are available for the specified platform.
-        public let languages: [EnvironmentLanguage]?
-
-        public init(platform: PlatformType? = nil, languages: [EnvironmentLanguage]? = nil) {
-            self.platform = platform
-            self.languages = languages
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case platform = "platform"
-            case languages = "languages"
-        }
-    }
-
-    public struct BuildNotDeleted: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "statusCode", required: false, type: .string)
-        ]
-        /// The ID of the build that could not be successfully deleted.
-        public let id: String?
-        /// Additional information about the build that could not be successfully deleted.
-        public let statusCode: String?
-
-        public init(id: String? = nil, statusCode: String? = nil) {
-            self.id = id
-            self.statusCode = statusCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case statusCode = "statusCode"
-        }
-    }
-
-    public enum ComputeType: String, CustomStringConvertible, Codable {
-        case buildGeneral1Small = "BUILD_GENERAL1_SMALL"
-        case buildGeneral1Medium = "BUILD_GENERAL1_MEDIUM"
-        case buildGeneral1Large = "BUILD_GENERAL1_LARGE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateProjectOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "project", required: false, type: .structure)
-        ]
-        /// Information about the build project that was changed.
-        public let project: Project?
-
-        public init(project: Project? = nil) {
-            self.project = project
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case project = "project"
-        }
-    }
-
-    public struct StartBuildInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "secondaryArtifactsOverride", required: false, type: .list), 
-            AWSShapeMember(label: "certificateOverride", required: false, type: .string), 
-            AWSShapeMember(label: "reportBuildStatusOverride", required: false, type: .boolean), 
-            AWSShapeMember(label: "serviceRoleOverride", required: false, type: .string), 
-            AWSShapeMember(label: "secondarySourcesVersionOverride", required: false, type: .list), 
-            AWSShapeMember(label: "environmentVariablesOverride", required: false, type: .list), 
-            AWSShapeMember(label: "privilegedModeOverride", required: false, type: .boolean), 
-            AWSShapeMember(label: "imageOverride", required: false, type: .string), 
-            AWSShapeMember(label: "buildspecOverride", required: false, type: .string), 
-            AWSShapeMember(label: "artifactsOverride", required: false, type: .structure), 
-            AWSShapeMember(label: "sourceVersion", required: false, type: .string), 
-            AWSShapeMember(label: "gitCloneDepthOverride", required: false, type: .integer), 
-            AWSShapeMember(label: "queuedTimeoutInMinutesOverride", required: false, type: .integer), 
-            AWSShapeMember(label: "idempotencyToken", required: false, type: .string), 
-            AWSShapeMember(label: "environmentTypeOverride", required: false, type: .enum), 
-            AWSShapeMember(label: "cacheOverride", required: false, type: .structure), 
-            AWSShapeMember(label: "computeTypeOverride", required: false, type: .enum), 
-            AWSShapeMember(label: "secondarySourcesOverride", required: false, type: .list), 
-            AWSShapeMember(label: "sourceAuthOverride", required: false, type: .structure), 
-            AWSShapeMember(label: "sourceTypeOverride", required: false, type: .enum), 
-            AWSShapeMember(label: "sourceLocationOverride", required: false, type: .string), 
-            AWSShapeMember(label: "logsConfigOverride", required: false, type: .structure), 
-            AWSShapeMember(label: "insecureSslOverride", required: false, type: .boolean), 
-            AWSShapeMember(label: "timeoutInMinutesOverride", required: false, type: .integer), 
-            AWSShapeMember(label: "projectName", required: true, type: .string)
-        ]
-        ///  An array of ProjectArtifacts objects. 
-        public let secondaryArtifactsOverride: [ProjectArtifacts]?
-        /// The name of a certificate for this build that overrides the one specified in the build project.
-        public let certificateOverride: String?
-        ///  Set to true to report to your source provider the status of a build's start and completion. If you use this option with a source provider other than GitHub, GitHub Enterprise, or Bitbucket, an invalidInputException is thrown. 
-        public let reportBuildStatusOverride: Bool?
-        /// The name of a service role for this build that overrides the one specified in the build project.
-        public let serviceRoleOverride: String?
-        ///  An array of ProjectSourceVersion objects that specify one or more versions of the project's secondary sources to be used for this build only. 
-        public let secondarySourcesVersionOverride: [ProjectSourceVersion]?
-        /// A set of environment variables that overrides, for this build only, the latest ones already defined in the build project.
-        public let environmentVariablesOverride: [EnvironmentVariable]?
-        /// Enable this flag to override privileged mode in the build project.
-        public let privilegedModeOverride: Bool?
-        /// The name of an image for this build that overrides the one specified in the build project.
-        public let imageOverride: String?
-        /// A build spec declaration that overrides, for this build only, the latest one already defined in the build project.
-        public let buildspecOverride: String?
-        /// Build output artifact settings that override, for this build only, the latest ones already defined in the build project.
-        public let artifactsOverride: ProjectArtifacts?
-        /// A version of the build input to be built, for this build only. If not specified, the latest version is used. If specified, must be one of:   For AWS CodeCommit: the commit ID to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.  
-        public let sourceVersion: String?
-        /// The user-defined depth of history, with a minimum value of 0, that overrides, for this build only, any previous depth of history defined in the build project.
-        public let gitCloneDepthOverride: Int32?
-        ///  The number of minutes a build is allowed to be queued before it times out. 
-        public let queuedTimeoutInMinutesOverride: Int32?
-        /// A unique, case sensitive identifier you provide to ensure the idempotency of the StartBuild request. The token is included in the StartBuild request and is valid for 12 hours. If you repeat the StartBuild request with the same token, but change a parameter, AWS CodeBuild returns a parameter mismatch error. 
-        public let idempotencyToken: String?
-        /// A container type for this build that overrides the one specified in the build project.
-        public let environmentTypeOverride: EnvironmentType?
-        /// A ProjectCache object specified for this build that overrides the one defined in the build project.
-        public let cacheOverride: ProjectCache?
-        /// The name of a compute type for this build that overrides the one specified in the build project.
-        public let computeTypeOverride: ComputeType?
-        ///  An array of ProjectSource objects. 
-        public let secondarySourcesOverride: [ProjectSource]?
-        /// An authorization type for this build that overrides the one defined in the build project. This override applies only if the build project's source is BitBucket or GitHub.
-        public let sourceAuthOverride: SourceAuth?
-        /// A source input type, for this build, that overrides the source input defined in the build project.
-        public let sourceTypeOverride: SourceType?
-        /// A location that overrides, for this build, the source location for the one defined in the build project.
-        public let sourceLocationOverride: String?
-        ///  Log settings for this build that override the log settings defined in the build project. 
-        public let logsConfigOverride: LogsConfig?
-        /// Enable this flag to override the insecure SSL setting that is specified in the build project. The insecure SSL setting determines whether to ignore SSL warnings while connecting to the project source code. This override applies only if the build's source is GitHub Enterprise.
-        public let insecureSslOverride: Bool?
-        /// The number of build timeout minutes, from 5 to 480 (8 hours), that overrides, for this build only, the latest setting already defined in the build project.
-        public let timeoutInMinutesOverride: Int32?
-        /// The name of the AWS CodeBuild build project to start running a build.
-        public let projectName: String
-
-        public init(secondaryArtifactsOverride: [ProjectArtifacts]? = nil, certificateOverride: String? = nil, reportBuildStatusOverride: Bool? = nil, serviceRoleOverride: String? = nil, secondarySourcesVersionOverride: [ProjectSourceVersion]? = nil, environmentVariablesOverride: [EnvironmentVariable]? = nil, privilegedModeOverride: Bool? = nil, imageOverride: String? = nil, buildspecOverride: String? = nil, artifactsOverride: ProjectArtifacts? = nil, sourceVersion: String? = nil, gitCloneDepthOverride: Int32? = nil, queuedTimeoutInMinutesOverride: Int32? = nil, idempotencyToken: String? = nil, environmentTypeOverride: EnvironmentType? = nil, cacheOverride: ProjectCache? = nil, computeTypeOverride: ComputeType? = nil, secondarySourcesOverride: [ProjectSource]? = nil, sourceAuthOverride: SourceAuth? = nil, sourceTypeOverride: SourceType? = nil, sourceLocationOverride: String? = nil, logsConfigOverride: LogsConfig? = nil, insecureSslOverride: Bool? = nil, timeoutInMinutesOverride: Int32? = nil, projectName: String) {
-            self.secondaryArtifactsOverride = secondaryArtifactsOverride
-            self.certificateOverride = certificateOverride
-            self.reportBuildStatusOverride = reportBuildStatusOverride
-            self.serviceRoleOverride = serviceRoleOverride
-            self.secondarySourcesVersionOverride = secondarySourcesVersionOverride
-            self.environmentVariablesOverride = environmentVariablesOverride
-            self.privilegedModeOverride = privilegedModeOverride
-            self.imageOverride = imageOverride
-            self.buildspecOverride = buildspecOverride
-            self.artifactsOverride = artifactsOverride
-            self.sourceVersion = sourceVersion
-            self.gitCloneDepthOverride = gitCloneDepthOverride
-            self.queuedTimeoutInMinutesOverride = queuedTimeoutInMinutesOverride
-            self.idempotencyToken = idempotencyToken
-            self.environmentTypeOverride = environmentTypeOverride
-            self.cacheOverride = cacheOverride
-            self.computeTypeOverride = computeTypeOverride
-            self.secondarySourcesOverride = secondarySourcesOverride
-            self.sourceAuthOverride = sourceAuthOverride
-            self.sourceTypeOverride = sourceTypeOverride
-            self.sourceLocationOverride = sourceLocationOverride
-            self.logsConfigOverride = logsConfigOverride
-            self.insecureSslOverride = insecureSslOverride
-            self.timeoutInMinutesOverride = timeoutInMinutesOverride
-            self.projectName = projectName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case secondaryArtifactsOverride = "secondaryArtifactsOverride"
-            case certificateOverride = "certificateOverride"
-            case reportBuildStatusOverride = "reportBuildStatusOverride"
-            case serviceRoleOverride = "serviceRoleOverride"
-            case secondarySourcesVersionOverride = "secondarySourcesVersionOverride"
-            case environmentVariablesOverride = "environmentVariablesOverride"
-            case privilegedModeOverride = "privilegedModeOverride"
-            case imageOverride = "imageOverride"
-            case buildspecOverride = "buildspecOverride"
-            case artifactsOverride = "artifactsOverride"
-            case sourceVersion = "sourceVersion"
-            case gitCloneDepthOverride = "gitCloneDepthOverride"
-            case queuedTimeoutInMinutesOverride = "queuedTimeoutInMinutesOverride"
-            case idempotencyToken = "idempotencyToken"
-            case environmentTypeOverride = "environmentTypeOverride"
-            case cacheOverride = "cacheOverride"
-            case computeTypeOverride = "computeTypeOverride"
-            case secondarySourcesOverride = "secondarySourcesOverride"
-            case sourceAuthOverride = "sourceAuthOverride"
-            case sourceTypeOverride = "sourceTypeOverride"
-            case sourceLocationOverride = "sourceLocationOverride"
-            case logsConfigOverride = "logsConfigOverride"
-            case insecureSslOverride = "insecureSslOverride"
-            case timeoutInMinutesOverride = "timeoutInMinutesOverride"
-            case projectName = "projectName"
-        }
-    }
-
-    public struct StartBuildOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "build", required: false, type: .structure)
-        ]
-        /// Information about the build to be run.
-        public let build: Build?
-
-        public init(build: Build? = nil) {
-            self.build = build
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case build = "build"
-        }
-    }
-
-    public enum EnvironmentVariableType: String, CustomStringConvertible, Codable {
-        case plaintext = "PLAINTEXT"
-        case parameterStore = "PARAMETER_STORE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SourceAuthType: String, CustomStringConvertible, Codable {
-        case oauth = "OAUTH"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct EnvironmentLanguage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "images", required: false, type: .list), 
-            AWSShapeMember(label: "language", required: false, type: .enum)
-        ]
-        /// The list of Docker images that are related by the specified programming language.
-        public let images: [EnvironmentImage]?
-        /// The programming language for the Docker images.
-        public let language: LanguageType?
-
-        public init(images: [EnvironmentImage]? = nil, language: LanguageType? = nil) {
-            self.images = images
-            self.language = language
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case images = "images"
-            case language = "language"
-        }
-    }
-
-    public struct Webhook: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "payloadUrl", required: false, type: .string), 
-            AWSShapeMember(label: "lastModifiedSecret", required: false, type: .timestamp), 
-            AWSShapeMember(label: "url", required: false, type: .string), 
-            AWSShapeMember(label: "branchFilter", required: false, type: .string), 
-            AWSShapeMember(label: "secret", required: false, type: .string)
-        ]
-        ///  The AWS CodeBuild endpoint where webhook events are sent.
-        public let payloadUrl: String?
-        ///  A timestamp that indicates the last time a repository's secret token was modified. 
-        public let lastModifiedSecret: TimeStamp?
-        /// The URL to the webhook.
-        public let url: String?
-        /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built.
-        public let branchFilter: String?
-        ///  The secret token of the associated repository.    A Bitbucket webhook does not support secret.  
-        public let secret: String?
-
-        public init(payloadUrl: String? = nil, lastModifiedSecret: TimeStamp? = nil, url: String? = nil, branchFilter: String? = nil, secret: String? = nil) {
-            self.payloadUrl = payloadUrl
-            self.lastModifiedSecret = lastModifiedSecret
-            self.url = url
-            self.branchFilter = branchFilter
-            self.secret = secret
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case payloadUrl = "payloadUrl"
-            case lastModifiedSecret = "lastModifiedSecret"
-            case url = "url"
-            case branchFilter = "branchFilter"
-            case secret = "secret"
-        }
-    }
-
-    public enum PlatformType: String, CustomStringConvertible, Codable {
-        case debian = "DEBIAN"
-        case amazonLinux = "AMAZON_LINUX"
-        case ubuntu = "UBUNTU"
-        case windowsServer = "WINDOWS_SERVER"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteWebhookInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectName", required: true, type: .string)
-        ]
-        /// The name of the AWS CodeBuild project.
-        public let projectName: String
-
-        public init(projectName: String) {
-            self.projectName = projectName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case projectName = "projectName"
-        }
-    }
-
-    public struct BatchDeleteBuildsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "buildsNotDeleted", required: false, type: .list), 
-            AWSShapeMember(label: "buildsDeleted", required: false, type: .list)
-        ]
-        /// Information about any builds that could not be successfully deleted.
-        public let buildsNotDeleted: [BuildNotDeleted]?
-        /// The IDs of the builds that were successfully deleted.
-        public let buildsDeleted: [String]?
-
-        public init(buildsNotDeleted: [BuildNotDeleted]? = nil, buildsDeleted: [String]? = nil) {
-            self.buildsNotDeleted = buildsNotDeleted
-            self.buildsDeleted = buildsDeleted
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case buildsNotDeleted = "buildsNotDeleted"
-            case buildsDeleted = "buildsDeleted"
-        }
-    }
-
-    public struct ListBuildsForProjectOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ids", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// A list of build IDs for the specified build project, with each build ID representing a single build.
-        public let ids: [String]?
-        /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
-        public let nextToken: String?
-
-        public init(ids: [String]? = nil, nextToken: String? = nil) {
-            self.ids = ids
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ids = "ids"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct Build: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "buildComplete", required: false, type: .boolean), 
-            AWSShapeMember(label: "vpcConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "source", required: false, type: .structure), 
-            AWSShapeMember(label: "queuedTimeoutInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "encryptionKey", required: false, type: .string), 
-            AWSShapeMember(label: "phases", required: false, type: .list), 
-            AWSShapeMember(label: "environment", required: false, type: .structure), 
-            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "serviceRole", required: false, type: .string), 
-            AWSShapeMember(label: "sourceVersion", required: false, type: .string), 
-            AWSShapeMember(label: "secondarySourceVersions", required: false, type: .list), 
-            AWSShapeMember(label: "secondarySources", required: false, type: .list), 
-            AWSShapeMember(label: "timeoutInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "logs", required: false, type: .structure), 
-            AWSShapeMember(label: "resolvedSourceVersion", required: false, type: .string), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "buildStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "secondaryArtifacts", required: false, type: .list), 
-            AWSShapeMember(label: "cache", required: false, type: .structure), 
-            AWSShapeMember(label: "artifacts", required: false, type: .structure), 
-            AWSShapeMember(label: "currentPhase", required: false, type: .string), 
-            AWSShapeMember(label: "initiator", required: false, type: .string), 
-            AWSShapeMember(label: "networkInterface", required: false, type: .structure), 
-            AWSShapeMember(label: "projectName", required: false, type: .string)
-        ]
-        /// Whether the build is complete. True if complete; otherwise, false.
-        public let buildComplete: Bool?
-        /// If your AWS CodeBuild project accesses resources in an Amazon VPC, you provide this parameter that identifies the VPC ID and the list of security group IDs and subnet IDs. The security groups and subnets must belong to the same VPC. You must provide at least one security group and one subnet ID.
-        public let vpcConfig: VpcConfig?
-        /// Information about the source code to be built.
-        public let source: ProjectSource?
-        ///  The number of minutes a build is allowed to be queued before it times out. 
-        public let queuedTimeoutInMinutes: Int32?
-        /// When the build process started, expressed in Unix time format.
-        public let startTime: TimeStamp?
-        /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build output artifacts. This is expressed either as the Amazon Resource Name (ARN) of the CMK or, if specified, the CMK's alias (using the format alias/alias-name ).
-        public let encryptionKey: String?
-        /// Information about all previous build phases that are complete and information about any current build phase that is not yet complete.
-        public let phases: [BuildPhase]?
-        /// Information about the build environment for this build.
-        public let environment: ProjectEnvironment?
-        /// When the build process ended, expressed in Unix time format.
-        public let endTime: TimeStamp?
-        /// The name of a service role used for this build.
-        public let serviceRole: String?
-        /// Any version identifier for the version of the source code to be built.
-        public let sourceVersion: String?
-        ///  An array of ProjectSourceVersion objects. Each ProjectSourceVersion must be one of:    For AWS CodeCommit: the commit ID to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example, pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.  
-        public let secondarySourceVersions: [ProjectSourceVersion]?
-        ///  An array of ProjectSource objects. 
-        public let secondarySources: [ProjectSource]?
-        /// How long, in minutes, for AWS CodeBuild to wait before timing out this build if it does not get marked as completed.
-        public let timeoutInMinutes: Int32?
-        /// Information about the build's logs in Amazon CloudWatch Logs.
-        public let logs: LogsLocation?
-        ///  An identifier for the version of this build's source code.     For AWS CodeCommit, GitHub, GitHub Enterprise, and BitBucket, the commit ID.     For AWS CodePipeline, the source revision provided by AWS CodePipeline.     For Amazon Simple Storage Service (Amazon S3), this does not apply.   
-        public let resolvedSourceVersion: String?
-        /// The unique ID for the build.
-        public let id: String?
-        /// The Amazon Resource Name (ARN) of the build.
-        public let arn: String?
-        /// The current status of the build. Valid values include:    FAILED: The build failed.    FAULT: The build faulted.    IN_PROGRESS: The build is still in progress.    STOPPED: The build stopped.    SUCCEEDED: The build succeeded.    TIMED_OUT: The build timed out.  
-        public let buildStatus: StatusType?
-        ///  An array of ProjectArtifacts objects. 
-        public let secondaryArtifacts: [BuildArtifacts]?
-        /// Information about the cache for the build.
-        public let cache: ProjectCache?
-        /// Information about the output artifacts for the build.
-        public let artifacts: BuildArtifacts?
-        /// The current build phase.
-        public let currentPhase: String?
-        /// The entity that started the build. Valid values include:   If AWS CodePipeline started the build, the pipeline's name (for example, codepipeline/my-demo-pipeline).   If an AWS Identity and Access Management (IAM) user started the build, the user's name (for example, MyUserName).   If the Jenkins plugin for AWS CodeBuild started the build, the string CodeBuild-Jenkins-Plugin.  
-        public let initiator: String?
-        /// Describes a network interface.
-        public let networkInterface: NetworkInterface?
-        /// The name of the AWS CodeBuild project.
-        public let projectName: String?
-
-        public init(buildComplete: Bool? = nil, vpcConfig: VpcConfig? = nil, source: ProjectSource? = nil, queuedTimeoutInMinutes: Int32? = nil, startTime: TimeStamp? = nil, encryptionKey: String? = nil, phases: [BuildPhase]? = nil, environment: ProjectEnvironment? = nil, endTime: TimeStamp? = nil, serviceRole: String? = nil, sourceVersion: String? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, secondarySources: [ProjectSource]? = nil, timeoutInMinutes: Int32? = nil, logs: LogsLocation? = nil, resolvedSourceVersion: String? = nil, id: String? = nil, arn: String? = nil, buildStatus: StatusType? = nil, secondaryArtifacts: [BuildArtifacts]? = nil, cache: ProjectCache? = nil, artifacts: BuildArtifacts? = nil, currentPhase: String? = nil, initiator: String? = nil, networkInterface: NetworkInterface? = nil, projectName: String? = nil) {
-            self.buildComplete = buildComplete
-            self.vpcConfig = vpcConfig
-            self.source = source
-            self.queuedTimeoutInMinutes = queuedTimeoutInMinutes
-            self.startTime = startTime
-            self.encryptionKey = encryptionKey
-            self.phases = phases
-            self.environment = environment
-            self.endTime = endTime
-            self.serviceRole = serviceRole
-            self.sourceVersion = sourceVersion
-            self.secondarySourceVersions = secondarySourceVersions
-            self.secondarySources = secondarySources
-            self.timeoutInMinutes = timeoutInMinutes
-            self.logs = logs
-            self.resolvedSourceVersion = resolvedSourceVersion
-            self.id = id
-            self.arn = arn
-            self.buildStatus = buildStatus
-            self.secondaryArtifacts = secondaryArtifacts
-            self.cache = cache
-            self.artifacts = artifacts
-            self.currentPhase = currentPhase
-            self.initiator = initiator
-            self.networkInterface = networkInterface
-            self.projectName = projectName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case buildComplete = "buildComplete"
-            case vpcConfig = "vpcConfig"
-            case source = "source"
-            case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"
-            case startTime = "startTime"
-            case encryptionKey = "encryptionKey"
-            case phases = "phases"
-            case environment = "environment"
-            case endTime = "endTime"
-            case serviceRole = "serviceRole"
-            case sourceVersion = "sourceVersion"
-            case secondarySourceVersions = "secondarySourceVersions"
-            case secondarySources = "secondarySources"
-            case timeoutInMinutes = "timeoutInMinutes"
-            case logs = "logs"
-            case resolvedSourceVersion = "resolvedSourceVersion"
-            case id = "id"
-            case arn = "arn"
-            case buildStatus = "buildStatus"
-            case secondaryArtifacts = "secondaryArtifacts"
-            case cache = "cache"
-            case artifacts = "artifacts"
-            case currentPhase = "currentPhase"
-            case initiator = "initiator"
-            case networkInterface = "networkInterface"
-            case projectName = "projectName"
-        }
-    }
-
-    public struct ListCuratedEnvironmentImagesInput: AWSShape {
-
-    }
-
-    public struct StopBuildOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "build", required: false, type: .structure)
-        ]
-        /// Information about the build.
-        public let build: Build?
-
-        public init(build: Build? = nil) {
-            self.build = build
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case build = "build"
-        }
-    }
-
-    public struct BatchGetProjectsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "names", required: true, type: .list)
-        ]
-        /// The names of the build projects.
-        public let names: [String]
-
-        public init(names: [String]) {
-            self.names = names
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case names = "names"
         }
     }
 
@@ -1594,11 +946,849 @@ extension CodeBuild {
         }
     }
 
-    public struct CreateWebhookOutput: AWSShape {
+    public enum LogsConfigStatusType: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct LogsLocation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cloudWatchLogs", required: false, type: .structure), 
+            AWSShapeMember(label: "deepLink", required: false, type: .string), 
+            AWSShapeMember(label: "groupName", required: false, type: .string), 
+            AWSShapeMember(label: "s3DeepLink", required: false, type: .string), 
+            AWSShapeMember(label: "s3Logs", required: false, type: .structure), 
+            AWSShapeMember(label: "streamName", required: false, type: .string)
+        ]
+        ///  Information about Amazon CloudWatch Logs for a build project. 
+        public let cloudWatchLogs: CloudWatchLogsConfig?
+        /// The URL to an individual build log in Amazon CloudWatch Logs.
+        public let deepLink: String?
+        /// The name of the Amazon CloudWatch Logs group for the build logs.
+        public let groupName: String?
+        ///  The URL to a build log in an S3 bucket. 
+        public let s3DeepLink: String?
+        ///  Information about S3 logs for a build project. 
+        public let s3Logs: S3LogsConfig?
+        /// The name of the Amazon CloudWatch Logs stream for the build logs.
+        public let streamName: String?
+
+        public init(cloudWatchLogs: CloudWatchLogsConfig? = nil, deepLink: String? = nil, groupName: String? = nil, s3DeepLink: String? = nil, s3Logs: S3LogsConfig? = nil, streamName: String? = nil) {
+            self.cloudWatchLogs = cloudWatchLogs
+            self.deepLink = deepLink
+            self.groupName = groupName
+            self.s3DeepLink = s3DeepLink
+            self.s3Logs = s3Logs
+            self.streamName = streamName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogs = "cloudWatchLogs"
+            case deepLink = "deepLink"
+            case groupName = "groupName"
+            case s3DeepLink = "s3DeepLink"
+            case s3Logs = "s3Logs"
+            case streamName = "streamName"
+        }
+    }
+
+    public struct NetworkInterface: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "networkInterfaceId", required: false, type: .string), 
+            AWSShapeMember(label: "subnetId", required: false, type: .string)
+        ]
+        /// The ID of the network interface.
+        public let networkInterfaceId: String?
+        /// The ID of the subnet.
+        public let subnetId: String?
+
+        public init(networkInterfaceId: String? = nil, subnetId: String? = nil) {
+            self.networkInterfaceId = networkInterfaceId
+            self.subnetId = subnetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkInterfaceId = "networkInterfaceId"
+            case subnetId = "subnetId"
+        }
+    }
+
+    public struct PhaseContext: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "statusCode", required: false, type: .string)
+        ]
+        /// An explanation of the build phase's context. This might include a command ID and an exit code.
+        public let message: String?
+        /// The status code for the context of the build phase.
+        public let statusCode: String?
+
+        public init(message: String? = nil, statusCode: String? = nil) {
+            self.message = message
+            self.statusCode = statusCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case statusCode = "statusCode"
+        }
+    }
+
+    public enum PlatformType: String, CustomStringConvertible, Codable {
+        case debian = "DEBIAN"
+        case amazonLinux = "AMAZON_LINUX"
+        case ubuntu = "UBUNTU"
+        case windowsServer = "WINDOWS_SERVER"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Project: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "artifacts", required: false, type: .structure), 
+            AWSShapeMember(label: "badge", required: false, type: .structure), 
+            AWSShapeMember(label: "cache", required: false, type: .structure), 
+            AWSShapeMember(label: "created", required: false, type: .timestamp), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "encryptionKey", required: false, type: .string), 
+            AWSShapeMember(label: "environment", required: false, type: .structure), 
+            AWSShapeMember(label: "lastModified", required: false, type: .timestamp), 
+            AWSShapeMember(label: "logsConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "queuedTimeoutInMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "secondaryArtifacts", required: false, type: .list), 
+            AWSShapeMember(label: "secondarySources", required: false, type: .list), 
+            AWSShapeMember(label: "serviceRole", required: false, type: .string), 
+            AWSShapeMember(label: "source", required: false, type: .structure), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "timeoutInMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "vpcConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "webhook", required: false, type: .structure)
+        ]
+        /// The Amazon Resource Name (ARN) of the build project.
+        public let arn: String?
+        /// Information about the build output artifacts for the build project.
+        public let artifacts: ProjectArtifacts?
+        /// Information about the build badge for the build project.
+        public let badge: ProjectBadge?
+        /// Information about the cache for the build project.
+        public let cache: ProjectCache?
+        /// When the build project was created, expressed in Unix time format.
+        public let created: TimeStamp?
+        /// A description that makes the build project easy to identify.
+        public let description: String?
+        /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build output artifacts. This is expressed either as the Amazon Resource Name (ARN) of the CMK or, if specified, the CMK's alias (using the format alias/alias-name ).
+        public let encryptionKey: String?
+        /// Information about the build environment for this build project.
+        public let environment: ProjectEnvironment?
+        /// When the build project's settings were last modified, expressed in Unix time format.
+        public let lastModified: TimeStamp?
+        ///  Information about logs for the build project. A project can create logs in Amazon CloudWatch Logs, an S3 bucket, or both. 
+        public let logsConfig: LogsConfig?
+        /// The name of the build project.
+        public let name: String?
+        ///  The number of minutes a build is allowed to be queued before it times out. 
+        public let queuedTimeoutInMinutes: Int32?
+        ///  An array of ProjectArtifacts objects. 
+        public let secondaryArtifacts: [ProjectArtifacts]?
+        ///  An array of ProjectSource objects. 
+        public let secondarySources: [ProjectSource]?
+        /// The ARN of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
+        public let serviceRole: String?
+        /// Information about the build input source code for this build project.
+        public let source: ProjectSource?
+        /// The tags for this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
+        public let tags: [Tag]?
+        /// How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before timing out any related build that did not get marked as completed. The default is 60 minutes.
+        public let timeoutInMinutes: Int32?
+        /// Information about the VPC configuration that AWS CodeBuild accesses.
+        public let vpcConfig: VpcConfig?
+        /// Information about a webhook that connects repository events to a build project in AWS CodeBuild.
+        public let webhook: Webhook?
+
+        public init(arn: String? = nil, artifacts: ProjectArtifacts? = nil, badge: ProjectBadge? = nil, cache: ProjectCache? = nil, created: TimeStamp? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, lastModified: TimeStamp? = nil, logsConfig: LogsConfig? = nil, name: String? = nil, queuedTimeoutInMinutes: Int32? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int32? = nil, vpcConfig: VpcConfig? = nil, webhook: Webhook? = nil) {
+            self.arn = arn
+            self.artifacts = artifacts
+            self.badge = badge
+            self.cache = cache
+            self.created = created
+            self.description = description
+            self.encryptionKey = encryptionKey
+            self.environment = environment
+            self.lastModified = lastModified
+            self.logsConfig = logsConfig
+            self.name = name
+            self.queuedTimeoutInMinutes = queuedTimeoutInMinutes
+            self.secondaryArtifacts = secondaryArtifacts
+            self.secondarySources = secondarySources
+            self.serviceRole = serviceRole
+            self.source = source
+            self.tags = tags
+            self.timeoutInMinutes = timeoutInMinutes
+            self.vpcConfig = vpcConfig
+            self.webhook = webhook
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case artifacts = "artifacts"
+            case badge = "badge"
+            case cache = "cache"
+            case created = "created"
+            case description = "description"
+            case encryptionKey = "encryptionKey"
+            case environment = "environment"
+            case lastModified = "lastModified"
+            case logsConfig = "logsConfig"
+            case name = "name"
+            case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"
+            case secondaryArtifacts = "secondaryArtifacts"
+            case secondarySources = "secondarySources"
+            case serviceRole = "serviceRole"
+            case source = "source"
+            case tags = "tags"
+            case timeoutInMinutes = "timeoutInMinutes"
+            case vpcConfig = "vpcConfig"
+            case webhook = "webhook"
+        }
+    }
+
+    public struct ProjectArtifacts: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "artifactIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "encryptionDisabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "location", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "namespaceType", required: false, type: .enum), 
+            AWSShapeMember(label: "overrideArtifactName", required: false, type: .boolean), 
+            AWSShapeMember(label: "packaging", required: false, type: .enum), 
+            AWSShapeMember(label: "path", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: true, type: .enum)
+        ]
+        ///  An identifier for this artifact definition. 
+        public let artifactIdentifier: String?
+        ///  Set to true if you do not want your output artifacts encrypted. This option is valid only if your artifacts type is Amazon Simple Storage Service (Amazon S3). If this is set with another artifacts type, an invalidInputException is thrown. 
+        public let encryptionDisabled: Bool?
+        /// Information about the build output artifact location:   If type is set to CODEPIPELINE, AWS CodePipeline ignores this value if specified. This is because AWS CodePipeline manages its build output locations instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, this value is ignored if specified, because no build output is produced.   If type is set to S3, this is the name of the output bucket.  
+        public let location: String?
+        /// Along with path and namespaceType, the pattern that AWS CodeBuild uses to name and store the output artifact:   If type is set to CODEPIPELINE, AWS CodePipeline ignores this value if specified. This is because AWS CodePipeline manages its build output names instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, this value is ignored if specified, because no build output is produced.   If type is set to S3, this is the name of the output artifact object. If you set the name to be a forward slash ("/"), the artifact is stored in the root of the output bucket.   For example:    If path is set to MyArtifacts, namespaceType is set to BUILD_ID, and name is set to MyArtifact.zip, then the output artifact is stored in MyArtifacts/build-ID/MyArtifact.zip.     If path is empty, namespaceType is set to NONE, and name is set to "/", the output artifact is stored in the root of the output bucket.     If path is set to MyArtifacts, namespaceType is set to BUILD_ID, and name is set to "/", the output artifact is stored in MyArtifacts/build-ID .   
+        public let name: String?
+        /// Along with path and name, the pattern that AWS CodeBuild uses to determine the name and location to store the output artifact:   If type is set to CODEPIPELINE, AWS CodePipeline ignores this value if specified. This is because AWS CodePipeline manages its build output names instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, this value is ignored if specified, because no build output is produced.   If type is set to S3, valid values include:    BUILD_ID: Include the build ID in the location of the build output artifact.    NONE: Do not include the build ID. This is the default if namespaceType is not specified.     For example, if path is set to MyArtifacts, namespaceType is set to BUILD_ID, and name is set to MyArtifact.zip, the output artifact is stored in MyArtifacts/build-ID/MyArtifact.zip.
+        public let namespaceType: ArtifactNamespace?
+        ///  If this flag is set, a name specified in the build spec file overrides the artifact name. The name specified in a build spec file is calculated at build time and uses the Shell Command Language. For example, you can append a date and time to your artifact name so that it is always unique. 
+        public let overrideArtifactName: Bool?
+        /// The type of build output artifact to create:   If type is set to CODEPIPELINE, AWS CodePipeline ignores this value if specified. This is because AWS CodePipeline manages its build output artifacts instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, this value is ignored if specified, because no build output is produced.   If type is set to S3, valid values include:    NONE: AWS CodeBuild creates in the output bucket a folder that contains the build output. This is the default if packaging is not specified.    ZIP: AWS CodeBuild creates in the output bucket a ZIP file that contains the build output.    
+        public let packaging: ArtifactPackaging?
+        /// Along with namespaceType and name, the pattern that AWS CodeBuild uses to name and store the output artifact:   If type is set to CODEPIPELINE, AWS CodePipeline ignores this value if specified. This is because AWS CodePipeline manages its build output names instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, this value is ignored if specified, because no build output is produced.   If type is set to S3, this is the path to the output artifact. If path is not specified, path is not used.   For example, if path is set to MyArtifacts, namespaceType is set to NONE, and name is set to MyArtifact.zip, the output artifact is stored in the output bucket at MyArtifacts/MyArtifact.zip.
+        public let path: String?
+        /// The type of build output artifact. Valid values include:    CODEPIPELINE: The build project has build output generated through AWS CodePipeline.    NO_ARTIFACTS: The build project does not produce any build output.    S3: The build project stores build output in Amazon Simple Storage Service (Amazon S3).  
+        public let `type`: ArtifactsType
+
+        public init(artifactIdentifier: String? = nil, encryptionDisabled: Bool? = nil, location: String? = nil, name: String? = nil, namespaceType: ArtifactNamespace? = nil, overrideArtifactName: Bool? = nil, packaging: ArtifactPackaging? = nil, path: String? = nil, type: ArtifactsType) {
+            self.artifactIdentifier = artifactIdentifier
+            self.encryptionDisabled = encryptionDisabled
+            self.location = location
+            self.name = name
+            self.namespaceType = namespaceType
+            self.overrideArtifactName = overrideArtifactName
+            self.packaging = packaging
+            self.path = path
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactIdentifier = "artifactIdentifier"
+            case encryptionDisabled = "encryptionDisabled"
+            case location = "location"
+            case name = "name"
+            case namespaceType = "namespaceType"
+            case overrideArtifactName = "overrideArtifactName"
+            case packaging = "packaging"
+            case path = "path"
+            case `type` = "type"
+        }
+    }
+
+    public struct ProjectBadge: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "badgeEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "badgeRequestUrl", required: false, type: .string)
+        ]
+        /// Set this to true to generate a publicly accessible URL for your project's build badge.
+        public let badgeEnabled: Bool?
+        /// The publicly-accessible URL through which you can access the build badge for your project.  The publicly accessible URL through which you can access the build badge for your project. 
+        public let badgeRequestUrl: String?
+
+        public init(badgeEnabled: Bool? = nil, badgeRequestUrl: String? = nil) {
+            self.badgeEnabled = badgeEnabled
+            self.badgeRequestUrl = badgeRequestUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case badgeEnabled = "badgeEnabled"
+            case badgeRequestUrl = "badgeRequestUrl"
+        }
+    }
+
+    public struct ProjectCache: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "location", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: true, type: .enum)
+        ]
+        /// Information about the cache location:     NO_CACHE: This value is ignored.    S3: This is the S3 bucket name/prefix.  
+        public let location: String?
+        /// The type of cache used by the build project. Valid values include:    NO_CACHE: The build project does not use any cache.    S3: The build project reads and writes from and to S3.  
+        public let `type`: CacheType
+
+        public init(location: String? = nil, type: CacheType) {
+            self.location = location
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "location"
+            case `type` = "type"
+        }
+    }
+
+    public struct ProjectEnvironment: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificate", required: false, type: .string), 
+            AWSShapeMember(label: "computeType", required: true, type: .enum), 
+            AWSShapeMember(label: "environmentVariables", required: false, type: .list), 
+            AWSShapeMember(label: "image", required: true, type: .string), 
+            AWSShapeMember(label: "privilegedMode", required: false, type: .boolean), 
+            AWSShapeMember(label: "type", required: true, type: .enum)
+        ]
+        /// The certificate to use with this build project.
+        public let certificate: String?
+        /// Information about the compute resources the build project uses. Available values include:    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 15 GB memory and 8 vCPUs for builds.  
+        public let computeType: ComputeType
+        /// A set of environment variables to make available to builds for this build project.
+        public let environmentVariables: [EnvironmentVariable]?
+        /// The ID of the Docker image to use for this build project.
+        public let image: String
+        /// Enables running the Docker daemon inside a Docker container. Set to true only if the build project is be used to build Docker images, and the specified build environment image is not provided by AWS CodeBuild with Docker support. Otherwise, all associated builds that attempt to interact with the Docker daemon fail. You must also start the Docker daemon so that builds can interact with it. One way to do this is to initialize the Docker daemon during the install phase of your build spec by running the following build commands. (Do not run these commands if the specified build environment image is provided by AWS CodeBuild with Docker support.) If the operating system's base image is Ubuntu Linux:  - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 --storage-driver=overlay&amp; - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"  If the operating system's base image is Alpine Linux, add the -t argument to timeout:  - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 --storage-driver=overlay&amp; - timeout 15 -t sh -c "until docker info; do echo .; sleep 1; done" 
+        public let privilegedMode: Bool?
+        /// The type of build environment to use for related builds.
+        public let `type`: EnvironmentType
+
+        public init(certificate: String? = nil, computeType: ComputeType, environmentVariables: [EnvironmentVariable]? = nil, image: String, privilegedMode: Bool? = nil, type: EnvironmentType) {
+            self.certificate = certificate
+            self.computeType = computeType
+            self.environmentVariables = environmentVariables
+            self.image = image
+            self.privilegedMode = privilegedMode
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "certificate"
+            case computeType = "computeType"
+            case environmentVariables = "environmentVariables"
+            case image = "image"
+            case privilegedMode = "privilegedMode"
+            case `type` = "type"
+        }
+    }
+
+    public enum ProjectSortByType: String, CustomStringConvertible, Codable {
+        case name = "NAME"
+        case createdTime = "CREATED_TIME"
+        case lastModifiedTime = "LAST_MODIFIED_TIME"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ProjectSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "auth", required: false, type: .structure), 
+            AWSShapeMember(label: "buildspec", required: false, type: .string), 
+            AWSShapeMember(label: "gitCloneDepth", required: false, type: .integer), 
+            AWSShapeMember(label: "insecureSsl", required: false, type: .boolean), 
+            AWSShapeMember(label: "location", required: false, type: .string), 
+            AWSShapeMember(label: "reportBuildStatus", required: false, type: .boolean), 
+            AWSShapeMember(label: "sourceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: true, type: .enum)
+        ]
+        /// Information about the authorization settings for AWS CodeBuild to access the source code to be built. This information is for the AWS CodeBuild console's use only. Your code should not get or set this information directly (unless the build project's source type value is BITBUCKET or GITHUB).
+        public let auth: SourceAuth?
+        /// The build spec declaration to use for the builds in this build project. If this value is not specified, a build spec must be included along with the source code to be built.
+        public let buildspec: String?
+        /// Information about the git clone depth for the build project.
+        public let gitCloneDepth: Int32?
+        /// Enable this flag to ignore SSL warnings while connecting to the project source code.
+        public let insecureSsl: Bool?
+        /// Information about the location of the source code to be built. Valid values include:   For source code settings that are specified in the source action of a pipeline in AWS CodePipeline, location should not be specified. If it is specified, AWS CodePipeline ignores it. This is because AWS CodePipeline uses the settings in a pipeline's source action instead of this value.   For source code in an AWS CodeCommit repository, the HTTPS clone URL to the repository that contains the source code and the build spec (for example, https://git-codecommit.region-ID.amazonaws.com/v1/repos/repo-name ).   For source code in an Amazon Simple Storage Service (Amazon S3) input bucket, one of the following.     The path to the ZIP file that contains the source code (for example,  bucket-name/path/to/object-name.zip).     The path to the folder that contains the source code (for example,  bucket-name/path/to/source-code/folder/).      For source code in a GitHub repository, the HTTPS clone URL to the repository that contains the source and the build spec. You must connect your AWS account to your GitHub account. Use the AWS CodeBuild console to start creating a build project. When you use the console to connect (or reconnect) with GitHub, on the GitHub Authorize application page, for Organization access, choose Request access next to each repository you want to allow AWS CodeBuild to have access to, and then choose Authorize application. (After you have connected to your GitHub account, you do not need to finish creating the build project. You can leave the AWS CodeBuild console.) To instruct AWS CodeBuild to use this connection, in the source object, set the auth object's type value to OAUTH.   For source code in a Bitbucket repository, the HTTPS clone URL to the repository that contains the source and the build spec. You must connect your AWS account to your Bitbucket account. Use the AWS CodeBuild console to start creating a build project. When you use the console to connect (or reconnect) with Bitbucket, on the Bitbucket Confirm access to your account page, choose Grant access. (After you have connected to your Bitbucket account, you do not need to finish creating the build project. You can leave the AWS CodeBuild console.) To instruct AWS CodeBuild to use this connection, in the source object, set the auth object's type value to OAUTH.  
+        public let location: String?
+        ///  Set to true to report the status of a build's start and finish to your source provider. This option is valid only when your source provider is GitHub, GitHub Enterprise, or Bitbucket. If this is set and you use a different source provider, an invalidInputException is thrown. 
+        public let reportBuildStatus: Bool?
+        ///  An identifier for this project source. 
+        public let sourceIdentifier: String?
+        /// The type of repository that contains the source code to be built. Valid values include:    BITBUCKET: The source code is in a Bitbucket repository.    CODECOMMIT: The source code is in an AWS CodeCommit repository.    CODEPIPELINE: The source code settings are specified in the source action of a pipeline in AWS CodePipeline.    GITHUB: The source code is in a GitHub repository.    NO_SOURCE: The project does not have input source code.    S3: The source code is in an Amazon Simple Storage Service (Amazon S3) input bucket.  
+        public let `type`: SourceType
+
+        public init(auth: SourceAuth? = nil, buildspec: String? = nil, gitCloneDepth: Int32? = nil, insecureSsl: Bool? = nil, location: String? = nil, reportBuildStatus: Bool? = nil, sourceIdentifier: String? = nil, type: SourceType) {
+            self.auth = auth
+            self.buildspec = buildspec
+            self.gitCloneDepth = gitCloneDepth
+            self.insecureSsl = insecureSsl
+            self.location = location
+            self.reportBuildStatus = reportBuildStatus
+            self.sourceIdentifier = sourceIdentifier
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auth = "auth"
+            case buildspec = "buildspec"
+            case gitCloneDepth = "gitCloneDepth"
+            case insecureSsl = "insecureSsl"
+            case location = "location"
+            case reportBuildStatus = "reportBuildStatus"
+            case sourceIdentifier = "sourceIdentifier"
+            case `type` = "type"
+        }
+    }
+
+    public struct ProjectSourceVersion: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "sourceIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "sourceVersion", required: true, type: .string)
+        ]
+        /// An identifier for a source in the build project.
+        public let sourceIdentifier: String
+        /// The source version for the corresponding source identifier. If specified, must be one of:   For AWS CodeCommit: the commit ID to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example, pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.  
+        public let sourceVersion: String
+
+        public init(sourceIdentifier: String, sourceVersion: String) {
+            self.sourceIdentifier = sourceIdentifier
+            self.sourceVersion = sourceVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceIdentifier = "sourceIdentifier"
+            case sourceVersion = "sourceVersion"
+        }
+    }
+
+    public struct S3LogsConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "location", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: true, type: .enum)
+        ]
+        ///  The ARN of an S3 bucket and the path prefix for S3 logs. If your Amazon S3 bucket name is my-bucket, and your path prefix is build-log, then acceptable formats are my-bucket/build-log or arn:aws:s3:::my-bucket/build-log. 
+        public let location: String?
+        /// The current status of the S3 build logs. Valid values are:    ENABLED: S3 build logs are enabled for this build project.    DISABLED: S3 build logs are not enabled for this build project.  
+        public let status: LogsConfigStatusType
+
+        public init(location: String? = nil, status: LogsConfigStatusType) {
+            self.location = location
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "location"
+            case status = "status"
+        }
+    }
+
+    public enum SortOrderType: String, CustomStringConvertible, Codable {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct SourceAuth: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resource", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: true, type: .enum)
+        ]
+        /// The resource value that applies to the specified authorization type.
+        public let resource: String?
+        /// The authorization type to use. The only valid value is OAUTH, which represents the OAuth authorization type.
+        public let `type`: SourceAuthType
+
+        public init(resource: String? = nil, type: SourceAuthType) {
+            self.resource = resource
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resource = "resource"
+            case `type` = "type"
+        }
+    }
+
+    public enum SourceAuthType: String, CustomStringConvertible, Codable {
+        case oauth = "OAUTH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceType: String, CustomStringConvertible, Codable {
+        case codecommit = "CODECOMMIT"
+        case codepipeline = "CODEPIPELINE"
+        case github = "GITHUB"
+        case s3 = "S3"
+        case bitbucket = "BITBUCKET"
+        case githubEnterprise = "GITHUB_ENTERPRISE"
+        case noSource = "NO_SOURCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct StartBuildInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "artifactsOverride", required: false, type: .structure), 
+            AWSShapeMember(label: "buildspecOverride", required: false, type: .string), 
+            AWSShapeMember(label: "cacheOverride", required: false, type: .structure), 
+            AWSShapeMember(label: "certificateOverride", required: false, type: .string), 
+            AWSShapeMember(label: "computeTypeOverride", required: false, type: .enum), 
+            AWSShapeMember(label: "environmentTypeOverride", required: false, type: .enum), 
+            AWSShapeMember(label: "environmentVariablesOverride", required: false, type: .list), 
+            AWSShapeMember(label: "gitCloneDepthOverride", required: false, type: .integer), 
+            AWSShapeMember(label: "idempotencyToken", required: false, type: .string), 
+            AWSShapeMember(label: "imageOverride", required: false, type: .string), 
+            AWSShapeMember(label: "insecureSslOverride", required: false, type: .boolean), 
+            AWSShapeMember(label: "logsConfigOverride", required: false, type: .structure), 
+            AWSShapeMember(label: "privilegedModeOverride", required: false, type: .boolean), 
+            AWSShapeMember(label: "projectName", required: true, type: .string), 
+            AWSShapeMember(label: "queuedTimeoutInMinutesOverride", required: false, type: .integer), 
+            AWSShapeMember(label: "reportBuildStatusOverride", required: false, type: .boolean), 
+            AWSShapeMember(label: "secondaryArtifactsOverride", required: false, type: .list), 
+            AWSShapeMember(label: "secondarySourcesOverride", required: false, type: .list), 
+            AWSShapeMember(label: "secondarySourcesVersionOverride", required: false, type: .list), 
+            AWSShapeMember(label: "serviceRoleOverride", required: false, type: .string), 
+            AWSShapeMember(label: "sourceAuthOverride", required: false, type: .structure), 
+            AWSShapeMember(label: "sourceLocationOverride", required: false, type: .string), 
+            AWSShapeMember(label: "sourceTypeOverride", required: false, type: .enum), 
+            AWSShapeMember(label: "sourceVersion", required: false, type: .string), 
+            AWSShapeMember(label: "timeoutInMinutesOverride", required: false, type: .integer)
+        ]
+        /// Build output artifact settings that override, for this build only, the latest ones already defined in the build project.
+        public let artifactsOverride: ProjectArtifacts?
+        /// A build spec declaration that overrides, for this build only, the latest one already defined in the build project.
+        public let buildspecOverride: String?
+        /// A ProjectCache object specified for this build that overrides the one defined in the build project.
+        public let cacheOverride: ProjectCache?
+        /// The name of a certificate for this build that overrides the one specified in the build project.
+        public let certificateOverride: String?
+        /// The name of a compute type for this build that overrides the one specified in the build project.
+        public let computeTypeOverride: ComputeType?
+        /// A container type for this build that overrides the one specified in the build project.
+        public let environmentTypeOverride: EnvironmentType?
+        /// A set of environment variables that overrides, for this build only, the latest ones already defined in the build project.
+        public let environmentVariablesOverride: [EnvironmentVariable]?
+        /// The user-defined depth of history, with a minimum value of 0, that overrides, for this build only, any previous depth of history defined in the build project.
+        public let gitCloneDepthOverride: Int32?
+        /// A unique, case sensitive identifier you provide to ensure the idempotency of the StartBuild request. The token is included in the StartBuild request and is valid for 12 hours. If you repeat the StartBuild request with the same token, but change a parameter, AWS CodeBuild returns a parameter mismatch error. 
+        public let idempotencyToken: String?
+        /// The name of an image for this build that overrides the one specified in the build project.
+        public let imageOverride: String?
+        /// Enable this flag to override the insecure SSL setting that is specified in the build project. The insecure SSL setting determines whether to ignore SSL warnings while connecting to the project source code. This override applies only if the build's source is GitHub Enterprise.
+        public let insecureSslOverride: Bool?
+        ///  Log settings for this build that override the log settings defined in the build project. 
+        public let logsConfigOverride: LogsConfig?
+        /// Enable this flag to override privileged mode in the build project.
+        public let privilegedModeOverride: Bool?
+        /// The name of the AWS CodeBuild build project to start running a build.
+        public let projectName: String
+        ///  The number of minutes a build is allowed to be queued before it times out. 
+        public let queuedTimeoutInMinutesOverride: Int32?
+        ///  Set to true to report to your source provider the status of a build's start and completion. If you use this option with a source provider other than GitHub, GitHub Enterprise, or Bitbucket, an invalidInputException is thrown. 
+        public let reportBuildStatusOverride: Bool?
+        ///  An array of ProjectArtifacts objects. 
+        public let secondaryArtifactsOverride: [ProjectArtifacts]?
+        ///  An array of ProjectSource objects. 
+        public let secondarySourcesOverride: [ProjectSource]?
+        ///  An array of ProjectSourceVersion objects that specify one or more versions of the project's secondary sources to be used for this build only. 
+        public let secondarySourcesVersionOverride: [ProjectSourceVersion]?
+        /// The name of a service role for this build that overrides the one specified in the build project.
+        public let serviceRoleOverride: String?
+        /// An authorization type for this build that overrides the one defined in the build project. This override applies only if the build project's source is BitBucket or GitHub.
+        public let sourceAuthOverride: SourceAuth?
+        /// A location that overrides, for this build, the source location for the one defined in the build project.
+        public let sourceLocationOverride: String?
+        /// A source input type, for this build, that overrides the source input defined in the build project.
+        public let sourceTypeOverride: SourceType?
+        /// A version of the build input to be built, for this build only. If not specified, the latest version is used. If specified, must be one of:   For AWS CodeCommit: the commit ID to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.  
+        public let sourceVersion: String?
+        /// The number of build timeout minutes, from 5 to 480 (8 hours), that overrides, for this build only, the latest setting already defined in the build project.
+        public let timeoutInMinutesOverride: Int32?
+
+        public init(artifactsOverride: ProjectArtifacts? = nil, buildspecOverride: String? = nil, cacheOverride: ProjectCache? = nil, certificateOverride: String? = nil, computeTypeOverride: ComputeType? = nil, environmentTypeOverride: EnvironmentType? = nil, environmentVariablesOverride: [EnvironmentVariable]? = nil, gitCloneDepthOverride: Int32? = nil, idempotencyToken: String? = nil, imageOverride: String? = nil, insecureSslOverride: Bool? = nil, logsConfigOverride: LogsConfig? = nil, privilegedModeOverride: Bool? = nil, projectName: String, queuedTimeoutInMinutesOverride: Int32? = nil, reportBuildStatusOverride: Bool? = nil, secondaryArtifactsOverride: [ProjectArtifacts]? = nil, secondarySourcesOverride: [ProjectSource]? = nil, secondarySourcesVersionOverride: [ProjectSourceVersion]? = nil, serviceRoleOverride: String? = nil, sourceAuthOverride: SourceAuth? = nil, sourceLocationOverride: String? = nil, sourceTypeOverride: SourceType? = nil, sourceVersion: String? = nil, timeoutInMinutesOverride: Int32? = nil) {
+            self.artifactsOverride = artifactsOverride
+            self.buildspecOverride = buildspecOverride
+            self.cacheOverride = cacheOverride
+            self.certificateOverride = certificateOverride
+            self.computeTypeOverride = computeTypeOverride
+            self.environmentTypeOverride = environmentTypeOverride
+            self.environmentVariablesOverride = environmentVariablesOverride
+            self.gitCloneDepthOverride = gitCloneDepthOverride
+            self.idempotencyToken = idempotencyToken
+            self.imageOverride = imageOverride
+            self.insecureSslOverride = insecureSslOverride
+            self.logsConfigOverride = logsConfigOverride
+            self.privilegedModeOverride = privilegedModeOverride
+            self.projectName = projectName
+            self.queuedTimeoutInMinutesOverride = queuedTimeoutInMinutesOverride
+            self.reportBuildStatusOverride = reportBuildStatusOverride
+            self.secondaryArtifactsOverride = secondaryArtifactsOverride
+            self.secondarySourcesOverride = secondarySourcesOverride
+            self.secondarySourcesVersionOverride = secondarySourcesVersionOverride
+            self.serviceRoleOverride = serviceRoleOverride
+            self.sourceAuthOverride = sourceAuthOverride
+            self.sourceLocationOverride = sourceLocationOverride
+            self.sourceTypeOverride = sourceTypeOverride
+            self.sourceVersion = sourceVersion
+            self.timeoutInMinutesOverride = timeoutInMinutesOverride
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactsOverride = "artifactsOverride"
+            case buildspecOverride = "buildspecOverride"
+            case cacheOverride = "cacheOverride"
+            case certificateOverride = "certificateOverride"
+            case computeTypeOverride = "computeTypeOverride"
+            case environmentTypeOverride = "environmentTypeOverride"
+            case environmentVariablesOverride = "environmentVariablesOverride"
+            case gitCloneDepthOverride = "gitCloneDepthOverride"
+            case idempotencyToken = "idempotencyToken"
+            case imageOverride = "imageOverride"
+            case insecureSslOverride = "insecureSslOverride"
+            case logsConfigOverride = "logsConfigOverride"
+            case privilegedModeOverride = "privilegedModeOverride"
+            case projectName = "projectName"
+            case queuedTimeoutInMinutesOverride = "queuedTimeoutInMinutesOverride"
+            case reportBuildStatusOverride = "reportBuildStatusOverride"
+            case secondaryArtifactsOverride = "secondaryArtifactsOverride"
+            case secondarySourcesOverride = "secondarySourcesOverride"
+            case secondarySourcesVersionOverride = "secondarySourcesVersionOverride"
+            case serviceRoleOverride = "serviceRoleOverride"
+            case sourceAuthOverride = "sourceAuthOverride"
+            case sourceLocationOverride = "sourceLocationOverride"
+            case sourceTypeOverride = "sourceTypeOverride"
+            case sourceVersion = "sourceVersion"
+            case timeoutInMinutesOverride = "timeoutInMinutesOverride"
+        }
+    }
+
+    public struct StartBuildOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "build", required: false, type: .structure)
+        ]
+        /// Information about the build to be run.
+        public let build: Build?
+
+        public init(build: Build? = nil) {
+            self.build = build
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case build = "build"
+        }
+    }
+
+    public enum StatusType: String, CustomStringConvertible, Codable {
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        case fault = "FAULT"
+        case timedOut = "TIMED_OUT"
+        case inProgress = "IN_PROGRESS"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct StopBuildInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", required: true, type: .string)
+        ]
+        /// The ID of the build.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+        }
+    }
+
+    public struct StopBuildOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "build", required: false, type: .structure)
+        ]
+        /// Information about the build.
+        public let build: Build?
+
+        public init(build: Build? = nil) {
+            self.build = build
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case build = "build"
+        }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: false, type: .string), 
+            AWSShapeMember(label: "value", required: false, type: .string)
+        ]
+        /// The tag's key.
+        public let key: String?
+        /// The tag's value.
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
+    public struct UpdateProjectInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "artifacts", required: false, type: .structure), 
+            AWSShapeMember(label: "badgeEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "cache", required: false, type: .structure), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "encryptionKey", required: false, type: .string), 
+            AWSShapeMember(label: "environment", required: false, type: .structure), 
+            AWSShapeMember(label: "logsConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "queuedTimeoutInMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "secondaryArtifacts", required: false, type: .list), 
+            AWSShapeMember(label: "secondarySources", required: false, type: .list), 
+            AWSShapeMember(label: "serviceRole", required: false, type: .string), 
+            AWSShapeMember(label: "source", required: false, type: .structure), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "timeoutInMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
+        ]
+        /// Information to be changed about the build output artifacts for the build project.
+        public let artifacts: ProjectArtifacts?
+        /// Set this to true to generate a publicly accessible URL for your project's build badge.
+        public let badgeEnabled: Bool?
+        /// Stores recently used information so that it can be quickly accessed at a later time.
+        public let cache: ProjectCache?
+        /// A new or replacement description of the build project.
+        public let description: String?
+        /// The replacement AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build output artifacts. You can specify either the Amazon Resource Name (ARN)of the CMK or, if available, the CMK's alias (using the format alias/alias-name ).
+        public let encryptionKey: String?
+        /// Information to be changed about the build environment for the build project.
+        public let environment: ProjectEnvironment?
+        ///  Information about logs for the build project. A project can create logs in Amazon CloudWatch Logs, logs in an S3 bucket, or both. 
+        public let logsConfig: LogsConfig?
+        /// The name of the build project.  You cannot change a build project's name. 
+        public let name: String
+        ///  The number of minutes a build is allowed to be queued before it times out. 
+        public let queuedTimeoutInMinutes: Int32?
+        ///  An array of ProjectSource objects. 
+        public let secondaryArtifacts: [ProjectArtifacts]?
+        ///  An array of ProjectSource objects. 
+        public let secondarySources: [ProjectSource]?
+        /// The replacement ARN of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
+        public let serviceRole: String?
+        /// Information to be changed about the build input source code for the build project.
+        public let source: ProjectSource?
+        /// The replacement set of tags for this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
+        public let tags: [Tag]?
+        /// The replacement value in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before timing out any related build that did not get marked as completed.
+        public let timeoutInMinutes: Int32?
+        /// VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
+        public let vpcConfig: VpcConfig?
+
+        public init(artifacts: ProjectArtifacts? = nil, badgeEnabled: Bool? = nil, cache: ProjectCache? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, logsConfig: LogsConfig? = nil, name: String, queuedTimeoutInMinutes: Int32? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int32? = nil, vpcConfig: VpcConfig? = nil) {
+            self.artifacts = artifacts
+            self.badgeEnabled = badgeEnabled
+            self.cache = cache
+            self.description = description
+            self.encryptionKey = encryptionKey
+            self.environment = environment
+            self.logsConfig = logsConfig
+            self.name = name
+            self.queuedTimeoutInMinutes = queuedTimeoutInMinutes
+            self.secondaryArtifacts = secondaryArtifacts
+            self.secondarySources = secondarySources
+            self.serviceRole = serviceRole
+            self.source = source
+            self.tags = tags
+            self.timeoutInMinutes = timeoutInMinutes
+            self.vpcConfig = vpcConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifacts = "artifacts"
+            case badgeEnabled = "badgeEnabled"
+            case cache = "cache"
+            case description = "description"
+            case encryptionKey = "encryptionKey"
+            case environment = "environment"
+            case logsConfig = "logsConfig"
+            case name = "name"
+            case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"
+            case secondaryArtifacts = "secondaryArtifacts"
+            case secondarySources = "secondarySources"
+            case serviceRole = "serviceRole"
+            case source = "source"
+            case tags = "tags"
+            case timeoutInMinutes = "timeoutInMinutes"
+            case vpcConfig = "vpcConfig"
+        }
+    }
+
+    public struct UpdateProjectOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "project", required: false, type: .structure)
+        ]
+        /// Information about the build project that was changed.
+        public let project: Project?
+
+        public init(project: Project? = nil) {
+            self.project = project
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case project = "project"
+        }
+    }
+
+    public struct UpdateWebhookInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "branchFilter", required: false, type: .string), 
+            AWSShapeMember(label: "projectName", required: true, type: .string), 
+            AWSShapeMember(label: "rotateSecret", required: false, type: .boolean)
+        ]
+        /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built.
+        public let branchFilter: String?
+        /// The name of the AWS CodeBuild project.
+        public let projectName: String
+        ///  A boolean value that specifies whether the associated GitHub repository's secret token should be updated. If you use Bitbucket for your repository, rotateSecret is ignored. 
+        public let rotateSecret: Bool?
+
+        public init(branchFilter: String? = nil, projectName: String, rotateSecret: Bool? = nil) {
+            self.branchFilter = branchFilter
+            self.projectName = projectName
+            self.rotateSecret = rotateSecret
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branchFilter = "branchFilter"
+            case projectName = "projectName"
+            case rotateSecret = "rotateSecret"
+        }
+    }
+
+    public struct UpdateWebhookOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "webhook", required: false, type: .structure)
         ]
-        /// Information about a webhook that connects repository events to a build project in AWS CodeBuild.
+        ///  Information about a repository's webhook that is associated with a project in AWS CodeBuild. 
         public let webhook: Webhook?
 
         public init(webhook: Webhook? = nil) {
@@ -1610,244 +1800,66 @@ extension CodeBuild {
         }
     }
 
-    public struct ProjectArtifacts: AWSShape {
+    public struct VpcConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "packaging", required: false, type: .enum), 
-            AWSShapeMember(label: "artifactIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "overrideArtifactName", required: false, type: .boolean), 
-            AWSShapeMember(label: "namespaceType", required: false, type: .enum), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "encryptionDisabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "type", required: true, type: .enum), 
-            AWSShapeMember(label: "path", required: false, type: .string), 
-            AWSShapeMember(label: "location", required: false, type: .string)
+            AWSShapeMember(label: "securityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "subnets", required: false, type: .list), 
+            AWSShapeMember(label: "vpcId", required: false, type: .string)
         ]
-        /// The type of build output artifact to create:   If type is set to CODEPIPELINE, AWS CodePipeline ignores this value if specified. This is because AWS CodePipeline manages its build output artifacts instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, this value is ignored if specified, because no build output is produced.   If type is set to S3, valid values include:    NONE: AWS CodeBuild creates in the output bucket a folder that contains the build output. This is the default if packaging is not specified.    ZIP: AWS CodeBuild creates in the output bucket a ZIP file that contains the build output.    
-        public let packaging: ArtifactPackaging?
-        ///  An identifier for this artifact definition. 
-        public let artifactIdentifier: String?
-        ///  If this flag is set, a name specified in the build spec file overrides the artifact name. The name specified in a build spec file is calculated at build time and uses the Shell Command Language. For example, you can append a date and time to your artifact name so that it is always unique. 
-        public let overrideArtifactName: Bool?
-        /// Along with path and name, the pattern that AWS CodeBuild uses to determine the name and location to store the output artifact:   If type is set to CODEPIPELINE, AWS CodePipeline ignores this value if specified. This is because AWS CodePipeline manages its build output names instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, this value is ignored if specified, because no build output is produced.   If type is set to S3, valid values include:    BUILD_ID: Include the build ID in the location of the build output artifact.    NONE: Do not include the build ID. This is the default if namespaceType is not specified.     For example, if path is set to MyArtifacts, namespaceType is set to BUILD_ID, and name is set to MyArtifact.zip, the output artifact is stored in MyArtifacts/build-ID/MyArtifact.zip.
-        public let namespaceType: ArtifactNamespace?
-        /// Along with path and namespaceType, the pattern that AWS CodeBuild uses to name and store the output artifact:   If type is set to CODEPIPELINE, AWS CodePipeline ignores this value if specified. This is because AWS CodePipeline manages its build output names instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, this value is ignored if specified, because no build output is produced.   If type is set to S3, this is the name of the output artifact object. If you set the name to be a forward slash ("/"), the artifact is stored in the root of the output bucket.   For example:    If path is set to MyArtifacts, namespaceType is set to BUILD_ID, and name is set to MyArtifact.zip, then the output artifact is stored in MyArtifacts/build-ID/MyArtifact.zip.     If path is empty, namespaceType is set to NONE, and name is set to "/", the output artifact is stored in the root of the output bucket.     If path is set to MyArtifacts, namespaceType is set to BUILD_ID, and name is set to "/", the output artifact is stored in MyArtifacts/build-ID .   
-        public let name: String?
-        ///  Set to true if you do not want your output artifacts encrypted. This option is valid only if your artifacts type is Amazon Simple Storage Service (Amazon S3). If this is set with another artifacts type, an invalidInputException is thrown. 
-        public let encryptionDisabled: Bool?
-        /// The type of build output artifact. Valid values include:    CODEPIPELINE: The build project has build output generated through AWS CodePipeline.    NO_ARTIFACTS: The build project does not produce any build output.    S3: The build project stores build output in Amazon Simple Storage Service (Amazon S3).  
-        public let `type`: ArtifactsType
-        /// Along with namespaceType and name, the pattern that AWS CodeBuild uses to name and store the output artifact:   If type is set to CODEPIPELINE, AWS CodePipeline ignores this value if specified. This is because AWS CodePipeline manages its build output names instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, this value is ignored if specified, because no build output is produced.   If type is set to S3, this is the path to the output artifact. If path is not specified, path is not used.   For example, if path is set to MyArtifacts, namespaceType is set to NONE, and name is set to MyArtifact.zip, the output artifact is stored in the output bucket at MyArtifacts/MyArtifact.zip.
-        public let path: String?
-        /// Information about the build output artifact location:   If type is set to CODEPIPELINE, AWS CodePipeline ignores this value if specified. This is because AWS CodePipeline manages its build output locations instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, this value is ignored if specified, because no build output is produced.   If type is set to S3, this is the name of the output bucket.  
-        public let location: String?
+        /// A list of one or more security groups IDs in your Amazon VPC.
+        public let securityGroupIds: [String]?
+        /// A list of one or more subnet IDs in your Amazon VPC.
+        public let subnets: [String]?
+        /// The ID of the Amazon VPC.
+        public let vpcId: String?
 
-        public init(packaging: ArtifactPackaging? = nil, artifactIdentifier: String? = nil, overrideArtifactName: Bool? = nil, namespaceType: ArtifactNamespace? = nil, name: String? = nil, encryptionDisabled: Bool? = nil, type: ArtifactsType, path: String? = nil, location: String? = nil) {
-            self.packaging = packaging
-            self.artifactIdentifier = artifactIdentifier
-            self.overrideArtifactName = overrideArtifactName
-            self.namespaceType = namespaceType
-            self.name = name
-            self.encryptionDisabled = encryptionDisabled
-            self.`type` = `type`
-            self.path = path
-            self.location = location
+        public init(securityGroupIds: [String]? = nil, subnets: [String]? = nil, vpcId: String? = nil) {
+            self.securityGroupIds = securityGroupIds
+            self.subnets = subnets
+            self.vpcId = vpcId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case packaging = "packaging"
-            case artifactIdentifier = "artifactIdentifier"
-            case overrideArtifactName = "overrideArtifactName"
-            case namespaceType = "namespaceType"
-            case name = "name"
-            case encryptionDisabled = "encryptionDisabled"
-            case `type` = "type"
-            case path = "path"
-            case location = "location"
+            case securityGroupIds = "securityGroupIds"
+            case subnets = "subnets"
+            case vpcId = "vpcId"
         }
     }
 
-    public struct CloudWatchLogsConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: true, type: .enum), 
-            AWSShapeMember(label: "groupName", required: false, type: .string), 
-            AWSShapeMember(label: "streamName", required: false, type: .string)
-        ]
-        /// The current status of the logs in Amazon CloudWatch Logs for a build project. Valid values are:    ENABLED: Amazon CloudWatch Logs are enabled for this build project.    DISABLED: Amazon CloudWatch Logs are not enabled for this build project.  
-        public let status: LogsConfigStatusType
-        ///  The group name of the logs in Amazon CloudWatch Logs. For more information, see Working with Log Groups and Log Streams. 
-        public let groupName: String?
-        ///  The prefix of the stream name of the Amazon CloudWatch Logs. For more information, see Working with Log Groups and Log Streams. 
-        public let streamName: String?
-
-        public init(status: LogsConfigStatusType, groupName: String? = nil, streamName: String? = nil) {
-            self.status = status
-            self.groupName = groupName
-            self.streamName = streamName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "status"
-            case groupName = "groupName"
-            case streamName = "streamName"
-        }
-    }
-
-    public struct DeleteWebhookOutput: AWSShape {
-
-    }
-
-    public struct ListBuildsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ids", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// A list of build IDs, with each build ID representing a single build.
-        public let ids: [String]?
-        /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
-        public let nextToken: String?
-
-        public init(ids: [String]? = nil, nextToken: String? = nil) {
-            self.ids = ids
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ids = "ids"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct BatchGetBuildsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ids", required: true, type: .list)
-        ]
-        /// The IDs of the builds.
-        public let ids: [String]
-
-        public init(ids: [String]) {
-            self.ids = ids
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ids = "ids"
-        }
-    }
-
-    public enum BuildPhaseType: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
-        case queued = "QUEUED"
-        case provisioning = "PROVISIONING"
-        case downloadSource = "DOWNLOAD_SOURCE"
-        case install = "INSTALL"
-        case preBuild = "PRE_BUILD"
-        case build = "BUILD"
-        case postBuild = "POST_BUILD"
-        case uploadArtifacts = "UPLOAD_ARTIFACTS"
-        case finalizing = "FINALIZING"
-        case completed = "COMPLETED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ProjectSourceVersion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "sourceVersion", required: true, type: .string), 
-            AWSShapeMember(label: "sourceIdentifier", required: true, type: .string)
-        ]
-        /// The source version for the corresponding source identifier. If specified, must be one of:   For AWS CodeCommit: the commit ID to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example, pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.  
-        public let sourceVersion: String
-        /// An identifier for a source in the build project.
-        public let sourceIdentifier: String
-
-        public init(sourceVersion: String, sourceIdentifier: String) {
-            self.sourceVersion = sourceVersion
-            self.sourceIdentifier = sourceIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceVersion = "sourceVersion"
-            case sourceIdentifier = "sourceIdentifier"
-        }
-    }
-
-    public enum CacheType: String, CustomStringConvertible, Codable {
-        case noCache = "NO_CACHE"
-        case s3 = "S3"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateWebhookInput: AWSShape {
+    public struct Webhook: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "branchFilter", required: false, type: .string), 
-            AWSShapeMember(label: "projectName", required: true, type: .string)
+            AWSShapeMember(label: "lastModifiedSecret", required: false, type: .timestamp), 
+            AWSShapeMember(label: "payloadUrl", required: false, type: .string), 
+            AWSShapeMember(label: "secret", required: false, type: .string), 
+            AWSShapeMember(label: "url", required: false, type: .string)
         ]
         /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built.
         public let branchFilter: String?
-        /// The name of the AWS CodeBuild project.
-        public let projectName: String
+        ///  A timestamp that indicates the last time a repository's secret token was modified. 
+        public let lastModifiedSecret: TimeStamp?
+        ///  The AWS CodeBuild endpoint where webhook events are sent.
+        public let payloadUrl: String?
+        ///  The secret token of the associated repository.    A Bitbucket webhook does not support secret.  
+        public let secret: String?
+        /// The URL to the webhook.
+        public let url: String?
 
-        public init(branchFilter: String? = nil, projectName: String) {
+        public init(branchFilter: String? = nil, lastModifiedSecret: TimeStamp? = nil, payloadUrl: String? = nil, secret: String? = nil, url: String? = nil) {
             self.branchFilter = branchFilter
-            self.projectName = projectName
+            self.lastModifiedSecret = lastModifiedSecret
+            self.payloadUrl = payloadUrl
+            self.secret = secret
+            self.url = url
         }
 
         private enum CodingKeys: String, CodingKey {
             case branchFilter = "branchFilter"
-            case projectName = "projectName"
+            case lastModifiedSecret = "lastModifiedSecret"
+            case payloadUrl = "payloadUrl"
+            case secret = "secret"
+            case url = "url"
         }
-    }
-
-    public struct ListBuildsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "sortOrder", required: false, type: .enum)
-        ]
-        /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
-        public let nextToken: String?
-        /// The order to list build IDs. Valid values include:    ASCENDING: List the build IDs in ascending order by build ID.    DESCENDING: List the build IDs in descending order by build ID.  
-        public let sortOrder: SortOrderType?
-
-        public init(nextToken: String? = nil, sortOrder: SortOrderType? = nil) {
-            self.nextToken = nextToken
-            self.sortOrder = sortOrder
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case sortOrder = "sortOrder"
-        }
-    }
-
-    public struct UpdateWebhookInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "rotateSecret", required: false, type: .boolean), 
-            AWSShapeMember(label: "branchFilter", required: false, type: .string), 
-            AWSShapeMember(label: "projectName", required: true, type: .string)
-        ]
-        ///  A boolean value that specifies whether the associated GitHub repository's secret token should be updated. If you use Bitbucket for your repository, rotateSecret is ignored. 
-        public let rotateSecret: Bool?
-        /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built.
-        public let branchFilter: String?
-        /// The name of the AWS CodeBuild project.
-        public let projectName: String
-
-        public init(rotateSecret: Bool? = nil, branchFilter: String? = nil, projectName: String) {
-            self.rotateSecret = rotateSecret
-            self.branchFilter = branchFilter
-            self.projectName = projectName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rotateSecret = "rotateSecret"
-            case branchFilter = "branchFilter"
-            case projectName = "projectName"
-        }
-    }
-
-    public enum ArtifactsType: String, CustomStringConvertible, Codable {
-        case codepipeline = "CODEPIPELINE"
-        case s3 = "S3"
-        case noArtifacts = "NO_ARTIFACTS"
-        public var description: String { return self.rawValue }
     }
 
 }

@@ -26,384 +26,9 @@ public struct Lightsail {
         )
     }
 
-    ///  Updates a domain recordset after it is created. The update domain entry operation supports tag-based access control via resource tags applied to the resource identified by domainName. For more information, see the Lightsail Dev Guide.
-    public func updateDomainEntry(_ input: UpdateDomainEntryRequest) throws -> Future<UpdateDomainEntryResult> {
-        return try client.send(operation: "UpdateDomainEntry", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns a list of events for a specific database in Amazon Lightsail.
-    public func getRelationalDatabaseEvents(_ input: GetRelationalDatabaseEventsRequest) throws -> Future<GetRelationalDatabaseEventsResult> {
-        return try client.send(operation: "GetRelationalDatabaseEvents", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns a list of available database blueprints in Amazon Lightsail. A blueprint describes the major engine version of a database. You can use a blueprint ID to create a new database that runs a specific database engine.
-    public func getRelationalDatabaseBlueprints(_ input: GetRelationalDatabaseBlueprintsRequest) throws -> Future<GetRelationalDatabaseBlueprintsResult> {
-        return try client.send(operation: "GetRelationalDatabaseBlueprints", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes the specified set of tag keys and their values from the specified Amazon Lightsail resource. The untag resource operation supports tag-based access control via request tags and resource tags applied to the resource identified by resourceName. For more information, see the Lightsail Dev Guide.
-    public func untagResource(_ input: UntagResourceRequest) throws -> Future<UntagResourceResult> {
-        return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns all of the runtime parameters offered by the underlying database software, or engine, for a specific database in Amazon Lightsail. In addition to the parameter names and values, this operation returns other information about each parameter. This information includes whether changes require a reboot, whether the parameter is modifiable, the allowed values, and the data types.
-    public func getRelationalDatabaseParameters(_ input: GetRelationalDatabaseParametersRequest) throws -> Future<GetRelationalDatabaseParametersResult> {
-        return try client.send(operation: "GetRelationalDatabaseParameters", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a block storage disk that can be attached to a Lightsail instance in the same Availability Zone (e.g., us-east-2a). The disk is created in the regional endpoint that you send the HTTP request to. For more information, see Regions and Availability Zones in Lightsail. The create disk operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
-    public func createDisk(_ input: CreateDiskRequest) throws -> Future<CreateDiskResult> {
-        return try client.send(operation: "CreateDisk", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns information about a specific static IP.
-    public func getStaticIp(_ input: GetStaticIpRequest) throws -> Future<GetStaticIpResult> {
-        return try client.send(operation: "GetStaticIp", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Attaches a Transport Layer Security (TLS) certificate to your load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). Once you create and validate your certificate, you can attach it to your load balancer. You can also use this API to rotate the certificates on your account. Use the AttachLoadBalancerTlsCertificate operation with the non-attached certificate, and it will replace the existing one and become the attached certificate. The attach load balancer tls certificate operation supports tag-based access control via resource tags applied to the resource identified by loadBalancerName. For more information, see the Lightsail Dev Guide.
-    public func attachLoadBalancerTlsCertificate(_ input: AttachLoadBalancerTlsCertificateRequest) throws -> Future<AttachLoadBalancerTlsCertificateResult> {
-        return try client.send(operation: "AttachLoadBalancerTlsCertificate", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns information about the TLS certificates that are associated with the specified Lightsail load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). You can have a maximum of 2 certificates associated with a Lightsail load balancer. One is active and the other is inactive.
-    public func getLoadBalancerTlsCertificates(_ input: GetLoadBalancerTlsCertificatesRequest) throws -> Future<GetLoadBalancerTlsCertificatesResult> {
-        return try client.send(operation: "GetLoadBalancerTlsCertificates", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes a specific Amazon Lightsail virtual private server, or instance. The delete instance operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
-    public func deleteInstance(_ input: DeleteInstanceRequest) throws -> Future<DeleteInstanceResult> {
-        return try client.send(operation: "DeleteInstance", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Uses a specific snapshot as a blueprint for creating one or more new instances that are based on that identical configuration. The create instances from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by instanceSnapshotName. For more information, see the Lightsail Dev Guide.
-    public func createInstancesFromSnapshot(_ input: CreateInstancesFromSnapshotRequest) throws -> Future<CreateInstancesFromSnapshotResult> {
-        return try client.send(operation: "CreateInstancesFromSnapshot", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns information about a specific instance snapshot.
-    public func getInstanceSnapshot(_ input: GetInstanceSnapshotRequest) throws -> Future<GetInstanceSnapshotResult> {
-        return try client.send(operation: "GetInstanceSnapshot", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns information about all key pairs in the user's account.
-    public func getKeyPairs(_ input: GetKeyPairsRequest) throws -> Future<GetKeyPairsResult> {
-        return try client.send(operation: "GetKeyPairs", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns information about the specified Lightsail load balancer.
-    public func getLoadBalancer(_ input: GetLoadBalancerRequest) throws -> Future<GetLoadBalancerResult> {
-        return try client.send(operation: "GetLoadBalancer", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Stops a specific database that is currently running in Amazon Lightsail. The stop relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Lightsail Dev Guide.
-    public func stopRelationalDatabase(_ input: StopRelationalDatabaseRequest) throws -> Future<StopRelationalDatabaseResult> {
-        return try client.send(operation: "StopRelationalDatabase", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a snapshot of a specific virtual private server, or instance. You can use a snapshot to create a new instance that is based on that snapshot. The create instance snapshot operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
-    public func createInstanceSnapshot(_ input: CreateInstanceSnapshotRequest) throws -> Future<CreateInstanceSnapshotResult> {
-        return try client.send(operation: "CreateInstanceSnapshot", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes the specified disk snapshot. When you make periodic snapshots of a disk, the snapshots are incremental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snapshots will have access to all the information needed to restore the disk. The delete disk snapshot operation supports tag-based access control via resource tags applied to the resource identified by diskSnapshotName. For more information, see the Lightsail Dev Guide.
-    public func deleteDiskSnapshot(_ input: DeleteDiskSnapshotRequest) throws -> Future<DeleteDiskSnapshotResult> {
-        return try client.send(operation: "DeleteDiskSnapshot", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates one or more Amazon Lightsail virtual private servers, or instances. Create instances using active blueprints. Inactive blueprints are listed to support customers with existing instances but are not necessarily available for launch of new instances. Blueprints are marked inactive when they become outdated due to operating system updates or new application releases. Use the get blueprints operation to return a list of available blueprints. The create instances operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
-    public func createInstances(_ input: CreateInstancesRequest) throws -> Future<CreateInstancesResult> {
-        return try client.send(operation: "CreateInstances", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Updates the specified attribute for a load balancer. You can only update one attribute at a time. The update load balancer attribute operation supports tag-based access control via resource tags applied to the resource identified by loadBalancerName. For more information, see the Lightsail Dev Guide.
-    public func updateLoadBalancerAttribute(_ input: UpdateLoadBalancerAttributeRequest) throws -> Future<UpdateLoadBalancerAttributeResult> {
-        return try client.send(operation: "UpdateLoadBalancerAttribute", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns information about a specific database in Amazon Lightsail.
-    public func getRelationalDatabase(_ input: GetRelationalDatabaseRequest) throws -> Future<GetRelationalDatabaseResult> {
-        return try client.send(operation: "GetRelationalDatabase", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Stops a specific Amazon Lightsail instance that is currently running. The stop instance operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
-    public func stopInstance(_ input: StopInstanceRequest) throws -> Future<StopInstanceResult> {
-        return try client.send(operation: "StopInstance", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns the list of available instance images, or blueprints. You can use a blueprint to create a new virtual private server already running a specific operating system, as well as a preinstalled app or development stack. The software each instance is running depends on the blueprint image you choose.
-    public func getBlueprints(_ input: GetBlueprintsRequest) throws -> Future<GetBlueprintsResult> {
-        return try client.send(operation: "GetBlueprints", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Restarts a specific instance. When your Amazon Lightsail instance is finished rebooting, Lightsail assigns a new public IP address. To use the same IP address after restarting, create a static IP address and attach it to the instance. The reboot instance operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
-    public func rebootInstance(_ input: RebootInstanceRequest) throws -> Future<RebootInstanceResult> {
-        return try client.send(operation: "RebootInstance", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a new database from an existing database snapshot in Amazon Lightsail. You can create a new database from a snapshot in if something goes wrong with your original database, or to change it to a different plan, such as a high availability or standard plan. The create relational database from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by relationalDatabaseSnapshotName. For more information, see the Lightsail Dev Guide.
-    public func createRelationalDatabaseFromSnapshot(_ input: CreateRelationalDatabaseFromSnapshotRequest) throws -> Future<CreateRelationalDatabaseFromSnapshotResult> {
-        return try client.send(operation: "CreateRelationalDatabaseFromSnapshot", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates an SSH key pair. The create key pair operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
-    public func createKeyPair(_ input: CreateKeyPairRequest) throws -> Future<CreateKeyPairResult> {
-        return try client.send(operation: "CreateKeyPair", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a snapshot of a block storage disk. You can use snapshots for backups, to make copies of disks, and to save data before shutting down a Lightsail instance. You can take a snapshot of an attached disk that is in use; however, snapshots only capture data that has been written to your disk at the time the snapshot command is issued. This may exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the disk long enough to take a snapshot, your snapshot should be complete. Nevertheless, if you cannot pause all file writes to the disk, you should unmount the disk from within the Lightsail instance, issue the create disk snapshot command, and then remount the disk to ensure a consistent and complete snapshot. You may remount and use your disk while the snapshot status is pending. The create disk snapshot operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
-    public func createDiskSnapshot(_ input: CreateDiskSnapshotRequest) throws -> Future<CreateDiskSnapshotResult> {
-        return try client.send(operation: "CreateDiskSnapshot", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a block storage disk from a disk snapshot that can be attached to a Lightsail instance in the same Availability Zone (e.g., us-east-2a). The disk is created in the regional endpoint that you send the HTTP request to. For more information, see Regions and Availability Zones in Lightsail. The create disk from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by diskSnapshotName. For more information, see the Lightsail Dev Guide.
-    public func createDiskFromSnapshot(_ input: CreateDiskFromSnapshotRequest) throws -> Future<CreateDiskFromSnapshotResult> {
-        return try client.send(operation: "CreateDiskFromSnapshot", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Adds one or more tags to the specified Amazon Lightsail resource. Each resource can have a maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see the Lightsail Dev Guide. The tag resource operation supports tag-based access control via request tags and resource tags applied to the resource identified by resourceName. For more information, see the Lightsail Dev Guide.
-    public func tagResource(_ input: TagResourceRequest) throws -> Future<TagResourceResult> {
-        return try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns information about a specific database snapshot in Amazon Lightsail.
-    public func getRelationalDatabaseSnapshot(_ input: GetRelationalDatabaseSnapshotRequest) throws -> Future<GetRelationalDatabaseSnapshotResult> {
-        return try client.send(operation: "GetRelationalDatabaseSnapshot", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes a database snapshot in Amazon Lightsail. The delete relational database snapshot operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Lightsail Dev Guide.
-    public func deleteRelationalDatabaseSnapshot(_ input: DeleteRelationalDatabaseSnapshotRequest) throws -> Future<DeleteRelationalDatabaseSnapshotResult> {
-        return try client.send(operation: "DeleteRelationalDatabaseSnapshot", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns information about a specific block storage disk snapshot.
-    public func getDiskSnapshot(_ input: GetDiskSnapshotRequest) throws -> Future<GetDiskSnapshotResult> {
-        return try client.send(operation: "GetDiskSnapshot", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Allows the update of one or more parameters of a database in Amazon Lightsail. Parameter updates don't cause outages; therefore, their application is not subject to the preferred maintenance window. However, there are two ways in which paramater updates are applied: dynamic or pending-reboot. Parameters marked with a dynamic apply type are applied immediately. Parameters marked with a pending-reboot apply type are applied only after the database is rebooted using the reboot relational database operation. The update relational database parameters operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Lightsail Dev Guide.
-    public func updateRelationalDatabaseParameters(_ input: UpdateRelationalDatabaseParametersRequest) throws -> Future<UpdateRelationalDatabaseParametersResult> {
-        return try client.send(operation: "UpdateRelationalDatabaseParameters", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets operations for a specific resource (e.g., an instance or a static IP).
-    public func getOperationsForResource(_ input: GetOperationsForResourceRequest) throws -> Future<GetOperationsForResourceResult> {
-        return try client.send(operation: "GetOperationsForResource", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Attaches a static IP address to a specific Amazon Lightsail instance.
-    public func attachStaticIp(_ input: AttachStaticIpRequest) throws -> Future<AttachStaticIpResult> {
-        return try client.send(operation: "AttachStaticIp", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Starts a specific database from a stopped state in Amazon Lightsail. To restart a database, use the reboot relational database operation. The start relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Lightsail Dev Guide.
-    public func startRelationalDatabase(_ input: StartRelationalDatabaseRequest) throws -> Future<StartRelationalDatabaseResult> {
-        return try client.send(operation: "StartRelationalDatabase", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Detaches a static IP from the Amazon Lightsail instance to which it is attached.
-    public func detachStaticIp(_ input: DetachStaticIpRequest) throws -> Future<DetachStaticIpResult> {
-        return try client.send(operation: "DetachStaticIp", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns information about a specific operation. Operations include events such as when you create an instance, allocate a static IP, attach a static IP, and so on.
-    public func getOperation(_ input: GetOperationRequest) throws -> Future<GetOperationResult> {
-        return try client.send(operation: "GetOperation", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a Lightsail load balancer TLS certificate. TLS is just an updated, more secure version of Secure Socket Layer (SSL). The create load balancer tls certificate operation supports tag-based access control via resource tags applied to the resource identified by loadBalancerName. For more information, see the Lightsail Dev Guide.
-    public func createLoadBalancerTlsCertificate(_ input: CreateLoadBalancerTlsCertificateRequest) throws -> Future<CreateLoadBalancerTlsCertificateResult> {
-        return try client.send(operation: "CreateLoadBalancerTlsCertificate", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes a Lightsail load balancer and all its associated SSL/TLS certificates. Once the load balancer is deleted, you will need to create a new load balancer, create a new certificate, and verify domain ownership again. The delete load balancer operation supports tag-based access control via resource tags applied to the resource identified by loadBalancerName. For more information, see the Lightsail Dev Guide.
-    public func deleteLoadBalancer(_ input: DeleteLoadBalancerRequest) throws -> Future<DeleteLoadBalancerResult> {
-        return try client.send(operation: "DeleteLoadBalancer", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns information about a specific Amazon Lightsail instance, which is a virtual private server.
-    public func getInstance(_ input: GetInstanceRequest) throws -> Future<GetInstanceResult> {
-        return try client.send(operation: "GetInstance", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a Lightsail load balancer. To learn more about deciding whether to load balance your application, see Configure your Lightsail instances for load balancing. You can create up to 5 load balancers per AWS Region in your account. When you create a load balancer, you can specify a unique name and port settings. To change additional load balancer settings, use the UpdateLoadBalancerAttribute operation. The create load balancer operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
-    public func createLoadBalancer(_ input: CreateLoadBalancerRequest) throws -> Future<CreateLoadBalancerResult> {
-        return try client.send(operation: "CreateLoadBalancer", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes a specific snapshot of a virtual private server (or instance). The delete instance snapshot operation supports tag-based access control via resource tags applied to the resource identified by instanceSnapshotName. For more information, see the Lightsail Dev Guide.
-    public func deleteInstanceSnapshot(_ input: DeleteInstanceSnapshotRequest) throws -> Future<DeleteInstanceSnapshotResult> {
-        return try client.send(operation: "DeleteInstanceSnapshot", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns the data points of the specified metric for a database in Amazon Lightsail.
-    public func getRelationalDatabaseMetricData(_ input: GetRelationalDatabaseMetricDataRequest) throws -> Future<GetRelationalDatabaseMetricDataResult> {
-        return try client.send(operation: "GetRelationalDatabaseMetricData", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Attaches one or more Lightsail instances to a load balancer. After some time, the instances are attached to the load balancer and the health check status is available. The attach instances to load balancer operation supports tag-based access control via resource tags applied to the resource identified by loadBalancerName. For more information, see the Lightsail Dev Guide.
-    public func attachInstancesToLoadBalancer(_ input: AttachInstancesToLoadBalancerRequest) throws -> Future<AttachInstancesToLoadBalancerResult> {
-        return try client.send(operation: "AttachInstancesToLoadBalancer", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns the list of bundles that are available for purchase. A bundle describes the specs for your virtual private server (or instance).
-    public func getBundles(_ input: GetBundlesRequest) throws -> Future<GetBundlesResult> {
-        return try client.send(operation: "GetBundles", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Tries to peer the Lightsail VPC with the user's default VPC.
-    public func peerVpc(_ input: PeerVpcRequest) throws -> Future<PeerVpcResult> {
-        return try client.send(operation: "PeerVpc", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns the names of all active (not deleted) resources.
-    public func getActiveNames(_ input: GetActiveNamesRequest) throws -> Future<GetActiveNamesResult> {
-        return try client.send(operation: "GetActiveNames", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a new database in Amazon Lightsail. The create relational database operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
-    public func createRelationalDatabase(_ input: CreateRelationalDatabaseRequest) throws -> Future<CreateRelationalDatabaseResult> {
-        return try client.send(operation: "CreateRelationalDatabase", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes the specified domain recordset and all of its domain records. The delete domain operation supports tag-based access control via resource tags applied to the resource identified by domainName. For more information, see the Lightsail Dev Guide.
-    public func deleteDomain(_ input: DeleteDomainRequest) throws -> Future<DeleteDomainResult> {
-        return try client.send(operation: "DeleteDomain", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes a database in Amazon Lightsail. The delete relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Lightsail Dev Guide.
-    public func deleteRelationalDatabase(_ input: DeleteRelationalDatabaseRequest) throws -> Future<DeleteRelationalDatabaseResult> {
-        return try client.send(operation: "DeleteRelationalDatabase", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns the state of a specific instance. Works on one instance at a time.
-    public func getInstanceState(_ input: GetInstanceStateRequest) throws -> Future<GetInstanceStateResult> {
-        return try client.send(operation: "GetInstanceState", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Attempts to unpeer the Lightsail VPC from the user's default VPC.
-    public func unpeerVpc(_ input: UnpeerVpcRequest) throws -> Future<UnpeerVpcResult> {
-        return try client.send(operation: "UnpeerVpc", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a domain resource for the specified domain (e.g., example.com). The create domain operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
-    public func createDomain(_ input: CreateDomainRequest) throws -> Future<CreateDomainResult> {
-        return try client.send(operation: "CreateDomain", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns the export snapshot record created as a result of the export snapshot operation. An export snapshot record can be used to create a new Amazon EC2 instance and its related resources with the create cloud formation stack operation.
-    public func getExportSnapshotRecords(_ input: GetExportSnapshotRecordsRequest) throws -> Future<GetExportSnapshotRecordsResult> {
-        return try client.send(operation: "GetExportSnapshotRecords", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns information about all of your database snapshots in Amazon Lightsail.
-    public func getRelationalDatabaseSnapshots(_ input: GetRelationalDatabaseSnapshotsRequest) throws -> Future<GetRelationalDatabaseSnapshotsResult> {
-        return try client.send(operation: "GetRelationalDatabaseSnapshots", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns information about health metrics for your Lightsail load balancer.
-    public func getLoadBalancerMetricData(_ input: GetLoadBalancerMetricDataRequest) throws -> Future<GetLoadBalancerMetricDataResult> {
-        return try client.send(operation: "GetLoadBalancerMetricData", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Detaches the specified instances from a Lightsail load balancer. This operation waits until the instances are no longer needed before they are detached from the load balancer. The detach instances from load balancer operation supports tag-based access control via resource tags applied to the resource identified by loadBalancerName. For more information, see the Lightsail Dev Guide.
-    public func detachInstancesFromLoadBalancer(_ input: DetachInstancesFromLoadBalancerRequest) throws -> Future<DetachInstancesFromLoadBalancerResult> {
-        return try client.send(operation: "DetachInstancesFromLoadBalancer", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns the list of bundles that are available in Amazon Lightsail. A bundle describes the performance specifications for a database. You can use a bundle ID to create a new database with explicit performance specifications.
-    public func getRelationalDatabaseBundles(_ input: GetRelationalDatabaseBundlesRequest) throws -> Future<GetRelationalDatabaseBundlesResult> {
-        return try client.send(operation: "GetRelationalDatabaseBundles", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes a specific static IP from your account.
-    public func releaseStaticIp(_ input: ReleaseStaticIpRequest) throws -> Future<ReleaseStaticIpResult> {
-        return try client.send(operation: "ReleaseStaticIp", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates one of the following entry records associated with the domain: A record, CNAME record, TXT record, or MX record. The create domain entry operation supports tag-based access control via resource tags applied to the resource identified by domainName. For more information, see the Lightsail Dev Guide.
-    public func createDomainEntry(_ input: CreateDomainEntryRequest) throws -> Future<CreateDomainEntryResult> {
-        return try client.send(operation: "CreateDomainEntry", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Starts a specific Amazon Lightsail instance from a stopped state. To restart an instance, use the reboot instance operation. The start instance operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
-    public func startInstance(_ input: StartInstanceRequest) throws -> Future<StartInstanceResult> {
-        return try client.send(operation: "StartInstance", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates an AWS CloudFormation stack, which creates a new Amazon EC2 instance from an exported Amazon Lightsail snapshot. This operation results in a CloudFormation stack record that can be used to track the AWS CloudFormation stack created. Use the get cloud formation stack records operation to get a list of the CloudFormation stacks created.  Wait until after your new Amazon EC2 instance is created before running the create cloud formation stack operation again with the same export snapshot record. 
-    public func createCloudFormationStack(_ input: CreateCloudFormationStackRequest) throws -> Future<CreateCloudFormationStackResult> {
-        return try client.send(operation: "CreateCloudFormationStack", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes an SSL/TLS certificate associated with a Lightsail load balancer. The delete load balancer tls certificate operation supports tag-based access control via resource tags applied to the resource identified by loadBalancerName. For more information, see the Lightsail Dev Guide.
-    public func deleteLoadBalancerTlsCertificate(_ input: DeleteLoadBalancerTlsCertificateRequest) throws -> Future<DeleteLoadBalancerTlsCertificateResult> {
-        return try client.send(operation: "DeleteLoadBalancerTlsCertificate", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Allocates a static IP address.
     public func allocateStaticIp(_ input: AllocateStaticIpRequest) throws -> Future<AllocateStaticIpResult> {
         return try client.send(operation: "AllocateStaticIp", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Closes the public ports on a specific Amazon Lightsail instance. The close instance public ports operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
-    public func closeInstancePublicPorts(_ input: CloseInstancePublicPortsRequest) throws -> Future<CloseInstancePublicPortsResult> {
-        return try client.send(operation: "CloseInstancePublicPorts", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes a specific domain entry. The delete domain entry operation supports tag-based access control via resource tags applied to the resource identified by domainName. For more information, see the Lightsail Dev Guide.
-    public func deleteDomainEntry(_ input: DeleteDomainEntryRequest) throws -> Future<DeleteDomainEntryResult> {
-        return try client.send(operation: "DeleteDomainEntry", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns a list of available log streams for a specific database in Amazon Lightsail.
-    public func getRelationalDatabaseLogStreams(_ input: GetRelationalDatabaseLogStreamsRequest) throws -> Future<GetRelationalDatabaseLogStreamsResult> {
-        return try client.send(operation: "GetRelationalDatabaseLogStreams", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a snapshot of your database in Amazon Lightsail. You can use snapshots for backups, to make copies of a database, and to save data before deleting a database. The create relational database snapshot operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
-    public func createRelationalDatabaseSnapshot(_ input: CreateRelationalDatabaseSnapshotRequest) throws -> Future<CreateRelationalDatabaseSnapshotResult> {
-        return try client.send(operation: "CreateRelationalDatabaseSnapshot", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns information about all operations. Results are returned from oldest to newest, up to a maximum of 200. Results can be paged by making each subsequent call to GetOperations use the maximum (last) statusChangedAt value from the previous request.
-    public func getOperations(_ input: GetOperationsRequest) throws -> Future<GetOperationsResult> {
-        return try client.send(operation: "GetOperations", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns a list of log events for a database in Amazon Lightsail.
-    public func getRelationalDatabaseLogEvents(_ input: GetRelationalDatabaseLogEventsRequest) throws -> Future<GetRelationalDatabaseLogEventsResult> {
-        return try client.send(operation: "GetRelationalDatabaseLogEvents", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Adds public ports to an Amazon Lightsail instance. The open instance public ports operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
-    public func openInstancePublicPorts(_ input: OpenInstancePublicPortsRequest) throws -> Future<OpenInstancePublicPortsResult> {
-        return try client.send(operation: "OpenInstancePublicPorts", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns the data points for the specified Amazon Lightsail instance metric, given an instance name.
-    public func getInstanceMetricData(_ input: GetInstanceMetricDataRequest) throws -> Future<GetInstanceMetricDataResult> {
-        return try client.send(operation: "GetInstanceMetricData", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Sets the specified open ports for an Amazon Lightsail instance, and closes all ports for every protocol not included in the current request. The put instance public ports operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
-    public func putInstancePublicPorts(_ input: PutInstancePublicPortsRequest) throws -> Future<PutInstancePublicPortsResult> {
-        return try client.send(operation: "PutInstancePublicPorts", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns information about all of your databases in Amazon Lightsail.
-    public func getRelationalDatabases(_ input: GetRelationalDatabasesRequest) throws -> Future<GetRelationalDatabasesResult> {
-        return try client.send(operation: "GetRelationalDatabases", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Copies an instance or disk snapshot from one AWS Region to another in Amazon Lightsail.
-    public func copySnapshot(_ input: CopySnapshotRequest) throws -> Future<CopySnapshotResult> {
-        return try client.send(operation: "CopySnapshot", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Allows the update of one or more attributes of a database in Amazon Lightsail. Updates are applied immediately, or in cases where the updates could result in an outage, are applied during the database's predefined maintenance window. The update relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Lightsail Dev Guide.
-    public func updateRelationalDatabase(_ input: UpdateRelationalDatabaseRequest) throws -> Future<UpdateRelationalDatabaseResult> {
-        return try client.send(operation: "UpdateRelationalDatabase", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Attaches a block storage disk to a running or stopped Lightsail instance and exposes it to the instance with the specified disk name. The attach disk operation supports tag-based access control via resource tags applied to the resource identified by diskName. For more information, see the Lightsail Dev Guide.
@@ -411,29 +36,159 @@ public struct Lightsail {
         return try client.send(operation: "AttachDisk", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about all block storage disks in your AWS account and region. If you are describing a long list of disks, you can paginate the output to make the list more manageable. You can use the pageToken and nextPageToken values to retrieve the next items in the list.
-    public func getDisks(_ input: GetDisksRequest) throws -> Future<GetDisksResult> {
-        return try client.send(operation: "GetDisks", path: "/", httpMethod: "POST", input: input)
+    ///  Attaches one or more Lightsail instances to a load balancer. After some time, the instances are attached to the load balancer and the health check status is available. The attach instances to load balancer operation supports tag-based access control via resource tags applied to the resource identified by loadBalancerName. For more information, see the Lightsail Dev Guide.
+    public func attachInstancesToLoadBalancer(_ input: AttachInstancesToLoadBalancerRequest) throws -> Future<AttachInstancesToLoadBalancerResult> {
+        return try client.send(operation: "AttachInstancesToLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the port states for a specific virtual private server, or instance.
-    public func getInstancePortStates(_ input: GetInstancePortStatesRequest) throws -> Future<GetInstancePortStatesResult> {
-        return try client.send(operation: "GetInstancePortStates", path: "/", httpMethod: "POST", input: input)
+    ///  Attaches a Transport Layer Security (TLS) certificate to your load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). Once you create and validate your certificate, you can attach it to your load balancer. You can also use this API to rotate the certificates on your account. Use the AttachLoadBalancerTlsCertificate operation with the non-attached certificate, and it will replace the existing one and become the attached certificate. The attach load balancer tls certificate operation supports tag-based access control via resource tags applied to the resource identified by loadBalancerName. For more information, see the Lightsail Dev Guide.
+    public func attachLoadBalancerTlsCertificate(_ input: AttachLoadBalancerTlsCertificateRequest) throws -> Future<AttachLoadBalancerTlsCertificateResult> {
+        return try client.send(operation: "AttachLoadBalancerTlsCertificate", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Imports a public SSH key from a specific key pair.
-    public func importKeyPair(_ input: ImportKeyPairRequest) throws -> Future<ImportKeyPairResult> {
-        return try client.send(operation: "ImportKeyPair", path: "/", httpMethod: "POST", input: input)
+    ///  Attaches a static IP address to a specific Amazon Lightsail instance.
+    public func attachStaticIp(_ input: AttachStaticIpRequest) throws -> Future<AttachStaticIpResult> {
+        return try client.send(operation: "AttachStaticIp", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the CloudFormation stack record created as a result of the create cloud formation stack operation. An AWS CloudFormation stack is used to create a new Amazon EC2 instance from an exported Lightsail snapshot.
-    public func getCloudFormationStackRecords(_ input: GetCloudFormationStackRecordsRequest) throws -> Future<GetCloudFormationStackRecordsResult> {
-        return try client.send(operation: "GetCloudFormationStackRecords", path: "/", httpMethod: "POST", input: input)
+    ///  Closes the public ports on a specific Amazon Lightsail instance. The close instance public ports operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
+    public func closeInstancePublicPorts(_ input: CloseInstancePublicPortsRequest) throws -> Future<CloseInstancePublicPortsResult> {
+        return try client.send(operation: "CloseInstancePublicPorts", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about all static IPs in the user's account.
-    public func getStaticIps(_ input: GetStaticIpsRequest) throws -> Future<GetStaticIpsResult> {
-        return try client.send(operation: "GetStaticIps", path: "/", httpMethod: "POST", input: input)
+    ///  Copies an instance or disk snapshot from one AWS Region to another in Amazon Lightsail.
+    public func copySnapshot(_ input: CopySnapshotRequest) throws -> Future<CopySnapshotResult> {
+        return try client.send(operation: "CopySnapshot", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates an AWS CloudFormation stack, which creates a new Amazon EC2 instance from an exported Amazon Lightsail snapshot. This operation results in a CloudFormation stack record that can be used to track the AWS CloudFormation stack created. Use the get cloud formation stack records operation to get a list of the CloudFormation stacks created.  Wait until after your new Amazon EC2 instance is created before running the create cloud formation stack operation again with the same export snapshot record. 
+    public func createCloudFormationStack(_ input: CreateCloudFormationStackRequest) throws -> Future<CreateCloudFormationStackResult> {
+        return try client.send(operation: "CreateCloudFormationStack", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a block storage disk that can be attached to a Lightsail instance in the same Availability Zone (e.g., us-east-2a). The disk is created in the regional endpoint that you send the HTTP request to. For more information, see Regions and Availability Zones in Lightsail. The create disk operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
+    public func createDisk(_ input: CreateDiskRequest) throws -> Future<CreateDiskResult> {
+        return try client.send(operation: "CreateDisk", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a block storage disk from a disk snapshot that can be attached to a Lightsail instance in the same Availability Zone (e.g., us-east-2a). The disk is created in the regional endpoint that you send the HTTP request to. For more information, see Regions and Availability Zones in Lightsail. The create disk from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by diskSnapshotName. For more information, see the Lightsail Dev Guide.
+    public func createDiskFromSnapshot(_ input: CreateDiskFromSnapshotRequest) throws -> Future<CreateDiskFromSnapshotResult> {
+        return try client.send(operation: "CreateDiskFromSnapshot", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a snapshot of a block storage disk. You can use snapshots for backups, to make copies of disks, and to save data before shutting down a Lightsail instance. You can take a snapshot of an attached disk that is in use; however, snapshots only capture data that has been written to your disk at the time the snapshot command is issued. This may exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the disk long enough to take a snapshot, your snapshot should be complete. Nevertheless, if you cannot pause all file writes to the disk, you should unmount the disk from within the Lightsail instance, issue the create disk snapshot command, and then remount the disk to ensure a consistent and complete snapshot. You may remount and use your disk while the snapshot status is pending. The create disk snapshot operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
+    public func createDiskSnapshot(_ input: CreateDiskSnapshotRequest) throws -> Future<CreateDiskSnapshotResult> {
+        return try client.send(operation: "CreateDiskSnapshot", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a domain resource for the specified domain (e.g., example.com). The create domain operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
+    public func createDomain(_ input: CreateDomainRequest) throws -> Future<CreateDomainResult> {
+        return try client.send(operation: "CreateDomain", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates one of the following entry records associated with the domain: A record, CNAME record, TXT record, or MX record. The create domain entry operation supports tag-based access control via resource tags applied to the resource identified by domainName. For more information, see the Lightsail Dev Guide.
+    public func createDomainEntry(_ input: CreateDomainEntryRequest) throws -> Future<CreateDomainEntryResult> {
+        return try client.send(operation: "CreateDomainEntry", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a snapshot of a specific virtual private server, or instance. You can use a snapshot to create a new instance that is based on that snapshot. The create instance snapshot operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
+    public func createInstanceSnapshot(_ input: CreateInstanceSnapshotRequest) throws -> Future<CreateInstanceSnapshotResult> {
+        return try client.send(operation: "CreateInstanceSnapshot", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates one or more Amazon Lightsail virtual private servers, or instances. Create instances using active blueprints. Inactive blueprints are listed to support customers with existing instances but are not necessarily available for launch of new instances. Blueprints are marked inactive when they become outdated due to operating system updates or new application releases. Use the get blueprints operation to return a list of available blueprints. The create instances operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
+    public func createInstances(_ input: CreateInstancesRequest) throws -> Future<CreateInstancesResult> {
+        return try client.send(operation: "CreateInstances", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Uses a specific snapshot as a blueprint for creating one or more new instances that are based on that identical configuration. The create instances from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by instanceSnapshotName. For more information, see the Lightsail Dev Guide.
+    public func createInstancesFromSnapshot(_ input: CreateInstancesFromSnapshotRequest) throws -> Future<CreateInstancesFromSnapshotResult> {
+        return try client.send(operation: "CreateInstancesFromSnapshot", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates an SSH key pair. The create key pair operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
+    public func createKeyPair(_ input: CreateKeyPairRequest) throws -> Future<CreateKeyPairResult> {
+        return try client.send(operation: "CreateKeyPair", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a Lightsail load balancer. To learn more about deciding whether to load balance your application, see Configure your Lightsail instances for load balancing. You can create up to 5 load balancers per AWS Region in your account. When you create a load balancer, you can specify a unique name and port settings. To change additional load balancer settings, use the UpdateLoadBalancerAttribute operation. The create load balancer operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
+    public func createLoadBalancer(_ input: CreateLoadBalancerRequest) throws -> Future<CreateLoadBalancerResult> {
+        return try client.send(operation: "CreateLoadBalancer", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a Lightsail load balancer TLS certificate. TLS is just an updated, more secure version of Secure Socket Layer (SSL). The create load balancer tls certificate operation supports tag-based access control via resource tags applied to the resource identified by loadBalancerName. For more information, see the Lightsail Dev Guide.
+    public func createLoadBalancerTlsCertificate(_ input: CreateLoadBalancerTlsCertificateRequest) throws -> Future<CreateLoadBalancerTlsCertificateResult> {
+        return try client.send(operation: "CreateLoadBalancerTlsCertificate", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a new database in Amazon Lightsail. The create relational database operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
+    public func createRelationalDatabase(_ input: CreateRelationalDatabaseRequest) throws -> Future<CreateRelationalDatabaseResult> {
+        return try client.send(operation: "CreateRelationalDatabase", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a new database from an existing database snapshot in Amazon Lightsail. You can create a new database from a snapshot in if something goes wrong with your original database, or to change it to a different plan, such as a high availability or standard plan. The create relational database from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by relationalDatabaseSnapshotName. For more information, see the Lightsail Dev Guide.
+    public func createRelationalDatabaseFromSnapshot(_ input: CreateRelationalDatabaseFromSnapshotRequest) throws -> Future<CreateRelationalDatabaseFromSnapshotResult> {
+        return try client.send(operation: "CreateRelationalDatabaseFromSnapshot", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a snapshot of your database in Amazon Lightsail. You can use snapshots for backups, to make copies of a database, and to save data before deleting a database. The create relational database snapshot operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
+    public func createRelationalDatabaseSnapshot(_ input: CreateRelationalDatabaseSnapshotRequest) throws -> Future<CreateRelationalDatabaseSnapshotResult> {
+        return try client.send(operation: "CreateRelationalDatabaseSnapshot", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified block storage disk. The disk must be in the available state (not attached to a Lightsail instance).  The disk may remain in the deleting state for several minutes.  The delete disk operation supports tag-based access control via resource tags applied to the resource identified by diskName. For more information, see the Lightsail Dev Guide.
+    public func deleteDisk(_ input: DeleteDiskRequest) throws -> Future<DeleteDiskResult> {
+        return try client.send(operation: "DeleteDisk", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified disk snapshot. When you make periodic snapshots of a disk, the snapshots are incremental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snapshots will have access to all the information needed to restore the disk. The delete disk snapshot operation supports tag-based access control via resource tags applied to the resource identified by diskSnapshotName. For more information, see the Lightsail Dev Guide.
+    public func deleteDiskSnapshot(_ input: DeleteDiskSnapshotRequest) throws -> Future<DeleteDiskSnapshotResult> {
+        return try client.send(operation: "DeleteDiskSnapshot", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified domain recordset and all of its domain records. The delete domain operation supports tag-based access control via resource tags applied to the resource identified by domainName. For more information, see the Lightsail Dev Guide.
+    public func deleteDomain(_ input: DeleteDomainRequest) throws -> Future<DeleteDomainResult> {
+        return try client.send(operation: "DeleteDomain", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a specific domain entry. The delete domain entry operation supports tag-based access control via resource tags applied to the resource identified by domainName. For more information, see the Lightsail Dev Guide.
+    public func deleteDomainEntry(_ input: DeleteDomainEntryRequest) throws -> Future<DeleteDomainEntryResult> {
+        return try client.send(operation: "DeleteDomainEntry", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a specific Amazon Lightsail virtual private server, or instance. The delete instance operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
+    public func deleteInstance(_ input: DeleteInstanceRequest) throws -> Future<DeleteInstanceResult> {
+        return try client.send(operation: "DeleteInstance", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a specific snapshot of a virtual private server (or instance). The delete instance snapshot operation supports tag-based access control via resource tags applied to the resource identified by instanceSnapshotName. For more information, see the Lightsail Dev Guide.
+    public func deleteInstanceSnapshot(_ input: DeleteInstanceSnapshotRequest) throws -> Future<DeleteInstanceSnapshotResult> {
+        return try client.send(operation: "DeleteInstanceSnapshot", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a specific SSH key pair. The delete key pair operation supports tag-based access control via resource tags applied to the resource identified by keyPairName. For more information, see the Lightsail Dev Guide.
+    public func deleteKeyPair(_ input: DeleteKeyPairRequest) throws -> Future<DeleteKeyPairResult> {
+        return try client.send(operation: "DeleteKeyPair", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a Lightsail load balancer and all its associated SSL/TLS certificates. Once the load balancer is deleted, you will need to create a new load balancer, create a new certificate, and verify domain ownership again. The delete load balancer operation supports tag-based access control via resource tags applied to the resource identified by loadBalancerName. For more information, see the Lightsail Dev Guide.
+    public func deleteLoadBalancer(_ input: DeleteLoadBalancerRequest) throws -> Future<DeleteLoadBalancerResult> {
+        return try client.send(operation: "DeleteLoadBalancer", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes an SSL/TLS certificate associated with a Lightsail load balancer. The delete load balancer tls certificate operation supports tag-based access control via resource tags applied to the resource identified by loadBalancerName. For more information, see the Lightsail Dev Guide.
+    public func deleteLoadBalancerTlsCertificate(_ input: DeleteLoadBalancerTlsCertificateRequest) throws -> Future<DeleteLoadBalancerTlsCertificateResult> {
+        return try client.send(operation: "DeleteLoadBalancerTlsCertificate", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a database in Amazon Lightsail. The delete relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Lightsail Dev Guide.
+    public func deleteRelationalDatabase(_ input: DeleteRelationalDatabaseRequest) throws -> Future<DeleteRelationalDatabaseResult> {
+        return try client.send(operation: "DeleteRelationalDatabase", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a database snapshot in Amazon Lightsail. The delete relational database snapshot operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Lightsail Dev Guide.
+    public func deleteRelationalDatabaseSnapshot(_ input: DeleteRelationalDatabaseSnapshotRequest) throws -> Future<DeleteRelationalDatabaseSnapshotResult> {
+        return try client.send(operation: "DeleteRelationalDatabaseSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Detaches a stopped block storage disk from a Lightsail instance. Make sure to unmount any file systems on the device within your operating system before stopping the instance and detaching the disk. The detach disk operation supports tag-based access control via resource tags applied to the resource identified by diskName. For more information, see the Lightsail Dev Guide.
@@ -441,49 +196,14 @@ public struct Lightsail {
         return try client.send(operation: "DetachDisk", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about all Amazon Lightsail virtual private servers, or instances.
-    public func getInstances(_ input: GetInstancesRequest) throws -> Future<GetInstancesResult> {
-        return try client.send(operation: "GetInstances", path: "/", httpMethod: "POST", input: input)
+    ///  Detaches the specified instances from a Lightsail load balancer. This operation waits until the instances are no longer needed before they are detached from the load balancer. The detach instances from load balancer operation supports tag-based access control via resource tags applied to the resource identified by loadBalancerName. For more information, see the Lightsail Dev Guide.
+    public func detachInstancesFromLoadBalancer(_ input: DetachInstancesFromLoadBalancerRequest) throws -> Future<DetachInstancesFromLoadBalancerResult> {
+        return try client.send(operation: "DetachInstancesFromLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns all instance snapshots for the user's account.
-    public func getInstanceSnapshots(_ input: GetInstanceSnapshotsRequest) throws -> Future<GetInstanceSnapshotsResult> {
-        return try client.send(operation: "GetInstanceSnapshots", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns temporary SSH keys you can use to connect to a specific virtual private server, or instance. The get instance access details operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
-    public func getInstanceAccessDetails(_ input: GetInstanceAccessDetailsRequest) throws -> Future<GetInstanceAccessDetailsResult> {
-        return try client.send(operation: "GetInstanceAccessDetails", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns information about a specific domain recordset.
-    public func getDomain(_ input: GetDomainRequest) throws -> Future<GetDomainResult> {
-        return try client.send(operation: "GetDomain", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns information about all block storage disk snapshots in your AWS account and region. If you are describing a long list of disk snapshots, you can paginate the output to make the list more manageable. You can use the pageToken and nextPageToken values to retrieve the next items in the list.
-    public func getDiskSnapshots(_ input: GetDiskSnapshotsRequest) throws -> Future<GetDiskSnapshotsResult> {
-        return try client.send(operation: "GetDiskSnapshots", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns information about a specific block storage disk.
-    public func getDisk(_ input: GetDiskRequest) throws -> Future<GetDiskResult> {
-        return try client.send(operation: "GetDisk", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Restarts a specific database in Amazon Lightsail. The reboot relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Lightsail Dev Guide.
-    public func rebootRelationalDatabase(_ input: RebootRelationalDatabaseRequest) throws -> Future<RebootRelationalDatabaseResult> {
-        return try client.send(operation: "RebootRelationalDatabase", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns a list of all domains in the user's account.
-    public func getDomains(_ input: GetDomainsRequest) throws -> Future<GetDomainsResult> {
-        return try client.send(operation: "GetDomains", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns a Boolean value indicating whether your Lightsail VPC is peered.
-    public func isVpcPeered(_ input: IsVpcPeeredRequest) throws -> Future<IsVpcPeeredResult> {
-        return try client.send(operation: "IsVpcPeered", path: "/", httpMethod: "POST", input: input)
+    ///  Detaches a static IP from the Amazon Lightsail instance to which it is attached.
+    public func detachStaticIp(_ input: DetachStaticIpRequest) throws -> Future<DetachStaticIpResult> {
+        return try client.send(operation: "DetachStaticIp", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Downloads the default SSH key pair from the user's account.
@@ -496,9 +216,99 @@ public struct Lightsail {
         return try client.send(operation: "ExportSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the current, previous, or pending versions of the master user password for a Lightsail database. The asdf operation GetRelationalDatabaseMasterUserPassword supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName.
-    public func getRelationalDatabaseMasterUserPassword(_ input: GetRelationalDatabaseMasterUserPasswordRequest) throws -> Future<GetRelationalDatabaseMasterUserPasswordResult> {
-        return try client.send(operation: "GetRelationalDatabaseMasterUserPassword", path: "/", httpMethod: "POST", input: input)
+    ///  Returns the names of all active (not deleted) resources.
+    public func getActiveNames(_ input: GetActiveNamesRequest) throws -> Future<GetActiveNamesResult> {
+        return try client.send(operation: "GetActiveNames", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the list of available instance images, or blueprints. You can use a blueprint to create a new virtual private server already running a specific operating system, as well as a preinstalled app or development stack. The software each instance is running depends on the blueprint image you choose.
+    public func getBlueprints(_ input: GetBlueprintsRequest) throws -> Future<GetBlueprintsResult> {
+        return try client.send(operation: "GetBlueprints", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the list of bundles that are available for purchase. A bundle describes the specs for your virtual private server (or instance).
+    public func getBundles(_ input: GetBundlesRequest) throws -> Future<GetBundlesResult> {
+        return try client.send(operation: "GetBundles", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the CloudFormation stack record created as a result of the create cloud formation stack operation. An AWS CloudFormation stack is used to create a new Amazon EC2 instance from an exported Lightsail snapshot.
+    public func getCloudFormationStackRecords(_ input: GetCloudFormationStackRecordsRequest) throws -> Future<GetCloudFormationStackRecordsResult> {
+        return try client.send(operation: "GetCloudFormationStackRecords", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about a specific block storage disk.
+    public func getDisk(_ input: GetDiskRequest) throws -> Future<GetDiskResult> {
+        return try client.send(operation: "GetDisk", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about a specific block storage disk snapshot.
+    public func getDiskSnapshot(_ input: GetDiskSnapshotRequest) throws -> Future<GetDiskSnapshotResult> {
+        return try client.send(operation: "GetDiskSnapshot", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about all block storage disk snapshots in your AWS account and region. If you are describing a long list of disk snapshots, you can paginate the output to make the list more manageable. You can use the pageToken and nextPageToken values to retrieve the next items in the list.
+    public func getDiskSnapshots(_ input: GetDiskSnapshotsRequest) throws -> Future<GetDiskSnapshotsResult> {
+        return try client.send(operation: "GetDiskSnapshots", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about all block storage disks in your AWS account and region. If you are describing a long list of disks, you can paginate the output to make the list more manageable. You can use the pageToken and nextPageToken values to retrieve the next items in the list.
+    public func getDisks(_ input: GetDisksRequest) throws -> Future<GetDisksResult> {
+        return try client.send(operation: "GetDisks", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about a specific domain recordset.
+    public func getDomain(_ input: GetDomainRequest) throws -> Future<GetDomainResult> {
+        return try client.send(operation: "GetDomain", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of all domains in the user's account.
+    public func getDomains(_ input: GetDomainsRequest) throws -> Future<GetDomainsResult> {
+        return try client.send(operation: "GetDomains", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the export snapshot record created as a result of the export snapshot operation. An export snapshot record can be used to create a new Amazon EC2 instance and its related resources with the create cloud formation stack operation.
+    public func getExportSnapshotRecords(_ input: GetExportSnapshotRecordsRequest) throws -> Future<GetExportSnapshotRecordsResult> {
+        return try client.send(operation: "GetExportSnapshotRecords", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about a specific Amazon Lightsail instance, which is a virtual private server.
+    public func getInstance(_ input: GetInstanceRequest) throws -> Future<GetInstanceResult> {
+        return try client.send(operation: "GetInstance", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns temporary SSH keys you can use to connect to a specific virtual private server, or instance. The get instance access details operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
+    public func getInstanceAccessDetails(_ input: GetInstanceAccessDetailsRequest) throws -> Future<GetInstanceAccessDetailsResult> {
+        return try client.send(operation: "GetInstanceAccessDetails", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the data points for the specified Amazon Lightsail instance metric, given an instance name.
+    public func getInstanceMetricData(_ input: GetInstanceMetricDataRequest) throws -> Future<GetInstanceMetricDataResult> {
+        return try client.send(operation: "GetInstanceMetricData", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the port states for a specific virtual private server, or instance.
+    public func getInstancePortStates(_ input: GetInstancePortStatesRequest) throws -> Future<GetInstancePortStatesResult> {
+        return try client.send(operation: "GetInstancePortStates", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about a specific instance snapshot.
+    public func getInstanceSnapshot(_ input: GetInstanceSnapshotRequest) throws -> Future<GetInstanceSnapshotResult> {
+        return try client.send(operation: "GetInstanceSnapshot", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns all instance snapshots for the user's account.
+    public func getInstanceSnapshots(_ input: GetInstanceSnapshotsRequest) throws -> Future<GetInstanceSnapshotsResult> {
+        return try client.send(operation: "GetInstanceSnapshots", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the state of a specific instance. Works on one instance at a time.
+    public func getInstanceState(_ input: GetInstanceStateRequest) throws -> Future<GetInstanceStateResult> {
+        return try client.send(operation: "GetInstanceState", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about all Amazon Lightsail virtual private servers, or instances.
+    public func getInstances(_ input: GetInstancesRequest) throws -> Future<GetInstancesResult> {
+        return try client.send(operation: "GetInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about a specific key pair.
@@ -506,14 +316,24 @@ public struct Lightsail {
         return try client.send(operation: "GetKeyPair", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified block storage disk. The disk must be in the available state (not attached to a Lightsail instance).  The disk may remain in the deleting state for several minutes.  The delete disk operation supports tag-based access control via resource tags applied to the resource identified by diskName. For more information, see the Lightsail Dev Guide.
-    public func deleteDisk(_ input: DeleteDiskRequest) throws -> Future<DeleteDiskResult> {
-        return try client.send(operation: "DeleteDisk", path: "/", httpMethod: "POST", input: input)
+    ///  Returns information about all key pairs in the user's account.
+    public func getKeyPairs(_ input: GetKeyPairsRequest) throws -> Future<GetKeyPairsResult> {
+        return try client.send(operation: "GetKeyPairs", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a specific SSH key pair. The delete key pair operation supports tag-based access control via resource tags applied to the resource identified by keyPairName. For more information, see the Lightsail Dev Guide.
-    public func deleteKeyPair(_ input: DeleteKeyPairRequest) throws -> Future<DeleteKeyPairResult> {
-        return try client.send(operation: "DeleteKeyPair", path: "/", httpMethod: "POST", input: input)
+    ///  Returns information about the specified Lightsail load balancer.
+    public func getLoadBalancer(_ input: GetLoadBalancerRequest) throws -> Future<GetLoadBalancerResult> {
+        return try client.send(operation: "GetLoadBalancer", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about health metrics for your Lightsail load balancer.
+    public func getLoadBalancerMetricData(_ input: GetLoadBalancerMetricDataRequest) throws -> Future<GetLoadBalancerMetricDataResult> {
+        return try client.send(operation: "GetLoadBalancerMetricData", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about the TLS certificates that are associated with the specified Lightsail load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). You can have a maximum of 2 certificates associated with a Lightsail load balancer. One is active and the other is inactive.
+    public func getLoadBalancerTlsCertificates(_ input: GetLoadBalancerTlsCertificatesRequest) throws -> Future<GetLoadBalancerTlsCertificatesResult> {
+        return try client.send(operation: "GetLoadBalancerTlsCertificates", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about all load balancers in an account. If you are describing a long list of load balancers, you can paginate the output to make the list more manageable. You can use the pageToken and nextPageToken values to retrieve the next items in the list.
@@ -521,9 +341,189 @@ public struct Lightsail {
         return try client.send(operation: "GetLoadBalancers", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns information about a specific operation. Operations include events such as when you create an instance, allocate a static IP, attach a static IP, and so on.
+    public func getOperation(_ input: GetOperationRequest) throws -> Future<GetOperationResult> {
+        return try client.send(operation: "GetOperation", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about all operations. Results are returned from oldest to newest, up to a maximum of 200. Results can be paged by making each subsequent call to GetOperations use the maximum (last) statusChangedAt value from the previous request.
+    public func getOperations(_ input: GetOperationsRequest) throws -> Future<GetOperationsResult> {
+        return try client.send(operation: "GetOperations", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets operations for a specific resource (e.g., an instance or a static IP).
+    public func getOperationsForResource(_ input: GetOperationsForResourceRequest) throws -> Future<GetOperationsForResourceResult> {
+        return try client.send(operation: "GetOperationsForResource", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns a list of all valid regions for Amazon Lightsail. Use the include availability zones parameter to also return the Availability Zones in a region.
     public func getRegions(_ input: GetRegionsRequest) throws -> Future<GetRegionsResult> {
         return try client.send(operation: "GetRegions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about a specific database in Amazon Lightsail.
+    public func getRelationalDatabase(_ input: GetRelationalDatabaseRequest) throws -> Future<GetRelationalDatabaseResult> {
+        return try client.send(operation: "GetRelationalDatabase", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of available database blueprints in Amazon Lightsail. A blueprint describes the major engine version of a database. You can use a blueprint ID to create a new database that runs a specific database engine.
+    public func getRelationalDatabaseBlueprints(_ input: GetRelationalDatabaseBlueprintsRequest) throws -> Future<GetRelationalDatabaseBlueprintsResult> {
+        return try client.send(operation: "GetRelationalDatabaseBlueprints", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the list of bundles that are available in Amazon Lightsail. A bundle describes the performance specifications for a database. You can use a bundle ID to create a new database with explicit performance specifications.
+    public func getRelationalDatabaseBundles(_ input: GetRelationalDatabaseBundlesRequest) throws -> Future<GetRelationalDatabaseBundlesResult> {
+        return try client.send(operation: "GetRelationalDatabaseBundles", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of events for a specific database in Amazon Lightsail.
+    public func getRelationalDatabaseEvents(_ input: GetRelationalDatabaseEventsRequest) throws -> Future<GetRelationalDatabaseEventsResult> {
+        return try client.send(operation: "GetRelationalDatabaseEvents", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of log events for a database in Amazon Lightsail.
+    public func getRelationalDatabaseLogEvents(_ input: GetRelationalDatabaseLogEventsRequest) throws -> Future<GetRelationalDatabaseLogEventsResult> {
+        return try client.send(operation: "GetRelationalDatabaseLogEvents", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of available log streams for a specific database in Amazon Lightsail.
+    public func getRelationalDatabaseLogStreams(_ input: GetRelationalDatabaseLogStreamsRequest) throws -> Future<GetRelationalDatabaseLogStreamsResult> {
+        return try client.send(operation: "GetRelationalDatabaseLogStreams", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the current, previous, or pending versions of the master user password for a Lightsail database. The asdf operation GetRelationalDatabaseMasterUserPassword supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName.
+    public func getRelationalDatabaseMasterUserPassword(_ input: GetRelationalDatabaseMasterUserPasswordRequest) throws -> Future<GetRelationalDatabaseMasterUserPasswordResult> {
+        return try client.send(operation: "GetRelationalDatabaseMasterUserPassword", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the data points of the specified metric for a database in Amazon Lightsail.
+    public func getRelationalDatabaseMetricData(_ input: GetRelationalDatabaseMetricDataRequest) throws -> Future<GetRelationalDatabaseMetricDataResult> {
+        return try client.send(operation: "GetRelationalDatabaseMetricData", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns all of the runtime parameters offered by the underlying database software, or engine, for a specific database in Amazon Lightsail. In addition to the parameter names and values, this operation returns other information about each parameter. This information includes whether changes require a reboot, whether the parameter is modifiable, the allowed values, and the data types.
+    public func getRelationalDatabaseParameters(_ input: GetRelationalDatabaseParametersRequest) throws -> Future<GetRelationalDatabaseParametersResult> {
+        return try client.send(operation: "GetRelationalDatabaseParameters", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about a specific database snapshot in Amazon Lightsail.
+    public func getRelationalDatabaseSnapshot(_ input: GetRelationalDatabaseSnapshotRequest) throws -> Future<GetRelationalDatabaseSnapshotResult> {
+        return try client.send(operation: "GetRelationalDatabaseSnapshot", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about all of your database snapshots in Amazon Lightsail.
+    public func getRelationalDatabaseSnapshots(_ input: GetRelationalDatabaseSnapshotsRequest) throws -> Future<GetRelationalDatabaseSnapshotsResult> {
+        return try client.send(operation: "GetRelationalDatabaseSnapshots", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about all of your databases in Amazon Lightsail.
+    public func getRelationalDatabases(_ input: GetRelationalDatabasesRequest) throws -> Future<GetRelationalDatabasesResult> {
+        return try client.send(operation: "GetRelationalDatabases", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about a specific static IP.
+    public func getStaticIp(_ input: GetStaticIpRequest) throws -> Future<GetStaticIpResult> {
+        return try client.send(operation: "GetStaticIp", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about all static IPs in the user's account.
+    public func getStaticIps(_ input: GetStaticIpsRequest) throws -> Future<GetStaticIpsResult> {
+        return try client.send(operation: "GetStaticIps", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Imports a public SSH key from a specific key pair.
+    public func importKeyPair(_ input: ImportKeyPairRequest) throws -> Future<ImportKeyPairResult> {
+        return try client.send(operation: "ImportKeyPair", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a Boolean value indicating whether your Lightsail VPC is peered.
+    public func isVpcPeered(_ input: IsVpcPeeredRequest) throws -> Future<IsVpcPeeredResult> {
+        return try client.send(operation: "IsVpcPeered", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Adds public ports to an Amazon Lightsail instance. The open instance public ports operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
+    public func openInstancePublicPorts(_ input: OpenInstancePublicPortsRequest) throws -> Future<OpenInstancePublicPortsResult> {
+        return try client.send(operation: "OpenInstancePublicPorts", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Tries to peer the Lightsail VPC with the user's default VPC.
+    public func peerVpc(_ input: PeerVpcRequest) throws -> Future<PeerVpcResult> {
+        return try client.send(operation: "PeerVpc", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Sets the specified open ports for an Amazon Lightsail instance, and closes all ports for every protocol not included in the current request. The put instance public ports operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
+    public func putInstancePublicPorts(_ input: PutInstancePublicPortsRequest) throws -> Future<PutInstancePublicPortsResult> {
+        return try client.send(operation: "PutInstancePublicPorts", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Restarts a specific instance. When your Amazon Lightsail instance is finished rebooting, Lightsail assigns a new public IP address. To use the same IP address after restarting, create a static IP address and attach it to the instance. The reboot instance operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
+    public func rebootInstance(_ input: RebootInstanceRequest) throws -> Future<RebootInstanceResult> {
+        return try client.send(operation: "RebootInstance", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Restarts a specific database in Amazon Lightsail. The reboot relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Lightsail Dev Guide.
+    public func rebootRelationalDatabase(_ input: RebootRelationalDatabaseRequest) throws -> Future<RebootRelationalDatabaseResult> {
+        return try client.send(operation: "RebootRelationalDatabase", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a specific static IP from your account.
+    public func releaseStaticIp(_ input: ReleaseStaticIpRequest) throws -> Future<ReleaseStaticIpResult> {
+        return try client.send(operation: "ReleaseStaticIp", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts a specific Amazon Lightsail instance from a stopped state. To restart an instance, use the reboot instance operation. The start instance operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
+    public func startInstance(_ input: StartInstanceRequest) throws -> Future<StartInstanceResult> {
+        return try client.send(operation: "StartInstance", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts a specific database from a stopped state in Amazon Lightsail. To restart a database, use the reboot relational database operation. The start relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Lightsail Dev Guide.
+    public func startRelationalDatabase(_ input: StartRelationalDatabaseRequest) throws -> Future<StartRelationalDatabaseResult> {
+        return try client.send(operation: "StartRelationalDatabase", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Stops a specific Amazon Lightsail instance that is currently running. The stop instance operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
+    public func stopInstance(_ input: StopInstanceRequest) throws -> Future<StopInstanceResult> {
+        return try client.send(operation: "StopInstance", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Stops a specific database that is currently running in Amazon Lightsail. The stop relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Lightsail Dev Guide.
+    public func stopRelationalDatabase(_ input: StopRelationalDatabaseRequest) throws -> Future<StopRelationalDatabaseResult> {
+        return try client.send(operation: "StopRelationalDatabase", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Adds one or more tags to the specified Amazon Lightsail resource. Each resource can have a maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see the Lightsail Dev Guide. The tag resource operation supports tag-based access control via request tags and resource tags applied to the resource identified by resourceName. For more information, see the Lightsail Dev Guide.
+    public func tagResource(_ input: TagResourceRequest) throws -> Future<TagResourceResult> {
+        return try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Attempts to unpeer the Lightsail VPC from the user's default VPC.
+    public func unpeerVpc(_ input: UnpeerVpcRequest) throws -> Future<UnpeerVpcResult> {
+        return try client.send(operation: "UnpeerVpc", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified set of tag keys and their values from the specified Amazon Lightsail resource. The untag resource operation supports tag-based access control via request tags and resource tags applied to the resource identified by resourceName. For more information, see the Lightsail Dev Guide.
+    public func untagResource(_ input: UntagResourceRequest) throws -> Future<UntagResourceResult> {
+        return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates a domain recordset after it is created. The update domain entry operation supports tag-based access control via resource tags applied to the resource identified by domainName. For more information, see the Lightsail Dev Guide.
+    public func updateDomainEntry(_ input: UpdateDomainEntryRequest) throws -> Future<UpdateDomainEntryResult> {
+        return try client.send(operation: "UpdateDomainEntry", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the specified attribute for a load balancer. You can only update one attribute at a time. The update load balancer attribute operation supports tag-based access control via resource tags applied to the resource identified by loadBalancerName. For more information, see the Lightsail Dev Guide.
+    public func updateLoadBalancerAttribute(_ input: UpdateLoadBalancerAttributeRequest) throws -> Future<UpdateLoadBalancerAttributeResult> {
+        return try client.send(operation: "UpdateLoadBalancerAttribute", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Allows the update of one or more attributes of a database in Amazon Lightsail. Updates are applied immediately, or in cases where the updates could result in an outage, are applied during the database's predefined maintenance window. The update relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Lightsail Dev Guide.
+    public func updateRelationalDatabase(_ input: UpdateRelationalDatabaseRequest) throws -> Future<UpdateRelationalDatabaseResult> {
+        return try client.send(operation: "UpdateRelationalDatabase", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Allows the update of one or more parameters of a database in Amazon Lightsail. Parameter updates don't cause outages; therefore, their application is not subject to the preferred maintenance window. However, there are two ways in which paramater updates are applied: dynamic or pending-reboot. Parameters marked with a dynamic apply type are applied immediately. Parameters marked with a pending-reboot apply type are applied only after the database is rebooted using the reboot relational database operation. The update relational database parameters operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Lightsail Dev Guide.
+    public func updateRelationalDatabaseParameters(_ input: UpdateRelationalDatabaseParametersRequest) throws -> Future<UpdateRelationalDatabaseParametersResult> {
+        return try client.send(operation: "UpdateRelationalDatabaseParameters", path: "/", httpMethod: "POST", input: input)
     }
 
 

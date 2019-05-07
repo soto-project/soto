@@ -25,14 +25,14 @@ public struct IoTDataPlane {
         )
     }
 
+    ///  Deletes the thing shadow for the specified thing. For more information, see DeleteThingShadow in the AWS IoT Developer Guide.
+    public func deleteThingShadow(_ input: DeleteThingShadowRequest) throws -> Future<DeleteThingShadowResponse> {
+        return try client.send(operation: "DeleteThingShadow", path: "/things/{thingName}/shadow", httpMethod: "DELETE", input: input)
+    }
+
     ///  Gets the thing shadow for the specified thing. For more information, see GetThingShadow in the AWS IoT Developer Guide.
     public func getThingShadow(_ input: GetThingShadowRequest) throws -> Future<GetThingShadowResponse> {
         return try client.send(operation: "GetThingShadow", path: "/things/{thingName}/shadow", httpMethod: "GET", input: input)
-    }
-
-    ///  Updates the thing shadow for the specified thing. For more information, see UpdateThingShadow in the AWS IoT Developer Guide.
-    public func updateThingShadow(_ input: UpdateThingShadowRequest) throws -> Future<UpdateThingShadowResponse> {
-        return try client.send(operation: "UpdateThingShadow", path: "/things/{thingName}/shadow", httpMethod: "POST", input: input)
     }
 
     ///  Publishes state information. For more information, see HTTP Protocol in the AWS IoT Developer Guide.
@@ -40,9 +40,9 @@ public struct IoTDataPlane {
         _ = try client.send(operation: "Publish", path: "/topics/{topic}", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the thing shadow for the specified thing. For more information, see DeleteThingShadow in the AWS IoT Developer Guide.
-    public func deleteThingShadow(_ input: DeleteThingShadowRequest) throws -> Future<DeleteThingShadowResponse> {
-        return try client.send(operation: "DeleteThingShadow", path: "/things/{thingName}/shadow", httpMethod: "DELETE", input: input)
+    ///  Updates the thing shadow for the specified thing. For more information, see UpdateThingShadow in the AWS IoT Developer Guide.
+    public func updateThingShadow(_ input: UpdateThingShadowRequest) throws -> Future<UpdateThingShadowResponse> {
+        return try client.send(operation: "UpdateThingShadow", path: "/things/{thingName}/shadow", httpMethod: "POST", input: input)
     }
 
 

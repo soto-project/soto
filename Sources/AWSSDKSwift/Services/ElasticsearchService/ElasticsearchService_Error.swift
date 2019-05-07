@@ -5,13 +5,13 @@ import AWSSDKSwiftCore
 /// Error enum for ElasticsearchService
 public enum ElasticsearchServiceErrorType: AWSErrorType {
     case baseException(message: String?)
-    case internalException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case validationException(message: String?)
     case disabledOperationException(message: String?)
+    case internalException(message: String?)
     case invalidTypeException(message: String?)
     case limitExceededException(message: String?)
     case resourceAlreadyExistsException(message: String?)
+    case resourceNotFoundException(message: String?)
+    case validationException(message: String?)
 }
 
 extension ElasticsearchServiceErrorType {
@@ -23,20 +23,20 @@ extension ElasticsearchServiceErrorType {
         switch errorCode {
         case "BaseException":
             self = .baseException(message: message)
-        case "InternalException":
-            self = .internalException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
         case "DisabledOperationException":
             self = .disabledOperationException(message: message)
+        case "InternalException":
+            self = .internalException(message: message)
         case "InvalidTypeException":
             self = .invalidTypeException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
         case "ResourceAlreadyExistsException":
             self = .resourceAlreadyExistsException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
+        case "ValidationException":
+            self = .validationException(message: message)
         default:
             return nil
         }

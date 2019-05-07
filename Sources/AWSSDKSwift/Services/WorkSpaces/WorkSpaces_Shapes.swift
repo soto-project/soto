@@ -5,6 +5,453 @@ import AWSSDKSwiftCore
 
 extension WorkSpaces {
 
+    public struct AccountModification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DedicatedTenancyManagementCidrRange", required: false, type: .string), 
+            AWSShapeMember(label: "DedicatedTenancySupport", required: false, type: .enum), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ModificationState", required: false, type: .enum), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
+        ]
+        /// The IP address range, specified as an IPv4 CIDR block, for the management network interface used for the account.
+        public let dedicatedTenancyManagementCidrRange: String?
+        /// The status of BYOL (whether BYOL is being enabled or disabled).
+        public let dedicatedTenancySupport: DedicatedTenancySupportResultEnum?
+        /// The error code that is returned if the configuration of BYOL cannot be modified.
+        public let errorCode: String?
+        /// The text of the error message that is returned if the configuration of BYOL cannot be modified.
+        public let errorMessage: String?
+        /// The state of the modification to the configuration of BYOL.
+        public let modificationState: DedicatedTenancyModificationStateEnum?
+        /// The timestamp when the modification of the BYOL configuration was started.
+        public let startTime: TimeStamp?
+
+        public init(dedicatedTenancyManagementCidrRange: String? = nil, dedicatedTenancySupport: DedicatedTenancySupportResultEnum? = nil, errorCode: String? = nil, errorMessage: String? = nil, modificationState: DedicatedTenancyModificationStateEnum? = nil, startTime: TimeStamp? = nil) {
+            self.dedicatedTenancyManagementCidrRange = dedicatedTenancyManagementCidrRange
+            self.dedicatedTenancySupport = dedicatedTenancySupport
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.modificationState = modificationState
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dedicatedTenancyManagementCidrRange = "DedicatedTenancyManagementCidrRange"
+            case dedicatedTenancySupport = "DedicatedTenancySupport"
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case modificationState = "ModificationState"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct AssociateIpGroupsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "GroupIds", required: true, type: .list)
+        ]
+        /// The identifier of the directory.
+        public let directoryId: String
+        /// The identifiers of one or more IP access control groups.
+        public let groupIds: [String]
+
+        public init(directoryId: String, groupIds: [String]) {
+            self.directoryId = directoryId
+            self.groupIds = groupIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case groupIds = "GroupIds"
+        }
+    }
+
+    public struct AssociateIpGroupsResult: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct AuthorizeIpRulesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", required: true, type: .string), 
+            AWSShapeMember(label: "UserRules", required: true, type: .list)
+        ]
+        /// The identifier of the group.
+        public let groupId: String
+        /// The rules to add to the group.
+        public let userRules: [IpRuleItem]
+
+        public init(groupId: String, userRules: [IpRuleItem]) {
+            self.groupId = groupId
+            self.userRules = userRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
+            case userRules = "UserRules"
+        }
+    }
+
+    public struct AuthorizeIpRulesResult: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct ClientProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReconnectEnabled", required: false, type: .enum)
+        ]
+        /// Specifies whether users can cache their credentials on the Amazon WorkSpaces client. When enabled, users can choose to reconnect to their WorkSpaces without re-entering their credentials. 
+        public let reconnectEnabled: ReconnectEnum?
+
+        public init(reconnectEnabled: ReconnectEnum? = nil) {
+            self.reconnectEnabled = reconnectEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reconnectEnabled = "ReconnectEnabled"
+        }
+    }
+
+    public struct ClientPropertiesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .string)
+        ]
+        /// Information about the Amazon WorkSpaces client.
+        public let clientProperties: ClientProperties?
+        /// The resource identifier, in the form of a directory ID.
+        public let resourceId: String?
+
+        public init(clientProperties: ClientProperties? = nil, resourceId: String? = nil) {
+            self.clientProperties = clientProperties
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientProperties = "ClientProperties"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public enum Compute: String, CustomStringConvertible, Codable {
+        case value = "VALUE"
+        case standard = "STANDARD"
+        case performance = "PERFORMANCE"
+        case power = "POWER"
+        case graphics = "GRAPHICS"
+        case powerpro = "POWERPRO"
+        case graphicspro = "GRAPHICSPRO"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ComputeType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .enum)
+        ]
+        /// The compute type.
+        public let name: Compute?
+
+        public init(name: Compute? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public enum ConnectionState: String, CustomStringConvertible, Codable {
+        case connected = "CONNECTED"
+        case disconnected = "DISCONNECTED"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateIpGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupDesc", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: true, type: .string), 
+            AWSShapeMember(label: "UserRules", required: false, type: .list)
+        ]
+        /// The description of the group.
+        public let groupDesc: String?
+        /// The name of the group.
+        public let groupName: String
+        /// The rules to add to the group.
+        public let userRules: [IpRuleItem]?
+
+        public init(groupDesc: String? = nil, groupName: String, userRules: [IpRuleItem]? = nil) {
+            self.groupDesc = groupDesc
+            self.groupName = groupName
+            self.userRules = userRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupDesc = "GroupDesc"
+            case groupName = "GroupName"
+            case userRules = "UserRules"
+        }
+    }
+
+    public struct CreateIpGroupResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", required: false, type: .string)
+        ]
+        /// The identifier of the group.
+        public let groupId: String?
+
+        public init(groupId: String? = nil) {
+            self.groupId = groupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
+        }
+    }
+
+    public struct CreateTagsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+        /// The identifier of the WorkSpace. To find this ID, use DescribeWorkspaces.
+        public let resourceId: String
+        /// The tags. Each WorkSpace can have a maximum of 50 tags.
+        public let tags: [Tag]
+
+        public init(resourceId: String, tags: [Tag]) {
+            self.resourceId = resourceId
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateTagsResult: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct CreateWorkspacesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Workspaces", required: true, type: .list)
+        ]
+        /// The WorkSpaces to create. You can specify up to 25 WorkSpaces.
+        public let workspaces: [WorkspaceRequest]
+
+        public init(workspaces: [WorkspaceRequest]) {
+            self.workspaces = workspaces
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workspaces = "Workspaces"
+        }
+    }
+
+    public struct CreateWorkspacesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedRequests", required: false, type: .list), 
+            AWSShapeMember(label: "PendingRequests", required: false, type: .list)
+        ]
+        /// Information about the WorkSpaces that could not be created.
+        public let failedRequests: [FailedCreateWorkspaceRequest]?
+        /// Information about the WorkSpaces that were created. Because this operation is asynchronous, the identifier returned is not immediately available for use with other operations. For example, if you call DescribeWorkspaces before the WorkSpace is created, the information returned can be incomplete.
+        public let pendingRequests: [Workspace]?
+
+        public init(failedRequests: [FailedCreateWorkspaceRequest]? = nil, pendingRequests: [Workspace]? = nil) {
+            self.failedRequests = failedRequests
+            self.pendingRequests = pendingRequests
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedRequests = "FailedRequests"
+            case pendingRequests = "PendingRequests"
+        }
+    }
+
+    public enum DedicatedTenancyModificationStateEnum: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DedicatedTenancySupportEnum: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DedicatedTenancySupportResultEnum: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DefaultWorkspaceCreationProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomSecurityGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultOu", required: false, type: .string), 
+            AWSShapeMember(label: "EnableInternetAccess", required: false, type: .boolean), 
+            AWSShapeMember(label: "EnableWorkDocs", required: false, type: .boolean), 
+            AWSShapeMember(label: "UserEnabledAsLocalAdministrator", required: false, type: .boolean)
+        ]
+        /// The identifier of any security groups to apply to WorkSpaces when they are created.
+        public let customSecurityGroupId: String?
+        /// The organizational unit (OU) in the directory for the WorkSpace machine accounts.
+        public let defaultOu: String?
+        /// The public IP address to attach to all WorkSpaces that are created or rebuilt.
+        public let enableInternetAccess: Bool?
+        /// Specifies whether the directory is enabled for Amazon WorkDocs.
+        public let enableWorkDocs: Bool?
+        /// Specifies whether the WorkSpace user is an administrator on the WorkSpace.
+        public let userEnabledAsLocalAdministrator: Bool?
+
+        public init(customSecurityGroupId: String? = nil, defaultOu: String? = nil, enableInternetAccess: Bool? = nil, enableWorkDocs: Bool? = nil, userEnabledAsLocalAdministrator: Bool? = nil) {
+            self.customSecurityGroupId = customSecurityGroupId
+            self.defaultOu = defaultOu
+            self.enableInternetAccess = enableInternetAccess
+            self.enableWorkDocs = enableWorkDocs
+            self.userEnabledAsLocalAdministrator = userEnabledAsLocalAdministrator
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customSecurityGroupId = "CustomSecurityGroupId"
+            case defaultOu = "DefaultOu"
+            case enableInternetAccess = "EnableInternetAccess"
+            case enableWorkDocs = "EnableWorkDocs"
+            case userEnabledAsLocalAdministrator = "UserEnabledAsLocalAdministrator"
+        }
+    }
+
+    public struct DeleteIpGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", required: true, type: .string)
+        ]
+        /// The identifier of the IP access control group.
+        public let groupId: String
+
+        public init(groupId: String) {
+            self.groupId = groupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
+        }
+    }
+
+    public struct DeleteIpGroupResult: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteTagsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+        ]
+        /// The identifier of the WorkSpace. To find this ID, use DescribeWorkspaces.
+        public let resourceId: String
+        /// The tag keys.
+        public let tagKeys: [String]
+
+        public init(resourceId: String, tagKeys: [String]) {
+            self.resourceId = resourceId
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct DeleteTagsResult: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteWorkspaceImageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImageId", required: true, type: .string)
+        ]
+        /// The identifier of the image.
+        public let imageId: String
+
+        public init(imageId: String) {
+            self.imageId = imageId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageId = "ImageId"
+        }
+    }
+
+    public struct DeleteWorkspaceImageResult: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DescribeAccountModificationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
+        public let nextToken: String?
+
+        public init(nextToken: String? = nil) {
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeAccountModificationsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountModifications", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The list of modifications to the configuration of BYOL.
+        public let accountModifications: [AccountModification]?
+        /// The token to use to retrieve the next set of results, or null if no more results are available.
+        public let nextToken: String?
+
+        public init(accountModifications: [AccountModification]? = nil, nextToken: String? = nil) {
+            self.accountModifications = accountModifications
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountModifications = "AccountModifications"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeAccountRequest: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public struct DescribeAccountResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DedicatedTenancyManagementCidrRange", required: false, type: .string), 
@@ -26,175 +473,161 @@ extension WorkSpaces {
         }
     }
 
-    public enum ConnectionState: String, CustomStringConvertible, Codable {
-        case connected = "CONNECTED"
-        case disconnected = "DISCONNECTED"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ModifyWorkspacePropertiesResult: AWSShape {
-
-    }
-
-    public struct TerminateWorkspacesRequest: AWSShape {
+    public struct DescribeClientPropertiesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TerminateWorkspaceRequests", required: true, type: .list)
+            AWSShapeMember(label: "ResourceIds", required: true, type: .list)
         ]
-        /// The WorkSpaces to terminate. You can specify up to 25 WorkSpaces.
-        public let terminateWorkspaceRequests: [TerminateRequest]
+        /// The resource identifiers, in the form of directory IDs.
+        public let resourceIds: [String]
 
-        public init(terminateWorkspaceRequests: [TerminateRequest]) {
-            self.terminateWorkspaceRequests = terminateWorkspaceRequests
+        public init(resourceIds: [String]) {
+            self.resourceIds = resourceIds
         }
 
         private enum CodingKeys: String, CodingKey {
-            case terminateWorkspaceRequests = "TerminateWorkspaceRequests"
+            case resourceIds = "ResourceIds"
         }
     }
 
-    public struct WorkspaceConnectionStatus: AWSShape {
+    public struct DescribeClientPropertiesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkspaceId", required: false, type: .string), 
-            AWSShapeMember(label: "ConnectionStateCheckTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ConnectionState", required: false, type: .enum), 
-            AWSShapeMember(label: "LastKnownUserConnectionTimestamp", required: false, type: .timestamp)
+            AWSShapeMember(label: "ClientPropertiesList", required: false, type: .list)
         ]
-        /// The identifier of the WorkSpace.
-        public let workspaceId: String?
-        /// The timestamp of the connection status check.
-        public let connectionStateCheckTimestamp: TimeStamp?
-        /// The connection state of the WorkSpace. The connection state is unknown if the WorkSpace is stopped.
-        public let connectionState: ConnectionState?
-        /// The timestamp of the last known user connection.
-        public let lastKnownUserConnectionTimestamp: TimeStamp?
+        /// Information about the specified Amazon WorkSpaces clients.
+        public let clientPropertiesList: [ClientPropertiesResult]?
 
-        public init(workspaceId: String? = nil, connectionStateCheckTimestamp: TimeStamp? = nil, connectionState: ConnectionState? = nil, lastKnownUserConnectionTimestamp: TimeStamp? = nil) {
-            self.workspaceId = workspaceId
-            self.connectionStateCheckTimestamp = connectionStateCheckTimestamp
-            self.connectionState = connectionState
-            self.lastKnownUserConnectionTimestamp = lastKnownUserConnectionTimestamp
+        public init(clientPropertiesList: [ClientPropertiesResult]? = nil) {
+            self.clientPropertiesList = clientPropertiesList
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workspaceId = "WorkspaceId"
-            case connectionStateCheckTimestamp = "ConnectionStateCheckTimestamp"
-            case connectionState = "ConnectionState"
-            case lastKnownUserConnectionTimestamp = "LastKnownUserConnectionTimestamp"
+            case clientPropertiesList = "ClientPropertiesList"
         }
     }
 
-    public struct OperatingSystem: AWSShape {
+    public struct DescribeIpGroupsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
-        /// The operating system.
-        public let `type`: OperatingSystemType?
-
-        public init(type: OperatingSystemType? = nil) {
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-        }
-    }
-
-    public struct AssociateIpGroupsResult: AWSShape {
-
-    }
-
-    public struct RebuildWorkspacesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedRequests", required: false, type: .list)
-        ]
-        /// Information about the WorkSpace that could not be rebuilt.
-        public let failedRequests: [FailedWorkspaceChangeRequest]?
-
-        public init(failedRequests: [FailedWorkspaceChangeRequest]? = nil) {
-            self.failedRequests = failedRequests
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failedRequests = "FailedRequests"
-        }
-    }
-
-    public struct DefaultWorkspaceCreationProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultOu", required: false, type: .string), 
-            AWSShapeMember(label: "EnableWorkDocs", required: false, type: .boolean), 
-            AWSShapeMember(label: "CustomSecurityGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "UserEnabledAsLocalAdministrator", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableInternetAccess", required: false, type: .boolean)
-        ]
-        /// The organizational unit (OU) in the directory for the WorkSpace machine accounts.
-        public let defaultOu: String?
-        /// Specifies whether the directory is enabled for Amazon WorkDocs.
-        public let enableWorkDocs: Bool?
-        /// The identifier of any security groups to apply to WorkSpaces when they are created.
-        public let customSecurityGroupId: String?
-        /// Specifies whether the WorkSpace user is an administrator on the WorkSpace.
-        public let userEnabledAsLocalAdministrator: Bool?
-        /// The public IP address to attach to all WorkSpaces that are created or rebuilt.
-        public let enableInternetAccess: Bool?
-
-        public init(defaultOu: String? = nil, enableWorkDocs: Bool? = nil, customSecurityGroupId: String? = nil, userEnabledAsLocalAdministrator: Bool? = nil, enableInternetAccess: Bool? = nil) {
-            self.defaultOu = defaultOu
-            self.enableWorkDocs = enableWorkDocs
-            self.customSecurityGroupId = customSecurityGroupId
-            self.userEnabledAsLocalAdministrator = userEnabledAsLocalAdministrator
-            self.enableInternetAccess = enableInternetAccess
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case defaultOu = "DefaultOu"
-            case enableWorkDocs = "EnableWorkDocs"
-            case customSecurityGroupId = "CustomSecurityGroupId"
-            case userEnabledAsLocalAdministrator = "UserEnabledAsLocalAdministrator"
-            case enableInternetAccess = "EnableInternetAccess"
-        }
-    }
-
-    public struct DescribeWorkspaceImagesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupIds", required: false, type: .list), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ImageIds", required: false, type: .list)
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+        /// The identifiers of one or more IP access control groups.
+        public let groupIds: [String]?
         /// The maximum number of items to return.
         public let maxResults: Int32?
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
-        /// The identifier of the image.
-        public let imageIds: [String]?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, imageIds: [String]? = nil) {
+        public init(groupIds: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.groupIds = groupIds
             self.maxResults = maxResults
             self.nextToken = nextToken
-            self.imageIds = imageIds
         }
 
         private enum CodingKeys: String, CodingKey {
+            case groupIds = "GroupIds"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
-            case imageIds = "ImageIds"
         }
     }
 
-    public struct RebuildWorkspacesRequest: AWSShape {
+    public struct DescribeIpGroupsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RebuildWorkspaceRequests", required: true, type: .list)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Result", required: false, type: .list)
         ]
-        /// The WorkSpace to rebuild. You can specify a single WorkSpace.
-        public let rebuildWorkspaceRequests: [RebuildRequest]
+        /// The token to use to retrieve the next set of results, or null if no more results are available.
+        public let nextToken: String?
+        /// Information about the IP access control groups.
+        public let result: [WorkspacesIpGroup]?
 
-        public init(rebuildWorkspaceRequests: [RebuildRequest]) {
-            self.rebuildWorkspaceRequests = rebuildWorkspaceRequests
+        public init(nextToken: String? = nil, result: [WorkspacesIpGroup]? = nil) {
+            self.nextToken = nextToken
+            self.result = result
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rebuildWorkspaceRequests = "RebuildWorkspaceRequests"
+            case nextToken = "NextToken"
+            case result = "Result"
+        }
+    }
+
+    public struct DescribeTagsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string)
+        ]
+        /// The identifier of the WorkSpace. To find this ID, use DescribeWorkspaces.
+        public let resourceId: String
+
+        public init(resourceId: String) {
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct DescribeTagsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagList", required: false, type: .list)
+        ]
+        /// The tags.
+        public let tagList: [Tag]?
+
+        public init(tagList: [Tag]? = nil) {
+            self.tagList = tagList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagList = "TagList"
+        }
+    }
+
+    public struct DescribeWorkspaceBundlesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BundleIds", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Owner", required: false, type: .string)
+        ]
+        /// The identifiers of the bundles. You cannot combine this parameter with any other filter.
+        public let bundleIds: [String]?
+        /// The token for the next set of results. (You received this token from a previous call.)
+        public let nextToken: String?
+        /// The owner of the bundles. You cannot combine this parameter with any other filter. Specify AMAZON to describe the bundles provided by AWS or null to describe the bundles that belong to your account.
+        public let owner: String?
+
+        public init(bundleIds: [String]? = nil, nextToken: String? = nil, owner: String? = nil) {
+            self.bundleIds = bundleIds
+            self.nextToken = nextToken
+            self.owner = owner
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bundleIds = "BundleIds"
+            case nextToken = "NextToken"
+            case owner = "Owner"
+        }
+    }
+
+    public struct DescribeWorkspaceBundlesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bundles", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Information about the bundles.
+        public let bundles: [WorkspaceBundle]?
+        /// The token to use to retrieve the next set of results, or null if there are no more results available. This token is valid for one day and must be used within that time frame.
+        public let nextToken: String?
+
+        public init(bundles: [WorkspaceBundle]? = nil, nextToken: String? = nil) {
+            self.bundles = bundles
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bundles = "Bundles"
+            case nextToken = "NextToken"
         }
     }
 
@@ -219,11 +652,93 @@ extension WorkSpaces {
         }
     }
 
-    public enum DedicatedTenancyModificationStateEnum: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
+    public struct DescribeWorkspaceDirectoriesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Directories", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Information about the directories.
+        public let directories: [WorkspaceDirectory]?
+        /// The token to use to retrieve the next set of results, or null if no more results are available.
+        public let nextToken: String?
+
+        public init(directories: [WorkspaceDirectory]? = nil, nextToken: String? = nil) {
+            self.directories = directories
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directories = "Directories"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeWorkspaceImagesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImageIds", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The identifier of the image.
+        public let imageIds: [String]?
+        /// The maximum number of items to return.
+        public let maxResults: Int32?
+        /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
+        public let nextToken: String?
+
+        public init(imageIds: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.imageIds = imageIds
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageIds = "ImageIds"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeWorkspaceImagesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Images", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Information about the images.
+        public let images: [WorkspaceImage]?
+        /// The token to use to retrieve the next set of results, or null if no more results are available.
+        public let nextToken: String?
+
+        public init(images: [WorkspaceImage]? = nil, nextToken: String? = nil) {
+            self.images = images
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case images = "Images"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeWorkspacesConnectionStatusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "WorkspaceIds", required: false, type: .list)
+        ]
+        /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
+        public let nextToken: String?
+        /// The identifiers of the WorkSpaces. You can specify up to 25 WorkSpaces.
+        public let workspaceIds: [String]?
+
+        public init(nextToken: String? = nil, workspaceIds: [String]? = nil) {
+            self.nextToken = nextToken
+            self.workspaceIds = workspaceIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case workspaceIds = "WorkspaceIds"
+        }
     }
 
     public struct DescribeWorkspacesConnectionStatusResult: AWSShape {
@@ -247,278 +762,238 @@ extension WorkSpaces {
         }
     }
 
-    public enum Compute: String, CustomStringConvertible, Codable {
-        case value = "VALUE"
-        case standard = "STANDARD"
-        case performance = "PERFORMANCE"
-        case power = "POWER"
-        case graphics = "GRAPHICS"
-        case powerpro = "POWERPRO"
-        case graphicspro = "GRAPHICSPRO"
-        public var description: String { return self.rawValue }
+    public struct DescribeWorkspacesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BundleId", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "WorkspaceIds", required: false, type: .list)
+        ]
+        /// The identifier of the bundle. All WorkSpaces that are created from this bundle are retrieved. You cannot combine this parameter with any other filter.
+        public let bundleId: String?
+        /// The identifier of the directory. In addition, you can optionally specify a specific directory user (see UserName). You cannot combine this parameter with any other filter.
+        public let directoryId: String?
+        /// The maximum number of items to return.
+        public let limit: Int32?
+        /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
+        public let nextToken: String?
+        /// The name of the directory user. You must specify this parameter with DirectoryId.
+        public let userName: String?
+        /// The identifiers of the WorkSpaces. You cannot combine this parameter with any other filter. Because the CreateWorkspaces operation is asynchronous, the identifier it returns is not immediately available. If you immediately call DescribeWorkspaces with this identifier, no information is returned.
+        public let workspaceIds: [String]?
+
+        public init(bundleId: String? = nil, directoryId: String? = nil, limit: Int32? = nil, nextToken: String? = nil, userName: String? = nil, workspaceIds: [String]? = nil) {
+            self.bundleId = bundleId
+            self.directoryId = directoryId
+            self.limit = limit
+            self.nextToken = nextToken
+            self.userName = userName
+            self.workspaceIds = workspaceIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bundleId = "BundleId"
+            case directoryId = "DirectoryId"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case userName = "UserName"
+            case workspaceIds = "WorkspaceIds"
+        }
     }
 
-    public struct WorkspaceImage: AWSShape {
+    public struct DescribeWorkspacesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageId", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "RequiredTenancy", required: false, type: .enum), 
-            AWSShapeMember(label: "OperatingSystem", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Workspaces", required: false, type: .list)
         ]
-        /// The identifier of the image.
-        public let imageId: String?
-        /// The status of the image.
-        public let state: WorkspaceImageState?
-        /// The error code that is returned for the image.
-        public let errorCode: String?
-        /// Specifies whether the image is running on dedicated hardware. When bring your own license (BYOL) is enabled, this value is set to DEDICATED. 
-        public let requiredTenancy: WorkspaceImageRequiredTenancy?
-        /// The operating system that the image is running. 
-        public let operatingSystem: OperatingSystem?
-        /// The name of the image.
-        public let name: String?
-        /// The description of the image.
-        public let description: String?
-        /// The text of the error message that is returned for the image.
-        public let errorMessage: String?
+        /// The token to use to retrieve the next set of results, or null if no more results are available.
+        public let nextToken: String?
+        /// Information about the WorkSpaces. Because CreateWorkspaces is an asynchronous operation, some of the returned information could be incomplete.
+        public let workspaces: [Workspace]?
 
-        public init(imageId: String? = nil, state: WorkspaceImageState? = nil, errorCode: String? = nil, requiredTenancy: WorkspaceImageRequiredTenancy? = nil, operatingSystem: OperatingSystem? = nil, name: String? = nil, description: String? = nil, errorMessage: String? = nil) {
-            self.imageId = imageId
-            self.state = state
+        public init(nextToken: String? = nil, workspaces: [Workspace]? = nil) {
+            self.nextToken = nextToken
+            self.workspaces = workspaces
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case workspaces = "Workspaces"
+        }
+    }
+
+    public struct DisassociateIpGroupsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "GroupIds", required: true, type: .list)
+        ]
+        /// The identifier of the directory.
+        public let directoryId: String
+        /// The identifiers of one or more IP access control groups.
+        public let groupIds: [String]
+
+        public init(directoryId: String, groupIds: [String]) {
+            self.directoryId = directoryId
+            self.groupIds = groupIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case groupIds = "GroupIds"
+        }
+    }
+
+    public struct DisassociateIpGroupsResult: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct FailedCreateWorkspaceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "WorkspaceRequest", required: false, type: .structure)
+        ]
+        /// The error code that is returned if the WorkSpace cannot be created.
+        public let errorCode: String?
+        /// The text of the error message that is returned if the WorkSpace cannot be created.
+        public let errorMessage: String?
+        /// Information about the WorkSpace.
+        public let workspaceRequest: WorkspaceRequest?
+
+        public init(errorCode: String? = nil, errorMessage: String? = nil, workspaceRequest: WorkspaceRequest? = nil) {
             self.errorCode = errorCode
-            self.requiredTenancy = requiredTenancy
-            self.operatingSystem = operatingSystem
-            self.name = name
-            self.description = description
             self.errorMessage = errorMessage
+            self.workspaceRequest = workspaceRequest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case workspaceRequest = "WorkspaceRequest"
+        }
+    }
+
+    public struct FailedWorkspaceChangeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "WorkspaceId", required: false, type: .string)
+        ]
+        /// The error code that is returned if the WorkSpace cannot be rebooted.
+        public let errorCode: String?
+        /// The text of the error message that is returned if the WorkSpace cannot be rebooted.
+        public let errorMessage: String?
+        /// The identifier of the WorkSpace.
+        public let workspaceId: String?
+
+        public init(errorCode: String? = nil, errorMessage: String? = nil, workspaceId: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.workspaceId = workspaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case workspaceId = "WorkspaceId"
+        }
+    }
+
+    public struct ImportWorkspaceImageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Ec2ImageId", required: true, type: .string), 
+            AWSShapeMember(label: "ImageDescription", required: true, type: .string), 
+            AWSShapeMember(label: "ImageName", required: true, type: .string), 
+            AWSShapeMember(label: "IngestionProcess", required: true, type: .enum)
+        ]
+        /// The identifier of the EC2 image.
+        public let ec2ImageId: String
+        /// The description of the WorkSpace image.
+        public let imageDescription: String
+        /// The name of the WorkSpace image.
+        public let imageName: String
+        /// The ingestion process to be used when importing the image.
+        public let ingestionProcess: WorkspaceImageIngestionProcess
+
+        public init(ec2ImageId: String, imageDescription: String, imageName: String, ingestionProcess: WorkspaceImageIngestionProcess) {
+            self.ec2ImageId = ec2ImageId
+            self.imageDescription = imageDescription
+            self.imageName = imageName
+            self.ingestionProcess = ingestionProcess
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ec2ImageId = "Ec2ImageId"
+            case imageDescription = "ImageDescription"
+            case imageName = "ImageName"
+            case ingestionProcess = "IngestionProcess"
+        }
+    }
+
+    public struct ImportWorkspaceImageResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImageId", required: false, type: .string)
+        ]
+        /// The identifier of the WorkSpace image.
+        public let imageId: String?
+
+        public init(imageId: String? = nil) {
+            self.imageId = imageId
         }
 
         private enum CodingKeys: String, CodingKey {
             case imageId = "ImageId"
-            case state = "State"
-            case errorCode = "ErrorCode"
-            case requiredTenancy = "RequiredTenancy"
-            case operatingSystem = "OperatingSystem"
-            case name = "Name"
-            case description = "Description"
-            case errorMessage = "ErrorMessage"
         }
     }
 
-    public struct CreateTagsResult: AWSShape {
-
-    }
-
-    public struct CreateIpGroupRequest: AWSShape {
+    public struct IpRuleItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", required: true, type: .string), 
-            AWSShapeMember(label: "UserRules", required: false, type: .list), 
-            AWSShapeMember(label: "GroupDesc", required: false, type: .string)
+            AWSShapeMember(label: "ipRule", required: false, type: .string), 
+            AWSShapeMember(label: "ruleDesc", required: false, type: .string)
         ]
-        /// The name of the group.
-        public let groupName: String
-        /// The rules to add to the group.
-        public let userRules: [IpRuleItem]?
-        /// The description of the group.
-        public let groupDesc: String?
+        /// The IP address range, in CIDR notation.
+        public let ipRule: String?
+        /// The description.
+        public let ruleDesc: String?
 
-        public init(groupName: String, userRules: [IpRuleItem]? = nil, groupDesc: String? = nil) {
-            self.groupName = groupName
-            self.userRules = userRules
-            self.groupDesc = groupDesc
+        public init(ipRule: String? = nil, ruleDesc: String? = nil) {
+            self.ipRule = ipRule
+            self.ruleDesc = ruleDesc
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupName = "GroupName"
-            case userRules = "UserRules"
-            case groupDesc = "GroupDesc"
-        }
-    }
-
-    public struct WorkspaceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkspaceProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "VolumeEncryptionKey", required: false, type: .string), 
-            AWSShapeMember(label: "UserVolumeEncryptionEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "RootVolumeEncryptionEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "BundleId", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
-        /// The WorkSpace properties.
-        public let workspaceProperties: WorkspaceProperties?
-        /// The KMS key used to encrypt data stored on your WorkSpace.
-        public let volumeEncryptionKey: String?
-        /// Indicates whether the data stored on the user volume is encrypted.
-        public let userVolumeEncryptionEnabled: Bool?
-        /// The identifier of the AWS Directory Service directory for the WorkSpace. You can use DescribeWorkspaceDirectories to list the available directories.
-        public let directoryId: String
-        /// Indicates whether the data stored on the root volume is encrypted.
-        public let rootVolumeEncryptionEnabled: Bool?
-        /// The identifier of the bundle for the WorkSpace. You can use DescribeWorkspaceBundles to list the available bundles.
-        public let bundleId: String
-        /// The username of the user for the WorkSpace. This username must exist in the AWS Directory Service directory for the WorkSpace.
-        public let userName: String
-        /// The tags for the WorkSpace.
-        public let tags: [Tag]?
-
-        public init(workspaceProperties: WorkspaceProperties? = nil, volumeEncryptionKey: String? = nil, userVolumeEncryptionEnabled: Bool? = nil, directoryId: String, rootVolumeEncryptionEnabled: Bool? = nil, bundleId: String, userName: String, tags: [Tag]? = nil) {
-            self.workspaceProperties = workspaceProperties
-            self.volumeEncryptionKey = volumeEncryptionKey
-            self.userVolumeEncryptionEnabled = userVolumeEncryptionEnabled
-            self.directoryId = directoryId
-            self.rootVolumeEncryptionEnabled = rootVolumeEncryptionEnabled
-            self.bundleId = bundleId
-            self.userName = userName
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case workspaceProperties = "WorkspaceProperties"
-            case volumeEncryptionKey = "VolumeEncryptionKey"
-            case userVolumeEncryptionEnabled = "UserVolumeEncryptionEnabled"
-            case directoryId = "DirectoryId"
-            case rootVolumeEncryptionEnabled = "RootVolumeEncryptionEnabled"
-            case bundleId = "BundleId"
-            case userName = "UserName"
-            case tags = "Tags"
-        }
-    }
-
-    public struct DescribeIpGroupsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Result", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Information about the IP access control groups.
-        public let result: [WorkspacesIpGroup]?
-        /// The token to use to retrieve the next set of results, or null if no more results are available.
-        public let nextToken: String?
-
-        public init(result: [WorkspacesIpGroup]? = nil, nextToken: String? = nil) {
-            self.result = result
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case result = "Result"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct Workspace: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VolumeEncryptionKey", required: false, type: .string), 
-            AWSShapeMember(label: "BundleId", required: false, type: .string), 
-            AWSShapeMember(label: "UserName", required: false, type: .string), 
-            AWSShapeMember(label: "ModificationStates", required: false, type: .list), 
-            AWSShapeMember(label: "WorkspaceId", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "UserVolumeEncryptionEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "RootVolumeEncryptionEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "ComputerName", required: false, type: .string), 
-            AWSShapeMember(label: "WorkspaceProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
-        /// The KMS key used to encrypt data stored on your WorkSpace.
-        public let volumeEncryptionKey: String?
-        /// The identifier of the bundle used to create the WorkSpace.
-        public let bundleId: String?
-        /// The user for the WorkSpace.
-        public let userName: String?
-        /// The modification states of the WorkSpace.
-        public let modificationStates: [ModificationState]?
-        /// The identifier of the WorkSpace.
-        public let workspaceId: String?
-        /// The identifier of the AWS Directory Service directory for the WorkSpace.
-        public let directoryId: String?
-        /// Indicates whether the data stored on the user volume is encrypted.
-        public let userVolumeEncryptionEnabled: Bool?
-        /// The IP address of the WorkSpace.
-        public let ipAddress: String?
-        /// The text of the error message that is returned if the WorkSpace cannot be created.
-        public let errorMessage: String?
-        /// Indicates whether the data stored on the root volume is encrypted.
-        public let rootVolumeEncryptionEnabled: Bool?
-        /// The identifier of the subnet for the WorkSpace.
-        public let subnetId: String?
-        /// The name of the WorkSpace, as seen by the operating system.
-        public let computerName: String?
-        /// The properties of the WorkSpace.
-        public let workspaceProperties: WorkspaceProperties?
-        /// The error code that is returned if the WorkSpace cannot be created.
-        public let errorCode: String?
-        /// The operational state of the WorkSpace.
-        public let state: WorkspaceState?
-
-        public init(volumeEncryptionKey: String? = nil, bundleId: String? = nil, userName: String? = nil, modificationStates: [ModificationState]? = nil, workspaceId: String? = nil, directoryId: String? = nil, userVolumeEncryptionEnabled: Bool? = nil, ipAddress: String? = nil, errorMessage: String? = nil, rootVolumeEncryptionEnabled: Bool? = nil, subnetId: String? = nil, computerName: String? = nil, workspaceProperties: WorkspaceProperties? = nil, errorCode: String? = nil, state: WorkspaceState? = nil) {
-            self.volumeEncryptionKey = volumeEncryptionKey
-            self.bundleId = bundleId
-            self.userName = userName
-            self.modificationStates = modificationStates
-            self.workspaceId = workspaceId
-            self.directoryId = directoryId
-            self.userVolumeEncryptionEnabled = userVolumeEncryptionEnabled
-            self.ipAddress = ipAddress
-            self.errorMessage = errorMessage
-            self.rootVolumeEncryptionEnabled = rootVolumeEncryptionEnabled
-            self.subnetId = subnetId
-            self.computerName = computerName
-            self.workspaceProperties = workspaceProperties
-            self.errorCode = errorCode
-            self.state = state
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case volumeEncryptionKey = "VolumeEncryptionKey"
-            case bundleId = "BundleId"
-            case userName = "UserName"
-            case modificationStates = "ModificationStates"
-            case workspaceId = "WorkspaceId"
-            case directoryId = "DirectoryId"
-            case userVolumeEncryptionEnabled = "UserVolumeEncryptionEnabled"
-            case ipAddress = "IpAddress"
-            case errorMessage = "ErrorMessage"
-            case rootVolumeEncryptionEnabled = "RootVolumeEncryptionEnabled"
-            case subnetId = "SubnetId"
-            case computerName = "ComputerName"
-            case workspaceProperties = "WorkspaceProperties"
-            case errorCode = "ErrorCode"
-            case state = "State"
+            case ipRule = "ipRule"
+            case ruleDesc = "ruleDesc"
         }
     }
 
     public struct ListAvailableManagementCidrRangesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "ManagementCidrRangeConstraint", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The maximum number of items to return.
-        public let maxResults: Int32?
         /// The IP address range to search. Specify an IP address range that is compatible with your network and in CIDR notation (that is, specify the range as an IPv4 CIDR block).
         public let managementCidrRangeConstraint: String
+        /// The maximum number of items to return.
+        public let maxResults: Int32?
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, managementCidrRangeConstraint: String, nextToken: String? = nil) {
-            self.maxResults = maxResults
+        public init(managementCidrRangeConstraint: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.managementCidrRangeConstraint = managementCidrRangeConstraint
+            self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
             case managementCidrRangeConstraint = "ManagementCidrRangeConstraint"
+            case maxResults = "MaxResults"
             case nextToken = "NextToken"
         }
     }
@@ -544,56 +1019,166 @@ extension WorkSpaces {
         }
     }
 
-    public struct DeleteWorkspaceImageResult: AWSShape {
-
-    }
-
-    public struct CreateWorkspacesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PendingRequests", required: false, type: .list), 
-            AWSShapeMember(label: "FailedRequests", required: false, type: .list)
-        ]
-        /// Information about the WorkSpaces that were created. Because this operation is asynchronous, the identifier returned is not immediately available for use with other operations. For example, if you call DescribeWorkspaces before the WorkSpace is created, the information returned can be incomplete.
-        public let pendingRequests: [Workspace]?
-        /// Information about the WorkSpaces that could not be created.
-        public let failedRequests: [FailedCreateWorkspaceRequest]?
-
-        public init(pendingRequests: [Workspace]? = nil, failedRequests: [FailedCreateWorkspaceRequest]? = nil) {
-            self.pendingRequests = pendingRequests
-            self.failedRequests = failedRequests
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pendingRequests = "PendingRequests"
-            case failedRequests = "FailedRequests"
-        }
-    }
-
-    public struct IpRuleItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ipRule", required: false, type: .string), 
-            AWSShapeMember(label: "ruleDesc", required: false, type: .string)
-        ]
-        /// The IP address range, in CIDR notation.
-        public let ipRule: String?
-        /// The description.
-        public let ruleDesc: String?
-
-        public init(ipRule: String? = nil, ruleDesc: String? = nil) {
-            self.ipRule = ipRule
-            self.ruleDesc = ruleDesc
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ipRule = "ipRule"
-            case ruleDesc = "ruleDesc"
-        }
-    }
-
-    public enum DedicatedTenancySupportResultEnum: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
+    public enum ModificationResourceEnum: String, CustomStringConvertible, Codable {
+        case rootVolume = "ROOT_VOLUME"
+        case userVolume = "USER_VOLUME"
+        case computeType = "COMPUTE_TYPE"
         public var description: String { return self.rawValue }
+    }
+
+    public struct ModificationState: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Resource", required: false, type: .enum), 
+            AWSShapeMember(label: "State", required: false, type: .enum)
+        ]
+        /// The resource.
+        public let resource: ModificationResourceEnum?
+        /// The modification state.
+        public let state: ModificationStateEnum?
+
+        public init(resource: ModificationResourceEnum? = nil, state: ModificationStateEnum? = nil) {
+            self.resource = resource
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resource = "Resource"
+            case state = "State"
+        }
+    }
+
+    public enum ModificationStateEnum: String, CustomStringConvertible, Codable {
+        case updateInitiated = "UPDATE_INITIATED"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ModifyAccountRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DedicatedTenancyManagementCidrRange", required: false, type: .string), 
+            AWSShapeMember(label: "DedicatedTenancySupport", required: false, type: .enum)
+        ]
+        /// The IP address range, specified as an IPv4 CIDR block, for the management network interface. Specify an IP address range that is compatible with your network and in CIDR notation (that is, specify the range as an IPv4 CIDR block). The CIDR block size must be /16 (for example, 203.0.113.25/16). It must also be specified as available by the ListAvailableManagementCidrRanges operation.
+        public let dedicatedTenancyManagementCidrRange: String?
+        /// The status of BYOL.
+        public let dedicatedTenancySupport: DedicatedTenancySupportEnum?
+
+        public init(dedicatedTenancyManagementCidrRange: String? = nil, dedicatedTenancySupport: DedicatedTenancySupportEnum? = nil) {
+            self.dedicatedTenancyManagementCidrRange = dedicatedTenancyManagementCidrRange
+            self.dedicatedTenancySupport = dedicatedTenancySupport
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dedicatedTenancyManagementCidrRange = "DedicatedTenancyManagementCidrRange"
+            case dedicatedTenancySupport = "DedicatedTenancySupport"
+        }
+    }
+
+    public struct ModifyAccountResult: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct ModifyClientPropertiesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string)
+        ]
+        /// Information about the Amazon WorkSpaces client.
+        public let clientProperties: ClientProperties?
+        /// The resource identifiers, in the form of directory IDs.
+        public let resourceId: String
+
+        public init(clientProperties: ClientProperties? = nil, resourceId: String) {
+            self.clientProperties = clientProperties
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientProperties = "ClientProperties"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct ModifyClientPropertiesResult: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct ModifyWorkspacePropertiesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WorkspaceId", required: true, type: .string), 
+            AWSShapeMember(label: "WorkspaceProperties", required: true, type: .structure)
+        ]
+        /// The identifier of the WorkSpace.
+        public let workspaceId: String
+        /// The properties of the WorkSpace.
+        public let workspaceProperties: WorkspaceProperties
+
+        public init(workspaceId: String, workspaceProperties: WorkspaceProperties) {
+            self.workspaceId = workspaceId
+            self.workspaceProperties = workspaceProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workspaceId = "WorkspaceId"
+            case workspaceProperties = "WorkspaceProperties"
+        }
+    }
+
+    public struct ModifyWorkspacePropertiesResult: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct ModifyWorkspaceStateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WorkspaceId", required: true, type: .string), 
+            AWSShapeMember(label: "WorkspaceState", required: true, type: .enum)
+        ]
+        /// The identifier of the WorkSpace.
+        public let workspaceId: String
+        /// The WorkSpace state.
+        public let workspaceState: TargetWorkspaceState
+
+        public init(workspaceId: String, workspaceState: TargetWorkspaceState) {
+            self.workspaceId = workspaceId
+            self.workspaceState = workspaceState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workspaceId = "WorkspaceId"
+            case workspaceState = "WorkspaceState"
+        }
+    }
+
+    public struct ModifyWorkspaceStateResult: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct OperatingSystem: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+        /// The operating system.
+        public let `type`: OperatingSystemType?
+
+        public init(type: OperatingSystemType? = nil) {
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+        }
     }
 
     public enum OperatingSystemType: String, CustomStringConvertible, Codable {
@@ -602,148 +1187,35 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
-    public struct CreateTagsRequest: AWSShape {
+    public struct RebootRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
+            AWSShapeMember(label: "WorkspaceId", required: true, type: .string)
         ]
-        /// The identifier of the WorkSpace. To find this ID, use DescribeWorkspaces.
-        public let resourceId: String
-        /// The tags. Each WorkSpace can have a maximum of 50 tags.
-        public let tags: [Tag]
+        /// The identifier of the WorkSpace.
+        public let workspaceId: String
 
-        public init(resourceId: String, tags: [Tag]) {
-            self.resourceId = resourceId
-            self.tags = tags
+        public init(workspaceId: String) {
+            self.workspaceId = workspaceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case tags = "Tags"
+            case workspaceId = "WorkspaceId"
         }
     }
 
-    public struct StartWorkspacesRequest: AWSShape {
+    public struct RebootWorkspacesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StartWorkspaceRequests", required: true, type: .list)
+            AWSShapeMember(label: "RebootWorkspaceRequests", required: true, type: .list)
         ]
-        /// The WorkSpaces to start. You can specify up to 25 WorkSpaces.
-        public let startWorkspaceRequests: [StartRequest]
+        /// The WorkSpaces to reboot. You can specify up to 25 WorkSpaces.
+        public let rebootWorkspaceRequests: [RebootRequest]
 
-        public init(startWorkspaceRequests: [StartRequest]) {
-            self.startWorkspaceRequests = startWorkspaceRequests
+        public init(rebootWorkspaceRequests: [RebootRequest]) {
+            self.rebootWorkspaceRequests = rebootWorkspaceRequests
         }
 
         private enum CodingKeys: String, CodingKey {
-            case startWorkspaceRequests = "StartWorkspaceRequests"
-        }
-    }
-
-    public struct DeleteWorkspaceImageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageId", required: true, type: .string)
-        ]
-        /// The identifier of the image.
-        public let imageId: String
-
-        public init(imageId: String) {
-            self.imageId = imageId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case imageId = "ImageId"
-        }
-    }
-
-    public struct WorkspaceBundle: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RootStorage", required: false, type: .structure), 
-            AWSShapeMember(label: "Owner", required: false, type: .string), 
-            AWSShapeMember(label: "UserStorage", required: false, type: .structure), 
-            AWSShapeMember(label: "ComputeType", required: false, type: .structure), 
-            AWSShapeMember(label: "BundleId", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The size of the root volume.
-        public let rootStorage: RootStorage?
-        /// The owner of the bundle. This is the account identifier of the owner, or AMAZON if the bundle is provided by AWS.
-        public let owner: String?
-        /// The size of the user storage.
-        public let userStorage: UserStorage?
-        /// The compute type. For more information, see Amazon WorkSpaces Bundles.
-        public let computeType: ComputeType?
-        /// The bundle identifier.
-        public let bundleId: String?
-        /// A description.
-        public let description: String?
-        /// The name of the bundle.
-        public let name: String?
-
-        public init(rootStorage: RootStorage? = nil, owner: String? = nil, userStorage: UserStorage? = nil, computeType: ComputeType? = nil, bundleId: String? = nil, description: String? = nil, name: String? = nil) {
-            self.rootStorage = rootStorage
-            self.owner = owner
-            self.userStorage = userStorage
-            self.computeType = computeType
-            self.bundleId = bundleId
-            self.description = description
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rootStorage = "RootStorage"
-            case owner = "Owner"
-            case userStorage = "UserStorage"
-            case computeType = "ComputeType"
-            case bundleId = "BundleId"
-            case description = "Description"
-            case name = "Name"
-        }
-    }
-
-    public struct DescribeAccountRequest: AWSShape {
-
-    }
-
-    public struct DescribeTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string)
-        ]
-        /// The identifier of the WorkSpace. To find this ID, use DescribeWorkspaces.
-        public let resourceId: String
-
-        public init(resourceId: String) {
-            self.resourceId = resourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-        }
-    }
-
-    public struct DescribeIpGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "GroupIds", required: false, type: .list)
-        ]
-        /// The maximum number of items to return.
-        public let maxResults: Int32?
-        /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
-        public let nextToken: String?
-        /// The identifiers of one or more IP access control groups.
-        public let groupIds: [String]?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, groupIds: [String]? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.groupIds = groupIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case groupIds = "GroupIds"
+            case rebootWorkspaceRequests = "RebootWorkspaceRequests"
         }
     }
 
@@ -763,31 +1235,171 @@ extension WorkSpaces {
         }
     }
 
-    public enum WorkspaceImageIngestionProcess: String, CustomStringConvertible, Codable {
-        case byolRegular = "BYOL_REGULAR"
-        case byolGraphics = "BYOL_GRAPHICS"
-        case byolGraphicspro = "BYOL_GRAPHICSPRO"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteTagsRequest: AWSShape {
+    public struct RebuildRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagKeys", required: true, type: .list), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string)
+            AWSShapeMember(label: "WorkspaceId", required: true, type: .string)
         ]
-        /// The tag keys.
-        public let tagKeys: [String]
-        /// The identifier of the WorkSpace. To find this ID, use DescribeWorkspaces.
-        public let resourceId: String
+        /// The identifier of the WorkSpace.
+        public let workspaceId: String
 
-        public init(tagKeys: [String], resourceId: String) {
-            self.tagKeys = tagKeys
-            self.resourceId = resourceId
+        public init(workspaceId: String) {
+            self.workspaceId = workspaceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tagKeys = "TagKeys"
-            case resourceId = "ResourceId"
+            case workspaceId = "WorkspaceId"
+        }
+    }
+
+    public struct RebuildWorkspacesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RebuildWorkspaceRequests", required: true, type: .list)
+        ]
+        /// The WorkSpace to rebuild. You can specify a single WorkSpace.
+        public let rebuildWorkspaceRequests: [RebuildRequest]
+
+        public init(rebuildWorkspaceRequests: [RebuildRequest]) {
+            self.rebuildWorkspaceRequests = rebuildWorkspaceRequests
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rebuildWorkspaceRequests = "RebuildWorkspaceRequests"
+        }
+    }
+
+    public struct RebuildWorkspacesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedRequests", required: false, type: .list)
+        ]
+        /// Information about the WorkSpace that could not be rebuilt.
+        public let failedRequests: [FailedWorkspaceChangeRequest]?
+
+        public init(failedRequests: [FailedWorkspaceChangeRequest]? = nil) {
+            self.failedRequests = failedRequests
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedRequests = "FailedRequests"
+        }
+    }
+
+    public enum ReconnectEnum: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RevokeIpRulesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", required: true, type: .string), 
+            AWSShapeMember(label: "UserRules", required: true, type: .list)
+        ]
+        /// The identifier of the group.
+        public let groupId: String
+        /// The rules to remove from the group.
+        public let userRules: [String]
+
+        public init(groupId: String, userRules: [String]) {
+            self.groupId = groupId
+            self.userRules = userRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
+            case userRules = "UserRules"
+        }
+    }
+
+    public struct RevokeIpRulesResult: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct RootStorage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Capacity", required: false, type: .string)
+        ]
+        /// The size of the root volume.
+        public let capacity: String?
+
+        public init(capacity: String? = nil) {
+            self.capacity = capacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacity = "Capacity"
+        }
+    }
+
+    public enum RunningMode: String, CustomStringConvertible, Codable {
+        case autoStop = "AUTO_STOP"
+        case alwaysOn = "ALWAYS_ON"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct StartRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WorkspaceId", required: false, type: .string)
+        ]
+        /// The identifier of the WorkSpace.
+        public let workspaceId: String?
+
+        public init(workspaceId: String? = nil) {
+            self.workspaceId = workspaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workspaceId = "WorkspaceId"
+        }
+    }
+
+    public struct StartWorkspacesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartWorkspaceRequests", required: true, type: .list)
+        ]
+        /// The WorkSpaces to start. You can specify up to 25 WorkSpaces.
+        public let startWorkspaceRequests: [StartRequest]
+
+        public init(startWorkspaceRequests: [StartRequest]) {
+            self.startWorkspaceRequests = startWorkspaceRequests
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case startWorkspaceRequests = "StartWorkspaceRequests"
+        }
+    }
+
+    public struct StartWorkspacesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedRequests", required: false, type: .list)
+        ]
+        /// Information about the WorkSpaces that could not be started.
+        public let failedRequests: [FailedWorkspaceChangeRequest]?
+
+        public init(failedRequests: [FailedWorkspaceChangeRequest]? = nil) {
+            self.failedRequests = failedRequests
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedRequests = "FailedRequests"
+        }
+    }
+
+    public struct StopRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WorkspaceId", required: false, type: .string)
+        ]
+        /// The identifier of the WorkSpace.
+        public let workspaceId: String?
+
+        public init(workspaceId: String? = nil) {
+            self.workspaceId = workspaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workspaceId = "WorkspaceId"
         }
     }
 
@@ -807,78 +1419,19 @@ extension WorkSpaces {
         }
     }
 
-    public struct DeleteIpGroupRequest: AWSShape {
+    public struct StopWorkspacesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", required: true, type: .string)
+            AWSShapeMember(label: "FailedRequests", required: false, type: .list)
         ]
-        /// The identifier of the IP access control group.
-        public let groupId: String
+        /// Information about the WorkSpaces that could not be stopped.
+        public let failedRequests: [FailedWorkspaceChangeRequest]?
 
-        public init(groupId: String) {
-            self.groupId = groupId
+        public init(failedRequests: [FailedWorkspaceChangeRequest]? = nil) {
+            self.failedRequests = failedRequests
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-        }
-    }
-
-    public struct DescribeAccountModificationsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "AccountModifications", required: false, type: .list)
-        ]
-        /// The token to use to retrieve the next set of results, or null if no more results are available.
-        public let nextToken: String?
-        /// The list of modifications to the configuration of BYOL.
-        public let accountModifications: [AccountModification]?
-
-        public init(nextToken: String? = nil, accountModifications: [AccountModification]? = nil) {
-            self.nextToken = nextToken
-            self.accountModifications = accountModifications
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case accountModifications = "AccountModifications"
-        }
-    }
-
-    public enum TargetWorkspaceState: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case adminMaintenance = "ADMIN_MAINTENANCE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UserStorage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capacity", required: false, type: .string)
-        ]
-        /// The size of the user storage.
-        public let capacity: String?
-
-        public init(capacity: String? = nil) {
-            self.capacity = capacity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case capacity = "Capacity"
-        }
-    }
-
-    public struct DescribeAccountModificationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
-        public let nextToken: String?
-
-        public init(nextToken: String? = nil) {
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
+            case failedRequests = "FailedRequests"
         }
     }
 
@@ -903,90 +1456,13 @@ extension WorkSpaces {
         }
     }
 
-    public struct FailedWorkspaceChangeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkspaceId", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string)
-        ]
-        /// The identifier of the WorkSpace.
-        public let workspaceId: String?
-        /// The text of the error message that is returned if the WorkSpace cannot be rebooted.
-        public let errorMessage: String?
-        /// The error code that is returned if the WorkSpace cannot be rebooted.
-        public let errorCode: String?
-
-        public init(workspaceId: String? = nil, errorMessage: String? = nil, errorCode: String? = nil) {
-            self.workspaceId = workspaceId
-            self.errorMessage = errorMessage
-            self.errorCode = errorCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case workspaceId = "WorkspaceId"
-            case errorMessage = "ErrorMessage"
-            case errorCode = "ErrorCode"
-        }
+    public enum TargetWorkspaceState: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case adminMaintenance = "ADMIN_MAINTENANCE"
+        public var description: String { return self.rawValue }
     }
 
-    public struct DescribeWorkspacesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "WorkspaceIds", required: false, type: .list), 
-            AWSShapeMember(label: "BundleId", required: false, type: .string), 
-            AWSShapeMember(label: "UserName", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The identifier of the directory. In addition, you can optionally specify a specific directory user (see UserName). You cannot combine this parameter with any other filter.
-        public let directoryId: String?
-        /// The identifiers of the WorkSpaces. You cannot combine this parameter with any other filter. Because the CreateWorkspaces operation is asynchronous, the identifier it returns is not immediately available. If you immediately call DescribeWorkspaces with this identifier, no information is returned.
-        public let workspaceIds: [String]?
-        /// The identifier of the bundle. All WorkSpaces that are created from this bundle are retrieved. You cannot combine this parameter with any other filter.
-        public let bundleId: String?
-        /// The name of the directory user. You must specify this parameter with DirectoryId.
-        public let userName: String?
-        /// The maximum number of items to return.
-        public let limit: Int32?
-        /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
-        public let nextToken: String?
-
-        public init(directoryId: String? = nil, workspaceIds: [String]? = nil, bundleId: String? = nil, userName: String? = nil, limit: Int32? = nil, nextToken: String? = nil) {
-            self.directoryId = directoryId
-            self.workspaceIds = workspaceIds
-            self.bundleId = bundleId
-            self.userName = userName
-            self.limit = limit
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryId = "DirectoryId"
-            case workspaceIds = "WorkspaceIds"
-            case bundleId = "BundleId"
-            case userName = "UserName"
-            case limit = "Limit"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DescribeClientPropertiesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientPropertiesList", required: false, type: .list)
-        ]
-        /// Information about the specified Amazon WorkSpaces clients.
-        public let clientPropertiesList: [ClientPropertiesResult]?
-
-        public init(clientPropertiesList: [ClientPropertiesResult]? = nil) {
-            self.clientPropertiesList = clientPropertiesList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clientPropertiesList = "ClientPropertiesList"
-        }
-    }
-
-    public struct RebootRequest: AWSShape {
+    public struct TerminateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WorkspaceId", required: true, type: .string)
         ]
@@ -1002,58 +1478,20 @@ extension WorkSpaces {
         }
     }
 
-    public struct ModifyClientPropertiesResult: AWSShape {
-
-    }
-
-    public struct UpdateRulesOfIpGroupResult: AWSShape {
-
-    }
-
-    public enum ReconnectEnum: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct WorkspaceProperties: AWSShape {
+    public struct TerminateWorkspacesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RunningMode", required: false, type: .enum), 
-            AWSShapeMember(label: "RunningModeAutoStopTimeoutInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "UserVolumeSizeGib", required: false, type: .integer), 
-            AWSShapeMember(label: "ComputeTypeName", required: false, type: .enum), 
-            AWSShapeMember(label: "RootVolumeSizeGib", required: false, type: .integer)
+            AWSShapeMember(label: "TerminateWorkspaceRequests", required: true, type: .list)
         ]
-        /// The running mode. For more information, see Manage the WorkSpace Running Mode.
-        public let runningMode: RunningMode?
-        /// The time after a user logs off when WorkSpaces are automatically stopped. Configured in 60 minute intervals.
-        public let runningModeAutoStopTimeoutInMinutes: Int32?
-        /// The size of the user storage.
-        public let userVolumeSizeGib: Int32?
-        /// The compute type. For more information, see Amazon WorkSpaces Bundles.
-        public let computeTypeName: Compute?
-        /// The size of the root volume.
-        public let rootVolumeSizeGib: Int32?
+        /// The WorkSpaces to terminate. You can specify up to 25 WorkSpaces.
+        public let terminateWorkspaceRequests: [TerminateRequest]
 
-        public init(runningMode: RunningMode? = nil, runningModeAutoStopTimeoutInMinutes: Int32? = nil, userVolumeSizeGib: Int32? = nil, computeTypeName: Compute? = nil, rootVolumeSizeGib: Int32? = nil) {
-            self.runningMode = runningMode
-            self.runningModeAutoStopTimeoutInMinutes = runningModeAutoStopTimeoutInMinutes
-            self.userVolumeSizeGib = userVolumeSizeGib
-            self.computeTypeName = computeTypeName
-            self.rootVolumeSizeGib = rootVolumeSizeGib
+        public init(terminateWorkspaceRequests: [TerminateRequest]) {
+            self.terminateWorkspaceRequests = terminateWorkspaceRequests
         }
 
         private enum CodingKeys: String, CodingKey {
-            case runningMode = "RunningMode"
-            case runningModeAutoStopTimeoutInMinutes = "RunningModeAutoStopTimeoutInMinutes"
-            case userVolumeSizeGib = "UserVolumeSizeGib"
-            case computeTypeName = "ComputeTypeName"
-            case rootVolumeSizeGib = "RootVolumeSizeGib"
+            case terminateWorkspaceRequests = "TerminateWorkspaceRequests"
         }
-    }
-
-    public struct RevokeIpRulesResult: AWSShape {
-
     }
 
     public struct TerminateWorkspacesResult: AWSShape {
@@ -1072,177 +1510,360 @@ extension WorkSpaces {
         }
     }
 
-    public struct CreateIpGroupResult: AWSShape {
+    public struct UpdateRulesOfIpGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", required: false, type: .string)
+            AWSShapeMember(label: "GroupId", required: true, type: .string), 
+            AWSShapeMember(label: "UserRules", required: true, type: .list)
         ]
         /// The identifier of the group.
-        public let groupId: String?
+        public let groupId: String
+        /// One or more rules.
+        public let userRules: [IpRuleItem]
 
-        public init(groupId: String? = nil) {
+        public init(groupId: String, userRules: [IpRuleItem]) {
             self.groupId = groupId
+            self.userRules = userRules
         }
 
         private enum CodingKeys: String, CodingKey {
             case groupId = "GroupId"
+            case userRules = "UserRules"
         }
     }
 
-    public struct ModifyAccountRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DedicatedTenancyManagementCidrRange", required: false, type: .string), 
-            AWSShapeMember(label: "DedicatedTenancySupport", required: false, type: .enum)
-        ]
-        /// The IP address range, specified as an IPv4 CIDR block, for the management network interface. Specify an IP address range that is compatible with your network and in CIDR notation (that is, specify the range as an IPv4 CIDR block). The CIDR block size must be /16 (for example, 203.0.113.25/16). It must also be specified as available by the ListAvailableManagementCidrRanges operation.
-        public let dedicatedTenancyManagementCidrRange: String?
-        /// The status of BYOL.
-        public let dedicatedTenancySupport: DedicatedTenancySupportEnum?
+    public struct UpdateRulesOfIpGroupResult: AWSShape {
 
-        public init(dedicatedTenancyManagementCidrRange: String? = nil, dedicatedTenancySupport: DedicatedTenancySupportEnum? = nil) {
-            self.dedicatedTenancyManagementCidrRange = dedicatedTenancyManagementCidrRange
-            self.dedicatedTenancySupport = dedicatedTenancySupport
+        public init() {
+        }
+
+    }
+
+    public struct UserStorage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Capacity", required: false, type: .string)
+        ]
+        /// The size of the user storage.
+        public let capacity: String?
+
+        public init(capacity: String? = nil) {
+            self.capacity = capacity
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dedicatedTenancyManagementCidrRange = "DedicatedTenancyManagementCidrRange"
-            case dedicatedTenancySupport = "DedicatedTenancySupport"
+            case capacity = "Capacity"
         }
     }
 
-    public struct DisassociateIpGroupsRequest: AWSShape {
+    public struct Workspace: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "GroupIds", required: true, type: .list)
-        ]
-        /// The identifier of the directory.
-        public let directoryId: String
-        /// The identifiers of one or more IP access control groups.
-        public let groupIds: [String]
-
-        public init(directoryId: String, groupIds: [String]) {
-            self.directoryId = directoryId
-            self.groupIds = groupIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryId = "DirectoryId"
-            case groupIds = "GroupIds"
-        }
-    }
-
-    public struct ModifyWorkspaceStateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkspaceId", required: true, type: .string), 
-            AWSShapeMember(label: "WorkspaceState", required: true, type: .enum)
-        ]
-        /// The identifier of the WorkSpace.
-        public let workspaceId: String
-        /// The WorkSpace state.
-        public let workspaceState: TargetWorkspaceState
-
-        public init(workspaceId: String, workspaceState: TargetWorkspaceState) {
-            self.workspaceId = workspaceId
-            self.workspaceState = workspaceState
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case workspaceId = "WorkspaceId"
-            case workspaceState = "WorkspaceState"
-        }
-    }
-
-    public struct ComputeType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .enum)
-        ]
-        /// The compute type.
-        public let name: Compute?
-
-        public init(name: Compute? = nil) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public struct FailedCreateWorkspaceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkspaceRequest", required: false, type: .structure), 
+            AWSShapeMember(label: "BundleId", required: false, type: .string), 
+            AWSShapeMember(label: "ComputerName", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string)
+            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "ModificationStates", required: false, type: .list), 
+            AWSShapeMember(label: "RootVolumeEncryptionEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "UserVolumeEncryptionEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "VolumeEncryptionKey", required: false, type: .string), 
+            AWSShapeMember(label: "WorkspaceId", required: false, type: .string), 
+            AWSShapeMember(label: "WorkspaceProperties", required: false, type: .structure)
         ]
-        /// Information about the WorkSpace.
-        public let workspaceRequest: WorkspaceRequest?
-        /// The text of the error message that is returned if the WorkSpace cannot be created.
-        public let errorMessage: String?
+        /// The identifier of the bundle used to create the WorkSpace.
+        public let bundleId: String?
+        /// The name of the WorkSpace, as seen by the operating system.
+        public let computerName: String?
+        /// The identifier of the AWS Directory Service directory for the WorkSpace.
+        public let directoryId: String?
         /// The error code that is returned if the WorkSpace cannot be created.
         public let errorCode: String?
-
-        public init(workspaceRequest: WorkspaceRequest? = nil, errorMessage: String? = nil, errorCode: String? = nil) {
-            self.workspaceRequest = workspaceRequest
-            self.errorMessage = errorMessage
-            self.errorCode = errorCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case workspaceRequest = "WorkspaceRequest"
-            case errorMessage = "ErrorMessage"
-            case errorCode = "ErrorCode"
-        }
-    }
-
-    public struct ModifyWorkspacePropertiesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkspaceId", required: true, type: .string), 
-            AWSShapeMember(label: "WorkspaceProperties", required: true, type: .structure)
-        ]
+        /// The text of the error message that is returned if the WorkSpace cannot be created.
+        public let errorMessage: String?
+        /// The IP address of the WorkSpace.
+        public let ipAddress: String?
+        /// The modification states of the WorkSpace.
+        public let modificationStates: [ModificationState]?
+        /// Indicates whether the data stored on the root volume is encrypted.
+        public let rootVolumeEncryptionEnabled: Bool?
+        /// The operational state of the WorkSpace.
+        public let state: WorkspaceState?
+        /// The identifier of the subnet for the WorkSpace.
+        public let subnetId: String?
+        /// The user for the WorkSpace.
+        public let userName: String?
+        /// Indicates whether the data stored on the user volume is encrypted.
+        public let userVolumeEncryptionEnabled: Bool?
+        /// The KMS key used to encrypt data stored on your WorkSpace.
+        public let volumeEncryptionKey: String?
         /// The identifier of the WorkSpace.
-        public let workspaceId: String
+        public let workspaceId: String?
         /// The properties of the WorkSpace.
-        public let workspaceProperties: WorkspaceProperties
+        public let workspaceProperties: WorkspaceProperties?
 
-        public init(workspaceId: String, workspaceProperties: WorkspaceProperties) {
+        public init(bundleId: String? = nil, computerName: String? = nil, directoryId: String? = nil, errorCode: String? = nil, errorMessage: String? = nil, ipAddress: String? = nil, modificationStates: [ModificationState]? = nil, rootVolumeEncryptionEnabled: Bool? = nil, state: WorkspaceState? = nil, subnetId: String? = nil, userName: String? = nil, userVolumeEncryptionEnabled: Bool? = nil, volumeEncryptionKey: String? = nil, workspaceId: String? = nil, workspaceProperties: WorkspaceProperties? = nil) {
+            self.bundleId = bundleId
+            self.computerName = computerName
+            self.directoryId = directoryId
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.ipAddress = ipAddress
+            self.modificationStates = modificationStates
+            self.rootVolumeEncryptionEnabled = rootVolumeEncryptionEnabled
+            self.state = state
+            self.subnetId = subnetId
+            self.userName = userName
+            self.userVolumeEncryptionEnabled = userVolumeEncryptionEnabled
+            self.volumeEncryptionKey = volumeEncryptionKey
             self.workspaceId = workspaceId
             self.workspaceProperties = workspaceProperties
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bundleId = "BundleId"
+            case computerName = "ComputerName"
+            case directoryId = "DirectoryId"
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case ipAddress = "IpAddress"
+            case modificationStates = "ModificationStates"
+            case rootVolumeEncryptionEnabled = "RootVolumeEncryptionEnabled"
+            case state = "State"
+            case subnetId = "SubnetId"
+            case userName = "UserName"
+            case userVolumeEncryptionEnabled = "UserVolumeEncryptionEnabled"
+            case volumeEncryptionKey = "VolumeEncryptionKey"
             case workspaceId = "WorkspaceId"
             case workspaceProperties = "WorkspaceProperties"
         }
     }
 
-    public struct WorkspacesIpGroup: AWSShape {
+    public struct WorkspaceBundle: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "userRules", required: false, type: .list), 
-            AWSShapeMember(label: "groupDesc", required: false, type: .string), 
-            AWSShapeMember(label: "groupId", required: false, type: .string), 
-            AWSShapeMember(label: "groupName", required: false, type: .string)
+            AWSShapeMember(label: "BundleId", required: false, type: .string), 
+            AWSShapeMember(label: "ComputeType", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Owner", required: false, type: .string), 
+            AWSShapeMember(label: "RootStorage", required: false, type: .structure), 
+            AWSShapeMember(label: "UserStorage", required: false, type: .structure)
         ]
-        /// The rules.
-        public let userRules: [IpRuleItem]?
-        /// The description of the group.
-        public let groupDesc: String?
-        /// The identifier of the group.
-        public let groupId: String?
-        /// The name of the group.
-        public let groupName: String?
+        /// The bundle identifier.
+        public let bundleId: String?
+        /// The compute type. For more information, see Amazon WorkSpaces Bundles.
+        public let computeType: ComputeType?
+        /// A description.
+        public let description: String?
+        /// The name of the bundle.
+        public let name: String?
+        /// The owner of the bundle. This is the account identifier of the owner, or AMAZON if the bundle is provided by AWS.
+        public let owner: String?
+        /// The size of the root volume.
+        public let rootStorage: RootStorage?
+        /// The size of the user storage.
+        public let userStorage: UserStorage?
 
-        public init(userRules: [IpRuleItem]? = nil, groupDesc: String? = nil, groupId: String? = nil, groupName: String? = nil) {
-            self.userRules = userRules
-            self.groupDesc = groupDesc
-            self.groupId = groupId
-            self.groupName = groupName
+        public init(bundleId: String? = nil, computeType: ComputeType? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, rootStorage: RootStorage? = nil, userStorage: UserStorage? = nil) {
+            self.bundleId = bundleId
+            self.computeType = computeType
+            self.description = description
+            self.name = name
+            self.owner = owner
+            self.rootStorage = rootStorage
+            self.userStorage = userStorage
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userRules = "userRules"
-            case groupDesc = "groupDesc"
-            case groupId = "groupId"
-            case groupName = "groupName"
+            case bundleId = "BundleId"
+            case computeType = "ComputeType"
+            case description = "Description"
+            case name = "Name"
+            case owner = "Owner"
+            case rootStorage = "RootStorage"
+            case userStorage = "UserStorage"
         }
+    }
+
+    public struct WorkspaceConnectionStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectionState", required: false, type: .enum), 
+            AWSShapeMember(label: "ConnectionStateCheckTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastKnownUserConnectionTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "WorkspaceId", required: false, type: .string)
+        ]
+        /// The connection state of the WorkSpace. The connection state is unknown if the WorkSpace is stopped.
+        public let connectionState: ConnectionState?
+        /// The timestamp of the connection status check.
+        public let connectionStateCheckTimestamp: TimeStamp?
+        /// The timestamp of the last known user connection.
+        public let lastKnownUserConnectionTimestamp: TimeStamp?
+        /// The identifier of the WorkSpace.
+        public let workspaceId: String?
+
+        public init(connectionState: ConnectionState? = nil, connectionStateCheckTimestamp: TimeStamp? = nil, lastKnownUserConnectionTimestamp: TimeStamp? = nil, workspaceId: String? = nil) {
+            self.connectionState = connectionState
+            self.connectionStateCheckTimestamp = connectionStateCheckTimestamp
+            self.lastKnownUserConnectionTimestamp = lastKnownUserConnectionTimestamp
+            self.workspaceId = workspaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionState = "ConnectionState"
+            case connectionStateCheckTimestamp = "ConnectionStateCheckTimestamp"
+            case lastKnownUserConnectionTimestamp = "LastKnownUserConnectionTimestamp"
+            case workspaceId = "WorkspaceId"
+        }
+    }
+
+    public struct WorkspaceDirectory: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Alias", required: false, type: .string), 
+            AWSShapeMember(label: "CustomerUserName", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryName", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryType", required: false, type: .enum), 
+            AWSShapeMember(label: "DnsIpAddresses", required: false, type: .list), 
+            AWSShapeMember(label: "IamRoleId", required: false, type: .string), 
+            AWSShapeMember(label: "RegistrationCode", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "WorkspaceCreationProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "WorkspaceSecurityGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "ipGroupIds", required: false, type: .list)
+        ]
+        /// The directory alias.
+        public let alias: String?
+        /// The user name for the service account.
+        public let customerUserName: String?
+        /// The directory identifier.
+        public let directoryId: String?
+        /// The name of the directory.
+        public let directoryName: String?
+        /// The directory type.
+        public let directoryType: WorkspaceDirectoryType?
+        /// The IP addresses of the DNS servers for the directory.
+        public let dnsIpAddresses: [String]?
+        /// The identifier of the IAM role. This is the role that allows Amazon WorkSpaces to make calls to other services, such as Amazon EC2, on your behalf.
+        public let iamRoleId: String?
+        /// The registration code for the directory. This is the code that users enter in their Amazon WorkSpaces client application to connect to the directory.
+        public let registrationCode: String?
+        /// The state of the directory's registration with Amazon WorkSpaces
+        public let state: WorkspaceDirectoryState?
+        /// The identifiers of the subnets used with the directory.
+        public let subnetIds: [String]?
+        /// The default creation properties for all WorkSpaces in the directory.
+        public let workspaceCreationProperties: DefaultWorkspaceCreationProperties?
+        /// The identifier of the security group that is assigned to new WorkSpaces.
+        public let workspaceSecurityGroupId: String?
+        /// The identifiers of the IP access control groups associated with the directory.
+        public let ipGroupIds: [String]?
+
+        public init(alias: String? = nil, customerUserName: String? = nil, directoryId: String? = nil, directoryName: String? = nil, directoryType: WorkspaceDirectoryType? = nil, dnsIpAddresses: [String]? = nil, iamRoleId: String? = nil, ipGroupIds: [String]? = nil, registrationCode: String? = nil, state: WorkspaceDirectoryState? = nil, subnetIds: [String]? = nil, workspaceCreationProperties: DefaultWorkspaceCreationProperties? = nil, workspaceSecurityGroupId: String? = nil) {
+            self.alias = alias
+            self.customerUserName = customerUserName
+            self.directoryId = directoryId
+            self.directoryName = directoryName
+            self.directoryType = directoryType
+            self.dnsIpAddresses = dnsIpAddresses
+            self.iamRoleId = iamRoleId
+            self.registrationCode = registrationCode
+            self.state = state
+            self.subnetIds = subnetIds
+            self.workspaceCreationProperties = workspaceCreationProperties
+            self.workspaceSecurityGroupId = workspaceSecurityGroupId
+            self.ipGroupIds = ipGroupIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias = "Alias"
+            case customerUserName = "CustomerUserName"
+            case directoryId = "DirectoryId"
+            case directoryName = "DirectoryName"
+            case directoryType = "DirectoryType"
+            case dnsIpAddresses = "DnsIpAddresses"
+            case iamRoleId = "IamRoleId"
+            case registrationCode = "RegistrationCode"
+            case state = "State"
+            case subnetIds = "SubnetIds"
+            case workspaceCreationProperties = "WorkspaceCreationProperties"
+            case workspaceSecurityGroupId = "WorkspaceSecurityGroupId"
+            case ipGroupIds = "ipGroupIds"
+        }
+    }
+
+    public enum WorkspaceDirectoryState: String, CustomStringConvertible, Codable {
+        case registering = "REGISTERING"
+        case registered = "REGISTERED"
+        case deregistering = "DEREGISTERING"
+        case deregistered = "DEREGISTERED"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkspaceDirectoryType: String, CustomStringConvertible, Codable {
+        case simpleAd = "SIMPLE_AD"
+        case adConnector = "AD_CONNECTOR"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct WorkspaceImage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ImageId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "OperatingSystem", required: false, type: .structure), 
+            AWSShapeMember(label: "RequiredTenancy", required: false, type: .enum), 
+            AWSShapeMember(label: "State", required: false, type: .enum)
+        ]
+        /// The description of the image.
+        public let description: String?
+        /// The error code that is returned for the image.
+        public let errorCode: String?
+        /// The text of the error message that is returned for the image.
+        public let errorMessage: String?
+        /// The identifier of the image.
+        public let imageId: String?
+        /// The name of the image.
+        public let name: String?
+        /// The operating system that the image is running. 
+        public let operatingSystem: OperatingSystem?
+        /// Specifies whether the image is running on dedicated hardware. When bring your own license (BYOL) is enabled, this value is set to DEDICATED. 
+        public let requiredTenancy: WorkspaceImageRequiredTenancy?
+        /// The status of the image.
+        public let state: WorkspaceImageState?
+
+        public init(description: String? = nil, errorCode: String? = nil, errorMessage: String? = nil, imageId: String? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, requiredTenancy: WorkspaceImageRequiredTenancy? = nil, state: WorkspaceImageState? = nil) {
+            self.description = description
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.imageId = imageId
+            self.name = name
+            self.operatingSystem = operatingSystem
+            self.requiredTenancy = requiredTenancy
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case imageId = "ImageId"
+            case name = "Name"
+            case operatingSystem = "OperatingSystem"
+            case requiredTenancy = "RequiredTenancy"
+            case state = "State"
+        }
+    }
+
+    public enum WorkspaceImageIngestionProcess: String, CustomStringConvertible, Codable {
+        case byolRegular = "BYOL_REGULAR"
+        case byolGraphics = "BYOL_GRAPHICS"
+        case byolGraphicspro = "BYOL_GRAPHICSPRO"
+        public var description: String { return self.rawValue }
     }
 
     public enum WorkspaceImageRequiredTenancy: String, CustomStringConvertible, Codable {
@@ -1251,62 +1872,97 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
-    public struct RevokeIpRulesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserRules", required: true, type: .list), 
-            AWSShapeMember(label: "GroupId", required: true, type: .string)
-        ]
-        /// The rules to remove from the group.
-        public let userRules: [String]
-        /// The identifier of the group.
-        public let groupId: String
-
-        public init(userRules: [String], groupId: String) {
-            self.userRules = userRules
-            self.groupId = groupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userRules = "UserRules"
-            case groupId = "GroupId"
-        }
-    }
-
-    public struct ImportWorkspaceImageResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageId", required: false, type: .string)
-        ]
-        /// The identifier of the WorkSpace image.
-        public let imageId: String?
-
-        public init(imageId: String? = nil) {
-            self.imageId = imageId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case imageId = "ImageId"
-        }
-    }
-
-    public enum RunningMode: String, CustomStringConvertible, Codable {
-        case autoStop = "AUTO_STOP"
-        case alwaysOn = "ALWAYS_ON"
+    public enum WorkspaceImageState: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case pending = "PENDING"
+        case error = "ERROR"
         public var description: String { return self.rawValue }
     }
 
-    public struct RebuildRequest: AWSShape {
+    public struct WorkspaceProperties: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkspaceId", required: true, type: .string)
+            AWSShapeMember(label: "ComputeTypeName", required: false, type: .enum), 
+            AWSShapeMember(label: "RootVolumeSizeGib", required: false, type: .integer), 
+            AWSShapeMember(label: "RunningMode", required: false, type: .enum), 
+            AWSShapeMember(label: "RunningModeAutoStopTimeoutInMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "UserVolumeSizeGib", required: false, type: .integer)
         ]
-        /// The identifier of the WorkSpace.
-        public let workspaceId: String
+        /// The compute type. For more information, see Amazon WorkSpaces Bundles.
+        public let computeTypeName: Compute?
+        /// The size of the root volume.
+        public let rootVolumeSizeGib: Int32?
+        /// The running mode. For more information, see Manage the WorkSpace Running Mode.
+        public let runningMode: RunningMode?
+        /// The time after a user logs off when WorkSpaces are automatically stopped. Configured in 60 minute intervals.
+        public let runningModeAutoStopTimeoutInMinutes: Int32?
+        /// The size of the user storage.
+        public let userVolumeSizeGib: Int32?
 
-        public init(workspaceId: String) {
-            self.workspaceId = workspaceId
+        public init(computeTypeName: Compute? = nil, rootVolumeSizeGib: Int32? = nil, runningMode: RunningMode? = nil, runningModeAutoStopTimeoutInMinutes: Int32? = nil, userVolumeSizeGib: Int32? = nil) {
+            self.computeTypeName = computeTypeName
+            self.rootVolumeSizeGib = rootVolumeSizeGib
+            self.runningMode = runningMode
+            self.runningModeAutoStopTimeoutInMinutes = runningModeAutoStopTimeoutInMinutes
+            self.userVolumeSizeGib = userVolumeSizeGib
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workspaceId = "WorkspaceId"
+            case computeTypeName = "ComputeTypeName"
+            case rootVolumeSizeGib = "RootVolumeSizeGib"
+            case runningMode = "RunningMode"
+            case runningModeAutoStopTimeoutInMinutes = "RunningModeAutoStopTimeoutInMinutes"
+            case userVolumeSizeGib = "UserVolumeSizeGib"
+        }
+    }
+
+    public struct WorkspaceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BundleId", required: true, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "RootVolumeEncryptionEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "UserVolumeEncryptionEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "VolumeEncryptionKey", required: false, type: .string), 
+            AWSShapeMember(label: "WorkspaceProperties", required: false, type: .structure)
+        ]
+        /// The identifier of the bundle for the WorkSpace. You can use DescribeWorkspaceBundles to list the available bundles.
+        public let bundleId: String
+        /// The identifier of the AWS Directory Service directory for the WorkSpace. You can use DescribeWorkspaceDirectories to list the available directories.
+        public let directoryId: String
+        /// Indicates whether the data stored on the root volume is encrypted.
+        public let rootVolumeEncryptionEnabled: Bool?
+        /// The tags for the WorkSpace.
+        public let tags: [Tag]?
+        /// The username of the user for the WorkSpace. This username must exist in the AWS Directory Service directory for the WorkSpace.
+        public let userName: String
+        /// Indicates whether the data stored on the user volume is encrypted.
+        public let userVolumeEncryptionEnabled: Bool?
+        /// The KMS key used to encrypt data stored on your WorkSpace.
+        public let volumeEncryptionKey: String?
+        /// The WorkSpace properties.
+        public let workspaceProperties: WorkspaceProperties?
+
+        public init(bundleId: String, directoryId: String, rootVolumeEncryptionEnabled: Bool? = nil, tags: [Tag]? = nil, userName: String, userVolumeEncryptionEnabled: Bool? = nil, volumeEncryptionKey: String? = nil, workspaceProperties: WorkspaceProperties? = nil) {
+            self.bundleId = bundleId
+            self.directoryId = directoryId
+            self.rootVolumeEncryptionEnabled = rootVolumeEncryptionEnabled
+            self.tags = tags
+            self.userName = userName
+            self.userVolumeEncryptionEnabled = userVolumeEncryptionEnabled
+            self.volumeEncryptionKey = volumeEncryptionKey
+            self.workspaceProperties = workspaceProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bundleId = "BundleId"
+            case directoryId = "DirectoryId"
+            case rootVolumeEncryptionEnabled = "RootVolumeEncryptionEnabled"
+            case tags = "Tags"
+            case userName = "UserName"
+            case userVolumeEncryptionEnabled = "UserVolumeEncryptionEnabled"
+            case volumeEncryptionKey = "VolumeEncryptionKey"
+            case workspaceProperties = "WorkspaceProperties"
         }
     }
 
@@ -1330,649 +1986,35 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
-    public struct UpdateRulesOfIpGroupRequest: AWSShape {
+    public struct WorkspacesIpGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserRules", required: true, type: .list), 
-            AWSShapeMember(label: "GroupId", required: true, type: .string)
+            AWSShapeMember(label: "groupDesc", required: false, type: .string), 
+            AWSShapeMember(label: "groupId", required: false, type: .string), 
+            AWSShapeMember(label: "groupName", required: false, type: .string), 
+            AWSShapeMember(label: "userRules", required: false, type: .list)
         ]
-        /// One or more rules.
-        public let userRules: [IpRuleItem]
+        /// The description of the group.
+        public let groupDesc: String?
         /// The identifier of the group.
-        public let groupId: String
+        public let groupId: String?
+        /// The name of the group.
+        public let groupName: String?
+        /// The rules.
+        public let userRules: [IpRuleItem]?
 
-        public init(userRules: [IpRuleItem], groupId: String) {
-            self.userRules = userRules
+        public init(groupDesc: String? = nil, groupId: String? = nil, groupName: String? = nil, userRules: [IpRuleItem]? = nil) {
+            self.groupDesc = groupDesc
             self.groupId = groupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userRules = "UserRules"
-            case groupId = "GroupId"
-        }
-    }
-
-    public struct RootStorage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capacity", required: false, type: .string)
-        ]
-        /// The size of the root volume.
-        public let capacity: String?
-
-        public init(capacity: String? = nil) {
-            self.capacity = capacity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case capacity = "Capacity"
-        }
-    }
-
-    public struct DescribeWorkspacesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Workspaces", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Information about the WorkSpaces. Because CreateWorkspaces is an asynchronous operation, some of the returned information could be incomplete.
-        public let workspaces: [Workspace]?
-        /// The token to use to retrieve the next set of results, or null if no more results are available.
-        public let nextToken: String?
-
-        public init(workspaces: [Workspace]? = nil, nextToken: String? = nil) {
-            self.workspaces = workspaces
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case workspaces = "Workspaces"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DescribeClientPropertiesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceIds", required: true, type: .list)
-        ]
-        /// The resource identifiers, in the form of directory IDs.
-        public let resourceIds: [String]
-
-        public init(resourceIds: [String]) {
-            self.resourceIds = resourceIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceIds = "ResourceIds"
-        }
-    }
-
-    public struct AccountModification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DedicatedTenancySupport", required: false, type: .enum), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ModificationState", required: false, type: .enum), 
-            AWSShapeMember(label: "DedicatedTenancyManagementCidrRange", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string)
-        ]
-        /// The status of BYOL (whether BYOL is being enabled or disabled).
-        public let dedicatedTenancySupport: DedicatedTenancySupportResultEnum?
-        /// The text of the error message that is returned if the configuration of BYOL cannot be modified.
-        public let errorMessage: String?
-        /// The timestamp when the modification of the BYOL configuration was started.
-        public let startTime: TimeStamp?
-        /// The state of the modification to the configuration of BYOL.
-        public let modificationState: DedicatedTenancyModificationStateEnum?
-        /// The IP address range, specified as an IPv4 CIDR block, for the management network interface used for the account.
-        public let dedicatedTenancyManagementCidrRange: String?
-        /// The error code that is returned if the configuration of BYOL cannot be modified.
-        public let errorCode: String?
-
-        public init(dedicatedTenancySupport: DedicatedTenancySupportResultEnum? = nil, errorMessage: String? = nil, startTime: TimeStamp? = nil, modificationState: DedicatedTenancyModificationStateEnum? = nil, dedicatedTenancyManagementCidrRange: String? = nil, errorCode: String? = nil) {
-            self.dedicatedTenancySupport = dedicatedTenancySupport
-            self.errorMessage = errorMessage
-            self.startTime = startTime
-            self.modificationState = modificationState
-            self.dedicatedTenancyManagementCidrRange = dedicatedTenancyManagementCidrRange
-            self.errorCode = errorCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dedicatedTenancySupport = "DedicatedTenancySupport"
-            case errorMessage = "ErrorMessage"
-            case startTime = "StartTime"
-            case modificationState = "ModificationState"
-            case dedicatedTenancyManagementCidrRange = "DedicatedTenancyManagementCidrRange"
-            case errorCode = "ErrorCode"
-        }
-    }
-
-    public struct StartWorkspacesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedRequests", required: false, type: .list)
-        ]
-        /// Information about the WorkSpaces that could not be started.
-        public let failedRequests: [FailedWorkspaceChangeRequest]?
-
-        public init(failedRequests: [FailedWorkspaceChangeRequest]? = nil) {
-            self.failedRequests = failedRequests
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failedRequests = "FailedRequests"
-        }
-    }
-
-    public struct DescribeWorkspaceBundlesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Bundles", required: false, type: .list)
-        ]
-        /// The token to use to retrieve the next set of results, or null if there are no more results available. This token is valid for one day and must be used within that time frame.
-        public let nextToken: String?
-        /// Information about the bundles.
-        public let bundles: [WorkspaceBundle]?
-
-        public init(nextToken: String? = nil, bundles: [WorkspaceBundle]? = nil) {
-            self.nextToken = nextToken
-            self.bundles = bundles
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case bundles = "Bundles"
-        }
-    }
-
-    public struct ModifyWorkspaceStateResult: AWSShape {
-
-    }
-
-    public struct RebootWorkspacesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RebootWorkspaceRequests", required: true, type: .list)
-        ]
-        /// The WorkSpaces to reboot. You can specify up to 25 WorkSpaces.
-        public let rebootWorkspaceRequests: [RebootRequest]
-
-        public init(rebootWorkspaceRequests: [RebootRequest]) {
-            self.rebootWorkspaceRequests = rebootWorkspaceRequests
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rebootWorkspaceRequests = "RebootWorkspaceRequests"
-        }
-    }
-
-    public struct DescribeWorkspaceBundlesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Owner", required: false, type: .string), 
-            AWSShapeMember(label: "BundleIds", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The owner of the bundles. You cannot combine this parameter with any other filter. Specify AMAZON to describe the bundles provided by AWS or null to describe the bundles that belong to your account.
-        public let owner: String?
-        /// The identifiers of the bundles. You cannot combine this parameter with any other filter.
-        public let bundleIds: [String]?
-        /// The token for the next set of results. (You received this token from a previous call.)
-        public let nextToken: String?
-
-        public init(owner: String? = nil, bundleIds: [String]? = nil, nextToken: String? = nil) {
-            self.owner = owner
-            self.bundleIds = bundleIds
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case owner = "Owner"
-            case bundleIds = "BundleIds"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ClientProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReconnectEnabled", required: false, type: .enum)
-        ]
-        /// Specifies whether users can cache their credentials on the Amazon WorkSpaces client. When enabled, users can choose to reconnect to their WorkSpaces without re-entering their credentials. 
-        public let reconnectEnabled: ReconnectEnum?
-
-        public init(reconnectEnabled: ReconnectEnum? = nil) {
-            self.reconnectEnabled = reconnectEnabled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reconnectEnabled = "ReconnectEnabled"
-        }
-    }
-
-    public enum DedicatedTenancySupportEnum: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AssociateIpGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "GroupIds", required: true, type: .list)
-        ]
-        /// The identifier of the directory.
-        public let directoryId: String
-        /// The identifiers of one or more IP access control groups.
-        public let groupIds: [String]
-
-        public init(directoryId: String, groupIds: [String]) {
-            self.directoryId = directoryId
-            self.groupIds = groupIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryId = "DirectoryId"
-            case groupIds = "GroupIds"
-        }
-    }
-
-    public struct AuthorizeIpRulesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserRules", required: true, type: .list), 
-            AWSShapeMember(label: "GroupId", required: true, type: .string)
-        ]
-        /// The rules to add to the group.
-        public let userRules: [IpRuleItem]
-        /// The identifier of the group.
-        public let groupId: String
-
-        public init(userRules: [IpRuleItem], groupId: String) {
+            self.groupName = groupName
             self.userRules = userRules
-            self.groupId = groupId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userRules = "UserRules"
-            case groupId = "GroupId"
+            case groupDesc = "groupDesc"
+            case groupId = "groupId"
+            case groupName = "groupName"
+            case userRules = "userRules"
         }
-    }
-
-    public struct ModifyClientPropertiesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "ClientProperties", required: false, type: .structure)
-        ]
-        /// The resource identifiers, in the form of directory IDs.
-        public let resourceId: String
-        /// Information about the Amazon WorkSpaces client.
-        public let clientProperties: ClientProperties?
-
-        public init(resourceId: String, clientProperties: ClientProperties? = nil) {
-            self.resourceId = resourceId
-            self.clientProperties = clientProperties
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case clientProperties = "ClientProperties"
-        }
-    }
-
-    public struct DescribeWorkspaceImagesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Images", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Information about the images.
-        public let images: [WorkspaceImage]?
-        /// The token to use to retrieve the next set of results, or null if no more results are available.
-        public let nextToken: String?
-
-        public init(images: [WorkspaceImage]? = nil, nextToken: String? = nil) {
-            self.images = images
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case images = "Images"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DeleteTagsResult: AWSShape {
-
-    }
-
-    public struct DescribeTagsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagList", required: false, type: .list)
-        ]
-        /// The tags.
-        public let tagList: [Tag]?
-
-        public init(tagList: [Tag]? = nil) {
-            self.tagList = tagList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagList = "TagList"
-        }
-    }
-
-    public struct DescribeWorkspaceDirectoriesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Directories", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Information about the directories.
-        public let directories: [WorkspaceDirectory]?
-        /// The token to use to retrieve the next set of results, or null if no more results are available.
-        public let nextToken: String?
-
-        public init(directories: [WorkspaceDirectory]? = nil, nextToken: String? = nil) {
-            self.directories = directories
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directories = "Directories"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ModifyAccountResult: AWSShape {
-
-    }
-
-    public enum ModificationResourceEnum: String, CustomStringConvertible, Codable {
-        case rootVolume = "ROOT_VOLUME"
-        case userVolume = "USER_VOLUME"
-        case computeType = "COMPUTE_TYPE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteIpGroupResult: AWSShape {
-
-    }
-
-    public struct ClientPropertiesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "ClientProperties", required: false, type: .structure)
-        ]
-        /// The resource identifier, in the form of a directory ID.
-        public let resourceId: String?
-        /// Information about the Amazon WorkSpaces client.
-        public let clientProperties: ClientProperties?
-
-        public init(resourceId: String? = nil, clientProperties: ClientProperties? = nil) {
-            self.resourceId = resourceId
-            self.clientProperties = clientProperties
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case clientProperties = "ClientProperties"
-        }
-    }
-
-    public struct StopWorkspacesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedRequests", required: false, type: .list)
-        ]
-        /// Information about the WorkSpaces that could not be stopped.
-        public let failedRequests: [FailedWorkspaceChangeRequest]?
-
-        public init(failedRequests: [FailedWorkspaceChangeRequest]? = nil) {
-            self.failedRequests = failedRequests
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failedRequests = "FailedRequests"
-        }
-    }
-
-    public struct ModificationState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Resource", required: false, type: .enum), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
-        /// The resource.
-        public let resource: ModificationResourceEnum?
-        /// The modification state.
-        public let state: ModificationStateEnum?
-
-        public init(resource: ModificationResourceEnum? = nil, state: ModificationStateEnum? = nil) {
-            self.resource = resource
-            self.state = state
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resource = "Resource"
-            case state = "State"
-        }
-    }
-
-    public struct AuthorizeIpRulesResult: AWSShape {
-
-    }
-
-    public struct StopRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkspaceId", required: false, type: .string)
-        ]
-        /// The identifier of the WorkSpace.
-        public let workspaceId: String?
-
-        public init(workspaceId: String? = nil) {
-            self.workspaceId = workspaceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case workspaceId = "WorkspaceId"
-        }
-    }
-
-    public struct ImportWorkspaceImageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IngestionProcess", required: true, type: .enum), 
-            AWSShapeMember(label: "Ec2ImageId", required: true, type: .string), 
-            AWSShapeMember(label: "ImageName", required: true, type: .string), 
-            AWSShapeMember(label: "ImageDescription", required: true, type: .string)
-        ]
-        /// The ingestion process to be used when importing the image.
-        public let ingestionProcess: WorkspaceImageIngestionProcess
-        /// The identifier of the EC2 image.
-        public let ec2ImageId: String
-        /// The name of the WorkSpace image.
-        public let imageName: String
-        /// The description of the WorkSpace image.
-        public let imageDescription: String
-
-        public init(ingestionProcess: WorkspaceImageIngestionProcess, ec2ImageId: String, imageName: String, imageDescription: String) {
-            self.ingestionProcess = ingestionProcess
-            self.ec2ImageId = ec2ImageId
-            self.imageName = imageName
-            self.imageDescription = imageDescription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ingestionProcess = "IngestionProcess"
-            case ec2ImageId = "Ec2ImageId"
-            case imageName = "ImageName"
-            case imageDescription = "ImageDescription"
-        }
-    }
-
-    public enum ModificationStateEnum: String, CustomStringConvertible, Codable {
-        case updateInitiated = "UPDATE_INITIATED"
-        case updateInProgress = "UPDATE_IN_PROGRESS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum WorkspaceDirectoryState: String, CustomStringConvertible, Codable {
-        case registering = "REGISTERING"
-        case registered = "REGISTERED"
-        case deregistering = "DEREGISTERING"
-        case deregistered = "DEREGISTERED"
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct StartRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkspaceId", required: false, type: .string)
-        ]
-        /// The identifier of the WorkSpace.
-        public let workspaceId: String?
-
-        public init(workspaceId: String? = nil) {
-            self.workspaceId = workspaceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case workspaceId = "WorkspaceId"
-        }
-    }
-
-    public struct TerminateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkspaceId", required: true, type: .string)
-        ]
-        /// The identifier of the WorkSpace.
-        public let workspaceId: String
-
-        public init(workspaceId: String) {
-            self.workspaceId = workspaceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case workspaceId = "WorkspaceId"
-        }
-    }
-
-    public enum WorkspaceImageState: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case pending = "PENDING"
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DisassociateIpGroupsResult: AWSShape {
-
-    }
-
-    public struct WorkspaceDirectory: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegistrationCode", required: false, type: .string), 
-            AWSShapeMember(label: "IamRoleId", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryName", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeMember(label: "ipGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "WorkspaceCreationProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "CustomerUserName", required: false, type: .string), 
-            AWSShapeMember(label: "WorkspaceSecurityGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "DnsIpAddresses", required: false, type: .list), 
-            AWSShapeMember(label: "DirectoryType", required: false, type: .enum), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "Alias", required: false, type: .string)
-        ]
-        /// The registration code for the directory. This is the code that users enter in their Amazon WorkSpaces client application to connect to the directory.
-        public let registrationCode: String?
-        /// The identifier of the IAM role. This is the role that allows Amazon WorkSpaces to make calls to other services, such as Amazon EC2, on your behalf.
-        public let iamRoleId: String?
-        /// The name of the directory.
-        public let directoryName: String?
-        /// The identifiers of the subnets used with the directory.
-        public let subnetIds: [String]?
-        /// The identifiers of the IP access control groups associated with the directory.
-        public let ipGroupIds: [String]?
-        /// The directory identifier.
-        public let directoryId: String?
-        /// The default creation properties for all WorkSpaces in the directory.
-        public let workspaceCreationProperties: DefaultWorkspaceCreationProperties?
-        /// The user name for the service account.
-        public let customerUserName: String?
-        /// The identifier of the security group that is assigned to new WorkSpaces.
-        public let workspaceSecurityGroupId: String?
-        /// The IP addresses of the DNS servers for the directory.
-        public let dnsIpAddresses: [String]?
-        /// The directory type.
-        public let directoryType: WorkspaceDirectoryType?
-        /// The state of the directory's registration with Amazon WorkSpaces
-        public let state: WorkspaceDirectoryState?
-        /// The directory alias.
-        public let alias: String?
-
-        public init(registrationCode: String? = nil, iamRoleId: String? = nil, directoryName: String? = nil, subnetIds: [String]? = nil, ipGroupIds: [String]? = nil, directoryId: String? = nil, workspaceCreationProperties: DefaultWorkspaceCreationProperties? = nil, customerUserName: String? = nil, workspaceSecurityGroupId: String? = nil, dnsIpAddresses: [String]? = nil, directoryType: WorkspaceDirectoryType? = nil, state: WorkspaceDirectoryState? = nil, alias: String? = nil) {
-            self.registrationCode = registrationCode
-            self.iamRoleId = iamRoleId
-            self.directoryName = directoryName
-            self.subnetIds = subnetIds
-            self.ipGroupIds = ipGroupIds
-            self.directoryId = directoryId
-            self.workspaceCreationProperties = workspaceCreationProperties
-            self.customerUserName = customerUserName
-            self.workspaceSecurityGroupId = workspaceSecurityGroupId
-            self.dnsIpAddresses = dnsIpAddresses
-            self.directoryType = directoryType
-            self.state = state
-            self.alias = alias
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case registrationCode = "RegistrationCode"
-            case iamRoleId = "IamRoleId"
-            case directoryName = "DirectoryName"
-            case subnetIds = "SubnetIds"
-            case ipGroupIds = "ipGroupIds"
-            case directoryId = "DirectoryId"
-            case workspaceCreationProperties = "WorkspaceCreationProperties"
-            case customerUserName = "CustomerUserName"
-            case workspaceSecurityGroupId = "WorkspaceSecurityGroupId"
-            case dnsIpAddresses = "DnsIpAddresses"
-            case directoryType = "DirectoryType"
-            case state = "State"
-            case alias = "Alias"
-        }
-    }
-
-    public struct DescribeWorkspacesConnectionStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkspaceIds", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The identifiers of the WorkSpaces. You can specify up to 25 WorkSpaces.
-        public let workspaceIds: [String]?
-        /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
-        public let nextToken: String?
-
-        public init(workspaceIds: [String]? = nil, nextToken: String? = nil) {
-            self.workspaceIds = workspaceIds
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case workspaceIds = "WorkspaceIds"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct CreateWorkspacesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Workspaces", required: true, type: .list)
-        ]
-        /// The WorkSpaces to create. You can specify up to 25 WorkSpaces.
-        public let workspaces: [WorkspaceRequest]
-
-        public init(workspaces: [WorkspaceRequest]) {
-            self.workspaces = workspaces
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case workspaces = "Workspaces"
-        }
-    }
-
-    public enum WorkspaceDirectoryType: String, CustomStringConvertible, Codable {
-        case simpleAd = "SIMPLE_AD"
-        case adConnector = "AD_CONNECTOR"
-        public var description: String { return self.rawValue }
     }
 
 }

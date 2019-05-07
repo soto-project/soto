@@ -4,10 +4,10 @@ import AWSSDKSwiftCore
 
 /// Error enum for ResourceGroupsTaggingAPI
 public enum ResourceGroupsTaggingAPIErrorType: AWSErrorType {
-    case invalidParameterException(message: String?)
-    case throttledException(message: String?)
     case internalServiceException(message: String?)
+    case invalidParameterException(message: String?)
     case paginationTokenExpiredException(message: String?)
+    case throttledException(message: String?)
 }
 
 extension ResourceGroupsTaggingAPIErrorType {
@@ -17,14 +17,14 @@ extension ResourceGroupsTaggingAPIErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "ThrottledException":
-            self = .throttledException(message: message)
         case "InternalServiceException":
             self = .internalServiceException(message: message)
+        case "InvalidParameterException":
+            self = .invalidParameterException(message: message)
         case "PaginationTokenExpiredException":
             self = .paginationTokenExpiredException(message: message)
+        case "ThrottledException":
+            self = .throttledException(message: message)
         default:
             return nil
         }

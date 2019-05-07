@@ -4,9 +4,9 @@ import AWSSDKSwiftCore
 
 /// Error enum for SageMaker
 public enum SageMakerErrorType: AWSErrorType {
-    case resourceNotFound(message: String?)
-    case resourceLimitExceeded(message: String?)
     case resourceInUse(message: String?)
+    case resourceLimitExceeded(message: String?)
+    case resourceNotFound(message: String?)
 }
 
 extension SageMakerErrorType {
@@ -16,12 +16,12 @@ extension SageMakerErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "ResourceNotFound":
-            self = .resourceNotFound(message: message)
-        case "ResourceLimitExceeded":
-            self = .resourceLimitExceeded(message: message)
         case "ResourceInUse":
             self = .resourceInUse(message: message)
+        case "ResourceLimitExceeded":
+            self = .resourceLimitExceeded(message: message)
+        case "ResourceNotFound":
+            self = .resourceNotFound(message: message)
         default:
             return nil
         }

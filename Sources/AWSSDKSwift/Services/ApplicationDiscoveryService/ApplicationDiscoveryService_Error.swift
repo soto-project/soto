@@ -5,13 +5,13 @@ import AWSSDKSwiftCore
 /// Error enum for ApplicationDiscoveryService
 public enum ApplicationDiscoveryServiceErrorType: AWSErrorType {
     case authorizationErrorException(message: String?)
+    case conflictErrorException(message: String?)
     case invalidParameterException(message: String?)
     case invalidParameterValueException(message: String?)
-    case serverInternalErrorException(message: String?)
-    case resourceNotFoundException(message: String?)
     case operationNotPermittedException(message: String?)
     case resourceInUseException(message: String?)
-    case conflictErrorException(message: String?)
+    case resourceNotFoundException(message: String?)
+    case serverInternalErrorException(message: String?)
 }
 
 extension ApplicationDiscoveryServiceErrorType {
@@ -23,20 +23,20 @@ extension ApplicationDiscoveryServiceErrorType {
         switch errorCode {
         case "AuthorizationErrorException":
             self = .authorizationErrorException(message: message)
+        case "ConflictErrorException":
+            self = .conflictErrorException(message: message)
         case "InvalidParameterException":
             self = .invalidParameterException(message: message)
         case "InvalidParameterValueException":
             self = .invalidParameterValueException(message: message)
-        case "ServerInternalErrorException":
-            self = .serverInternalErrorException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
         case "OperationNotPermittedException":
             self = .operationNotPermittedException(message: message)
         case "ResourceInUseException":
             self = .resourceInUseException(message: message)
-        case "ConflictErrorException":
-            self = .conflictErrorException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
+        case "ServerInternalErrorException":
+            self = .serverInternalErrorException(message: message)
         default:
             return nil
         }

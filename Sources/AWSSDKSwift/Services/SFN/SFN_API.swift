@@ -26,54 +26,14 @@ public struct SFN {
         )
     }
 
-    ///  Creates a state machine. A state machine consists of a collection of states that can do work (Task states), determine to which states to transition next (Choice states), stop an execution with an error (Fail states), and so on. State machines are specified using a JSON-based, structured language.
-    public func createStateMachine(_ input: CreateStateMachineInput) throws -> Future<CreateStateMachineOutput> {
-        return try client.send(operation: "CreateStateMachine", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Used by workers to report to the service that the task represented by the specified taskToken is still making progress. This action resets the Heartbeat clock. The Heartbeat threshold is specified in the state machine's Amazon States Language definition. This action does not in itself create an event in the execution history. However, if the task times out, the execution history contains an ActivityTimedOut event.  The Timeout of a task, defined in the state machine's Amazon States Language definition, is its maximum allowed duration, regardless of the number of SendTaskHeartbeat requests received.   This operation is only useful for long-lived tasks to report the liveliness of the task. 
-    public func sendTaskHeartbeat(_ input: SendTaskHeartbeatInput) throws -> Future<SendTaskHeartbeatOutput> {
-        return try client.send(operation: "SendTaskHeartbeat", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Describes an activity.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. 
-    public func describeActivity(_ input: DescribeActivityInput) throws -> Future<DescribeActivityOutput> {
-        return try client.send(operation: "DescribeActivity", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Stops an execution.
-    public func stopExecution(_ input: StopExecutionInput) throws -> Future<StopExecutionOutput> {
-        return try client.send(operation: "StopExecution", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Used by workers to retrieve a task (with the specified activity ARN) which has been scheduled for execution by a running state machine. This initiates a long poll, where the service holds the HTTP connection open and responds as soon as a task becomes available (i.e. an execution of a task of this type is needed.) The maximum time the service holds on to the request before responding is 60 seconds. If no task is available within 60 seconds, the poll returns a taskToken with a null string.  Workers should set their client side socket timeout to at least 65 seconds (5 seconds higher than the maximum time the service may hold the poll request). Polling with GetActivityTask can cause latency in some implementations. See Avoid Latency When Polling for Activity Tasks in the Step Functions Developer Guide. 
-    public func getActivityTask(_ input: GetActivityTaskInput) throws -> Future<GetActivityTaskOutput> {
-        return try client.send(operation: "GetActivityTask", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Creates an activity. An activity is a task that you write in any programming language and host on any machine that has access to AWS Step Functions. Activities must poll Step Functions using the GetActivityTask API action and respond using SendTask* API actions. This function lets Step Functions know the existence of your activity and returns an identifier for use in a state machine and when polling from the activity.
     public func createActivity(_ input: CreateActivityInput) throws -> Future<CreateActivityOutput> {
         return try client.send(operation: "CreateActivity", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the state machine associated with a specific execution.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. 
-    public func describeStateMachineForExecution(_ input: DescribeStateMachineForExecutionInput) throws -> Future<DescribeStateMachineForExecutionOutput> {
-        return try client.send(operation: "DescribeStateMachineForExecution", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists the existing activities. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. 
-    public func listActivities(_ input: ListActivitiesInput) throws -> Future<ListActivitiesOutput> {
-        return try client.send(operation: "ListActivities", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Describes an execution.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. 
-    public func describeExecution(_ input: DescribeExecutionInput) throws -> Future<DescribeExecutionOutput> {
-        return try client.send(operation: "DescribeExecution", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes a state machine. This is an asynchronous operation: It sets the state machine's status to DELETING and begins the deletion process. Each state machine execution is deleted the next time it makes a state transition.  The state machine itself is deleted after all executions are completed or deleted. 
-    public func deleteStateMachine(_ input: DeleteStateMachineInput) throws -> Future<DeleteStateMachineOutput> {
-        return try client.send(operation: "DeleteStateMachine", path: "/", httpMethod: "POST", input: input)
+    ///  Creates a state machine. A state machine consists of a collection of states that can do work (Task states), determine to which states to transition next (Choice states), stop an execution with an error (Fail states), and so on. State machines are specified using a JSON-based, structured language.
+    public func createStateMachine(_ input: CreateStateMachineInput) throws -> Future<CreateStateMachineOutput> {
+        return try client.send(operation: "CreateStateMachine", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an activity.
@@ -81,14 +41,19 @@ public struct SFN {
         return try client.send(operation: "DeleteActivity", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Used by workers to report that the task identified by the taskToken failed.
-    public func sendTaskFailure(_ input: SendTaskFailureInput) throws -> Future<SendTaskFailureOutput> {
-        return try client.send(operation: "SendTaskFailure", path: "/", httpMethod: "POST", input: input)
+    ///  Deletes a state machine. This is an asynchronous operation: It sets the state machine's status to DELETING and begins the deletion process. Each state machine execution is deleted the next time it makes a state transition.  The state machine itself is deleted after all executions are completed or deleted. 
+    public func deleteStateMachine(_ input: DeleteStateMachineInput) throws -> Future<DeleteStateMachineOutput> {
+        return try client.send(operation: "DeleteStateMachine", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the existing state machines. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. 
-    public func listStateMachines(_ input: ListStateMachinesInput) throws -> Future<ListStateMachinesOutput> {
-        return try client.send(operation: "ListStateMachines", path: "/", httpMethod: "POST", input: input)
+    ///  Describes an activity.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. 
+    public func describeActivity(_ input: DescribeActivityInput) throws -> Future<DescribeActivityOutput> {
+        return try client.send(operation: "DescribeActivity", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes an execution.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. 
+    public func describeExecution(_ input: DescribeExecutionInput) throws -> Future<DescribeExecutionOutput> {
+        return try client.send(operation: "DescribeExecution", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes a state machine.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. 
@@ -96,19 +61,24 @@ public struct SFN {
         return try client.send(operation: "DescribeStateMachine", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates an existing state machine by modifying its definition and/or roleArn. Running executions will continue to use the previous definition and roleArn. You must include at least one of definition or roleArn or you will receive a MissingRequiredParameter error.  All StartExecution calls within a few seconds will use the updated definition and roleArn. Executions started immediately after calling UpdateStateMachine may use the previous state machine definition and roleArn.  
-    public func updateStateMachine(_ input: UpdateStateMachineInput) throws -> Future<UpdateStateMachineOutput> {
-        return try client.send(operation: "UpdateStateMachine", path: "/", httpMethod: "POST", input: input)
+    ///  Describes the state machine associated with a specific execution.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. 
+    public func describeStateMachineForExecution(_ input: DescribeStateMachineForExecutionInput) throws -> Future<DescribeStateMachineForExecutionOutput> {
+        return try client.send(operation: "DescribeStateMachineForExecution", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Starts a state machine execution.   StartExecution is idempotent. If StartExecution is called with the same name and input as a running execution, the call will succeed and return the same response as the original request. If the execution is closed or if the input is different, it will return a 400 ExecutionAlreadyExists error. Names can be reused after 90 days.  
-    public func startExecution(_ input: StartExecutionInput) throws -> Future<StartExecutionOutput> {
-        return try client.send(operation: "StartExecution", path: "/", httpMethod: "POST", input: input)
+    ///  Used by workers to retrieve a task (with the specified activity ARN) which has been scheduled for execution by a running state machine. This initiates a long poll, where the service holds the HTTP connection open and responds as soon as a task becomes available (i.e. an execution of a task of this type is needed.) The maximum time the service holds on to the request before responding is 60 seconds. If no task is available within 60 seconds, the poll returns a taskToken with a null string.  Workers should set their client side socket timeout to at least 65 seconds (5 seconds higher than the maximum time the service may hold the poll request). Polling with GetActivityTask can cause latency in some implementations. See Avoid Latency When Polling for Activity Tasks in the Step Functions Developer Guide. 
+    public func getActivityTask(_ input: GetActivityTaskInput) throws -> Future<GetActivityTaskOutput> {
+        return try client.send(operation: "GetActivityTask", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Used by workers to report that the task identified by the taskToken completed successfully.
-    public func sendTaskSuccess(_ input: SendTaskSuccessInput) throws -> Future<SendTaskSuccessOutput> {
-        return try client.send(operation: "SendTaskSuccess", path: "/", httpMethod: "POST", input: input)
+    ///  Returns the history of the specified execution as a list of events. By default, the results are returned in ascending order of the timeStamp of the events. Use the reverseOrder parameter to get the latest events first. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    public func getExecutionHistory(_ input: GetExecutionHistoryInput) throws -> Future<GetExecutionHistoryOutput> {
+        return try client.send(operation: "GetExecutionHistory", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the existing activities. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. 
+    public func listActivities(_ input: ListActivitiesInput) throws -> Future<ListActivitiesOutput> {
+        return try client.send(operation: "ListActivities", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the executions of a state machine that meet the filtering criteria. Results are sorted by time, with the most recent execution first. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. 
@@ -116,9 +86,39 @@ public struct SFN {
         return try client.send(operation: "ListExecutions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the history of the specified execution as a list of events. By default, the results are returned in ascending order of the timeStamp of the events. Use the reverseOrder parameter to get the latest events first. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.
-    public func getExecutionHistory(_ input: GetExecutionHistoryInput) throws -> Future<GetExecutionHistoryOutput> {
-        return try client.send(operation: "GetExecutionHistory", path: "/", httpMethod: "POST", input: input)
+    ///  Lists the existing state machines. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. 
+    public func listStateMachines(_ input: ListStateMachinesInput) throws -> Future<ListStateMachinesOutput> {
+        return try client.send(operation: "ListStateMachines", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Used by workers to report that the task identified by the taskToken failed.
+    public func sendTaskFailure(_ input: SendTaskFailureInput) throws -> Future<SendTaskFailureOutput> {
+        return try client.send(operation: "SendTaskFailure", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Used by workers to report to the service that the task represented by the specified taskToken is still making progress. This action resets the Heartbeat clock. The Heartbeat threshold is specified in the state machine's Amazon States Language definition. This action does not in itself create an event in the execution history. However, if the task times out, the execution history contains an ActivityTimedOut event.  The Timeout of a task, defined in the state machine's Amazon States Language definition, is its maximum allowed duration, regardless of the number of SendTaskHeartbeat requests received.   This operation is only useful for long-lived tasks to report the liveliness of the task. 
+    public func sendTaskHeartbeat(_ input: SendTaskHeartbeatInput) throws -> Future<SendTaskHeartbeatOutput> {
+        return try client.send(operation: "SendTaskHeartbeat", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Used by workers to report that the task identified by the taskToken completed successfully.
+    public func sendTaskSuccess(_ input: SendTaskSuccessInput) throws -> Future<SendTaskSuccessOutput> {
+        return try client.send(operation: "SendTaskSuccess", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts a state machine execution.   StartExecution is idempotent. If StartExecution is called with the same name and input as a running execution, the call will succeed and return the same response as the original request. If the execution is closed or if the input is different, it will return a 400 ExecutionAlreadyExists error. Names can be reused after 90 days.  
+    public func startExecution(_ input: StartExecutionInput) throws -> Future<StartExecutionOutput> {
+        return try client.send(operation: "StartExecution", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Stops an execution.
+    public func stopExecution(_ input: StopExecutionInput) throws -> Future<StopExecutionOutput> {
+        return try client.send(operation: "StopExecution", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates an existing state machine by modifying its definition and/or roleArn. Running executions will continue to use the previous definition and roleArn. You must include at least one of definition or roleArn or you will receive a MissingRequiredParameter error.  All StartExecution calls within a few seconds will use the updated definition and roleArn. Executions started immediately after calling UpdateStateMachine may use the previous state machine definition and roleArn.  
+    public func updateStateMachine(_ input: UpdateStateMachineInput) throws -> Future<UpdateStateMachineOutput> {
+        return try client.send(operation: "UpdateStateMachine", path: "/", httpMethod: "POST", input: input)
     }
 
 

@@ -5,34 +5,695 @@ import AWSSDKSwiftCore
 
 extension CloudWatch {
 
-    public struct SetAlarmStateInput: AWSShape {
+    public struct AlarmHistoryItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlarmName", required: true, type: .string), 
-            AWSShapeMember(label: "StateValue", required: true, type: .enum), 
-            AWSShapeMember(label: "StateReason", required: true, type: .string), 
-            AWSShapeMember(label: "StateReasonData", required: false, type: .string)
+            AWSShapeMember(label: "AlarmName", required: false, type: .string), 
+            AWSShapeMember(label: "HistoryData", required: false, type: .string), 
+            AWSShapeMember(label: "HistoryItemType", required: false, type: .enum), 
+            AWSShapeMember(label: "HistorySummary", required: false, type: .string), 
+            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp)
         ]
-        /// The name for the alarm. This name must be unique within the AWS account. The maximum length is 255 characters.
-        public let alarmName: String
-        /// The value of the state.
-        public let stateValue: StateValue
-        /// The reason that this alarm is set to this specific state, in text format.
-        public let stateReason: String
-        /// The reason that this alarm is set to this specific state, in JSON format.
-        public let stateReasonData: String?
+        /// The descriptive name for the alarm.
+        public let alarmName: String?
+        /// Data about the alarm, in JSON format.
+        public let historyData: String?
+        /// The type of alarm history item.
+        public let historyItemType: HistoryItemType?
+        /// A summary of the alarm history, in text format.
+        public let historySummary: String?
+        /// The time stamp for the alarm history item.
+        public let timestamp: TimeStamp?
 
-        public init(alarmName: String, stateValue: StateValue, stateReason: String, stateReasonData: String? = nil) {
+        public init(alarmName: String? = nil, historyData: String? = nil, historyItemType: HistoryItemType? = nil, historySummary: String? = nil, timestamp: TimeStamp? = nil) {
             self.alarmName = alarmName
-            self.stateValue = stateValue
-            self.stateReason = stateReason
-            self.stateReasonData = stateReasonData
+            self.historyData = historyData
+            self.historyItemType = historyItemType
+            self.historySummary = historySummary
+            self.timestamp = timestamp
         }
 
         private enum CodingKeys: String, CodingKey {
             case alarmName = "AlarmName"
+            case historyData = "HistoryData"
+            case historyItemType = "HistoryItemType"
+            case historySummary = "HistorySummary"
+            case timestamp = "Timestamp"
+        }
+    }
+
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
+        case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
+        case greaterthanthreshold = "GreaterThanThreshold"
+        case lessthanthreshold = "LessThanThreshold"
+        case lessthanorequaltothreshold = "LessThanOrEqualToThreshold"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DashboardEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DashboardArn", required: false, type: .string), 
+            AWSShapeMember(label: "DashboardName", required: false, type: .string), 
+            AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Size", required: false, type: .long)
+        ]
+        /// The Amazon Resource Name (ARN) of the dashboard.
+        public let dashboardArn: String?
+        /// The name of the dashboard.
+        public let dashboardName: String?
+        /// The time stamp of when the dashboard was last modified, either by an API call or through the console. This number is expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
+        public let lastModified: TimeStamp?
+        /// The size of the dashboard, in bytes.
+        public let size: Int64?
+
+        public init(dashboardArn: String? = nil, dashboardName: String? = nil, lastModified: TimeStamp? = nil, size: Int64? = nil) {
+            self.dashboardArn = dashboardArn
+            self.dashboardName = dashboardName
+            self.lastModified = lastModified
+            self.size = size
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardArn = "DashboardArn"
+            case dashboardName = "DashboardName"
+            case lastModified = "LastModified"
+            case size = "Size"
+        }
+    }
+
+    public struct DashboardValidationMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataPath", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
+        ]
+        /// The data path related to the message.
+        public let dataPath: String?
+        /// A message describing the error or warning.
+        public let message: String?
+
+        public init(dataPath: String? = nil, message: String? = nil) {
+            self.dataPath = dataPath
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataPath = "DataPath"
+            case message = "Message"
+        }
+    }
+
+    public struct Datapoint: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Average", required: false, type: .double), 
+            AWSShapeMember(label: "ExtendedStatistics", required: false, type: .map), 
+            AWSShapeMember(label: "Maximum", required: false, type: .double), 
+            AWSShapeMember(label: "Minimum", required: false, type: .double), 
+            AWSShapeMember(label: "SampleCount", required: false, type: .double), 
+            AWSShapeMember(label: "Sum", required: false, type: .double), 
+            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Unit", required: false, type: .enum)
+        ]
+        /// The average of the metric values that correspond to the data point.
+        public let average: Double?
+        /// The percentile statistic for the data point.
+        public let extendedStatistics: [String: Double]?
+        /// The maximum metric value for the data point.
+        public let maximum: Double?
+        /// The minimum metric value for the data point.
+        public let minimum: Double?
+        /// The number of metric values that contributed to the aggregate value of this data point.
+        public let sampleCount: Double?
+        /// The sum of the metric values for the data point.
+        public let sum: Double?
+        /// The time stamp used for the data point.
+        public let timestamp: TimeStamp?
+        /// The standard unit for the data point.
+        public let unit: StandardUnit?
+
+        public init(average: Double? = nil, extendedStatistics: [String: Double]? = nil, maximum: Double? = nil, minimum: Double? = nil, sampleCount: Double? = nil, sum: Double? = nil, timestamp: TimeStamp? = nil, unit: StandardUnit? = nil) {
+            self.average = average
+            self.extendedStatistics = extendedStatistics
+            self.maximum = maximum
+            self.minimum = minimum
+            self.sampleCount = sampleCount
+            self.sum = sum
+            self.timestamp = timestamp
+            self.unit = unit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case average = "Average"
+            case extendedStatistics = "ExtendedStatistics"
+            case maximum = "Maximum"
+            case minimum = "Minimum"
+            case sampleCount = "SampleCount"
+            case sum = "Sum"
+            case timestamp = "Timestamp"
+            case unit = "Unit"
+        }
+    }
+
+    public struct DeleteAlarmsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AlarmNames", required: true, type: .list)
+        ]
+        /// The alarms to be deleted.
+        public let alarmNames: [String]
+
+        public init(alarmNames: [String]) {
+            self.alarmNames = alarmNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmNames = "AlarmNames"
+        }
+    }
+
+    public struct DeleteDashboardsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DashboardNames", required: true, type: .list)
+        ]
+        /// The dashboards to be deleted. This parameter is required.
+        public let dashboardNames: [String]
+
+        public init(dashboardNames: [String]) {
+            self.dashboardNames = dashboardNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardNames = "DashboardNames"
+        }
+    }
+
+    public struct DeleteDashboardsOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DescribeAlarmHistoryInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AlarmName", required: false, type: .string), 
+            AWSShapeMember(label: "EndDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "HistoryItemType", required: false, type: .enum), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StartDate", required: false, type: .timestamp)
+        ]
+        /// The name of the alarm.
+        public let alarmName: String?
+        /// The ending date to retrieve alarm history.
+        public let endDate: TimeStamp?
+        /// The type of alarm histories to retrieve.
+        public let historyItemType: HistoryItemType?
+        /// The maximum number of alarm history records to retrieve.
+        public let maxRecords: Int32?
+        /// The token returned by a previous call to indicate that there is more data available.
+        public let nextToken: String?
+        /// The starting date to retrieve alarm history.
+        public let startDate: TimeStamp?
+
+        public init(alarmName: String? = nil, endDate: TimeStamp? = nil, historyItemType: HistoryItemType? = nil, maxRecords: Int32? = nil, nextToken: String? = nil, startDate: TimeStamp? = nil) {
+            self.alarmName = alarmName
+            self.endDate = endDate
+            self.historyItemType = historyItemType
+            self.maxRecords = maxRecords
+            self.nextToken = nextToken
+            self.startDate = startDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmName = "AlarmName"
+            case endDate = "EndDate"
+            case historyItemType = "HistoryItemType"
+            case maxRecords = "MaxRecords"
+            case nextToken = "NextToken"
+            case startDate = "StartDate"
+        }
+    }
+
+    public struct DescribeAlarmHistoryOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AlarmHistoryItems", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The alarm histories, in JSON format.
+        public let alarmHistoryItems: [AlarmHistoryItem]?
+        /// The token that marks the start of the next batch of returned results.
+        public let nextToken: String?
+
+        public init(alarmHistoryItems: [AlarmHistoryItem]? = nil, nextToken: String? = nil) {
+            self.alarmHistoryItems = alarmHistoryItems
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmHistoryItems = "AlarmHistoryItems"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeAlarmsForMetricInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
+            AWSShapeMember(label: "ExtendedStatistic", required: false, type: .string), 
+            AWSShapeMember(label: "MetricName", required: true, type: .string), 
+            AWSShapeMember(label: "Namespace", required: true, type: .string), 
+            AWSShapeMember(label: "Period", required: false, type: .integer), 
+            AWSShapeMember(label: "Statistic", required: false, type: .enum), 
+            AWSShapeMember(label: "Unit", required: false, type: .enum)
+        ]
+        /// The dimensions associated with the metric. If the metric has any associated dimensions, you must specify them in order for the call to succeed.
+        public let dimensions: [Dimension]?
+        /// The percentile statistic for the metric. Specify a value between p0.0 and p100.
+        public let extendedStatistic: String?
+        /// The name of the metric.
+        public let metricName: String
+        /// The namespace of the metric.
+        public let namespace: String
+        /// The period, in seconds, over which the statistic is applied.
+        public let period: Int32?
+        /// The statistic for the metric, other than percentiles. For percentile statistics, use ExtendedStatistics.
+        public let statistic: Statistic?
+        /// The unit for the metric.
+        public let unit: StandardUnit?
+
+        public init(dimensions: [Dimension]? = nil, extendedStatistic: String? = nil, metricName: String, namespace: String, period: Int32? = nil, statistic: Statistic? = nil, unit: StandardUnit? = nil) {
+            self.dimensions = dimensions
+            self.extendedStatistic = extendedStatistic
+            self.metricName = metricName
+            self.namespace = namespace
+            self.period = period
+            self.statistic = statistic
+            self.unit = unit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+            case extendedStatistic = "ExtendedStatistic"
+            case metricName = "MetricName"
+            case namespace = "Namespace"
+            case period = "Period"
+            case statistic = "Statistic"
+            case unit = "Unit"
+        }
+    }
+
+    public struct DescribeAlarmsForMetricOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MetricAlarms", required: false, type: .list)
+        ]
+        /// The information for each alarm with the specified metric.
+        public let metricAlarms: [MetricAlarm]?
+
+        public init(metricAlarms: [MetricAlarm]? = nil) {
+            self.metricAlarms = metricAlarms
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricAlarms = "MetricAlarms"
+        }
+    }
+
+    public struct DescribeAlarmsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "AlarmNamePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "AlarmNames", required: false, type: .list), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StateValue", required: false, type: .enum)
+        ]
+        /// The action name prefix.
+        public let actionPrefix: String?
+        /// The alarm name prefix. If this parameter is specified, you cannot specify AlarmNames.
+        public let alarmNamePrefix: String?
+        /// The names of the alarms.
+        public let alarmNames: [String]?
+        /// The maximum number of alarm descriptions to retrieve.
+        public let maxRecords: Int32?
+        /// The token returned by a previous call to indicate that there is more data available.
+        public let nextToken: String?
+        /// The state value to be used in matching alarms.
+        public let stateValue: StateValue?
+
+        public init(actionPrefix: String? = nil, alarmNamePrefix: String? = nil, alarmNames: [String]? = nil, maxRecords: Int32? = nil, nextToken: String? = nil, stateValue: StateValue? = nil) {
+            self.actionPrefix = actionPrefix
+            self.alarmNamePrefix = alarmNamePrefix
+            self.alarmNames = alarmNames
+            self.maxRecords = maxRecords
+            self.nextToken = nextToken
+            self.stateValue = stateValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionPrefix = "ActionPrefix"
+            case alarmNamePrefix = "AlarmNamePrefix"
+            case alarmNames = "AlarmNames"
+            case maxRecords = "MaxRecords"
+            case nextToken = "NextToken"
             case stateValue = "StateValue"
-            case stateReason = "StateReason"
-            case stateReasonData = "StateReasonData"
+        }
+    }
+
+    public struct DescribeAlarmsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MetricAlarms", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The information for the specified alarms.
+        public let metricAlarms: [MetricAlarm]?
+        /// The token that marks the start of the next batch of returned results.
+        public let nextToken: String?
+
+        public init(metricAlarms: [MetricAlarm]? = nil, nextToken: String? = nil) {
+            self.metricAlarms = metricAlarms
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricAlarms = "MetricAlarms"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct Dimension: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+        /// The name of the dimension.
+        public let name: String
+        /// The value representing the dimension measurement.
+        public let value: String
+
+        public init(name: String, value: String) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
+    public struct DimensionFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The dimension name to be matched.
+        public let name: String
+        /// The value of the dimension to be matched.
+        public let value: String?
+
+        public init(name: String, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
+    public struct DisableAlarmActionsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AlarmNames", required: true, type: .list)
+        ]
+        /// The names of the alarms.
+        public let alarmNames: [String]
+
+        public init(alarmNames: [String]) {
+            self.alarmNames = alarmNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmNames = "AlarmNames"
+        }
+    }
+
+    public struct EnableAlarmActionsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AlarmNames", required: true, type: .list)
+        ]
+        /// The names of the alarms.
+        public let alarmNames: [String]
+
+        public init(alarmNames: [String]) {
+            self.alarmNames = alarmNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmNames = "AlarmNames"
+        }
+    }
+
+    public struct GetDashboardInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DashboardName", required: true, type: .string)
+        ]
+        /// The name of the dashboard to be described.
+        public let dashboardName: String
+
+        public init(dashboardName: String) {
+            self.dashboardName = dashboardName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardName = "DashboardName"
+        }
+    }
+
+    public struct GetDashboardOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DashboardArn", required: false, type: .string), 
+            AWSShapeMember(label: "DashboardBody", required: false, type: .string), 
+            AWSShapeMember(label: "DashboardName", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the dashboard.
+        public let dashboardArn: String?
+        /// The detailed information about the dashboard, including what widgets are included and their location on the dashboard. For more information about the DashboardBody syntax, see CloudWatch-Dashboard-Body-Structure. 
+        public let dashboardBody: String?
+        /// The name of the dashboard.
+        public let dashboardName: String?
+
+        public init(dashboardArn: String? = nil, dashboardBody: String? = nil, dashboardName: String? = nil) {
+            self.dashboardArn = dashboardArn
+            self.dashboardBody = dashboardBody
+            self.dashboardName = dashboardName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardArn = "DashboardArn"
+            case dashboardBody = "DashboardBody"
+            case dashboardName = "DashboardName"
+        }
+    }
+
+    public struct GetMetricDataInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "MaxDatapoints", required: false, type: .integer), 
+            AWSShapeMember(label: "MetricDataQueries", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ScanBy", required: false, type: .enum), 
+            AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
+        ]
+        /// The time stamp indicating the latest data to be returned. For better performance, specify StartTime and EndTime values that align with the value of the metric's Period and sync up with the beginning and end of an hour. For example, if the Period of a metric is 5 minutes, specifying 12:05 or 12:30 as EndTime can get a faster response from CloudWatch then setting 12:07 or 12:29 as the EndTime.
+        public let endTime: TimeStamp
+        /// The maximum number of data points the request should return before paginating. If you omit this, the default of 100,800 is used.
+        public let maxDatapoints: Int32?
+        /// The metric queries to be returned. A single GetMetricData call can include as many as 100 MetricDataQuery structures. Each of these structures can specify either a metric to retrieve, or a math expression to perform on retrieved data. 
+        public let metricDataQueries: [MetricDataQuery]
+        /// Include this value, if it was returned by the previous call, to get the next set of data points.
+        public let nextToken: String?
+        /// The order in which data points should be returned. TimestampDescending returns the newest data first and paginates when the MaxDatapoints limit is reached. TimestampAscending returns the oldest data first and paginates when the MaxDatapoints limit is reached.
+        public let scanBy: ScanBy?
+        /// The time stamp indicating the earliest data to be returned. For better performance, specify StartTime and EndTime values that align with the value of the metric's Period and sync up with the beginning and end of an hour. For example, if the Period of a metric is 5 minutes, specifying 12:05 or 12:30 as StartTime can get a faster response from CloudWatch then setting 12:07 or 12:29 as the StartTime.
+        public let startTime: TimeStamp
+
+        public init(endTime: TimeStamp, maxDatapoints: Int32? = nil, metricDataQueries: [MetricDataQuery], nextToken: String? = nil, scanBy: ScanBy? = nil, startTime: TimeStamp) {
+            self.endTime = endTime
+            self.maxDatapoints = maxDatapoints
+            self.metricDataQueries = metricDataQueries
+            self.nextToken = nextToken
+            self.scanBy = scanBy
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case maxDatapoints = "MaxDatapoints"
+            case metricDataQueries = "MetricDataQueries"
+            case nextToken = "NextToken"
+            case scanBy = "ScanBy"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct GetMetricDataOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MetricDataResults", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The metrics that are returned, including the metric name, namespace, and dimensions.
+        public let metricDataResults: [MetricDataResult]?
+        /// A token that marks the next batch of returned results.
+        public let nextToken: String?
+
+        public init(metricDataResults: [MetricDataResult]? = nil, nextToken: String? = nil) {
+            self.metricDataResults = metricDataResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricDataResults = "MetricDataResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetMetricStatisticsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
+            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "ExtendedStatistics", required: false, type: .list), 
+            AWSShapeMember(label: "MetricName", required: true, type: .string), 
+            AWSShapeMember(label: "Namespace", required: true, type: .string), 
+            AWSShapeMember(label: "Period", required: true, type: .integer), 
+            AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Statistics", required: false, type: .list), 
+            AWSShapeMember(label: "Unit", required: false, type: .enum)
+        ]
+        /// The dimensions. If the metric contains multiple dimensions, you must include a value for each dimension. CloudWatch treats each unique combination of dimensions as a separate metric. If a specific combination of dimensions was not published, you can't retrieve statistics for it. You must specify the same dimensions that were used when the metrics were created. For an example, see Dimension Combinations in the Amazon CloudWatch User Guide. For more information about specifying dimensions, see Publishing Metrics in the Amazon CloudWatch User Guide.
+        public let dimensions: [Dimension]?
+        /// The time stamp that determines the last data point to return. The value specified is exclusive; results include data points up to the specified time stamp. The time stamp must be in ISO 8601 UTC format (for example, 2016-10-10T23:00:00Z).
+        public let endTime: TimeStamp
+        /// The percentile statistics. Specify values between p0.0 and p100. When calling GetMetricStatistics, you must specify either Statistics or ExtendedStatistics, but not both. Percentile statistics are not available for metrics when any of the metric values are negative numbers.
+        public let extendedStatistics: [String]?
+        /// The name of the metric, with or without spaces.
+        public let metricName: String
+        /// The namespace of the metric, with or without spaces.
+        public let namespace: String
+        /// The granularity, in seconds, of the returned data points. For metrics with regular resolution, a period can be as short as one minute (60 seconds) and must be a multiple of 60. For high-resolution metrics that are collected at intervals of less than one minute, the period can be 1, 5, 10, 30, 60, or any multiple of 60. High-resolution metrics are those metrics stored by a PutMetricData call that includes a StorageResolution of 1 second. If the StartTime parameter specifies a time stamp that is greater than 3 hours ago, you must specify the period as follows or no data points in that time range is returned:   Start time between 3 hours and 15 days ago - Use a multiple of 60 seconds (1 minute).   Start time between 15 and 63 days ago - Use a multiple of 300 seconds (5 minutes).   Start time greater than 63 days ago - Use a multiple of 3600 seconds (1 hour).  
+        public let period: Int32
+        /// The time stamp that determines the first data point to return. Start times are evaluated relative to the time that CloudWatch receives the request. The value specified is inclusive; results include data points with the specified time stamp. The time stamp must be in ISO 8601 UTC format (for example, 2016-10-03T23:00:00Z). CloudWatch rounds the specified time stamp as follows:   Start time less than 15 days ago - Round down to the nearest whole minute. For example, 12:32:34 is rounded down to 12:32:00.   Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock interval. For example, 12:32:34 is rounded down to 12:30:00.   Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval. For example, 12:32:34 is rounded down to 12:00:00.   If you set Period to 5, 10, or 30, the start time of your request is rounded down to the nearest time that corresponds to even 5-, 10-, or 30-second divisions of a minute. For example, if you make a query at (HH:mm:ss) 01:05:23 for the previous 10-second period, the start time of your request is rounded down and you receive data from 01:05:10 to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of data, using a period of 5 seconds, you receive data timestamped between 15:02:15 and 15:07:15. 
+        public let startTime: TimeStamp
+        /// The metric statistics, other than percentile. For percentile statistics, use ExtendedStatistics. When calling GetMetricStatistics, you must specify either Statistics or ExtendedStatistics, but not both.
+        public let statistics: [Statistic]?
+        /// The unit for a given metric. Metrics may be reported in multiple units. Not supplying a unit results in all units being returned. If you specify only a unit that the metric does not report, the results of the call are null.
+        public let unit: StandardUnit?
+
+        public init(dimensions: [Dimension]? = nil, endTime: TimeStamp, extendedStatistics: [String]? = nil, metricName: String, namespace: String, period: Int32, startTime: TimeStamp, statistics: [Statistic]? = nil, unit: StandardUnit? = nil) {
+            self.dimensions = dimensions
+            self.endTime = endTime
+            self.extendedStatistics = extendedStatistics
+            self.metricName = metricName
+            self.namespace = namespace
+            self.period = period
+            self.startTime = startTime
+            self.statistics = statistics
+            self.unit = unit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+            case endTime = "EndTime"
+            case extendedStatistics = "ExtendedStatistics"
+            case metricName = "MetricName"
+            case namespace = "Namespace"
+            case period = "Period"
+            case startTime = "StartTime"
+            case statistics = "Statistics"
+            case unit = "Unit"
+        }
+    }
+
+    public struct GetMetricStatisticsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Datapoints", required: false, type: .list), 
+            AWSShapeMember(label: "Label", required: false, type: .string)
+        ]
+        /// The data points for the specified metric.
+        public let datapoints: [Datapoint]?
+        /// A label for the specified metric.
+        public let label: String?
+
+        public init(datapoints: [Datapoint]? = nil, label: String? = nil) {
+            self.datapoints = datapoints
+            self.label = label
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datapoints = "Datapoints"
+            case label = "Label"
+        }
+    }
+
+    public struct GetMetricWidgetImageInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MetricWidget", required: true, type: .string), 
+            AWSShapeMember(label: "OutputFormat", required: false, type: .string)
+        ]
+        /// A JSON string that defines the bitmap graph to be retrieved. The string includes the metrics to include in the graph, statistics, annotations, title, axis limits, and so on. You can include only one MetricWidget parameter in each GetMetricWidgetImage call. For more information about the syntax of MetricWidget see CloudWatch-Metric-Widget-Structure. If any metric on the graph could not load all the requested data points, an orange triangle with an exclamation point appears next to the graph legend.
+        public let metricWidget: String
+        /// The format of the resulting image. Only PNG images are supported. The default is png. If you specify png, the API returns an HTTP response with the content-type set to text/xml. The image data is in a MetricWidgetImage field. For example:   &lt;GetMetricWidgetImageResponse xmlns="http://monitoring.amazonaws.com/doc/2010-08-01/"&gt;    &lt;GetMetricWidgetImageResult&gt;    &lt;MetricWidgetImage&gt;    iVBORw0KGgoAAAANSUhEUgAAAlgAAAGQEAYAAAAip...    &lt;/MetricWidgetImage&gt;    &lt;/GetMetricWidgetImageResult&gt;    &lt;ResponseMetadata&gt;    &lt;RequestId&gt;6f0d4192-4d42-11e8-82c1-f539a07e0e3b&lt;/RequestId&gt;    &lt;/ResponseMetadata&gt;   &lt;/GetMetricWidgetImageResponse&gt;  The image/png setting is intended only for custom HTTP requests. For most use cases, and all actions using an AWS SDK, you should use png. If you specify image/png, the HTTP response has a content-type set to image/png, and the body of the response is a PNG image. 
+        public let outputFormat: String?
+
+        public init(metricWidget: String, outputFormat: String? = nil) {
+            self.metricWidget = metricWidget
+            self.outputFormat = outputFormat
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricWidget = "MetricWidget"
+            case outputFormat = "OutputFormat"
+        }
+    }
+
+    public struct GetMetricWidgetImageOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MetricWidgetImage", required: false, type: .blob)
+        ]
+        /// The image of the graph, in the output format specified.
+        public let metricWidgetImage: Data?
+
+        public init(metricWidgetImage: Data? = nil) {
+            self.metricWidgetImage = metricWidgetImage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricWidgetImage = "MetricWidgetImage"
+        }
+    }
+
+    public enum HistoryItemType: String, CustomStringConvertible, Codable {
+        case configurationupdate = "ConfigurationUpdate"
+        case stateupdate = "StateUpdate"
+        case action = "Action"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListDashboardsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DashboardNamePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// If you specify this parameter, only the dashboards with names starting with the specified string are listed. The maximum length is 255, and valid characters are A-Z, a-z, 0-9, ".", "-", and "_". 
+        public let dashboardNamePrefix: String?
+        /// The token returned by a previous call to indicate that there is more data available.
+        public let nextToken: String?
+
+        public init(dashboardNamePrefix: String? = nil, nextToken: String? = nil) {
+            self.dashboardNamePrefix = dashboardNamePrefix
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardNamePrefix = "DashboardNamePrefix"
+            case nextToken = "NextToken"
         }
     }
 
@@ -59,131 +720,52 @@ extension CloudWatch {
 
     public struct ListMetricsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Namespace", required: false, type: .string), 
+            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
             AWSShapeMember(label: "MetricName", required: false, type: .string), 
-            AWSShapeMember(label: "Dimensions", required: false, type: .list)
+            AWSShapeMember(label: "Namespace", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The token returned by a previous call to indicate that there is more data available.
-        public let nextToken: String?
-        /// The namespace to filter against.
-        public let namespace: String?
-        /// The name of the metric to filter against.
-        public let metricName: String?
         /// The dimensions to filter against.
         public let dimensions: [DimensionFilter]?
-
-        public init(nextToken: String? = nil, namespace: String? = nil, metricName: String? = nil, dimensions: [DimensionFilter]? = nil) {
-            self.nextToken = nextToken
-            self.namespace = namespace
-            self.metricName = metricName
-            self.dimensions = dimensions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case namespace = "Namespace"
-            case metricName = "MetricName"
-            case dimensions = "Dimensions"
-        }
-    }
-
-    public struct GetMetricStatisticsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Datapoints", required: false, type: .list), 
-            AWSShapeMember(label: "Label", required: false, type: .string)
-        ]
-        /// The data points for the specified metric.
-        public let datapoints: [Datapoint]?
-        /// A label for the specified metric.
-        public let label: String?
-
-        public init(datapoints: [Datapoint]? = nil, label: String? = nil) {
-            self.datapoints = datapoints
-            self.label = label
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case datapoints = "Datapoints"
-            case label = "Label"
-        }
-    }
-
-    public struct PutDashboardOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DashboardValidationMessages", required: false, type: .list)
-        ]
-        /// If the input for PutDashboard was correct and the dashboard was successfully created or modified, this result is empty. If this result includes only warning messages, then the input was valid enough for the dashboard to be created or modified, but some elements of the dashboard may not render. If this result includes error messages, the input was not valid and the operation failed.
-        public let dashboardValidationMessages: [DashboardValidationMessage]?
-
-        public init(dashboardValidationMessages: [DashboardValidationMessage]? = nil) {
-            self.dashboardValidationMessages = dashboardValidationMessages
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dashboardValidationMessages = "DashboardValidationMessages"
-        }
-    }
-
-    public struct DimensionFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
-        /// The dimension name to be matched.
-        public let name: String
-        /// The value of the dimension to be matched.
-        public let value: String?
-
-        public init(name: String, value: String? = nil) {
-            self.name = name
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case value = "Value"
-        }
-    }
-
-    public struct ListDashboardsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DashboardNamePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// If you specify this parameter, only the dashboards with names starting with the specified string are listed. The maximum length is 255, and valid characters are A-Z, a-z, 0-9, ".", "-", and "_". 
-        public let dashboardNamePrefix: String?
+        /// The name of the metric to filter against.
+        public let metricName: String?
+        /// The namespace to filter against.
+        public let namespace: String?
         /// The token returned by a previous call to indicate that there is more data available.
         public let nextToken: String?
 
-        public init(dashboardNamePrefix: String? = nil, nextToken: String? = nil) {
-            self.dashboardNamePrefix = dashboardNamePrefix
+        public init(dimensions: [DimensionFilter]? = nil, metricName: String? = nil, namespace: String? = nil, nextToken: String? = nil) {
+            self.dimensions = dimensions
+            self.metricName = metricName
+            self.namespace = namespace
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dashboardNamePrefix = "DashboardNamePrefix"
+            case dimensions = "Dimensions"
+            case metricName = "MetricName"
+            case namespace = "Namespace"
             case nextToken = "NextToken"
         }
     }
 
-    public struct DescribeAlarmHistoryOutput: AWSShape {
+    public struct ListMetricsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlarmHistoryItems", required: false, type: .list), 
+            AWSShapeMember(label: "Metrics", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The alarm histories, in JSON format.
-        public let alarmHistoryItems: [AlarmHistoryItem]?
+        /// The metrics.
+        public let metrics: [Metric]?
         /// The token that marks the start of the next batch of returned results.
         public let nextToken: String?
 
-        public init(alarmHistoryItems: [AlarmHistoryItem]? = nil, nextToken: String? = nil) {
-            self.alarmHistoryItems = alarmHistoryItems
+        public init(metrics: [Metric]? = nil, nextToken: String? = nil) {
+            self.metrics = metrics
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmHistoryItems = "AlarmHistoryItems"
+            case metrics = "Metrics"
             case nextToken = "NextToken"
         }
     }
@@ -209,291 +791,333 @@ extension CloudWatch {
         }
     }
 
-    public struct MetricStat: AWSShape {
+    public struct Metric: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Period", required: true, type: .integer), 
-            AWSShapeMember(label: "Metric", required: true, type: .structure), 
-            AWSShapeMember(label: "Stat", required: true, type: .string), 
+            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
+            AWSShapeMember(label: "MetricName", required: false, type: .string), 
+            AWSShapeMember(label: "Namespace", required: false, type: .string)
+        ]
+        /// The dimensions for the metric.
+        public let dimensions: [Dimension]?
+        /// The name of the metric. This is a required field.
+        public let metricName: String?
+        /// The namespace of the metric.
+        public let namespace: String?
+
+        public init(dimensions: [Dimension]? = nil, metricName: String? = nil, namespace: String? = nil) {
+            self.dimensions = dimensions
+            self.metricName = metricName
+            self.namespace = namespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+            case metricName = "MetricName"
+            case namespace = "Namespace"
+        }
+    }
+
+    public struct MetricAlarm: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionsEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "AlarmActions", required: false, type: .list), 
+            AWSShapeMember(label: "AlarmArn", required: false, type: .string), 
+            AWSShapeMember(label: "AlarmConfigurationUpdatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AlarmDescription", required: false, type: .string), 
+            AWSShapeMember(label: "AlarmName", required: false, type: .string), 
+            AWSShapeMember(label: "ComparisonOperator", required: false, type: .enum), 
+            AWSShapeMember(label: "DatapointsToAlarm", required: false, type: .integer), 
+            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
+            AWSShapeMember(label: "EvaluateLowSampleCountPercentile", required: false, type: .string), 
+            AWSShapeMember(label: "EvaluationPeriods", required: false, type: .integer), 
+            AWSShapeMember(label: "ExtendedStatistic", required: false, type: .string), 
+            AWSShapeMember(label: "InsufficientDataActions", required: false, type: .list), 
+            AWSShapeMember(label: "MetricName", required: false, type: .string), 
+            AWSShapeMember(label: "Metrics", required: false, type: .list), 
+            AWSShapeMember(label: "Namespace", required: false, type: .string), 
+            AWSShapeMember(label: "OKActions", required: false, type: .list), 
+            AWSShapeMember(label: "Period", required: false, type: .integer), 
+            AWSShapeMember(label: "StateReason", required: false, type: .string), 
+            AWSShapeMember(label: "StateReasonData", required: false, type: .string), 
+            AWSShapeMember(label: "StateUpdatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StateValue", required: false, type: .enum), 
+            AWSShapeMember(label: "Statistic", required: false, type: .enum), 
+            AWSShapeMember(label: "Threshold", required: false, type: .double), 
+            AWSShapeMember(label: "TreatMissingData", required: false, type: .string), 
             AWSShapeMember(label: "Unit", required: false, type: .enum)
         ]
-        /// The period, in seconds, to use when retrieving the metric.
-        public let period: Int32
-        /// The metric to return, including the metric name, namespace, and dimensions.
-        public let metric: Metric
-        /// The statistic to return. It can include any CloudWatch statistic or extended statistic.
-        public let stat: String
-        /// The unit to use for the returned data points.
+        /// Indicates whether actions should be executed during any changes to the alarm state.
+        public let actionsEnabled: Bool?
+        /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN).
+        public let alarmActions: [String]?
+        /// The Amazon Resource Name (ARN) of the alarm.
+        public let alarmArn: String?
+        /// The time stamp of the last update to the alarm configuration.
+        public let alarmConfigurationUpdatedTimestamp: TimeStamp?
+        /// The description of the alarm.
+        public let alarmDescription: String?
+        /// The name of the alarm.
+        public let alarmName: String?
+        /// The arithmetic operation to use when comparing the specified statistic and threshold. The specified statistic value is used as the first operand.
+        public let comparisonOperator: ComparisonOperator?
+        /// The number of datapoints that must be breaching to trigger the alarm.
+        public let datapointsToAlarm: Int32?
+        /// The dimensions for the metric associated with the alarm.
+        public let dimensions: [Dimension]?
+        /// Used only for alarms based on percentiles. If ignore, the alarm state does not change during periods with too few data points to be statistically significant. If evaluate or this parameter is not used, the alarm is always evaluated and possibly changes state no matter how many data points are available.
+        public let evaluateLowSampleCountPercentile: String?
+        /// The number of periods over which data is compared to the specified threshold.
+        public let evaluationPeriods: Int32?
+        /// The percentile statistic for the metric associated with the alarm. Specify a value between p0.0 and p100.
+        public let extendedStatistic: String?
+        /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN).
+        public let insufficientDataActions: [String]?
+        /// The name of the metric associated with the alarm.
+        public let metricName: String?
+        public let metrics: [MetricDataQuery]?
+        /// The namespace of the metric associated with the alarm.
+        public let namespace: String?
+        /// The actions to execute when this alarm transitions to the OK state from any other state. Each action is specified as an Amazon Resource Name (ARN).
+        public let oKActions: [String]?
+        /// The period, in seconds, over which the statistic is applied.
+        public let period: Int32?
+        /// An explanation for the alarm state, in text format.
+        public let stateReason: String?
+        /// An explanation for the alarm state, in JSON format.
+        public let stateReasonData: String?
+        /// The time stamp of the last update to the alarm state.
+        public let stateUpdatedTimestamp: TimeStamp?
+        /// The state value for the alarm.
+        public let stateValue: StateValue?
+        /// The statistic for the metric associated with the alarm, other than percentile. For percentile statistics, use ExtendedStatistic.
+        public let statistic: Statistic?
+        /// The value to compare with the specified statistic.
+        public let threshold: Double?
+        /// Sets how this alarm is to handle missing data points. If this parameter is omitted, the default behavior of missing is used.
+        public let treatMissingData: String?
+        /// The unit of the metric associated with the alarm.
         public let unit: StandardUnit?
 
-        public init(period: Int32, metric: Metric, stat: String, unit: StandardUnit? = nil) {
+        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: TimeStamp? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, datapointsToAlarm: Int32? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationPeriods: Int32? = nil, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, oKActions: [String]? = nil, period: Int32? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateUpdatedTimestamp: TimeStamp? = nil, stateValue: StateValue? = nil, statistic: Statistic? = nil, threshold: Double? = nil, treatMissingData: String? = nil, unit: StandardUnit? = nil) {
+            self.actionsEnabled = actionsEnabled
+            self.alarmActions = alarmActions
+            self.alarmArn = alarmArn
+            self.alarmConfigurationUpdatedTimestamp = alarmConfigurationUpdatedTimestamp
+            self.alarmDescription = alarmDescription
+            self.alarmName = alarmName
+            self.comparisonOperator = comparisonOperator
+            self.datapointsToAlarm = datapointsToAlarm
+            self.dimensions = dimensions
+            self.evaluateLowSampleCountPercentile = evaluateLowSampleCountPercentile
+            self.evaluationPeriods = evaluationPeriods
+            self.extendedStatistic = extendedStatistic
+            self.insufficientDataActions = insufficientDataActions
+            self.metricName = metricName
+            self.metrics = metrics
+            self.namespace = namespace
+            self.oKActions = oKActions
             self.period = period
-            self.metric = metric
-            self.stat = stat
+            self.stateReason = stateReason
+            self.stateReasonData = stateReasonData
+            self.stateUpdatedTimestamp = stateUpdatedTimestamp
+            self.stateValue = stateValue
+            self.statistic = statistic
+            self.threshold = threshold
+            self.treatMissingData = treatMissingData
             self.unit = unit
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actionsEnabled = "ActionsEnabled"
+            case alarmActions = "AlarmActions"
+            case alarmArn = "AlarmArn"
+            case alarmConfigurationUpdatedTimestamp = "AlarmConfigurationUpdatedTimestamp"
+            case alarmDescription = "AlarmDescription"
+            case alarmName = "AlarmName"
+            case comparisonOperator = "ComparisonOperator"
+            case datapointsToAlarm = "DatapointsToAlarm"
+            case dimensions = "Dimensions"
+            case evaluateLowSampleCountPercentile = "EvaluateLowSampleCountPercentile"
+            case evaluationPeriods = "EvaluationPeriods"
+            case extendedStatistic = "ExtendedStatistic"
+            case insufficientDataActions = "InsufficientDataActions"
+            case metricName = "MetricName"
+            case metrics = "Metrics"
+            case namespace = "Namespace"
+            case oKActions = "OKActions"
             case period = "Period"
-            case metric = "Metric"
-            case stat = "Stat"
+            case stateReason = "StateReason"
+            case stateReasonData = "StateReasonData"
+            case stateUpdatedTimestamp = "StateUpdatedTimestamp"
+            case stateValue = "StateValue"
+            case statistic = "Statistic"
+            case threshold = "Threshold"
+            case treatMissingData = "TreatMissingData"
             case unit = "Unit"
+        }
+    }
+
+    public struct MetricDataQuery: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Expression", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "Label", required: false, type: .string), 
+            AWSShapeMember(label: "MetricStat", required: false, type: .structure), 
+            AWSShapeMember(label: "ReturnData", required: false, type: .boolean)
+        ]
+        /// The math expression to be performed on the returned data, if this object is performing a math expression. This expression can use the Id of the other metrics to refer to those metrics, and can also use the Id of other expressions to use the result of those expressions. For more information about metric math expressions, see Metric Math Syntax and Functions in the Amazon CloudWatch User Guide. Within each MetricDataQuery object, you must specify either Expression or MetricStat but not both.
+        public let expression: String?
+        /// A short name used to tie this object to the results in the response. This name must be unique within a single call to GetMetricData. If you are performing math expressions on this set of data, this name represents that data and can serve as a variable in the mathematical expression. The valid characters are letters, numbers, and underscore. The first character must be a lowercase letter.
+        public let id: String
+        /// A human-readable label for this metric or expression. This is especially useful if this is an expression, so that you know what the value represents. If the metric or expression is shown in a CloudWatch dashboard widget, the label is shown. If Label is omitted, CloudWatch generates a default.
+        public let label: String?
+        /// The metric to be returned, along with statistics, period, and units. Use this parameter only if this object is retrieving a metric and not performing a math expression on returned data. Within one MetricDataQuery object, you must specify either Expression or MetricStat but not both.
+        public let metricStat: MetricStat?
+        /// When used in GetMetricData, this option indicates whether to return the timestamps and raw data values of this metric. If you are performing this call just to do math expressions and do not also need the raw data returned, you can specify False. If you omit this, the default of True is used. When used in PutMetricAlarm, specify True for the one expression result to use as the alarm. For all other metrics and expressions in the same PutMetricAlarm operation, specify ReturnData as False.
+        public let returnData: Bool?
+
+        public init(expression: String? = nil, id: String, label: String? = nil, metricStat: MetricStat? = nil, returnData: Bool? = nil) {
+            self.expression = expression
+            self.id = id
+            self.label = label
+            self.metricStat = metricStat
+            self.returnData = returnData
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expression = "Expression"
+            case id = "Id"
+            case label = "Label"
+            case metricStat = "MetricStat"
+            case returnData = "ReturnData"
+        }
+    }
+
+    public struct MetricDataResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Label", required: false, type: .string), 
+            AWSShapeMember(label: "Messages", required: false, type: .list), 
+            AWSShapeMember(label: "StatusCode", required: false, type: .enum), 
+            AWSShapeMember(label: "Timestamps", required: false, type: .list), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
+        ]
+        /// The short name you specified to represent this metric.
+        public let id: String?
+        /// The human-readable label associated with the data.
+        public let label: String?
+        /// A list of messages with additional information about the data returned.
+        public let messages: [MessageData]?
+        /// The status of the returned data. Complete indicates that all data points in the requested time range were returned. PartialData means that an incomplete set of data points were returned. You can use the NextToken value that was returned and repeat your request to get more data points. NextToken is not returned if you are performing a math expression. InternalError indicates that an error occurred. Retry your request using NextToken, if present.
+        public let statusCode: StatusCode?
+        /// The timestamps for the data points, formatted in Unix timestamp format. The number of timestamps always matches the number of values and the value for Timestamps[x] is Values[x].
+        public let timestamps: [TimeStamp]?
+        /// The data points for the metric corresponding to Timestamps. The number of values always matches the number of timestamps and the timestamp for Values[x] is Timestamps[x].
+        public let values: [Double]?
+
+        public init(id: String? = nil, label: String? = nil, messages: [MessageData]? = nil, statusCode: StatusCode? = nil, timestamps: [TimeStamp]? = nil, values: [Double]? = nil) {
+            self.id = id
+            self.label = label
+            self.messages = messages
+            self.statusCode = statusCode
+            self.timestamps = timestamps
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case label = "Label"
+            case messages = "Messages"
+            case statusCode = "StatusCode"
+            case timestamps = "Timestamps"
+            case values = "Values"
         }
     }
 
     public struct MetricDatum: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: false, type: .list), 
             AWSShapeMember(label: "Counts", required: false, type: .list), 
-            AWSShapeMember(label: "StatisticValues", required: false, type: .structure), 
             AWSShapeMember(label: "Dimensions", required: false, type: .list), 
-            AWSShapeMember(label: "StorageResolution", required: false, type: .integer), 
             AWSShapeMember(label: "MetricName", required: true, type: .string), 
+            AWSShapeMember(label: "StatisticValues", required: false, type: .structure), 
+            AWSShapeMember(label: "StorageResolution", required: false, type: .integer), 
             AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "Unit", required: false, type: .enum), 
-            AWSShapeMember(label: "Value", required: false, type: .double)
+            AWSShapeMember(label: "Value", required: false, type: .double), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
         ]
-        /// Array of numbers representing the values for the metric during the period. Each unique value is listed just once in this array, and the corresponding number in the Counts array specifies the number of times that value occurred during the period. You can include up to 150 unique values in each PutMetricData action that specifies a Values array. Although the Values array accepts numbers of type Double, CloudWatch rejects values that are either too small or too large. Values must be in the range of 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2). In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
-        public let values: [Double]?
         /// Array of numbers that is used along with the Values array. Each number in the Count array is the number of times the corresponding value in the Values array occurred during the period.  If you omit the Counts array, the default of 1 is used as the value for each count. If you include a Counts array, it must include the same amount of values as the Values array.
         public let counts: [Double]?
-        /// The statistical values for the metric.
-        public let statisticValues: StatisticSet?
         /// The dimensions associated with the metric.
         public let dimensions: [Dimension]?
-        /// Valid values are 1 and 60. Setting this to 1 specifies this metric as a high-resolution metric, so that CloudWatch stores the metric with sub-minute resolution down to one second. Setting this to 60 specifies this metric as a regular-resolution metric, which CloudWatch stores at 1-minute resolution. Currently, high resolution is available only for custom metrics. For more information about high-resolution metrics, see High-Resolution Metrics in the Amazon CloudWatch User Guide.  This field is optional, if you do not specify it the default of 60 is used.
-        public let storageResolution: Int32?
         /// The name of the metric.
         public let metricName: String
+        /// The statistical values for the metric.
+        public let statisticValues: StatisticSet?
+        /// Valid values are 1 and 60. Setting this to 1 specifies this metric as a high-resolution metric, so that CloudWatch stores the metric with sub-minute resolution down to one second. Setting this to 60 specifies this metric as a regular-resolution metric, which CloudWatch stores at 1-minute resolution. Currently, high resolution is available only for custom metrics. For more information about high-resolution metrics, see High-Resolution Metrics in the Amazon CloudWatch User Guide.  This field is optional, if you do not specify it the default of 60 is used.
+        public let storageResolution: Int32?
         /// The time the metric data was received, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
         public let timestamp: TimeStamp?
         /// The unit of the metric.
         public let unit: StandardUnit?
         /// The value for the metric. Although the parameter accepts numbers of type Double, CloudWatch rejects values that are either too small or too large. Values must be in the range of 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2). In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
         public let value: Double?
+        /// Array of numbers representing the values for the metric during the period. Each unique value is listed just once in this array, and the corresponding number in the Counts array specifies the number of times that value occurred during the period. You can include up to 150 unique values in each PutMetricData action that specifies a Values array. Although the Values array accepts numbers of type Double, CloudWatch rejects values that are either too small or too large. Values must be in the range of 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2). In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
+        public let values: [Double]?
 
-        public init(values: [Double]? = nil, counts: [Double]? = nil, statisticValues: StatisticSet? = nil, dimensions: [Dimension]? = nil, storageResolution: Int32? = nil, metricName: String, timestamp: TimeStamp? = nil, unit: StandardUnit? = nil, value: Double? = nil) {
-            self.values = values
+        public init(counts: [Double]? = nil, dimensions: [Dimension]? = nil, metricName: String, statisticValues: StatisticSet? = nil, storageResolution: Int32? = nil, timestamp: TimeStamp? = nil, unit: StandardUnit? = nil, value: Double? = nil, values: [Double]? = nil) {
             self.counts = counts
+            self.dimensions = dimensions
+            self.metricName = metricName
             self.statisticValues = statisticValues
-            self.dimensions = dimensions
             self.storageResolution = storageResolution
-            self.metricName = metricName
             self.timestamp = timestamp
             self.unit = unit
             self.value = value
+            self.values = values
         }
 
         private enum CodingKeys: String, CodingKey {
-            case values = "Values"
             case counts = "Counts"
+            case dimensions = "Dimensions"
+            case metricName = "MetricName"
             case statisticValues = "StatisticValues"
-            case dimensions = "Dimensions"
             case storageResolution = "StorageResolution"
-            case metricName = "MetricName"
             case timestamp = "Timestamp"
             case unit = "Unit"
             case value = "Value"
+            case values = "Values"
         }
     }
 
-    public struct GetMetricWidgetImageInput: AWSShape {
+    public struct MetricStat: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MetricWidget", required: true, type: .string), 
-            AWSShapeMember(label: "OutputFormat", required: false, type: .string)
+            AWSShapeMember(label: "Metric", required: true, type: .structure), 
+            AWSShapeMember(label: "Period", required: true, type: .integer), 
+            AWSShapeMember(label: "Stat", required: true, type: .string), 
+            AWSShapeMember(label: "Unit", required: false, type: .enum)
         ]
-        /// A JSON string that defines the bitmap graph to be retrieved. The string includes the metrics to include in the graph, statistics, annotations, title, axis limits, and so on. You can include only one MetricWidget parameter in each GetMetricWidgetImage call. For more information about the syntax of MetricWidget see CloudWatch-Metric-Widget-Structure. If any metric on the graph could not load all the requested data points, an orange triangle with an exclamation point appears next to the graph legend.
-        public let metricWidget: String
-        /// The format of the resulting image. Only PNG images are supported. The default is png. If you specify png, the API returns an HTTP response with the content-type set to text/xml. The image data is in a MetricWidgetImage field. For example:   &lt;GetMetricWidgetImageResponse xmlns="http://monitoring.amazonaws.com/doc/2010-08-01/"&gt;    &lt;GetMetricWidgetImageResult&gt;    &lt;MetricWidgetImage&gt;    iVBORw0KGgoAAAANSUhEUgAAAlgAAAGQEAYAAAAip...    &lt;/MetricWidgetImage&gt;    &lt;/GetMetricWidgetImageResult&gt;    &lt;ResponseMetadata&gt;    &lt;RequestId&gt;6f0d4192-4d42-11e8-82c1-f539a07e0e3b&lt;/RequestId&gt;    &lt;/ResponseMetadata&gt;   &lt;/GetMetricWidgetImageResponse&gt;  The image/png setting is intended only for custom HTTP requests. For most use cases, and all actions using an AWS SDK, you should use png. If you specify image/png, the HTTP response has a content-type set to image/png, and the body of the response is a PNG image. 
-        public let outputFormat: String?
-
-        public init(metricWidget: String, outputFormat: String? = nil) {
-            self.metricWidget = metricWidget
-            self.outputFormat = outputFormat
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case metricWidget = "MetricWidget"
-            case outputFormat = "OutputFormat"
-        }
-    }
-
-    public struct MetricDataQuery: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MetricStat", required: false, type: .structure), 
-            AWSShapeMember(label: "Expression", required: false, type: .string), 
-            AWSShapeMember(label: "Label", required: false, type: .string), 
-            AWSShapeMember(label: "ReturnData", required: false, type: .boolean), 
-            AWSShapeMember(label: "Id", required: true, type: .string)
-        ]
-        /// The metric to be returned, along with statistics, period, and units. Use this parameter only if this object is retrieving a metric and not performing a math expression on returned data. Within one MetricDataQuery object, you must specify either Expression or MetricStat but not both.
-        public let metricStat: MetricStat?
-        /// The math expression to be performed on the returned data, if this object is performing a math expression. This expression can use the Id of the other metrics to refer to those metrics, and can also use the Id of other expressions to use the result of those expressions. For more information about metric math expressions, see Metric Math Syntax and Functions in the Amazon CloudWatch User Guide. Within each MetricDataQuery object, you must specify either Expression or MetricStat but not both.
-        public let expression: String?
-        /// A human-readable label for this metric or expression. This is especially useful if this is an expression, so that you know what the value represents. If the metric or expression is shown in a CloudWatch dashboard widget, the label is shown. If Label is omitted, CloudWatch generates a default.
-        public let label: String?
-        /// When used in GetMetricData, this option indicates whether to return the timestamps and raw data values of this metric. If you are performing this call just to do math expressions and do not also need the raw data returned, you can specify False. If you omit this, the default of True is used. When used in PutMetricAlarm, specify True for the one expression result to use as the alarm. For all other metrics and expressions in the same PutMetricAlarm operation, specify ReturnData as False.
-        public let returnData: Bool?
-        /// A short name used to tie this object to the results in the response. This name must be unique within a single call to GetMetricData. If you are performing math expressions on this set of data, this name represents that data and can serve as a variable in the mathematical expression. The valid characters are letters, numbers, and underscore. The first character must be a lowercase letter.
-        public let id: String
-
-        public init(metricStat: MetricStat? = nil, expression: String? = nil, label: String? = nil, returnData: Bool? = nil, id: String) {
-            self.metricStat = metricStat
-            self.expression = expression
-            self.label = label
-            self.returnData = returnData
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case metricStat = "MetricStat"
-            case expression = "Expression"
-            case label = "Label"
-            case returnData = "ReturnData"
-            case id = "Id"
-        }
-    }
-
-    public struct DescribeAlarmsForMetricInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Statistic", required: false, type: .enum), 
-            AWSShapeMember(label: "Namespace", required: true, type: .string), 
-            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
-            AWSShapeMember(label: "ExtendedStatistic", required: false, type: .string), 
-            AWSShapeMember(label: "MetricName", required: true, type: .string), 
-            AWSShapeMember(label: "Unit", required: false, type: .enum), 
-            AWSShapeMember(label: "Period", required: false, type: .integer)
-        ]
-        /// The statistic for the metric, other than percentiles. For percentile statistics, use ExtendedStatistics.
-        public let statistic: Statistic?
-        /// The namespace of the metric.
-        public let namespace: String
-        /// The dimensions associated with the metric. If the metric has any associated dimensions, you must specify them in order for the call to succeed.
-        public let dimensions: [Dimension]?
-        /// The percentile statistic for the metric. Specify a value between p0.0 and p100.
-        public let extendedStatistic: String?
-        /// The name of the metric.
-        public let metricName: String
-        /// The unit for the metric.
+        /// The metric to return, including the metric name, namespace, and dimensions.
+        public let metric: Metric
+        /// The period, in seconds, to use when retrieving the metric.
+        public let period: Int32
+        /// The statistic to return. It can include any CloudWatch statistic or extended statistic.
+        public let stat: String
+        /// The unit to use for the returned data points.
         public let unit: StandardUnit?
-        /// The period, in seconds, over which the statistic is applied.
-        public let period: Int32?
 
-        public init(statistic: Statistic? = nil, namespace: String, dimensions: [Dimension]? = nil, extendedStatistic: String? = nil, metricName: String, unit: StandardUnit? = nil, period: Int32? = nil) {
-            self.statistic = statistic
-            self.namespace = namespace
-            self.dimensions = dimensions
-            self.extendedStatistic = extendedStatistic
-            self.metricName = metricName
-            self.unit = unit
+        public init(metric: Metric, period: Int32, stat: String, unit: StandardUnit? = nil) {
+            self.metric = metric
             self.period = period
+            self.stat = stat
+            self.unit = unit
         }
 
         private enum CodingKeys: String, CodingKey {
-            case statistic = "Statistic"
-            case namespace = "Namespace"
-            case dimensions = "Dimensions"
-            case extendedStatistic = "ExtendedStatistic"
-            case metricName = "MetricName"
-            case unit = "Unit"
+            case metric = "Metric"
             case period = "Period"
-        }
-    }
-
-    public struct Dimension: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
-        /// The name of the dimension.
-        public let name: String
-        /// The value representing the dimension measurement.
-        public let value: String
-
-        public init(name: String, value: String) {
-            self.name = name
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case value = "Value"
-        }
-    }
-
-    public struct DescribeAlarmHistoryInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "AlarmName", required: false, type: .string), 
-            AWSShapeMember(label: "StartDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "HistoryItemType", required: false, type: .enum), 
-            AWSShapeMember(label: "EndDate", required: false, type: .timestamp)
-        ]
-        /// The maximum number of alarm history records to retrieve.
-        public let maxRecords: Int32?
-        /// The name of the alarm.
-        public let alarmName: String?
-        /// The starting date to retrieve alarm history.
-        public let startDate: TimeStamp?
-        /// The token returned by a previous call to indicate that there is more data available.
-        public let nextToken: String?
-        /// The type of alarm histories to retrieve.
-        public let historyItemType: HistoryItemType?
-        /// The ending date to retrieve alarm history.
-        public let endDate: TimeStamp?
-
-        public init(maxRecords: Int32? = nil, alarmName: String? = nil, startDate: TimeStamp? = nil, nextToken: String? = nil, historyItemType: HistoryItemType? = nil, endDate: TimeStamp? = nil) {
-            self.maxRecords = maxRecords
-            self.alarmName = alarmName
-            self.startDate = startDate
-            self.nextToken = nextToken
-            self.historyItemType = historyItemType
-            self.endDate = endDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxRecords = "MaxRecords"
-            case alarmName = "AlarmName"
-            case startDate = "StartDate"
-            case nextToken = "NextToken"
-            case historyItemType = "HistoryItemType"
-            case endDate = "EndDate"
-        }
-    }
-
-    public struct AlarmHistoryItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlarmName", required: false, type: .string), 
-            AWSShapeMember(label: "HistorySummary", required: false, type: .string), 
-            AWSShapeMember(label: "HistoryData", required: false, type: .string), 
-            AWSShapeMember(label: "HistoryItemType", required: false, type: .enum), 
-            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp)
-        ]
-        /// The descriptive name for the alarm.
-        public let alarmName: String?
-        /// A summary of the alarm history, in text format.
-        public let historySummary: String?
-        /// Data about the alarm, in JSON format.
-        public let historyData: String?
-        /// The type of alarm history item.
-        public let historyItemType: HistoryItemType?
-        /// The time stamp for the alarm history item.
-        public let timestamp: TimeStamp?
-
-        public init(alarmName: String? = nil, historySummary: String? = nil, historyData: String? = nil, historyItemType: HistoryItemType? = nil, timestamp: TimeStamp? = nil) {
-            self.alarmName = alarmName
-            self.historySummary = historySummary
-            self.historyData = historyData
-            self.historyItemType = historyItemType
-            self.timestamp = timestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case alarmName = "AlarmName"
-            case historySummary = "HistorySummary"
-            case historyData = "HistoryData"
-            case historyItemType = "HistoryItemType"
-            case timestamp = "Timestamp"
+            case stat = "Stat"
+            case unit = "Unit"
         }
     }
 
@@ -518,175 +1142,188 @@ extension CloudWatch {
         }
     }
 
-    public struct MetricDataResult: AWSShape {
+    public struct PutDashboardOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StatusCode", required: false, type: .enum), 
-            AWSShapeMember(label: "Messages", required: false, type: .list), 
-            AWSShapeMember(label: "Timestamps", required: false, type: .list), 
-            AWSShapeMember(label: "Label", required: false, type: .string), 
-            AWSShapeMember(label: "Values", required: false, type: .list), 
-            AWSShapeMember(label: "Id", required: false, type: .string)
+            AWSShapeMember(label: "DashboardValidationMessages", required: false, type: .list)
         ]
-        /// The status of the returned data. Complete indicates that all data points in the requested time range were returned. PartialData means that an incomplete set of data points were returned. You can use the NextToken value that was returned and repeat your request to get more data points. NextToken is not returned if you are performing a math expression. InternalError indicates that an error occurred. Retry your request using NextToken, if present.
-        public let statusCode: StatusCode?
-        /// A list of messages with additional information about the data returned.
-        public let messages: [MessageData]?
-        /// The timestamps for the data points, formatted in Unix timestamp format. The number of timestamps always matches the number of values and the value for Timestamps[x] is Values[x].
-        public let timestamps: [TimeStamp]?
-        /// The human-readable label associated with the data.
-        public let label: String?
-        /// The data points for the metric corresponding to Timestamps. The number of values always matches the number of timestamps and the timestamp for Values[x] is Timestamps[x].
-        public let values: [Double]?
-        /// The short name you specified to represent this metric.
-        public let id: String?
+        /// If the input for PutDashboard was correct and the dashboard was successfully created or modified, this result is empty. If this result includes only warning messages, then the input was valid enough for the dashboard to be created or modified, but some elements of the dashboard may not render. If this result includes error messages, the input was not valid and the operation failed.
+        public let dashboardValidationMessages: [DashboardValidationMessage]?
 
-        public init(statusCode: StatusCode? = nil, messages: [MessageData]? = nil, timestamps: [TimeStamp]? = nil, label: String? = nil, values: [Double]? = nil, id: String? = nil) {
-            self.statusCode = statusCode
-            self.messages = messages
-            self.timestamps = timestamps
-            self.label = label
-            self.values = values
-            self.id = id
+        public init(dashboardValidationMessages: [DashboardValidationMessage]? = nil) {
+            self.dashboardValidationMessages = dashboardValidationMessages
         }
 
         private enum CodingKeys: String, CodingKey {
-            case statusCode = "StatusCode"
-            case messages = "Messages"
-            case timestamps = "Timestamps"
-            case label = "Label"
-            case values = "Values"
-            case id = "Id"
+            case dashboardValidationMessages = "DashboardValidationMessages"
         }
     }
 
-    public enum StateValue: String, CustomStringConvertible, Codable {
-        case ok = "OK"
-        case alarm = "ALARM"
-        case insufficientData = "INSUFFICIENT_DATA"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Datapoint: AWSShape {
+    public struct PutMetricAlarmInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Minimum", required: false, type: .double), 
-            AWSShapeMember(label: "Average", required: false, type: .double), 
-            AWSShapeMember(label: "SampleCount", required: false, type: .double), 
-            AWSShapeMember(label: "ExtendedStatistics", required: false, type: .map), 
-            AWSShapeMember(label: "Maximum", required: false, type: .double), 
-            AWSShapeMember(label: "Sum", required: false, type: .double), 
-            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ActionsEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "AlarmActions", required: false, type: .list), 
+            AWSShapeMember(label: "AlarmDescription", required: false, type: .string), 
+            AWSShapeMember(label: "AlarmName", required: true, type: .string), 
+            AWSShapeMember(label: "ComparisonOperator", required: true, type: .enum), 
+            AWSShapeMember(label: "DatapointsToAlarm", required: false, type: .integer), 
+            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
+            AWSShapeMember(label: "EvaluateLowSampleCountPercentile", required: false, type: .string), 
+            AWSShapeMember(label: "EvaluationPeriods", required: true, type: .integer), 
+            AWSShapeMember(label: "ExtendedStatistic", required: false, type: .string), 
+            AWSShapeMember(label: "InsufficientDataActions", required: false, type: .list), 
+            AWSShapeMember(label: "MetricName", required: false, type: .string), 
+            AWSShapeMember(label: "Metrics", required: false, type: .list), 
+            AWSShapeMember(label: "Namespace", required: false, type: .string), 
+            AWSShapeMember(label: "OKActions", required: false, type: .list), 
+            AWSShapeMember(label: "Period", required: false, type: .integer), 
+            AWSShapeMember(label: "Statistic", required: false, type: .enum), 
+            AWSShapeMember(label: "Threshold", required: true, type: .double), 
+            AWSShapeMember(label: "TreatMissingData", required: false, type: .string), 
             AWSShapeMember(label: "Unit", required: false, type: .enum)
         ]
-        /// The minimum metric value for the data point.
-        public let minimum: Double?
-        /// The average of the metric values that correspond to the data point.
-        public let average: Double?
-        /// The number of metric values that contributed to the aggregate value of this data point.
-        public let sampleCount: Double?
-        /// The percentile statistic for the data point.
-        public let extendedStatistics: [String: Double]?
-        /// The maximum metric value for the data point.
-        public let maximum: Double?
-        /// The sum of the metric values for the data point.
-        public let sum: Double?
-        /// The time stamp used for the data point.
-        public let timestamp: TimeStamp?
-        /// The standard unit for the data point.
+        /// Indicates whether actions should be executed during any changes to the alarm state. The default is TRUE.
+        public let actionsEnabled: Bool?
+        /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover | arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:autoscaling:region:account-id:scalingPolicy:policy-idautoScalingGroupName/group-friendly-name:policyName/policy-friendly-name   Valid Values (for use with IAM roles): arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 
+        public let alarmActions: [String]?
+        /// The description for the alarm.
+        public let alarmDescription: String?
+        /// The name for the alarm. This name must be unique within your AWS account.
+        public let alarmName: String
+        ///  The arithmetic operation to use when comparing the specified statistic and threshold. The specified statistic value is used as the first operand.
+        public let comparisonOperator: ComparisonOperator
+        /// The number of datapoints that must be breaching to trigger the alarm. This is used only if you are setting an "M out of N" alarm. In that case, this value is the M. For more information, see Evaluating an Alarm in the Amazon CloudWatch User Guide.
+        public let datapointsToAlarm: Int32?
+        /// The dimensions for the metric specified in MetricName.
+        public let dimensions: [Dimension]?
+        ///  Used only for alarms based on percentiles. If you specify ignore, the alarm state does not change during periods with too few data points to be statistically significant. If you specify evaluate or omit this parameter, the alarm is always evaluated and possibly changes state no matter how many data points are available. For more information, see Percentile-Based CloudWatch Alarms and Low Data Samples. Valid Values: evaluate | ignore 
+        public let evaluateLowSampleCountPercentile: String?
+        /// The number of periods over which data is compared to the specified threshold. If you are setting an alarm that requires that a number of consecutive data points be breaching to trigger the alarm, this value specifies that number. If you are setting an "M out of N" alarm, this value is the N. An alarm's total current evaluation period can be no longer than one day, so this number multiplied by Period cannot be more than 86,400 seconds.
+        public let evaluationPeriods: Int32
+        /// The percentile statistic for the metric specified in MetricName. Specify a value between p0.0 and p100. When you call PutMetricAlarm and specify a MetricName, you must specify either Statistic or ExtendedStatistic, but not both.
+        public let extendedStatistic: String?
+        /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover | arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:autoscaling:region:account-id:scalingPolicy:policy-idautoScalingGroupName/group-friendly-name:policyName/policy-friendly-name   Valid Values (for use with IAM roles): &gt;arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 
+        public let insufficientDataActions: [String]?
+        /// The name for the metric associated with the alarm. If you are creating an alarm based on a math expression, you cannot specify this parameter, or any of the Dimensions, Period, Namespace, Statistic, or ExtendedStatistic parameters. Instead, you specify all this information in the Metrics array.
+        public let metricName: String?
+        /// An array of MetricDataQuery structures that enable you to create an alarm based on the result of a metric math expression. Each item in the Metrics array either retrieves a metric or performs a math expression. If you use the Metrics parameter, you cannot include the MetricName, Dimensions, Period, Namespace, Statistic, or ExtendedStatistic parameters of PutMetricAlarm in the same operation. Instead, you retrieve the metrics you are using in your math expression as part of the Metrics array.
+        public let metrics: [MetricDataQuery]?
+        /// The namespace for the metric associated specified in MetricName.
+        public let namespace: String?
+        /// The actions to execute when this alarm transitions to an OK state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover | arn:aws:automate:region:ec2:reboot | arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:autoscaling:region:account-id:scalingPolicy:policy-idautoScalingGroupName/group-friendly-name:policyName/policy-friendly-name   Valid Values (for use with IAM roles): arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 
+        public let oKActions: [String]?
+        /// The length, in seconds, used each time the metric specified in MetricName is evaluated. Valid values are 10, 30, and any multiple of 60. Be sure to specify 10 or 30 only for metrics that are stored by a PutMetricData call with a StorageResolution of 1. If you specify a period of 10 or 30 for a metric that does not have sub-minute resolution, the alarm still attempts to gather data at the period rate that you specify. In this case, it does not receive data for the attempts that do not correspond to a one-minute data resolution, and the alarm may often lapse into INSUFFICENT_DATA status. Specifying 10 or 30 also sets this alarm as a high-resolution alarm, which has a higher charge than other alarms. For more information about pricing, see Amazon CloudWatch Pricing. An alarm's total current evaluation period can be no longer than one day, so Period multiplied by EvaluationPeriods cannot be more than 86,400 seconds.
+        public let period: Int32?
+        /// The statistic for the metric specified in MetricName, other than percentile. For percentile statistics, use ExtendedStatistic. When you call PutMetricAlarm and specify a MetricName, you must specify either Statistic or ExtendedStatistic, but not both.
+        public let statistic: Statistic?
+        /// The value against which the specified statistic is compared.
+        public let threshold: Double
+        ///  Sets how this alarm is to handle missing data points. If TreatMissingData is omitted, the default behavior of missing is used. For more information, see Configuring How CloudWatch Alarms Treats Missing Data. Valid Values: breaching | notBreaching | ignore | missing 
+        public let treatMissingData: String?
+        /// The unit of measure for the statistic. For example, the units for the Amazon EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an instance receives on all network interfaces. You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points that specify a unit of measure, such as Percent, are aggregated separately. If you specify a unit, you must use a unit that is appropriate for the metric. Otherwise, the CloudWatch alarm can get stuck in the INSUFFICIENT DATA state. 
         public let unit: StandardUnit?
 
-        public init(minimum: Double? = nil, average: Double? = nil, sampleCount: Double? = nil, extendedStatistics: [String: Double]? = nil, maximum: Double? = nil, sum: Double? = nil, timestamp: TimeStamp? = nil, unit: StandardUnit? = nil) {
-            self.minimum = minimum
-            self.average = average
-            self.sampleCount = sampleCount
-            self.extendedStatistics = extendedStatistics
-            self.maximum = maximum
-            self.sum = sum
-            self.timestamp = timestamp
+        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String, comparisonOperator: ComparisonOperator, datapointsToAlarm: Int32? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationPeriods: Int32, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, oKActions: [String]? = nil, period: Int32? = nil, statistic: Statistic? = nil, threshold: Double, treatMissingData: String? = nil, unit: StandardUnit? = nil) {
+            self.actionsEnabled = actionsEnabled
+            self.alarmActions = alarmActions
+            self.alarmDescription = alarmDescription
+            self.alarmName = alarmName
+            self.comparisonOperator = comparisonOperator
+            self.datapointsToAlarm = datapointsToAlarm
+            self.dimensions = dimensions
+            self.evaluateLowSampleCountPercentile = evaluateLowSampleCountPercentile
+            self.evaluationPeriods = evaluationPeriods
+            self.extendedStatistic = extendedStatistic
+            self.insufficientDataActions = insufficientDataActions
+            self.metricName = metricName
+            self.metrics = metrics
+            self.namespace = namespace
+            self.oKActions = oKActions
+            self.period = period
+            self.statistic = statistic
+            self.threshold = threshold
+            self.treatMissingData = treatMissingData
             self.unit = unit
         }
 
         private enum CodingKeys: String, CodingKey {
-            case minimum = "Minimum"
-            case average = "Average"
-            case sampleCount = "SampleCount"
-            case extendedStatistics = "ExtendedStatistics"
-            case maximum = "Maximum"
-            case sum = "Sum"
-            case timestamp = "Timestamp"
+            case actionsEnabled = "ActionsEnabled"
+            case alarmActions = "AlarmActions"
+            case alarmDescription = "AlarmDescription"
+            case alarmName = "AlarmName"
+            case comparisonOperator = "ComparisonOperator"
+            case datapointsToAlarm = "DatapointsToAlarm"
+            case dimensions = "Dimensions"
+            case evaluateLowSampleCountPercentile = "EvaluateLowSampleCountPercentile"
+            case evaluationPeriods = "EvaluationPeriods"
+            case extendedStatistic = "ExtendedStatistic"
+            case insufficientDataActions = "InsufficientDataActions"
+            case metricName = "MetricName"
+            case metrics = "Metrics"
+            case namespace = "Namespace"
+            case oKActions = "OKActions"
+            case period = "Period"
+            case statistic = "Statistic"
+            case threshold = "Threshold"
+            case treatMissingData = "TreatMissingData"
             case unit = "Unit"
         }
     }
 
-    public struct DeleteAlarmsInput: AWSShape {
+    public struct PutMetricDataInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlarmNames", required: true, type: .list)
+            AWSShapeMember(label: "MetricData", required: true, type: .list), 
+            AWSShapeMember(label: "Namespace", required: true, type: .string)
         ]
-        /// The alarms to be deleted.
-        public let alarmNames: [String]
+        /// The data for the metric. The array can include no more than 20 metrics per call.
+        public let metricData: [MetricDatum]
+        /// The namespace for the metric data. You cannot specify a namespace that begins with "AWS/". Namespaces that begin with "AWS/" are reserved for use by Amazon Web Services products.
+        public let namespace: String
 
-        public init(alarmNames: [String]) {
-            self.alarmNames = alarmNames
+        public init(metricData: [MetricDatum], namespace: String) {
+            self.metricData = metricData
+            self.namespace = namespace
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmNames = "AlarmNames"
+            case metricData = "MetricData"
+            case namespace = "Namespace"
         }
     }
 
-    public struct GetMetricDataInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MetricDataQueries", required: true, type: .list), 
-            AWSShapeMember(label: "MaxDatapoints", required: false, type: .integer), 
-            AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "ScanBy", required: false, type: .enum)
-        ]
-        /// The time stamp indicating the latest data to be returned. For better performance, specify StartTime and EndTime values that align with the value of the metric's Period and sync up with the beginning and end of an hour. For example, if the Period of a metric is 5 minutes, specifying 12:05 or 12:30 as EndTime can get a faster response from CloudWatch then setting 12:07 or 12:29 as the EndTime.
-        public let endTime: TimeStamp
-        /// Include this value, if it was returned by the previous call, to get the next set of data points.
-        public let nextToken: String?
-        /// The metric queries to be returned. A single GetMetricData call can include as many as 100 MetricDataQuery structures. Each of these structures can specify either a metric to retrieve, or a math expression to perform on retrieved data. 
-        public let metricDataQueries: [MetricDataQuery]
-        /// The maximum number of data points the request should return before paginating. If you omit this, the default of 100,800 is used.
-        public let maxDatapoints: Int32?
-        /// The time stamp indicating the earliest data to be returned. For better performance, specify StartTime and EndTime values that align with the value of the metric's Period and sync up with the beginning and end of an hour. For example, if the Period of a metric is 5 minutes, specifying 12:05 or 12:30 as StartTime can get a faster response from CloudWatch then setting 12:07 or 12:29 as the StartTime.
-        public let startTime: TimeStamp
-        /// The order in which data points should be returned. TimestampDescending returns the newest data first and paginates when the MaxDatapoints limit is reached. TimestampAscending returns the oldest data first and paginates when the MaxDatapoints limit is reached.
-        public let scanBy: ScanBy?
-
-        public init(endTime: TimeStamp, nextToken: String? = nil, metricDataQueries: [MetricDataQuery], maxDatapoints: Int32? = nil, startTime: TimeStamp, scanBy: ScanBy? = nil) {
-            self.endTime = endTime
-            self.nextToken = nextToken
-            self.metricDataQueries = metricDataQueries
-            self.maxDatapoints = maxDatapoints
-            self.startTime = startTime
-            self.scanBy = scanBy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endTime = "EndTime"
-            case nextToken = "NextToken"
-            case metricDataQueries = "MetricDataQueries"
-            case maxDatapoints = "MaxDatapoints"
-            case startTime = "StartTime"
-            case scanBy = "ScanBy"
-        }
+    public enum ScanBy: String, CustomStringConvertible, Codable {
+        case timestampdescending = "TimestampDescending"
+        case timestampascending = "TimestampAscending"
+        public var description: String { return self.rawValue }
     }
 
-    public struct GetMetricWidgetImageOutput: AWSShape {
+    public struct SetAlarmStateInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MetricWidgetImage", required: false, type: .blob)
+            AWSShapeMember(label: "AlarmName", required: true, type: .string), 
+            AWSShapeMember(label: "StateReason", required: true, type: .string), 
+            AWSShapeMember(label: "StateReasonData", required: false, type: .string), 
+            AWSShapeMember(label: "StateValue", required: true, type: .enum)
         ]
-        /// The image of the graph, in the output format specified.
-        public let metricWidgetImage: Data?
+        /// The name for the alarm. This name must be unique within the AWS account. The maximum length is 255 characters.
+        public let alarmName: String
+        /// The reason that this alarm is set to this specific state, in text format.
+        public let stateReason: String
+        /// The reason that this alarm is set to this specific state, in JSON format.
+        public let stateReasonData: String?
+        /// The value of the state.
+        public let stateValue: StateValue
 
-        public init(metricWidgetImage: Data? = nil) {
-            self.metricWidgetImage = metricWidgetImage
+        public init(alarmName: String, stateReason: String, stateReasonData: String? = nil, stateValue: StateValue) {
+            self.alarmName = alarmName
+            self.stateReason = stateReason
+            self.stateReasonData = stateReasonData
+            self.stateValue = stateValue
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricWidgetImage = "MetricWidgetImage"
+            case alarmName = "AlarmName"
+            case stateReason = "StateReason"
+            case stateReasonData = "StateReasonData"
+            case stateValue = "StateValue"
         }
     }
 
@@ -721,63 +1358,11 @@ extension CloudWatch {
         public var description: String { return self.rawValue }
     }
 
-    public enum StatusCode: String, CustomStringConvertible, Codable {
-        case complete = "Complete"
-        case internalerror = "InternalError"
-        case partialdata = "PartialData"
+    public enum StateValue: String, CustomStringConvertible, Codable {
+        case ok = "OK"
+        case alarm = "ALARM"
+        case insufficientData = "INSUFFICIENT_DATA"
         public var description: String { return self.rawValue }
-    }
-
-    public enum ScanBy: String, CustomStringConvertible, Codable {
-        case timestampdescending = "TimestampDescending"
-        case timestampascending = "TimestampAscending"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeAlarmsForMetricOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MetricAlarms", required: false, type: .list)
-        ]
-        /// The information for each alarm with the specified metric.
-        public let metricAlarms: [MetricAlarm]?
-
-        public init(metricAlarms: [MetricAlarm]? = nil) {
-            self.metricAlarms = metricAlarms
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case metricAlarms = "MetricAlarms"
-        }
-    }
-
-    public struct DeleteDashboardsOutput: AWSShape {
-
-    }
-
-    public struct GetDashboardOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DashboardBody", required: false, type: .string), 
-            AWSShapeMember(label: "DashboardName", required: false, type: .string), 
-            AWSShapeMember(label: "DashboardArn", required: false, type: .string)
-        ]
-        /// The detailed information about the dashboard, including what widgets are included and their location on the dashboard. For more information about the DashboardBody syntax, see CloudWatch-Dashboard-Body-Structure. 
-        public let dashboardBody: String?
-        /// The name of the dashboard.
-        public let dashboardName: String?
-        /// The Amazon Resource Name (ARN) of the dashboard.
-        public let dashboardArn: String?
-
-        public init(dashboardBody: String? = nil, dashboardName: String? = nil, dashboardArn: String? = nil) {
-            self.dashboardBody = dashboardBody
-            self.dashboardName = dashboardName
-            self.dashboardArn = dashboardArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dashboardBody = "DashboardBody"
-            case dashboardName = "DashboardName"
-            case dashboardArn = "DashboardArn"
-        }
     }
 
     public enum Statistic: String, CustomStringConvertible, Codable {
@@ -789,624 +1374,42 @@ extension CloudWatch {
         public var description: String { return self.rawValue }
     }
 
-    public struct PutMetricAlarmInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActionsEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "EvaluateLowSampleCountPercentile", required: false, type: .string), 
-            AWSShapeMember(label: "AlarmDescription", required: false, type: .string), 
-            AWSShapeMember(label: "AlarmName", required: true, type: .string), 
-            AWSShapeMember(label: "Metrics", required: false, type: .list), 
-            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
-            AWSShapeMember(label: "Statistic", required: false, type: .enum), 
-            AWSShapeMember(label: "EvaluationPeriods", required: true, type: .integer), 
-            AWSShapeMember(label: "InsufficientDataActions", required: false, type: .list), 
-            AWSShapeMember(label: "TreatMissingData", required: false, type: .string), 
-            AWSShapeMember(label: "OKActions", required: false, type: .list), 
-            AWSShapeMember(label: "AlarmActions", required: false, type: .list), 
-            AWSShapeMember(label: "Unit", required: false, type: .enum), 
-            AWSShapeMember(label: "Namespace", required: false, type: .string), 
-            AWSShapeMember(label: "ComparisonOperator", required: true, type: .enum), 
-            AWSShapeMember(label: "ExtendedStatistic", required: false, type: .string), 
-            AWSShapeMember(label: "Period", required: false, type: .integer), 
-            AWSShapeMember(label: "Threshold", required: true, type: .double), 
-            AWSShapeMember(label: "MetricName", required: false, type: .string), 
-            AWSShapeMember(label: "DatapointsToAlarm", required: false, type: .integer)
-        ]
-        /// Indicates whether actions should be executed during any changes to the alarm state. The default is TRUE.
-        public let actionsEnabled: Bool?
-        ///  Used only for alarms based on percentiles. If you specify ignore, the alarm state does not change during periods with too few data points to be statistically significant. If you specify evaluate or omit this parameter, the alarm is always evaluated and possibly changes state no matter how many data points are available. For more information, see Percentile-Based CloudWatch Alarms and Low Data Samples. Valid Values: evaluate | ignore 
-        public let evaluateLowSampleCountPercentile: String?
-        /// The description for the alarm.
-        public let alarmDescription: String?
-        /// The name for the alarm. This name must be unique within your AWS account.
-        public let alarmName: String
-        /// An array of MetricDataQuery structures that enable you to create an alarm based on the result of a metric math expression. Each item in the Metrics array either retrieves a metric or performs a math expression. If you use the Metrics parameter, you cannot include the MetricName, Dimensions, Period, Namespace, Statistic, or ExtendedStatistic parameters of PutMetricAlarm in the same operation. Instead, you retrieve the metrics you are using in your math expression as part of the Metrics array.
-        public let metrics: [MetricDataQuery]?
-        /// The dimensions for the metric specified in MetricName.
-        public let dimensions: [Dimension]?
-        /// The statistic for the metric specified in MetricName, other than percentile. For percentile statistics, use ExtendedStatistic. When you call PutMetricAlarm and specify a MetricName, you must specify either Statistic or ExtendedStatistic, but not both.
-        public let statistic: Statistic?
-        /// The number of periods over which data is compared to the specified threshold. If you are setting an alarm that requires that a number of consecutive data points be breaching to trigger the alarm, this value specifies that number. If you are setting an "M out of N" alarm, this value is the N. An alarm's total current evaluation period can be no longer than one day, so this number multiplied by Period cannot be more than 86,400 seconds.
-        public let evaluationPeriods: Int32
-        /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover | arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:autoscaling:region:account-id:scalingPolicy:policy-idautoScalingGroupName/group-friendly-name:policyName/policy-friendly-name   Valid Values (for use with IAM roles): &gt;arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 
-        public let insufficientDataActions: [String]?
-        ///  Sets how this alarm is to handle missing data points. If TreatMissingData is omitted, the default behavior of missing is used. For more information, see Configuring How CloudWatch Alarms Treats Missing Data. Valid Values: breaching | notBreaching | ignore | missing 
-        public let treatMissingData: String?
-        /// The actions to execute when this alarm transitions to an OK state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover | arn:aws:automate:region:ec2:reboot | arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:autoscaling:region:account-id:scalingPolicy:policy-idautoScalingGroupName/group-friendly-name:policyName/policy-friendly-name   Valid Values (for use with IAM roles): arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 
-        public let oKActions: [String]?
-        /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover | arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:autoscaling:region:account-id:scalingPolicy:policy-idautoScalingGroupName/group-friendly-name:policyName/policy-friendly-name   Valid Values (for use with IAM roles): arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 
-        public let alarmActions: [String]?
-        /// The unit of measure for the statistic. For example, the units for the Amazon EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an instance receives on all network interfaces. You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points that specify a unit of measure, such as Percent, are aggregated separately. If you specify a unit, you must use a unit that is appropriate for the metric. Otherwise, the CloudWatch alarm can get stuck in the INSUFFICIENT DATA state. 
-        public let unit: StandardUnit?
-        /// The namespace for the metric associated specified in MetricName.
-        public let namespace: String?
-        ///  The arithmetic operation to use when comparing the specified statistic and threshold. The specified statistic value is used as the first operand.
-        public let comparisonOperator: ComparisonOperator
-        /// The percentile statistic for the metric specified in MetricName. Specify a value between p0.0 and p100. When you call PutMetricAlarm and specify a MetricName, you must specify either Statistic or ExtendedStatistic, but not both.
-        public let extendedStatistic: String?
-        /// The length, in seconds, used each time the metric specified in MetricName is evaluated. Valid values are 10, 30, and any multiple of 60. Be sure to specify 10 or 30 only for metrics that are stored by a PutMetricData call with a StorageResolution of 1. If you specify a period of 10 or 30 for a metric that does not have sub-minute resolution, the alarm still attempts to gather data at the period rate that you specify. In this case, it does not receive data for the attempts that do not correspond to a one-minute data resolution, and the alarm may often lapse into INSUFFICENT_DATA status. Specifying 10 or 30 also sets this alarm as a high-resolution alarm, which has a higher charge than other alarms. For more information about pricing, see Amazon CloudWatch Pricing. An alarm's total current evaluation period can be no longer than one day, so Period multiplied by EvaluationPeriods cannot be more than 86,400 seconds.
-        public let period: Int32?
-        /// The value against which the specified statistic is compared.
-        public let threshold: Double
-        /// The name for the metric associated with the alarm. If you are creating an alarm based on a math expression, you cannot specify this parameter, or any of the Dimensions, Period, Namespace, Statistic, or ExtendedStatistic parameters. Instead, you specify all this information in the Metrics array.
-        public let metricName: String?
-        /// The number of datapoints that must be breaching to trigger the alarm. This is used only if you are setting an "M out of N" alarm. In that case, this value is the M. For more information, see Evaluating an Alarm in the Amazon CloudWatch User Guide.
-        public let datapointsToAlarm: Int32?
-
-        public init(actionsEnabled: Bool? = nil, evaluateLowSampleCountPercentile: String? = nil, alarmDescription: String? = nil, alarmName: String, metrics: [MetricDataQuery]? = nil, dimensions: [Dimension]? = nil, statistic: Statistic? = nil, evaluationPeriods: Int32, insufficientDataActions: [String]? = nil, treatMissingData: String? = nil, oKActions: [String]? = nil, alarmActions: [String]? = nil, unit: StandardUnit? = nil, namespace: String? = nil, comparisonOperator: ComparisonOperator, extendedStatistic: String? = nil, period: Int32? = nil, threshold: Double, metricName: String? = nil, datapointsToAlarm: Int32? = nil) {
-            self.actionsEnabled = actionsEnabled
-            self.evaluateLowSampleCountPercentile = evaluateLowSampleCountPercentile
-            self.alarmDescription = alarmDescription
-            self.alarmName = alarmName
-            self.metrics = metrics
-            self.dimensions = dimensions
-            self.statistic = statistic
-            self.evaluationPeriods = evaluationPeriods
-            self.insufficientDataActions = insufficientDataActions
-            self.treatMissingData = treatMissingData
-            self.oKActions = oKActions
-            self.alarmActions = alarmActions
-            self.unit = unit
-            self.namespace = namespace
-            self.comparisonOperator = comparisonOperator
-            self.extendedStatistic = extendedStatistic
-            self.period = period
-            self.threshold = threshold
-            self.metricName = metricName
-            self.datapointsToAlarm = datapointsToAlarm
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case actionsEnabled = "ActionsEnabled"
-            case evaluateLowSampleCountPercentile = "EvaluateLowSampleCountPercentile"
-            case alarmDescription = "AlarmDescription"
-            case alarmName = "AlarmName"
-            case metrics = "Metrics"
-            case dimensions = "Dimensions"
-            case statistic = "Statistic"
-            case evaluationPeriods = "EvaluationPeriods"
-            case insufficientDataActions = "InsufficientDataActions"
-            case treatMissingData = "TreatMissingData"
-            case oKActions = "OKActions"
-            case alarmActions = "AlarmActions"
-            case unit = "Unit"
-            case namespace = "Namespace"
-            case comparisonOperator = "ComparisonOperator"
-            case extendedStatistic = "ExtendedStatistic"
-            case period = "Period"
-            case threshold = "Threshold"
-            case metricName = "MetricName"
-            case datapointsToAlarm = "DatapointsToAlarm"
-        }
-    }
-
-    public struct Metric: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Namespace", required: false, type: .string), 
-            AWSShapeMember(label: "MetricName", required: false, type: .string), 
-            AWSShapeMember(label: "Dimensions", required: false, type: .list)
-        ]
-        /// The namespace of the metric.
-        public let namespace: String?
-        /// The name of the metric. This is a required field.
-        public let metricName: String?
-        /// The dimensions for the metric.
-        public let dimensions: [Dimension]?
-
-        public init(namespace: String? = nil, metricName: String? = nil, dimensions: [Dimension]? = nil) {
-            self.namespace = namespace
-            self.metricName = metricName
-            self.dimensions = dimensions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case namespace = "Namespace"
-            case metricName = "MetricName"
-            case dimensions = "Dimensions"
-        }
-    }
-
-    public struct DeleteDashboardsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DashboardNames", required: true, type: .list)
-        ]
-        /// The dashboards to be deleted. This parameter is required.
-        public let dashboardNames: [String]
-
-        public init(dashboardNames: [String]) {
-            self.dashboardNames = dashboardNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dashboardNames = "DashboardNames"
-        }
-    }
-
-    public struct PutMetricDataInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Namespace", required: true, type: .string), 
-            AWSShapeMember(label: "MetricData", required: true, type: .list)
-        ]
-        /// The namespace for the metric data. You cannot specify a namespace that begins with "AWS/". Namespaces that begin with "AWS/" are reserved for use by Amazon Web Services products.
-        public let namespace: String
-        /// The data for the metric. The array can include no more than 20 metrics per call.
-        public let metricData: [MetricDatum]
-
-        public init(namespace: String, metricData: [MetricDatum]) {
-            self.namespace = namespace
-            self.metricData = metricData
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case namespace = "Namespace"
-            case metricData = "MetricData"
-        }
-    }
-
-    public struct GetMetricDataOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MetricDataResults", required: false, type: .list)
-        ]
-        /// A token that marks the next batch of returned results.
-        public let nextToken: String?
-        /// The metrics that are returned, including the metric name, namespace, and dimensions.
-        public let metricDataResults: [MetricDataResult]?
-
-        public init(nextToken: String? = nil, metricDataResults: [MetricDataResult]? = nil) {
-            self.nextToken = nextToken
-            self.metricDataResults = metricDataResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case metricDataResults = "MetricDataResults"
-        }
-    }
-
     public struct StatisticSet: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Maximum", required: true, type: .double), 
             AWSShapeMember(label: "Minimum", required: true, type: .double), 
-            AWSShapeMember(label: "Sum", required: true, type: .double), 
-            AWSShapeMember(label: "SampleCount", required: true, type: .double)
+            AWSShapeMember(label: "SampleCount", required: true, type: .double), 
+            AWSShapeMember(label: "Sum", required: true, type: .double)
         ]
         /// The maximum value of the sample set.
         public let maximum: Double
         /// The minimum value of the sample set.
         public let minimum: Double
-        /// The sum of values for the sample set.
-        public let sum: Double
         /// The number of samples used for the statistic set.
         public let sampleCount: Double
+        /// The sum of values for the sample set.
+        public let sum: Double
 
-        public init(maximum: Double, minimum: Double, sum: Double, sampleCount: Double) {
+        public init(maximum: Double, minimum: Double, sampleCount: Double, sum: Double) {
             self.maximum = maximum
             self.minimum = minimum
-            self.sum = sum
             self.sampleCount = sampleCount
+            self.sum = sum
         }
 
         private enum CodingKeys: String, CodingKey {
             case maximum = "Maximum"
             case minimum = "Minimum"
-            case sum = "Sum"
             case sampleCount = "SampleCount"
+            case sum = "Sum"
         }
     }
 
-    public struct MetricAlarm: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatapointsToAlarm", required: false, type: .integer), 
-            AWSShapeMember(label: "EvaluationPeriods", required: false, type: .integer), 
-            AWSShapeMember(label: "StateReasonData", required: false, type: .string), 
-            AWSShapeMember(label: "StateUpdatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StateValue", required: false, type: .enum), 
-            AWSShapeMember(label: "Threshold", required: false, type: .double), 
-            AWSShapeMember(label: "TreatMissingData", required: false, type: .string), 
-            AWSShapeMember(label: "AlarmArn", required: false, type: .string), 
-            AWSShapeMember(label: "EvaluateLowSampleCountPercentile", required: false, type: .string), 
-            AWSShapeMember(label: "ExtendedStatistic", required: false, type: .string), 
-            AWSShapeMember(label: "AlarmName", required: false, type: .string), 
-            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
-            AWSShapeMember(label: "OKActions", required: false, type: .list), 
-            AWSShapeMember(label: "ComparisonOperator", required: false, type: .enum), 
-            AWSShapeMember(label: "InsufficientDataActions", required: false, type: .list), 
-            AWSShapeMember(label: "Statistic", required: false, type: .enum), 
-            AWSShapeMember(label: "AlarmActions", required: false, type: .list), 
-            AWSShapeMember(label: "AlarmConfigurationUpdatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ActionsEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "Period", required: false, type: .integer), 
-            AWSShapeMember(label: "StateReason", required: false, type: .string), 
-            AWSShapeMember(label: "Namespace", required: false, type: .string), 
-            AWSShapeMember(label: "Unit", required: false, type: .enum), 
-            AWSShapeMember(label: "AlarmDescription", required: false, type: .string), 
-            AWSShapeMember(label: "MetricName", required: false, type: .string), 
-            AWSShapeMember(label: "Metrics", required: false, type: .list)
-        ]
-        /// The number of datapoints that must be breaching to trigger the alarm.
-        public let datapointsToAlarm: Int32?
-        /// The number of periods over which data is compared to the specified threshold.
-        public let evaluationPeriods: Int32?
-        /// An explanation for the alarm state, in JSON format.
-        public let stateReasonData: String?
-        /// The time stamp of the last update to the alarm state.
-        public let stateUpdatedTimestamp: TimeStamp?
-        /// The state value for the alarm.
-        public let stateValue: StateValue?
-        /// The value to compare with the specified statistic.
-        public let threshold: Double?
-        /// Sets how this alarm is to handle missing data points. If this parameter is omitted, the default behavior of missing is used.
-        public let treatMissingData: String?
-        /// The Amazon Resource Name (ARN) of the alarm.
-        public let alarmArn: String?
-        /// Used only for alarms based on percentiles. If ignore, the alarm state does not change during periods with too few data points to be statistically significant. If evaluate or this parameter is not used, the alarm is always evaluated and possibly changes state no matter how many data points are available.
-        public let evaluateLowSampleCountPercentile: String?
-        /// The percentile statistic for the metric associated with the alarm. Specify a value between p0.0 and p100.
-        public let extendedStatistic: String?
-        /// The name of the alarm.
-        public let alarmName: String?
-        /// The dimensions for the metric associated with the alarm.
-        public let dimensions: [Dimension]?
-        /// The actions to execute when this alarm transitions to the OK state from any other state. Each action is specified as an Amazon Resource Name (ARN).
-        public let oKActions: [String]?
-        /// The arithmetic operation to use when comparing the specified statistic and threshold. The specified statistic value is used as the first operand.
-        public let comparisonOperator: ComparisonOperator?
-        /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN).
-        public let insufficientDataActions: [String]?
-        /// The statistic for the metric associated with the alarm, other than percentile. For percentile statistics, use ExtendedStatistic.
-        public let statistic: Statistic?
-        /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN).
-        public let alarmActions: [String]?
-        /// The time stamp of the last update to the alarm configuration.
-        public let alarmConfigurationUpdatedTimestamp: TimeStamp?
-        /// Indicates whether actions should be executed during any changes to the alarm state.
-        public let actionsEnabled: Bool?
-        /// The period, in seconds, over which the statistic is applied.
-        public let period: Int32?
-        /// An explanation for the alarm state, in text format.
-        public let stateReason: String?
-        /// The namespace of the metric associated with the alarm.
-        public let namespace: String?
-        /// The unit of the metric associated with the alarm.
-        public let unit: StandardUnit?
-        /// The description of the alarm.
-        public let alarmDescription: String?
-        /// The name of the metric associated with the alarm.
-        public let metricName: String?
-        public let metrics: [MetricDataQuery]?
-
-        public init(datapointsToAlarm: Int32? = nil, evaluationPeriods: Int32? = nil, stateReasonData: String? = nil, stateUpdatedTimestamp: TimeStamp? = nil, stateValue: StateValue? = nil, threshold: Double? = nil, treatMissingData: String? = nil, alarmArn: String? = nil, evaluateLowSampleCountPercentile: String? = nil, extendedStatistic: String? = nil, alarmName: String? = nil, dimensions: [Dimension]? = nil, oKActions: [String]? = nil, comparisonOperator: ComparisonOperator? = nil, insufficientDataActions: [String]? = nil, statistic: Statistic? = nil, alarmActions: [String]? = nil, alarmConfigurationUpdatedTimestamp: TimeStamp? = nil, actionsEnabled: Bool? = nil, period: Int32? = nil, stateReason: String? = nil, namespace: String? = nil, unit: StandardUnit? = nil, alarmDescription: String? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil) {
-            self.datapointsToAlarm = datapointsToAlarm
-            self.evaluationPeriods = evaluationPeriods
-            self.stateReasonData = stateReasonData
-            self.stateUpdatedTimestamp = stateUpdatedTimestamp
-            self.stateValue = stateValue
-            self.threshold = threshold
-            self.treatMissingData = treatMissingData
-            self.alarmArn = alarmArn
-            self.evaluateLowSampleCountPercentile = evaluateLowSampleCountPercentile
-            self.extendedStatistic = extendedStatistic
-            self.alarmName = alarmName
-            self.dimensions = dimensions
-            self.oKActions = oKActions
-            self.comparisonOperator = comparisonOperator
-            self.insufficientDataActions = insufficientDataActions
-            self.statistic = statistic
-            self.alarmActions = alarmActions
-            self.alarmConfigurationUpdatedTimestamp = alarmConfigurationUpdatedTimestamp
-            self.actionsEnabled = actionsEnabled
-            self.period = period
-            self.stateReason = stateReason
-            self.namespace = namespace
-            self.unit = unit
-            self.alarmDescription = alarmDescription
-            self.metricName = metricName
-            self.metrics = metrics
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case datapointsToAlarm = "DatapointsToAlarm"
-            case evaluationPeriods = "EvaluationPeriods"
-            case stateReasonData = "StateReasonData"
-            case stateUpdatedTimestamp = "StateUpdatedTimestamp"
-            case stateValue = "StateValue"
-            case threshold = "Threshold"
-            case treatMissingData = "TreatMissingData"
-            case alarmArn = "AlarmArn"
-            case evaluateLowSampleCountPercentile = "EvaluateLowSampleCountPercentile"
-            case extendedStatistic = "ExtendedStatistic"
-            case alarmName = "AlarmName"
-            case dimensions = "Dimensions"
-            case oKActions = "OKActions"
-            case comparisonOperator = "ComparisonOperator"
-            case insufficientDataActions = "InsufficientDataActions"
-            case statistic = "Statistic"
-            case alarmActions = "AlarmActions"
-            case alarmConfigurationUpdatedTimestamp = "AlarmConfigurationUpdatedTimestamp"
-            case actionsEnabled = "ActionsEnabled"
-            case period = "Period"
-            case stateReason = "StateReason"
-            case namespace = "Namespace"
-            case unit = "Unit"
-            case alarmDescription = "AlarmDescription"
-            case metricName = "MetricName"
-            case metrics = "Metrics"
-        }
-    }
-
-    public struct DescribeAlarmsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MetricAlarms", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The information for the specified alarms.
-        public let metricAlarms: [MetricAlarm]?
-        /// The token that marks the start of the next batch of returned results.
-        public let nextToken: String?
-
-        public init(metricAlarms: [MetricAlarm]? = nil, nextToken: String? = nil) {
-            self.metricAlarms = metricAlarms
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case metricAlarms = "MetricAlarms"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetDashboardInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DashboardName", required: true, type: .string)
-        ]
-        /// The name of the dashboard to be described.
-        public let dashboardName: String
-
-        public init(dashboardName: String) {
-            self.dashboardName = dashboardName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dashboardName = "DashboardName"
-        }
-    }
-
-    public enum HistoryItemType: String, CustomStringConvertible, Codable {
-        case configurationupdate = "ConfigurationUpdate"
-        case stateupdate = "StateUpdate"
-        case action = "Action"
+    public enum StatusCode: String, CustomStringConvertible, Codable {
+        case complete = "Complete"
+        case internalerror = "InternalError"
+        case partialdata = "PartialData"
         public var description: String { return self.rawValue }
-    }
-
-    public struct DashboardValidationMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "DataPath", required: false, type: .string)
-        ]
-        /// A message describing the error or warning.
-        public let message: String?
-        /// The data path related to the message.
-        public let dataPath: String?
-
-        public init(message: String? = nil, dataPath: String? = nil) {
-            self.message = message
-            self.dataPath = dataPath
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-            case dataPath = "DataPath"
-        }
-    }
-
-    public struct ListMetricsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Metrics", required: false, type: .list)
-        ]
-        /// The token that marks the start of the next batch of returned results.
-        public let nextToken: String?
-        /// The metrics.
-        public let metrics: [Metric]?
-
-        public init(nextToken: String? = nil, metrics: [Metric]? = nil) {
-            self.nextToken = nextToken
-            self.metrics = metrics
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case metrics = "Metrics"
-        }
-    }
-
-    public struct DescribeAlarmsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "ActionPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "AlarmNamePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "StateValue", required: false, type: .enum), 
-            AWSShapeMember(label: "AlarmNames", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The maximum number of alarm descriptions to retrieve.
-        public let maxRecords: Int32?
-        /// The action name prefix.
-        public let actionPrefix: String?
-        /// The alarm name prefix. If this parameter is specified, you cannot specify AlarmNames.
-        public let alarmNamePrefix: String?
-        /// The state value to be used in matching alarms.
-        public let stateValue: StateValue?
-        /// The names of the alarms.
-        public let alarmNames: [String]?
-        /// The token returned by a previous call to indicate that there is more data available.
-        public let nextToken: String?
-
-        public init(maxRecords: Int32? = nil, actionPrefix: String? = nil, alarmNamePrefix: String? = nil, stateValue: StateValue? = nil, alarmNames: [String]? = nil, nextToken: String? = nil) {
-            self.maxRecords = maxRecords
-            self.actionPrefix = actionPrefix
-            self.alarmNamePrefix = alarmNamePrefix
-            self.stateValue = stateValue
-            self.alarmNames = alarmNames
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxRecords = "MaxRecords"
-            case actionPrefix = "ActionPrefix"
-            case alarmNamePrefix = "AlarmNamePrefix"
-            case stateValue = "StateValue"
-            case alarmNames = "AlarmNames"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DashboardEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Size", required: false, type: .long), 
-            AWSShapeMember(label: "DashboardName", required: false, type: .string), 
-            AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DashboardArn", required: false, type: .string)
-        ]
-        /// The size of the dashboard, in bytes.
-        public let size: Int64?
-        /// The name of the dashboard.
-        public let dashboardName: String?
-        /// The time stamp of when the dashboard was last modified, either by an API call or through the console. This number is expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
-        public let lastModified: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the dashboard.
-        public let dashboardArn: String?
-
-        public init(size: Int64? = nil, dashboardName: String? = nil, lastModified: TimeStamp? = nil, dashboardArn: String? = nil) {
-            self.size = size
-            self.dashboardName = dashboardName
-            self.lastModified = lastModified
-            self.dashboardArn = dashboardArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case size = "Size"
-            case dashboardName = "DashboardName"
-            case lastModified = "LastModified"
-            case dashboardArn = "DashboardArn"
-        }
-    }
-
-    public struct EnableAlarmActionsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlarmNames", required: true, type: .list)
-        ]
-        /// The names of the alarms.
-        public let alarmNames: [String]
-
-        public init(alarmNames: [String]) {
-            self.alarmNames = alarmNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case alarmNames = "AlarmNames"
-        }
-    }
-
-    public struct GetMetricStatisticsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Period", required: true, type: .integer), 
-            AWSShapeMember(label: "Statistics", required: false, type: .list), 
-            AWSShapeMember(label: "Namespace", required: true, type: .string), 
-            AWSShapeMember(label: "ExtendedStatistics", required: false, type: .list), 
-            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
-            AWSShapeMember(label: "MetricName", required: true, type: .string), 
-            AWSShapeMember(label: "Unit", required: false, type: .enum), 
-            AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
-        ]
-        /// The time stamp that determines the last data point to return. The value specified is exclusive; results include data points up to the specified time stamp. The time stamp must be in ISO 8601 UTC format (for example, 2016-10-10T23:00:00Z).
-        public let endTime: TimeStamp
-        /// The granularity, in seconds, of the returned data points. For metrics with regular resolution, a period can be as short as one minute (60 seconds) and must be a multiple of 60. For high-resolution metrics that are collected at intervals of less than one minute, the period can be 1, 5, 10, 30, 60, or any multiple of 60. High-resolution metrics are those metrics stored by a PutMetricData call that includes a StorageResolution of 1 second. If the StartTime parameter specifies a time stamp that is greater than 3 hours ago, you must specify the period as follows or no data points in that time range is returned:   Start time between 3 hours and 15 days ago - Use a multiple of 60 seconds (1 minute).   Start time between 15 and 63 days ago - Use a multiple of 300 seconds (5 minutes).   Start time greater than 63 days ago - Use a multiple of 3600 seconds (1 hour).  
-        public let period: Int32
-        /// The metric statistics, other than percentile. For percentile statistics, use ExtendedStatistics. When calling GetMetricStatistics, you must specify either Statistics or ExtendedStatistics, but not both.
-        public let statistics: [Statistic]?
-        /// The namespace of the metric, with or without spaces.
-        public let namespace: String
-        /// The percentile statistics. Specify values between p0.0 and p100. When calling GetMetricStatistics, you must specify either Statistics or ExtendedStatistics, but not both. Percentile statistics are not available for metrics when any of the metric values are negative numbers.
-        public let extendedStatistics: [String]?
-        /// The dimensions. If the metric contains multiple dimensions, you must include a value for each dimension. CloudWatch treats each unique combination of dimensions as a separate metric. If a specific combination of dimensions was not published, you can't retrieve statistics for it. You must specify the same dimensions that were used when the metrics were created. For an example, see Dimension Combinations in the Amazon CloudWatch User Guide. For more information about specifying dimensions, see Publishing Metrics in the Amazon CloudWatch User Guide.
-        public let dimensions: [Dimension]?
-        /// The name of the metric, with or without spaces.
-        public let metricName: String
-        /// The unit for a given metric. Metrics may be reported in multiple units. Not supplying a unit results in all units being returned. If you specify only a unit that the metric does not report, the results of the call are null.
-        public let unit: StandardUnit?
-        /// The time stamp that determines the first data point to return. Start times are evaluated relative to the time that CloudWatch receives the request. The value specified is inclusive; results include data points with the specified time stamp. The time stamp must be in ISO 8601 UTC format (for example, 2016-10-03T23:00:00Z). CloudWatch rounds the specified time stamp as follows:   Start time less than 15 days ago - Round down to the nearest whole minute. For example, 12:32:34 is rounded down to 12:32:00.   Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock interval. For example, 12:32:34 is rounded down to 12:30:00.   Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval. For example, 12:32:34 is rounded down to 12:00:00.   If you set Period to 5, 10, or 30, the start time of your request is rounded down to the nearest time that corresponds to even 5-, 10-, or 30-second divisions of a minute. For example, if you make a query at (HH:mm:ss) 01:05:23 for the previous 10-second period, the start time of your request is rounded down and you receive data from 01:05:10 to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of data, using a period of 5 seconds, you receive data timestamped between 15:02:15 and 15:07:15. 
-        public let startTime: TimeStamp
-
-        public init(endTime: TimeStamp, period: Int32, statistics: [Statistic]? = nil, namespace: String, extendedStatistics: [String]? = nil, dimensions: [Dimension]? = nil, metricName: String, unit: StandardUnit? = nil, startTime: TimeStamp) {
-            self.endTime = endTime
-            self.period = period
-            self.statistics = statistics
-            self.namespace = namespace
-            self.extendedStatistics = extendedStatistics
-            self.dimensions = dimensions
-            self.metricName = metricName
-            self.unit = unit
-            self.startTime = startTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endTime = "EndTime"
-            case period = "Period"
-            case statistics = "Statistics"
-            case namespace = "Namespace"
-            case extendedStatistics = "ExtendedStatistics"
-            case dimensions = "Dimensions"
-            case metricName = "MetricName"
-            case unit = "Unit"
-            case startTime = "StartTime"
-        }
-    }
-
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
-        case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
-        case greaterthanthreshold = "GreaterThanThreshold"
-        case lessthanthreshold = "LessThanThreshold"
-        case lessthanorequaltothreshold = "LessThanOrEqualToThreshold"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DisableAlarmActionsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlarmNames", required: true, type: .list)
-        ]
-        /// The names of the alarms.
-        public let alarmNames: [String]
-
-        public init(alarmNames: [String]) {
-            self.alarmNames = alarmNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case alarmNames = "AlarmNames"
-        }
     }
 
 }

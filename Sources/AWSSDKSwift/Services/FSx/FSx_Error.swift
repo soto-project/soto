@@ -4,21 +4,21 @@ import AWSSDKSwiftCore
 
 /// Error enum for FSx
 public enum FSxErrorType: AWSErrorType {
-    case badRequest(message: String?)
-    case fileSystemNotFound(message: String?)
-    case backupInProgress(message: String?)
-    case incompatibleParameterError(message: String?)
-    case serviceLimitExceeded(message: String?)
-    case internalServerError(message: String?)
-    case missingFileSystemConfiguration(message: String?)
-    case resourceNotFound(message: String?)
-    case notServiceResourceError(message: String?)
-    case resourceDoesNotSupportTagging(message: String?)
     case activeDirectoryError(message: String?)
-    case invalidNetworkSettings(message: String?)
+    case backupInProgress(message: String?)
     case backupNotFound(message: String?)
     case backupRestoring(message: String?)
+    case badRequest(message: String?)
+    case fileSystemNotFound(message: String?)
+    case incompatibleParameterError(message: String?)
+    case internalServerError(message: String?)
     case invalidImportPath(message: String?)
+    case invalidNetworkSettings(message: String?)
+    case missingFileSystemConfiguration(message: String?)
+    case notServiceResourceError(message: String?)
+    case resourceDoesNotSupportTagging(message: String?)
+    case resourceNotFound(message: String?)
+    case serviceLimitExceeded(message: String?)
 }
 
 extension FSxErrorType {
@@ -28,36 +28,36 @@ extension FSxErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "BadRequest":
-            self = .badRequest(message: message)
-        case "FileSystemNotFound":
-            self = .fileSystemNotFound(message: message)
-        case "BackupInProgress":
-            self = .backupInProgress(message: message)
-        case "IncompatibleParameterError":
-            self = .incompatibleParameterError(message: message)
-        case "ServiceLimitExceeded":
-            self = .serviceLimitExceeded(message: message)
-        case "InternalServerError":
-            self = .internalServerError(message: message)
-        case "MissingFileSystemConfiguration":
-            self = .missingFileSystemConfiguration(message: message)
-        case "ResourceNotFound":
-            self = .resourceNotFound(message: message)
-        case "NotServiceResourceError":
-            self = .notServiceResourceError(message: message)
-        case "ResourceDoesNotSupportTagging":
-            self = .resourceDoesNotSupportTagging(message: message)
         case "ActiveDirectoryError":
             self = .activeDirectoryError(message: message)
-        case "InvalidNetworkSettings":
-            self = .invalidNetworkSettings(message: message)
+        case "BackupInProgress":
+            self = .backupInProgress(message: message)
         case "BackupNotFound":
             self = .backupNotFound(message: message)
         case "BackupRestoring":
             self = .backupRestoring(message: message)
+        case "BadRequest":
+            self = .badRequest(message: message)
+        case "FileSystemNotFound":
+            self = .fileSystemNotFound(message: message)
+        case "IncompatibleParameterError":
+            self = .incompatibleParameterError(message: message)
+        case "InternalServerError":
+            self = .internalServerError(message: message)
         case "InvalidImportPath":
             self = .invalidImportPath(message: message)
+        case "InvalidNetworkSettings":
+            self = .invalidNetworkSettings(message: message)
+        case "MissingFileSystemConfiguration":
+            self = .missingFileSystemConfiguration(message: message)
+        case "NotServiceResourceError":
+            self = .notServiceResourceError(message: message)
+        case "ResourceDoesNotSupportTagging":
+            self = .resourceDoesNotSupportTagging(message: message)
+        case "ResourceNotFound":
+            self = .resourceNotFound(message: message)
+        case "ServiceLimitExceeded":
+            self = .serviceLimitExceeded(message: message)
         default:
             return nil
         }

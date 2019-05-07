@@ -5,34 +5,29 @@ import AWSSDKSwiftCore
 
 extension KinesisVideoMedia {
 
-    public struct StartSelector: AWSShape {
+    public struct GetMediaInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AfterFragmentNumber", required: false, type: .string), 
-            AWSShapeMember(label: "StartTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StartSelectorType", required: true, type: .enum), 
-            AWSShapeMember(label: "ContinuationToken", required: false, type: .string)
+            AWSShapeMember(label: "StartSelector", required: true, type: .structure), 
+            AWSShapeMember(label: "StreamARN", required: false, type: .string), 
+            AWSShapeMember(label: "StreamName", required: false, type: .string)
         ]
-        /// Specifies the fragment number from where you want the GetMedia API to start returning the fragments. 
-        public let afterFragmentNumber: String?
-        /// A time stamp value. This value is required if you choose the PRODUCER_TIMESTAMP or the SERVER_TIMESTAMP as the startSelectorType. The GetMedia API then starts with the chunk containing the fragment that has the specified time stamp.
-        public let startTimestamp: TimeStamp?
-        /// Identifies the fragment on the Kinesis video stream where you want to start getting the data from.   NOW - Start with the latest chunk on the stream.   EARLIEST - Start with earliest available chunk on the stream.   FRAGMENT_NUMBER - Start with the chunk containing the specific fragment. You must also specify the StartFragmentNumber.   PRODUCER_TIMESTAMP or SERVER_TIMESTAMP - Start with the chunk containing a fragment with the specified producer or server time stamp. You specify the time stamp by adding StartTimestamp.    CONTINUATION_TOKEN - Read using the specified continuation token.     If you choose the NOW, EARLIEST, or CONTINUATION_TOKEN as the startSelectorType, you don't provide any additional information in the startSelector. 
-        public let startSelectorType: StartSelectorType
-        /// Continuation token that Kinesis Video Streams returned in the previous GetMedia response. The GetMedia API then starts with the chunk identified by the continuation token.
-        public let continuationToken: String?
+        /// Identifies the starting chunk to get from the specified stream. 
+        public let startSelector: StartSelector
+        /// The ARN of the stream from where you want to get the media content. If you don't specify the streamARN, you must specify the streamName.
+        public let streamARN: String?
+        /// The Kinesis video stream name from where you want to get the media content. If you don't specify the streamName, you must specify the streamARN.
+        public let streamName: String?
 
-        public init(afterFragmentNumber: String? = nil, startTimestamp: TimeStamp? = nil, startSelectorType: StartSelectorType, continuationToken: String? = nil) {
-            self.afterFragmentNumber = afterFragmentNumber
-            self.startTimestamp = startTimestamp
-            self.startSelectorType = startSelectorType
-            self.continuationToken = continuationToken
+        public init(startSelector: StartSelector, streamARN: String? = nil, streamName: String? = nil) {
+            self.startSelector = startSelector
+            self.streamARN = streamARN
+            self.streamName = streamName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case afterFragmentNumber = "AfterFragmentNumber"
-            case startTimestamp = "StartTimestamp"
-            case startSelectorType = "StartSelectorType"
-            case continuationToken = "ContinuationToken"
+            case startSelector = "StartSelector"
+            case streamARN = "StreamARN"
+            case streamName = "StreamName"
         }
     }
 
@@ -59,6 +54,37 @@ extension KinesisVideoMedia {
         }
     }
 
+    public struct StartSelector: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AfterFragmentNumber", required: false, type: .string), 
+            AWSShapeMember(label: "ContinuationToken", required: false, type: .string), 
+            AWSShapeMember(label: "StartSelectorType", required: true, type: .enum), 
+            AWSShapeMember(label: "StartTimestamp", required: false, type: .timestamp)
+        ]
+        /// Specifies the fragment number from where you want the GetMedia API to start returning the fragments. 
+        public let afterFragmentNumber: String?
+        /// Continuation token that Kinesis Video Streams returned in the previous GetMedia response. The GetMedia API then starts with the chunk identified by the continuation token.
+        public let continuationToken: String?
+        /// Identifies the fragment on the Kinesis video stream where you want to start getting the data from.   NOW - Start with the latest chunk on the stream.   EARLIEST - Start with earliest available chunk on the stream.   FRAGMENT_NUMBER - Start with the chunk containing the specific fragment. You must also specify the StartFragmentNumber.   PRODUCER_TIMESTAMP or SERVER_TIMESTAMP - Start with the chunk containing a fragment with the specified producer or server time stamp. You specify the time stamp by adding StartTimestamp.    CONTINUATION_TOKEN - Read using the specified continuation token.     If you choose the NOW, EARLIEST, or CONTINUATION_TOKEN as the startSelectorType, you don't provide any additional information in the startSelector. 
+        public let startSelectorType: StartSelectorType
+        /// A time stamp value. This value is required if you choose the PRODUCER_TIMESTAMP or the SERVER_TIMESTAMP as the startSelectorType. The GetMedia API then starts with the chunk containing the fragment that has the specified time stamp.
+        public let startTimestamp: TimeStamp?
+
+        public init(afterFragmentNumber: String? = nil, continuationToken: String? = nil, startSelectorType: StartSelectorType, startTimestamp: TimeStamp? = nil) {
+            self.afterFragmentNumber = afterFragmentNumber
+            self.continuationToken = continuationToken
+            self.startSelectorType = startSelectorType
+            self.startTimestamp = startTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterFragmentNumber = "AfterFragmentNumber"
+            case continuationToken = "ContinuationToken"
+            case startSelectorType = "StartSelectorType"
+            case startTimestamp = "StartTimestamp"
+        }
+    }
+
     public enum StartSelectorType: String, CustomStringConvertible, Codable {
         case fragmentNumber = "FRAGMENT_NUMBER"
         case serverTimestamp = "SERVER_TIMESTAMP"
@@ -67,32 +93,6 @@ extension KinesisVideoMedia {
         case earliest = "EARLIEST"
         case continuationToken = "CONTINUATION_TOKEN"
         public var description: String { return self.rawValue }
-    }
-
-    public struct GetMediaInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamARN", required: false, type: .string), 
-            AWSShapeMember(label: "StartSelector", required: true, type: .structure), 
-            AWSShapeMember(label: "StreamName", required: false, type: .string)
-        ]
-        /// The ARN of the stream from where you want to get the media content. If you don't specify the streamARN, you must specify the streamName.
-        public let streamARN: String?
-        /// Identifies the starting chunk to get from the specified stream. 
-        public let startSelector: StartSelector
-        /// The Kinesis video stream name from where you want to get the media content. If you don't specify the streamName, you must specify the streamARN.
-        public let streamName: String?
-
-        public init(streamARN: String? = nil, startSelector: StartSelector, streamName: String? = nil) {
-            self.streamARN = streamARN
-            self.startSelector = startSelector
-            self.streamName = streamName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamARN = "StreamARN"
-            case startSelector = "StartSelector"
-            case streamName = "StreamName"
-        }
     }
 
 }

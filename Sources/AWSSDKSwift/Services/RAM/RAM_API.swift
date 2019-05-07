@@ -25,6 +25,11 @@ public struct RAM {
         )
     }
 
+    ///  Accepts an invitation to a resource share from another AWS account.
+    public func acceptResourceShareInvitation(_ input: AcceptResourceShareInvitationRequest) throws -> Future<AcceptResourceShareInvitationResponse> {
+        return try client.send(operation: "AcceptResourceShareInvitation", path: "/acceptresourceshareinvitation", httpMethod: "POST", input: input)
+    }
+
     ///  Associates the specified resource share with the specified principals and resources.
     public func associateResourceShare(_ input: AssociateResourceShareRequest) throws -> Future<AssociateResourceShareResponse> {
         return try client.send(operation: "AssociateResourceShare", path: "/associateresourceshare", httpMethod: "POST", input: input)
@@ -40,9 +45,9 @@ public struct RAM {
         return try client.send(operation: "DeleteResourceShare", path: "/deleteresourceshare", httpMethod: "DELETE", input: input)
     }
 
-    ///  Adds the specified tags to the specified resource share.
-    public func tagResource(_ input: TagResourceRequest) throws -> Future<TagResourceResponse> {
-        return try client.send(operation: "TagResource", path: "/tagresource", httpMethod: "POST", input: input)
+    ///  Disassociates the specified principals or resources from the specified resource share.
+    public func disassociateResourceShare(_ input: DisassociateResourceShareRequest) throws -> Future<DisassociateResourceShareResponse> {
+        return try client.send(operation: "DisassociateResourceShare", path: "/disassociateresourceshare", httpMethod: "POST", input: input)
     }
 
     ///  Enables resource sharing within your organization.
@@ -50,9 +55,9 @@ public struct RAM {
         return try client.send(operation: "EnableSharingWithAwsOrganization", path: "/enablesharingwithawsorganization", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the principals with access to the specified resource.
-    public func listPrincipals(_ input: ListPrincipalsRequest) throws -> Future<ListPrincipalsResponse> {
-        return try client.send(operation: "ListPrincipals", path: "/listprincipals", httpMethod: "POST", input: input)
+    ///  Gets the policies for the specifies resources.
+    public func getResourcePolicies(_ input: GetResourcePoliciesRequest) throws -> Future<GetResourcePoliciesResponse> {
+        return try client.send(operation: "GetResourcePolicies", path: "/getresourcepolicies", httpMethod: "POST", input: input)
     }
 
     ///  Gets the associations for the specified resource share.
@@ -60,9 +65,9 @@ public struct RAM {
         return try client.send(operation: "GetResourceShareAssociations", path: "/getresourceshareassociations", httpMethod: "POST", input: input)
     }
 
-    ///  Gets the policies for the specifies resources.
-    public func getResourcePolicies(_ input: GetResourcePoliciesRequest) throws -> Future<GetResourcePoliciesResponse> {
-        return try client.send(operation: "GetResourcePolicies", path: "/getresourcepolicies", httpMethod: "POST", input: input)
+    ///  Gets the specified invitations for resource sharing.
+    public func getResourceShareInvitations(_ input: GetResourceShareInvitationsRequest) throws -> Future<GetResourceShareInvitationsResponse> {
+        return try client.send(operation: "GetResourceShareInvitations", path: "/getresourceshareinvitations", httpMethod: "POST", input: input)
     }
 
     ///  Gets the specified resource shares or all of your resource shares.
@@ -70,24 +75,9 @@ public struct RAM {
         return try client.send(operation: "GetResourceShares", path: "/getresourceshares", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the specified resource share.
-    public func updateResourceShare(_ input: UpdateResourceShareRequest) throws -> Future<UpdateResourceShareResponse> {
-        return try client.send(operation: "UpdateResourceShare", path: "/updateresourceshare", httpMethod: "POST", input: input)
-    }
-
-    ///  Removes the specified tags from the specified resource share.
-    public func untagResource(_ input: UntagResourceRequest) throws -> Future<UntagResourceResponse> {
-        return try client.send(operation: "UntagResource", path: "/untagresource", httpMethod: "POST", input: input)
-    }
-
-    ///  Accepts an invitation to a resource share from another AWS account.
-    public func acceptResourceShareInvitation(_ input: AcceptResourceShareInvitationRequest) throws -> Future<AcceptResourceShareInvitationResponse> {
-        return try client.send(operation: "AcceptResourceShareInvitation", path: "/acceptresourceshareinvitation", httpMethod: "POST", input: input)
-    }
-
-    ///  Disassociates the specified principals or resources from the specified resource share.
-    public func disassociateResourceShare(_ input: DisassociateResourceShareRequest) throws -> Future<DisassociateResourceShareResponse> {
-        return try client.send(operation: "DisassociateResourceShare", path: "/disassociateresourceshare", httpMethod: "POST", input: input)
+    ///  Lists the principals with access to the specified resource.
+    public func listPrincipals(_ input: ListPrincipalsRequest) throws -> Future<ListPrincipalsResponse> {
+        return try client.send(operation: "ListPrincipals", path: "/listprincipals", httpMethod: "POST", input: input)
     }
 
     ///  Lists the resources that the specified principal can access.
@@ -100,9 +90,19 @@ public struct RAM {
         return try client.send(operation: "RejectResourceShareInvitation", path: "/rejectresourceshareinvitation", httpMethod: "POST", input: input)
     }
 
-    ///  Gets the specified invitations for resource sharing.
-    public func getResourceShareInvitations(_ input: GetResourceShareInvitationsRequest) throws -> Future<GetResourceShareInvitationsResponse> {
-        return try client.send(operation: "GetResourceShareInvitations", path: "/getresourceshareinvitations", httpMethod: "POST", input: input)
+    ///  Adds the specified tags to the specified resource share.
+    public func tagResource(_ input: TagResourceRequest) throws -> Future<TagResourceResponse> {
+        return try client.send(operation: "TagResource", path: "/tagresource", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes the specified tags from the specified resource share.
+    public func untagResource(_ input: UntagResourceRequest) throws -> Future<UntagResourceResponse> {
+        return try client.send(operation: "UntagResource", path: "/untagresource", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the specified resource share.
+    public func updateResourceShare(_ input: UpdateResourceShareRequest) throws -> Future<UpdateResourceShareResponse> {
+        return try client.send(operation: "UpdateResourceShare", path: "/updateresourceshare", httpMethod: "POST", input: input)
     }
 
 

@@ -6,8 +6,8 @@ import AWSSDKSwiftCore
 public enum DataPipelineErrorType: AWSErrorType {
     case internalServiceError(message: String?)
     case invalidRequestException(message: String?)
-    case pipelineNotFoundException(message: String?)
     case pipelineDeletedException(message: String?)
+    case pipelineNotFoundException(message: String?)
     case taskNotFoundException(message: String?)
 }
 
@@ -22,10 +22,10 @@ extension DataPipelineErrorType {
             self = .internalServiceError(message: message)
         case "InvalidRequestException":
             self = .invalidRequestException(message: message)
-        case "PipelineNotFoundException":
-            self = .pipelineNotFoundException(message: message)
         case "PipelineDeletedException":
             self = .pipelineDeletedException(message: message)
+        case "PipelineNotFoundException":
+            self = .pipelineNotFoundException(message: message)
         case "TaskNotFoundException":
             self = .taskNotFoundException(message: message)
         default:

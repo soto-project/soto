@@ -4,12 +4,12 @@ import AWSSDKSwiftCore
 
 /// Error enum for FMS
 public enum FMSErrorType: AWSErrorType {
-    case invalidOperationException(message: String?)
-    case resourceNotFoundException(message: String?)
     case internalErrorException(message: String?)
     case invalidInputException(message: String?)
-    case limitExceededException(message: String?)
+    case invalidOperationException(message: String?)
     case invalidTypeException(message: String?)
+    case limitExceededException(message: String?)
+    case resourceNotFoundException(message: String?)
 }
 
 extension FMSErrorType {
@@ -19,18 +19,18 @@ extension FMSErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "InvalidOperationException":
-            self = .invalidOperationException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
         case "InternalErrorException":
             self = .internalErrorException(message: message)
         case "InvalidInputException":
             self = .invalidInputException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
+        case "InvalidOperationException":
+            self = .invalidOperationException(message: message)
         case "InvalidTypeException":
             self = .invalidTypeException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         default:
             return nil
         }

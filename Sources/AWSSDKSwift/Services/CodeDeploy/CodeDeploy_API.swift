@@ -21,25 +21,60 @@ public struct CodeDeploy {
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2014-10-06",
             endpoint: endpoint,
-            serviceEndpoints: ["us-east-1-fips": "codedeploy-fips.us-east-1.amazonaws.com", "us-west-1-fips": "codedeploy-fips.us-west-1.amazonaws.com", "us-west-2-fips": "codedeploy-fips.us-west-2.amazonaws.com", "us-east-2-fips": "codedeploy-fips.us-east-2.amazonaws.com"],
+            serviceEndpoints: ["us-east-1-fips": "codedeploy-fips.us-east-1.amazonaws.com", "us-east-2-fips": "codedeploy-fips.us-east-2.amazonaws.com", "us-west-1-fips": "codedeploy-fips.us-west-1.amazonaws.com", "us-west-2-fips": "codedeploy-fips.us-west-2.amazonaws.com"],
             middlewares: [],
             possibleErrorTypes: [CodeDeployErrorType.self]
         )
     }
 
-    ///  Removes one or more tags from one or more on-premises instances.
-    public func removeTagsFromOnPremisesInstances(_ input: RemoveTagsFromOnPremisesInstancesInput) throws {
-        _ = try client.send(operation: "RemoveTagsFromOnPremisesInstances", path: "/", httpMethod: "POST", input: input)
+    ///  Adds tags to on-premises instances.
+    public func addTagsToOnPremisesInstances(_ input: AddTagsToOnPremisesInstancesInput) throws {
+        _ = try client.send(operation: "AddTagsToOnPremisesInstances", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deregisters an on-premises instance.
-    public func deregisterOnPremisesInstance(_ input: DeregisterOnPremisesInstanceInput) throws {
-        _ = try client.send(operation: "DeregisterOnPremisesInstance", path: "/", httpMethod: "POST", input: input)
+    ///  Gets information about one or more application revisions.
+    public func batchGetApplicationRevisions(_ input: BatchGetApplicationRevisionsInput) throws -> Future<BatchGetApplicationRevisionsOutput> {
+        return try client.send(operation: "BatchGetApplicationRevisions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about one or more applications.
+    public func batchGetApplications(_ input: BatchGetApplicationsInput) throws -> Future<BatchGetApplicationsOutput> {
+        return try client.send(operation: "BatchGetApplications", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about one or more deployment groups.
     public func batchGetDeploymentGroups(_ input: BatchGetDeploymentGroupsInput) throws -> Future<BatchGetDeploymentGroupsOutput> {
         return try client.send(operation: "BatchGetDeploymentGroups", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///    This method works, but is considered deprecated. Use BatchGetDeploymentTargets instead.    Returns an array of instances associated with a deployment. This method works with EC2/On-premises and AWS Lambda compute platforms. The newer BatchGetDeploymentTargets works with all compute platforms. 
+    public func batchGetDeploymentInstances(_ input: BatchGetDeploymentInstancesInput) throws -> Future<BatchGetDeploymentInstancesOutput> {
+        return try client.send(operation: "BatchGetDeploymentInstances", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   Returns an array of targets associated with a deployment. This method works with all compute types and should be used instead of the deprecated BatchGetDeploymentInstances.   The type of targets returned depends on the deployment's compute platform:     EC2/On-premises - Information about EC2 instance targets.     AWS Lambda - Information about Lambda functions targets.     Amazon ECS - Information about ECS service targets.   
+    public func batchGetDeploymentTargets(_ input: BatchGetDeploymentTargetsInput) throws -> Future<BatchGetDeploymentTargetsOutput> {
+        return try client.send(operation: "BatchGetDeploymentTargets", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about one or more deployments.
+    public func batchGetDeployments(_ input: BatchGetDeploymentsInput) throws -> Future<BatchGetDeploymentsOutput> {
+        return try client.send(operation: "BatchGetDeployments", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about one or more on-premises instances.
+    public func batchGetOnPremisesInstances(_ input: BatchGetOnPremisesInstancesInput) throws -> Future<BatchGetOnPremisesInstancesOutput> {
+        return try client.send(operation: "BatchGetOnPremisesInstances", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  For a blue/green deployment, starts the process of rerouting traffic from instances in the original environment to instances in the replacement environment without waiting for a specified wait time to elapse. (Traffic rerouting, which is achieved by registering instances in the replacement environment with the load balancer, can start as soon as all instances have a status of Ready.) 
+    public func continueDeployment(_ input: ContinueDeploymentInput) throws {
+        _ = try client.send(operation: "ContinueDeployment", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates an application.
+    public func createApplication(_ input: CreateApplicationInput) throws -> Future<CreateApplicationOutput> {
+        return try client.send(operation: "CreateApplication", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deploys an application revision through the specified deployment group.
@@ -52,129 +87,9 @@ public struct CodeDeploy {
         return try client.send(operation: "CreateDeploymentConfig", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets information about a deployment configuration.
-    public func getDeploymentConfig(_ input: GetDeploymentConfigInput) throws -> Future<GetDeploymentConfigOutput> {
-        return try client.send(operation: "GetDeploymentConfig", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists the deployment configurations with the applicable IAM user or AWS account.
-    public func listDeploymentConfigs(_ input: ListDeploymentConfigsInput) throws -> Future<ListDeploymentConfigsOutput> {
-        return try client.send(operation: "ListDeploymentConfigs", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///    This method works, but is considered deprecated. Use BatchGetDeploymentTargets instead.    Returns an array of instances associated with a deployment. This method works with EC2/On-premises and AWS Lambda compute platforms. The newer BatchGetDeploymentTargets works with all compute platforms. 
-    public func batchGetDeploymentInstances(_ input: BatchGetDeploymentInstancesInput) throws -> Future<BatchGetDeploymentInstancesOutput> {
-        return try client.send(operation: "BatchGetDeploymentInstances", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about one or more application revisions.
-    public func batchGetApplicationRevisions(_ input: BatchGetApplicationRevisionsInput) throws -> Future<BatchGetApplicationRevisionsOutput> {
-        return try client.send(operation: "BatchGetApplicationRevisions", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  In a blue/green deployment, overrides any specified wait time and starts terminating instances immediately after the traffic routing is completed.
-    public func skipWaitTimeForInstanceTermination(_ input: SkipWaitTimeForInstanceTerminationInput) throws {
-        _ = try client.send(operation: "SkipWaitTimeForInstanceTermination", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Adds tags to on-premises instances.
-    public func addTagsToOnPremisesInstances(_ input: AddTagsToOnPremisesInstancesInput) throws {
-        _ = try client.send(operation: "AddTagsToOnPremisesInstances", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about an application.
-    public func getApplication(_ input: GetApplicationInput) throws -> Future<GetApplicationOutput> {
-        return try client.send(operation: "GetApplication", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about a deployment.
-    public func getDeployment(_ input: GetDeploymentInput) throws -> Future<GetDeploymentOutput> {
-        return try client.send(operation: "GetDeployment", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///   Gets information about an on-premises instance. 
-    public func getOnPremisesInstance(_ input: GetOnPremisesInstanceInput) throws -> Future<GetOnPremisesInstanceOutput> {
-        return try client.send(operation: "GetOnPremisesInstance", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets a list of names for one or more on-premises instances. Unless otherwise specified, both registered and deregistered on-premises instance names will be listed. To list only registered or deregistered on-premises instance names, use the registration status parameter.
-    public func listOnPremisesInstances(_ input: ListOnPremisesInstancesInput) throws -> Future<ListOnPremisesInstancesOutput> {
-        return try client.send(operation: "ListOnPremisesInstances", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes a deployment configuration.  A deployment configuration cannot be deleted if it is currently in use. Predefined configurations cannot be deleted. 
-    public func deleteDeploymentConfig(_ input: DeleteDeploymentConfigInput) throws {
-        _ = try client.send(operation: "DeleteDeploymentConfig", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about a deployment group.
-    public func getDeploymentGroup(_ input: GetDeploymentGroupInput) throws -> Future<GetDeploymentGroupOutput> {
-        return try client.send(operation: "GetDeploymentGroup", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///   Returns information about a deployment target. 
-    public func getDeploymentTarget(_ input: GetDeploymentTargetInput) throws -> Future<GetDeploymentTargetOutput> {
-        return try client.send(operation: "GetDeploymentTarget", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists the deployments in a deployment group for an application registered with the applicable IAM user or AWS account.
-    public func listDeployments(_ input: ListDeploymentsInput) throws -> Future<ListDeploymentsOutput> {
-        return try client.send(operation: "ListDeployments", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Changes information about a deployment group.
-    public func updateDeploymentGroup(_ input: UpdateDeploymentGroupInput) throws -> Future<UpdateDeploymentGroupOutput> {
-        return try client.send(operation: "UpdateDeploymentGroup", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists information about revisions for an application.
-    public func listApplicationRevisions(_ input: ListApplicationRevisionsInput) throws -> Future<ListApplicationRevisionsOutput> {
-        return try client.send(operation: "ListApplicationRevisions", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates an application.
-    public func createApplication(_ input: CreateApplicationInput) throws -> Future<CreateApplicationOutput> {
-        return try client.send(operation: "CreateApplication", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes a deployment group.
-    public func deleteDeploymentGroup(_ input: DeleteDeploymentGroupInput) throws -> Future<DeleteDeploymentGroupOutput> {
-        return try client.send(operation: "DeleteDeploymentGroup", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///    The newer BatchGetDeploymentTargets should be used instead because it works with all compute types. ListDeploymentInstances throws an exception if it is used with a compute platform other than EC2/On-premises or AWS Lambda.    Lists the instance for a deployment associated with the applicable IAM user or AWS account. 
-    public func listDeploymentInstances(_ input: ListDeploymentInstancesInput) throws -> Future<ListDeploymentInstancesOutput> {
-        return try client.send(operation: "ListDeploymentInstances", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Changes the name of an application.
-    public func updateApplication(_ input: UpdateApplicationInput) throws {
-        _ = try client.send(operation: "UpdateApplication", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Registers with AWS CodeDeploy a revision for the specified application.
-    public func registerApplicationRevision(_ input: RegisterApplicationRevisionInput) throws {
-        _ = try client.send(operation: "RegisterApplicationRevision", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  For a blue/green deployment, starts the process of rerouting traffic from instances in the original environment to instances in the replacement environment without waiting for a specified wait time to elapse. (Traffic rerouting, which is achieved by registering instances in the replacement environment with the load balancer, can start as soon as all instances have a status of Ready.) 
-    public func continueDeployment(_ input: ContinueDeploymentInput) throws {
-        _ = try client.send(operation: "ContinueDeployment", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists the applications registered with the applicable IAM user or AWS account.
-    public func listApplications(_ input: ListApplicationsInput) throws -> Future<ListApplicationsOutput> {
-        return try client.send(operation: "ListApplications", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Attempts to stop an ongoing deployment.
-    public func stopDeployment(_ input: StopDeploymentInput) throws -> Future<StopDeploymentOutput> {
-        return try client.send(operation: "StopDeployment", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///   Returns an array of targets associated with a deployment. This method works with all compute types and should be used instead of the deprecated BatchGetDeploymentInstances.   The type of targets returned depends on the deployment's compute platform:     EC2/On-premises - Information about EC2 instance targets.     AWS Lambda - Information about Lambda functions targets.     Amazon ECS - Information about ECS service targets.   
-    public func batchGetDeploymentTargets(_ input: BatchGetDeploymentTargetsInput) throws -> Future<BatchGetDeploymentTargetsOutput> {
-        return try client.send(operation: "BatchGetDeploymentTargets", path: "/", httpMethod: "POST", input: input)
+    ///  Creates a deployment group to which application revisions will be deployed.
+    public func createDeploymentGroup(_ input: CreateDeploymentGroupInput) throws -> Future<CreateDeploymentGroupOutput> {
+        return try client.send(operation: "CreateDeploymentGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an application.
@@ -182,39 +97,14 @@ public struct CodeDeploy {
         _ = try client.send(operation: "DeleteApplication", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets information about one or more deployments.
-    public func batchGetDeployments(_ input: BatchGetDeploymentsInput) throws -> Future<BatchGetDeploymentsOutput> {
-        return try client.send(operation: "BatchGetDeployments", path: "/", httpMethod: "POST", input: input)
+    ///  Deletes a deployment configuration.  A deployment configuration cannot be deleted if it is currently in use. Predefined configurations cannot be deleted. 
+    public func deleteDeploymentConfig(_ input: DeleteDeploymentConfigInput) throws {
+        _ = try client.send(operation: "DeleteDeploymentConfig", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets information about one or more applications.
-    public func batchGetApplications(_ input: BatchGetApplicationsInput) throws -> Future<BatchGetApplicationsOutput> {
-        return try client.send(operation: "BatchGetApplications", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///   Sets the result of a Lambda validation function. The function validates one or both lifecycle events (BeforeAllowTraffic and AfterAllowTraffic) and returns Succeeded or Failed. 
-    public func putLifecycleEventHookExecutionStatus(_ input: PutLifecycleEventHookExecutionStatusInput) throws -> Future<PutLifecycleEventHookExecutionStatusOutput> {
-        return try client.send(operation: "PutLifecycleEventHookExecutionStatus", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists the deployment groups for an application registered with the applicable IAM user or AWS account.
-    public func listDeploymentGroups(_ input: ListDeploymentGroupsInput) throws -> Future<ListDeploymentGroupsOutput> {
-        return try client.send(operation: "ListDeploymentGroups", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about an application revision.
-    public func getApplicationRevision(_ input: GetApplicationRevisionInput) throws -> Future<GetApplicationRevisionOutput> {
-        return try client.send(operation: "GetApplicationRevision", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Registers an on-premises instance.  Only one IAM ARN (an IAM session ARN or IAM user ARN) is supported in the request. You cannot use both. 
-    public func registerOnPremisesInstance(_ input: RegisterOnPremisesInstanceInput) throws {
-        _ = try client.send(operation: "RegisterOnPremisesInstance", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists the names of stored connections to GitHub accounts.
-    public func listGitHubAccountTokenNames(_ input: ListGitHubAccountTokenNamesInput) throws -> Future<ListGitHubAccountTokenNamesOutput> {
-        return try client.send(operation: "ListGitHubAccountTokenNames", path: "/", httpMethod: "POST", input: input)
+    ///  Deletes a deployment group.
+    public func deleteDeploymentGroup(_ input: DeleteDeploymentGroupInput) throws -> Future<DeleteDeploymentGroupOutput> {
+        return try client.send(operation: "DeleteDeploymentGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a GitHub account connection.
@@ -222,9 +112,34 @@ public struct CodeDeploy {
         return try client.send(operation: "DeleteGitHubAccountToken", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   Returns an array of target IDs that are associated a deployment. 
-    public func listDeploymentTargets(_ input: ListDeploymentTargetsInput) throws -> Future<ListDeploymentTargetsOutput> {
-        return try client.send(operation: "ListDeploymentTargets", path: "/", httpMethod: "POST", input: input)
+    ///  Deregisters an on-premises instance.
+    public func deregisterOnPremisesInstance(_ input: DeregisterOnPremisesInstanceInput) throws {
+        _ = try client.send(operation: "DeregisterOnPremisesInstance", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about an application.
+    public func getApplication(_ input: GetApplicationInput) throws -> Future<GetApplicationOutput> {
+        return try client.send(operation: "GetApplication", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about an application revision.
+    public func getApplicationRevision(_ input: GetApplicationRevisionInput) throws -> Future<GetApplicationRevisionOutput> {
+        return try client.send(operation: "GetApplicationRevision", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about a deployment.
+    public func getDeployment(_ input: GetDeploymentInput) throws -> Future<GetDeploymentOutput> {
+        return try client.send(operation: "GetDeployment", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about a deployment configuration.
+    public func getDeploymentConfig(_ input: GetDeploymentConfigInput) throws -> Future<GetDeploymentConfigOutput> {
+        return try client.send(operation: "GetDeploymentConfig", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about a deployment group.
+    public func getDeploymentGroup(_ input: GetDeploymentGroupInput) throws -> Future<GetDeploymentGroupOutput> {
+        return try client.send(operation: "GetDeploymentGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about an instance as part of a deployment.
@@ -232,14 +147,99 @@ public struct CodeDeploy {
         return try client.send(operation: "GetDeploymentInstance", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a deployment group to which application revisions will be deployed.
-    public func createDeploymentGroup(_ input: CreateDeploymentGroupInput) throws -> Future<CreateDeploymentGroupOutput> {
-        return try client.send(operation: "CreateDeploymentGroup", path: "/", httpMethod: "POST", input: input)
+    ///   Returns information about a deployment target. 
+    public func getDeploymentTarget(_ input: GetDeploymentTargetInput) throws -> Future<GetDeploymentTargetOutput> {
+        return try client.send(operation: "GetDeploymentTarget", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets information about one or more on-premises instances.
-    public func batchGetOnPremisesInstances(_ input: BatchGetOnPremisesInstancesInput) throws -> Future<BatchGetOnPremisesInstancesOutput> {
-        return try client.send(operation: "BatchGetOnPremisesInstances", path: "/", httpMethod: "POST", input: input)
+    ///   Gets information about an on-premises instance. 
+    public func getOnPremisesInstance(_ input: GetOnPremisesInstanceInput) throws -> Future<GetOnPremisesInstanceOutput> {
+        return try client.send(operation: "GetOnPremisesInstance", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists information about revisions for an application.
+    public func listApplicationRevisions(_ input: ListApplicationRevisionsInput) throws -> Future<ListApplicationRevisionsOutput> {
+        return try client.send(operation: "ListApplicationRevisions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the applications registered with the applicable IAM user or AWS account.
+    public func listApplications(_ input: ListApplicationsInput) throws -> Future<ListApplicationsOutput> {
+        return try client.send(operation: "ListApplications", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the deployment configurations with the applicable IAM user or AWS account.
+    public func listDeploymentConfigs(_ input: ListDeploymentConfigsInput) throws -> Future<ListDeploymentConfigsOutput> {
+        return try client.send(operation: "ListDeploymentConfigs", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the deployment groups for an application registered with the applicable IAM user or AWS account.
+    public func listDeploymentGroups(_ input: ListDeploymentGroupsInput) throws -> Future<ListDeploymentGroupsOutput> {
+        return try client.send(operation: "ListDeploymentGroups", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///    The newer BatchGetDeploymentTargets should be used instead because it works with all compute types. ListDeploymentInstances throws an exception if it is used with a compute platform other than EC2/On-premises or AWS Lambda.    Lists the instance for a deployment associated with the applicable IAM user or AWS account. 
+    public func listDeploymentInstances(_ input: ListDeploymentInstancesInput) throws -> Future<ListDeploymentInstancesOutput> {
+        return try client.send(operation: "ListDeploymentInstances", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   Returns an array of target IDs that are associated a deployment. 
+    public func listDeploymentTargets(_ input: ListDeploymentTargetsInput) throws -> Future<ListDeploymentTargetsOutput> {
+        return try client.send(operation: "ListDeploymentTargets", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the deployments in a deployment group for an application registered with the applicable IAM user or AWS account.
+    public func listDeployments(_ input: ListDeploymentsInput) throws -> Future<ListDeploymentsOutput> {
+        return try client.send(operation: "ListDeployments", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the names of stored connections to GitHub accounts.
+    public func listGitHubAccountTokenNames(_ input: ListGitHubAccountTokenNamesInput) throws -> Future<ListGitHubAccountTokenNamesOutput> {
+        return try client.send(operation: "ListGitHubAccountTokenNames", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets a list of names for one or more on-premises instances. Unless otherwise specified, both registered and deregistered on-premises instance names will be listed. To list only registered or deregistered on-premises instance names, use the registration status parameter.
+    public func listOnPremisesInstances(_ input: ListOnPremisesInstancesInput) throws -> Future<ListOnPremisesInstancesOutput> {
+        return try client.send(operation: "ListOnPremisesInstances", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   Sets the result of a Lambda validation function. The function validates one or both lifecycle events (BeforeAllowTraffic and AfterAllowTraffic) and returns Succeeded or Failed. 
+    public func putLifecycleEventHookExecutionStatus(_ input: PutLifecycleEventHookExecutionStatusInput) throws -> Future<PutLifecycleEventHookExecutionStatusOutput> {
+        return try client.send(operation: "PutLifecycleEventHookExecutionStatus", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Registers with AWS CodeDeploy a revision for the specified application.
+    public func registerApplicationRevision(_ input: RegisterApplicationRevisionInput) throws {
+        _ = try client.send(operation: "RegisterApplicationRevision", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Registers an on-premises instance.  Only one IAM ARN (an IAM session ARN or IAM user ARN) is supported in the request. You cannot use both. 
+    public func registerOnPremisesInstance(_ input: RegisterOnPremisesInstanceInput) throws {
+        _ = try client.send(operation: "RegisterOnPremisesInstance", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes one or more tags from one or more on-premises instances.
+    public func removeTagsFromOnPremisesInstances(_ input: RemoveTagsFromOnPremisesInstancesInput) throws {
+        _ = try client.send(operation: "RemoveTagsFromOnPremisesInstances", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  In a blue/green deployment, overrides any specified wait time and starts terminating instances immediately after the traffic routing is completed.
+    public func skipWaitTimeForInstanceTermination(_ input: SkipWaitTimeForInstanceTerminationInput) throws {
+        _ = try client.send(operation: "SkipWaitTimeForInstanceTermination", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Attempts to stop an ongoing deployment.
+    public func stopDeployment(_ input: StopDeploymentInput) throws -> Future<StopDeploymentOutput> {
+        return try client.send(operation: "StopDeployment", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Changes the name of an application.
+    public func updateApplication(_ input: UpdateApplicationInput) throws {
+        _ = try client.send(operation: "UpdateApplication", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Changes information about a deployment group.
+    public func updateDeploymentGroup(_ input: UpdateDeploymentGroupInput) throws -> Future<UpdateDeploymentGroupOutput> {
+        return try client.send(operation: "UpdateDeploymentGroup", path: "/", httpMethod: "POST", input: input)
     }
 
 

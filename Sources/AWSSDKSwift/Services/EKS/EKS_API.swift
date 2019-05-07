@@ -25,11 +25,6 @@ public struct EKS {
         )
     }
 
-    ///  Returns descriptive information about an Amazon EKS cluster. The API server endpoint and certificate authority data returned by this operation are required for kubelet and kubectl to communicate with your Kubernetes API server. For more information, see Create a kubeconfig for Amazon EKS.  The API server endpoint and certificate authority data are not available until the cluster reaches the ACTIVE state. 
-    public func describeCluster(_ input: DescribeClusterRequest) throws -> Future<DescribeClusterResponse> {
-        return try client.send(operation: "DescribeCluster", path: "/clusters/{name}", httpMethod: "GET", input: input)
-    }
-
     ///  Creates an Amazon EKS control plane.  The Amazon EKS control plane consists of control plane instances that run the Kubernetes software, like etcd and the API server. The control plane runs in an account managed by AWS, and the Kubernetes API is exposed via the Amazon EKS API server endpoint. Amazon EKS worker nodes run in your AWS account and connect to your cluster's control plane via the Kubernetes API server endpoint and a certificate file that is created for your cluster. The cluster control plane is provisioned across multiple Availability Zones and fronted by an Elastic Load Balancing Network Load Balancer. Amazon EKS also provisions elastic network interfaces in your VPC subnets to provide connectivity from the control plane instances to the worker nodes (for example, to support kubectl exec, logs, and proxy data flows). After you create an Amazon EKS cluster, you must configure your Kubernetes tooling to communicate with the API server and launch worker nodes into your cluster. For more information, see Managing Cluster Authentication and Launching Amazon EKS Worker Nodesin the Amazon EKS User Guide.
     public func createCluster(_ input: CreateClusterRequest) throws -> Future<CreateClusterResponse> {
         return try client.send(operation: "CreateCluster", path: "/clusters", httpMethod: "POST", input: input)
@@ -38,6 +33,11 @@ public struct EKS {
     ///  Deletes the Amazon EKS cluster control plane.   If you have active services in your cluster that are associated with a load balancer, you must delete those services before deleting the cluster so that the load balancers are deleted properly. Otherwise, you can have orphaned resources in your VPC that prevent you from being able to delete the VPC. For more information, see Deleting a Cluster in the Amazon EKS User Guide. 
     public func deleteCluster(_ input: DeleteClusterRequest) throws -> Future<DeleteClusterResponse> {
         return try client.send(operation: "DeleteCluster", path: "/clusters/{name}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Returns descriptive information about an Amazon EKS cluster. The API server endpoint and certificate authority data returned by this operation are required for kubelet and kubectl to communicate with your Kubernetes API server. For more information, see Create a kubeconfig for Amazon EKS.  The API server endpoint and certificate authority data are not available until the cluster reaches the ACTIVE state. 
+    public func describeCluster(_ input: DescribeClusterRequest) throws -> Future<DescribeClusterResponse> {
+        return try client.send(operation: "DescribeCluster", path: "/clusters/{name}", httpMethod: "GET", input: input)
     }
 
     ///  Lists the Amazon EKS clusters in your AWS account in the specified Region.

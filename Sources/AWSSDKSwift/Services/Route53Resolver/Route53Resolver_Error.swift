@@ -4,19 +4,19 @@ import AWSSDKSwiftCore
 
 /// Error enum for Route53Resolver
 public enum Route53ResolverErrorType: AWSErrorType {
-    case resourceNotFoundException(message: String?)
-    case invalidParameterException(message: String?)
-    case invalidRequestException(message: String?)
-    case resourceExistsException(message: String?)
     case internalServiceErrorException(message: String?)
-    case limitExceededException(message: String?)
-    case throttlingException(message: String?)
     case invalidNextTokenException(message: String?)
-    case unknownResourceException(message: String?)
-    case invalidTagException(message: String?)
-    case resourceUnavailableException(message: String?)
+    case invalidParameterException(message: String?)
     case invalidPolicyDocument(message: String?)
+    case invalidRequestException(message: String?)
+    case invalidTagException(message: String?)
+    case limitExceededException(message: String?)
+    case resourceExistsException(message: String?)
     case resourceInUseException(message: String?)
+    case resourceNotFoundException(message: String?)
+    case resourceUnavailableException(message: String?)
+    case throttlingException(message: String?)
+    case unknownResourceException(message: String?)
 }
 
 extension Route53ResolverErrorType {
@@ -26,32 +26,32 @@ extension Route53ResolverErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "ResourceExistsException":
-            self = .resourceExistsException(message: message)
         case "InternalServiceErrorException":
             self = .internalServiceErrorException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "ThrottlingException":
-            self = .throttlingException(message: message)
         case "InvalidNextTokenException":
             self = .invalidNextTokenException(message: message)
-        case "UnknownResourceException":
-            self = .unknownResourceException(message: message)
-        case "InvalidTagException":
-            self = .invalidTagException(message: message)
-        case "ResourceUnavailableException":
-            self = .resourceUnavailableException(message: message)
+        case "InvalidParameterException":
+            self = .invalidParameterException(message: message)
         case "InvalidPolicyDocument":
             self = .invalidPolicyDocument(message: message)
+        case "InvalidRequestException":
+            self = .invalidRequestException(message: message)
+        case "InvalidTagException":
+            self = .invalidTagException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
+        case "ResourceExistsException":
+            self = .resourceExistsException(message: message)
         case "ResourceInUseException":
             self = .resourceInUseException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
+        case "ResourceUnavailableException":
+            self = .resourceUnavailableException(message: message)
+        case "ThrottlingException":
+            self = .throttlingException(message: message)
+        case "UnknownResourceException":
+            self = .unknownResourceException(message: message)
         default:
             return nil
         }

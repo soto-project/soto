@@ -4,14 +4,14 @@ import AWSSDKSwiftCore
 
 /// Error enum for KinesisVideoArchivedMedia
 public enum KinesisVideoArchivedMediaErrorType: AWSErrorType {
-    case resourceNotFoundException(message: String?)
-    case invalidArgumentException(message: String?)
     case clientLimitExceededException(message: String?)
-    case notAuthorizedException(message: String?)
-    case unsupportedStreamMediaTypeException(message: String?)
-    case noDataRetentionException(message: String?)
-    case missingCodecPrivateDataException(message: String?)
+    case invalidArgumentException(message: String?)
     case invalidCodecPrivateDataException(message: String?)
+    case missingCodecPrivateDataException(message: String?)
+    case noDataRetentionException(message: String?)
+    case notAuthorizedException(message: String?)
+    case resourceNotFoundException(message: String?)
+    case unsupportedStreamMediaTypeException(message: String?)
 }
 
 extension KinesisVideoArchivedMediaErrorType {
@@ -21,22 +21,22 @@ extension KinesisVideoArchivedMediaErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "InvalidArgumentException":
-            self = .invalidArgumentException(message: message)
         case "ClientLimitExceededException":
             self = .clientLimitExceededException(message: message)
-        case "NotAuthorizedException":
-            self = .notAuthorizedException(message: message)
-        case "UnsupportedStreamMediaTypeException":
-            self = .unsupportedStreamMediaTypeException(message: message)
-        case "NoDataRetentionException":
-            self = .noDataRetentionException(message: message)
-        case "MissingCodecPrivateDataException":
-            self = .missingCodecPrivateDataException(message: message)
+        case "InvalidArgumentException":
+            self = .invalidArgumentException(message: message)
         case "InvalidCodecPrivateDataException":
             self = .invalidCodecPrivateDataException(message: message)
+        case "MissingCodecPrivateDataException":
+            self = .missingCodecPrivateDataException(message: message)
+        case "NoDataRetentionException":
+            self = .noDataRetentionException(message: message)
+        case "NotAuthorizedException":
+            self = .notAuthorizedException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
+        case "UnsupportedStreamMediaTypeException":
+            self = .unsupportedStreamMediaTypeException(message: message)
         default:
             return nil
         }

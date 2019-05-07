@@ -4,13 +4,13 @@ import AWSSDKSwiftCore
 
 /// Error enum for APIGateway
 public enum APIGatewayErrorType: AWSErrorType {
-    case unauthorizedException(message: String?)
-    case notFoundException(message: String?)
-    case serviceUnavailableException(message: String?)
-    case tooManyRequestsException(message: String?)
     case badRequestException(message: String?)
     case conflictException(message: String?)
     case limitExceededException(message: String?)
+    case notFoundException(message: String?)
+    case serviceUnavailableException(message: String?)
+    case tooManyRequestsException(message: String?)
+    case unauthorizedException(message: String?)
 }
 
 extension APIGatewayErrorType {
@@ -20,20 +20,20 @@ extension APIGatewayErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "UnauthorizedException":
-            self = .unauthorizedException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
         case "BadRequestException":
             self = .badRequestException(message: message)
         case "ConflictException":
             self = .conflictException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
+        case "NotFoundException":
+            self = .notFoundException(message: message)
+        case "ServiceUnavailableException":
+            self = .serviceUnavailableException(message: message)
+        case "TooManyRequestsException":
+            self = .tooManyRequestsException(message: message)
+        case "UnauthorizedException":
+            self = .unauthorizedException(message: message)
         default:
             return nil
         }

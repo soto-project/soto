@@ -4,14 +4,14 @@ import AWSSDKSwiftCore
 
 /// Error enum for ServiceCatalog
 public enum ServiceCatalogErrorType: AWSErrorType {
+    case duplicateResourceException(message: String?)
     case invalidParametersException(message: String?)
+    case invalidStateException(message: String?)
+    case limitExceededException(message: String?)
+    case operationNotSupportedException(message: String?)
+    case resourceInUseException(message: String?)
     case resourceNotFoundException(message: String?)
     case tagOptionNotMigratedException(message: String?)
-    case duplicateResourceException(message: String?)
-    case operationNotSupportedException(message: String?)
-    case limitExceededException(message: String?)
-    case invalidStateException(message: String?)
-    case resourceInUseException(message: String?)
 }
 
 extension ServiceCatalogErrorType {
@@ -21,22 +21,22 @@ extension ServiceCatalogErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "DuplicateResourceException":
+            self = .duplicateResourceException(message: message)
         case "InvalidParametersException":
             self = .invalidParametersException(message: message)
+        case "InvalidStateException":
+            self = .invalidStateException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
+        case "OperationNotSupportedException":
+            self = .operationNotSupportedException(message: message)
+        case "ResourceInUseException":
+            self = .resourceInUseException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
         case "TagOptionNotMigratedException":
             self = .tagOptionNotMigratedException(message: message)
-        case "DuplicateResourceException":
-            self = .duplicateResourceException(message: message)
-        case "OperationNotSupportedException":
-            self = .operationNotSupportedException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "InvalidStateException":
-            self = .invalidStateException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
         default:
             return nil
         }

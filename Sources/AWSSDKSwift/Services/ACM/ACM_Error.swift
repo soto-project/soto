@@ -4,14 +4,14 @@ import AWSSDKSwiftCore
 
 /// Error enum for ACM
 public enum ACMErrorType: AWSErrorType {
-    case resourceNotFoundException(message: String?)
-    case requestInProgressException(message: String?)
     case invalidArnException(message: String?)
-    case limitExceededException(message: String?)
-    case invalidStateException(message: String?)
-    case resourceInUseException(message: String?)
-    case invalidTagException(message: String?)
     case invalidDomainValidationOptionsException(message: String?)
+    case invalidStateException(message: String?)
+    case invalidTagException(message: String?)
+    case limitExceededException(message: String?)
+    case requestInProgressException(message: String?)
+    case resourceInUseException(message: String?)
+    case resourceNotFoundException(message: String?)
     case tooManyTagsException(message: String?)
 }
 
@@ -22,22 +22,22 @@ extension ACMErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "RequestInProgressException":
-            self = .requestInProgressException(message: message)
         case "InvalidArnException":
             self = .invalidArnException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "InvalidStateException":
-            self = .invalidStateException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
-        case "InvalidTagException":
-            self = .invalidTagException(message: message)
         case "InvalidDomainValidationOptionsException":
             self = .invalidDomainValidationOptionsException(message: message)
+        case "InvalidStateException":
+            self = .invalidStateException(message: message)
+        case "InvalidTagException":
+            self = .invalidTagException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
+        case "RequestInProgressException":
+            self = .requestInProgressException(message: message)
+        case "ResourceInUseException":
+            self = .resourceInUseException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         case "TooManyTagsException":
             self = .tooManyTagsException(message: message)
         default:

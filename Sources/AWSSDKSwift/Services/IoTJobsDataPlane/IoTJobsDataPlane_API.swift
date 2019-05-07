@@ -35,14 +35,14 @@ public struct IoTJobsDataPlane {
         return try client.send(operation: "GetPendingJobExecutions", path: "/things/{thingName}/jobs", httpMethod: "GET", input: input)
     }
 
-    ///  Updates the status of a job execution.
-    public func updateJobExecution(_ input: UpdateJobExecutionRequest) throws -> Future<UpdateJobExecutionResponse> {
-        return try client.send(operation: "UpdateJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: "POST", input: input)
-    }
-
     ///  Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a thing.
     public func startNextPendingJobExecution(_ input: StartNextPendingJobExecutionRequest) throws -> Future<StartNextPendingJobExecutionResponse> {
         return try client.send(operation: "StartNextPendingJobExecution", path: "/things/{thingName}/jobs/$next", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates the status of a job execution.
+    public func updateJobExecution(_ input: UpdateJobExecutionRequest) throws -> Future<UpdateJobExecutionResponse> {
+        return try client.send(operation: "UpdateJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: "POST", input: input)
     }
 
 

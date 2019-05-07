@@ -4,16 +4,16 @@ import AWSSDKSwiftCore
 
 /// Error enum for CloudWatch
 public enum CloudWatchErrorType: AWSErrorType {
-    case internalServiceFault(message: String?)
-    case invalidParameterValueException(message: String?)
-    case dashboardNotFoundError(message: String?)
-    case invalidNextToken(message: String?)
     case dashboardInvalidInputError(message: String?)
-    case missingRequiredParameterException(message: String?)
-    case invalidParameterCombinationException(message: String?)
-    case resourceNotFound(message: String?)
+    case dashboardNotFoundError(message: String?)
+    case internalServiceFault(message: String?)
     case invalidFormatFault(message: String?)
+    case invalidNextToken(message: String?)
+    case invalidParameterCombinationException(message: String?)
+    case invalidParameterValueException(message: String?)
     case limitExceededFault(message: String?)
+    case missingRequiredParameterException(message: String?)
+    case resourceNotFound(message: String?)
 }
 
 extension CloudWatchErrorType {
@@ -23,26 +23,26 @@ extension CloudWatchErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "InternalServiceFault":
-            self = .internalServiceFault(message: message)
-        case "InvalidParameterValueException":
-            self = .invalidParameterValueException(message: message)
-        case "DashboardNotFoundError":
-            self = .dashboardNotFoundError(message: message)
-        case "InvalidNextToken":
-            self = .invalidNextToken(message: message)
         case "DashboardInvalidInputError":
             self = .dashboardInvalidInputError(message: message)
-        case "MissingRequiredParameterException":
-            self = .missingRequiredParameterException(message: message)
-        case "InvalidParameterCombinationException":
-            self = .invalidParameterCombinationException(message: message)
-        case "ResourceNotFound":
-            self = .resourceNotFound(message: message)
+        case "DashboardNotFoundError":
+            self = .dashboardNotFoundError(message: message)
+        case "InternalServiceFault":
+            self = .internalServiceFault(message: message)
         case "InvalidFormatFault":
             self = .invalidFormatFault(message: message)
+        case "InvalidNextToken":
+            self = .invalidNextToken(message: message)
+        case "InvalidParameterCombinationException":
+            self = .invalidParameterCombinationException(message: message)
+        case "InvalidParameterValueException":
+            self = .invalidParameterValueException(message: message)
         case "LimitExceededFault":
             self = .limitExceededFault(message: message)
+        case "MissingRequiredParameterException":
+            self = .missingRequiredParameterException(message: message)
+        case "ResourceNotFound":
+            self = .resourceNotFound(message: message)
         default:
             return nil
         }

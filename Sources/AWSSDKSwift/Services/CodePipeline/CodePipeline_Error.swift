@@ -4,32 +4,32 @@ import AWSSDKSwiftCore
 
 /// Error enum for CodePipeline
 public enum CodePipelineErrorType: AWSErrorType {
-    case validationException(message: String?)
-    case pipelineNotFoundException(message: String?)
-    case jobNotFoundException(message: String?)
-    case invalidJobStateException(message: String?)
-    case invalidStageDeclarationException(message: String?)
-    case invalidActionDeclarationException(message: String?)
-    case invalidBlockerDeclarationException(message: String?)
-    case invalidStructureException(message: String?)
-    case limitExceededException(message: String?)
-    case invalidNextTokenException(message: String?)
-    case webhookNotFoundException(message: String?)
+    case actionNotFoundException(message: String?)
     case actionTypeNotFoundException(message: String?)
-    case invalidNonceException(message: String?)
+    case approvalAlreadyCompletedException(message: String?)
+    case invalidActionDeclarationException(message: String?)
+    case invalidApprovalTokenException(message: String?)
+    case invalidBlockerDeclarationException(message: String?)
     case invalidClientTokenException(message: String?)
     case invalidJobException(message: String?)
-    case stageNotFoundException(message: String?)
-    case invalidApprovalTokenException(message: String?)
-    case approvalAlreadyCompletedException(message: String?)
-    case actionNotFoundException(message: String?)
-    case pipelineExecutionNotFoundException(message: String?)
-    case invalidWebhookFilterPatternException(message: String?)
+    case invalidJobStateException(message: String?)
+    case invalidNextTokenException(message: String?)
+    case invalidNonceException(message: String?)
+    case invalidStageDeclarationException(message: String?)
+    case invalidStructureException(message: String?)
     case invalidWebhookAuthenticationParametersException(message: String?)
-    case pipelineNameInUseException(message: String?)
-    case pipelineVersionNotFoundException(message: String?)
-    case stageNotRetryableException(message: String?)
+    case invalidWebhookFilterPatternException(message: String?)
+    case jobNotFoundException(message: String?)
+    case limitExceededException(message: String?)
     case notLatestPipelineExecutionException(message: String?)
+    case pipelineExecutionNotFoundException(message: String?)
+    case pipelineNameInUseException(message: String?)
+    case pipelineNotFoundException(message: String?)
+    case pipelineVersionNotFoundException(message: String?)
+    case stageNotFoundException(message: String?)
+    case stageNotRetryableException(message: String?)
+    case validationException(message: String?)
+    case webhookNotFoundException(message: String?)
 }
 
 extension CodePipelineErrorType {
@@ -39,58 +39,58 @@ extension CodePipelineErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "ValidationException":
-            self = .validationException(message: message)
-        case "PipelineNotFoundException":
-            self = .pipelineNotFoundException(message: message)
-        case "JobNotFoundException":
-            self = .jobNotFoundException(message: message)
-        case "InvalidJobStateException":
-            self = .invalidJobStateException(message: message)
-        case "InvalidStageDeclarationException":
-            self = .invalidStageDeclarationException(message: message)
-        case "InvalidActionDeclarationException":
-            self = .invalidActionDeclarationException(message: message)
-        case "InvalidBlockerDeclarationException":
-            self = .invalidBlockerDeclarationException(message: message)
-        case "InvalidStructureException":
-            self = .invalidStructureException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
-        case "WebhookNotFoundException":
-            self = .webhookNotFoundException(message: message)
+        case "ActionNotFoundException":
+            self = .actionNotFoundException(message: message)
         case "ActionTypeNotFoundException":
             self = .actionTypeNotFoundException(message: message)
-        case "InvalidNonceException":
-            self = .invalidNonceException(message: message)
+        case "ApprovalAlreadyCompletedException":
+            self = .approvalAlreadyCompletedException(message: message)
+        case "InvalidActionDeclarationException":
+            self = .invalidActionDeclarationException(message: message)
+        case "InvalidApprovalTokenException":
+            self = .invalidApprovalTokenException(message: message)
+        case "InvalidBlockerDeclarationException":
+            self = .invalidBlockerDeclarationException(message: message)
         case "InvalidClientTokenException":
             self = .invalidClientTokenException(message: message)
         case "InvalidJobException":
             self = .invalidJobException(message: message)
-        case "StageNotFoundException":
-            self = .stageNotFoundException(message: message)
-        case "InvalidApprovalTokenException":
-            self = .invalidApprovalTokenException(message: message)
-        case "ApprovalAlreadyCompletedException":
-            self = .approvalAlreadyCompletedException(message: message)
-        case "ActionNotFoundException":
-            self = .actionNotFoundException(message: message)
-        case "PipelineExecutionNotFoundException":
-            self = .pipelineExecutionNotFoundException(message: message)
-        case "InvalidWebhookFilterPatternException":
-            self = .invalidWebhookFilterPatternException(message: message)
+        case "InvalidJobStateException":
+            self = .invalidJobStateException(message: message)
+        case "InvalidNextTokenException":
+            self = .invalidNextTokenException(message: message)
+        case "InvalidNonceException":
+            self = .invalidNonceException(message: message)
+        case "InvalidStageDeclarationException":
+            self = .invalidStageDeclarationException(message: message)
+        case "InvalidStructureException":
+            self = .invalidStructureException(message: message)
         case "InvalidWebhookAuthenticationParametersException":
             self = .invalidWebhookAuthenticationParametersException(message: message)
-        case "PipelineNameInUseException":
-            self = .pipelineNameInUseException(message: message)
-        case "PipelineVersionNotFoundException":
-            self = .pipelineVersionNotFoundException(message: message)
-        case "StageNotRetryableException":
-            self = .stageNotRetryableException(message: message)
+        case "InvalidWebhookFilterPatternException":
+            self = .invalidWebhookFilterPatternException(message: message)
+        case "JobNotFoundException":
+            self = .jobNotFoundException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
         case "NotLatestPipelineExecutionException":
             self = .notLatestPipelineExecutionException(message: message)
+        case "PipelineExecutionNotFoundException":
+            self = .pipelineExecutionNotFoundException(message: message)
+        case "PipelineNameInUseException":
+            self = .pipelineNameInUseException(message: message)
+        case "PipelineNotFoundException":
+            self = .pipelineNotFoundException(message: message)
+        case "PipelineVersionNotFoundException":
+            self = .pipelineVersionNotFoundException(message: message)
+        case "StageNotFoundException":
+            self = .stageNotFoundException(message: message)
+        case "StageNotRetryableException":
+            self = .stageNotRetryableException(message: message)
+        case "ValidationException":
+            self = .validationException(message: message)
+        case "WebhookNotFoundException":
+            self = .webhookNotFoundException(message: message)
         default:
             return nil
         }

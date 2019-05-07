@@ -4,16 +4,16 @@ import AWSSDKSwiftCore
 
 /// Error enum for Translate
 public enum TranslateErrorType: AWSErrorType {
-    case invalidParameterValueException(message: String?)
-    case tooManyRequestsException(message: String?)
+    case detectedLanguageLowConfidenceException(message: String?)
     case internalServerException(message: String?)
+    case invalidParameterValueException(message: String?)
+    case invalidRequestException(message: String?)
     case limitExceededException(message: String?)
     case resourceNotFoundException(message: String?)
-    case invalidRequestException(message: String?)
-    case textSizeLimitExceededException(message: String?)
-    case unsupportedLanguagePairException(message: String?)
-    case detectedLanguageLowConfidenceException(message: String?)
     case serviceUnavailableException(message: String?)
+    case textSizeLimitExceededException(message: String?)
+    case tooManyRequestsException(message: String?)
+    case unsupportedLanguagePairException(message: String?)
 }
 
 extension TranslateErrorType {
@@ -23,26 +23,26 @@ extension TranslateErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "InvalidParameterValueException":
-            self = .invalidParameterValueException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
+        case "DetectedLanguageLowConfidenceException":
+            self = .detectedLanguageLowConfidenceException(message: message)
         case "InternalServerException":
             self = .internalServerException(message: message)
+        case "InvalidParameterValueException":
+            self = .invalidParameterValueException(message: message)
+        case "InvalidRequestException":
+            self = .invalidRequestException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "TextSizeLimitExceededException":
-            self = .textSizeLimitExceededException(message: message)
-        case "UnsupportedLanguagePairException":
-            self = .unsupportedLanguagePairException(message: message)
-        case "DetectedLanguageLowConfidenceException":
-            self = .detectedLanguageLowConfidenceException(message: message)
         case "ServiceUnavailableException":
             self = .serviceUnavailableException(message: message)
+        case "TextSizeLimitExceededException":
+            self = .textSizeLimitExceededException(message: message)
+        case "TooManyRequestsException":
+            self = .tooManyRequestsException(message: message)
+        case "UnsupportedLanguagePairException":
+            self = .unsupportedLanguagePairException(message: message)
         default:
             return nil
         }

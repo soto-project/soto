@@ -4,12 +4,12 @@ import AWSSDKSwiftCore
 
 /// Error enum for OpsWorksCM
 public enum OpsWorksCMErrorType: AWSErrorType {
-    case invalidStateException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case validationException(message: String?)
     case invalidNextTokenException(message: String?)
+    case invalidStateException(message: String?)
     case limitExceededException(message: String?)
     case resourceAlreadyExistsException(message: String?)
+    case resourceNotFoundException(message: String?)
+    case validationException(message: String?)
 }
 
 extension OpsWorksCMErrorType {
@@ -19,18 +19,18 @@ extension OpsWorksCMErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "InvalidStateException":
-            self = .invalidStateException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
         case "InvalidNextTokenException":
             self = .invalidNextTokenException(message: message)
+        case "InvalidStateException":
+            self = .invalidStateException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
         case "ResourceAlreadyExistsException":
             self = .resourceAlreadyExistsException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
+        case "ValidationException":
+            self = .validationException(message: message)
         default:
             return nil
         }

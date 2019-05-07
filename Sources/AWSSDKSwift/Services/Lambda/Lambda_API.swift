@@ -25,54 +25,19 @@ public struct Lambda {
         )
     }
 
-    ///  Retrieves details about your account's limits and usage in a region.
-    public func getAccountSettings(_ input: GetAccountSettingsRequest) throws -> Future<GetAccountSettingsResponse> {
-        return try client.send(operation: "GetAccountSettings", path: "/2016-08-19/account-settings/", httpMethod: "GET", input: input)
+    ///  Adds permissions to the resource-based policy of a version of a function layer. Use this action to grant layer usage permission to other accounts. You can grant permission to a single account, all AWS accounts, or all accounts in an organization. To revoke permission, call RemoveLayerVersionPermission with the statement ID that you specified when you added it.
+    public func addLayerVersionPermission(_ input: AddLayerVersionPermissionRequest) throws -> Future<AddLayerVersionPermissionResponse> {
+        return try client.send(operation: "AddLayerVersionPermission", path: "/2018-10-31/layers/{LayerName}/versions/{VersionNumber}/policy", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of your Lambda functions. For each function, the response includes the function configuration information. You must use GetFunction to retrieve the code for your function. This operation requires permission for the lambda:ListFunctions action. If you are using the versioning feature, you can list all of your functions or only $LATEST versions. For information about the versioning feature, see AWS Lambda Function Versioning and Aliases. 
-    public func listFunctions(_ input: ListFunctionsRequest) throws -> Future<ListFunctionsResponse> {
-        return try client.send(operation: "ListFunctions", path: "/2015-03-31/functions/", httpMethod: "GET", input: input)
+    ///  Adds a permission to the resource policy associated with the specified AWS Lambda function. You use resource policies to grant permissions to event sources that use the push model. In a push model, event sources (such as Amazon S3 and custom applications) invoke your Lambda function. Each permission you add to the resource policy allows an event source permission to invoke the Lambda function.  Permissions apply to the Amazon Resource Name (ARN) used to invoke the function, which can be unqualified (the unpublished version of the function), or include a version or alias. If a client uses a version or alias to invoke a function, use the Qualifier parameter to apply permissions to that ARN. For more information about versioning, see AWS Lambda Function Versioning and Aliases.  This operation requires permission for the lambda:AddPermission action.
+    public func addPermission(_ input: AddPermissionRequest) throws -> Future<AddPermissionResponse> {
+        return try client.send(operation: "AddPermission", path: "/2015-03-31/functions/{FunctionName}/policy", httpMethod: "POST", input: input)
     }
 
-    ///  Removes a statement from the permissions policy for a layer version. For more information, see AddLayerVersionPermission.
-    public func removeLayerVersionPermission(_ input: RemoveLayerVersionPermissionRequest) throws {
-        _ = try client.send(operation: "RemoveLayerVersionPermission", path: "/2018-10-31/layers/{LayerName}/versions/{VersionNumber}/policy/{StatementId}", httpMethod: "DELETE", input: input)
-    }
-
-    ///  Removes concurrent execution limits from this function. For more information, see Managing Concurrency.
-    public func deleteFunctionConcurrency(_ input: DeleteFunctionConcurrencyRequest) throws {
-        _ = try client.send(operation: "DeleteFunctionConcurrency", path: "/2017-10-31/functions/{FunctionName}/concurrency", httpMethod: "DELETE", input: input)
-    }
-
-    ///  Returns the specified alias information such as the alias ARN, description, and function version it is pointing to. For more information, see Introduction to AWS Lambda Aliases. This requires permission for the lambda:GetAlias action.
-    public func getAlias(_ input: GetAliasRequest) throws -> Future<AliasConfiguration> {
-        return try client.send(operation: "GetAlias", path: "/2015-03-31/functions/{FunctionName}/aliases/{Name}", httpMethod: "GET", input: input)
-    }
-
-    ///  Deletes a version of a function layer. Deleted versions can no longer be viewed or added to functions. However, a copy of the version remains in Lambda until no functions refer to it.
-    public func deleteLayerVersion(_ input: DeleteLayerVersionRequest) throws {
-        _ = try client.send(operation: "DeleteLayerVersion", path: "/2018-10-31/layers/{LayerName}/versions/{VersionNumber}", httpMethod: "DELETE", input: input)
-    }
-
-    ///  Removes tags from a Lambda function. Requires the function ARN (Amazon Resource Name). For more information, see Tagging Lambda Functions in the AWS Lambda Developer Guide. 
-    public func untagResource(_ input: UntagResourceRequest) throws {
-        _ = try client.send(operation: "UntagResource", path: "/2017-03-31/tags/{ARN}", httpMethod: "DELETE", input: input)
-    }
-
-    ///  Returns information about a version of a function layer, with a link to download the layer archive that's valid for 10 minutes.
-    public func getLayerVersion(_ input: GetLayerVersionRequest) throws -> Future<GetLayerVersionResponse> {
-        return try client.send(operation: "GetLayerVersion", path: "/2018-10-31/layers/{LayerName}/versions/{VersionNumber}", httpMethod: "GET", input: input)
-    }
-
-    ///  Updates the code for the specified Lambda function. This operation must only be used on an existing Lambda function and cannot be used to update the function configuration. If you are using the versioning feature, note this API will always update the $LATEST version of your Lambda function. For information about the versioning feature, see AWS Lambda Function Versioning and Aliases.  This operation requires permission for the lambda:UpdateFunctionCode action.
-    public func updateFunctionCode(_ input: UpdateFunctionCodeRequest) throws -> Future<FunctionConfiguration> {
-        return try client.send(operation: "UpdateFunctionCode", path: "/2015-03-31/functions/{FunctionName}/code", httpMethod: "PUT", input: input)
-    }
-
-    ///  Lists function layers and shows information about the latest version of each. Specify a runtime identifier to list only layers that indicate that they're compatible with that runtime.
-    public func listLayers(_ input: ListLayersRequest) throws -> Future<ListLayersResponse> {
-        return try client.send(operation: "ListLayers", path: "/2018-10-31/layers", httpMethod: "GET", input: input)
+    ///  Creates an alias that points to the specified Lambda function version. For more information, see Introduction to AWS Lambda Aliases. Alias names are unique for a given function. This requires permission for the lambda:CreateAlias action.
+    public func createAlias(_ input: CreateAliasRequest) throws -> Future<AliasConfiguration> {
+        return try client.send(operation: "CreateAlias", path: "/2015-03-31/functions/{FunctionName}/aliases", httpMethod: "POST", input: input)
     }
 
     ///  Creates a mapping between an event source and an AWS Lambda function. Lambda reads items from the event source and triggers the function. For details about each event source type, see the following topics.    Using AWS Lambda with Amazon Kinesis     Using AWS Lambda with Amazon SQS     Using AWS Lambda with Amazon DynamoDB   
@@ -85,29 +50,14 @@ public struct Lambda {
         return try client.send(operation: "CreateFunction", path: "/2015-03-31/functions", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes the specified Lambda function alias. For more information, see Introduction to AWS Lambda Aliases. This requires permission for the lambda:DeleteAlias action.
+    public func deleteAlias(_ input: DeleteAliasRequest) throws {
+        _ = try client.send(operation: "DeleteAlias", path: "/2015-03-31/functions/{FunctionName}/aliases/{Name}", httpMethod: "DELETE", input: input)
+    }
+
     ///  Deletes an event source mapping.
     public func deleteEventSourceMapping(_ input: DeleteEventSourceMappingRequest) throws -> Future<EventSourceMappingConfiguration> {
         return try client.send(operation: "DeleteEventSourceMapping", path: "/2015-03-31/event-source-mappings/{UUID}", httpMethod: "DELETE", input: input)
-    }
-
-    ///  Updates an event source mapping. You can change the function that AWS Lambda invokes, or pause invocation and resume later from the same location.
-    public func updateEventSourceMapping(_ input: UpdateEventSourceMappingRequest) throws -> Future<EventSourceMappingConfiguration> {
-        return try client.send(operation: "UpdateEventSourceMapping", path: "/2015-03-31/event-source-mappings/{UUID}", httpMethod: "PUT", input: input)
-    }
-
-    ///  Creates an alias that points to the specified Lambda function version. For more information, see Introduction to AWS Lambda Aliases. Alias names are unique for a given function. This requires permission for the lambda:CreateAlias action.
-    public func createAlias(_ input: CreateAliasRequest) throws -> Future<AliasConfiguration> {
-        return try client.send(operation: "CreateAlias", path: "/2015-03-31/functions/{FunctionName}/aliases", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns the configuration information of the Lambda function and a presigned URL link to the .zip file you uploaded with CreateFunction so you can download the .zip file. Note that the URL is valid for up to 10 minutes. The configuration information is the same information you provided as parameters when uploading the function. Use the Qualifier parameter to retrieve a published version of the function. Otherwise, returns the unpublished version ($LATEST). For more information, see AWS Lambda Function Versioning and Aliases. This operation requires permission for the lambda:GetFunction action.
-    public func getFunction(_ input: GetFunctionRequest) throws -> Future<GetFunctionResponse> {
-        return try client.send(operation: "GetFunction", path: "/2015-03-31/functions/{FunctionName}", httpMethod: "GET", input: input)
-    }
-
-    ///  Lists the versions of a function layer. Versions that have been deleted aren't listed. Specify a runtime identifier to list only versions that indicate that they're compatible with that runtime.
-    public func listLayerVersions(_ input: ListLayerVersionsRequest) throws -> Future<ListLayerVersionsResponse> {
-        return try client.send(operation: "ListLayerVersions", path: "/2018-10-31/layers/{LayerName}/versions", httpMethod: "GET", input: input)
     }
 
     ///  Deletes a Lambda function. To delete a specific function version, use the Qualifier parameter. Otherwise, all versions and aliases are deleted. Event source mappings are not deleted. This operation requires permission for the lambda:DeleteFunction action.
@@ -115,74 +65,24 @@ public struct Lambda {
         _ = try client.send(operation: "DeleteFunction", path: "/2015-03-31/functions/{FunctionName}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Publishes a version of your function from the current snapshot of $LATEST. That is, AWS Lambda takes a snapshot of the function code and configuration information from $LATEST and publishes a new version. The code and configuration cannot be modified after publication. For information about the versioning feature, see AWS Lambda Function Versioning and Aliases. 
-    public func publishVersion(_ input: PublishVersionRequest) throws -> Future<FunctionConfiguration> {
-        return try client.send(operation: "PublishVersion", path: "/2015-03-31/functions/{FunctionName}/versions", httpMethod: "POST", input: input)
+    ///  Removes concurrent execution limits from this function. For more information, see Managing Concurrency.
+    public func deleteFunctionConcurrency(_ input: DeleteFunctionConcurrencyRequest) throws {
+        _ = try client.send(operation: "DeleteFunctionConcurrency", path: "/2017-10-31/functions/{FunctionName}/concurrency", httpMethod: "DELETE", input: input)
     }
 
-    ///  Returns a list of tags assigned to a function when supplied the function ARN (Amazon Resource Name). For more information on Tagging, see Tagging Lambda Functions in the AWS Lambda Developer Guide.
-    public func listTags(_ input: ListTagsRequest) throws -> Future<ListTagsResponse> {
-        return try client.send(operation: "ListTags", path: "/2017-03-31/tags/{ARN}", httpMethod: "GET", input: input)
+    ///  Deletes a version of a function layer. Deleted versions can no longer be viewed or added to functions. However, a copy of the version remains in Lambda until no functions refer to it.
+    public func deleteLayerVersion(_ input: DeleteLayerVersionRequest) throws {
+        _ = try client.send(operation: "DeleteLayerVersion", path: "/2018-10-31/layers/{LayerName}/versions/{VersionNumber}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Using this API you can update the function version to which the alias points and the alias description. For more information, see Introduction to AWS Lambda Aliases. This requires permission for the lambda:UpdateAlias action.
-    public func updateAlias(_ input: UpdateAliasRequest) throws -> Future<AliasConfiguration> {
-        return try client.send(operation: "UpdateAlias", path: "/2015-03-31/functions/{FunctionName}/aliases/{Name}", httpMethod: "PUT", input: input)
+    ///  Retrieves details about your account's limits and usage in a region.
+    public func getAccountSettings(_ input: GetAccountSettingsRequest) throws -> Future<GetAccountSettingsResponse> {
+        return try client.send(operation: "GetAccountSettings", path: "/2016-08-19/account-settings/", httpMethod: "GET", input: input)
     }
 
-    ///  Returns the permission policy for a layer version. For more information, see AddLayerVersionPermission.
-    public func getLayerVersionPolicy(_ input: GetLayerVersionPolicyRequest) throws -> Future<GetLayerVersionPolicyResponse> {
-        return try client.send(operation: "GetLayerVersionPolicy", path: "/2018-10-31/layers/{LayerName}/versions/{VersionNumber}/policy", httpMethod: "GET", input: input)
-    }
-
-    ///  Deletes the specified Lambda function alias. For more information, see Introduction to AWS Lambda Aliases. This requires permission for the lambda:DeleteAlias action.
-    public func deleteAlias(_ input: DeleteAliasRequest) throws {
-        _ = try client.send(operation: "DeleteAlias", path: "/2015-03-31/functions/{FunctionName}/aliases/{Name}", httpMethod: "DELETE", input: input)
-    }
-
-    ///  Returns the resource policy associated with the specified Lambda function. This action requires permission for the lambda:GetPolicy action. 
-    public func getPolicy(_ input: GetPolicyRequest) throws -> Future<GetPolicyResponse> {
-        return try client.send(operation: "GetPolicy", path: "/2015-03-31/functions/{FunctionName}/policy", httpMethod: "GET", input: input)
-    }
-
-    ///  Adds permissions to the resource-based policy of a version of a function layer. Use this action to grant layer usage permission to other accounts. You can grant permission to a single account, all AWS accounts, or all accounts in an organization. To revoke permission, call RemoveLayerVersionPermission with the statement ID that you specified when you added it.
-    public func addLayerVersionPermission(_ input: AddLayerVersionPermissionRequest) throws -> Future<AddLayerVersionPermissionResponse> {
-        return try client.send(operation: "AddLayerVersionPermission", path: "/2018-10-31/layers/{LayerName}/versions/{VersionNumber}/policy", httpMethod: "POST", input: input)
-    }
-
-    ///  Sets a limit on the number of concurrent executions available to this function. It is a subset of your account's total concurrent execution limit per region. Note that Lambda automatically reserves a buffer of 100 concurrent executions for functions without any reserved concurrency limit. This means if your account limit is 1000, you have a total of 900 available to allocate to individual functions. For more information, see Managing Concurrency.
-    public func putFunctionConcurrency(_ input: PutFunctionConcurrencyRequest) throws -> Future<Concurrency> {
-        return try client.send(operation: "PutFunctionConcurrency", path: "/2017-10-31/functions/{FunctionName}/concurrency", httpMethod: "PUT", input: input)
-    }
-
-    ///  Invokes a Lambda function. For an example, see Create the Lambda Function and Test It Manually.  Specify just a function name to invoke the latest version of the function. To invoke a published version, use the Qualifier parameter to specify a version or alias. If you use the RequestResponse (synchronous) invocation option, the function will be invoked only once. If you use the Event (asynchronous) invocation option, the function will be invoked at least once in response to an event and the function must be idempotent to handle this. For functions with a long timeout, your client may be disconnected during synchronous invocation while it waits for a response. Configure your HTTP client, SDK, firewall, proxy, or operating system to allow for long connections with timeout or keep-alive settings. This operation requires permission for the lambda:InvokeFunction action. The TooManyRequestsException noted below will return the following: ConcurrentInvocationLimitExceeded will be returned if you have no functions with reserved concurrency and have exceeded your account concurrent limit or if a function without reserved concurrency exceeds the account's unreserved concurrency limit. ReservedFunctionConcurrentInvocationLimitExceeded will be returned when a function with reserved concurrency exceeds its configured concurrency limit. 
-    public func invoke(_ input: InvocationRequest) throws -> Future<InvocationResponse> {
-        return try client.send(operation: "Invoke", path: "/2015-03-31/functions/{FunctionName}/invocations", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns the configuration information of the Lambda function. This the same information you provided as parameters when uploading the function by using CreateFunction. If you are using the versioning feature, you can retrieve this information for a specific function version by using the optional Qualifier parameter and specifying the function version or alias that points to it. If you don't provide it, the API returns information about the $LATEST version of the function. For more information about versioning, see AWS Lambda Function Versioning and Aliases. This operation requires permission for the lambda:GetFunctionConfiguration operation.
-    public func getFunctionConfiguration(_ input: GetFunctionConfigurationRequest) throws -> Future<FunctionConfiguration> {
-        return try client.send(operation: "GetFunctionConfiguration", path: "/2015-03-31/functions/{FunctionName}/configuration", httpMethod: "GET", input: input)
-    }
-
-    ///   For asynchronous function invocation, use Invoke.  Submits an invocation request to AWS Lambda. Upon receiving the request, Lambda executes the specified function asynchronously. To see the logs generated by the Lambda function execution, see the CloudWatch Logs console. This operation requires permission for the lambda:InvokeFunction action.
-    public func invokeAsync(_ input: InvokeAsyncRequest) throws -> Future<InvokeAsyncResponse> {
-        return try client.send(operation: "InvokeAsync", path: "/2014-11-13/functions/{FunctionName}/invoke-async/", httpMethod: "POST", input: input)
-    }
-
-    ///  Updates the configuration parameters for the specified Lambda function by using the values provided in the request. You provide only the parameters you want to change. This operation must only be used on an existing Lambda function and cannot be used to update the function's code. If you are using the versioning feature, note this API will always update the $LATEST version of your Lambda function. For information about the versioning feature, see AWS Lambda Function Versioning and Aliases.  This operation requires permission for the lambda:UpdateFunctionConfiguration action.
-    public func updateFunctionConfiguration(_ input: UpdateFunctionConfigurationRequest) throws -> Future<FunctionConfiguration> {
-        return try client.send(operation: "UpdateFunctionConfiguration", path: "/2015-03-31/functions/{FunctionName}/configuration", httpMethod: "PUT", input: input)
-    }
-
-    ///  Returns list of aliases created for a Lambda function. For each alias, the response includes information such as the alias ARN, description, alias name, and the function version to which it points. For more information, see Introduction to AWS Lambda Aliases. This requires permission for the lambda:ListAliases action.
-    public func listAliases(_ input: ListAliasesRequest) throws -> Future<ListAliasesResponse> {
-        return try client.send(operation: "ListAliases", path: "/2015-03-31/functions/{FunctionName}/aliases", httpMethod: "GET", input: input)
-    }
-
-    ///  Creates a list of tags (key-value pairs) on the Lambda function. Requires the Lambda function ARN (Amazon Resource Name). If a key is specified without a value, Lambda creates a tag with the specified key and a value of null. For more information, see Tagging Lambda Functions in the AWS Lambda Developer Guide. 
-    public func tagResource(_ input: TagResourceRequest) throws {
-        _ = try client.send(operation: "TagResource", path: "/2017-03-31/tags/{ARN}", httpMethod: "POST", input: input)
+    ///  Returns the specified alias information such as the alias ARN, description, and function version it is pointing to. For more information, see Introduction to AWS Lambda Aliases. This requires permission for the lambda:GetAlias action.
+    public func getAlias(_ input: GetAliasRequest) throws -> Future<AliasConfiguration> {
+        return try client.send(operation: "GetAlias", path: "/2015-03-31/functions/{FunctionName}/aliases/{Name}", httpMethod: "GET", input: input)
     }
 
     ///  Returns details about an event source mapping.
@@ -190,19 +90,69 @@ public struct Lambda {
         return try client.send(operation: "GetEventSourceMapping", path: "/2015-03-31/event-source-mappings/{UUID}", httpMethod: "GET", input: input)
     }
 
+    ///  Returns the configuration information of the Lambda function and a presigned URL link to the .zip file you uploaded with CreateFunction so you can download the .zip file. Note that the URL is valid for up to 10 minutes. The configuration information is the same information you provided as parameters when uploading the function. Use the Qualifier parameter to retrieve a published version of the function. Otherwise, returns the unpublished version ($LATEST). For more information, see AWS Lambda Function Versioning and Aliases. This operation requires permission for the lambda:GetFunction action.
+    public func getFunction(_ input: GetFunctionRequest) throws -> Future<GetFunctionResponse> {
+        return try client.send(operation: "GetFunction", path: "/2015-03-31/functions/{FunctionName}", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns the configuration information of the Lambda function. This the same information you provided as parameters when uploading the function by using CreateFunction. If you are using the versioning feature, you can retrieve this information for a specific function version by using the optional Qualifier parameter and specifying the function version or alias that points to it. If you don't provide it, the API returns information about the $LATEST version of the function. For more information about versioning, see AWS Lambda Function Versioning and Aliases. This operation requires permission for the lambda:GetFunctionConfiguration operation.
+    public func getFunctionConfiguration(_ input: GetFunctionConfigurationRequest) throws -> Future<FunctionConfiguration> {
+        return try client.send(operation: "GetFunctionConfiguration", path: "/2015-03-31/functions/{FunctionName}/configuration", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns information about a version of a function layer, with a link to download the layer archive that's valid for 10 minutes.
+    public func getLayerVersion(_ input: GetLayerVersionRequest) throws -> Future<GetLayerVersionResponse> {
+        return try client.send(operation: "GetLayerVersion", path: "/2018-10-31/layers/{LayerName}/versions/{VersionNumber}", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns the permission policy for a layer version. For more information, see AddLayerVersionPermission.
+    public func getLayerVersionPolicy(_ input: GetLayerVersionPolicyRequest) throws -> Future<GetLayerVersionPolicyResponse> {
+        return try client.send(operation: "GetLayerVersionPolicy", path: "/2018-10-31/layers/{LayerName}/versions/{VersionNumber}/policy", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns the resource policy associated with the specified Lambda function. This action requires permission for the lambda:GetPolicy action. 
+    public func getPolicy(_ input: GetPolicyRequest) throws -> Future<GetPolicyResponse> {
+        return try client.send(operation: "GetPolicy", path: "/2015-03-31/functions/{FunctionName}/policy", httpMethod: "GET", input: input)
+    }
+
+    ///  Invokes a Lambda function. For an example, see Create the Lambda Function and Test It Manually.  Specify just a function name to invoke the latest version of the function. To invoke a published version, use the Qualifier parameter to specify a version or alias. If you use the RequestResponse (synchronous) invocation option, the function will be invoked only once. If you use the Event (asynchronous) invocation option, the function will be invoked at least once in response to an event and the function must be idempotent to handle this. For functions with a long timeout, your client may be disconnected during synchronous invocation while it waits for a response. Configure your HTTP client, SDK, firewall, proxy, or operating system to allow for long connections with timeout or keep-alive settings. This operation requires permission for the lambda:InvokeFunction action. The TooManyRequestsException noted below will return the following: ConcurrentInvocationLimitExceeded will be returned if you have no functions with reserved concurrency and have exceeded your account concurrent limit or if a function without reserved concurrency exceeds the account's unreserved concurrency limit. ReservedFunctionConcurrentInvocationLimitExceeded will be returned when a function with reserved concurrency exceeds its configured concurrency limit. 
+    public func invoke(_ input: InvocationRequest) throws -> Future<InvocationResponse> {
+        return try client.send(operation: "Invoke", path: "/2015-03-31/functions/{FunctionName}/invocations", httpMethod: "POST", input: input)
+    }
+
+    ///   For asynchronous function invocation, use Invoke.  Submits an invocation request to AWS Lambda. Upon receiving the request, Lambda executes the specified function asynchronously. To see the logs generated by the Lambda function execution, see the CloudWatch Logs console. This operation requires permission for the lambda:InvokeFunction action.
+    public func invokeAsync(_ input: InvokeAsyncRequest) throws -> Future<InvokeAsyncResponse> {
+        return try client.send(operation: "InvokeAsync", path: "/2014-11-13/functions/{FunctionName}/invoke-async/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns list of aliases created for a Lambda function. For each alias, the response includes information such as the alias ARN, description, alias name, and the function version to which it points. For more information, see Introduction to AWS Lambda Aliases. This requires permission for the lambda:ListAliases action.
+    public func listAliases(_ input: ListAliasesRequest) throws -> Future<ListAliasesResponse> {
+        return try client.send(operation: "ListAliases", path: "/2015-03-31/functions/{FunctionName}/aliases", httpMethod: "GET", input: input)
+    }
+
     ///  Lists event source mappings. Specify an EventSourceArn to only show event source mappings for a single event source.
     public func listEventSourceMappings(_ input: ListEventSourceMappingsRequest) throws -> Future<ListEventSourceMappingsResponse> {
         return try client.send(operation: "ListEventSourceMappings", path: "/2015-03-31/event-source-mappings/", httpMethod: "GET", input: input)
     }
 
-    ///  Adds a permission to the resource policy associated with the specified AWS Lambda function. You use resource policies to grant permissions to event sources that use the push model. In a push model, event sources (such as Amazon S3 and custom applications) invoke your Lambda function. Each permission you add to the resource policy allows an event source permission to invoke the Lambda function.  Permissions apply to the Amazon Resource Name (ARN) used to invoke the function, which can be unqualified (the unpublished version of the function), or include a version or alias. If a client uses a version or alias to invoke a function, use the Qualifier parameter to apply permissions to that ARN. For more information about versioning, see AWS Lambda Function Versioning and Aliases.  This operation requires permission for the lambda:AddPermission action.
-    public func addPermission(_ input: AddPermissionRequest) throws -> Future<AddPermissionResponse> {
-        return try client.send(operation: "AddPermission", path: "/2015-03-31/functions/{FunctionName}/policy", httpMethod: "POST", input: input)
+    ///  Returns a list of your Lambda functions. For each function, the response includes the function configuration information. You must use GetFunction to retrieve the code for your function. This operation requires permission for the lambda:ListFunctions action. If you are using the versioning feature, you can list all of your functions or only $LATEST versions. For information about the versioning feature, see AWS Lambda Function Versioning and Aliases. 
+    public func listFunctions(_ input: ListFunctionsRequest) throws -> Future<ListFunctionsResponse> {
+        return try client.send(operation: "ListFunctions", path: "/2015-03-31/functions/", httpMethod: "GET", input: input)
     }
 
-    ///  Removes permissions from a function. You can remove individual permissions from an resource policy associated with a Lambda function by providing a statement ID that you provided when you added the permission. When you remove permissions, disable the event source mapping or trigger configuration first to avoid errors. Permissions apply to the Amazon Resource Name (ARN) used to invoke the function, which can be unqualified (the unpublished version of the function), or include a version or alias. If a client uses a version or alias to invoke a function, use the Qualifier parameter to apply permissions to that ARN. For more information about versioning, see AWS Lambda Function Versioning and Aliases.  You need permission for the lambda:RemovePermission action.
-    public func removePermission(_ input: RemovePermissionRequest) throws {
-        _ = try client.send(operation: "RemovePermission", path: "/2015-03-31/functions/{FunctionName}/policy/{StatementId}", httpMethod: "DELETE", input: input)
+    ///  Lists the versions of a function layer. Versions that have been deleted aren't listed. Specify a runtime identifier to list only versions that indicate that they're compatible with that runtime.
+    public func listLayerVersions(_ input: ListLayerVersionsRequest) throws -> Future<ListLayerVersionsResponse> {
+        return try client.send(operation: "ListLayerVersions", path: "/2018-10-31/layers/{LayerName}/versions", httpMethod: "GET", input: input)
+    }
+
+    ///  Lists function layers and shows information about the latest version of each. Specify a runtime identifier to list only layers that indicate that they're compatible with that runtime.
+    public func listLayers(_ input: ListLayersRequest) throws -> Future<ListLayersResponse> {
+        return try client.send(operation: "ListLayers", path: "/2018-10-31/layers", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns a list of tags assigned to a function when supplied the function ARN (Amazon Resource Name). For more information on Tagging, see Tagging Lambda Functions in the AWS Lambda Developer Guide.
+    public func listTags(_ input: ListTagsRequest) throws -> Future<ListTagsResponse> {
+        return try client.send(operation: "ListTags", path: "/2017-03-31/tags/{ARN}", httpMethod: "GET", input: input)
     }
 
     ///  Lists all versions of a function. For information about versioning, see AWS Lambda Function Versioning and Aliases. 
@@ -213,6 +163,56 @@ public struct Lambda {
     ///  Creates a function layer from a ZIP archive. Each time you call PublishLayerVersion with the same version name, a new version is created. Add layers to your function with CreateFunction or UpdateFunctionConfiguration.
     public func publishLayerVersion(_ input: PublishLayerVersionRequest) throws -> Future<PublishLayerVersionResponse> {
         return try client.send(operation: "PublishLayerVersion", path: "/2018-10-31/layers/{LayerName}/versions", httpMethod: "POST", input: input)
+    }
+
+    ///  Publishes a version of your function from the current snapshot of $LATEST. That is, AWS Lambda takes a snapshot of the function code and configuration information from $LATEST and publishes a new version. The code and configuration cannot be modified after publication. For information about the versioning feature, see AWS Lambda Function Versioning and Aliases. 
+    public func publishVersion(_ input: PublishVersionRequest) throws -> Future<FunctionConfiguration> {
+        return try client.send(operation: "PublishVersion", path: "/2015-03-31/functions/{FunctionName}/versions", httpMethod: "POST", input: input)
+    }
+
+    ///  Sets a limit on the number of concurrent executions available to this function. It is a subset of your account's total concurrent execution limit per region. Note that Lambda automatically reserves a buffer of 100 concurrent executions for functions without any reserved concurrency limit. This means if your account limit is 1000, you have a total of 900 available to allocate to individual functions. For more information, see Managing Concurrency.
+    public func putFunctionConcurrency(_ input: PutFunctionConcurrencyRequest) throws -> Future<Concurrency> {
+        return try client.send(operation: "PutFunctionConcurrency", path: "/2017-10-31/functions/{FunctionName}/concurrency", httpMethod: "PUT", input: input)
+    }
+
+    ///  Removes a statement from the permissions policy for a layer version. For more information, see AddLayerVersionPermission.
+    public func removeLayerVersionPermission(_ input: RemoveLayerVersionPermissionRequest) throws {
+        _ = try client.send(operation: "RemoveLayerVersionPermission", path: "/2018-10-31/layers/{LayerName}/versions/{VersionNumber}/policy/{StatementId}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Removes permissions from a function. You can remove individual permissions from an resource policy associated with a Lambda function by providing a statement ID that you provided when you added the permission. When you remove permissions, disable the event source mapping or trigger configuration first to avoid errors. Permissions apply to the Amazon Resource Name (ARN) used to invoke the function, which can be unqualified (the unpublished version of the function), or include a version or alias. If a client uses a version or alias to invoke a function, use the Qualifier parameter to apply permissions to that ARN. For more information about versioning, see AWS Lambda Function Versioning and Aliases.  You need permission for the lambda:RemovePermission action.
+    public func removePermission(_ input: RemovePermissionRequest) throws {
+        _ = try client.send(operation: "RemovePermission", path: "/2015-03-31/functions/{FunctionName}/policy/{StatementId}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Creates a list of tags (key-value pairs) on the Lambda function. Requires the Lambda function ARN (Amazon Resource Name). If a key is specified without a value, Lambda creates a tag with the specified key and a value of null. For more information, see Tagging Lambda Functions in the AWS Lambda Developer Guide. 
+    public func tagResource(_ input: TagResourceRequest) throws {
+        _ = try client.send(operation: "TagResource", path: "/2017-03-31/tags/{ARN}", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes tags from a Lambda function. Requires the function ARN (Amazon Resource Name). For more information, see Tagging Lambda Functions in the AWS Lambda Developer Guide. 
+    public func untagResource(_ input: UntagResourceRequest) throws {
+        _ = try client.send(operation: "UntagResource", path: "/2017-03-31/tags/{ARN}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Using this API you can update the function version to which the alias points and the alias description. For more information, see Introduction to AWS Lambda Aliases. This requires permission for the lambda:UpdateAlias action.
+    public func updateAlias(_ input: UpdateAliasRequest) throws -> Future<AliasConfiguration> {
+        return try client.send(operation: "UpdateAlias", path: "/2015-03-31/functions/{FunctionName}/aliases/{Name}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates an event source mapping. You can change the function that AWS Lambda invokes, or pause invocation and resume later from the same location.
+    public func updateEventSourceMapping(_ input: UpdateEventSourceMappingRequest) throws -> Future<EventSourceMappingConfiguration> {
+        return try client.send(operation: "UpdateEventSourceMapping", path: "/2015-03-31/event-source-mappings/{UUID}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates the code for the specified Lambda function. This operation must only be used on an existing Lambda function and cannot be used to update the function configuration. If you are using the versioning feature, note this API will always update the $LATEST version of your Lambda function. For information about the versioning feature, see AWS Lambda Function Versioning and Aliases.  This operation requires permission for the lambda:UpdateFunctionCode action.
+    public func updateFunctionCode(_ input: UpdateFunctionCodeRequest) throws -> Future<FunctionConfiguration> {
+        return try client.send(operation: "UpdateFunctionCode", path: "/2015-03-31/functions/{FunctionName}/code", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates the configuration parameters for the specified Lambda function by using the values provided in the request. You provide only the parameters you want to change. This operation must only be used on an existing Lambda function and cannot be used to update the function's code. If you are using the versioning feature, note this API will always update the $LATEST version of your Lambda function. For information about the versioning feature, see AWS Lambda Function Versioning and Aliases.  This operation requires permission for the lambda:UpdateFunctionConfiguration action.
+    public func updateFunctionConfiguration(_ input: UpdateFunctionConfigurationRequest) throws -> Future<FunctionConfiguration> {
+        return try client.send(operation: "UpdateFunctionConfiguration", path: "/2015-03-31/functions/{FunctionName}/configuration", httpMethod: "PUT", input: input)
     }
 
 

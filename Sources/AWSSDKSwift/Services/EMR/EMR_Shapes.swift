@@ -5,1238 +5,12 @@ import AWSSDKSwiftCore
 
 extension EMR {
 
-    public enum MarketType: String, CustomStringConvertible, Codable {
-        case onDemand = "ON_DEMAND"
-        case spot = "SPOT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ModifyInstanceGroupsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterId", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceGroups", required: false, type: .list)
-        ]
-        /// The ID of the cluster to which the instance group belongs.
-        public let clusterId: String?
-        /// Instance groups to change.
-        public let instanceGroups: [InstanceGroupModifyConfig]?
-
-        public init(clusterId: String? = nil, instanceGroups: [InstanceGroupModifyConfig]? = nil) {
-            self.clusterId = clusterId
-            self.instanceGroups = instanceGroups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clusterId = "ClusterId"
-            case instanceGroups = "InstanceGroups"
-        }
-    }
-
-    public struct InstanceResizePolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstancesToProtect", required: false, type: .list), 
-            AWSShapeMember(label: "InstanceTerminationTimeout", required: false, type: .integer), 
-            AWSShapeMember(label: "InstancesToTerminate", required: false, type: .list)
-        ]
-        /// Specific list of instances to be protected when shrinking an instance group.
-        public let instancesToProtect: [String]?
-        /// Decommissioning timeout override for the specific list of instances to be terminated.
-        public let instanceTerminationTimeout: Int32?
-        /// Specific list of instances to be terminated when shrinking an instance group.
-        public let instancesToTerminate: [String]?
-
-        public init(instancesToProtect: [String]? = nil, instanceTerminationTimeout: Int32? = nil, instancesToTerminate: [String]? = nil) {
-            self.instancesToProtect = instancesToProtect
-            self.instanceTerminationTimeout = instanceTerminationTimeout
-            self.instancesToTerminate = instancesToTerminate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instancesToProtect = "InstancesToProtect"
-            case instanceTerminationTimeout = "InstanceTerminationTimeout"
-            case instancesToTerminate = "InstancesToTerminate"
-        }
-    }
-
-    public struct InstanceFleetStateChangeReason: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Code", required: false, type: .enum)
-        ]
-        /// An explanatory message.
-        public let message: String?
-        /// A code corresponding to the reason the state change occurred.
-        public let code: InstanceFleetStateChangeReasonCode?
-
-        public init(message: String? = nil, code: InstanceFleetStateChangeReasonCode? = nil) {
-            self.message = message
-            self.code = code
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-            case code = "Code"
-        }
-    }
-
-    public struct EbsVolume: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VolumeId", required: false, type: .string), 
-            AWSShapeMember(label: "Device", required: false, type: .string)
-        ]
-        /// The volume identifier of the EBS volume.
-        public let volumeId: String?
-        /// The device name that is exposed to the instance, such as /dev/sdh.
-        public let device: String?
-
-        public init(volumeId: String? = nil, device: String? = nil) {
-            self.volumeId = volumeId
-            self.device = device
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case volumeId = "VolumeId"
-            case device = "Device"
-        }
-    }
-
-    public enum InstanceState: String, CustomStringConvertible, Codable {
-        case awaitingFulfillment = "AWAITING_FULFILLMENT"
-        case provisioning = "PROVISIONING"
-        case bootstrapping = "BOOTSTRAPPING"
-        case running = "RUNNING"
-        case terminated = "TERMINATED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeJobFlowsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatedBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "JobFlowStates", required: false, type: .list), 
-            AWSShapeMember(label: "JobFlowIds", required: false, type: .list)
-        ]
-        /// Return only job flows created after this date and time.
-        public let createdAfter: TimeStamp?
-        /// Return only job flows created before this date and time.
-        public let createdBefore: TimeStamp?
-        /// Return only job flows whose state is contained in this list.
-        public let jobFlowStates: [JobFlowExecutionState]?
-        /// Return only job flows whose job flow ID is contained in this list.
-        public let jobFlowIds: [String]?
-
-        public init(createdAfter: TimeStamp? = nil, createdBefore: TimeStamp? = nil, jobFlowStates: [JobFlowExecutionState]? = nil, jobFlowIds: [String]? = nil) {
-            self.createdAfter = createdAfter
-            self.createdBefore = createdBefore
-            self.jobFlowStates = jobFlowStates
-            self.jobFlowIds = jobFlowIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case createdAfter = "CreatedAfter"
-            case createdBefore = "CreatedBefore"
-            case jobFlowStates = "JobFlowStates"
-            case jobFlowIds = "JobFlowIds"
-        }
-    }
-
-    public struct InstanceTypeConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WeightedCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "EbsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
-            AWSShapeMember(label: "Configurations", required: false, type: .list), 
-            AWSShapeMember(label: "BidPrice", required: false, type: .string), 
-            AWSShapeMember(label: "BidPriceAsPercentageOfOnDemandPrice", required: false, type: .double)
-        ]
-        /// The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in InstanceFleetConfig. This value is 1 for a master instance fleet, and must be 1 or greater for core and task instance fleets. Defaults to 1 if not specified. 
-        public let weightedCapacity: Int32?
-        /// The configuration of Amazon Elastic Block Storage (EBS) attached to each instance as defined by InstanceType. 
-        public let ebsConfiguration: EbsConfiguration?
-        /// An EC2 instance type, such as m3.xlarge. 
-        public let instanceType: String
-        /// A configuration classification that applies when provisioning cluster instances, which can include configurations for applications and software that run on the cluster.
-        public let configurations: [Configuration]?
-        /// The bid price for each EC2 Spot instance type as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%. 
-        public let bidPrice: String?
-        /// The bid price, as a percentage of On-Demand price, for each EC2 Spot instance as defined by InstanceType. Expressed as a number (for example, 20 specifies 20%). If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
-        public let bidPriceAsPercentageOfOnDemandPrice: Double?
-
-        public init(weightedCapacity: Int32? = nil, ebsConfiguration: EbsConfiguration? = nil, instanceType: String, configurations: [Configuration]? = nil, bidPrice: String? = nil, bidPriceAsPercentageOfOnDemandPrice: Double? = nil) {
-            self.weightedCapacity = weightedCapacity
-            self.ebsConfiguration = ebsConfiguration
-            self.instanceType = instanceType
-            self.configurations = configurations
-            self.bidPrice = bidPrice
-            self.bidPriceAsPercentageOfOnDemandPrice = bidPriceAsPercentageOfOnDemandPrice
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case weightedCapacity = "WeightedCapacity"
-            case ebsConfiguration = "EbsConfiguration"
-            case instanceType = "InstanceType"
-            case configurations = "Configurations"
-            case bidPrice = "BidPrice"
-            case bidPriceAsPercentageOfOnDemandPrice = "BidPriceAsPercentageOfOnDemandPrice"
-        }
-    }
-
-    public struct AutoScalingPolicyDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .structure), 
-            AWSShapeMember(label: "Rules", required: false, type: .list), 
-            AWSShapeMember(label: "Constraints", required: false, type: .structure)
-        ]
-        /// The status of an automatic scaling policy. 
-        public let status: AutoScalingPolicyStatus?
-        /// The scale-in and scale-out rules that comprise the automatic scaling policy.
-        public let rules: [ScalingRule]?
-        /// The upper and lower EC2 instance limits for an automatic scaling policy. Automatic scaling activity will not cause an instance group to grow above or below these limits.
-        public let constraints: ScalingConstraints?
-
-        public init(status: AutoScalingPolicyStatus? = nil, rules: [ScalingRule]? = nil, constraints: ScalingConstraints? = nil) {
-            self.status = status
-            self.rules = rules
-            self.constraints = constraints
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case rules = "Rules"
-            case constraints = "Constraints"
-        }
-    }
-
-    public struct ScalingAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Market", required: false, type: .enum), 
-            AWSShapeMember(label: "SimpleScalingPolicyConfiguration", required: true, type: .structure)
-        ]
-        /// Not available for instance groups. Instance groups use the market type specified for the group.
-        public let market: MarketType?
-        /// The type of adjustment the automatic scaling activity makes when triggered, and the periodicity of the adjustment.
-        public let simpleScalingPolicyConfiguration: SimpleScalingPolicyConfiguration
-
-        public init(market: MarketType? = nil, simpleScalingPolicyConfiguration: SimpleScalingPolicyConfiguration) {
-            self.market = market
-            self.simpleScalingPolicyConfiguration = simpleScalingPolicyConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case market = "Market"
-            case simpleScalingPolicyConfiguration = "SimpleScalingPolicyConfiguration"
-        }
-    }
-
-    public struct RemoveTagsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagKeys", required: true, type: .list), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string)
-        ]
-        /// A list of tag keys to remove from a resource.
-        public let tagKeys: [String]
-        /// The Amazon EMR resource identifier from which tags will be removed. This value must be a cluster identifier.
-        public let resourceId: String
-
-        public init(tagKeys: [String], resourceId: String) {
-            self.tagKeys = tagKeys
-            self.resourceId = resourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagKeys = "TagKeys"
-            case resourceId = "ResourceId"
-        }
-    }
-
-    public struct DescribeSecurityConfigurationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The name of the security configuration.
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public enum Statistic: String, CustomStringConvertible, Codable {
-        case sampleCount = "SAMPLE_COUNT"
-        case average = "AVERAGE"
-        case sum = "SUM"
-        case minimum = "MINIMUM"
-        case maximum = "MAXIMUM"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct MetricDimension: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
-        /// The dimension name.
-        public let key: String?
-        /// The dimension value.
-        public let value: String?
-
-        public init(key: String? = nil, value: String? = nil) {
-            self.key = key
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case value = "Value"
-        }
-    }
-
-    public struct FailureDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Reason", required: false, type: .string), 
-            AWSShapeMember(label: "LogFile", required: false, type: .string)
-        ]
-        /// The descriptive message including the error the EMR service has identified as the cause of step failure. This is text from an error log that describes the root cause of the failure.
-        public let message: String?
-        /// The reason for the step failure. In the case where the service cannot successfully determine the root cause of the failure, it returns "Unknown Error" as a reason.
-        public let reason: String?
-        /// The path to the log file where the step failure root cause was originally recorded.
-        public let logFile: String?
-
-        public init(message: String? = nil, reason: String? = nil, logFile: String? = nil) {
-            self.message = message
-            self.reason = reason
-            self.logFile = logFile
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-            case reason = "Reason"
-            case logFile = "LogFile"
-        }
-    }
-
-    public struct CancelStepsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StepIds", required: false, type: .list), 
-            AWSShapeMember(label: "ClusterId", required: false, type: .string)
-        ]
-        /// The list of StepIDs to cancel. Use ListSteps to get steps and their states for the specified cluster.
-        public let stepIds: [String]?
-        /// The ClusterID for which specified steps will be canceled. Use RunJobFlow and ListClusters to get ClusterIDs. 
-        public let clusterId: String?
-
-        public init(stepIds: [String]? = nil, clusterId: String? = nil) {
-            self.stepIds = stepIds
-            self.clusterId = clusterId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stepIds = "StepIds"
-            case clusterId = "ClusterId"
-        }
-    }
-
-    public struct EbsConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EbsBlockDeviceConfigs", required: false, type: .list), 
-            AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean)
-        ]
-        /// An array of Amazon EBS volume specifications attached to a cluster instance.
-        public let ebsBlockDeviceConfigs: [EbsBlockDeviceConfig]?
-        /// Indicates whether an Amazon EBS volume is EBS-optimized.
-        public let ebsOptimized: Bool?
-
-        public init(ebsBlockDeviceConfigs: [EbsBlockDeviceConfig]? = nil, ebsOptimized: Bool? = nil) {
-            self.ebsBlockDeviceConfigs = ebsBlockDeviceConfigs
-            self.ebsOptimized = ebsOptimized
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ebsBlockDeviceConfigs = "EbsBlockDeviceConfigs"
-            case ebsOptimized = "EbsOptimized"
-        }
-    }
-
-    public struct ClusterTimeline: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ReadyDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp)
-        ]
-        /// The creation date and time of the cluster.
-        public let creationDateTime: TimeStamp?
-        /// The date and time when the cluster was ready to execute steps.
-        public let readyDateTime: TimeStamp?
-        /// The date and time when the cluster was terminated.
-        public let endDateTime: TimeStamp?
-
-        public init(creationDateTime: TimeStamp? = nil, readyDateTime: TimeStamp? = nil, endDateTime: TimeStamp? = nil) {
-            self.creationDateTime = creationDateTime
-            self.readyDateTime = readyDateTime
-            self.endDateTime = endDateTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationDateTime = "CreationDateTime"
-            case readyDateTime = "ReadyDateTime"
-            case endDateTime = "EndDateTime"
-        }
-    }
-
-    public struct DescribeClusterInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterId", required: true, type: .string)
-        ]
-        /// The identifier of the cluster to describe.
-        public let clusterId: String
-
-        public init(clusterId: String) {
-            self.clusterId = clusterId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clusterId = "ClusterId"
-        }
-    }
-
-    public struct ListInstanceGroupsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceGroups", required: false, type: .list)
-        ]
-        /// The pagination token that indicates the next set of results to retrieve.
-        public let marker: String?
-        /// The list of instance groups for the cluster and given filters.
-        public let instanceGroups: [InstanceGroup]?
-
-        public init(marker: String? = nil, instanceGroups: [InstanceGroup]? = nil) {
-            self.marker = marker
-            self.instanceGroups = instanceGroups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case instanceGroups = "InstanceGroups"
-        }
-    }
-
-    public struct ScalingTrigger: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchAlarmDefinition", required: true, type: .structure)
-        ]
-        /// The definition of a CloudWatch metric alarm. When the defined alarm conditions are met along with other trigger parameters, scaling activity begins.
-        public let cloudWatchAlarmDefinition: CloudWatchAlarmDefinition
-
-        public init(cloudWatchAlarmDefinition: CloudWatchAlarmDefinition) {
-            self.cloudWatchAlarmDefinition = cloudWatchAlarmDefinition
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cloudWatchAlarmDefinition = "CloudWatchAlarmDefinition"
-        }
-    }
-
-    public struct CancelStepsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CancelStepsInfoList", required: false, type: .list)
-        ]
-        /// A list of CancelStepsInfo, which shows the status of specified cancel requests for each StepID specified.
-        public let cancelStepsInfoList: [CancelStepsInfo]?
-
-        public init(cancelStepsInfoList: [CancelStepsInfo]? = nil) {
-            self.cancelStepsInfoList = cancelStepsInfoList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cancelStepsInfoList = "CancelStepsInfoList"
-        }
-    }
-
-    public struct DescribeJobFlowsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobFlows", required: false, type: .list)
-        ]
-        /// A list of job flows matching the parameters supplied.
-        public let jobFlows: [JobFlowDetail]?
-
-        public init(jobFlows: [JobFlowDetail]? = nil) {
-            self.jobFlows = jobFlows
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobFlows = "JobFlows"
-        }
-    }
-
-    public struct AutoScalingPolicyStateChangeReason: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Code", required: false, type: .enum)
-        ]
-        /// A friendly, more verbose message that accompanies an automatic scaling policy state change.
-        public let message: String?
-        /// The code indicating the reason for the change in status.USER_REQUEST indicates that the scaling policy status was changed by a user. PROVISION_FAILURE indicates that the status change was because the policy failed to provision. CLEANUP_FAILURE indicates an error.
-        public let code: AutoScalingPolicyStateChangeReasonCode?
-
-        public init(message: String? = nil, code: AutoScalingPolicyStateChangeReasonCode? = nil) {
-            self.message = message
-            self.code = code
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-            case code = "Code"
-        }
-    }
-
-    public struct InstanceGroupModifyConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceGroupId", required: true, type: .string), 
-            AWSShapeMember(label: "EC2InstanceIdsToTerminate", required: false, type: .list), 
-            AWSShapeMember(label: "InstanceCount", required: false, type: .integer), 
-            AWSShapeMember(label: "ShrinkPolicy", required: false, type: .structure)
-        ]
-        /// Unique ID of the instance group to expand or shrink.
-        public let instanceGroupId: String
-        /// The EC2 InstanceIds to terminate. After you terminate the instances, the instance group will not return to its original requested size.
-        public let eC2InstanceIdsToTerminate: [String]?
-        /// Target size for the instance group.
-        public let instanceCount: Int32?
-        /// Policy for customizing shrink operations.
-        public let shrinkPolicy: ShrinkPolicy?
-
-        public init(instanceGroupId: String, eC2InstanceIdsToTerminate: [String]? = nil, instanceCount: Int32? = nil, shrinkPolicy: ShrinkPolicy? = nil) {
-            self.instanceGroupId = instanceGroupId
-            self.eC2InstanceIdsToTerminate = eC2InstanceIdsToTerminate
-            self.instanceCount = instanceCount
-            self.shrinkPolicy = shrinkPolicy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceGroupId = "InstanceGroupId"
-            case eC2InstanceIdsToTerminate = "EC2InstanceIdsToTerminate"
-            case instanceCount = "InstanceCount"
-            case shrinkPolicy = "ShrinkPolicy"
-        }
-    }
-
-    public enum InstanceCollectionType: String, CustomStringConvertible, Codable {
-        case instanceFleet = "INSTANCE_FLEET"
-        case instanceGroup = "INSTANCE_GROUP"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AddTagsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
-        /// The Amazon EMR resource identifier to which tags will be added. This value must be a cluster identifier.
-        public let resourceId: String
-        /// A list of tags to associate with a cluster and propagate to EC2 instances. Tags are user-defined key/value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
-        public let tags: [Tag]
-
-        public init(resourceId: String, tags: [Tag]) {
-            self.resourceId = resourceId
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case tags = "Tags"
-        }
-    }
-
-    public struct ClusterSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "NormalizedInstanceHours", required: false, type: .integer), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .structure)
-        ]
-        /// The name of the cluster.
-        public let name: String?
-        /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour an m1.small instance runs. Larger instances are weighted more, so an EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
-        public let normalizedInstanceHours: Int32?
-        /// The unique identifier for the cluster.
-        public let id: String?
-        /// The details about the current status of the cluster.
-        public let status: ClusterStatus?
-
-        public init(name: String? = nil, normalizedInstanceHours: Int32? = nil, id: String? = nil, status: ClusterStatus? = nil) {
-            self.name = name
-            self.normalizedInstanceHours = normalizedInstanceHours
-            self.id = id
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case normalizedInstanceHours = "NormalizedInstanceHours"
-            case id = "Id"
-            case status = "Status"
-        }
-    }
-
-    public struct Instance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PrivateDnsName", required: false, type: .string), 
-            AWSShapeMember(label: "PublicDnsName", required: false, type: .string), 
-            AWSShapeMember(label: "EbsVolumes", required: false, type: .list), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .structure), 
-            AWSShapeMember(label: "PrivateIpAddress", required: false, type: .string), 
-            AWSShapeMember(label: "PublicIpAddress", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "Ec2InstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "Market", required: false, type: .enum), 
-            AWSShapeMember(label: "InstanceFleetId", required: false, type: .string)
-        ]
-        /// The private DNS name of the instance.
-        public let privateDnsName: String?
-        /// The public DNS name of the instance.
-        public let publicDnsName: String?
-        /// The list of EBS volumes that are attached to this instance.
-        public let ebsVolumes: [EbsVolume]?
-        /// The EC2 instance type, for example m3.xlarge.
-        public let instanceType: String?
-        /// The unique identifier for the instance in Amazon EMR.
-        public let id: String?
-        /// The current status of the instance.
-        public let status: InstanceStatus?
-        /// The private IP address of the instance.
-        public let privateIpAddress: String?
-        /// The public IP address of the instance.
-        public let publicIpAddress: String?
-        /// The identifier of the instance group to which this instance belongs.
-        public let instanceGroupId: String?
-        /// The unique identifier of the instance in Amazon EC2.
-        public let ec2InstanceId: String?
-        /// The instance purchasing option. Valid values are ON_DEMAND or SPOT. 
-        public let market: MarketType?
-        /// The unique identifier of the instance fleet to which an EC2 instance belongs.
-        public let instanceFleetId: String?
-
-        public init(privateDnsName: String? = nil, publicDnsName: String? = nil, ebsVolumes: [EbsVolume]? = nil, instanceType: String? = nil, id: String? = nil, status: InstanceStatus? = nil, privateIpAddress: String? = nil, publicIpAddress: String? = nil, instanceGroupId: String? = nil, ec2InstanceId: String? = nil, market: MarketType? = nil, instanceFleetId: String? = nil) {
-            self.privateDnsName = privateDnsName
-            self.publicDnsName = publicDnsName
-            self.ebsVolumes = ebsVolumes
-            self.instanceType = instanceType
-            self.id = id
-            self.status = status
-            self.privateIpAddress = privateIpAddress
-            self.publicIpAddress = publicIpAddress
-            self.instanceGroupId = instanceGroupId
-            self.ec2InstanceId = ec2InstanceId
-            self.market = market
-            self.instanceFleetId = instanceFleetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case privateDnsName = "PrivateDnsName"
-            case publicDnsName = "PublicDnsName"
-            case ebsVolumes = "EbsVolumes"
-            case instanceType = "InstanceType"
-            case id = "Id"
-            case status = "Status"
-            case privateIpAddress = "PrivateIpAddress"
-            case publicIpAddress = "PublicIpAddress"
-            case instanceGroupId = "InstanceGroupId"
-            case ec2InstanceId = "Ec2InstanceId"
-            case market = "Market"
-            case instanceFleetId = "InstanceFleetId"
-        }
-    }
-
-    public struct InstanceGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Configurations", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "RunningInstanceCount", required: false, type: .integer), 
-            AWSShapeMember(label: "BidPrice", required: false, type: .string), 
-            AWSShapeMember(label: "EbsBlockDevices", required: false, type: .list), 
-            AWSShapeMember(label: "Status", required: false, type: .structure), 
-            AWSShapeMember(label: "InstanceGroupType", required: false, type: .enum), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "AutoScalingPolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "Market", required: false, type: .enum), 
-            AWSShapeMember(label: "ShrinkPolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "RequestedInstanceCount", required: false, type: .integer), 
-            AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean)
-        ]
-        ///  Amazon EMR releases 4.x or later.  The list of configurations supplied for an EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
-        public let configurations: [Configuration]?
-        /// The name of the instance group.
-        public let name: String?
-        /// The number of instances currently running in this instance group.
-        public let runningInstanceCount: Int32?
-        /// The maximum Spot price your are willing to pay for EC2 instances. An optional, nullable field that applies if the MarketType for the instance group is specified as SPOT. Specify the maximum spot price in USD. If the value is NULL and SPOT is specified, the maximum Spot price is set equal to the On-Demand price.
-        public let bidPrice: String?
-        /// The EBS block devices that are mapped to this instance group.
-        public let ebsBlockDevices: [EbsBlockDevice]?
-        /// The current status of the instance group.
-        public let status: InstanceGroupStatus?
-        /// The type of the instance group. Valid values are MASTER, CORE or TASK.
-        public let instanceGroupType: InstanceGroupType?
-        /// The identifier of the instance group.
-        public let id: String?
-        /// An automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates EC2 instances in response to the value of a CloudWatch metric. See PutAutoScalingPolicy.
-        public let autoScalingPolicy: AutoScalingPolicyDescription?
-        /// The EC2 instance type for all instances in the instance group.
-        public let instanceType: String?
-        /// The marketplace to provision instances for this group. Valid values are ON_DEMAND or SPOT.
-        public let market: MarketType?
-        /// Policy for customizing shrink operations.
-        public let shrinkPolicy: ShrinkPolicy?
-        /// The target number of instances for the instance group.
-        public let requestedInstanceCount: Int32?
-        /// If the instance group is EBS-optimized. An Amazon EBS-optimized instance uses an optimized configuration stack and provides additional, dedicated capacity for Amazon EBS I/O.
-        public let ebsOptimized: Bool?
-
-        public init(configurations: [Configuration]? = nil, name: String? = nil, runningInstanceCount: Int32? = nil, bidPrice: String? = nil, ebsBlockDevices: [EbsBlockDevice]? = nil, status: InstanceGroupStatus? = nil, instanceGroupType: InstanceGroupType? = nil, id: String? = nil, autoScalingPolicy: AutoScalingPolicyDescription? = nil, instanceType: String? = nil, market: MarketType? = nil, shrinkPolicy: ShrinkPolicy? = nil, requestedInstanceCount: Int32? = nil, ebsOptimized: Bool? = nil) {
-            self.configurations = configurations
-            self.name = name
-            self.runningInstanceCount = runningInstanceCount
-            self.bidPrice = bidPrice
-            self.ebsBlockDevices = ebsBlockDevices
-            self.status = status
-            self.instanceGroupType = instanceGroupType
-            self.id = id
-            self.autoScalingPolicy = autoScalingPolicy
-            self.instanceType = instanceType
-            self.market = market
-            self.shrinkPolicy = shrinkPolicy
-            self.requestedInstanceCount = requestedInstanceCount
-            self.ebsOptimized = ebsOptimized
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configurations = "Configurations"
-            case name = "Name"
-            case runningInstanceCount = "RunningInstanceCount"
-            case bidPrice = "BidPrice"
-            case ebsBlockDevices = "EbsBlockDevices"
-            case status = "Status"
-            case instanceGroupType = "InstanceGroupType"
-            case id = "Id"
-            case autoScalingPolicy = "AutoScalingPolicy"
-            case instanceType = "InstanceType"
-            case market = "Market"
-            case shrinkPolicy = "ShrinkPolicy"
-            case requestedInstanceCount = "RequestedInstanceCount"
-            case ebsOptimized = "EbsOptimized"
-        }
-    }
-
-    public struct HadoopJarStepConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Properties", required: false, type: .list), 
-            AWSShapeMember(label: "MainClass", required: false, type: .string), 
-            AWSShapeMember(label: "Args", required: false, type: .list), 
-            AWSShapeMember(label: "Jar", required: true, type: .string)
-        ]
-        /// A list of Java properties that are set when the step runs. You can use these properties to pass key value pairs to your main function.
-        public let properties: [KeyValue]?
-        /// The name of the main class in the specified Java file. If not specified, the JAR file should specify a Main-Class in its manifest file.
-        public let mainClass: String?
-        /// A list of command line arguments passed to the JAR file's main function when executed.
-        public let args: [String]?
-        /// A path to a JAR file run during the step.
-        public let jar: String
-
-        public init(properties: [KeyValue]? = nil, mainClass: String? = nil, args: [String]? = nil, jar: String) {
-            self.properties = properties
-            self.mainClass = mainClass
-            self.args = args
-            self.jar = jar
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case properties = "Properties"
-            case mainClass = "MainClass"
-            case args = "Args"
-            case jar = "Jar"
-        }
-    }
-
     public enum ActionOnFailure: String, CustomStringConvertible, Codable {
         case terminateJobFlow = "TERMINATE_JOB_FLOW"
         case terminateCluster = "TERMINATE_CLUSTER"
         case cancelAndWait = "CANCEL_AND_WAIT"
         case `continue` = "CONTINUE"
         public var description: String { return self.rawValue }
-    }
-
-    public enum ClusterState: String, CustomStringConvertible, Codable {
-        case starting = "STARTING"
-        case bootstrapping = "BOOTSTRAPPING"
-        case running = "RUNNING"
-        case waiting = "WAITING"
-        case terminating = "TERMINATING"
-        case terminated = "TERMINATED"
-        case terminatedWithErrors = "TERMINATED_WITH_ERRORS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListSecurityConfigurationsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
-        /// The creation date and time, and name, of each security configuration.
-        public let securityConfigurations: [SecurityConfigurationSummary]?
-        /// A pagination token that indicates the next set of results to retrieve. Include the marker in the next ListSecurityConfiguration call to retrieve the next page of results, if required.
-        public let marker: String?
-
-        public init(securityConfigurations: [SecurityConfigurationSummary]? = nil, marker: String? = nil) {
-            self.securityConfigurations = securityConfigurations
-            self.marker = marker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case securityConfigurations = "SecurityConfigurations"
-            case marker = "Marker"
-        }
-    }
-
-    public struct StepTimeline: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StartDateTime", required: false, type: .timestamp)
-        ]
-        /// The date and time when the cluster step was created.
-        public let creationDateTime: TimeStamp?
-        /// The date and time when the cluster step execution completed or failed.
-        public let endDateTime: TimeStamp?
-        /// The date and time when the cluster step execution started.
-        public let startDateTime: TimeStamp?
-
-        public init(creationDateTime: TimeStamp? = nil, endDateTime: TimeStamp? = nil, startDateTime: TimeStamp? = nil) {
-            self.creationDateTime = creationDateTime
-            self.endDateTime = endDateTime
-            self.startDateTime = startDateTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationDateTime = "CreationDateTime"
-            case endDateTime = "EndDateTime"
-            case startDateTime = "StartDateTime"
-        }
-    }
-
-    public struct PutAutoScalingPolicyOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "ClusterId", required: false, type: .string), 
-            AWSShapeMember(label: "AutoScalingPolicy", required: false, type: .structure)
-        ]
-        /// Specifies the ID of the instance group to which the scaling policy is applied.
-        public let instanceGroupId: String?
-        /// Specifies the ID of a cluster. The instance group to which the automatic scaling policy is applied is within this cluster.
-        public let clusterId: String?
-        /// The automatic scaling policy definition.
-        public let autoScalingPolicy: AutoScalingPolicyDescription?
-
-        public init(instanceGroupId: String? = nil, clusterId: String? = nil, autoScalingPolicy: AutoScalingPolicyDescription? = nil) {
-            self.instanceGroupId = instanceGroupId
-            self.clusterId = clusterId
-            self.autoScalingPolicy = autoScalingPolicy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceGroupId = "InstanceGroupId"
-            case clusterId = "ClusterId"
-            case autoScalingPolicy = "AutoScalingPolicy"
-        }
-    }
-
-    public struct StepExecutionStatusDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDateTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "StartDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastStateChangeReason", required: false, type: .string), 
-            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "State", required: true, type: .enum)
-        ]
-        /// The creation date and time of the step.
-        public let creationDateTime: TimeStamp
-        /// The start date and time of the step.
-        public let startDateTime: TimeStamp?
-        /// A description of the step's current state.
-        public let lastStateChangeReason: String?
-        /// The completion date and time of the step.
-        public let endDateTime: TimeStamp?
-        /// The state of the step.
-        public let state: StepExecutionState
-
-        public init(creationDateTime: TimeStamp, startDateTime: TimeStamp? = nil, lastStateChangeReason: String? = nil, endDateTime: TimeStamp? = nil, state: StepExecutionState) {
-            self.creationDateTime = creationDateTime
-            self.startDateTime = startDateTime
-            self.lastStateChangeReason = lastStateChangeReason
-            self.endDateTime = endDateTime
-            self.state = state
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationDateTime = "CreationDateTime"
-            case startDateTime = "StartDateTime"
-            case lastStateChangeReason = "LastStateChangeReason"
-            case endDateTime = "EndDateTime"
-            case state = "State"
-        }
-    }
-
-    public struct RemoveAutoScalingPolicyOutput: AWSShape {
-
-    }
-
-    public enum StepState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case cancelPending = "CANCEL_PENDING"
-        case running = "RUNNING"
-        case completed = "COMPLETED"
-        case cancelled = "CANCELLED"
-        case failed = "FAILED"
-        case interrupted = "INTERRUPTED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum StepStateChangeReasonCode: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AddJobFlowStepsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Steps", required: true, type: .list), 
-            AWSShapeMember(label: "JobFlowId", required: true, type: .string)
-        ]
-        ///  A list of StepConfig to be executed by the job flow. 
-        public let steps: [StepConfig]
-        /// A string that uniquely identifies the job flow. This identifier is returned by RunJobFlow and can also be obtained from ListClusters. 
-        public let jobFlowId: String
-
-        public init(steps: [StepConfig], jobFlowId: String) {
-            self.steps = steps
-            self.jobFlowId = jobFlowId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case steps = "Steps"
-            case jobFlowId = "JobFlowId"
-        }
-    }
-
-    public struct ScriptBootstrapActionConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Args", required: false, type: .list), 
-            AWSShapeMember(label: "Path", required: true, type: .string)
-        ]
-        /// A list of command line arguments to pass to the bootstrap action script.
-        public let args: [String]?
-        /// Location of the script to run during a bootstrap action. Can be either a location in Amazon S3 or on a local file system.
-        public let path: String
-
-        public init(args: [String]? = nil, path: String) {
-            self.args = args
-            self.path = path
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case args = "Args"
-            case path = "Path"
-        }
-    }
-
-    public struct AutoScalingPolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", required: true, type: .list), 
-            AWSShapeMember(label: "Constraints", required: true, type: .structure)
-        ]
-        /// The scale-in and scale-out rules that comprise the automatic scaling policy.
-        public let rules: [ScalingRule]
-        /// The upper and lower EC2 instance limits for an automatic scaling policy. Automatic scaling activity will not cause an instance group to grow above or below these limits.
-        public let constraints: ScalingConstraints
-
-        public init(rules: [ScalingRule], constraints: ScalingConstraints) {
-            self.rules = rules
-            self.constraints = constraints
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rules = "Rules"
-            case constraints = "Constraints"
-        }
-    }
-
-    public struct DescribeStepOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Step", required: false, type: .structure)
-        ]
-        /// The step details for the requested step identifier.
-        public let step: Step?
-
-        public init(step: Step? = nil) {
-            self.step = step
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case step = "Step"
-        }
-    }
-
-    public enum AutoScalingPolicyState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case attaching = "ATTACHING"
-        case attached = "ATTACHED"
-        case detaching = "DETACHING"
-        case detached = "DETACHED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeSecurityConfigurationOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The security configuration details in JSON format.
-        public let securityConfiguration: String?
-        /// The date and time the security configuration was created
-        public let creationDateTime: TimeStamp?
-        /// The name of the security configuration.
-        public let name: String?
-
-        public init(securityConfiguration: String? = nil, creationDateTime: TimeStamp? = nil, name: String? = nil) {
-            self.securityConfiguration = securityConfiguration
-            self.creationDateTime = creationDateTime
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case securityConfiguration = "SecurityConfiguration"
-            case creationDateTime = "CreationDateTime"
-            case name = "Name"
-        }
-    }
-
-    public struct JobFlowDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BootstrapActions", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Instances", required: true, type: .structure), 
-            AWSShapeMember(label: "Steps", required: false, type: .list), 
-            AWSShapeMember(label: "JobFlowRole", required: false, type: .string), 
-            AWSShapeMember(label: "AutoScalingRole", required: false, type: .string), 
-            AWSShapeMember(label: "VisibleToAllUsers", required: false, type: .boolean), 
-            AWSShapeMember(label: "JobFlowId", required: true, type: .string), 
-            AWSShapeMember(label: "LogUri", required: false, type: .string), 
-            AWSShapeMember(label: "ScaleDownBehavior", required: false, type: .enum), 
-            AWSShapeMember(label: "SupportedProducts", required: false, type: .list), 
-            AWSShapeMember(label: "AmiVersion", required: false, type: .string), 
-            AWSShapeMember(label: "ExecutionStatusDetail", required: true, type: .structure), 
-            AWSShapeMember(label: "ServiceRole", required: false, type: .string)
-        ]
-        /// A list of the bootstrap actions run by the job flow.
-        public let bootstrapActions: [BootstrapActionDetail]?
-        /// The name of the job flow.
-        public let name: String
-        /// Describes the Amazon EC2 instances of the job flow.
-        public let instances: JobFlowInstancesDetail
-        /// A list of steps run by the job flow.
-        public let steps: [StepDetail]?
-        /// The IAM role that was specified when the job flow was launched. The EC2 instances of the job flow assume this role.
-        public let jobFlowRole: String?
-        /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides a way for the automatic scaling feature to get the required permissions it needs to launch and terminate EC2 instances in an instance group.
-        public let autoScalingRole: String?
-        /// Specifies whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and (if they have the proper policy permissions set) manage the cluster. If it is set to false, only the IAM user that created the cluster can view and manage it. This value can be changed using the SetVisibleToAllUsers action.
-        public let visibleToAllUsers: Bool?
-        /// The job flow identifier.
-        public let jobFlowId: String
-        /// The location in Amazon S3 where log files for the job are stored.
-        public let logUri: String?
-        /// The way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour boundary, regardless of when the request to terminate the instance was submitted. This option is only available with Amazon EMR 5.1.0 and later and is the default for clusters created using that version. TERMINATE_AT_TASK_COMPLETION indicates that Amazon EMR blacklists and drains tasks from nodes before terminating the Amazon EC2 instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR removes the least active nodes first and blocks instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION available only in Amazon EMR version 4.1.0 and later, and is the default for versions of Amazon EMR earlier than 5.1.0.
-        public let scaleDownBehavior: ScaleDownBehavior?
-        /// A list of strings set by third party software when the job flow is launched. If you are not using third party software to manage the job flow this value is empty.
-        public let supportedProducts: [String]?
-        /// Applies only to Amazon EMR AMI versions 3.x and 2.x. For Amazon EMR releases 4.0 and later, ReleaseLabel is used. To specify a custom AMI, use CustomAmiID.
-        public let amiVersion: String?
-        /// Describes the execution status of the job flow.
-        public let executionStatusDetail: JobFlowExecutionStatusDetail
-        /// The IAM role that will be assumed by the Amazon EMR service to access AWS resources on your behalf.
-        public let serviceRole: String?
-
-        public init(bootstrapActions: [BootstrapActionDetail]? = nil, name: String, instances: JobFlowInstancesDetail, steps: [StepDetail]? = nil, jobFlowRole: String? = nil, autoScalingRole: String? = nil, visibleToAllUsers: Bool? = nil, jobFlowId: String, logUri: String? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, supportedProducts: [String]? = nil, amiVersion: String? = nil, executionStatusDetail: JobFlowExecutionStatusDetail, serviceRole: String? = nil) {
-            self.bootstrapActions = bootstrapActions
-            self.name = name
-            self.instances = instances
-            self.steps = steps
-            self.jobFlowRole = jobFlowRole
-            self.autoScalingRole = autoScalingRole
-            self.visibleToAllUsers = visibleToAllUsers
-            self.jobFlowId = jobFlowId
-            self.logUri = logUri
-            self.scaleDownBehavior = scaleDownBehavior
-            self.supportedProducts = supportedProducts
-            self.amiVersion = amiVersion
-            self.executionStatusDetail = executionStatusDetail
-            self.serviceRole = serviceRole
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bootstrapActions = "BootstrapActions"
-            case name = "Name"
-            case instances = "Instances"
-            case steps = "Steps"
-            case jobFlowRole = "JobFlowRole"
-            case autoScalingRole = "AutoScalingRole"
-            case visibleToAllUsers = "VisibleToAllUsers"
-            case jobFlowId = "JobFlowId"
-            case logUri = "LogUri"
-            case scaleDownBehavior = "ScaleDownBehavior"
-            case supportedProducts = "SupportedProducts"
-            case amiVersion = "AmiVersion"
-            case executionStatusDetail = "ExecutionStatusDetail"
-            case serviceRole = "ServiceRole"
-        }
-    }
-
-    public struct PlacementType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list)
-        ]
-        /// The Amazon EC2 Availability Zone for the cluster. AvailabilityZone is used for uniform instance groups, while AvailabilityZones (plural) is used for instance fleets.
-        public let availabilityZone: String?
-        /// When multiple Availability Zones are specified, Amazon EMR evaluates them and launches instances in the optimal Availability Zone. AvailabilityZones is used for instance fleets, while AvailabilityZone (singular) is used for uniform instance groups.  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. 
-        public let availabilityZones: [String]?
-
-        public init(availabilityZone: String? = nil, availabilityZones: [String]? = nil) {
-            self.availabilityZone = availabilityZone
-            self.availabilityZones = availabilityZones
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case availabilityZone = "AvailabilityZone"
-            case availabilityZones = "AvailabilityZones"
-        }
-    }
-
-    public struct InstanceGroupStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Timeline", required: false, type: .structure), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "StateChangeReason", required: false, type: .structure)
-        ]
-        /// The timeline of the instance group status over time.
-        public let timeline: InstanceGroupTimeline?
-        /// The current state of the instance group.
-        public let state: InstanceGroupState?
-        /// The status change reason details for the instance group.
-        public let stateChangeReason: InstanceGroupStateChangeReason?
-
-        public init(timeline: InstanceGroupTimeline? = nil, state: InstanceGroupState? = nil, stateChangeReason: InstanceGroupStateChangeReason? = nil) {
-            self.timeline = timeline
-            self.state = state
-            self.stateChangeReason = stateChangeReason
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case timeline = "Timeline"
-            case state = "State"
-            case stateChangeReason = "StateChangeReason"
-        }
-    }
-
-    public struct AddTagsOutput: AWSShape {
-
-    }
-
-    public struct Step: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "ActionOnFailure", required: false, type: .enum), 
-            AWSShapeMember(label: "Config", required: false, type: .structure)
-        ]
-        /// The current execution status details of the cluster step.
-        public let status: StepStatus?
-        /// The name of the cluster step.
-        public let name: String?
-        /// The identifier of the cluster step.
-        public let id: String?
-        /// This specifies what action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE.
-        public let actionOnFailure: ActionOnFailure?
-        /// The Hadoop job configuration of the cluster step.
-        public let config: HadoopStepConfig?
-
-        public init(status: StepStatus? = nil, name: String? = nil, id: String? = nil, actionOnFailure: ActionOnFailure? = nil, config: HadoopStepConfig? = nil) {
-            self.status = status
-            self.name = name
-            self.id = id
-            self.actionOnFailure = actionOnFailure
-            self.config = config
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case name = "Name"
-            case id = "Id"
-            case actionOnFailure = "ActionOnFailure"
-            case config = "Config"
-        }
-    }
-
-    public struct JobFlowExecutionStatusDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDateTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "StartDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastStateChangeReason", required: false, type: .string), 
-            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "State", required: true, type: .enum), 
-            AWSShapeMember(label: "ReadyDateTime", required: false, type: .timestamp)
-        ]
-        /// The creation date and time of the job flow.
-        public let creationDateTime: TimeStamp
-        /// The start date and time of the job flow.
-        public let startDateTime: TimeStamp?
-        /// Description of the job flow last changed state.
-        public let lastStateChangeReason: String?
-        /// The completion date and time of the job flow.
-        public let endDateTime: TimeStamp?
-        /// The state of the job flow.
-        public let state: JobFlowExecutionState
-        /// The date and time when the job flow was ready to start running bootstrap actions.
-        public let readyDateTime: TimeStamp?
-
-        public init(creationDateTime: TimeStamp, startDateTime: TimeStamp? = nil, lastStateChangeReason: String? = nil, endDateTime: TimeStamp? = nil, state: JobFlowExecutionState, readyDateTime: TimeStamp? = nil) {
-            self.creationDateTime = creationDateTime
-            self.startDateTime = startDateTime
-            self.lastStateChangeReason = lastStateChangeReason
-            self.endDateTime = endDateTime
-            self.state = state
-            self.readyDateTime = readyDateTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationDateTime = "CreationDateTime"
-            case startDateTime = "StartDateTime"
-            case lastStateChangeReason = "LastStateChangeReason"
-            case endDateTime = "EndDateTime"
-            case state = "State"
-            case readyDateTime = "ReadyDateTime"
-        }
     }
 
     public struct AddInstanceFleetInput: AWSShape {
@@ -1260,226 +34,700 @@ extension EMR {
         }
     }
 
-    public struct ListClustersInput: AWSShape {
+    public struct AddInstanceFleetOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatedBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ClusterStates", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "ClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceFleetId", required: false, type: .string)
         ]
-        /// The creation date and time beginning value filter for listing clusters.
-        public let createdAfter: TimeStamp?
-        /// The creation date and time end value filter for listing clusters.
-        public let createdBefore: TimeStamp?
-        /// The cluster state filters to apply when listing clusters.
-        public let clusterStates: [ClusterState]?
-        /// The pagination token that indicates the next set of results to retrieve.
-        public let marker: String?
+        /// The unique identifier of the cluster.
+        public let clusterId: String?
+        /// The unique identifier of the instance fleet.
+        public let instanceFleetId: String?
 
-        public init(createdAfter: TimeStamp? = nil, createdBefore: TimeStamp? = nil, clusterStates: [ClusterState]? = nil, marker: String? = nil) {
-            self.createdAfter = createdAfter
-            self.createdBefore = createdBefore
-            self.clusterStates = clusterStates
-            self.marker = marker
+        public init(clusterId: String? = nil, instanceFleetId: String? = nil) {
+            self.clusterId = clusterId
+            self.instanceFleetId = instanceFleetId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAfter = "CreatedAfter"
-            case createdBefore = "CreatedBefore"
-            case clusterStates = "ClusterStates"
-            case marker = "Marker"
+            case clusterId = "ClusterId"
+            case instanceFleetId = "InstanceFleetId"
         }
     }
 
-    public struct KeyValue: AWSShape {
+    public struct AddInstanceGroupsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
+            AWSShapeMember(label: "InstanceGroups", required: true, type: .list), 
+            AWSShapeMember(label: "JobFlowId", required: true, type: .string)
         ]
-        /// The unique identifier of a key value pair.
-        public let key: String?
-        /// The value part of the identified key.
-        public let value: String?
+        /// Instance groups to add.
+        public let instanceGroups: [InstanceGroupConfig]
+        /// Job flow in which to add the instance groups.
+        public let jobFlowId: String
 
-        public init(key: String? = nil, value: String? = nil) {
-            self.key = key
-            self.value = value
+        public init(instanceGroups: [InstanceGroupConfig], jobFlowId: String) {
+            self.instanceGroups = instanceGroups
+            self.jobFlowId = jobFlowId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case value = "Value"
+            case instanceGroups = "InstanceGroups"
+            case jobFlowId = "JobFlowId"
         }
     }
 
-    public enum RepoUpgradeOnBoot: String, CustomStringConvertible, Codable {
-        case security = "SECURITY"
-        case none = "NONE"
+    public struct AddInstanceGroupsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "JobFlowId", required: false, type: .string)
+        ]
+        /// Instance group IDs of the newly created instance groups.
+        public let instanceGroupIds: [String]?
+        /// The job flow ID in which the instance groups are added.
+        public let jobFlowId: String?
+
+        public init(instanceGroupIds: [String]? = nil, jobFlowId: String? = nil) {
+            self.instanceGroupIds = instanceGroupIds
+            self.jobFlowId = jobFlowId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceGroupIds = "InstanceGroupIds"
+            case jobFlowId = "JobFlowId"
+        }
+    }
+
+    public struct AddJobFlowStepsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobFlowId", required: true, type: .string), 
+            AWSShapeMember(label: "Steps", required: true, type: .list)
+        ]
+        /// A string that uniquely identifies the job flow. This identifier is returned by RunJobFlow and can also be obtained from ListClusters. 
+        public let jobFlowId: String
+        ///  A list of StepConfig to be executed by the job flow. 
+        public let steps: [StepConfig]
+
+        public init(jobFlowId: String, steps: [StepConfig]) {
+            self.jobFlowId = jobFlowId
+            self.steps = steps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobFlowId = "JobFlowId"
+            case steps = "Steps"
+        }
+    }
+
+    public struct AddJobFlowStepsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StepIds", required: false, type: .list)
+        ]
+        /// The identifiers of the list of steps added to the job flow.
+        public let stepIds: [String]?
+
+        public init(stepIds: [String]? = nil) {
+            self.stepIds = stepIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stepIds = "StepIds"
+        }
+    }
+
+    public struct AddTagsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+        /// The Amazon EMR resource identifier to which tags will be added. This value must be a cluster identifier.
+        public let resourceId: String
+        /// A list of tags to associate with a cluster and propagate to EC2 instances. Tags are user-defined key/value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
+        public let tags: [Tag]
+
+        public init(resourceId: String, tags: [Tag]) {
+            self.resourceId = resourceId
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case tags = "Tags"
+        }
+    }
+
+    public struct AddTagsOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public enum AdjustmentType: String, CustomStringConvertible, Codable {
+        case changeInCapacity = "CHANGE_IN_CAPACITY"
+        case percentChangeInCapacity = "PERCENT_CHANGE_IN_CAPACITY"
+        case exactCapacity = "EXACT_CAPACITY"
         public var description: String { return self.rawValue }
     }
 
-    public struct JobFlowInstancesDetail: AWSShape {
+    public struct Application: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MasterInstanceType", required: true, type: .string), 
-            AWSShapeMember(label: "MasterPublicDnsName", required: false, type: .string), 
-            AWSShapeMember(label: "HadoopVersion", required: false, type: .string), 
-            AWSShapeMember(label: "SlaveInstanceType", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceCount", required: true, type: .integer), 
-            AWSShapeMember(label: "TerminationProtected", required: false, type: .boolean), 
-            AWSShapeMember(label: "MasterInstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "KeepJobFlowAliveWhenNoSteps", required: false, type: .boolean), 
-            AWSShapeMember(label: "NormalizedInstanceHours", required: false, type: .integer), 
-            AWSShapeMember(label: "Placement", required: false, type: .structure), 
-            AWSShapeMember(label: "Ec2SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "Ec2KeyName", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceGroups", required: false, type: .list)
+            AWSShapeMember(label: "AdditionalInfo", required: false, type: .map), 
+            AWSShapeMember(label: "Args", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
         ]
-        /// The Amazon EC2 master node instance type.
-        public let masterInstanceType: String
+        /// This option is for advanced users only. This is meta information about third-party applications that third-party vendors use for testing purposes.
+        public let additionalInfo: [String: String]?
+        /// Arguments for Amazon EMR to pass to the application.
+        public let args: [String]?
+        /// The name of the application.
+        public let name: String?
+        /// The version of the application.
+        public let version: String?
+
+        public init(additionalInfo: [String: String]? = nil, args: [String]? = nil, name: String? = nil, version: String? = nil) {
+            self.additionalInfo = additionalInfo
+            self.args = args
+            self.name = name
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalInfo = "AdditionalInfo"
+            case args = "Args"
+            case name = "Name"
+            case version = "Version"
+        }
+    }
+
+    public struct AutoScalingPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Constraints", required: true, type: .structure), 
+            AWSShapeMember(label: "Rules", required: true, type: .list)
+        ]
+        /// The upper and lower EC2 instance limits for an automatic scaling policy. Automatic scaling activity will not cause an instance group to grow above or below these limits.
+        public let constraints: ScalingConstraints
+        /// The scale-in and scale-out rules that comprise the automatic scaling policy.
+        public let rules: [ScalingRule]
+
+        public init(constraints: ScalingConstraints, rules: [ScalingRule]) {
+            self.constraints = constraints
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case constraints = "Constraints"
+            case rules = "Rules"
+        }
+    }
+
+    public struct AutoScalingPolicyDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Constraints", required: false, type: .structure), 
+            AWSShapeMember(label: "Rules", required: false, type: .list), 
+            AWSShapeMember(label: "Status", required: false, type: .structure)
+        ]
+        /// The upper and lower EC2 instance limits for an automatic scaling policy. Automatic scaling activity will not cause an instance group to grow above or below these limits.
+        public let constraints: ScalingConstraints?
+        /// The scale-in and scale-out rules that comprise the automatic scaling policy.
+        public let rules: [ScalingRule]?
+        /// The status of an automatic scaling policy. 
+        public let status: AutoScalingPolicyStatus?
+
+        public init(constraints: ScalingConstraints? = nil, rules: [ScalingRule]? = nil, status: AutoScalingPolicyStatus? = nil) {
+            self.constraints = constraints
+            self.rules = rules
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case constraints = "Constraints"
+            case rules = "Rules"
+            case status = "Status"
+        }
+    }
+
+    public enum AutoScalingPolicyState: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case attaching = "ATTACHING"
+        case attached = "ATTACHED"
+        case detaching = "DETACHING"
+        case detached = "DETACHED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AutoScalingPolicyStateChangeReason: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Code", required: false, type: .enum), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
+        ]
+        /// The code indicating the reason for the change in status.USER_REQUEST indicates that the scaling policy status was changed by a user. PROVISION_FAILURE indicates that the status change was because the policy failed to provision. CLEANUP_FAILURE indicates an error.
+        public let code: AutoScalingPolicyStateChangeReasonCode?
+        /// A friendly, more verbose message that accompanies an automatic scaling policy state change.
+        public let message: String?
+
+        public init(code: AutoScalingPolicyStateChangeReasonCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
+    public enum AutoScalingPolicyStateChangeReasonCode: String, CustomStringConvertible, Codable {
+        case userRequest = "USER_REQUEST"
+        case provisionFailure = "PROVISION_FAILURE"
+        case cleanupFailure = "CLEANUP_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AutoScalingPolicyStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "StateChangeReason", required: false, type: .structure)
+        ]
+        /// Indicates the status of the automatic scaling policy.
+        public let state: AutoScalingPolicyState?
+        /// The reason for a change in status.
+        public let stateChangeReason: AutoScalingPolicyStateChangeReason?
+
+        public init(state: AutoScalingPolicyState? = nil, stateChangeReason: AutoScalingPolicyStateChangeReason? = nil) {
+            self.state = state
+            self.stateChangeReason = stateChangeReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "State"
+            case stateChangeReason = "StateChangeReason"
+        }
+    }
+
+    public struct BootstrapActionConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "ScriptBootstrapAction", required: true, type: .structure)
+        ]
+        /// The name of the bootstrap action.
+        public let name: String
+        /// The script run by the bootstrap action.
+        public let scriptBootstrapAction: ScriptBootstrapActionConfig
+
+        public init(name: String, scriptBootstrapAction: ScriptBootstrapActionConfig) {
+            self.name = name
+            self.scriptBootstrapAction = scriptBootstrapAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case scriptBootstrapAction = "ScriptBootstrapAction"
+        }
+    }
+
+    public struct BootstrapActionDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BootstrapActionConfig", required: false, type: .structure)
+        ]
+        /// A description of the bootstrap action.
+        public let bootstrapActionConfig: BootstrapActionConfig?
+
+        public init(bootstrapActionConfig: BootstrapActionConfig? = nil) {
+            self.bootstrapActionConfig = bootstrapActionConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bootstrapActionConfig = "BootstrapActionConfig"
+        }
+    }
+
+    public struct CancelStepsInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Reason", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "StepId", required: false, type: .string)
+        ]
+        /// The reason for the failure if the CancelSteps request fails.
+        public let reason: String?
+        /// The status of a CancelSteps Request. The value may be SUBMITTED or FAILED.
+        public let status: CancelStepsRequestStatus?
+        /// The encrypted StepId of a step.
+        public let stepId: String?
+
+        public init(reason: String? = nil, status: CancelStepsRequestStatus? = nil, stepId: String? = nil) {
+            self.reason = reason
+            self.status = status
+            self.stepId = stepId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reason = "Reason"
+            case status = "Status"
+            case stepId = "StepId"
+        }
+    }
+
+    public struct CancelStepsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "StepIds", required: false, type: .list)
+        ]
+        /// The ClusterID for which specified steps will be canceled. Use RunJobFlow and ListClusters to get ClusterIDs. 
+        public let clusterId: String?
+        /// The list of StepIDs to cancel. Use ListSteps to get steps and their states for the specified cluster.
+        public let stepIds: [String]?
+
+        public init(clusterId: String? = nil, stepIds: [String]? = nil) {
+            self.clusterId = clusterId
+            self.stepIds = stepIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+            case stepIds = "StepIds"
+        }
+    }
+
+    public struct CancelStepsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CancelStepsInfoList", required: false, type: .list)
+        ]
+        /// A list of CancelStepsInfo, which shows the status of specified cancel requests for each StepID specified.
+        public let cancelStepsInfoList: [CancelStepsInfo]?
+
+        public init(cancelStepsInfoList: [CancelStepsInfo]? = nil) {
+            self.cancelStepsInfoList = cancelStepsInfoList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cancelStepsInfoList = "CancelStepsInfoList"
+        }
+    }
+
+    public enum CancelStepsRequestStatus: String, CustomStringConvertible, Codable {
+        case submitted = "SUBMITTED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CloudWatchAlarmDefinition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComparisonOperator", required: true, type: .enum), 
+            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
+            AWSShapeMember(label: "EvaluationPeriods", required: false, type: .integer), 
+            AWSShapeMember(label: "MetricName", required: true, type: .string), 
+            AWSShapeMember(label: "Namespace", required: false, type: .string), 
+            AWSShapeMember(label: "Period", required: true, type: .integer), 
+            AWSShapeMember(label: "Statistic", required: false, type: .enum), 
+            AWSShapeMember(label: "Threshold", required: true, type: .double), 
+            AWSShapeMember(label: "Unit", required: false, type: .enum)
+        ]
+        /// Determines how the metric specified by MetricName is compared to the value specified by Threshold.
+        public let comparisonOperator: ComparisonOperator
+        /// A CloudWatch metric dimension.
+        public let dimensions: [MetricDimension]?
+        /// The number of periods, expressed in seconds using Period, during which the alarm condition must exist before the alarm triggers automatic scaling activity. The default value is 1.
+        public let evaluationPeriods: Int32?
+        /// The name of the CloudWatch metric that is watched to determine an alarm condition.
+        public let metricName: String
+        /// The namespace for the CloudWatch metric. The default is AWS/ElasticMapReduce.
+        public let namespace: String?
+        /// The period, in seconds, over which the statistic is applied. EMR CloudWatch metrics are emitted every five minutes (300 seconds), so if an EMR CloudWatch metric is specified, specify 300.
+        public let period: Int32
+        /// The statistic to apply to the metric associated with the alarm. The default is AVERAGE.
+        public let statistic: Statistic?
+        /// The value against which the specified statistic is compared.
+        public let threshold: Double
+        /// The unit of measure associated with the CloudWatch metric being watched. The value specified for Unit must correspond to the units specified in the CloudWatch metric.
+        public let unit: Unit?
+
+        public init(comparisonOperator: ComparisonOperator, dimensions: [MetricDimension]? = nil, evaluationPeriods: Int32? = nil, metricName: String, namespace: String? = nil, period: Int32, statistic: Statistic? = nil, threshold: Double, unit: Unit? = nil) {
+            self.comparisonOperator = comparisonOperator
+            self.dimensions = dimensions
+            self.evaluationPeriods = evaluationPeriods
+            self.metricName = metricName
+            self.namespace = namespace
+            self.period = period
+            self.statistic = statistic
+            self.threshold = threshold
+            self.unit = unit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparisonOperator = "ComparisonOperator"
+            case dimensions = "Dimensions"
+            case evaluationPeriods = "EvaluationPeriods"
+            case metricName = "MetricName"
+            case namespace = "Namespace"
+            case period = "Period"
+            case statistic = "Statistic"
+            case threshold = "Threshold"
+            case unit = "Unit"
+        }
+    }
+
+    public struct Cluster: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Applications", required: false, type: .list), 
+            AWSShapeMember(label: "AutoScalingRole", required: false, type: .string), 
+            AWSShapeMember(label: "AutoTerminate", required: false, type: .boolean), 
+            AWSShapeMember(label: "Configurations", required: false, type: .list), 
+            AWSShapeMember(label: "CustomAmiId", required: false, type: .string), 
+            AWSShapeMember(label: "EbsRootVolumeSize", required: false, type: .integer), 
+            AWSShapeMember(label: "Ec2InstanceAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceCollectionType", required: false, type: .enum), 
+            AWSShapeMember(label: "KerberosAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "LogUri", required: false, type: .string), 
+            AWSShapeMember(label: "MasterPublicDnsName", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "NormalizedInstanceHours", required: false, type: .integer), 
+            AWSShapeMember(label: "ReleaseLabel", required: false, type: .string), 
+            AWSShapeMember(label: "RepoUpgradeOnBoot", required: false, type: .enum), 
+            AWSShapeMember(label: "RequestedAmiVersion", required: false, type: .string), 
+            AWSShapeMember(label: "RunningAmiVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ScaleDownBehavior", required: false, type: .enum), 
+            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceRole", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "TerminationProtected", required: false, type: .boolean), 
+            AWSShapeMember(label: "VisibleToAllUsers", required: false, type: .boolean)
+        ]
+        /// The applications installed on this cluster.
+        public let applications: [Application]?
+        /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling feature requires to launch and terminate EC2 instances in an instance group.
+        public let autoScalingRole: String?
+        /// Specifies whether the cluster should terminate after completing all steps.
+        public let autoTerminate: Bool?
+        /// Applies only to Amazon EMR releases 4.x and later. The list of Configurations supplied to the EMR cluster.
+        public let configurations: [Configuration]?
+        /// Available only in Amazon EMR version 5.7.0 and later. The ID of a custom Amazon EBS-backed Linux AMI if the cluster uses a custom AMI.
+        public let customAmiId: String?
+        /// The size, in GiB, of the EBS root device volume of the Linux AMI that is used for each EC2 instance. Available in Amazon EMR version 4.x and later.
+        public let ebsRootVolumeSize: Int32?
+        /// Provides information about the EC2 instances in a cluster grouped by category. For example, key name, subnet ID, IAM instance profile, and so on.
+        public let ec2InstanceAttributes: Ec2InstanceAttributes?
+        /// The unique identifier for the cluster.
+        public let id: String?
+        ///  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions.  The instance group configuration of the cluster. A value of INSTANCE_GROUP indicates a uniform instance group configuration. A value of INSTANCE_FLEET indicates an instance fleets configuration.
+        public let instanceCollectionType: InstanceCollectionType?
+        /// Attributes for Kerberos configuration when Kerberos authentication is enabled using a security configuration. For more information see Use Kerberos Authentication in the EMR Management Guide.
+        public let kerberosAttributes: KerberosAttributes?
+        /// The path to the Amazon S3 location where logs for this cluster are stored.
+        public let logUri: String?
         /// The DNS name of the master node. If the cluster is on a private subnet, this is the private DNS name. On a public subnet, this is the public DNS name.
         public let masterPublicDnsName: String?
-        /// The Hadoop version for the cluster.
-        public let hadoopVersion: String?
-        /// The Amazon EC2 slave node instance type.
-        public let slaveInstanceType: String
-        /// The number of Amazon EC2 instances in the cluster. If the value is 1, the same instance serves as both the master and slave node. If the value is greater than 1, one instance is the master node and all others are slave nodes.
-        public let instanceCount: Int32
-        /// Specifies whether the Amazon EC2 instances in the cluster are protected from termination by API calls, user intervention, or in the event of a job-flow error.
-        public let terminationProtected: Bool?
-        /// The Amazon EC2 instance identifier of the master node.
-        public let masterInstanceId: String?
-        /// Specifies whether the cluster should remain available after completing all steps.
-        public let keepJobFlowAliveWhenNoSteps: Bool?
-        /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour that an m1.small runs. Larger instances are weighted more, so an Amazon EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
+        /// The name of the cluster.
+        public let name: String?
+        /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour an m1.small instance runs. Larger instances are weighted more, so an EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
         public let normalizedInstanceHours: Int32?
-        /// The Amazon EC2 Availability Zone for the cluster.
-        public let placement: PlacementType?
-        /// For clusters launched within Amazon Virtual Private Cloud, this is the identifier of the subnet where the cluster was launched.
-        public let ec2SubnetId: String?
-        /// The name of an Amazon EC2 key pair that can be used to ssh to the master node.
-        public let ec2KeyName: String?
-        /// Details about the instance groups in a cluster.
-        public let instanceGroups: [InstanceGroupDetail]?
+        /// The Amazon EMR release label, which determines the version of open-source application packages installed on the cluster. Release labels are in the form emr-x.x.x, where x.x.x is an Amazon EMR release version, for example, emr-5.14.0. For more information about Amazon EMR release versions and included application versions and features, see http://docs.aws.amazon.com/emr/latest/ReleaseGuide/. The release label applies only to Amazon EMR releases versions 4.x and later. Earlier versions use AmiVersion.
+        public let releaseLabel: String?
+        /// Applies only when CustomAmiID is used. Specifies the type of updates that are applied from the Amazon Linux AMI package repositories when an instance boots using the AMI.
+        public let repoUpgradeOnBoot: RepoUpgradeOnBoot?
+        /// The AMI version requested for this cluster.
+        public let requestedAmiVersion: String?
+        /// The AMI version running on this cluster.
+        public let runningAmiVersion: String?
+        /// The way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour boundary, regardless of when the request to terminate the instance was submitted. This option is only available with Amazon EMR 5.1.0 and later and is the default for clusters created using that version. TERMINATE_AT_TASK_COMPLETION indicates that Amazon EMR blacklists and drains tasks from nodes before terminating the Amazon EC2 instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR removes the least active nodes first and blocks instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION is available only in Amazon EMR version 4.1.0 and later, and is the default for versions of Amazon EMR earlier than 5.1.0.
+        public let scaleDownBehavior: ScaleDownBehavior?
+        /// The name of the security configuration applied to the cluster.
+        public let securityConfiguration: String?
+        /// The IAM role that will be assumed by the Amazon EMR service to access AWS resources on your behalf.
+        public let serviceRole: String?
+        /// The current status details about the cluster.
+        public let status: ClusterStatus?
+        /// A list of tags associated with a cluster.
+        public let tags: [Tag]?
+        /// Indicates whether Amazon EMR will lock the cluster to prevent the EC2 instances from being terminated by an API call or user intervention, or in the event of a cluster error.
+        public let terminationProtected: Bool?
+        /// Indicates whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and manage the cluster if they have the proper policy permissions set. If this value is false, only the IAM user that created the cluster can view and manage it. This value can be changed using the SetVisibleToAllUsers action.
+        public let visibleToAllUsers: Bool?
 
-        public init(masterInstanceType: String, masterPublicDnsName: String? = nil, hadoopVersion: String? = nil, slaveInstanceType: String, instanceCount: Int32, terminationProtected: Bool? = nil, masterInstanceId: String? = nil, keepJobFlowAliveWhenNoSteps: Bool? = nil, normalizedInstanceHours: Int32? = nil, placement: PlacementType? = nil, ec2SubnetId: String? = nil, ec2KeyName: String? = nil, instanceGroups: [InstanceGroupDetail]? = nil) {
-            self.masterInstanceType = masterInstanceType
+        public init(applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminate: Bool? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int32? = nil, ec2InstanceAttributes: Ec2InstanceAttributes? = nil, id: String? = nil, instanceCollectionType: InstanceCollectionType? = nil, kerberosAttributes: KerberosAttributes? = nil, logUri: String? = nil, masterPublicDnsName: String? = nil, name: String? = nil, normalizedInstanceHours: Int32? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, requestedAmiVersion: String? = nil, runningAmiVersion: String? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, status: ClusterStatus? = nil, tags: [Tag]? = nil, terminationProtected: Bool? = nil, visibleToAllUsers: Bool? = nil) {
+            self.applications = applications
+            self.autoScalingRole = autoScalingRole
+            self.autoTerminate = autoTerminate
+            self.configurations = configurations
+            self.customAmiId = customAmiId
+            self.ebsRootVolumeSize = ebsRootVolumeSize
+            self.ec2InstanceAttributes = ec2InstanceAttributes
+            self.id = id
+            self.instanceCollectionType = instanceCollectionType
+            self.kerberosAttributes = kerberosAttributes
+            self.logUri = logUri
             self.masterPublicDnsName = masterPublicDnsName
-            self.hadoopVersion = hadoopVersion
-            self.slaveInstanceType = slaveInstanceType
-            self.instanceCount = instanceCount
-            self.terminationProtected = terminationProtected
-            self.masterInstanceId = masterInstanceId
-            self.keepJobFlowAliveWhenNoSteps = keepJobFlowAliveWhenNoSteps
+            self.name = name
             self.normalizedInstanceHours = normalizedInstanceHours
-            self.placement = placement
-            self.ec2SubnetId = ec2SubnetId
-            self.ec2KeyName = ec2KeyName
-            self.instanceGroups = instanceGroups
+            self.releaseLabel = releaseLabel
+            self.repoUpgradeOnBoot = repoUpgradeOnBoot
+            self.requestedAmiVersion = requestedAmiVersion
+            self.runningAmiVersion = runningAmiVersion
+            self.scaleDownBehavior = scaleDownBehavior
+            self.securityConfiguration = securityConfiguration
+            self.serviceRole = serviceRole
+            self.status = status
+            self.tags = tags
+            self.terminationProtected = terminationProtected
+            self.visibleToAllUsers = visibleToAllUsers
         }
 
         private enum CodingKeys: String, CodingKey {
-            case masterInstanceType = "MasterInstanceType"
+            case applications = "Applications"
+            case autoScalingRole = "AutoScalingRole"
+            case autoTerminate = "AutoTerminate"
+            case configurations = "Configurations"
+            case customAmiId = "CustomAmiId"
+            case ebsRootVolumeSize = "EbsRootVolumeSize"
+            case ec2InstanceAttributes = "Ec2InstanceAttributes"
+            case id = "Id"
+            case instanceCollectionType = "InstanceCollectionType"
+            case kerberosAttributes = "KerberosAttributes"
+            case logUri = "LogUri"
             case masterPublicDnsName = "MasterPublicDnsName"
-            case hadoopVersion = "HadoopVersion"
-            case slaveInstanceType = "SlaveInstanceType"
-            case instanceCount = "InstanceCount"
-            case terminationProtected = "TerminationProtected"
-            case masterInstanceId = "MasterInstanceId"
-            case keepJobFlowAliveWhenNoSteps = "KeepJobFlowAliveWhenNoSteps"
+            case name = "Name"
             case normalizedInstanceHours = "NormalizedInstanceHours"
-            case placement = "Placement"
-            case ec2SubnetId = "Ec2SubnetId"
-            case ec2KeyName = "Ec2KeyName"
-            case instanceGroups = "InstanceGroups"
+            case releaseLabel = "ReleaseLabel"
+            case repoUpgradeOnBoot = "RepoUpgradeOnBoot"
+            case requestedAmiVersion = "RequestedAmiVersion"
+            case runningAmiVersion = "RunningAmiVersion"
+            case scaleDownBehavior = "ScaleDownBehavior"
+            case securityConfiguration = "SecurityConfiguration"
+            case serviceRole = "ServiceRole"
+            case status = "Status"
+            case tags = "Tags"
+            case terminationProtected = "TerminationProtected"
+            case visibleToAllUsers = "VisibleToAllUsers"
         }
     }
 
-    public struct ListInstancesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Instances", required: false, type: .list)
-        ]
-        /// The pagination token that indicates the next set of results to retrieve.
-        public let marker: String?
-        /// The list of instances for the cluster and given filters.
-        public let instances: [Instance]?
+    public enum ClusterState: String, CustomStringConvertible, Codable {
+        case starting = "STARTING"
+        case bootstrapping = "BOOTSTRAPPING"
+        case running = "RUNNING"
+        case waiting = "WAITING"
+        case terminating = "TERMINATING"
+        case terminated = "TERMINATED"
+        case terminatedWithErrors = "TERMINATED_WITH_ERRORS"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(marker: String? = nil, instances: [Instance]? = nil) {
-            self.marker = marker
-            self.instances = instances
+    public struct ClusterStateChangeReason: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Code", required: false, type: .enum), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
+        ]
+        /// The programmatic code for the state change reason.
+        public let code: ClusterStateChangeReasonCode?
+        /// The descriptive message for the state change reason.
+        public let message: String?
+
+        public init(code: ClusterStateChangeReasonCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case instances = "Instances"
+            case code = "Code"
+            case message = "Message"
         }
     }
 
-    public struct StepStatus: AWSShape {
+    public enum ClusterStateChangeReasonCode: String, CustomStringConvertible, Codable {
+        case internalError = "INTERNAL_ERROR"
+        case validationError = "VALIDATION_ERROR"
+        case instanceFailure = "INSTANCE_FAILURE"
+        case instanceFleetTimeout = "INSTANCE_FLEET_TIMEOUT"
+        case bootstrapFailure = "BOOTSTRAP_FAILURE"
+        case userRequest = "USER_REQUEST"
+        case stepFailure = "STEP_FAILURE"
+        case allStepsCompleted = "ALL_STEPS_COMPLETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ClusterStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StateChangeReason", required: false, type: .structure), 
-            AWSShapeMember(label: "FailureDetails", required: false, type: .structure), 
             AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "StateChangeReason", required: false, type: .structure), 
             AWSShapeMember(label: "Timeline", required: false, type: .structure)
         ]
-        /// The reason for the step execution status change.
-        public let stateChangeReason: StepStateChangeReason?
-        /// The details for the step failure including reason, message, and log file path where the root cause was identified.
-        public let failureDetails: FailureDetails?
-        /// The execution state of the cluster step.
-        public let state: StepState?
-        /// The timeline of the cluster step status over time.
-        public let timeline: StepTimeline?
+        /// The current state of the cluster.
+        public let state: ClusterState?
+        /// The reason for the cluster status change.
+        public let stateChangeReason: ClusterStateChangeReason?
+        /// A timeline that represents the status of a cluster over the lifetime of the cluster.
+        public let timeline: ClusterTimeline?
 
-        public init(stateChangeReason: StepStateChangeReason? = nil, failureDetails: FailureDetails? = nil, state: StepState? = nil, timeline: StepTimeline? = nil) {
-            self.stateChangeReason = stateChangeReason
-            self.failureDetails = failureDetails
+        public init(state: ClusterState? = nil, stateChangeReason: ClusterStateChangeReason? = nil, timeline: ClusterTimeline? = nil) {
             self.state = state
+            self.stateChangeReason = stateChangeReason
             self.timeline = timeline
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stateChangeReason = "StateChangeReason"
-            case failureDetails = "FailureDetails"
             case state = "State"
+            case stateChangeReason = "StateChangeReason"
             case timeline = "Timeline"
         }
     }
 
-    public struct SetVisibleToAllUsersInput: AWSShape {
+    public struct ClusterSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VisibleToAllUsers", required: true, type: .boolean), 
-            AWSShapeMember(label: "JobFlowIds", required: true, type: .list)
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "NormalizedInstanceHours", required: false, type: .integer), 
+            AWSShapeMember(label: "Status", required: false, type: .structure)
         ]
-        /// Whether the specified clusters are visible to all IAM users of the AWS account associated with the cluster. If this value is set to True, all IAM users of that AWS account can view and, if they have the proper IAM policy permissions set, manage the clusters. If it is set to False, only the IAM user that created a cluster can view and manage it.
-        public let visibleToAllUsers: Bool
-        /// Identifiers of the job flows to receive the new visibility setting.
-        public let jobFlowIds: [String]
+        /// The unique identifier for the cluster.
+        public let id: String?
+        /// The name of the cluster.
+        public let name: String?
+        /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour an m1.small instance runs. Larger instances are weighted more, so an EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
+        public let normalizedInstanceHours: Int32?
+        /// The details about the current status of the cluster.
+        public let status: ClusterStatus?
 
-        public init(visibleToAllUsers: Bool, jobFlowIds: [String]) {
-            self.visibleToAllUsers = visibleToAllUsers
-            self.jobFlowIds = jobFlowIds
+        public init(id: String? = nil, name: String? = nil, normalizedInstanceHours: Int32? = nil, status: ClusterStatus? = nil) {
+            self.id = id
+            self.name = name
+            self.normalizedInstanceHours = normalizedInstanceHours
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case visibleToAllUsers = "VisibleToAllUsers"
-            case jobFlowIds = "JobFlowIds"
+            case id = "Id"
+            case name = "Name"
+            case normalizedInstanceHours = "NormalizedInstanceHours"
+            case status = "Status"
         }
     }
 
-    public struct InstanceFleetProvisioningSpecifications: AWSShape {
+    public struct ClusterTimeline: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SpotSpecification", required: true, type: .structure)
+            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ReadyDateTime", required: false, type: .timestamp)
         ]
-        /// The launch specification for Spot instances in the fleet, which determines the defined duration and provisioning timeout behavior.
-        public let spotSpecification: SpotProvisioningSpecification
+        /// The creation date and time of the cluster.
+        public let creationDateTime: TimeStamp?
+        /// The date and time when the cluster was terminated.
+        public let endDateTime: TimeStamp?
+        /// The date and time when the cluster was ready to execute steps.
+        public let readyDateTime: TimeStamp?
 
-        public init(spotSpecification: SpotProvisioningSpecification) {
-            self.spotSpecification = spotSpecification
+        public init(creationDateTime: TimeStamp? = nil, endDateTime: TimeStamp? = nil, readyDateTime: TimeStamp? = nil) {
+            self.creationDateTime = creationDateTime
+            self.endDateTime = endDateTime
+            self.readyDateTime = readyDateTime
         }
 
         private enum CodingKeys: String, CodingKey {
-            case spotSpecification = "SpotSpecification"
+            case creationDateTime = "CreationDateTime"
+            case endDateTime = "EndDateTime"
+            case readyDateTime = "ReadyDateTime"
         }
     }
 
@@ -1509,248 +757,223 @@ extension EMR {
         }
     }
 
-    public struct PutAutoScalingPolicyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceGroupId", required: true, type: .string), 
-            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
-            AWSShapeMember(label: "AutoScalingPolicy", required: true, type: .structure)
-        ]
-        /// Specifies the ID of the instance group to which the automatic scaling policy is applied.
-        public let instanceGroupId: String
-        /// Specifies the ID of a cluster. The instance group to which the automatic scaling policy is applied is within this cluster.
-        public let clusterId: String
-        /// Specifies the definition of the automatic scaling policy.
-        public let autoScalingPolicy: AutoScalingPolicy
-
-        public init(instanceGroupId: String, clusterId: String, autoScalingPolicy: AutoScalingPolicy) {
-            self.instanceGroupId = instanceGroupId
-            self.clusterId = clusterId
-            self.autoScalingPolicy = autoScalingPolicy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceGroupId = "InstanceGroupId"
-            case clusterId = "ClusterId"
-            case autoScalingPolicy = "AutoScalingPolicy"
-        }
-    }
-
-    public enum ScaleDownBehavior: String, CustomStringConvertible, Codable {
-        case terminateAtInstanceHour = "TERMINATE_AT_INSTANCE_HOUR"
-        case terminateAtTaskCompletion = "TERMINATE_AT_TASK_COMPLETION"
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
+        case greaterThanOrEqual = "GREATER_THAN_OR_EQUAL"
+        case greaterThan = "GREATER_THAN"
+        case lessThan = "LESS_THAN"
+        case lessThanOrEqual = "LESS_THAN_OR_EQUAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceRoleType: String, CustomStringConvertible, Codable {
-        case master = "MASTER"
-        case core = "CORE"
-        case task = "TASK"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InstanceGroupType: String, CustomStringConvertible, Codable {
-        case master = "MASTER"
-        case core = "CORE"
-        case task = "TASK"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct InstanceStatus: AWSShape {
+    public class Configuration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Timeline", required: false, type: .structure), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "StateChangeReason", required: false, type: .structure)
+            AWSShapeMember(label: "Classification", required: false, type: .string), 
+            AWSShapeMember(label: "Configurations", required: false, type: .list), 
+            AWSShapeMember(label: "Properties", required: false, type: .map)
         ]
-        /// The timeline of the instance status over time.
-        public let timeline: InstanceTimeline?
-        /// The current state of the instance.
-        public let state: InstanceState?
-        /// The details of the status change reason for the instance.
-        public let stateChangeReason: InstanceStateChangeReason?
+        /// The classification within a configuration.
+        public let classification: String?
+        /// A list of additional configurations to apply within a configuration object.
+        public let configurations: [Configuration]?
+        /// A set of properties specified within a configuration classification.
+        public let properties: [String: String]?
 
-        public init(timeline: InstanceTimeline? = nil, state: InstanceState? = nil, stateChangeReason: InstanceStateChangeReason? = nil) {
-            self.timeline = timeline
-            self.state = state
-            self.stateChangeReason = stateChangeReason
+        public init(classification: String? = nil, configurations: [Configuration]? = nil, properties: [String: String]? = nil) {
+            self.classification = classification
+            self.configurations = configurations
+            self.properties = properties
         }
 
         private enum CodingKeys: String, CodingKey {
-            case timeline = "Timeline"
-            case state = "State"
-            case stateChangeReason = "StateChangeReason"
+            case classification = "Classification"
+            case configurations = "Configurations"
+            case properties = "Properties"
         }
     }
 
-    public struct ListStepsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Steps", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
-        /// The filtered list of steps for the cluster.
-        public let steps: [StepSummary]?
-        /// The pagination token that indicates the next set of results to retrieve.
-        public let marker: String?
-
-        public init(steps: [StepSummary]? = nil, marker: String? = nil) {
-            self.steps = steps
-            self.marker = marker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case steps = "Steps"
-            case marker = "Marker"
-        }
-    }
-
-    public struct CancelStepsInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Reason", required: false, type: .string), 
-            AWSShapeMember(label: "StepId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
-        /// The reason for the failure if the CancelSteps request fails.
-        public let reason: String?
-        /// The encrypted StepId of a step.
-        public let stepId: String?
-        /// The status of a CancelSteps Request. The value may be SUBMITTED or FAILED.
-        public let status: CancelStepsRequestStatus?
-
-        public init(reason: String? = nil, stepId: String? = nil, status: CancelStepsRequestStatus? = nil) {
-            self.reason = reason
-            self.stepId = stepId
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reason = "Reason"
-            case stepId = "StepId"
-            case status = "Status"
-        }
-    }
-
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
-        /// A user-defined key, which is the minimum required information for a valid tag. For more information, see Tag . 
-        public let key: String?
-        /// A user-defined value, which is optional in a tag. For more information, see Tag Clusters. 
-        public let value: String?
-
-        public init(key: String? = nil, value: String? = nil) {
-            self.key = key
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case value = "Value"
-        }
-    }
-
-    public struct RemoveAutoScalingPolicyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceGroupId", required: true, type: .string), 
-            AWSShapeMember(label: "ClusterId", required: true, type: .string)
-        ]
-        /// Specifies the ID of the instance group to which the scaling policy is applied.
-        public let instanceGroupId: String
-        /// Specifies the ID of a cluster. The instance group to which the automatic scaling policy is applied is within this cluster.
-        public let clusterId: String
-
-        public init(instanceGroupId: String, clusterId: String) {
-            self.instanceGroupId = instanceGroupId
-            self.clusterId = clusterId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceGroupId = "InstanceGroupId"
-            case clusterId = "ClusterId"
-        }
-    }
-
-    public struct BootstrapActionConfig: AWSShape {
+    public struct CreateSecurityConfigurationInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "ScriptBootstrapAction", required: true, type: .structure)
+            AWSShapeMember(label: "SecurityConfiguration", required: true, type: .string)
         ]
-        /// The name of the bootstrap action.
+        /// The name of the security configuration.
         public let name: String
-        /// The script run by the bootstrap action.
-        public let scriptBootstrapAction: ScriptBootstrapActionConfig
+        /// The security configuration details in JSON format. For JSON parameters and examples, see Use Security Configurations to Set Up Cluster Security in the Amazon EMR Management Guide.
+        public let securityConfiguration: String
 
-        public init(name: String, scriptBootstrapAction: ScriptBootstrapActionConfig) {
+        public init(name: String, securityConfiguration: String) {
             self.name = name
-            self.scriptBootstrapAction = scriptBootstrapAction
+            self.securityConfiguration = securityConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-            case scriptBootstrapAction = "ScriptBootstrapAction"
+            case securityConfiguration = "SecurityConfiguration"
         }
     }
 
-    public struct ClusterStatus: AWSShape {
+    public struct CreateSecurityConfigurationOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Timeline", required: false, type: .structure), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "StateChangeReason", required: false, type: .structure)
+            AWSShapeMember(label: "CreationDateTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// A timeline that represents the status of a cluster over the lifetime of the cluster.
-        public let timeline: ClusterTimeline?
-        /// The current state of the cluster.
-        public let state: ClusterState?
-        /// The reason for the cluster status change.
-        public let stateChangeReason: ClusterStateChangeReason?
+        /// The date and time the security configuration was created.
+        public let creationDateTime: TimeStamp
+        /// The name of the security configuration.
+        public let name: String
 
-        public init(timeline: ClusterTimeline? = nil, state: ClusterState? = nil, stateChangeReason: ClusterStateChangeReason? = nil) {
-            self.timeline = timeline
-            self.state = state
-            self.stateChangeReason = stateChangeReason
+        public init(creationDateTime: TimeStamp, name: String) {
+            self.creationDateTime = creationDateTime
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case timeline = "Timeline"
-            case state = "State"
-            case stateChangeReason = "StateChangeReason"
+            case creationDateTime = "CreationDateTime"
+            case name = "Name"
         }
     }
 
-    public struct ListSecurityConfigurationsInput: AWSShape {
+    public struct DeleteSecurityConfigurationInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// The pagination token that indicates the set of results to retrieve.
-        public let marker: String?
+        /// The name of the security configuration.
+        public let name: String
 
-        public init(marker: String? = nil) {
-            self.marker = marker
+        public init(name: String) {
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
+            case name = "Name"
         }
     }
 
-    public struct StepStateChangeReason: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Code", required: false, type: .enum)
-        ]
-        /// The descriptive message for the state change reason.
-        public let message: String?
-        /// The programmable code for the state change reason. Note: Currently, the service provides no code for the state change.
-        public let code: StepStateChangeReasonCode?
+    public struct DeleteSecurityConfigurationOutput: AWSShape {
 
-        public init(message: String? = nil, code: StepStateChangeReasonCode? = nil) {
-            self.message = message
-            self.code = code
+        public init() {
+        }
+
+    }
+
+    public struct DescribeClusterInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterId", required: true, type: .string)
+        ]
+        /// The identifier of the cluster to describe.
+        public let clusterId: String
+
+        public init(clusterId: String) {
+            self.clusterId = clusterId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-            case code = "Code"
+            case clusterId = "ClusterId"
+        }
+    }
+
+    public struct DescribeClusterOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cluster", required: false, type: .structure)
+        ]
+        /// This output contains the details for the requested cluster.
+        public let cluster: Cluster?
+
+        public init(cluster: Cluster? = nil) {
+            self.cluster = cluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
+        }
+    }
+
+    public struct DescribeJobFlowsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreatedBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "JobFlowIds", required: false, type: .list), 
+            AWSShapeMember(label: "JobFlowStates", required: false, type: .list)
+        ]
+        /// Return only job flows created after this date and time.
+        public let createdAfter: TimeStamp?
+        /// Return only job flows created before this date and time.
+        public let createdBefore: TimeStamp?
+        /// Return only job flows whose job flow ID is contained in this list.
+        public let jobFlowIds: [String]?
+        /// Return only job flows whose state is contained in this list.
+        public let jobFlowStates: [JobFlowExecutionState]?
+
+        public init(createdAfter: TimeStamp? = nil, createdBefore: TimeStamp? = nil, jobFlowIds: [String]? = nil, jobFlowStates: [JobFlowExecutionState]? = nil) {
+            self.createdAfter = createdAfter
+            self.createdBefore = createdBefore
+            self.jobFlowIds = jobFlowIds
+            self.jobFlowStates = jobFlowStates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAfter = "CreatedAfter"
+            case createdBefore = "CreatedBefore"
+            case jobFlowIds = "JobFlowIds"
+            case jobFlowStates = "JobFlowStates"
+        }
+    }
+
+    public struct DescribeJobFlowsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobFlows", required: false, type: .list)
+        ]
+        /// A list of job flows matching the parameters supplied.
+        public let jobFlows: [JobFlowDetail]?
+
+        public init(jobFlows: [JobFlowDetail]? = nil) {
+            self.jobFlows = jobFlows
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobFlows = "JobFlows"
+        }
+    }
+
+    public struct DescribeSecurityConfigurationInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The name of the security configuration.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DescribeSecurityConfigurationOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string)
+        ]
+        /// The date and time the security configuration was created
+        public let creationDateTime: TimeStamp?
+        /// The name of the security configuration.
+        public let name: String?
+        /// The security configuration details in JSON format.
+        public let securityConfiguration: String?
+
+        public init(creationDateTime: TimeStamp? = nil, name: String? = nil, securityConfiguration: String? = nil) {
+            self.creationDateTime = creationDateTime
+            self.name = name
+            self.securityConfiguration = securityConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "CreationDateTime"
+            case name = "Name"
+            case securityConfiguration = "SecurityConfiguration"
         }
     }
 
@@ -1775,67 +998,1863 @@ extension EMR {
         }
     }
 
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
-        case greaterThanOrEqual = "GREATER_THAN_OR_EQUAL"
-        case greaterThan = "GREATER_THAN"
-        case lessThan = "LESS_THAN"
-        case lessThanOrEqual = "LESS_THAN_OR_EQUAL"
+    public struct DescribeStepOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Step", required: false, type: .structure)
+        ]
+        /// The step details for the requested step identifier.
+        public let step: Step?
+
+        public init(step: Step? = nil) {
+            self.step = step
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case step = "Step"
+        }
+    }
+
+    public struct EbsBlockDevice: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Device", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeSpecification", required: false, type: .structure)
+        ]
+        /// The device name that is exposed to the instance, such as /dev/sdh.
+        public let device: String?
+        /// EBS volume specifications such as volume type, IOPS, and size (GiB) that will be requested for the EBS volume attached to an EC2 instance in the cluster.
+        public let volumeSpecification: VolumeSpecification?
+
+        public init(device: String? = nil, volumeSpecification: VolumeSpecification? = nil) {
+            self.device = device
+            self.volumeSpecification = volumeSpecification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case device = "Device"
+            case volumeSpecification = "VolumeSpecification"
+        }
+    }
+
+    public struct EbsBlockDeviceConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeSpecification", required: true, type: .structure), 
+            AWSShapeMember(label: "VolumesPerInstance", required: false, type: .integer)
+        ]
+        /// EBS volume specifications such as volume type, IOPS, and size (GiB) that will be requested for the EBS volume attached to an EC2 instance in the cluster.
+        public let volumeSpecification: VolumeSpecification
+        /// Number of EBS volumes with a specific volume configuration that will be associated with every instance in the instance group
+        public let volumesPerInstance: Int32?
+
+        public init(volumeSpecification: VolumeSpecification, volumesPerInstance: Int32? = nil) {
+            self.volumeSpecification = volumeSpecification
+            self.volumesPerInstance = volumesPerInstance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case volumeSpecification = "VolumeSpecification"
+            case volumesPerInstance = "VolumesPerInstance"
+        }
+    }
+
+    public struct EbsConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EbsBlockDeviceConfigs", required: false, type: .list), 
+            AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean)
+        ]
+        /// An array of Amazon EBS volume specifications attached to a cluster instance.
+        public let ebsBlockDeviceConfigs: [EbsBlockDeviceConfig]?
+        /// Indicates whether an Amazon EBS volume is EBS-optimized.
+        public let ebsOptimized: Bool?
+
+        public init(ebsBlockDeviceConfigs: [EbsBlockDeviceConfig]? = nil, ebsOptimized: Bool? = nil) {
+            self.ebsBlockDeviceConfigs = ebsBlockDeviceConfigs
+            self.ebsOptimized = ebsOptimized
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ebsBlockDeviceConfigs = "EbsBlockDeviceConfigs"
+            case ebsOptimized = "EbsOptimized"
+        }
+    }
+
+    public struct EbsVolume: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Device", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeId", required: false, type: .string)
+        ]
+        /// The device name that is exposed to the instance, such as /dev/sdh.
+        public let device: String?
+        /// The volume identifier of the EBS volume.
+        public let volumeId: String?
+
+        public init(device: String? = nil, volumeId: String? = nil) {
+            self.device = device
+            self.volumeId = volumeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case device = "Device"
+            case volumeId = "VolumeId"
+        }
+    }
+
+    public struct Ec2InstanceAttributes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdditionalMasterSecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "AdditionalSlaveSecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "Ec2AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "Ec2KeyName", required: false, type: .string), 
+            AWSShapeMember(label: "Ec2SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "EmrManagedMasterSecurityGroup", required: false, type: .string), 
+            AWSShapeMember(label: "EmrManagedSlaveSecurityGroup", required: false, type: .string), 
+            AWSShapeMember(label: "IamInstanceProfile", required: false, type: .string), 
+            AWSShapeMember(label: "RequestedEc2AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "RequestedEc2SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "ServiceAccessSecurityGroup", required: false, type: .string)
+        ]
+        /// A list of additional Amazon EC2 security group IDs for the master node.
+        public let additionalMasterSecurityGroups: [String]?
+        /// A list of additional Amazon EC2 security group IDs for the slave nodes.
+        public let additionalSlaveSecurityGroups: [String]?
+        /// The Availability Zone in which the cluster will run. 
+        public let ec2AvailabilityZone: String?
+        /// The name of the Amazon EC2 key pair to use when connecting with SSH into the master node as a user named "hadoop".
+        public let ec2KeyName: String?
+        /// To launch the cluster in Amazon VPC, set this parameter to the identifier of the Amazon VPC subnet where you want the cluster to launch. If you do not specify this value, the cluster is launched in the normal AWS cloud, outside of a VPC. Amazon VPC currently does not support cluster compute quadruple extra large (cc1.4xlarge) instances. Thus, you cannot specify the cc1.4xlarge instance type for nodes of a cluster launched in a VPC.
+        public let ec2SubnetId: String?
+        /// The identifier of the Amazon EC2 security group for the master node.
+        public let emrManagedMasterSecurityGroup: String?
+        /// The identifier of the Amazon EC2 security group for the slave nodes.
+        public let emrManagedSlaveSecurityGroup: String?
+        /// The IAM role that was specified when the cluster was launched. The EC2 instances of the cluster assume this role.
+        public let iamInstanceProfile: String?
+        /// Applies to clusters configured with the instance fleets option. Specifies one or more Availability Zones in which to launch EC2 cluster instances when the EC2-Classic network configuration is supported. Amazon EMR chooses the Availability Zone with the best fit from among the list of RequestedEc2AvailabilityZones, and then launches all cluster instances within that Availability Zone. If you do not specify this value, Amazon EMR chooses the Availability Zone for you. RequestedEc2SubnetIDs and RequestedEc2AvailabilityZones cannot be specified together.
+        public let requestedEc2AvailabilityZones: [String]?
+        /// Applies to clusters configured with the instance fleets option. Specifies the unique identifier of one or more Amazon EC2 subnets in which to launch EC2 cluster instances. Subnets must exist within the same VPC. Amazon EMR chooses the EC2 subnet with the best fit from among the list of RequestedEc2SubnetIds, and then launches all cluster instances within that Subnet. If this value is not specified, and the account and region support EC2-Classic networks, the cluster launches instances in the EC2-Classic network and uses RequestedEc2AvailabilityZones instead of this setting. If EC2-Classic is not supported, and no Subnet is specified, Amazon EMR chooses the subnet for you. RequestedEc2SubnetIDs and RequestedEc2AvailabilityZones cannot be specified together.
+        public let requestedEc2SubnetIds: [String]?
+        /// The identifier of the Amazon EC2 security group for the Amazon EMR service to access clusters in VPC private subnets.
+        public let serviceAccessSecurityGroup: String?
+
+        public init(additionalMasterSecurityGroups: [String]? = nil, additionalSlaveSecurityGroups: [String]? = nil, ec2AvailabilityZone: String? = nil, ec2KeyName: String? = nil, ec2SubnetId: String? = nil, emrManagedMasterSecurityGroup: String? = nil, emrManagedSlaveSecurityGroup: String? = nil, iamInstanceProfile: String? = nil, requestedEc2AvailabilityZones: [String]? = nil, requestedEc2SubnetIds: [String]? = nil, serviceAccessSecurityGroup: String? = nil) {
+            self.additionalMasterSecurityGroups = additionalMasterSecurityGroups
+            self.additionalSlaveSecurityGroups = additionalSlaveSecurityGroups
+            self.ec2AvailabilityZone = ec2AvailabilityZone
+            self.ec2KeyName = ec2KeyName
+            self.ec2SubnetId = ec2SubnetId
+            self.emrManagedMasterSecurityGroup = emrManagedMasterSecurityGroup
+            self.emrManagedSlaveSecurityGroup = emrManagedSlaveSecurityGroup
+            self.iamInstanceProfile = iamInstanceProfile
+            self.requestedEc2AvailabilityZones = requestedEc2AvailabilityZones
+            self.requestedEc2SubnetIds = requestedEc2SubnetIds
+            self.serviceAccessSecurityGroup = serviceAccessSecurityGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalMasterSecurityGroups = "AdditionalMasterSecurityGroups"
+            case additionalSlaveSecurityGroups = "AdditionalSlaveSecurityGroups"
+            case ec2AvailabilityZone = "Ec2AvailabilityZone"
+            case ec2KeyName = "Ec2KeyName"
+            case ec2SubnetId = "Ec2SubnetId"
+            case emrManagedMasterSecurityGroup = "EmrManagedMasterSecurityGroup"
+            case emrManagedSlaveSecurityGroup = "EmrManagedSlaveSecurityGroup"
+            case iamInstanceProfile = "IamInstanceProfile"
+            case requestedEc2AvailabilityZones = "RequestedEc2AvailabilityZones"
+            case requestedEc2SubnetIds = "RequestedEc2SubnetIds"
+            case serviceAccessSecurityGroup = "ServiceAccessSecurityGroup"
+        }
+    }
+
+    public struct FailureDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LogFile", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "Reason", required: false, type: .string)
+        ]
+        /// The path to the log file where the step failure root cause was originally recorded.
+        public let logFile: String?
+        /// The descriptive message including the error the EMR service has identified as the cause of step failure. This is text from an error log that describes the root cause of the failure.
+        public let message: String?
+        /// The reason for the step failure. In the case where the service cannot successfully determine the root cause of the failure, it returns "Unknown Error" as a reason.
+        public let reason: String?
+
+        public init(logFile: String? = nil, message: String? = nil, reason: String? = nil) {
+            self.logFile = logFile
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logFile = "LogFile"
+            case message = "Message"
+            case reason = "Reason"
+        }
+    }
+
+    public struct HadoopJarStepConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Args", required: false, type: .list), 
+            AWSShapeMember(label: "Jar", required: true, type: .string), 
+            AWSShapeMember(label: "MainClass", required: false, type: .string), 
+            AWSShapeMember(label: "Properties", required: false, type: .list)
+        ]
+        /// A list of command line arguments passed to the JAR file's main function when executed.
+        public let args: [String]?
+        /// A path to a JAR file run during the step.
+        public let jar: String
+        /// The name of the main class in the specified Java file. If not specified, the JAR file should specify a Main-Class in its manifest file.
+        public let mainClass: String?
+        /// A list of Java properties that are set when the step runs. You can use these properties to pass key value pairs to your main function.
+        public let properties: [KeyValue]?
+
+        public init(args: [String]? = nil, jar: String, mainClass: String? = nil, properties: [KeyValue]? = nil) {
+            self.args = args
+            self.jar = jar
+            self.mainClass = mainClass
+            self.properties = properties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case args = "Args"
+            case jar = "Jar"
+            case mainClass = "MainClass"
+            case properties = "Properties"
+        }
+    }
+
+    public struct HadoopStepConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Args", required: false, type: .list), 
+            AWSShapeMember(label: "Jar", required: false, type: .string), 
+            AWSShapeMember(label: "MainClass", required: false, type: .string), 
+            AWSShapeMember(label: "Properties", required: false, type: .map)
+        ]
+        /// The list of command line arguments to pass to the JAR file's main function for execution.
+        public let args: [String]?
+        /// The path to the JAR file that runs during the step.
+        public let jar: String?
+        /// The name of the main class in the specified Java file. If not specified, the JAR file should specify a main class in its manifest file.
+        public let mainClass: String?
+        /// The list of Java properties that are set when the step runs. You can use these properties to pass key value pairs to your main function.
+        public let properties: [String: String]?
+
+        public init(args: [String]? = nil, jar: String? = nil, mainClass: String? = nil, properties: [String: String]? = nil) {
+            self.args = args
+            self.jar = jar
+            self.mainClass = mainClass
+            self.properties = properties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case args = "Args"
+            case jar = "Jar"
+            case mainClass = "MainClass"
+            case properties = "Properties"
+        }
+    }
+
+    public struct Instance: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EbsVolumes", required: false, type: .list), 
+            AWSShapeMember(label: "Ec2InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceFleetId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "Market", required: false, type: .enum), 
+            AWSShapeMember(label: "PrivateDnsName", required: false, type: .string), 
+            AWSShapeMember(label: "PrivateIpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "PublicDnsName", required: false, type: .string), 
+            AWSShapeMember(label: "PublicIpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .structure)
+        ]
+        /// The list of EBS volumes that are attached to this instance.
+        public let ebsVolumes: [EbsVolume]?
+        /// The unique identifier of the instance in Amazon EC2.
+        public let ec2InstanceId: String?
+        /// The unique identifier for the instance in Amazon EMR.
+        public let id: String?
+        /// The unique identifier of the instance fleet to which an EC2 instance belongs.
+        public let instanceFleetId: String?
+        /// The identifier of the instance group to which this instance belongs.
+        public let instanceGroupId: String?
+        /// The EC2 instance type, for example m3.xlarge.
+        public let instanceType: String?
+        /// The instance purchasing option. Valid values are ON_DEMAND or SPOT. 
+        public let market: MarketType?
+        /// The private DNS name of the instance.
+        public let privateDnsName: String?
+        /// The private IP address of the instance.
+        public let privateIpAddress: String?
+        /// The public DNS name of the instance.
+        public let publicDnsName: String?
+        /// The public IP address of the instance.
+        public let publicIpAddress: String?
+        /// The current status of the instance.
+        public let status: InstanceStatus?
+
+        public init(ebsVolumes: [EbsVolume]? = nil, ec2InstanceId: String? = nil, id: String? = nil, instanceFleetId: String? = nil, instanceGroupId: String? = nil, instanceType: String? = nil, market: MarketType? = nil, privateDnsName: String? = nil, privateIpAddress: String? = nil, publicDnsName: String? = nil, publicIpAddress: String? = nil, status: InstanceStatus? = nil) {
+            self.ebsVolumes = ebsVolumes
+            self.ec2InstanceId = ec2InstanceId
+            self.id = id
+            self.instanceFleetId = instanceFleetId
+            self.instanceGroupId = instanceGroupId
+            self.instanceType = instanceType
+            self.market = market
+            self.privateDnsName = privateDnsName
+            self.privateIpAddress = privateIpAddress
+            self.publicDnsName = publicDnsName
+            self.publicIpAddress = publicIpAddress
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ebsVolumes = "EbsVolumes"
+            case ec2InstanceId = "Ec2InstanceId"
+            case id = "Id"
+            case instanceFleetId = "InstanceFleetId"
+            case instanceGroupId = "InstanceGroupId"
+            case instanceType = "InstanceType"
+            case market = "Market"
+            case privateDnsName = "PrivateDnsName"
+            case privateIpAddress = "PrivateIpAddress"
+            case publicDnsName = "PublicDnsName"
+            case publicIpAddress = "PublicIpAddress"
+            case status = "Status"
+        }
+    }
+
+    public enum InstanceCollectionType: String, CustomStringConvertible, Codable {
+        case instanceFleet = "INSTANCE_FLEET"
+        case instanceGroup = "INSTANCE_GROUP"
         public var description: String { return self.rawValue }
+    }
+
+    public struct InstanceFleet: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceFleetType", required: false, type: .enum), 
+            AWSShapeMember(label: "InstanceTypeSpecifications", required: false, type: .list), 
+            AWSShapeMember(label: "LaunchSpecifications", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionedOnDemandCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "ProvisionedSpotCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "Status", required: false, type: .structure), 
+            AWSShapeMember(label: "TargetOnDemandCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "TargetSpotCapacity", required: false, type: .integer)
+        ]
+        /// The unique identifier of the instance fleet.
+        public let id: String?
+        /// The node type that the instance fleet hosts. Valid values are MASTER, CORE, or TASK. 
+        public let instanceFleetType: InstanceFleetType?
+        /// The specification for the instance types that comprise an instance fleet. Up to five unique instance specifications may be defined for each instance fleet. 
+        public let instanceTypeSpecifications: [InstanceTypeSpecification]?
+        /// Describes the launch specification for an instance fleet. 
+        public let launchSpecifications: InstanceFleetProvisioningSpecifications?
+        /// A friendly name for the instance fleet.
+        public let name: String?
+        /// The number of On-Demand units that have been provisioned for the instance fleet to fulfill TargetOnDemandCapacity. This provisioned capacity might be less than or greater than TargetOnDemandCapacity.
+        public let provisionedOnDemandCapacity: Int32?
+        /// The number of Spot units that have been provisioned for this instance fleet to fulfill TargetSpotCapacity. This provisioned capacity might be less than or greater than TargetSpotCapacity.
+        public let provisionedSpotCapacity: Int32?
+        /// The current status of the instance fleet. 
+        public let status: InstanceFleetStatus?
+        /// The target capacity of On-Demand units for the instance fleet, which determines how many On-Demand instances to provision. When the instance fleet launches, Amazon EMR tries to provision On-Demand instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When an On-Demand instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units. You can use InstanceFleet$ProvisionedOnDemandCapacity to determine the Spot capacity units that have been provisioned for the instance fleet.  If not specified or set to 0, only Spot instances are provisioned for the instance fleet using TargetSpotCapacity. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1. 
+        public let targetOnDemandCapacity: Int32?
+        /// The target capacity of Spot units for the instance fleet, which determines how many Spot instances to provision. When the instance fleet launches, Amazon EMR tries to provision Spot instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When a Spot instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units. You can use InstanceFleet$ProvisionedSpotCapacity to determine the Spot capacity units that have been provisioned for the instance fleet.  If not specified or set to 0, only On-Demand instances are provisioned for the instance fleet. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1. 
+        public let targetSpotCapacity: Int32?
+
+        public init(id: String? = nil, instanceFleetType: InstanceFleetType? = nil, instanceTypeSpecifications: [InstanceTypeSpecification]? = nil, launchSpecifications: InstanceFleetProvisioningSpecifications? = nil, name: String? = nil, provisionedOnDemandCapacity: Int32? = nil, provisionedSpotCapacity: Int32? = nil, status: InstanceFleetStatus? = nil, targetOnDemandCapacity: Int32? = nil, targetSpotCapacity: Int32? = nil) {
+            self.id = id
+            self.instanceFleetType = instanceFleetType
+            self.instanceTypeSpecifications = instanceTypeSpecifications
+            self.launchSpecifications = launchSpecifications
+            self.name = name
+            self.provisionedOnDemandCapacity = provisionedOnDemandCapacity
+            self.provisionedSpotCapacity = provisionedSpotCapacity
+            self.status = status
+            self.targetOnDemandCapacity = targetOnDemandCapacity
+            self.targetSpotCapacity = targetSpotCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case instanceFleetType = "InstanceFleetType"
+            case instanceTypeSpecifications = "InstanceTypeSpecifications"
+            case launchSpecifications = "LaunchSpecifications"
+            case name = "Name"
+            case provisionedOnDemandCapacity = "ProvisionedOnDemandCapacity"
+            case provisionedSpotCapacity = "ProvisionedSpotCapacity"
+            case status = "Status"
+            case targetOnDemandCapacity = "TargetOnDemandCapacity"
+            case targetSpotCapacity = "TargetSpotCapacity"
+        }
+    }
+
+    public struct InstanceFleetConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceFleetType", required: true, type: .enum), 
+            AWSShapeMember(label: "InstanceTypeConfigs", required: false, type: .list), 
+            AWSShapeMember(label: "LaunchSpecifications", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "TargetOnDemandCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "TargetSpotCapacity", required: false, type: .integer)
+        ]
+        /// The node type that the instance fleet hosts. Valid values are MASTER,CORE,and TASK.
+        public let instanceFleetType: InstanceFleetType
+        /// The instance type configurations that define the EC2 instances in the instance fleet.
+        public let instanceTypeConfigs: [InstanceTypeConfig]?
+        /// The launch specification for the instance fleet.
+        public let launchSpecifications: InstanceFleetProvisioningSpecifications?
+        /// The friendly name of the instance fleet.
+        public let name: String?
+        /// The target capacity of On-Demand units for the instance fleet, which determines how many On-Demand instances to provision. When the instance fleet launches, Amazon EMR tries to provision On-Demand instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When an On-Demand instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units.  If not specified or set to 0, only Spot instances are provisioned for the instance fleet using TargetSpotCapacity. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1. 
+        public let targetOnDemandCapacity: Int32?
+        /// The target capacity of Spot units for the instance fleet, which determines how many Spot instances to provision. When the instance fleet launches, Amazon EMR tries to provision Spot instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When a Spot instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units.  If not specified or set to 0, only On-Demand instances are provisioned for the instance fleet. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1. 
+        public let targetSpotCapacity: Int32?
+
+        public init(instanceFleetType: InstanceFleetType, instanceTypeConfigs: [InstanceTypeConfig]? = nil, launchSpecifications: InstanceFleetProvisioningSpecifications? = nil, name: String? = nil, targetOnDemandCapacity: Int32? = nil, targetSpotCapacity: Int32? = nil) {
+            self.instanceFleetType = instanceFleetType
+            self.instanceTypeConfigs = instanceTypeConfigs
+            self.launchSpecifications = launchSpecifications
+            self.name = name
+            self.targetOnDemandCapacity = targetOnDemandCapacity
+            self.targetSpotCapacity = targetSpotCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceFleetType = "InstanceFleetType"
+            case instanceTypeConfigs = "InstanceTypeConfigs"
+            case launchSpecifications = "LaunchSpecifications"
+            case name = "Name"
+            case targetOnDemandCapacity = "TargetOnDemandCapacity"
+            case targetSpotCapacity = "TargetSpotCapacity"
+        }
+    }
+
+    public struct InstanceFleetModifyConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceFleetId", required: true, type: .string), 
+            AWSShapeMember(label: "TargetOnDemandCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "TargetSpotCapacity", required: false, type: .integer)
+        ]
+        /// A unique identifier for the instance fleet.
+        public let instanceFleetId: String
+        /// The target capacity of On-Demand units for the instance fleet. For more information see InstanceFleetConfig$TargetOnDemandCapacity.
+        public let targetOnDemandCapacity: Int32?
+        /// The target capacity of Spot units for the instance fleet. For more information, see InstanceFleetConfig$TargetSpotCapacity.
+        public let targetSpotCapacity: Int32?
+
+        public init(instanceFleetId: String, targetOnDemandCapacity: Int32? = nil, targetSpotCapacity: Int32? = nil) {
+            self.instanceFleetId = instanceFleetId
+            self.targetOnDemandCapacity = targetOnDemandCapacity
+            self.targetSpotCapacity = targetSpotCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceFleetId = "InstanceFleetId"
+            case targetOnDemandCapacity = "TargetOnDemandCapacity"
+            case targetSpotCapacity = "TargetSpotCapacity"
+        }
+    }
+
+    public struct InstanceFleetProvisioningSpecifications: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SpotSpecification", required: true, type: .structure)
+        ]
+        /// The launch specification for Spot instances in the fleet, which determines the defined duration and provisioning timeout behavior.
+        public let spotSpecification: SpotProvisioningSpecification
+
+        public init(spotSpecification: SpotProvisioningSpecification) {
+            self.spotSpecification = spotSpecification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case spotSpecification = "SpotSpecification"
+        }
+    }
+
+    public enum InstanceFleetState: String, CustomStringConvertible, Codable {
+        case provisioning = "PROVISIONING"
+        case bootstrapping = "BOOTSTRAPPING"
+        case running = "RUNNING"
+        case resizing = "RESIZING"
+        case suspended = "SUSPENDED"
+        case terminating = "TERMINATING"
+        case terminated = "TERMINATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct InstanceFleetStateChangeReason: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Code", required: false, type: .enum), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
+        ]
+        /// A code corresponding to the reason the state change occurred.
+        public let code: InstanceFleetStateChangeReasonCode?
+        /// An explanatory message.
+        public let message: String?
+
+        public init(code: InstanceFleetStateChangeReasonCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
+    public enum InstanceFleetStateChangeReasonCode: String, CustomStringConvertible, Codable {
+        case internalError = "INTERNAL_ERROR"
+        case validationError = "VALIDATION_ERROR"
+        case instanceFailure = "INSTANCE_FAILURE"
+        case clusterTerminated = "CLUSTER_TERMINATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct InstanceFleetStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "StateChangeReason", required: false, type: .structure), 
+            AWSShapeMember(label: "Timeline", required: false, type: .structure)
+        ]
+        /// A code representing the instance fleet status.    PROVISIONING—The instance fleet is provisioning EC2 resources and is not yet ready to run jobs.    BOOTSTRAPPING—EC2 instances and other resources have been provisioned and the bootstrap actions specified for the instances are underway.    RUNNING—EC2 instances and other resources are running. They are either executing jobs or waiting to execute jobs.    RESIZING—A resize operation is underway. EC2 instances are either being added or removed.    SUSPENDED—A resize operation could not complete. Existing EC2 instances are running, but instances can't be added or removed.    TERMINATING—The instance fleet is terminating EC2 instances.    TERMINATED—The instance fleet is no longer active, and all EC2 instances have been terminated.  
+        public let state: InstanceFleetState?
+        /// Provides status change reason details for the instance fleet.
+        public let stateChangeReason: InstanceFleetStateChangeReason?
+        /// Provides historical timestamps for the instance fleet, including the time of creation, the time it became ready to run jobs, and the time of termination.
+        public let timeline: InstanceFleetTimeline?
+
+        public init(state: InstanceFleetState? = nil, stateChangeReason: InstanceFleetStateChangeReason? = nil, timeline: InstanceFleetTimeline? = nil) {
+            self.state = state
+            self.stateChangeReason = stateChangeReason
+            self.timeline = timeline
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "State"
+            case stateChangeReason = "StateChangeReason"
+            case timeline = "Timeline"
+        }
+    }
+
+    public struct InstanceFleetTimeline: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ReadyDateTime", required: false, type: .timestamp)
+        ]
+        /// The time and date the instance fleet was created.
+        public let creationDateTime: TimeStamp?
+        /// The time and date the instance fleet terminated.
+        public let endDateTime: TimeStamp?
+        /// The time and date the instance fleet was ready to run jobs.
+        public let readyDateTime: TimeStamp?
+
+        public init(creationDateTime: TimeStamp? = nil, endDateTime: TimeStamp? = nil, readyDateTime: TimeStamp? = nil) {
+            self.creationDateTime = creationDateTime
+            self.endDateTime = endDateTime
+            self.readyDateTime = readyDateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "CreationDateTime"
+            case endDateTime = "EndDateTime"
+            case readyDateTime = "ReadyDateTime"
+        }
+    }
+
+    public enum InstanceFleetType: String, CustomStringConvertible, Codable {
+        case master = "MASTER"
+        case core = "CORE"
+        case task = "TASK"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct InstanceGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoScalingPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "BidPrice", required: false, type: .string), 
+            AWSShapeMember(label: "Configurations", required: false, type: .list), 
+            AWSShapeMember(label: "EbsBlockDevices", required: false, type: .list), 
+            AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceGroupType", required: false, type: .enum), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "Market", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "RequestedInstanceCount", required: false, type: .integer), 
+            AWSShapeMember(label: "RunningInstanceCount", required: false, type: .integer), 
+            AWSShapeMember(label: "ShrinkPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "Status", required: false, type: .structure)
+        ]
+        /// An automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates EC2 instances in response to the value of a CloudWatch metric. See PutAutoScalingPolicy.
+        public let autoScalingPolicy: AutoScalingPolicyDescription?
+        /// The maximum Spot price your are willing to pay for EC2 instances. An optional, nullable field that applies if the MarketType for the instance group is specified as SPOT. Specify the maximum spot price in USD. If the value is NULL and SPOT is specified, the maximum Spot price is set equal to the On-Demand price.
+        public let bidPrice: String?
+        ///  Amazon EMR releases 4.x or later.  The list of configurations supplied for an EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
+        public let configurations: [Configuration]?
+        /// The EBS block devices that are mapped to this instance group.
+        public let ebsBlockDevices: [EbsBlockDevice]?
+        /// If the instance group is EBS-optimized. An Amazon EBS-optimized instance uses an optimized configuration stack and provides additional, dedicated capacity for Amazon EBS I/O.
+        public let ebsOptimized: Bool?
+        /// The identifier of the instance group.
+        public let id: String?
+        /// The type of the instance group. Valid values are MASTER, CORE or TASK.
+        public let instanceGroupType: InstanceGroupType?
+        /// The EC2 instance type for all instances in the instance group.
+        public let instanceType: String?
+        /// The marketplace to provision instances for this group. Valid values are ON_DEMAND or SPOT.
+        public let market: MarketType?
+        /// The name of the instance group.
+        public let name: String?
+        /// The target number of instances for the instance group.
+        public let requestedInstanceCount: Int32?
+        /// The number of instances currently running in this instance group.
+        public let runningInstanceCount: Int32?
+        /// Policy for customizing shrink operations.
+        public let shrinkPolicy: ShrinkPolicy?
+        /// The current status of the instance group.
+        public let status: InstanceGroupStatus?
+
+        public init(autoScalingPolicy: AutoScalingPolicyDescription? = nil, bidPrice: String? = nil, configurations: [Configuration]? = nil, ebsBlockDevices: [EbsBlockDevice]? = nil, ebsOptimized: Bool? = nil, id: String? = nil, instanceGroupType: InstanceGroupType? = nil, instanceType: String? = nil, market: MarketType? = nil, name: String? = nil, requestedInstanceCount: Int32? = nil, runningInstanceCount: Int32? = nil, shrinkPolicy: ShrinkPolicy? = nil, status: InstanceGroupStatus? = nil) {
+            self.autoScalingPolicy = autoScalingPolicy
+            self.bidPrice = bidPrice
+            self.configurations = configurations
+            self.ebsBlockDevices = ebsBlockDevices
+            self.ebsOptimized = ebsOptimized
+            self.id = id
+            self.instanceGroupType = instanceGroupType
+            self.instanceType = instanceType
+            self.market = market
+            self.name = name
+            self.requestedInstanceCount = requestedInstanceCount
+            self.runningInstanceCount = runningInstanceCount
+            self.shrinkPolicy = shrinkPolicy
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingPolicy = "AutoScalingPolicy"
+            case bidPrice = "BidPrice"
+            case configurations = "Configurations"
+            case ebsBlockDevices = "EbsBlockDevices"
+            case ebsOptimized = "EbsOptimized"
+            case id = "Id"
+            case instanceGroupType = "InstanceGroupType"
+            case instanceType = "InstanceType"
+            case market = "Market"
+            case name = "Name"
+            case requestedInstanceCount = "RequestedInstanceCount"
+            case runningInstanceCount = "RunningInstanceCount"
+            case shrinkPolicy = "ShrinkPolicy"
+            case status = "Status"
+        }
     }
 
     public struct InstanceGroupConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
-            AWSShapeMember(label: "Configurations", required: false, type: .list), 
-            AWSShapeMember(label: "BidPrice", required: false, type: .string), 
             AWSShapeMember(label: "AutoScalingPolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "InstanceRole", required: true, type: .enum), 
-            AWSShapeMember(label: "InstanceCount", required: true, type: .integer), 
+            AWSShapeMember(label: "BidPrice", required: false, type: .string), 
+            AWSShapeMember(label: "Configurations", required: false, type: .list), 
             AWSShapeMember(label: "EbsConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "InstanceCount", required: true, type: .integer), 
+            AWSShapeMember(label: "InstanceRole", required: true, type: .enum), 
+            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
             AWSShapeMember(label: "Market", required: false, type: .enum), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
-        /// The EC2 instance type for all instances in the instance group.
-        public let instanceType: String
-        ///  Amazon EMR releases 4.x or later.  The list of configurations supplied for an EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
-        public let configurations: [Configuration]?
-        /// The maximum Spot price your are willing to pay for EC2 instances. An optional, nullable field that applies if the MarketType for the instance group is specified as SPOT. Specify the maximum spot price in USD. If the value is NULL and SPOT is specified, the maximum Spot price is set equal to the On-Demand price.
-        public let bidPrice: String?
         /// An automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates EC2 instances in response to the value of a CloudWatch metric. See PutAutoScalingPolicy.
         public let autoScalingPolicy: AutoScalingPolicy?
-        /// The role of the instance group in the cluster.
-        public let instanceRole: InstanceRoleType
-        /// Target number of instances for the instance group.
-        public let instanceCount: Int32
+        /// The maximum Spot price your are willing to pay for EC2 instances. An optional, nullable field that applies if the MarketType for the instance group is specified as SPOT. Specify the maximum spot price in USD. If the value is NULL and SPOT is specified, the maximum Spot price is set equal to the On-Demand price.
+        public let bidPrice: String?
+        ///  Amazon EMR releases 4.x or later.  The list of configurations supplied for an EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
+        public let configurations: [Configuration]?
         /// EBS configurations that will be attached to each EC2 instance in the instance group.
         public let ebsConfiguration: EbsConfiguration?
+        /// Target number of instances for the instance group.
+        public let instanceCount: Int32
+        /// The role of the instance group in the cluster.
+        public let instanceRole: InstanceRoleType
+        /// The EC2 instance type for all instances in the instance group.
+        public let instanceType: String
         /// Market type of the EC2 instances used to create a cluster node.
         public let market: MarketType?
         /// Friendly name given to the instance group.
         public let name: String?
 
-        public init(instanceType: String, configurations: [Configuration]? = nil, bidPrice: String? = nil, autoScalingPolicy: AutoScalingPolicy? = nil, instanceRole: InstanceRoleType, instanceCount: Int32, ebsConfiguration: EbsConfiguration? = nil, market: MarketType? = nil, name: String? = nil) {
-            self.instanceType = instanceType
-            self.configurations = configurations
-            self.bidPrice = bidPrice
+        public init(autoScalingPolicy: AutoScalingPolicy? = nil, bidPrice: String? = nil, configurations: [Configuration]? = nil, ebsConfiguration: EbsConfiguration? = nil, instanceCount: Int32, instanceRole: InstanceRoleType, instanceType: String, market: MarketType? = nil, name: String? = nil) {
             self.autoScalingPolicy = autoScalingPolicy
-            self.instanceRole = instanceRole
-            self.instanceCount = instanceCount
+            self.bidPrice = bidPrice
+            self.configurations = configurations
             self.ebsConfiguration = ebsConfiguration
+            self.instanceCount = instanceCount
+            self.instanceRole = instanceRole
+            self.instanceType = instanceType
             self.market = market
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceType = "InstanceType"
-            case configurations = "Configurations"
-            case bidPrice = "BidPrice"
             case autoScalingPolicy = "AutoScalingPolicy"
-            case instanceRole = "InstanceRole"
-            case instanceCount = "InstanceCount"
+            case bidPrice = "BidPrice"
+            case configurations = "Configurations"
             case ebsConfiguration = "EbsConfiguration"
+            case instanceCount = "InstanceCount"
+            case instanceRole = "InstanceRole"
+            case instanceType = "InstanceType"
             case market = "Market"
             case name = "Name"
+        }
+    }
+
+    public struct InstanceGroupDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BidPrice", required: false, type: .string), 
+            AWSShapeMember(label: "CreationDateTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InstanceGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceRequestCount", required: true, type: .integer), 
+            AWSShapeMember(label: "InstanceRole", required: true, type: .enum), 
+            AWSShapeMember(label: "InstanceRunningCount", required: true, type: .integer), 
+            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
+            AWSShapeMember(label: "LastStateChangeReason", required: false, type: .string), 
+            AWSShapeMember(label: "Market", required: true, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ReadyDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StartDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "State", required: true, type: .enum)
+        ]
+        /// The maximum Spot price your are willing to pay for EC2 instances. An optional, nullable field that applies if the MarketType for the instance group is specified as SPOT. Specified in USD. If the value is NULL and SPOT is specified, the maximum Spot price is set equal to the On-Demand price.
+        public let bidPrice: String?
+        /// The date/time the instance group was created.
+        public let creationDateTime: TimeStamp
+        /// The date/time the instance group was terminated.
+        public let endDateTime: TimeStamp?
+        /// Unique identifier for the instance group.
+        public let instanceGroupId: String?
+        /// Target number of instances to run in the instance group.
+        public let instanceRequestCount: Int32
+        /// Instance group role in the cluster
+        public let instanceRole: InstanceRoleType
+        /// Actual count of running instances.
+        public let instanceRunningCount: Int32
+        /// EC2 instance type.
+        public let instanceType: String
+        /// Details regarding the state of the instance group.
+        public let lastStateChangeReason: String?
+        /// Market type of the EC2 instances used to create a cluster node.
+        public let market: MarketType
+        /// Friendly name for the instance group.
+        public let name: String?
+        /// The date/time the instance group was available to the cluster.
+        public let readyDateTime: TimeStamp?
+        /// The date/time the instance group was started.
+        public let startDateTime: TimeStamp?
+        /// State of instance group. The following values are deprecated: STARTING, TERMINATED, and FAILED.
+        public let state: InstanceGroupState
+
+        public init(bidPrice: String? = nil, creationDateTime: TimeStamp, endDateTime: TimeStamp? = nil, instanceGroupId: String? = nil, instanceRequestCount: Int32, instanceRole: InstanceRoleType, instanceRunningCount: Int32, instanceType: String, lastStateChangeReason: String? = nil, market: MarketType, name: String? = nil, readyDateTime: TimeStamp? = nil, startDateTime: TimeStamp? = nil, state: InstanceGroupState) {
+            self.bidPrice = bidPrice
+            self.creationDateTime = creationDateTime
+            self.endDateTime = endDateTime
+            self.instanceGroupId = instanceGroupId
+            self.instanceRequestCount = instanceRequestCount
+            self.instanceRole = instanceRole
+            self.instanceRunningCount = instanceRunningCount
+            self.instanceType = instanceType
+            self.lastStateChangeReason = lastStateChangeReason
+            self.market = market
+            self.name = name
+            self.readyDateTime = readyDateTime
+            self.startDateTime = startDateTime
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bidPrice = "BidPrice"
+            case creationDateTime = "CreationDateTime"
+            case endDateTime = "EndDateTime"
+            case instanceGroupId = "InstanceGroupId"
+            case instanceRequestCount = "InstanceRequestCount"
+            case instanceRole = "InstanceRole"
+            case instanceRunningCount = "InstanceRunningCount"
+            case instanceType = "InstanceType"
+            case lastStateChangeReason = "LastStateChangeReason"
+            case market = "Market"
+            case name = "Name"
+            case readyDateTime = "ReadyDateTime"
+            case startDateTime = "StartDateTime"
+            case state = "State"
+        }
+    }
+
+    public struct InstanceGroupModifyConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EC2InstanceIdsToTerminate", required: false, type: .list), 
+            AWSShapeMember(label: "InstanceCount", required: false, type: .integer), 
+            AWSShapeMember(label: "InstanceGroupId", required: true, type: .string), 
+            AWSShapeMember(label: "ShrinkPolicy", required: false, type: .structure)
+        ]
+        /// The EC2 InstanceIds to terminate. After you terminate the instances, the instance group will not return to its original requested size.
+        public let eC2InstanceIdsToTerminate: [String]?
+        /// Target size for the instance group.
+        public let instanceCount: Int32?
+        /// Unique ID of the instance group to expand or shrink.
+        public let instanceGroupId: String
+        /// Policy for customizing shrink operations.
+        public let shrinkPolicy: ShrinkPolicy?
+
+        public init(eC2InstanceIdsToTerminate: [String]? = nil, instanceCount: Int32? = nil, instanceGroupId: String, shrinkPolicy: ShrinkPolicy? = nil) {
+            self.eC2InstanceIdsToTerminate = eC2InstanceIdsToTerminate
+            self.instanceCount = instanceCount
+            self.instanceGroupId = instanceGroupId
+            self.shrinkPolicy = shrinkPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eC2InstanceIdsToTerminate = "EC2InstanceIdsToTerminate"
+            case instanceCount = "InstanceCount"
+            case instanceGroupId = "InstanceGroupId"
+            case shrinkPolicy = "ShrinkPolicy"
+        }
+    }
+
+    public enum InstanceGroupState: String, CustomStringConvertible, Codable {
+        case provisioning = "PROVISIONING"
+        case bootstrapping = "BOOTSTRAPPING"
+        case running = "RUNNING"
+        case resizing = "RESIZING"
+        case suspended = "SUSPENDED"
+        case terminating = "TERMINATING"
+        case terminated = "TERMINATED"
+        case arrested = "ARRESTED"
+        case shuttingDown = "SHUTTING_DOWN"
+        case ended = "ENDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct InstanceGroupStateChangeReason: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Code", required: false, type: .enum), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
+        ]
+        /// The programmable code for the state change reason.
+        public let code: InstanceGroupStateChangeReasonCode?
+        /// The status change reason description.
+        public let message: String?
+
+        public init(code: InstanceGroupStateChangeReasonCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
+    public enum InstanceGroupStateChangeReasonCode: String, CustomStringConvertible, Codable {
+        case internalError = "INTERNAL_ERROR"
+        case validationError = "VALIDATION_ERROR"
+        case instanceFailure = "INSTANCE_FAILURE"
+        case clusterTerminated = "CLUSTER_TERMINATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct InstanceGroupStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "StateChangeReason", required: false, type: .structure), 
+            AWSShapeMember(label: "Timeline", required: false, type: .structure)
+        ]
+        /// The current state of the instance group.
+        public let state: InstanceGroupState?
+        /// The status change reason details for the instance group.
+        public let stateChangeReason: InstanceGroupStateChangeReason?
+        /// The timeline of the instance group status over time.
+        public let timeline: InstanceGroupTimeline?
+
+        public init(state: InstanceGroupState? = nil, stateChangeReason: InstanceGroupStateChangeReason? = nil, timeline: InstanceGroupTimeline? = nil) {
+            self.state = state
+            self.stateChangeReason = stateChangeReason
+            self.timeline = timeline
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "State"
+            case stateChangeReason = "StateChangeReason"
+            case timeline = "Timeline"
+        }
+    }
+
+    public struct InstanceGroupTimeline: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ReadyDateTime", required: false, type: .timestamp)
+        ]
+        /// The creation date and time of the instance group.
+        public let creationDateTime: TimeStamp?
+        /// The date and time when the instance group terminated.
+        public let endDateTime: TimeStamp?
+        /// The date and time when the instance group became ready to perform tasks.
+        public let readyDateTime: TimeStamp?
+
+        public init(creationDateTime: TimeStamp? = nil, endDateTime: TimeStamp? = nil, readyDateTime: TimeStamp? = nil) {
+            self.creationDateTime = creationDateTime
+            self.endDateTime = endDateTime
+            self.readyDateTime = readyDateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "CreationDateTime"
+            case endDateTime = "EndDateTime"
+            case readyDateTime = "ReadyDateTime"
+        }
+    }
+
+    public enum InstanceGroupType: String, CustomStringConvertible, Codable {
+        case master = "MASTER"
+        case core = "CORE"
+        case task = "TASK"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct InstanceResizePolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceTerminationTimeout", required: false, type: .integer), 
+            AWSShapeMember(label: "InstancesToProtect", required: false, type: .list), 
+            AWSShapeMember(label: "InstancesToTerminate", required: false, type: .list)
+        ]
+        /// Decommissioning timeout override for the specific list of instances to be terminated.
+        public let instanceTerminationTimeout: Int32?
+        /// Specific list of instances to be protected when shrinking an instance group.
+        public let instancesToProtect: [String]?
+        /// Specific list of instances to be terminated when shrinking an instance group.
+        public let instancesToTerminate: [String]?
+
+        public init(instanceTerminationTimeout: Int32? = nil, instancesToProtect: [String]? = nil, instancesToTerminate: [String]? = nil) {
+            self.instanceTerminationTimeout = instanceTerminationTimeout
+            self.instancesToProtect = instancesToProtect
+            self.instancesToTerminate = instancesToTerminate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceTerminationTimeout = "InstanceTerminationTimeout"
+            case instancesToProtect = "InstancesToProtect"
+            case instancesToTerminate = "InstancesToTerminate"
+        }
+    }
+
+    public enum InstanceRoleType: String, CustomStringConvertible, Codable {
+        case master = "MASTER"
+        case core = "CORE"
+        case task = "TASK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceState: String, CustomStringConvertible, Codable {
+        case awaitingFulfillment = "AWAITING_FULFILLMENT"
+        case provisioning = "PROVISIONING"
+        case bootstrapping = "BOOTSTRAPPING"
+        case running = "RUNNING"
+        case terminated = "TERMINATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct InstanceStateChangeReason: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Code", required: false, type: .enum), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
+        ]
+        /// The programmable code for the state change reason.
+        public let code: InstanceStateChangeReasonCode?
+        /// The status change reason description.
+        public let message: String?
+
+        public init(code: InstanceStateChangeReasonCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
+    public enum InstanceStateChangeReasonCode: String, CustomStringConvertible, Codable {
+        case internalError = "INTERNAL_ERROR"
+        case validationError = "VALIDATION_ERROR"
+        case instanceFailure = "INSTANCE_FAILURE"
+        case bootstrapFailure = "BOOTSTRAP_FAILURE"
+        case clusterTerminated = "CLUSTER_TERMINATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct InstanceStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "StateChangeReason", required: false, type: .structure), 
+            AWSShapeMember(label: "Timeline", required: false, type: .structure)
+        ]
+        /// The current state of the instance.
+        public let state: InstanceState?
+        /// The details of the status change reason for the instance.
+        public let stateChangeReason: InstanceStateChangeReason?
+        /// The timeline of the instance status over time.
+        public let timeline: InstanceTimeline?
+
+        public init(state: InstanceState? = nil, stateChangeReason: InstanceStateChangeReason? = nil, timeline: InstanceTimeline? = nil) {
+            self.state = state
+            self.stateChangeReason = stateChangeReason
+            self.timeline = timeline
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "State"
+            case stateChangeReason = "StateChangeReason"
+            case timeline = "Timeline"
+        }
+    }
+
+    public struct InstanceTimeline: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ReadyDateTime", required: false, type: .timestamp)
+        ]
+        /// The creation date and time of the instance.
+        public let creationDateTime: TimeStamp?
+        /// The date and time when the instance was terminated.
+        public let endDateTime: TimeStamp?
+        /// The date and time when the instance was ready to perform tasks.
+        public let readyDateTime: TimeStamp?
+
+        public init(creationDateTime: TimeStamp? = nil, endDateTime: TimeStamp? = nil, readyDateTime: TimeStamp? = nil) {
+            self.creationDateTime = creationDateTime
+            self.endDateTime = endDateTime
+            self.readyDateTime = readyDateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "CreationDateTime"
+            case endDateTime = "EndDateTime"
+            case readyDateTime = "ReadyDateTime"
+        }
+    }
+
+    public struct InstanceTypeConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BidPrice", required: false, type: .string), 
+            AWSShapeMember(label: "BidPriceAsPercentageOfOnDemandPrice", required: false, type: .double), 
+            AWSShapeMember(label: "Configurations", required: false, type: .list), 
+            AWSShapeMember(label: "EbsConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
+            AWSShapeMember(label: "WeightedCapacity", required: false, type: .integer)
+        ]
+        /// The bid price for each EC2 Spot instance type as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%. 
+        public let bidPrice: String?
+        /// The bid price, as a percentage of On-Demand price, for each EC2 Spot instance as defined by InstanceType. Expressed as a number (for example, 20 specifies 20%). If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
+        public let bidPriceAsPercentageOfOnDemandPrice: Double?
+        /// A configuration classification that applies when provisioning cluster instances, which can include configurations for applications and software that run on the cluster.
+        public let configurations: [Configuration]?
+        /// The configuration of Amazon Elastic Block Storage (EBS) attached to each instance as defined by InstanceType. 
+        public let ebsConfiguration: EbsConfiguration?
+        /// An EC2 instance type, such as m3.xlarge. 
+        public let instanceType: String
+        /// The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in InstanceFleetConfig. This value is 1 for a master instance fleet, and must be 1 or greater for core and task instance fleets. Defaults to 1 if not specified. 
+        public let weightedCapacity: Int32?
+
+        public init(bidPrice: String? = nil, bidPriceAsPercentageOfOnDemandPrice: Double? = nil, configurations: [Configuration]? = nil, ebsConfiguration: EbsConfiguration? = nil, instanceType: String, weightedCapacity: Int32? = nil) {
+            self.bidPrice = bidPrice
+            self.bidPriceAsPercentageOfOnDemandPrice = bidPriceAsPercentageOfOnDemandPrice
+            self.configurations = configurations
+            self.ebsConfiguration = ebsConfiguration
+            self.instanceType = instanceType
+            self.weightedCapacity = weightedCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bidPrice = "BidPrice"
+            case bidPriceAsPercentageOfOnDemandPrice = "BidPriceAsPercentageOfOnDemandPrice"
+            case configurations = "Configurations"
+            case ebsConfiguration = "EbsConfiguration"
+            case instanceType = "InstanceType"
+            case weightedCapacity = "WeightedCapacity"
+        }
+    }
+
+    public struct InstanceTypeSpecification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BidPrice", required: false, type: .string), 
+            AWSShapeMember(label: "BidPriceAsPercentageOfOnDemandPrice", required: false, type: .double), 
+            AWSShapeMember(label: "Configurations", required: false, type: .list), 
+            AWSShapeMember(label: "EbsBlockDevices", required: false, type: .list), 
+            AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "WeightedCapacity", required: false, type: .integer)
+        ]
+        /// The bid price for each EC2 Spot instance type as defined by InstanceType. Expressed in USD.
+        public let bidPrice: String?
+        /// The bid price, as a percentage of On-Demand price, for each EC2 Spot instance as defined by InstanceType. Expressed as a number (for example, 20 specifies 20%).
+        public let bidPriceAsPercentageOfOnDemandPrice: Double?
+        /// A configuration classification that applies when provisioning cluster instances, which can include configurations for applications and software bundled with Amazon EMR.
+        public let configurations: [Configuration]?
+        /// The configuration of Amazon Elastic Block Storage (EBS) attached to each instance as defined by InstanceType.
+        public let ebsBlockDevices: [EbsBlockDevice]?
+        /// Evaluates to TRUE when the specified InstanceType is EBS-optimized.
+        public let ebsOptimized: Bool?
+        /// The EC2 instance type, for example m3.xlarge.
+        public let instanceType: String?
+        /// The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in InstanceFleetConfig. Capacity values represent performance characteristics such as vCPUs, memory, or I/O. If not specified, the default value is 1.
+        public let weightedCapacity: Int32?
+
+        public init(bidPrice: String? = nil, bidPriceAsPercentageOfOnDemandPrice: Double? = nil, configurations: [Configuration]? = nil, ebsBlockDevices: [EbsBlockDevice]? = nil, ebsOptimized: Bool? = nil, instanceType: String? = nil, weightedCapacity: Int32? = nil) {
+            self.bidPrice = bidPrice
+            self.bidPriceAsPercentageOfOnDemandPrice = bidPriceAsPercentageOfOnDemandPrice
+            self.configurations = configurations
+            self.ebsBlockDevices = ebsBlockDevices
+            self.ebsOptimized = ebsOptimized
+            self.instanceType = instanceType
+            self.weightedCapacity = weightedCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bidPrice = "BidPrice"
+            case bidPriceAsPercentageOfOnDemandPrice = "BidPriceAsPercentageOfOnDemandPrice"
+            case configurations = "Configurations"
+            case ebsBlockDevices = "EbsBlockDevices"
+            case ebsOptimized = "EbsOptimized"
+            case instanceType = "InstanceType"
+            case weightedCapacity = "WeightedCapacity"
+        }
+    }
+
+    public struct JobFlowDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmiVersion", required: false, type: .string), 
+            AWSShapeMember(label: "AutoScalingRole", required: false, type: .string), 
+            AWSShapeMember(label: "BootstrapActions", required: false, type: .list), 
+            AWSShapeMember(label: "ExecutionStatusDetail", required: true, type: .structure), 
+            AWSShapeMember(label: "Instances", required: true, type: .structure), 
+            AWSShapeMember(label: "JobFlowId", required: true, type: .string), 
+            AWSShapeMember(label: "JobFlowRole", required: false, type: .string), 
+            AWSShapeMember(label: "LogUri", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "ScaleDownBehavior", required: false, type: .enum), 
+            AWSShapeMember(label: "ServiceRole", required: false, type: .string), 
+            AWSShapeMember(label: "Steps", required: false, type: .list), 
+            AWSShapeMember(label: "SupportedProducts", required: false, type: .list), 
+            AWSShapeMember(label: "VisibleToAllUsers", required: false, type: .boolean)
+        ]
+        /// Applies only to Amazon EMR AMI versions 3.x and 2.x. For Amazon EMR releases 4.0 and later, ReleaseLabel is used. To specify a custom AMI, use CustomAmiID.
+        public let amiVersion: String?
+        /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides a way for the automatic scaling feature to get the required permissions it needs to launch and terminate EC2 instances in an instance group.
+        public let autoScalingRole: String?
+        /// A list of the bootstrap actions run by the job flow.
+        public let bootstrapActions: [BootstrapActionDetail]?
+        /// Describes the execution status of the job flow.
+        public let executionStatusDetail: JobFlowExecutionStatusDetail
+        /// Describes the Amazon EC2 instances of the job flow.
+        public let instances: JobFlowInstancesDetail
+        /// The job flow identifier.
+        public let jobFlowId: String
+        /// The IAM role that was specified when the job flow was launched. The EC2 instances of the job flow assume this role.
+        public let jobFlowRole: String?
+        /// The location in Amazon S3 where log files for the job are stored.
+        public let logUri: String?
+        /// The name of the job flow.
+        public let name: String
+        /// The way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour boundary, regardless of when the request to terminate the instance was submitted. This option is only available with Amazon EMR 5.1.0 and later and is the default for clusters created using that version. TERMINATE_AT_TASK_COMPLETION indicates that Amazon EMR blacklists and drains tasks from nodes before terminating the Amazon EC2 instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR removes the least active nodes first and blocks instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION available only in Amazon EMR version 4.1.0 and later, and is the default for versions of Amazon EMR earlier than 5.1.0.
+        public let scaleDownBehavior: ScaleDownBehavior?
+        /// The IAM role that will be assumed by the Amazon EMR service to access AWS resources on your behalf.
+        public let serviceRole: String?
+        /// A list of steps run by the job flow.
+        public let steps: [StepDetail]?
+        /// A list of strings set by third party software when the job flow is launched. If you are not using third party software to manage the job flow this value is empty.
+        public let supportedProducts: [String]?
+        /// Specifies whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and (if they have the proper policy permissions set) manage the cluster. If it is set to false, only the IAM user that created the cluster can view and manage it. This value can be changed using the SetVisibleToAllUsers action.
+        public let visibleToAllUsers: Bool?
+
+        public init(amiVersion: String? = nil, autoScalingRole: String? = nil, bootstrapActions: [BootstrapActionDetail]? = nil, executionStatusDetail: JobFlowExecutionStatusDetail, instances: JobFlowInstancesDetail, jobFlowId: String, jobFlowRole: String? = nil, logUri: String? = nil, name: String, scaleDownBehavior: ScaleDownBehavior? = nil, serviceRole: String? = nil, steps: [StepDetail]? = nil, supportedProducts: [String]? = nil, visibleToAllUsers: Bool? = nil) {
+            self.amiVersion = amiVersion
+            self.autoScalingRole = autoScalingRole
+            self.bootstrapActions = bootstrapActions
+            self.executionStatusDetail = executionStatusDetail
+            self.instances = instances
+            self.jobFlowId = jobFlowId
+            self.jobFlowRole = jobFlowRole
+            self.logUri = logUri
+            self.name = name
+            self.scaleDownBehavior = scaleDownBehavior
+            self.serviceRole = serviceRole
+            self.steps = steps
+            self.supportedProducts = supportedProducts
+            self.visibleToAllUsers = visibleToAllUsers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amiVersion = "AmiVersion"
+            case autoScalingRole = "AutoScalingRole"
+            case bootstrapActions = "BootstrapActions"
+            case executionStatusDetail = "ExecutionStatusDetail"
+            case instances = "Instances"
+            case jobFlowId = "JobFlowId"
+            case jobFlowRole = "JobFlowRole"
+            case logUri = "LogUri"
+            case name = "Name"
+            case scaleDownBehavior = "ScaleDownBehavior"
+            case serviceRole = "ServiceRole"
+            case steps = "Steps"
+            case supportedProducts = "SupportedProducts"
+            case visibleToAllUsers = "VisibleToAllUsers"
+        }
+    }
+
+    public enum JobFlowExecutionState: String, CustomStringConvertible, Codable {
+        case starting = "STARTING"
+        case bootstrapping = "BOOTSTRAPPING"
+        case running = "RUNNING"
+        case waiting = "WAITING"
+        case shuttingDown = "SHUTTING_DOWN"
+        case terminated = "TERMINATED"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct JobFlowExecutionStatusDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationDateTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastStateChangeReason", required: false, type: .string), 
+            AWSShapeMember(label: "ReadyDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StartDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "State", required: true, type: .enum)
+        ]
+        /// The creation date and time of the job flow.
+        public let creationDateTime: TimeStamp
+        /// The completion date and time of the job flow.
+        public let endDateTime: TimeStamp?
+        /// Description of the job flow last changed state.
+        public let lastStateChangeReason: String?
+        /// The date and time when the job flow was ready to start running bootstrap actions.
+        public let readyDateTime: TimeStamp?
+        /// The start date and time of the job flow.
+        public let startDateTime: TimeStamp?
+        /// The state of the job flow.
+        public let state: JobFlowExecutionState
+
+        public init(creationDateTime: TimeStamp, endDateTime: TimeStamp? = nil, lastStateChangeReason: String? = nil, readyDateTime: TimeStamp? = nil, startDateTime: TimeStamp? = nil, state: JobFlowExecutionState) {
+            self.creationDateTime = creationDateTime
+            self.endDateTime = endDateTime
+            self.lastStateChangeReason = lastStateChangeReason
+            self.readyDateTime = readyDateTime
+            self.startDateTime = startDateTime
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "CreationDateTime"
+            case endDateTime = "EndDateTime"
+            case lastStateChangeReason = "LastStateChangeReason"
+            case readyDateTime = "ReadyDateTime"
+            case startDateTime = "StartDateTime"
+            case state = "State"
+        }
+    }
+
+    public struct JobFlowInstancesConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdditionalMasterSecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "AdditionalSlaveSecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "Ec2KeyName", required: false, type: .string), 
+            AWSShapeMember(label: "Ec2SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "Ec2SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "EmrManagedMasterSecurityGroup", required: false, type: .string), 
+            AWSShapeMember(label: "EmrManagedSlaveSecurityGroup", required: false, type: .string), 
+            AWSShapeMember(label: "HadoopVersion", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceCount", required: false, type: .integer), 
+            AWSShapeMember(label: "InstanceFleets", required: false, type: .list), 
+            AWSShapeMember(label: "InstanceGroups", required: false, type: .list), 
+            AWSShapeMember(label: "KeepJobFlowAliveWhenNoSteps", required: false, type: .boolean), 
+            AWSShapeMember(label: "MasterInstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "Placement", required: false, type: .structure), 
+            AWSShapeMember(label: "ServiceAccessSecurityGroup", required: false, type: .string), 
+            AWSShapeMember(label: "SlaveInstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "TerminationProtected", required: false, type: .boolean)
+        ]
+        /// A list of additional Amazon EC2 security group IDs for the master node.
+        public let additionalMasterSecurityGroups: [String]?
+        /// A list of additional Amazon EC2 security group IDs for the slave nodes.
+        public let additionalSlaveSecurityGroups: [String]?
+        /// The name of the EC2 key pair that can be used to ssh to the master node as the user called "hadoop."
+        public let ec2KeyName: String?
+        /// Applies to clusters that use the uniform instance group configuration. To launch the cluster in Amazon Virtual Private Cloud (Amazon VPC), set this parameter to the identifier of the Amazon VPC subnet where you want the cluster to launch. If you do not specify this value, the cluster launches in the normal Amazon Web Services cloud, outside of an Amazon VPC, if the account launching the cluster supports EC2 Classic networks in the region where the cluster launches. Amazon VPC currently does not support cluster compute quadruple extra large (cc1.4xlarge) instances. Thus you cannot specify the cc1.4xlarge instance type for clusters launched in an Amazon VPC.
+        public let ec2SubnetId: String?
+        /// Applies to clusters that use the instance fleet configuration. When multiple EC2 subnet IDs are specified, Amazon EMR evaluates them and launches instances in the optimal subnet.  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. 
+        public let ec2SubnetIds: [String]?
+        /// The identifier of the Amazon EC2 security group for the master node.
+        public let emrManagedMasterSecurityGroup: String?
+        /// The identifier of the Amazon EC2 security group for the slave nodes.
+        public let emrManagedSlaveSecurityGroup: String?
+        /// Applies only to Amazon EMR release versions earlier than 4.0. The Hadoop version for the cluster. Valid inputs are "0.18" (deprecated), "0.20" (deprecated), "0.20.205" (deprecated), "1.0.3", "2.2.0", or "2.4.0". If you do not set this value, the default of 0.18 is used, unless the AmiVersion parameter is set in the RunJobFlow call, in which case the default version of Hadoop for that AMI version is used.
+        public let hadoopVersion: String?
+        /// The number of EC2 instances in the cluster.
+        public let instanceCount: Int32?
+        ///  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions.  Describes the EC2 instances and instance configurations for clusters that use the instance fleet configuration.
+        public let instanceFleets: [InstanceFleetConfig]?
+        /// Configuration for the instance groups in a cluster.
+        public let instanceGroups: [InstanceGroupConfig]?
+        /// Specifies whether the cluster should remain available after completing all steps.
+        public let keepJobFlowAliveWhenNoSteps: Bool?
+        /// The EC2 instance type of the master node.
+        public let masterInstanceType: String?
+        /// The Availability Zone in which the cluster runs.
+        public let placement: PlacementType?
+        /// The identifier of the Amazon EC2 security group for the Amazon EMR service to access clusters in VPC private subnets.
+        public let serviceAccessSecurityGroup: String?
+        /// The EC2 instance type of the slave nodes.
+        public let slaveInstanceType: String?
+        /// Specifies whether to lock the cluster to prevent the Amazon EC2 instances from being terminated by API call, user intervention, or in the event of a job-flow error.
+        public let terminationProtected: Bool?
+
+        public init(additionalMasterSecurityGroups: [String]? = nil, additionalSlaveSecurityGroups: [String]? = nil, ec2KeyName: String? = nil, ec2SubnetId: String? = nil, ec2SubnetIds: [String]? = nil, emrManagedMasterSecurityGroup: String? = nil, emrManagedSlaveSecurityGroup: String? = nil, hadoopVersion: String? = nil, instanceCount: Int32? = nil, instanceFleets: [InstanceFleetConfig]? = nil, instanceGroups: [InstanceGroupConfig]? = nil, keepJobFlowAliveWhenNoSteps: Bool? = nil, masterInstanceType: String? = nil, placement: PlacementType? = nil, serviceAccessSecurityGroup: String? = nil, slaveInstanceType: String? = nil, terminationProtected: Bool? = nil) {
+            self.additionalMasterSecurityGroups = additionalMasterSecurityGroups
+            self.additionalSlaveSecurityGroups = additionalSlaveSecurityGroups
+            self.ec2KeyName = ec2KeyName
+            self.ec2SubnetId = ec2SubnetId
+            self.ec2SubnetIds = ec2SubnetIds
+            self.emrManagedMasterSecurityGroup = emrManagedMasterSecurityGroup
+            self.emrManagedSlaveSecurityGroup = emrManagedSlaveSecurityGroup
+            self.hadoopVersion = hadoopVersion
+            self.instanceCount = instanceCount
+            self.instanceFleets = instanceFleets
+            self.instanceGroups = instanceGroups
+            self.keepJobFlowAliveWhenNoSteps = keepJobFlowAliveWhenNoSteps
+            self.masterInstanceType = masterInstanceType
+            self.placement = placement
+            self.serviceAccessSecurityGroup = serviceAccessSecurityGroup
+            self.slaveInstanceType = slaveInstanceType
+            self.terminationProtected = terminationProtected
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalMasterSecurityGroups = "AdditionalMasterSecurityGroups"
+            case additionalSlaveSecurityGroups = "AdditionalSlaveSecurityGroups"
+            case ec2KeyName = "Ec2KeyName"
+            case ec2SubnetId = "Ec2SubnetId"
+            case ec2SubnetIds = "Ec2SubnetIds"
+            case emrManagedMasterSecurityGroup = "EmrManagedMasterSecurityGroup"
+            case emrManagedSlaveSecurityGroup = "EmrManagedSlaveSecurityGroup"
+            case hadoopVersion = "HadoopVersion"
+            case instanceCount = "InstanceCount"
+            case instanceFleets = "InstanceFleets"
+            case instanceGroups = "InstanceGroups"
+            case keepJobFlowAliveWhenNoSteps = "KeepJobFlowAliveWhenNoSteps"
+            case masterInstanceType = "MasterInstanceType"
+            case placement = "Placement"
+            case serviceAccessSecurityGroup = "ServiceAccessSecurityGroup"
+            case slaveInstanceType = "SlaveInstanceType"
+            case terminationProtected = "TerminationProtected"
+        }
+    }
+
+    public struct JobFlowInstancesDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Ec2KeyName", required: false, type: .string), 
+            AWSShapeMember(label: "Ec2SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "HadoopVersion", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceCount", required: true, type: .integer), 
+            AWSShapeMember(label: "InstanceGroups", required: false, type: .list), 
+            AWSShapeMember(label: "KeepJobFlowAliveWhenNoSteps", required: false, type: .boolean), 
+            AWSShapeMember(label: "MasterInstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "MasterInstanceType", required: true, type: .string), 
+            AWSShapeMember(label: "MasterPublicDnsName", required: false, type: .string), 
+            AWSShapeMember(label: "NormalizedInstanceHours", required: false, type: .integer), 
+            AWSShapeMember(label: "Placement", required: false, type: .structure), 
+            AWSShapeMember(label: "SlaveInstanceType", required: true, type: .string), 
+            AWSShapeMember(label: "TerminationProtected", required: false, type: .boolean)
+        ]
+        /// The name of an Amazon EC2 key pair that can be used to ssh to the master node.
+        public let ec2KeyName: String?
+        /// For clusters launched within Amazon Virtual Private Cloud, this is the identifier of the subnet where the cluster was launched.
+        public let ec2SubnetId: String?
+        /// The Hadoop version for the cluster.
+        public let hadoopVersion: String?
+        /// The number of Amazon EC2 instances in the cluster. If the value is 1, the same instance serves as both the master and slave node. If the value is greater than 1, one instance is the master node and all others are slave nodes.
+        public let instanceCount: Int32
+        /// Details about the instance groups in a cluster.
+        public let instanceGroups: [InstanceGroupDetail]?
+        /// Specifies whether the cluster should remain available after completing all steps.
+        public let keepJobFlowAliveWhenNoSteps: Bool?
+        /// The Amazon EC2 instance identifier of the master node.
+        public let masterInstanceId: String?
+        /// The Amazon EC2 master node instance type.
+        public let masterInstanceType: String
+        /// The DNS name of the master node. If the cluster is on a private subnet, this is the private DNS name. On a public subnet, this is the public DNS name.
+        public let masterPublicDnsName: String?
+        /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour that an m1.small runs. Larger instances are weighted more, so an Amazon EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
+        public let normalizedInstanceHours: Int32?
+        /// The Amazon EC2 Availability Zone for the cluster.
+        public let placement: PlacementType?
+        /// The Amazon EC2 slave node instance type.
+        public let slaveInstanceType: String
+        /// Specifies whether the Amazon EC2 instances in the cluster are protected from termination by API calls, user intervention, or in the event of a job-flow error.
+        public let terminationProtected: Bool?
+
+        public init(ec2KeyName: String? = nil, ec2SubnetId: String? = nil, hadoopVersion: String? = nil, instanceCount: Int32, instanceGroups: [InstanceGroupDetail]? = nil, keepJobFlowAliveWhenNoSteps: Bool? = nil, masterInstanceId: String? = nil, masterInstanceType: String, masterPublicDnsName: String? = nil, normalizedInstanceHours: Int32? = nil, placement: PlacementType? = nil, slaveInstanceType: String, terminationProtected: Bool? = nil) {
+            self.ec2KeyName = ec2KeyName
+            self.ec2SubnetId = ec2SubnetId
+            self.hadoopVersion = hadoopVersion
+            self.instanceCount = instanceCount
+            self.instanceGroups = instanceGroups
+            self.keepJobFlowAliveWhenNoSteps = keepJobFlowAliveWhenNoSteps
+            self.masterInstanceId = masterInstanceId
+            self.masterInstanceType = masterInstanceType
+            self.masterPublicDnsName = masterPublicDnsName
+            self.normalizedInstanceHours = normalizedInstanceHours
+            self.placement = placement
+            self.slaveInstanceType = slaveInstanceType
+            self.terminationProtected = terminationProtected
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ec2KeyName = "Ec2KeyName"
+            case ec2SubnetId = "Ec2SubnetId"
+            case hadoopVersion = "HadoopVersion"
+            case instanceCount = "InstanceCount"
+            case instanceGroups = "InstanceGroups"
+            case keepJobFlowAliveWhenNoSteps = "KeepJobFlowAliveWhenNoSteps"
+            case masterInstanceId = "MasterInstanceId"
+            case masterInstanceType = "MasterInstanceType"
+            case masterPublicDnsName = "MasterPublicDnsName"
+            case normalizedInstanceHours = "NormalizedInstanceHours"
+            case placement = "Placement"
+            case slaveInstanceType = "SlaveInstanceType"
+            case terminationProtected = "TerminationProtected"
+        }
+    }
+
+    public struct KerberosAttributes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ADDomainJoinPassword", required: false, type: .string), 
+            AWSShapeMember(label: "ADDomainJoinUser", required: false, type: .string), 
+            AWSShapeMember(label: "CrossRealmTrustPrincipalPassword", required: false, type: .string), 
+            AWSShapeMember(label: "KdcAdminPassword", required: true, type: .string), 
+            AWSShapeMember(label: "Realm", required: true, type: .string)
+        ]
+        /// The Active Directory password for ADDomainJoinUser.
+        public let aDDomainJoinPassword: String?
+        /// Required only when establishing a cross-realm trust with an Active Directory domain. A user with sufficient privileges to join resources to the domain.
+        public let aDDomainJoinUser: String?
+        /// Required only when establishing a cross-realm trust with a KDC in a different realm. The cross-realm principal password, which must be identical across realms.
+        public let crossRealmTrustPrincipalPassword: String?
+        /// The password used within the cluster for the kadmin service on the cluster-dedicated KDC, which maintains Kerberos principals, password policies, and keytabs for the cluster.
+        public let kdcAdminPassword: String
+        /// The name of the Kerberos realm to which all nodes in a cluster belong. For example, EC2.INTERNAL. 
+        public let realm: String
+
+        public init(aDDomainJoinPassword: String? = nil, aDDomainJoinUser: String? = nil, crossRealmTrustPrincipalPassword: String? = nil, kdcAdminPassword: String, realm: String) {
+            self.aDDomainJoinPassword = aDDomainJoinPassword
+            self.aDDomainJoinUser = aDDomainJoinUser
+            self.crossRealmTrustPrincipalPassword = crossRealmTrustPrincipalPassword
+            self.kdcAdminPassword = kdcAdminPassword
+            self.realm = realm
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aDDomainJoinPassword = "ADDomainJoinPassword"
+            case aDDomainJoinUser = "ADDomainJoinUser"
+            case crossRealmTrustPrincipalPassword = "CrossRealmTrustPrincipalPassword"
+            case kdcAdminPassword = "KdcAdminPassword"
+            case realm = "Realm"
+        }
+    }
+
+    public struct KeyValue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The unique identifier of a key value pair.
+        public let key: String?
+        /// The value part of the identified key.
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct ListBootstrapActionsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// The cluster identifier for the bootstrap actions to list.
+        public let clusterId: String
+        /// The pagination token that indicates the next set of results to retrieve.
+        public let marker: String?
+
+        public init(clusterId: String, marker: String? = nil) {
+            self.clusterId = clusterId
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+            case marker = "Marker"
+        }
+    }
+
+    public struct ListBootstrapActionsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BootstrapActions", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// The bootstrap actions associated with the cluster.
+        public let bootstrapActions: [Command]?
+        /// The pagination token that indicates the next set of results to retrieve.
+        public let marker: String?
+
+        public init(bootstrapActions: [Command]? = nil, marker: String? = nil) {
+            self.bootstrapActions = bootstrapActions
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bootstrapActions = "BootstrapActions"
+            case marker = "Marker"
+        }
+    }
+
+    public struct ListClustersInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterStates", required: false, type: .list), 
+            AWSShapeMember(label: "CreatedAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreatedBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// The cluster state filters to apply when listing clusters.
+        public let clusterStates: [ClusterState]?
+        /// The creation date and time beginning value filter for listing clusters.
+        public let createdAfter: TimeStamp?
+        /// The creation date and time end value filter for listing clusters.
+        public let createdBefore: TimeStamp?
+        /// The pagination token that indicates the next set of results to retrieve.
+        public let marker: String?
+
+        public init(clusterStates: [ClusterState]? = nil, createdAfter: TimeStamp? = nil, createdBefore: TimeStamp? = nil, marker: String? = nil) {
+            self.clusterStates = clusterStates
+            self.createdAfter = createdAfter
+            self.createdBefore = createdBefore
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterStates = "ClusterStates"
+            case createdAfter = "CreatedAfter"
+            case createdBefore = "CreatedBefore"
+            case marker = "Marker"
+        }
+    }
+
+    public struct ListClustersOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Clusters", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// The list of clusters for the account based on the given filters.
+        public let clusters: [ClusterSummary]?
+        /// The pagination token that indicates the next set of results to retrieve.
+        public let marker: String?
+
+        public init(clusters: [ClusterSummary]? = nil, marker: String? = nil) {
+            self.clusters = clusters
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusters = "Clusters"
+            case marker = "Marker"
+        }
+    }
+
+    public struct ListInstanceFleetsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// The unique identifier of the cluster.
+        public let clusterId: String
+        /// The pagination token that indicates the next set of results to retrieve.
+        public let marker: String?
+
+        public init(clusterId: String, marker: String? = nil) {
+            self.clusterId = clusterId
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+            case marker = "Marker"
+        }
+    }
+
+    public struct ListInstanceFleetsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceFleets", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// The list of instance fleets for the cluster and given filters.
+        public let instanceFleets: [InstanceFleet]?
+        /// The pagination token that indicates the next set of results to retrieve.
+        public let marker: String?
+
+        public init(instanceFleets: [InstanceFleet]? = nil, marker: String? = nil) {
+            self.instanceFleets = instanceFleets
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceFleets = "InstanceFleets"
+            case marker = "Marker"
+        }
+    }
+
+    public struct ListInstanceGroupsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// The identifier of the cluster for which to list the instance groups.
+        public let clusterId: String
+        /// The pagination token that indicates the next set of results to retrieve.
+        public let marker: String?
+
+        public init(clusterId: String, marker: String? = nil) {
+            self.clusterId = clusterId
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+            case marker = "Marker"
+        }
+    }
+
+    public struct ListInstanceGroupsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceGroups", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// The list of instance groups for the cluster and given filters.
+        public let instanceGroups: [InstanceGroup]?
+        /// The pagination token that indicates the next set of results to retrieve.
+        public let marker: String?
+
+        public init(instanceGroups: [InstanceGroup]? = nil, marker: String? = nil) {
+            self.instanceGroups = instanceGroups
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceGroups = "InstanceGroups"
+            case marker = "Marker"
+        }
+    }
+
+    public struct ListInstancesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceFleetId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceFleetType", required: false, type: .enum), 
+            AWSShapeMember(label: "InstanceGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceGroupTypes", required: false, type: .list), 
+            AWSShapeMember(label: "InstanceStates", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// The identifier of the cluster for which to list the instances.
+        public let clusterId: String
+        /// The unique identifier of the instance fleet.
+        public let instanceFleetId: String?
+        /// The node type of the instance fleet. For example MASTER, CORE, or TASK.
+        public let instanceFleetType: InstanceFleetType?
+        /// The identifier of the instance group for which to list the instances.
+        public let instanceGroupId: String?
+        /// The type of instance group for which to list the instances.
+        public let instanceGroupTypes: [InstanceGroupType]?
+        /// A list of instance states that will filter the instances returned with this request.
+        public let instanceStates: [InstanceState]?
+        /// The pagination token that indicates the next set of results to retrieve.
+        public let marker: String?
+
+        public init(clusterId: String, instanceFleetId: String? = nil, instanceFleetType: InstanceFleetType? = nil, instanceGroupId: String? = nil, instanceGroupTypes: [InstanceGroupType]? = nil, instanceStates: [InstanceState]? = nil, marker: String? = nil) {
+            self.clusterId = clusterId
+            self.instanceFleetId = instanceFleetId
+            self.instanceFleetType = instanceFleetType
+            self.instanceGroupId = instanceGroupId
+            self.instanceGroupTypes = instanceGroupTypes
+            self.instanceStates = instanceStates
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+            case instanceFleetId = "InstanceFleetId"
+            case instanceFleetType = "InstanceFleetType"
+            case instanceGroupId = "InstanceGroupId"
+            case instanceGroupTypes = "InstanceGroupTypes"
+            case instanceStates = "InstanceStates"
+            case marker = "Marker"
+        }
+    }
+
+    public struct ListInstancesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Instances", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// The list of instances for the cluster and given filters.
+        public let instances: [Instance]?
+        /// The pagination token that indicates the next set of results to retrieve.
+        public let marker: String?
+
+        public init(instances: [Instance]? = nil, marker: String? = nil) {
+            self.instances = instances
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instances = "Instances"
+            case marker = "Marker"
+        }
+    }
+
+    public struct ListSecurityConfigurationsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// The pagination token that indicates the set of results to retrieve.
+        public let marker: String?
+
+        public init(marker: String? = nil) {
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+        }
+    }
+
+    public struct ListSecurityConfigurationsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityConfigurations", required: false, type: .list)
+        ]
+        /// A pagination token that indicates the next set of results to retrieve. Include the marker in the next ListSecurityConfiguration call to retrieve the next page of results, if required.
+        public let marker: String?
+        /// The creation date and time, and name, of each security configuration.
+        public let securityConfigurations: [SecurityConfigurationSummary]?
+
+        public init(marker: String? = nil, securityConfigurations: [SecurityConfigurationSummary]? = nil) {
+            self.marker = marker
+            self.securityConfigurations = securityConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case securityConfigurations = "SecurityConfigurations"
+        }
+    }
+
+    public struct ListStepsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "StepIds", required: false, type: .list), 
+            AWSShapeMember(label: "StepStates", required: false, type: .list)
+        ]
+        /// The identifier of the cluster for which to list the steps.
+        public let clusterId: String
+        /// The pagination token that indicates the next set of results to retrieve.
+        public let marker: String?
+        /// The filter to limit the step list based on the identifier of the steps.
+        public let stepIds: [String]?
+        /// The filter to limit the step list based on certain states.
+        public let stepStates: [StepState]?
+
+        public init(clusterId: String, marker: String? = nil, stepIds: [String]? = nil, stepStates: [StepState]? = nil) {
+            self.clusterId = clusterId
+            self.marker = marker
+            self.stepIds = stepIds
+            self.stepStates = stepStates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+            case marker = "Marker"
+            case stepIds = "StepIds"
+            case stepStates = "StepStates"
+        }
+    }
+
+    public struct ListStepsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Steps", required: false, type: .list)
+        ]
+        /// The pagination token that indicates the next set of results to retrieve.
+        public let marker: String?
+        /// The filtered list of steps for the cluster.
+        public let steps: [StepSummary]?
+
+        public init(marker: String? = nil, steps: [StepSummary]? = nil) {
+            self.marker = marker
+            self.steps = steps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case steps = "Steps"
+        }
+    }
+
+    public enum MarketType: String, CustomStringConvertible, Codable {
+        case onDemand = "ON_DEMAND"
+        case spot = "SPOT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct MetricDimension: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The dimension name.
+        public let key: String?
+        /// The dimension value.
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
         }
     }
 
@@ -1860,36 +2879,501 @@ extension EMR {
         }
     }
 
-    public enum ClusterStateChangeReasonCode: String, CustomStringConvertible, Codable {
-        case internalError = "INTERNAL_ERROR"
-        case validationError = "VALIDATION_ERROR"
-        case instanceFailure = "INSTANCE_FAILURE"
-        case instanceFleetTimeout = "INSTANCE_FLEET_TIMEOUT"
-        case bootstrapFailure = "BOOTSTRAP_FAILURE"
-        case userRequest = "USER_REQUEST"
-        case stepFailure = "STEP_FAILURE"
-        case allStepsCompleted = "ALL_STEPS_COMPLETED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListBootstrapActionsInput: AWSShape {
+    public struct ModifyInstanceGroupsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "ClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceGroups", required: false, type: .list)
         ]
-        /// The cluster identifier for the bootstrap actions to list.
-        public let clusterId: String
-        /// The pagination token that indicates the next set of results to retrieve.
-        public let marker: String?
+        /// The ID of the cluster to which the instance group belongs.
+        public let clusterId: String?
+        /// Instance groups to change.
+        public let instanceGroups: [InstanceGroupModifyConfig]?
 
-        public init(clusterId: String, marker: String? = nil) {
+        public init(clusterId: String? = nil, instanceGroups: [InstanceGroupModifyConfig]? = nil) {
             self.clusterId = clusterId
-            self.marker = marker
+            self.instanceGroups = instanceGroups
         }
 
         private enum CodingKeys: String, CodingKey {
             case clusterId = "ClusterId"
-            case marker = "Marker"
+            case instanceGroups = "InstanceGroups"
+        }
+    }
+
+    public struct PlacementType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list)
+        ]
+        /// The Amazon EC2 Availability Zone for the cluster. AvailabilityZone is used for uniform instance groups, while AvailabilityZones (plural) is used for instance fleets.
+        public let availabilityZone: String?
+        /// When multiple Availability Zones are specified, Amazon EMR evaluates them and launches instances in the optimal Availability Zone. AvailabilityZones is used for instance fleets, while AvailabilityZone (singular) is used for uniform instance groups.  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. 
+        public let availabilityZones: [String]?
+
+        public init(availabilityZone: String? = nil, availabilityZones: [String]? = nil) {
+            self.availabilityZone = availabilityZone
+            self.availabilityZones = availabilityZones
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case availabilityZones = "AvailabilityZones"
+        }
+    }
+
+    public struct PutAutoScalingPolicyInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoScalingPolicy", required: true, type: .structure), 
+            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceGroupId", required: true, type: .string)
+        ]
+        /// Specifies the definition of the automatic scaling policy.
+        public let autoScalingPolicy: AutoScalingPolicy
+        /// Specifies the ID of a cluster. The instance group to which the automatic scaling policy is applied is within this cluster.
+        public let clusterId: String
+        /// Specifies the ID of the instance group to which the automatic scaling policy is applied.
+        public let instanceGroupId: String
+
+        public init(autoScalingPolicy: AutoScalingPolicy, clusterId: String, instanceGroupId: String) {
+            self.autoScalingPolicy = autoScalingPolicy
+            self.clusterId = clusterId
+            self.instanceGroupId = instanceGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingPolicy = "AutoScalingPolicy"
+            case clusterId = "ClusterId"
+            case instanceGroupId = "InstanceGroupId"
+        }
+    }
+
+    public struct PutAutoScalingPolicyOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoScalingPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceGroupId", required: false, type: .string)
+        ]
+        /// The automatic scaling policy definition.
+        public let autoScalingPolicy: AutoScalingPolicyDescription?
+        /// Specifies the ID of a cluster. The instance group to which the automatic scaling policy is applied is within this cluster.
+        public let clusterId: String?
+        /// Specifies the ID of the instance group to which the scaling policy is applied.
+        public let instanceGroupId: String?
+
+        public init(autoScalingPolicy: AutoScalingPolicyDescription? = nil, clusterId: String? = nil, instanceGroupId: String? = nil) {
+            self.autoScalingPolicy = autoScalingPolicy
+            self.clusterId = clusterId
+            self.instanceGroupId = instanceGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingPolicy = "AutoScalingPolicy"
+            case clusterId = "ClusterId"
+            case instanceGroupId = "InstanceGroupId"
+        }
+    }
+
+    public struct RemoveAutoScalingPolicyInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceGroupId", required: true, type: .string)
+        ]
+        /// Specifies the ID of a cluster. The instance group to which the automatic scaling policy is applied is within this cluster.
+        public let clusterId: String
+        /// Specifies the ID of the instance group to which the scaling policy is applied.
+        public let instanceGroupId: String
+
+        public init(clusterId: String, instanceGroupId: String) {
+            self.clusterId = clusterId
+            self.instanceGroupId = instanceGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+            case instanceGroupId = "InstanceGroupId"
+        }
+    }
+
+    public struct RemoveAutoScalingPolicyOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct RemoveTagsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+        ]
+        /// The Amazon EMR resource identifier from which tags will be removed. This value must be a cluster identifier.
+        public let resourceId: String
+        /// A list of tag keys to remove from a resource.
+        public let tagKeys: [String]
+
+        public init(resourceId: String, tagKeys: [String]) {
+            self.resourceId = resourceId
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct RemoveTagsOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public enum RepoUpgradeOnBoot: String, CustomStringConvertible, Codable {
+        case security = "SECURITY"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RunJobFlowInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdditionalInfo", required: false, type: .string), 
+            AWSShapeMember(label: "AmiVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Applications", required: false, type: .list), 
+            AWSShapeMember(label: "AutoScalingRole", required: false, type: .string), 
+            AWSShapeMember(label: "BootstrapActions", required: false, type: .list), 
+            AWSShapeMember(label: "Configurations", required: false, type: .list), 
+            AWSShapeMember(label: "CustomAmiId", required: false, type: .string), 
+            AWSShapeMember(label: "EbsRootVolumeSize", required: false, type: .integer), 
+            AWSShapeMember(label: "Instances", required: true, type: .structure), 
+            AWSShapeMember(label: "JobFlowRole", required: false, type: .string), 
+            AWSShapeMember(label: "KerberosAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "LogUri", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "NewSupportedProducts", required: false, type: .list), 
+            AWSShapeMember(label: "ReleaseLabel", required: false, type: .string), 
+            AWSShapeMember(label: "RepoUpgradeOnBoot", required: false, type: .enum), 
+            AWSShapeMember(label: "ScaleDownBehavior", required: false, type: .enum), 
+            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceRole", required: false, type: .string), 
+            AWSShapeMember(label: "Steps", required: false, type: .list), 
+            AWSShapeMember(label: "SupportedProducts", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "VisibleToAllUsers", required: false, type: .boolean)
+        ]
+        /// A JSON string for selecting additional features.
+        public let additionalInfo: String?
+        /// Applies only to Amazon EMR AMI versions 3.x and 2.x. For Amazon EMR releases 4.0 and later, ReleaseLabel is used. To specify a custom AMI, use CustomAmiID.
+        public let amiVersion: String?
+        /// For Amazon EMR releases 4.0 and later. A list of applications for the cluster. Valid values are: "Hadoop", "Hive", "Mahout", "Pig", and "Spark." They are case insensitive.
+        public let applications: [Application]?
+        /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling feature requires to launch and terminate EC2 instances in an instance group.
+        public let autoScalingRole: String?
+        /// A list of bootstrap actions to run before Hadoop starts on the cluster nodes.
+        public let bootstrapActions: [BootstrapActionConfig]?
+        /// For Amazon EMR releases 4.0 and later. The list of configurations supplied for the EMR cluster you are creating.
+        public let configurations: [Configuration]?
+        /// Available only in Amazon EMR version 5.7.0 and later. The ID of a custom Amazon EBS-backed Linux AMI. If specified, Amazon EMR uses this AMI when it launches cluster EC2 instances. For more information about custom AMIs in Amazon EMR, see Using a Custom AMI in the Amazon EMR Management Guide. If omitted, the cluster uses the base Linux AMI for the ReleaseLabel specified. For Amazon EMR versions 2.x and 3.x, use AmiVersion instead. For information about creating a custom AMI, see Creating an Amazon EBS-Backed Linux AMI in the Amazon Elastic Compute Cloud User Guide for Linux Instances. For information about finding an AMI ID, see Finding a Linux AMI. 
+        public let customAmiId: String?
+        /// The size, in GiB, of the EBS root device volume of the Linux AMI that is used for each EC2 instance. Available in Amazon EMR version 4.x and later.
+        public let ebsRootVolumeSize: Int32?
+        /// A specification of the number and type of Amazon EC2 instances.
+        public let instances: JobFlowInstancesConfig
+        /// Also called instance profile and EC2 role. An IAM role for an EMR cluster. The EC2 instances of the cluster assume this role. The default role is EMR_EC2_DefaultRole. In order to use the default role, you must have already created it using the CLI or console.
+        public let jobFlowRole: String?
+        /// Attributes for Kerberos configuration when Kerberos authentication is enabled using a security configuration. For more information see Use Kerberos Authentication in the EMR Management Guide.
+        public let kerberosAttributes: KerberosAttributes?
+        /// The location in Amazon S3 to write the log files of the job flow. If a value is not provided, logs are not created.
+        public let logUri: String?
+        /// The name of the job flow.
+        public let name: String
+        ///  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use Applications.  A list of strings that indicates third-party software to use with the job flow that accepts a user argument list. EMR accepts and forwards the argument list to the corresponding installation script as bootstrap action arguments. For more information, see "Launch a Job Flow on the MapR Distribution for Hadoop" in the Amazon EMR Developer Guide. Supported values are:   "mapr-m3" - launch the cluster using MapR M3 Edition.   "mapr-m5" - launch the cluster using MapR M5 Edition.   "mapr" with the user arguments specifying "--edition,m3" or "--edition,m5" - launch the job flow using MapR M3 or M5 Edition respectively.   "mapr-m7" - launch the cluster using MapR M7 Edition.   "hunk" - launch the cluster with the Hunk Big Data Analtics Platform.   "hue"- launch the cluster with Hue installed.   "spark" - launch the cluster with Apache Spark installed.   "ganglia" - launch the cluster with the Ganglia Monitoring System installed.  
+        public let newSupportedProducts: [SupportedProductConfig]?
+        /// The Amazon EMR release label, which determines the version of open-source application packages installed on the cluster. Release labels are in the form emr-x.x.x, where x.x.x is an Amazon EMR release version, for example, emr-5.14.0. For more information about Amazon EMR release versions and included application versions and features, see http://docs.aws.amazon.com/emr/latest/ReleaseGuide/. The release label applies only to Amazon EMR releases versions 4.x and later. Earlier versions use AmiVersion.
+        public let releaseLabel: String?
+        /// Applies only when CustomAmiID is used. Specifies which updates from the Amazon Linux AMI package repositories to apply automatically when the instance boots using the AMI. If omitted, the default is SECURITY, which indicates that only security updates are applied. If NONE is specified, no updates are applied, and all updates must be applied manually.
+        public let repoUpgradeOnBoot: RepoUpgradeOnBoot?
+        /// Specifies the way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour boundary, regardless of when the request to terminate the instance was submitted. This option is only available with Amazon EMR 5.1.0 and later and is the default for clusters created using that version. TERMINATE_AT_TASK_COMPLETION indicates that Amazon EMR blacklists and drains tasks from nodes before terminating the Amazon EC2 instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR removes the least active nodes first and blocks instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION available only in Amazon EMR version 4.1.0 and later, and is the default for versions of Amazon EMR earlier than 5.1.0.
+        public let scaleDownBehavior: ScaleDownBehavior?
+        /// The name of a security configuration to apply to the cluster.
+        public let securityConfiguration: String?
+        /// The IAM role that will be assumed by the Amazon EMR service to access AWS resources on your behalf.
+        public let serviceRole: String?
+        /// A list of steps to run.
+        public let steps: [StepConfig]?
+        ///  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use Applications.  A list of strings that indicates third-party software to use. For more information, see the Amazon EMR Developer Guide. Currently supported values are:   "mapr-m3" - launch the job flow using MapR M3 Edition.   "mapr-m5" - launch the job flow using MapR M5 Edition.  
+        public let supportedProducts: [String]?
+        /// A list of tags to associate with a cluster and propagate to Amazon EC2 instances.
+        public let tags: [Tag]?
+        /// Whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and (if they have the proper policy permissions set) manage the cluster. If it is set to false, only the IAM user that created the cluster can view and manage it.
+        public let visibleToAllUsers: Bool?
+
+        public init(additionalInfo: String? = nil, amiVersion: String? = nil, applications: [Application]? = nil, autoScalingRole: String? = nil, bootstrapActions: [BootstrapActionConfig]? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int32? = nil, instances: JobFlowInstancesConfig, jobFlowRole: String? = nil, kerberosAttributes: KerberosAttributes? = nil, logUri: String? = nil, name: String, newSupportedProducts: [SupportedProductConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, steps: [StepConfig]? = nil, supportedProducts: [String]? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil) {
+            self.additionalInfo = additionalInfo
+            self.amiVersion = amiVersion
+            self.applications = applications
+            self.autoScalingRole = autoScalingRole
+            self.bootstrapActions = bootstrapActions
+            self.configurations = configurations
+            self.customAmiId = customAmiId
+            self.ebsRootVolumeSize = ebsRootVolumeSize
+            self.instances = instances
+            self.jobFlowRole = jobFlowRole
+            self.kerberosAttributes = kerberosAttributes
+            self.logUri = logUri
+            self.name = name
+            self.newSupportedProducts = newSupportedProducts
+            self.releaseLabel = releaseLabel
+            self.repoUpgradeOnBoot = repoUpgradeOnBoot
+            self.scaleDownBehavior = scaleDownBehavior
+            self.securityConfiguration = securityConfiguration
+            self.serviceRole = serviceRole
+            self.steps = steps
+            self.supportedProducts = supportedProducts
+            self.tags = tags
+            self.visibleToAllUsers = visibleToAllUsers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalInfo = "AdditionalInfo"
+            case amiVersion = "AmiVersion"
+            case applications = "Applications"
+            case autoScalingRole = "AutoScalingRole"
+            case bootstrapActions = "BootstrapActions"
+            case configurations = "Configurations"
+            case customAmiId = "CustomAmiId"
+            case ebsRootVolumeSize = "EbsRootVolumeSize"
+            case instances = "Instances"
+            case jobFlowRole = "JobFlowRole"
+            case kerberosAttributes = "KerberosAttributes"
+            case logUri = "LogUri"
+            case name = "Name"
+            case newSupportedProducts = "NewSupportedProducts"
+            case releaseLabel = "ReleaseLabel"
+            case repoUpgradeOnBoot = "RepoUpgradeOnBoot"
+            case scaleDownBehavior = "ScaleDownBehavior"
+            case securityConfiguration = "SecurityConfiguration"
+            case serviceRole = "ServiceRole"
+            case steps = "Steps"
+            case supportedProducts = "SupportedProducts"
+            case tags = "Tags"
+            case visibleToAllUsers = "VisibleToAllUsers"
+        }
+    }
+
+    public struct RunJobFlowOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobFlowId", required: false, type: .string)
+        ]
+        /// An unique identifier for the job flow.
+        public let jobFlowId: String?
+
+        public init(jobFlowId: String? = nil) {
+            self.jobFlowId = jobFlowId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobFlowId = "JobFlowId"
+        }
+    }
+
+    public enum ScaleDownBehavior: String, CustomStringConvertible, Codable {
+        case terminateAtInstanceHour = "TERMINATE_AT_INSTANCE_HOUR"
+        case terminateAtTaskCompletion = "TERMINATE_AT_TASK_COMPLETION"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ScalingAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Market", required: false, type: .enum), 
+            AWSShapeMember(label: "SimpleScalingPolicyConfiguration", required: true, type: .structure)
+        ]
+        /// Not available for instance groups. Instance groups use the market type specified for the group.
+        public let market: MarketType?
+        /// The type of adjustment the automatic scaling activity makes when triggered, and the periodicity of the adjustment.
+        public let simpleScalingPolicyConfiguration: SimpleScalingPolicyConfiguration
+
+        public init(market: MarketType? = nil, simpleScalingPolicyConfiguration: SimpleScalingPolicyConfiguration) {
+            self.market = market
+            self.simpleScalingPolicyConfiguration = simpleScalingPolicyConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case market = "Market"
+            case simpleScalingPolicyConfiguration = "SimpleScalingPolicyConfiguration"
+        }
+    }
+
+    public struct ScalingConstraints: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxCapacity", required: true, type: .integer), 
+            AWSShapeMember(label: "MinCapacity", required: true, type: .integer)
+        ]
+        /// The upper boundary of EC2 instances in an instance group beyond which scaling activities are not allowed to grow. Scale-out activities will not add instances beyond this boundary.
+        public let maxCapacity: Int32
+        /// The lower boundary of EC2 instances in an instance group below which scaling activities are not allowed to shrink. Scale-in activities will not terminate instances below this boundary.
+        public let minCapacity: Int32
+
+        public init(maxCapacity: Int32, minCapacity: Int32) {
+            self.maxCapacity = maxCapacity
+            self.minCapacity = minCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxCapacity = "MaxCapacity"
+            case minCapacity = "MinCapacity"
+        }
+    }
+
+    public struct ScalingRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Action", required: true, type: .structure), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Trigger", required: true, type: .structure)
+        ]
+        /// The conditions that trigger an automatic scaling activity.
+        public let action: ScalingAction
+        /// A friendly, more verbose description of the automatic scaling rule.
+        public let description: String?
+        /// The name used to identify an automatic scaling rule. Rule names must be unique within a scaling policy.
+        public let name: String
+        /// The CloudWatch alarm definition that determines when automatic scaling activity is triggered.
+        public let trigger: ScalingTrigger
+
+        public init(action: ScalingAction, description: String? = nil, name: String, trigger: ScalingTrigger) {
+            self.action = action
+            self.description = description
+            self.name = name
+            self.trigger = trigger
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case description = "Description"
+            case name = "Name"
+            case trigger = "Trigger"
+        }
+    }
+
+    public struct ScalingTrigger: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudWatchAlarmDefinition", required: true, type: .structure)
+        ]
+        /// The definition of a CloudWatch metric alarm. When the defined alarm conditions are met along with other trigger parameters, scaling activity begins.
+        public let cloudWatchAlarmDefinition: CloudWatchAlarmDefinition
+
+        public init(cloudWatchAlarmDefinition: CloudWatchAlarmDefinition) {
+            self.cloudWatchAlarmDefinition = cloudWatchAlarmDefinition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchAlarmDefinition = "CloudWatchAlarmDefinition"
+        }
+    }
+
+    public struct ScriptBootstrapActionConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Args", required: false, type: .list), 
+            AWSShapeMember(label: "Path", required: true, type: .string)
+        ]
+        /// A list of command line arguments to pass to the bootstrap action script.
+        public let args: [String]?
+        /// Location of the script to run during a bootstrap action. Can be either a location in Amazon S3 or on a local file system.
+        public let path: String
+
+        public init(args: [String]? = nil, path: String) {
+            self.args = args
+            self.path = path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case args = "Args"
+            case path = "Path"
+        }
+    }
+
+    public struct SecurityConfigurationSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The date and time the security configuration was created.
+        public let creationDateTime: TimeStamp?
+        /// The name of the security configuration.
+        public let name: String?
+
+        public init(creationDateTime: TimeStamp? = nil, name: String? = nil) {
+            self.creationDateTime = creationDateTime
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "CreationDateTime"
+            case name = "Name"
+        }
+    }
+
+    public struct SetTerminationProtectionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobFlowIds", required: true, type: .list), 
+            AWSShapeMember(label: "TerminationProtected", required: true, type: .boolean)
+        ]
+        ///  A list of strings that uniquely identify the clusters to protect. This identifier is returned by RunJobFlow and can also be obtained from DescribeJobFlows . 
+        public let jobFlowIds: [String]
+        /// A Boolean that indicates whether to protect the cluster and prevent the Amazon EC2 instances in the cluster from shutting down due to API calls, user intervention, or job-flow error.
+        public let terminationProtected: Bool
+
+        public init(jobFlowIds: [String], terminationProtected: Bool) {
+            self.jobFlowIds = jobFlowIds
+            self.terminationProtected = terminationProtected
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobFlowIds = "JobFlowIds"
+            case terminationProtected = "TerminationProtected"
+        }
+    }
+
+    public struct SetVisibleToAllUsersInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobFlowIds", required: true, type: .list), 
+            AWSShapeMember(label: "VisibleToAllUsers", required: true, type: .boolean)
+        ]
+        /// Identifiers of the job flows to receive the new visibility setting.
+        public let jobFlowIds: [String]
+        /// Whether the specified clusters are visible to all IAM users of the AWS account associated with the cluster. If this value is set to True, all IAM users of that AWS account can view and, if they have the proper IAM policy permissions set, manage the clusters. If it is set to False, only the IAM user that created a cluster can view and manage it.
+        public let visibleToAllUsers: Bool
+
+        public init(jobFlowIds: [String], visibleToAllUsers: Bool) {
+            self.jobFlowIds = jobFlowIds
+            self.visibleToAllUsers = visibleToAllUsers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobFlowIds = "JobFlowIds"
+            case visibleToAllUsers = "VisibleToAllUsers"
+        }
+    }
+
+    public struct ShrinkPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DecommissionTimeout", required: false, type: .integer), 
+            AWSShapeMember(label: "InstanceResizePolicy", required: false, type: .structure)
+        ]
+        /// The desired timeout for decommissioning an instance. Overrides the default YARN decommissioning timeout.
+        public let decommissionTimeout: Int32?
+        /// Custom policy for requesting termination protection or termination of specific instances when shrinking an instance group.
+        public let instanceResizePolicy: InstanceResizePolicy?
+
+        public init(decommissionTimeout: Int32? = nil, instanceResizePolicy: InstanceResizePolicy? = nil) {
+            self.decommissionTimeout = decommissionTimeout
+            self.instanceResizePolicy = instanceResizePolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case decommissionTimeout = "DecommissionTimeout"
+            case instanceResizePolicy = "InstanceResizePolicy"
         }
     }
 
@@ -1919,148 +3403,127 @@ extension EMR {
         }
     }
 
-    public enum CancelStepsRequestStatus: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct EbsBlockDeviceConfig: AWSShape {
+    public struct SpotProvisioningSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VolumesPerInstance", required: false, type: .integer), 
-            AWSShapeMember(label: "VolumeSpecification", required: true, type: .structure)
+            AWSShapeMember(label: "BlockDurationMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "TimeoutAction", required: true, type: .enum), 
+            AWSShapeMember(label: "TimeoutDurationMinutes", required: true, type: .integer)
         ]
-        /// Number of EBS volumes with a specific volume configuration that will be associated with every instance in the instance group
-        public let volumesPerInstance: Int32?
-        /// EBS volume specifications such as volume type, IOPS, and size (GiB) that will be requested for the EBS volume attached to an EC2 instance in the cluster.
-        public let volumeSpecification: VolumeSpecification
+        /// The defined duration for Spot instances (also known as Spot blocks) in minutes. When specified, the Spot instance does not terminate before the defined duration expires, and defined duration pricing for Spot instances applies. Valid values are 60, 120, 180, 240, 300, or 360. The duration period starts as soon as a Spot instance receives its instance ID. At the end of the duration, Amazon EC2 marks the Spot instance for termination and provides a Spot instance termination notice, which gives the instance a two-minute warning before it terminates. 
+        public let blockDurationMinutes: Int32?
+        /// The action to take when TargetSpotCapacity has not been fulfilled when the TimeoutDurationMinutes has expired. Spot instances are not uprovisioned within the Spot provisioining timeout. Valid values are TERMINATE_CLUSTER and SWITCH_TO_ON_DEMAND. SWITCH_TO_ON_DEMAND specifies that if no Spot instances are available, On-Demand Instances should be provisioned to fulfill any remaining Spot capacity.
+        public let timeoutAction: SpotProvisioningTimeoutAction
+        /// The spot provisioning timeout period in minutes. If Spot instances are not provisioned within this time period, the TimeOutAction is taken. Minimum value is 5 and maximum value is 1440. The timeout applies only during initial provisioning, when the cluster is first created.
+        public let timeoutDurationMinutes: Int32
 
-        public init(volumesPerInstance: Int32? = nil, volumeSpecification: VolumeSpecification) {
-            self.volumesPerInstance = volumesPerInstance
-            self.volumeSpecification = volumeSpecification
+        public init(blockDurationMinutes: Int32? = nil, timeoutAction: SpotProvisioningTimeoutAction, timeoutDurationMinutes: Int32) {
+            self.blockDurationMinutes = blockDurationMinutes
+            self.timeoutAction = timeoutAction
+            self.timeoutDurationMinutes = timeoutDurationMinutes
         }
 
         private enum CodingKeys: String, CodingKey {
-            case volumesPerInstance = "VolumesPerInstance"
-            case volumeSpecification = "VolumeSpecification"
+            case blockDurationMinutes = "BlockDurationMinutes"
+            case timeoutAction = "TimeoutAction"
+            case timeoutDurationMinutes = "TimeoutDurationMinutes"
         }
     }
 
-    public struct Application: AWSShape {
+    public enum SpotProvisioningTimeoutAction: String, CustomStringConvertible, Codable {
+        case switchToOnDemand = "SWITCH_TO_ON_DEMAND"
+        case terminateCluster = "TERMINATE_CLUSTER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Statistic: String, CustomStringConvertible, Codable {
+        case sampleCount = "SAMPLE_COUNT"
+        case average = "AVERAGE"
+        case sum = "SUM"
+        case minimum = "MINIMUM"
+        case maximum = "MAXIMUM"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Step: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionOnFailure", required: false, type: .enum), 
+            AWSShapeMember(label: "Config", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Args", required: false, type: .list), 
-            AWSShapeMember(label: "AdditionalInfo", required: false, type: .map), 
-            AWSShapeMember(label: "Version", required: false, type: .string)
+            AWSShapeMember(label: "Status", required: false, type: .structure)
         ]
-        /// The name of the application.
+        /// This specifies what action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE.
+        public let actionOnFailure: ActionOnFailure?
+        /// The Hadoop job configuration of the cluster step.
+        public let config: HadoopStepConfig?
+        /// The identifier of the cluster step.
+        public let id: String?
+        /// The name of the cluster step.
         public let name: String?
-        /// Arguments for Amazon EMR to pass to the application.
-        public let args: [String]?
-        /// This option is for advanced users only. This is meta information about third-party applications that third-party vendors use for testing purposes.
-        public let additionalInfo: [String: String]?
-        /// The version of the application.
-        public let version: String?
+        /// The current execution status details of the cluster step.
+        public let status: StepStatus?
 
-        public init(name: String? = nil, args: [String]? = nil, additionalInfo: [String: String]? = nil, version: String? = nil) {
+        public init(actionOnFailure: ActionOnFailure? = nil, config: HadoopStepConfig? = nil, id: String? = nil, name: String? = nil, status: StepStatus? = nil) {
+            self.actionOnFailure = actionOnFailure
+            self.config = config
+            self.id = id
             self.name = name
-            self.args = args
-            self.additionalInfo = additionalInfo
-            self.version = version
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actionOnFailure = "ActionOnFailure"
+            case config = "Config"
+            case id = "Id"
             case name = "Name"
-            case args = "Args"
-            case additionalInfo = "AdditionalInfo"
-            case version = "Version"
+            case status = "Status"
         }
     }
 
-    public enum InstanceGroupState: String, CustomStringConvertible, Codable {
-        case provisioning = "PROVISIONING"
-        case bootstrapping = "BOOTSTRAPPING"
-        case running = "RUNNING"
-        case resizing = "RESIZING"
-        case suspended = "SUSPENDED"
-        case terminating = "TERMINATING"
-        case terminated = "TERMINATED"
-        case arrested = "ARRESTED"
-        case shuttingDown = "SHUTTING_DOWN"
-        case ended = "ENDED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct VolumeSpecification: AWSShape {
+    public struct StepConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SizeInGB", required: true, type: .integer), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer), 
-            AWSShapeMember(label: "VolumeType", required: true, type: .string)
+            AWSShapeMember(label: "ActionOnFailure", required: false, type: .enum), 
+            AWSShapeMember(label: "HadoopJarStep", required: true, type: .structure), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// The volume size, in gibibytes (GiB). This can be a number from 1 - 1024. If the volume type is EBS-optimized, the minimum value is 10.
-        public let sizeInGB: Int32
-        /// The number of I/O operations per second (IOPS) that the volume supports.
-        public let iops: Int32?
-        /// The volume type. Volume types supported are gp2, io1, standard.
-        public let volumeType: String
+        /// The action to take if the step fails.
+        public let actionOnFailure: ActionOnFailure?
+        /// The JAR file used for the step.
+        public let hadoopJarStep: HadoopJarStepConfig
+        /// The name of the step.
+        public let name: String
 
-        public init(sizeInGB: Int32, iops: Int32? = nil, volumeType: String) {
-            self.sizeInGB = sizeInGB
-            self.iops = iops
-            self.volumeType = volumeType
+        public init(actionOnFailure: ActionOnFailure? = nil, hadoopJarStep: HadoopJarStepConfig, name: String) {
+            self.actionOnFailure = actionOnFailure
+            self.hadoopJarStep = hadoopJarStep
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sizeInGB = "SizeInGB"
-            case iops = "Iops"
-            case volumeType = "VolumeType"
+            case actionOnFailure = "ActionOnFailure"
+            case hadoopJarStep = "HadoopJarStep"
+            case name = "Name"
         }
     }
 
-    public struct ListInstanceFleetsOutput: AWSShape {
+    public struct StepDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceFleets", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "ExecutionStatusDetail", required: true, type: .structure), 
+            AWSShapeMember(label: "StepConfig", required: true, type: .structure)
         ]
-        /// The list of instance fleets for the cluster and given filters.
-        public let instanceFleets: [InstanceFleet]?
-        /// The pagination token that indicates the next set of results to retrieve.
-        public let marker: String?
+        /// The description of the step status.
+        public let executionStatusDetail: StepExecutionStatusDetail
+        /// The step configuration.
+        public let stepConfig: StepConfig
 
-        public init(instanceFleets: [InstanceFleet]? = nil, marker: String? = nil) {
-            self.instanceFleets = instanceFleets
-            self.marker = marker
+        public init(executionStatusDetail: StepExecutionStatusDetail, stepConfig: StepConfig) {
+            self.executionStatusDetail = executionStatusDetail
+            self.stepConfig = stepConfig
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceFleets = "InstanceFleets"
-            case marker = "Marker"
-        }
-    }
-
-    public struct InstanceTimeline: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ReadyDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp)
-        ]
-        /// The creation date and time of the instance.
-        public let creationDateTime: TimeStamp?
-        /// The date and time when the instance was ready to perform tasks.
-        public let readyDateTime: TimeStamp?
-        /// The date and time when the instance was terminated.
-        public let endDateTime: TimeStamp?
-
-        public init(creationDateTime: TimeStamp? = nil, readyDateTime: TimeStamp? = nil, endDateTime: TimeStamp? = nil) {
-            self.creationDateTime = creationDateTime
-            self.readyDateTime = readyDateTime
-            self.endDateTime = endDateTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationDateTime = "CreationDateTime"
-            case readyDateTime = "ReadyDateTime"
-            case endDateTime = "EndDateTime"
+            case executionStatusDetail = "ExecutionStatusDetail"
+            case stepConfig = "StepConfig"
         }
     }
 
@@ -2075,442 +3538,228 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
-    public struct BootstrapActionDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BootstrapActionConfig", required: false, type: .structure)
-        ]
-        /// A description of the bootstrap action.
-        public let bootstrapActionConfig: BootstrapActionConfig?
-
-        public init(bootstrapActionConfig: BootstrapActionConfig? = nil) {
-            self.bootstrapActionConfig = bootstrapActionConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bootstrapActionConfig = "BootstrapActionConfig"
-        }
-    }
-
-    public struct DeleteSecurityConfigurationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The name of the security configuration.
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public enum InstanceFleetType: String, CustomStringConvertible, Codable {
-        case master = "MASTER"
-        case core = "CORE"
-        case task = "TASK"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ShrinkPolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DecommissionTimeout", required: false, type: .integer), 
-            AWSShapeMember(label: "InstanceResizePolicy", required: false, type: .structure)
-        ]
-        /// The desired timeout for decommissioning an instance. Overrides the default YARN decommissioning timeout.
-        public let decommissionTimeout: Int32?
-        /// Custom policy for requesting termination protection or termination of specific instances when shrinking an instance group.
-        public let instanceResizePolicy: InstanceResizePolicy?
-
-        public init(decommissionTimeout: Int32? = nil, instanceResizePolicy: InstanceResizePolicy? = nil) {
-            self.decommissionTimeout = decommissionTimeout
-            self.instanceResizePolicy = instanceResizePolicy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case decommissionTimeout = "DecommissionTimeout"
-            case instanceResizePolicy = "InstanceResizePolicy"
-        }
-    }
-
-    public struct JobFlowInstancesConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MasterInstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "Ec2SubnetIds", required: false, type: .list), 
-            AWSShapeMember(label: "HadoopVersion", required: false, type: .string), 
-            AWSShapeMember(label: "SlaveInstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceCount", required: false, type: .integer), 
-            AWSShapeMember(label: "TerminationProtected", required: false, type: .boolean), 
-            AWSShapeMember(label: "EmrManagedMasterSecurityGroup", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceAccessSecurityGroup", required: false, type: .string), 
-            AWSShapeMember(label: "EmrManagedSlaveSecurityGroup", required: false, type: .string), 
-            AWSShapeMember(label: "KeepJobFlowAliveWhenNoSteps", required: false, type: .boolean), 
-            AWSShapeMember(label: "AdditionalMasterSecurityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "Ec2SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "Placement", required: false, type: .structure), 
-            AWSShapeMember(label: "AdditionalSlaveSecurityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "Ec2KeyName", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceFleets", required: false, type: .list), 
-            AWSShapeMember(label: "InstanceGroups", required: false, type: .list)
-        ]
-        /// The EC2 instance type of the master node.
-        public let masterInstanceType: String?
-        /// Applies to clusters that use the instance fleet configuration. When multiple EC2 subnet IDs are specified, Amazon EMR evaluates them and launches instances in the optimal subnet.  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. 
-        public let ec2SubnetIds: [String]?
-        /// Applies only to Amazon EMR release versions earlier than 4.0. The Hadoop version for the cluster. Valid inputs are "0.18" (deprecated), "0.20" (deprecated), "0.20.205" (deprecated), "1.0.3", "2.2.0", or "2.4.0". If you do not set this value, the default of 0.18 is used, unless the AmiVersion parameter is set in the RunJobFlow call, in which case the default version of Hadoop for that AMI version is used.
-        public let hadoopVersion: String?
-        /// The EC2 instance type of the slave nodes.
-        public let slaveInstanceType: String?
-        /// The number of EC2 instances in the cluster.
-        public let instanceCount: Int32?
-        /// Specifies whether to lock the cluster to prevent the Amazon EC2 instances from being terminated by API call, user intervention, or in the event of a job-flow error.
-        public let terminationProtected: Bool?
-        /// The identifier of the Amazon EC2 security group for the master node.
-        public let emrManagedMasterSecurityGroup: String?
-        /// The identifier of the Amazon EC2 security group for the Amazon EMR service to access clusters in VPC private subnets.
-        public let serviceAccessSecurityGroup: String?
-        /// The identifier of the Amazon EC2 security group for the slave nodes.
-        public let emrManagedSlaveSecurityGroup: String?
-        /// Specifies whether the cluster should remain available after completing all steps.
-        public let keepJobFlowAliveWhenNoSteps: Bool?
-        /// A list of additional Amazon EC2 security group IDs for the master node.
-        public let additionalMasterSecurityGroups: [String]?
-        /// Applies to clusters that use the uniform instance group configuration. To launch the cluster in Amazon Virtual Private Cloud (Amazon VPC), set this parameter to the identifier of the Amazon VPC subnet where you want the cluster to launch. If you do not specify this value, the cluster launches in the normal Amazon Web Services cloud, outside of an Amazon VPC, if the account launching the cluster supports EC2 Classic networks in the region where the cluster launches. Amazon VPC currently does not support cluster compute quadruple extra large (cc1.4xlarge) instances. Thus you cannot specify the cc1.4xlarge instance type for clusters launched in an Amazon VPC.
-        public let ec2SubnetId: String?
-        /// The Availability Zone in which the cluster runs.
-        public let placement: PlacementType?
-        /// A list of additional Amazon EC2 security group IDs for the slave nodes.
-        public let additionalSlaveSecurityGroups: [String]?
-        /// The name of the EC2 key pair that can be used to ssh to the master node as the user called "hadoop."
-        public let ec2KeyName: String?
-        ///  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions.  Describes the EC2 instances and instance configurations for clusters that use the instance fleet configuration.
-        public let instanceFleets: [InstanceFleetConfig]?
-        /// Configuration for the instance groups in a cluster.
-        public let instanceGroups: [InstanceGroupConfig]?
-
-        public init(masterInstanceType: String? = nil, ec2SubnetIds: [String]? = nil, hadoopVersion: String? = nil, slaveInstanceType: String? = nil, instanceCount: Int32? = nil, terminationProtected: Bool? = nil, emrManagedMasterSecurityGroup: String? = nil, serviceAccessSecurityGroup: String? = nil, emrManagedSlaveSecurityGroup: String? = nil, keepJobFlowAliveWhenNoSteps: Bool? = nil, additionalMasterSecurityGroups: [String]? = nil, ec2SubnetId: String? = nil, placement: PlacementType? = nil, additionalSlaveSecurityGroups: [String]? = nil, ec2KeyName: String? = nil, instanceFleets: [InstanceFleetConfig]? = nil, instanceGroups: [InstanceGroupConfig]? = nil) {
-            self.masterInstanceType = masterInstanceType
-            self.ec2SubnetIds = ec2SubnetIds
-            self.hadoopVersion = hadoopVersion
-            self.slaveInstanceType = slaveInstanceType
-            self.instanceCount = instanceCount
-            self.terminationProtected = terminationProtected
-            self.emrManagedMasterSecurityGroup = emrManagedMasterSecurityGroup
-            self.serviceAccessSecurityGroup = serviceAccessSecurityGroup
-            self.emrManagedSlaveSecurityGroup = emrManagedSlaveSecurityGroup
-            self.keepJobFlowAliveWhenNoSteps = keepJobFlowAliveWhenNoSteps
-            self.additionalMasterSecurityGroups = additionalMasterSecurityGroups
-            self.ec2SubnetId = ec2SubnetId
-            self.placement = placement
-            self.additionalSlaveSecurityGroups = additionalSlaveSecurityGroups
-            self.ec2KeyName = ec2KeyName
-            self.instanceFleets = instanceFleets
-            self.instanceGroups = instanceGroups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case masterInstanceType = "MasterInstanceType"
-            case ec2SubnetIds = "Ec2SubnetIds"
-            case hadoopVersion = "HadoopVersion"
-            case slaveInstanceType = "SlaveInstanceType"
-            case instanceCount = "InstanceCount"
-            case terminationProtected = "TerminationProtected"
-            case emrManagedMasterSecurityGroup = "EmrManagedMasterSecurityGroup"
-            case serviceAccessSecurityGroup = "ServiceAccessSecurityGroup"
-            case emrManagedSlaveSecurityGroup = "EmrManagedSlaveSecurityGroup"
-            case keepJobFlowAliveWhenNoSteps = "KeepJobFlowAliveWhenNoSteps"
-            case additionalMasterSecurityGroups = "AdditionalMasterSecurityGroups"
-            case ec2SubnetId = "Ec2SubnetId"
-            case placement = "Placement"
-            case additionalSlaveSecurityGroups = "AdditionalSlaveSecurityGroups"
-            case ec2KeyName = "Ec2KeyName"
-            case instanceFleets = "InstanceFleets"
-            case instanceGroups = "InstanceGroups"
-        }
-    }
-
-    public struct StepConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HadoopJarStep", required: true, type: .structure), 
-            AWSShapeMember(label: "ActionOnFailure", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The JAR file used for the step.
-        public let hadoopJarStep: HadoopJarStepConfig
-        /// The action to take if the step fails.
-        public let actionOnFailure: ActionOnFailure?
-        /// The name of the step.
-        public let name: String
-
-        public init(hadoopJarStep: HadoopJarStepConfig, actionOnFailure: ActionOnFailure? = nil, name: String) {
-            self.hadoopJarStep = hadoopJarStep
-            self.actionOnFailure = actionOnFailure
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hadoopJarStep = "HadoopJarStep"
-            case actionOnFailure = "ActionOnFailure"
-            case name = "Name"
-        }
-    }
-
-    public struct Ec2InstanceAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdditionalSlaveSecurityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "RequestedEc2SubnetIds", required: false, type: .list), 
-            AWSShapeMember(label: "IamInstanceProfile", required: false, type: .string), 
-            AWSShapeMember(label: "Ec2AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "Ec2KeyName", required: false, type: .string), 
-            AWSShapeMember(label: "RequestedEc2AvailabilityZones", required: false, type: .list), 
-            AWSShapeMember(label: "ServiceAccessSecurityGroup", required: false, type: .string), 
-            AWSShapeMember(label: "EmrManagedSlaveSecurityGroup", required: false, type: .string), 
-            AWSShapeMember(label: "AdditionalMasterSecurityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "Ec2SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "EmrManagedMasterSecurityGroup", required: false, type: .string)
-        ]
-        /// A list of additional Amazon EC2 security group IDs for the slave nodes.
-        public let additionalSlaveSecurityGroups: [String]?
-        /// Applies to clusters configured with the instance fleets option. Specifies the unique identifier of one or more Amazon EC2 subnets in which to launch EC2 cluster instances. Subnets must exist within the same VPC. Amazon EMR chooses the EC2 subnet with the best fit from among the list of RequestedEc2SubnetIds, and then launches all cluster instances within that Subnet. If this value is not specified, and the account and region support EC2-Classic networks, the cluster launches instances in the EC2-Classic network and uses RequestedEc2AvailabilityZones instead of this setting. If EC2-Classic is not supported, and no Subnet is specified, Amazon EMR chooses the subnet for you. RequestedEc2SubnetIDs and RequestedEc2AvailabilityZones cannot be specified together.
-        public let requestedEc2SubnetIds: [String]?
-        /// The IAM role that was specified when the cluster was launched. The EC2 instances of the cluster assume this role.
-        public let iamInstanceProfile: String?
-        /// The Availability Zone in which the cluster will run. 
-        public let ec2AvailabilityZone: String?
-        /// The name of the Amazon EC2 key pair to use when connecting with SSH into the master node as a user named "hadoop".
-        public let ec2KeyName: String?
-        /// Applies to clusters configured with the instance fleets option. Specifies one or more Availability Zones in which to launch EC2 cluster instances when the EC2-Classic network configuration is supported. Amazon EMR chooses the Availability Zone with the best fit from among the list of RequestedEc2AvailabilityZones, and then launches all cluster instances within that Availability Zone. If you do not specify this value, Amazon EMR chooses the Availability Zone for you. RequestedEc2SubnetIDs and RequestedEc2AvailabilityZones cannot be specified together.
-        public let requestedEc2AvailabilityZones: [String]?
-        /// The identifier of the Amazon EC2 security group for the Amazon EMR service to access clusters in VPC private subnets.
-        public let serviceAccessSecurityGroup: String?
-        /// The identifier of the Amazon EC2 security group for the slave nodes.
-        public let emrManagedSlaveSecurityGroup: String?
-        /// A list of additional Amazon EC2 security group IDs for the master node.
-        public let additionalMasterSecurityGroups: [String]?
-        /// To launch the cluster in Amazon VPC, set this parameter to the identifier of the Amazon VPC subnet where you want the cluster to launch. If you do not specify this value, the cluster is launched in the normal AWS cloud, outside of a VPC. Amazon VPC currently does not support cluster compute quadruple extra large (cc1.4xlarge) instances. Thus, you cannot specify the cc1.4xlarge instance type for nodes of a cluster launched in a VPC.
-        public let ec2SubnetId: String?
-        /// The identifier of the Amazon EC2 security group for the master node.
-        public let emrManagedMasterSecurityGroup: String?
-
-        public init(additionalSlaveSecurityGroups: [String]? = nil, requestedEc2SubnetIds: [String]? = nil, iamInstanceProfile: String? = nil, ec2AvailabilityZone: String? = nil, ec2KeyName: String? = nil, requestedEc2AvailabilityZones: [String]? = nil, serviceAccessSecurityGroup: String? = nil, emrManagedSlaveSecurityGroup: String? = nil, additionalMasterSecurityGroups: [String]? = nil, ec2SubnetId: String? = nil, emrManagedMasterSecurityGroup: String? = nil) {
-            self.additionalSlaveSecurityGroups = additionalSlaveSecurityGroups
-            self.requestedEc2SubnetIds = requestedEc2SubnetIds
-            self.iamInstanceProfile = iamInstanceProfile
-            self.ec2AvailabilityZone = ec2AvailabilityZone
-            self.ec2KeyName = ec2KeyName
-            self.requestedEc2AvailabilityZones = requestedEc2AvailabilityZones
-            self.serviceAccessSecurityGroup = serviceAccessSecurityGroup
-            self.emrManagedSlaveSecurityGroup = emrManagedSlaveSecurityGroup
-            self.additionalMasterSecurityGroups = additionalMasterSecurityGroups
-            self.ec2SubnetId = ec2SubnetId
-            self.emrManagedMasterSecurityGroup = emrManagedMasterSecurityGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case additionalSlaveSecurityGroups = "AdditionalSlaveSecurityGroups"
-            case requestedEc2SubnetIds = "RequestedEc2SubnetIds"
-            case iamInstanceProfile = "IamInstanceProfile"
-            case ec2AvailabilityZone = "Ec2AvailabilityZone"
-            case ec2KeyName = "Ec2KeyName"
-            case requestedEc2AvailabilityZones = "RequestedEc2AvailabilityZones"
-            case serviceAccessSecurityGroup = "ServiceAccessSecurityGroup"
-            case emrManagedSlaveSecurityGroup = "EmrManagedSlaveSecurityGroup"
-            case additionalMasterSecurityGroups = "AdditionalMasterSecurityGroups"
-            case ec2SubnetId = "Ec2SubnetId"
-            case emrManagedMasterSecurityGroup = "EmrManagedMasterSecurityGroup"
-        }
-    }
-
-    public struct ListBootstrapActionsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "BootstrapActions", required: false, type: .list)
-        ]
-        /// The pagination token that indicates the next set of results to retrieve.
-        public let marker: String?
-        /// The bootstrap actions associated with the cluster.
-        public let bootstrapActions: [Command]?
-
-        public init(marker: String? = nil, bootstrapActions: [Command]? = nil) {
-            self.marker = marker
-            self.bootstrapActions = bootstrapActions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case bootstrapActions = "BootstrapActions"
-        }
-    }
-
-    public struct InstanceFleetStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Timeline", required: false, type: .structure), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "StateChangeReason", required: false, type: .structure)
-        ]
-        /// Provides historical timestamps for the instance fleet, including the time of creation, the time it became ready to run jobs, and the time of termination.
-        public let timeline: InstanceFleetTimeline?
-        /// A code representing the instance fleet status.    PROVISIONING—The instance fleet is provisioning EC2 resources and is not yet ready to run jobs.    BOOTSTRAPPING—EC2 instances and other resources have been provisioned and the bootstrap actions specified for the instances are underway.    RUNNING—EC2 instances and other resources are running. They are either executing jobs or waiting to execute jobs.    RESIZING—A resize operation is underway. EC2 instances are either being added or removed.    SUSPENDED—A resize operation could not complete. Existing EC2 instances are running, but instances can't be added or removed.    TERMINATING—The instance fleet is terminating EC2 instances.    TERMINATED—The instance fleet is no longer active, and all EC2 instances have been terminated.  
-        public let state: InstanceFleetState?
-        /// Provides status change reason details for the instance fleet.
-        public let stateChangeReason: InstanceFleetStateChangeReason?
-
-        public init(timeline: InstanceFleetTimeline? = nil, state: InstanceFleetState? = nil, stateChangeReason: InstanceFleetStateChangeReason? = nil) {
-            self.timeline = timeline
-            self.state = state
-            self.stateChangeReason = stateChangeReason
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case timeline = "Timeline"
-            case state = "State"
-            case stateChangeReason = "StateChangeReason"
-        }
-    }
-
-    public enum InstanceStateChangeReasonCode: String, CustomStringConvertible, Codable {
-        case internalError = "INTERNAL_ERROR"
-        case validationError = "VALIDATION_ERROR"
-        case instanceFailure = "INSTANCE_FAILURE"
-        case bootstrapFailure = "BOOTSTRAP_FAILURE"
-        case clusterTerminated = "CLUSTER_TERMINATED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct InstanceGroupDetail: AWSShape {
+    public struct StepExecutionStatusDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationDateTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ReadyDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StartDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "BidPrice", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceRunningCount", required: true, type: .integer), 
-            AWSShapeMember(label: "InstanceGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "LastStateChangeReason", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceRequestCount", required: true, type: .integer), 
-            AWSShapeMember(label: "State", required: true, type: .enum), 
-            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
-            AWSShapeMember(label: "Market", required: true, type: .enum), 
             AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "InstanceRole", required: true, type: .enum)
+            AWSShapeMember(label: "LastStateChangeReason", required: false, type: .string), 
+            AWSShapeMember(label: "StartDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "State", required: true, type: .enum)
         ]
-        /// The date/time the instance group was created.
+        /// The creation date and time of the step.
         public let creationDateTime: TimeStamp
-        /// Friendly name for the instance group.
-        public let name: String?
-        /// The date/time the instance group was available to the cluster.
-        public let readyDateTime: TimeStamp?
-        /// The date/time the instance group was started.
-        public let startDateTime: TimeStamp?
-        /// The maximum Spot price your are willing to pay for EC2 instances. An optional, nullable field that applies if the MarketType for the instance group is specified as SPOT. Specified in USD. If the value is NULL and SPOT is specified, the maximum Spot price is set equal to the On-Demand price.
-        public let bidPrice: String?
-        /// Actual count of running instances.
-        public let instanceRunningCount: Int32
-        /// Unique identifier for the instance group.
-        public let instanceGroupId: String?
-        /// Details regarding the state of the instance group.
-        public let lastStateChangeReason: String?
-        /// Target number of instances to run in the instance group.
-        public let instanceRequestCount: Int32
-        /// State of instance group. The following values are deprecated: STARTING, TERMINATED, and FAILED.
-        public let state: InstanceGroupState
-        /// EC2 instance type.
-        public let instanceType: String
-        /// Market type of the EC2 instances used to create a cluster node.
-        public let market: MarketType
-        /// The date/time the instance group was terminated.
+        /// The completion date and time of the step.
         public let endDateTime: TimeStamp?
-        /// Instance group role in the cluster
-        public let instanceRole: InstanceRoleType
+        /// A description of the step's current state.
+        public let lastStateChangeReason: String?
+        /// The start date and time of the step.
+        public let startDateTime: TimeStamp?
+        /// The state of the step.
+        public let state: StepExecutionState
 
-        public init(creationDateTime: TimeStamp, name: String? = nil, readyDateTime: TimeStamp? = nil, startDateTime: TimeStamp? = nil, bidPrice: String? = nil, instanceRunningCount: Int32, instanceGroupId: String? = nil, lastStateChangeReason: String? = nil, instanceRequestCount: Int32, state: InstanceGroupState, instanceType: String, market: MarketType, endDateTime: TimeStamp? = nil, instanceRole: InstanceRoleType) {
+        public init(creationDateTime: TimeStamp, endDateTime: TimeStamp? = nil, lastStateChangeReason: String? = nil, startDateTime: TimeStamp? = nil, state: StepExecutionState) {
             self.creationDateTime = creationDateTime
-            self.name = name
-            self.readyDateTime = readyDateTime
-            self.startDateTime = startDateTime
-            self.bidPrice = bidPrice
-            self.instanceRunningCount = instanceRunningCount
-            self.instanceGroupId = instanceGroupId
-            self.lastStateChangeReason = lastStateChangeReason
-            self.instanceRequestCount = instanceRequestCount
-            self.state = state
-            self.instanceType = instanceType
-            self.market = market
             self.endDateTime = endDateTime
-            self.instanceRole = instanceRole
+            self.lastStateChangeReason = lastStateChangeReason
+            self.startDateTime = startDateTime
+            self.state = state
         }
 
         private enum CodingKeys: String, CodingKey {
             case creationDateTime = "CreationDateTime"
-            case name = "Name"
-            case readyDateTime = "ReadyDateTime"
-            case startDateTime = "StartDateTime"
-            case bidPrice = "BidPrice"
-            case instanceRunningCount = "InstanceRunningCount"
-            case instanceGroupId = "InstanceGroupId"
-            case lastStateChangeReason = "LastStateChangeReason"
-            case instanceRequestCount = "InstanceRequestCount"
-            case state = "State"
-            case instanceType = "InstanceType"
-            case market = "Market"
             case endDateTime = "EndDateTime"
-            case instanceRole = "InstanceRole"
+            case lastStateChangeReason = "LastStateChangeReason"
+            case startDateTime = "StartDateTime"
+            case state = "State"
         }
     }
 
-    public struct StepDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StepConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "ExecutionStatusDetail", required: true, type: .structure)
-        ]
-        /// The step configuration.
-        public let stepConfig: StepConfig
-        /// The description of the step status.
-        public let executionStatusDetail: StepExecutionStatusDetail
-
-        public init(stepConfig: StepConfig, executionStatusDetail: StepExecutionStatusDetail) {
-            self.stepConfig = stepConfig
-            self.executionStatusDetail = executionStatusDetail
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stepConfig = "StepConfig"
-            case executionStatusDetail = "ExecutionStatusDetail"
-        }
-    }
-
-    public struct AddInstanceGroupsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobFlowId", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceGroupIds", required: false, type: .list)
-        ]
-        /// The job flow ID in which the instance groups are added.
-        public let jobFlowId: String?
-        /// Instance group IDs of the newly created instance groups.
-        public let instanceGroupIds: [String]?
-
-        public init(jobFlowId: String? = nil, instanceGroupIds: [String]? = nil) {
-            self.jobFlowId = jobFlowId
-            self.instanceGroupIds = instanceGroupIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobFlowId = "JobFlowId"
-            case instanceGroupIds = "InstanceGroupIds"
-        }
-    }
-
-    public enum InstanceFleetState: String, CustomStringConvertible, Codable {
-        case provisioning = "PROVISIONING"
-        case bootstrapping = "BOOTSTRAPPING"
+    public enum StepState: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case cancelPending = "CANCEL_PENDING"
         case running = "RUNNING"
-        case resizing = "RESIZING"
-        case suspended = "SUSPENDED"
-        case terminating = "TERMINATING"
-        case terminated = "TERMINATED"
+        case completed = "COMPLETED"
+        case cancelled = "CANCELLED"
+        case failed = "FAILED"
+        case interrupted = "INTERRUPTED"
         public var description: String { return self.rawValue }
+    }
+
+    public struct StepStateChangeReason: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Code", required: false, type: .enum), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
+        ]
+        /// The programmable code for the state change reason. Note: Currently, the service provides no code for the state change.
+        public let code: StepStateChangeReasonCode?
+        /// The descriptive message for the state change reason.
+        public let message: String?
+
+        public init(code: StepStateChangeReasonCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
+    public enum StepStateChangeReasonCode: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct StepStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailureDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "StateChangeReason", required: false, type: .structure), 
+            AWSShapeMember(label: "Timeline", required: false, type: .structure)
+        ]
+        /// The details for the step failure including reason, message, and log file path where the root cause was identified.
+        public let failureDetails: FailureDetails?
+        /// The execution state of the cluster step.
+        public let state: StepState?
+        /// The reason for the step execution status change.
+        public let stateChangeReason: StepStateChangeReason?
+        /// The timeline of the cluster step status over time.
+        public let timeline: StepTimeline?
+
+        public init(failureDetails: FailureDetails? = nil, state: StepState? = nil, stateChangeReason: StepStateChangeReason? = nil, timeline: StepTimeline? = nil) {
+            self.failureDetails = failureDetails
+            self.state = state
+            self.stateChangeReason = stateChangeReason
+            self.timeline = timeline
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureDetails = "FailureDetails"
+            case state = "State"
+            case stateChangeReason = "StateChangeReason"
+            case timeline = "Timeline"
+        }
+    }
+
+    public struct StepSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionOnFailure", required: false, type: .enum), 
+            AWSShapeMember(label: "Config", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .structure)
+        ]
+        /// This specifies what action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE.
+        public let actionOnFailure: ActionOnFailure?
+        /// The Hadoop job configuration of the cluster step.
+        public let config: HadoopStepConfig?
+        /// The identifier of the cluster step.
+        public let id: String?
+        /// The name of the cluster step.
+        public let name: String?
+        /// The current execution status details of the cluster step.
+        public let status: StepStatus?
+
+        public init(actionOnFailure: ActionOnFailure? = nil, config: HadoopStepConfig? = nil, id: String? = nil, name: String? = nil, status: StepStatus? = nil) {
+            self.actionOnFailure = actionOnFailure
+            self.config = config
+            self.id = id
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionOnFailure = "ActionOnFailure"
+            case config = "Config"
+            case id = "Id"
+            case name = "Name"
+            case status = "Status"
+        }
+    }
+
+    public struct StepTimeline: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StartDateTime", required: false, type: .timestamp)
+        ]
+        /// The date and time when the cluster step was created.
+        public let creationDateTime: TimeStamp?
+        /// The date and time when the cluster step execution completed or failed.
+        public let endDateTime: TimeStamp?
+        /// The date and time when the cluster step execution started.
+        public let startDateTime: TimeStamp?
+
+        public init(creationDateTime: TimeStamp? = nil, endDateTime: TimeStamp? = nil, startDateTime: TimeStamp? = nil) {
+            self.creationDateTime = creationDateTime
+            self.endDateTime = endDateTime
+            self.startDateTime = startDateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "CreationDateTime"
+            case endDateTime = "EndDateTime"
+            case startDateTime = "StartDateTime"
+        }
+    }
+
+    public struct SupportedProductConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Args", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The list of user-supplied arguments.
+        public let args: [String]?
+        /// The name of the product configuration.
+        public let name: String?
+
+        public init(args: [String]? = nil, name: String? = nil) {
+            self.args = args
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case args = "Args"
+            case name = "Name"
+        }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// A user-defined key, which is the minimum required information for a valid tag. For more information, see Tag . 
+        public let key: String?
+        /// A user-defined value, which is optional in a tag. For more information, see Tag Clusters. 
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TerminateJobFlowsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobFlowIds", required: true, type: .list)
+        ]
+        /// A list of job flows to be shutdown.
+        public let jobFlowIds: [String]
+
+        public init(jobFlowIds: [String]) {
+            self.jobFlowIds = jobFlowIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobFlowIds = "JobFlowIds"
+        }
     }
 
     public enum Unit: String, CustomStringConvertible, Codable {
@@ -2544,1266 +3793,29 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
-    public struct ListStepsInput: AWSShape {
+    public struct VolumeSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StepStates", required: false, type: .list), 
-            AWSShapeMember(label: "StepIds", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "ClusterId", required: true, type: .string)
+            AWSShapeMember(label: "Iops", required: false, type: .integer), 
+            AWSShapeMember(label: "SizeInGB", required: true, type: .integer), 
+            AWSShapeMember(label: "VolumeType", required: true, type: .string)
         ]
-        /// The filter to limit the step list based on certain states.
-        public let stepStates: [StepState]?
-        /// The filter to limit the step list based on the identifier of the steps.
-        public let stepIds: [String]?
-        /// The pagination token that indicates the next set of results to retrieve.
-        public let marker: String?
-        /// The identifier of the cluster for which to list the steps.
-        public let clusterId: String
+        /// The number of I/O operations per second (IOPS) that the volume supports.
+        public let iops: Int32?
+        /// The volume size, in gibibytes (GiB). This can be a number from 1 - 1024. If the volume type is EBS-optimized, the minimum value is 10.
+        public let sizeInGB: Int32
+        /// The volume type. Volume types supported are gp2, io1, standard.
+        public let volumeType: String
 
-        public init(stepStates: [StepState]? = nil, stepIds: [String]? = nil, marker: String? = nil, clusterId: String) {
-            self.stepStates = stepStates
-            self.stepIds = stepIds
-            self.marker = marker
-            self.clusterId = clusterId
+        public init(iops: Int32? = nil, sizeInGB: Int32, volumeType: String) {
+            self.iops = iops
+            self.sizeInGB = sizeInGB
+            self.volumeType = volumeType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stepStates = "StepStates"
-            case stepIds = "StepIds"
-            case marker = "Marker"
-            case clusterId = "ClusterId"
-        }
-    }
-
-    public struct RemoveTagsOutput: AWSShape {
-
-    }
-
-    public struct SecurityConfigurationSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The date and time the security configuration was created.
-        public let creationDateTime: TimeStamp?
-        /// The name of the security configuration.
-        public let name: String?
-
-        public init(creationDateTime: TimeStamp? = nil, name: String? = nil) {
-            self.creationDateTime = creationDateTime
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationDateTime = "CreationDateTime"
-            case name = "Name"
-        }
-    }
-
-    public struct TerminateJobFlowsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobFlowIds", required: true, type: .list)
-        ]
-        /// A list of job flows to be shutdown.
-        public let jobFlowIds: [String]
-
-        public init(jobFlowIds: [String]) {
-            self.jobFlowIds = jobFlowIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobFlowIds = "JobFlowIds"
-        }
-    }
-
-    public struct ScalingRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Trigger", required: true, type: .structure), 
-            AWSShapeMember(label: "Action", required: true, type: .structure), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// The CloudWatch alarm definition that determines when automatic scaling activity is triggered.
-        public let trigger: ScalingTrigger
-        /// The conditions that trigger an automatic scaling activity.
-        public let action: ScalingAction
-        /// The name used to identify an automatic scaling rule. Rule names must be unique within a scaling policy.
-        public let name: String
-        /// A friendly, more verbose description of the automatic scaling rule.
-        public let description: String?
-
-        public init(trigger: ScalingTrigger, action: ScalingAction, name: String, description: String? = nil) {
-            self.trigger = trigger
-            self.action = action
-            self.name = name
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case trigger = "Trigger"
-            case action = "Action"
-            case name = "Name"
-            case description = "Description"
-        }
-    }
-
-    public struct CreateSecurityConfigurationOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDateTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The date and time the security configuration was created.
-        public let creationDateTime: TimeStamp
-        /// The name of the security configuration.
-        public let name: String
-
-        public init(creationDateTime: TimeStamp, name: String) {
-            self.creationDateTime = creationDateTime
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationDateTime = "CreationDateTime"
-            case name = "Name"
-        }
-    }
-
-    public struct InstanceStateChangeReason: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Code", required: false, type: .enum)
-        ]
-        /// The status change reason description.
-        public let message: String?
-        /// The programmable code for the state change reason.
-        public let code: InstanceStateChangeReasonCode?
-
-        public init(message: String? = nil, code: InstanceStateChangeReasonCode? = nil) {
-            self.message = message
-            self.code = code
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-            case code = "Code"
-        }
-    }
-
-    public struct DeleteSecurityConfigurationOutput: AWSShape {
-
-    }
-
-    public enum SpotProvisioningTimeoutAction: String, CustomStringConvertible, Codable {
-        case switchToOnDemand = "SWITCH_TO_ON_DEMAND"
-        case terminateCluster = "TERMINATE_CLUSTER"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RunJobFlowOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobFlowId", required: false, type: .string)
-        ]
-        /// An unique identifier for the job flow.
-        public let jobFlowId: String?
-
-        public init(jobFlowId: String? = nil) {
-            self.jobFlowId = jobFlowId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobFlowId = "JobFlowId"
-        }
-    }
-
-    public struct InstanceGroupStateChangeReason: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Code", required: false, type: .enum)
-        ]
-        /// The status change reason description.
-        public let message: String?
-        /// The programmable code for the state change reason.
-        public let code: InstanceGroupStateChangeReasonCode?
-
-        public init(message: String? = nil, code: InstanceGroupStateChangeReasonCode? = nil) {
-            self.message = message
-            self.code = code
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-            case code = "Code"
-        }
-    }
-
-    public struct ListInstanceFleetsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
-        /// The unique identifier of the cluster.
-        public let clusterId: String
-        /// The pagination token that indicates the next set of results to retrieve.
-        public let marker: String?
-
-        public init(clusterId: String, marker: String? = nil) {
-            self.clusterId = clusterId
-            self.marker = marker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clusterId = "ClusterId"
-            case marker = "Marker"
-        }
-    }
-
-    public struct Cluster: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RunningAmiVersion", required: false, type: .string), 
-            AWSShapeMember(label: "MasterPublicDnsName", required: false, type: .string), 
-            AWSShapeMember(label: "Configurations", required: false, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "RequestedAmiVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .structure), 
-            AWSShapeMember(label: "VisibleToAllUsers", required: false, type: .boolean), 
-            AWSShapeMember(label: "ScaleDownBehavior", required: false, type: .enum), 
-            AWSShapeMember(label: "AutoScalingRole", required: false, type: .string), 
-            AWSShapeMember(label: "TerminationProtected", required: false, type: .boolean), 
-            AWSShapeMember(label: "RepoUpgradeOnBoot", required: false, type: .enum), 
-            AWSShapeMember(label: "ServiceRole", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceCollectionType", required: false, type: .enum), 
-            AWSShapeMember(label: "ReleaseLabel", required: false, type: .string), 
-            AWSShapeMember(label: "Applications", required: false, type: .list), 
-            AWSShapeMember(label: "CustomAmiId", required: false, type: .string), 
-            AWSShapeMember(label: "NormalizedInstanceHours", required: false, type: .integer), 
-            AWSShapeMember(label: "AutoTerminate", required: false, type: .boolean), 
-            AWSShapeMember(label: "KerberosAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Ec2InstanceAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "EbsRootVolumeSize", required: false, type: .integer), 
-            AWSShapeMember(label: "LogUri", required: false, type: .string)
-        ]
-        /// The AMI version running on this cluster.
-        public let runningAmiVersion: String?
-        /// The DNS name of the master node. If the cluster is on a private subnet, this is the private DNS name. On a public subnet, this is the public DNS name.
-        public let masterPublicDnsName: String?
-        /// Applies only to Amazon EMR releases 4.x and later. The list of Configurations supplied to the EMR cluster.
-        public let configurations: [Configuration]?
-        /// A list of tags associated with a cluster.
-        public let tags: [Tag]?
-        /// The AMI version requested for this cluster.
-        public let requestedAmiVersion: String?
-        /// The current status details about the cluster.
-        public let status: ClusterStatus?
-        /// Indicates whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and manage the cluster if they have the proper policy permissions set. If this value is false, only the IAM user that created the cluster can view and manage it. This value can be changed using the SetVisibleToAllUsers action.
-        public let visibleToAllUsers: Bool?
-        /// The way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour boundary, regardless of when the request to terminate the instance was submitted. This option is only available with Amazon EMR 5.1.0 and later and is the default for clusters created using that version. TERMINATE_AT_TASK_COMPLETION indicates that Amazon EMR blacklists and drains tasks from nodes before terminating the Amazon EC2 instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR removes the least active nodes first and blocks instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION is available only in Amazon EMR version 4.1.0 and later, and is the default for versions of Amazon EMR earlier than 5.1.0.
-        public let scaleDownBehavior: ScaleDownBehavior?
-        /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling feature requires to launch and terminate EC2 instances in an instance group.
-        public let autoScalingRole: String?
-        /// Indicates whether Amazon EMR will lock the cluster to prevent the EC2 instances from being terminated by an API call or user intervention, or in the event of a cluster error.
-        public let terminationProtected: Bool?
-        /// Applies only when CustomAmiID is used. Specifies the type of updates that are applied from the Amazon Linux AMI package repositories when an instance boots using the AMI.
-        public let repoUpgradeOnBoot: RepoUpgradeOnBoot?
-        /// The IAM role that will be assumed by the Amazon EMR service to access AWS resources on your behalf.
-        public let serviceRole: String?
-        ///  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions.  The instance group configuration of the cluster. A value of INSTANCE_GROUP indicates a uniform instance group configuration. A value of INSTANCE_FLEET indicates an instance fleets configuration.
-        public let instanceCollectionType: InstanceCollectionType?
-        /// The Amazon EMR release label, which determines the version of open-source application packages installed on the cluster. Release labels are in the form emr-x.x.x, where x.x.x is an Amazon EMR release version, for example, emr-5.14.0. For more information about Amazon EMR release versions and included application versions and features, see http://docs.aws.amazon.com/emr/latest/ReleaseGuide/. The release label applies only to Amazon EMR releases versions 4.x and later. Earlier versions use AmiVersion.
-        public let releaseLabel: String?
-        /// The applications installed on this cluster.
-        public let applications: [Application]?
-        /// Available only in Amazon EMR version 5.7.0 and later. The ID of a custom Amazon EBS-backed Linux AMI if the cluster uses a custom AMI.
-        public let customAmiId: String?
-        /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour an m1.small instance runs. Larger instances are weighted more, so an EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
-        public let normalizedInstanceHours: Int32?
-        /// Specifies whether the cluster should terminate after completing all steps.
-        public let autoTerminate: Bool?
-        /// Attributes for Kerberos configuration when Kerberos authentication is enabled using a security configuration. For more information see Use Kerberos Authentication in the EMR Management Guide.
-        public let kerberosAttributes: KerberosAttributes?
-        /// The name of the cluster.
-        public let name: String?
-        /// Provides information about the EC2 instances in a cluster grouped by category. For example, key name, subnet ID, IAM instance profile, and so on.
-        public let ec2InstanceAttributes: Ec2InstanceAttributes?
-        /// The name of the security configuration applied to the cluster.
-        public let securityConfiguration: String?
-        /// The unique identifier for the cluster.
-        public let id: String?
-        /// The size, in GiB, of the EBS root device volume of the Linux AMI that is used for each EC2 instance. Available in Amazon EMR version 4.x and later.
-        public let ebsRootVolumeSize: Int32?
-        /// The path to the Amazon S3 location where logs for this cluster are stored.
-        public let logUri: String?
-
-        public init(runningAmiVersion: String? = nil, masterPublicDnsName: String? = nil, configurations: [Configuration]? = nil, tags: [Tag]? = nil, requestedAmiVersion: String? = nil, status: ClusterStatus? = nil, visibleToAllUsers: Bool? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, autoScalingRole: String? = nil, terminationProtected: Bool? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, serviceRole: String? = nil, instanceCollectionType: InstanceCollectionType? = nil, releaseLabel: String? = nil, applications: [Application]? = nil, customAmiId: String? = nil, normalizedInstanceHours: Int32? = nil, autoTerminate: Bool? = nil, kerberosAttributes: KerberosAttributes? = nil, name: String? = nil, ec2InstanceAttributes: Ec2InstanceAttributes? = nil, securityConfiguration: String? = nil, id: String? = nil, ebsRootVolumeSize: Int32? = nil, logUri: String? = nil) {
-            self.runningAmiVersion = runningAmiVersion
-            self.masterPublicDnsName = masterPublicDnsName
-            self.configurations = configurations
-            self.tags = tags
-            self.requestedAmiVersion = requestedAmiVersion
-            self.status = status
-            self.visibleToAllUsers = visibleToAllUsers
-            self.scaleDownBehavior = scaleDownBehavior
-            self.autoScalingRole = autoScalingRole
-            self.terminationProtected = terminationProtected
-            self.repoUpgradeOnBoot = repoUpgradeOnBoot
-            self.serviceRole = serviceRole
-            self.instanceCollectionType = instanceCollectionType
-            self.releaseLabel = releaseLabel
-            self.applications = applications
-            self.customAmiId = customAmiId
-            self.normalizedInstanceHours = normalizedInstanceHours
-            self.autoTerminate = autoTerminate
-            self.kerberosAttributes = kerberosAttributes
-            self.name = name
-            self.ec2InstanceAttributes = ec2InstanceAttributes
-            self.securityConfiguration = securityConfiguration
-            self.id = id
-            self.ebsRootVolumeSize = ebsRootVolumeSize
-            self.logUri = logUri
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case runningAmiVersion = "RunningAmiVersion"
-            case masterPublicDnsName = "MasterPublicDnsName"
-            case configurations = "Configurations"
-            case tags = "Tags"
-            case requestedAmiVersion = "RequestedAmiVersion"
-            case status = "Status"
-            case visibleToAllUsers = "VisibleToAllUsers"
-            case scaleDownBehavior = "ScaleDownBehavior"
-            case autoScalingRole = "AutoScalingRole"
-            case terminationProtected = "TerminationProtected"
-            case repoUpgradeOnBoot = "RepoUpgradeOnBoot"
-            case serviceRole = "ServiceRole"
-            case instanceCollectionType = "InstanceCollectionType"
-            case releaseLabel = "ReleaseLabel"
-            case applications = "Applications"
-            case customAmiId = "CustomAmiId"
-            case normalizedInstanceHours = "NormalizedInstanceHours"
-            case autoTerminate = "AutoTerminate"
-            case kerberosAttributes = "KerberosAttributes"
-            case name = "Name"
-            case ec2InstanceAttributes = "Ec2InstanceAttributes"
-            case securityConfiguration = "SecurityConfiguration"
-            case id = "Id"
-            case ebsRootVolumeSize = "EbsRootVolumeSize"
-            case logUri = "LogUri"
-        }
-    }
-
-    public struct StepSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "ActionOnFailure", required: false, type: .enum), 
-            AWSShapeMember(label: "Config", required: false, type: .structure)
-        ]
-        /// The current execution status details of the cluster step.
-        public let status: StepStatus?
-        /// The name of the cluster step.
-        public let name: String?
-        /// The identifier of the cluster step.
-        public let id: String?
-        /// This specifies what action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE.
-        public let actionOnFailure: ActionOnFailure?
-        /// The Hadoop job configuration of the cluster step.
-        public let config: HadoopStepConfig?
-
-        public init(status: StepStatus? = nil, name: String? = nil, id: String? = nil, actionOnFailure: ActionOnFailure? = nil, config: HadoopStepConfig? = nil) {
-            self.status = status
-            self.name = name
-            self.id = id
-            self.actionOnFailure = actionOnFailure
-            self.config = config
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case name = "Name"
-            case id = "Id"
-            case actionOnFailure = "ActionOnFailure"
-            case config = "Config"
-        }
-    }
-
-    public struct RunJobFlowInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BootstrapActions", required: false, type: .list), 
-            AWSShapeMember(label: "RepoUpgradeOnBoot", required: false, type: .enum), 
-            AWSShapeMember(label: "Configurations", required: false, type: .list), 
-            AWSShapeMember(label: "NewSupportedProducts", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "EbsRootVolumeSize", required: false, type: .integer), 
-            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "ReleaseLabel", required: false, type: .string), 
-            AWSShapeMember(label: "Instances", required: true, type: .structure), 
-            AWSShapeMember(label: "Steps", required: false, type: .list), 
-            AWSShapeMember(label: "JobFlowRole", required: false, type: .string), 
-            AWSShapeMember(label: "AutoScalingRole", required: false, type: .string), 
-            AWSShapeMember(label: "AmiVersion", required: false, type: .string), 
-            AWSShapeMember(label: "VisibleToAllUsers", required: false, type: .boolean), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "AdditionalInfo", required: false, type: .string), 
-            AWSShapeMember(label: "ScaleDownBehavior", required: false, type: .enum), 
-            AWSShapeMember(label: "KerberosAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "SupportedProducts", required: false, type: .list), 
-            AWSShapeMember(label: "CustomAmiId", required: false, type: .string), 
-            AWSShapeMember(label: "LogUri", required: false, type: .string), 
-            AWSShapeMember(label: "Applications", required: false, type: .list), 
-            AWSShapeMember(label: "ServiceRole", required: false, type: .string)
-        ]
-        /// A list of bootstrap actions to run before Hadoop starts on the cluster nodes.
-        public let bootstrapActions: [BootstrapActionConfig]?
-        /// Applies only when CustomAmiID is used. Specifies which updates from the Amazon Linux AMI package repositories to apply automatically when the instance boots using the AMI. If omitted, the default is SECURITY, which indicates that only security updates are applied. If NONE is specified, no updates are applied, and all updates must be applied manually.
-        public let repoUpgradeOnBoot: RepoUpgradeOnBoot?
-        /// For Amazon EMR releases 4.0 and later. The list of configurations supplied for the EMR cluster you are creating.
-        public let configurations: [Configuration]?
-        ///  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use Applications.  A list of strings that indicates third-party software to use with the job flow that accepts a user argument list. EMR accepts and forwards the argument list to the corresponding installation script as bootstrap action arguments. For more information, see "Launch a Job Flow on the MapR Distribution for Hadoop" in the Amazon EMR Developer Guide. Supported values are:   "mapr-m3" - launch the cluster using MapR M3 Edition.   "mapr-m5" - launch the cluster using MapR M5 Edition.   "mapr" with the user arguments specifying "--edition,m3" or "--edition,m5" - launch the job flow using MapR M3 or M5 Edition respectively.   "mapr-m7" - launch the cluster using MapR M7 Edition.   "hunk" - launch the cluster with the Hunk Big Data Analtics Platform.   "hue"- launch the cluster with Hue installed.   "spark" - launch the cluster with Apache Spark installed.   "ganglia" - launch the cluster with the Ganglia Monitoring System installed.  
-        public let newSupportedProducts: [SupportedProductConfig]?
-        /// The name of the job flow.
-        public let name: String
-        /// The size, in GiB, of the EBS root device volume of the Linux AMI that is used for each EC2 instance. Available in Amazon EMR version 4.x and later.
-        public let ebsRootVolumeSize: Int32?
-        /// The name of a security configuration to apply to the cluster.
-        public let securityConfiguration: String?
-        /// The Amazon EMR release label, which determines the version of open-source application packages installed on the cluster. Release labels are in the form emr-x.x.x, where x.x.x is an Amazon EMR release version, for example, emr-5.14.0. For more information about Amazon EMR release versions and included application versions and features, see http://docs.aws.amazon.com/emr/latest/ReleaseGuide/. The release label applies only to Amazon EMR releases versions 4.x and later. Earlier versions use AmiVersion.
-        public let releaseLabel: String?
-        /// A specification of the number and type of Amazon EC2 instances.
-        public let instances: JobFlowInstancesConfig
-        /// A list of steps to run.
-        public let steps: [StepConfig]?
-        /// Also called instance profile and EC2 role. An IAM role for an EMR cluster. The EC2 instances of the cluster assume this role. The default role is EMR_EC2_DefaultRole. In order to use the default role, you must have already created it using the CLI or console.
-        public let jobFlowRole: String?
-        /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling feature requires to launch and terminate EC2 instances in an instance group.
-        public let autoScalingRole: String?
-        /// Applies only to Amazon EMR AMI versions 3.x and 2.x. For Amazon EMR releases 4.0 and later, ReleaseLabel is used. To specify a custom AMI, use CustomAmiID.
-        public let amiVersion: String?
-        /// Whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and (if they have the proper policy permissions set) manage the cluster. If it is set to false, only the IAM user that created the cluster can view and manage it.
-        public let visibleToAllUsers: Bool?
-        /// A list of tags to associate with a cluster and propagate to Amazon EC2 instances.
-        public let tags: [Tag]?
-        /// A JSON string for selecting additional features.
-        public let additionalInfo: String?
-        /// Specifies the way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour boundary, regardless of when the request to terminate the instance was submitted. This option is only available with Amazon EMR 5.1.0 and later and is the default for clusters created using that version. TERMINATE_AT_TASK_COMPLETION indicates that Amazon EMR blacklists and drains tasks from nodes before terminating the Amazon EC2 instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR removes the least active nodes first and blocks instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION available only in Amazon EMR version 4.1.0 and later, and is the default for versions of Amazon EMR earlier than 5.1.0.
-        public let scaleDownBehavior: ScaleDownBehavior?
-        /// Attributes for Kerberos configuration when Kerberos authentication is enabled using a security configuration. For more information see Use Kerberos Authentication in the EMR Management Guide.
-        public let kerberosAttributes: KerberosAttributes?
-        ///  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use Applications.  A list of strings that indicates third-party software to use. For more information, see the Amazon EMR Developer Guide. Currently supported values are:   "mapr-m3" - launch the job flow using MapR M3 Edition.   "mapr-m5" - launch the job flow using MapR M5 Edition.  
-        public let supportedProducts: [String]?
-        /// Available only in Amazon EMR version 5.7.0 and later. The ID of a custom Amazon EBS-backed Linux AMI. If specified, Amazon EMR uses this AMI when it launches cluster EC2 instances. For more information about custom AMIs in Amazon EMR, see Using a Custom AMI in the Amazon EMR Management Guide. If omitted, the cluster uses the base Linux AMI for the ReleaseLabel specified. For Amazon EMR versions 2.x and 3.x, use AmiVersion instead. For information about creating a custom AMI, see Creating an Amazon EBS-Backed Linux AMI in the Amazon Elastic Compute Cloud User Guide for Linux Instances. For information about finding an AMI ID, see Finding a Linux AMI. 
-        public let customAmiId: String?
-        /// The location in Amazon S3 to write the log files of the job flow. If a value is not provided, logs are not created.
-        public let logUri: String?
-        /// For Amazon EMR releases 4.0 and later. A list of applications for the cluster. Valid values are: "Hadoop", "Hive", "Mahout", "Pig", and "Spark." They are case insensitive.
-        public let applications: [Application]?
-        /// The IAM role that will be assumed by the Amazon EMR service to access AWS resources on your behalf.
-        public let serviceRole: String?
-
-        public init(bootstrapActions: [BootstrapActionConfig]? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, configurations: [Configuration]? = nil, newSupportedProducts: [SupportedProductConfig]? = nil, name: String, ebsRootVolumeSize: Int32? = nil, securityConfiguration: String? = nil, releaseLabel: String? = nil, instances: JobFlowInstancesConfig, steps: [StepConfig]? = nil, jobFlowRole: String? = nil, autoScalingRole: String? = nil, amiVersion: String? = nil, visibleToAllUsers: Bool? = nil, tags: [Tag]? = nil, additionalInfo: String? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, kerberosAttributes: KerberosAttributes? = nil, supportedProducts: [String]? = nil, customAmiId: String? = nil, logUri: String? = nil, applications: [Application]? = nil, serviceRole: String? = nil) {
-            self.bootstrapActions = bootstrapActions
-            self.repoUpgradeOnBoot = repoUpgradeOnBoot
-            self.configurations = configurations
-            self.newSupportedProducts = newSupportedProducts
-            self.name = name
-            self.ebsRootVolumeSize = ebsRootVolumeSize
-            self.securityConfiguration = securityConfiguration
-            self.releaseLabel = releaseLabel
-            self.instances = instances
-            self.steps = steps
-            self.jobFlowRole = jobFlowRole
-            self.autoScalingRole = autoScalingRole
-            self.amiVersion = amiVersion
-            self.visibleToAllUsers = visibleToAllUsers
-            self.tags = tags
-            self.additionalInfo = additionalInfo
-            self.scaleDownBehavior = scaleDownBehavior
-            self.kerberosAttributes = kerberosAttributes
-            self.supportedProducts = supportedProducts
-            self.customAmiId = customAmiId
-            self.logUri = logUri
-            self.applications = applications
-            self.serviceRole = serviceRole
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bootstrapActions = "BootstrapActions"
-            case repoUpgradeOnBoot = "RepoUpgradeOnBoot"
-            case configurations = "Configurations"
-            case newSupportedProducts = "NewSupportedProducts"
-            case name = "Name"
-            case ebsRootVolumeSize = "EbsRootVolumeSize"
-            case securityConfiguration = "SecurityConfiguration"
-            case releaseLabel = "ReleaseLabel"
-            case instances = "Instances"
-            case steps = "Steps"
-            case jobFlowRole = "JobFlowRole"
-            case autoScalingRole = "AutoScalingRole"
-            case amiVersion = "AmiVersion"
-            case visibleToAllUsers = "VisibleToAllUsers"
-            case tags = "Tags"
-            case additionalInfo = "AdditionalInfo"
-            case scaleDownBehavior = "ScaleDownBehavior"
-            case kerberosAttributes = "KerberosAttributes"
-            case supportedProducts = "SupportedProducts"
-            case customAmiId = "CustomAmiId"
-            case logUri = "LogUri"
-            case applications = "Applications"
-            case serviceRole = "ServiceRole"
-        }
-    }
-
-    public struct InstanceFleetModifyConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceFleetId", required: true, type: .string), 
-            AWSShapeMember(label: "TargetSpotCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "TargetOnDemandCapacity", required: false, type: .integer)
-        ]
-        /// A unique identifier for the instance fleet.
-        public let instanceFleetId: String
-        /// The target capacity of Spot units for the instance fleet. For more information, see InstanceFleetConfig$TargetSpotCapacity.
-        public let targetSpotCapacity: Int32?
-        /// The target capacity of On-Demand units for the instance fleet. For more information see InstanceFleetConfig$TargetOnDemandCapacity.
-        public let targetOnDemandCapacity: Int32?
-
-        public init(instanceFleetId: String, targetSpotCapacity: Int32? = nil, targetOnDemandCapacity: Int32? = nil) {
-            self.instanceFleetId = instanceFleetId
-            self.targetSpotCapacity = targetSpotCapacity
-            self.targetOnDemandCapacity = targetOnDemandCapacity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceFleetId = "InstanceFleetId"
-            case targetSpotCapacity = "TargetSpotCapacity"
-            case targetOnDemandCapacity = "TargetOnDemandCapacity"
-        }
-    }
-
-    public struct InstanceFleetTimeline: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ReadyDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp)
-        ]
-        /// The time and date the instance fleet was created.
-        public let creationDateTime: TimeStamp?
-        /// The time and date the instance fleet was ready to run jobs.
-        public let readyDateTime: TimeStamp?
-        /// The time and date the instance fleet terminated.
-        public let endDateTime: TimeStamp?
-
-        public init(creationDateTime: TimeStamp? = nil, readyDateTime: TimeStamp? = nil, endDateTime: TimeStamp? = nil) {
-            self.creationDateTime = creationDateTime
-            self.readyDateTime = readyDateTime
-            self.endDateTime = endDateTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationDateTime = "CreationDateTime"
-            case readyDateTime = "ReadyDateTime"
-            case endDateTime = "EndDateTime"
-        }
-    }
-
-    public struct DescribeClusterOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Cluster", required: false, type: .structure)
-        ]
-        /// This output contains the details for the requested cluster.
-        public let cluster: Cluster?
-
-        public init(cluster: Cluster? = nil) {
-            self.cluster = cluster
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cluster = "Cluster"
-        }
-    }
-
-    public enum AdjustmentType: String, CustomStringConvertible, Codable {
-        case changeInCapacity = "CHANGE_IN_CAPACITY"
-        case percentChangeInCapacity = "PERCENT_CHANGE_IN_CAPACITY"
-        case exactCapacity = "EXACT_CAPACITY"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct InstanceFleetConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceFleetType", required: true, type: .enum), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "TargetOnDemandCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "TargetSpotCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "InstanceTypeConfigs", required: false, type: .list), 
-            AWSShapeMember(label: "LaunchSpecifications", required: false, type: .structure)
-        ]
-        /// The node type that the instance fleet hosts. Valid values are MASTER,CORE,and TASK.
-        public let instanceFleetType: InstanceFleetType
-        /// The friendly name of the instance fleet.
-        public let name: String?
-        /// The target capacity of On-Demand units for the instance fleet, which determines how many On-Demand instances to provision. When the instance fleet launches, Amazon EMR tries to provision On-Demand instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When an On-Demand instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units.  If not specified or set to 0, only Spot instances are provisioned for the instance fleet using TargetSpotCapacity. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1. 
-        public let targetOnDemandCapacity: Int32?
-        /// The target capacity of Spot units for the instance fleet, which determines how many Spot instances to provision. When the instance fleet launches, Amazon EMR tries to provision Spot instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When a Spot instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units.  If not specified or set to 0, only On-Demand instances are provisioned for the instance fleet. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1. 
-        public let targetSpotCapacity: Int32?
-        /// The instance type configurations that define the EC2 instances in the instance fleet.
-        public let instanceTypeConfigs: [InstanceTypeConfig]?
-        /// The launch specification for the instance fleet.
-        public let launchSpecifications: InstanceFleetProvisioningSpecifications?
-
-        public init(instanceFleetType: InstanceFleetType, name: String? = nil, targetOnDemandCapacity: Int32? = nil, targetSpotCapacity: Int32? = nil, instanceTypeConfigs: [InstanceTypeConfig]? = nil, launchSpecifications: InstanceFleetProvisioningSpecifications? = nil) {
-            self.instanceFleetType = instanceFleetType
-            self.name = name
-            self.targetOnDemandCapacity = targetOnDemandCapacity
-            self.targetSpotCapacity = targetSpotCapacity
-            self.instanceTypeConfigs = instanceTypeConfigs
-            self.launchSpecifications = launchSpecifications
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceFleetType = "InstanceFleetType"
-            case name = "Name"
-            case targetOnDemandCapacity = "TargetOnDemandCapacity"
-            case targetSpotCapacity = "TargetSpotCapacity"
-            case instanceTypeConfigs = "InstanceTypeConfigs"
-            case launchSpecifications = "LaunchSpecifications"
-        }
-    }
-
-    public struct ListInstancesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceGroupTypes", required: false, type: .list), 
-            AWSShapeMember(label: "InstanceFleetType", required: false, type: .enum), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceFleetId", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceStates", required: false, type: .list)
-        ]
-        /// The type of instance group for which to list the instances.
-        public let instanceGroupTypes: [InstanceGroupType]?
-        /// The node type of the instance fleet. For example MASTER, CORE, or TASK.
-        public let instanceFleetType: InstanceFleetType?
-        /// The pagination token that indicates the next set of results to retrieve.
-        public let marker: String?
-        /// The identifier of the cluster for which to list the instances.
-        public let clusterId: String
-        /// The identifier of the instance group for which to list the instances.
-        public let instanceGroupId: String?
-        /// The unique identifier of the instance fleet.
-        public let instanceFleetId: String?
-        /// A list of instance states that will filter the instances returned with this request.
-        public let instanceStates: [InstanceState]?
-
-        public init(instanceGroupTypes: [InstanceGroupType]? = nil, instanceFleetType: InstanceFleetType? = nil, marker: String? = nil, clusterId: String, instanceGroupId: String? = nil, instanceFleetId: String? = nil, instanceStates: [InstanceState]? = nil) {
-            self.instanceGroupTypes = instanceGroupTypes
-            self.instanceFleetType = instanceFleetType
-            self.marker = marker
-            self.clusterId = clusterId
-            self.instanceGroupId = instanceGroupId
-            self.instanceFleetId = instanceFleetId
-            self.instanceStates = instanceStates
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceGroupTypes = "InstanceGroupTypes"
-            case instanceFleetType = "InstanceFleetType"
-            case marker = "Marker"
-            case clusterId = "ClusterId"
-            case instanceGroupId = "InstanceGroupId"
-            case instanceFleetId = "InstanceFleetId"
-            case instanceStates = "InstanceStates"
-        }
-    }
-
-    public struct InstanceGroupTimeline: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ReadyDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp)
-        ]
-        /// The creation date and time of the instance group.
-        public let creationDateTime: TimeStamp?
-        /// The date and time when the instance group became ready to perform tasks.
-        public let readyDateTime: TimeStamp?
-        /// The date and time when the instance group terminated.
-        public let endDateTime: TimeStamp?
-
-        public init(creationDateTime: TimeStamp? = nil, readyDateTime: TimeStamp? = nil, endDateTime: TimeStamp? = nil) {
-            self.creationDateTime = creationDateTime
-            self.readyDateTime = readyDateTime
-            self.endDateTime = endDateTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationDateTime = "CreationDateTime"
-            case readyDateTime = "ReadyDateTime"
-            case endDateTime = "EndDateTime"
-        }
-    }
-
-    public struct KerberosAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Realm", required: true, type: .string), 
-            AWSShapeMember(label: "ADDomainJoinUser", required: false, type: .string), 
-            AWSShapeMember(label: "CrossRealmTrustPrincipalPassword", required: false, type: .string), 
-            AWSShapeMember(label: "KdcAdminPassword", required: true, type: .string), 
-            AWSShapeMember(label: "ADDomainJoinPassword", required: false, type: .string)
-        ]
-        /// The name of the Kerberos realm to which all nodes in a cluster belong. For example, EC2.INTERNAL. 
-        public let realm: String
-        /// Required only when establishing a cross-realm trust with an Active Directory domain. A user with sufficient privileges to join resources to the domain.
-        public let aDDomainJoinUser: String?
-        /// Required only when establishing a cross-realm trust with a KDC in a different realm. The cross-realm principal password, which must be identical across realms.
-        public let crossRealmTrustPrincipalPassword: String?
-        /// The password used within the cluster for the kadmin service on the cluster-dedicated KDC, which maintains Kerberos principals, password policies, and keytabs for the cluster.
-        public let kdcAdminPassword: String
-        /// The Active Directory password for ADDomainJoinUser.
-        public let aDDomainJoinPassword: String?
-
-        public init(realm: String, aDDomainJoinUser: String? = nil, crossRealmTrustPrincipalPassword: String? = nil, kdcAdminPassword: String, aDDomainJoinPassword: String? = nil) {
-            self.realm = realm
-            self.aDDomainJoinUser = aDDomainJoinUser
-            self.crossRealmTrustPrincipalPassword = crossRealmTrustPrincipalPassword
-            self.kdcAdminPassword = kdcAdminPassword
-            self.aDDomainJoinPassword = aDDomainJoinPassword
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case realm = "Realm"
-            case aDDomainJoinUser = "ADDomainJoinUser"
-            case crossRealmTrustPrincipalPassword = "CrossRealmTrustPrincipalPassword"
-            case kdcAdminPassword = "KdcAdminPassword"
-            case aDDomainJoinPassword = "ADDomainJoinPassword"
-        }
-    }
-
-    public struct ListClustersOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Clusters", required: false, type: .list)
-        ]
-        /// The pagination token that indicates the next set of results to retrieve.
-        public let marker: String?
-        /// The list of clusters for the account based on the given filters.
-        public let clusters: [ClusterSummary]?
-
-        public init(marker: String? = nil, clusters: [ClusterSummary]? = nil) {
-            self.marker = marker
-            self.clusters = clusters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case clusters = "Clusters"
-        }
-    }
-
-    public struct InstanceTypeSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "Configurations", required: false, type: .list), 
-            AWSShapeMember(label: "BidPrice", required: false, type: .string), 
-            AWSShapeMember(label: "BidPriceAsPercentageOfOnDemandPrice", required: false, type: .double), 
-            AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
-            AWSShapeMember(label: "EbsBlockDevices", required: false, type: .list), 
-            AWSShapeMember(label: "WeightedCapacity", required: false, type: .integer)
-        ]
-        /// The EC2 instance type, for example m3.xlarge.
-        public let instanceType: String?
-        /// A configuration classification that applies when provisioning cluster instances, which can include configurations for applications and software bundled with Amazon EMR.
-        public let configurations: [Configuration]?
-        /// The bid price for each EC2 Spot instance type as defined by InstanceType. Expressed in USD.
-        public let bidPrice: String?
-        /// The bid price, as a percentage of On-Demand price, for each EC2 Spot instance as defined by InstanceType. Expressed as a number (for example, 20 specifies 20%).
-        public let bidPriceAsPercentageOfOnDemandPrice: Double?
-        /// Evaluates to TRUE when the specified InstanceType is EBS-optimized.
-        public let ebsOptimized: Bool?
-        /// The configuration of Amazon Elastic Block Storage (EBS) attached to each instance as defined by InstanceType.
-        public let ebsBlockDevices: [EbsBlockDevice]?
-        /// The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in InstanceFleetConfig. Capacity values represent performance characteristics such as vCPUs, memory, or I/O. If not specified, the default value is 1.
-        public let weightedCapacity: Int32?
-
-        public init(instanceType: String? = nil, configurations: [Configuration]? = nil, bidPrice: String? = nil, bidPriceAsPercentageOfOnDemandPrice: Double? = nil, ebsOptimized: Bool? = nil, ebsBlockDevices: [EbsBlockDevice]? = nil, weightedCapacity: Int32? = nil) {
-            self.instanceType = instanceType
-            self.configurations = configurations
-            self.bidPrice = bidPrice
-            self.bidPriceAsPercentageOfOnDemandPrice = bidPriceAsPercentageOfOnDemandPrice
-            self.ebsOptimized = ebsOptimized
-            self.ebsBlockDevices = ebsBlockDevices
-            self.weightedCapacity = weightedCapacity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceType = "InstanceType"
-            case configurations = "Configurations"
-            case bidPrice = "BidPrice"
-            case bidPriceAsPercentageOfOnDemandPrice = "BidPriceAsPercentageOfOnDemandPrice"
-            case ebsOptimized = "EbsOptimized"
-            case ebsBlockDevices = "EbsBlockDevices"
-            case weightedCapacity = "WeightedCapacity"
-        }
-    }
-
-    public struct SetTerminationProtectionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TerminationProtected", required: true, type: .boolean), 
-            AWSShapeMember(label: "JobFlowIds", required: true, type: .list)
-        ]
-        /// A Boolean that indicates whether to protect the cluster and prevent the Amazon EC2 instances in the cluster from shutting down due to API calls, user intervention, or job-flow error.
-        public let terminationProtected: Bool
-        ///  A list of strings that uniquely identify the clusters to protect. This identifier is returned by RunJobFlow and can also be obtained from DescribeJobFlows . 
-        public let jobFlowIds: [String]
-
-        public init(terminationProtected: Bool, jobFlowIds: [String]) {
-            self.terminationProtected = terminationProtected
-            self.jobFlowIds = jobFlowIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case terminationProtected = "TerminationProtected"
-            case jobFlowIds = "JobFlowIds"
-        }
-    }
-
-    public enum InstanceGroupStateChangeReasonCode: String, CustomStringConvertible, Codable {
-        case internalError = "INTERNAL_ERROR"
-        case validationError = "VALIDATION_ERROR"
-        case instanceFailure = "INSTANCE_FAILURE"
-        case clusterTerminated = "CLUSTER_TERMINATED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AddInstanceFleetOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterId", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceFleetId", required: false, type: .string)
-        ]
-        /// The unique identifier of the cluster.
-        public let clusterId: String?
-        /// The unique identifier of the instance fleet.
-        public let instanceFleetId: String?
-
-        public init(clusterId: String? = nil, instanceFleetId: String? = nil) {
-            self.clusterId = clusterId
-            self.instanceFleetId = instanceFleetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clusterId = "ClusterId"
-            case instanceFleetId = "InstanceFleetId"
-        }
-    }
-
-    public enum InstanceFleetStateChangeReasonCode: String, CustomStringConvertible, Codable {
-        case internalError = "INTERNAL_ERROR"
-        case validationError = "VALIDATION_ERROR"
-        case instanceFailure = "INSTANCE_FAILURE"
-        case clusterTerminated = "CLUSTER_TERMINATED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AddJobFlowStepsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StepIds", required: false, type: .list)
-        ]
-        /// The identifiers of the list of steps added to the job flow.
-        public let stepIds: [String]?
-
-        public init(stepIds: [String]? = nil) {
-            self.stepIds = stepIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stepIds = "StepIds"
-        }
-    }
-
-    public struct SpotProvisioningSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BlockDurationMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "TimeoutDurationMinutes", required: true, type: .integer), 
-            AWSShapeMember(label: "TimeoutAction", required: true, type: .enum)
-        ]
-        /// The defined duration for Spot instances (also known as Spot blocks) in minutes. When specified, the Spot instance does not terminate before the defined duration expires, and defined duration pricing for Spot instances applies. Valid values are 60, 120, 180, 240, 300, or 360. The duration period starts as soon as a Spot instance receives its instance ID. At the end of the duration, Amazon EC2 marks the Spot instance for termination and provides a Spot instance termination notice, which gives the instance a two-minute warning before it terminates. 
-        public let blockDurationMinutes: Int32?
-        /// The spot provisioning timeout period in minutes. If Spot instances are not provisioned within this time period, the TimeOutAction is taken. Minimum value is 5 and maximum value is 1440. The timeout applies only during initial provisioning, when the cluster is first created.
-        public let timeoutDurationMinutes: Int32
-        /// The action to take when TargetSpotCapacity has not been fulfilled when the TimeoutDurationMinutes has expired. Spot instances are not uprovisioned within the Spot provisioining timeout. Valid values are TERMINATE_CLUSTER and SWITCH_TO_ON_DEMAND. SWITCH_TO_ON_DEMAND specifies that if no Spot instances are available, On-Demand Instances should be provisioned to fulfill any remaining Spot capacity.
-        public let timeoutAction: SpotProvisioningTimeoutAction
-
-        public init(blockDurationMinutes: Int32? = nil, timeoutDurationMinutes: Int32, timeoutAction: SpotProvisioningTimeoutAction) {
-            self.blockDurationMinutes = blockDurationMinutes
-            self.timeoutDurationMinutes = timeoutDurationMinutes
-            self.timeoutAction = timeoutAction
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case blockDurationMinutes = "BlockDurationMinutes"
-            case timeoutDurationMinutes = "TimeoutDurationMinutes"
-            case timeoutAction = "TimeoutAction"
-        }
-    }
-
-    public enum AutoScalingPolicyStateChangeReasonCode: String, CustomStringConvertible, Codable {
-        case userRequest = "USER_REQUEST"
-        case provisionFailure = "PROVISION_FAILURE"
-        case cleanupFailure = "CLEANUP_FAILURE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ClusterStateChangeReason: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Code", required: false, type: .enum)
-        ]
-        /// The descriptive message for the state change reason.
-        public let message: String?
-        /// The programmatic code for the state change reason.
-        public let code: ClusterStateChangeReasonCode?
-
-        public init(message: String? = nil, code: ClusterStateChangeReasonCode? = nil) {
-            self.message = message
-            self.code = code
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-            case code = "Code"
-        }
-    }
-
-    public struct CreateSecurityConfigurationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityConfiguration", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The security configuration details in JSON format. For JSON parameters and examples, see Use Security Configurations to Set Up Cluster Security in the Amazon EMR Management Guide.
-        public let securityConfiguration: String
-        /// The name of the security configuration.
-        public let name: String
-
-        public init(securityConfiguration: String, name: String) {
-            self.securityConfiguration = securityConfiguration
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case securityConfiguration = "SecurityConfiguration"
-            case name = "Name"
-        }
-    }
-
-    public struct SupportedProductConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Args", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The list of user-supplied arguments.
-        public let args: [String]?
-        /// The name of the product configuration.
-        public let name: String?
-
-        public init(args: [String]? = nil, name: String? = nil) {
-            self.args = args
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case args = "Args"
-            case name = "Name"
-        }
-    }
-
-    public struct CloudWatchAlarmDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Period", required: true, type: .integer), 
-            AWSShapeMember(label: "EvaluationPeriods", required: false, type: .integer), 
-            AWSShapeMember(label: "Statistic", required: false, type: .enum), 
-            AWSShapeMember(label: "Namespace", required: false, type: .string), 
-            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
-            AWSShapeMember(label: "MetricName", required: true, type: .string), 
-            AWSShapeMember(label: "ComparisonOperator", required: true, type: .enum), 
-            AWSShapeMember(label: "Unit", required: false, type: .enum), 
-            AWSShapeMember(label: "Threshold", required: true, type: .double)
-        ]
-        /// The period, in seconds, over which the statistic is applied. EMR CloudWatch metrics are emitted every five minutes (300 seconds), so if an EMR CloudWatch metric is specified, specify 300.
-        public let period: Int32
-        /// The number of periods, expressed in seconds using Period, during which the alarm condition must exist before the alarm triggers automatic scaling activity. The default value is 1.
-        public let evaluationPeriods: Int32?
-        /// The statistic to apply to the metric associated with the alarm. The default is AVERAGE.
-        public let statistic: Statistic?
-        /// The namespace for the CloudWatch metric. The default is AWS/ElasticMapReduce.
-        public let namespace: String?
-        /// A CloudWatch metric dimension.
-        public let dimensions: [MetricDimension]?
-        /// The name of the CloudWatch metric that is watched to determine an alarm condition.
-        public let metricName: String
-        /// Determines how the metric specified by MetricName is compared to the value specified by Threshold.
-        public let comparisonOperator: ComparisonOperator
-        /// The unit of measure associated with the CloudWatch metric being watched. The value specified for Unit must correspond to the units specified in the CloudWatch metric.
-        public let unit: Unit?
-        /// The value against which the specified statistic is compared.
-        public let threshold: Double
-
-        public init(period: Int32, evaluationPeriods: Int32? = nil, statistic: Statistic? = nil, namespace: String? = nil, dimensions: [MetricDimension]? = nil, metricName: String, comparisonOperator: ComparisonOperator, unit: Unit? = nil, threshold: Double) {
-            self.period = period
-            self.evaluationPeriods = evaluationPeriods
-            self.statistic = statistic
-            self.namespace = namespace
-            self.dimensions = dimensions
-            self.metricName = metricName
-            self.comparisonOperator = comparisonOperator
-            self.unit = unit
-            self.threshold = threshold
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case period = "Period"
-            case evaluationPeriods = "EvaluationPeriods"
-            case statistic = "Statistic"
-            case namespace = "Namespace"
-            case dimensions = "Dimensions"
-            case metricName = "MetricName"
-            case comparisonOperator = "ComparisonOperator"
-            case unit = "Unit"
-            case threshold = "Threshold"
-        }
-    }
-
-    public class Configuration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Configurations", required: false, type: .list), 
-            AWSShapeMember(label: "Properties", required: false, type: .map), 
-            AWSShapeMember(label: "Classification", required: false, type: .string)
-        ]
-        /// A list of additional configurations to apply within a configuration object.
-        public let configurations: [Configuration]?
-        /// A set of properties specified within a configuration classification.
-        public let properties: [String: String]?
-        /// The classification within a configuration.
-        public let classification: String?
-
-        public init(configurations: [Configuration]? = nil, properties: [String: String]? = nil, classification: String? = nil) {
-            self.configurations = configurations
-            self.properties = properties
-            self.classification = classification
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configurations = "Configurations"
-            case properties = "Properties"
-            case classification = "Classification"
-        }
-    }
-
-    public struct AutoScalingPolicyStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "StateChangeReason", required: false, type: .structure)
-        ]
-        /// Indicates the status of the automatic scaling policy.
-        public let state: AutoScalingPolicyState?
-        /// The reason for a change in status.
-        public let stateChangeReason: AutoScalingPolicyStateChangeReason?
-
-        public init(state: AutoScalingPolicyState? = nil, stateChangeReason: AutoScalingPolicyStateChangeReason? = nil) {
-            self.state = state
-            self.stateChangeReason = stateChangeReason
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "State"
-            case stateChangeReason = "StateChangeReason"
-        }
-    }
-
-    public struct InstanceFleet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetOnDemandCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "InstanceFleetType", required: false, type: .enum), 
-            AWSShapeMember(label: "InstanceTypeSpecifications", required: false, type: .list), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .structure), 
-            AWSShapeMember(label: "ProvisionedSpotCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "TargetSpotCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "LaunchSpecifications", required: false, type: .structure), 
-            AWSShapeMember(label: "ProvisionedOnDemandCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The target capacity of On-Demand units for the instance fleet, which determines how many On-Demand instances to provision. When the instance fleet launches, Amazon EMR tries to provision On-Demand instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When an On-Demand instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units. You can use InstanceFleet$ProvisionedOnDemandCapacity to determine the Spot capacity units that have been provisioned for the instance fleet.  If not specified or set to 0, only Spot instances are provisioned for the instance fleet using TargetSpotCapacity. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1. 
-        public let targetOnDemandCapacity: Int32?
-        /// The node type that the instance fleet hosts. Valid values are MASTER, CORE, or TASK. 
-        public let instanceFleetType: InstanceFleetType?
-        /// The specification for the instance types that comprise an instance fleet. Up to five unique instance specifications may be defined for each instance fleet. 
-        public let instanceTypeSpecifications: [InstanceTypeSpecification]?
-        /// The unique identifier of the instance fleet.
-        public let id: String?
-        /// The current status of the instance fleet. 
-        public let status: InstanceFleetStatus?
-        /// The number of Spot units that have been provisioned for this instance fleet to fulfill TargetSpotCapacity. This provisioned capacity might be less than or greater than TargetSpotCapacity.
-        public let provisionedSpotCapacity: Int32?
-        /// The target capacity of Spot units for the instance fleet, which determines how many Spot instances to provision. When the instance fleet launches, Amazon EMR tries to provision Spot instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When a Spot instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units. You can use InstanceFleet$ProvisionedSpotCapacity to determine the Spot capacity units that have been provisioned for the instance fleet.  If not specified or set to 0, only On-Demand instances are provisioned for the instance fleet. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1. 
-        public let targetSpotCapacity: Int32?
-        /// Describes the launch specification for an instance fleet. 
-        public let launchSpecifications: InstanceFleetProvisioningSpecifications?
-        /// The number of On-Demand units that have been provisioned for the instance fleet to fulfill TargetOnDemandCapacity. This provisioned capacity might be less than or greater than TargetOnDemandCapacity.
-        public let provisionedOnDemandCapacity: Int32?
-        /// A friendly name for the instance fleet.
-        public let name: String?
-
-        public init(targetOnDemandCapacity: Int32? = nil, instanceFleetType: InstanceFleetType? = nil, instanceTypeSpecifications: [InstanceTypeSpecification]? = nil, id: String? = nil, status: InstanceFleetStatus? = nil, provisionedSpotCapacity: Int32? = nil, targetSpotCapacity: Int32? = nil, launchSpecifications: InstanceFleetProvisioningSpecifications? = nil, provisionedOnDemandCapacity: Int32? = nil, name: String? = nil) {
-            self.targetOnDemandCapacity = targetOnDemandCapacity
-            self.instanceFleetType = instanceFleetType
-            self.instanceTypeSpecifications = instanceTypeSpecifications
-            self.id = id
-            self.status = status
-            self.provisionedSpotCapacity = provisionedSpotCapacity
-            self.targetSpotCapacity = targetSpotCapacity
-            self.launchSpecifications = launchSpecifications
-            self.provisionedOnDemandCapacity = provisionedOnDemandCapacity
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetOnDemandCapacity = "TargetOnDemandCapacity"
-            case instanceFleetType = "InstanceFleetType"
-            case instanceTypeSpecifications = "InstanceTypeSpecifications"
-            case id = "Id"
-            case status = "Status"
-            case provisionedSpotCapacity = "ProvisionedSpotCapacity"
-            case targetSpotCapacity = "TargetSpotCapacity"
-            case launchSpecifications = "LaunchSpecifications"
-            case provisionedOnDemandCapacity = "ProvisionedOnDemandCapacity"
-            case name = "Name"
-        }
-    }
-
-    public enum JobFlowExecutionState: String, CustomStringConvertible, Codable {
-        case starting = "STARTING"
-        case bootstrapping = "BOOTSTRAPPING"
-        case running = "RUNNING"
-        case waiting = "WAITING"
-        case shuttingDown = "SHUTTING_DOWN"
-        case terminated = "TERMINATED"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListInstanceGroupsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
-        /// The identifier of the cluster for which to list the instance groups.
-        public let clusterId: String
-        /// The pagination token that indicates the next set of results to retrieve.
-        public let marker: String?
-
-        public init(clusterId: String, marker: String? = nil) {
-            self.clusterId = clusterId
-            self.marker = marker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clusterId = "ClusterId"
-            case marker = "Marker"
-        }
-    }
-
-    public struct EbsBlockDevice: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Device", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeSpecification", required: false, type: .structure)
-        ]
-        /// The device name that is exposed to the instance, such as /dev/sdh.
-        public let device: String?
-        /// EBS volume specifications such as volume type, IOPS, and size (GiB) that will be requested for the EBS volume attached to an EC2 instance in the cluster.
-        public let volumeSpecification: VolumeSpecification?
-
-        public init(device: String? = nil, volumeSpecification: VolumeSpecification? = nil) {
-            self.device = device
-            self.volumeSpecification = volumeSpecification
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case device = "Device"
-            case volumeSpecification = "VolumeSpecification"
-        }
-    }
-
-    public struct AddInstanceGroupsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobFlowId", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceGroups", required: true, type: .list)
-        ]
-        /// Job flow in which to add the instance groups.
-        public let jobFlowId: String
-        /// Instance groups to add.
-        public let instanceGroups: [InstanceGroupConfig]
-
-        public init(jobFlowId: String, instanceGroups: [InstanceGroupConfig]) {
-            self.jobFlowId = jobFlowId
-            self.instanceGroups = instanceGroups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobFlowId = "JobFlowId"
-            case instanceGroups = "InstanceGroups"
-        }
-    }
-
-    public struct ScalingConstraints: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MinCapacity", required: true, type: .integer), 
-            AWSShapeMember(label: "MaxCapacity", required: true, type: .integer)
-        ]
-        /// The lower boundary of EC2 instances in an instance group below which scaling activities are not allowed to shrink. Scale-in activities will not terminate instances below this boundary.
-        public let minCapacity: Int32
-        /// The upper boundary of EC2 instances in an instance group beyond which scaling activities are not allowed to grow. Scale-out activities will not add instances beyond this boundary.
-        public let maxCapacity: Int32
-
-        public init(minCapacity: Int32, maxCapacity: Int32) {
-            self.minCapacity = minCapacity
-            self.maxCapacity = maxCapacity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case minCapacity = "MinCapacity"
-            case maxCapacity = "MaxCapacity"
-        }
-    }
-
-    public struct HadoopStepConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Properties", required: false, type: .map), 
-            AWSShapeMember(label: "MainClass", required: false, type: .string), 
-            AWSShapeMember(label: "Args", required: false, type: .list), 
-            AWSShapeMember(label: "Jar", required: false, type: .string)
-        ]
-        /// The list of Java properties that are set when the step runs. You can use these properties to pass key value pairs to your main function.
-        public let properties: [String: String]?
-        /// The name of the main class in the specified Java file. If not specified, the JAR file should specify a main class in its manifest file.
-        public let mainClass: String?
-        /// The list of command line arguments to pass to the JAR file's main function for execution.
-        public let args: [String]?
-        /// The path to the JAR file that runs during the step.
-        public let jar: String?
-
-        public init(properties: [String: String]? = nil, mainClass: String? = nil, args: [String]? = nil, jar: String? = nil) {
-            self.properties = properties
-            self.mainClass = mainClass
-            self.args = args
-            self.jar = jar
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case properties = "Properties"
-            case mainClass = "MainClass"
-            case args = "Args"
-            case jar = "Jar"
+            case iops = "Iops"
+            case sizeInGB = "SizeInGB"
+            case volumeType = "VolumeType"
         }
     }
 

@@ -4,26 +4,26 @@ import AWSSDKSwiftCore
 
 /// Error enum for ImportExport
 public enum ImportExportErrorType: AWSErrorType {
-    case invalidJobIdException(message: String?)
-    case expiredJobIdException(message: String?)
+    case bucketPermissionException(message: String?)
     case canceledJobIdException(message: String?)
+    case createJobQuotaExceededException(message: String?)
+    case expiredJobIdException(message: String?)
     case invalidAccessKeyIdException(message: String?)
     case invalidAddressException(message: String?)
-    case invalidVersionException(message: String?)
-    case invalidParameterException(message: String?)
-    case unableToCancelJobIdException(message: String?)
-    case missingParameterException(message: String?)
-    case invalidManifestFieldException(message: String?)
-    case missingManifestFieldException(message: String?)
-    case noSuchBucketException(message: String?)
-    case missingCustomsException(message: String?)
     case invalidCustomsException(message: String?)
     case invalidFileSystemException(message: String?)
-    case multipleRegionsException(message: String?)
-    case bucketPermissionException(message: String?)
+    case invalidJobIdException(message: String?)
+    case invalidManifestFieldException(message: String?)
+    case invalidParameterException(message: String?)
+    case invalidVersionException(message: String?)
     case malformedManifestException(message: String?)
+    case missingCustomsException(message: String?)
+    case missingManifestFieldException(message: String?)
+    case missingParameterException(message: String?)
+    case multipleRegionsException(message: String?)
+    case noSuchBucketException(message: String?)
+    case unableToCancelJobIdException(message: String?)
     case unableToUpdateJobIdException(message: String?)
-    case createJobQuotaExceededException(message: String?)
 }
 
 extension ImportExportErrorType {
@@ -33,46 +33,46 @@ extension ImportExportErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "InvalidJobIdException":
-            self = .invalidJobIdException(message: message)
-        case "ExpiredJobIdException":
-            self = .expiredJobIdException(message: message)
+        case "BucketPermissionException":
+            self = .bucketPermissionException(message: message)
         case "CanceledJobIdException":
             self = .canceledJobIdException(message: message)
+        case "CreateJobQuotaExceededException":
+            self = .createJobQuotaExceededException(message: message)
+        case "ExpiredJobIdException":
+            self = .expiredJobIdException(message: message)
         case "InvalidAccessKeyIdException":
             self = .invalidAccessKeyIdException(message: message)
         case "InvalidAddressException":
             self = .invalidAddressException(message: message)
-        case "InvalidVersionException":
-            self = .invalidVersionException(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "UnableToCancelJobIdException":
-            self = .unableToCancelJobIdException(message: message)
-        case "MissingParameterException":
-            self = .missingParameterException(message: message)
-        case "InvalidManifestFieldException":
-            self = .invalidManifestFieldException(message: message)
-        case "MissingManifestFieldException":
-            self = .missingManifestFieldException(message: message)
-        case "NoSuchBucketException":
-            self = .noSuchBucketException(message: message)
-        case "MissingCustomsException":
-            self = .missingCustomsException(message: message)
         case "InvalidCustomsException":
             self = .invalidCustomsException(message: message)
         case "InvalidFileSystemException":
             self = .invalidFileSystemException(message: message)
-        case "MultipleRegionsException":
-            self = .multipleRegionsException(message: message)
-        case "BucketPermissionException":
-            self = .bucketPermissionException(message: message)
+        case "InvalidJobIdException":
+            self = .invalidJobIdException(message: message)
+        case "InvalidManifestFieldException":
+            self = .invalidManifestFieldException(message: message)
+        case "InvalidParameterException":
+            self = .invalidParameterException(message: message)
+        case "InvalidVersionException":
+            self = .invalidVersionException(message: message)
         case "MalformedManifestException":
             self = .malformedManifestException(message: message)
+        case "MissingCustomsException":
+            self = .missingCustomsException(message: message)
+        case "MissingManifestFieldException":
+            self = .missingManifestFieldException(message: message)
+        case "MissingParameterException":
+            self = .missingParameterException(message: message)
+        case "MultipleRegionsException":
+            self = .multipleRegionsException(message: message)
+        case "NoSuchBucketException":
+            self = .noSuchBucketException(message: message)
+        case "UnableToCancelJobIdException":
+            self = .unableToCancelJobIdException(message: message)
         case "UnableToUpdateJobIdException":
             self = .unableToUpdateJobIdException(message: message)
-        case "CreateJobQuotaExceededException":
-            self = .createJobQuotaExceededException(message: message)
         default:
             return nil
         }

@@ -25,21 +25,6 @@ public struct Kafka {
         )
     }
 
-    ///  Returns a list of the broker nodes in the cluster.
-    public func listNodes(_ input: ListNodesRequest) throws -> Future<ListNodesResponse> {
-        return try client.send(operation: "ListNodes", path: "/v1/clusters/{clusterArn}/nodes", httpMethod: "GET", input: input)
-    }
-
-    ///  A list of brokers that a client application can use to bootstrap.
-    public func getBootstrapBrokers(_ input: GetBootstrapBrokersRequest) throws -> Future<GetBootstrapBrokersResponse> {
-        return try client.send(operation: "GetBootstrapBrokers", path: "/v1/clusters/{clusterArn}/bootstrap-brokers", httpMethod: "GET", input: input)
-    }
-
-    ///  Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
-    public func describeCluster(_ input: DescribeClusterRequest) throws -> Future<DescribeClusterResponse> {
-        return try client.send(operation: "DescribeCluster", path: "/v1/clusters/{clusterArn}", httpMethod: "GET", input: input)
-    }
-
     ///  Creates a new MSK cluster.
     public func createCluster(_ input: CreateClusterRequest) throws -> Future<CreateClusterResponse> {
         return try client.send(operation: "CreateCluster", path: "/v1/clusters", httpMethod: "POST", input: input)
@@ -50,9 +35,24 @@ public struct Kafka {
         return try client.send(operation: "DeleteCluster", path: "/v1/clusters/{clusterArn}", httpMethod: "DELETE", input: input)
     }
 
+    ///  Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
+    public func describeCluster(_ input: DescribeClusterRequest) throws -> Future<DescribeClusterResponse> {
+        return try client.send(operation: "DescribeCluster", path: "/v1/clusters/{clusterArn}", httpMethod: "GET", input: input)
+    }
+
+    ///  A list of brokers that a client application can use to bootstrap.
+    public func getBootstrapBrokers(_ input: GetBootstrapBrokersRequest) throws -> Future<GetBootstrapBrokersResponse> {
+        return try client.send(operation: "GetBootstrapBrokers", path: "/v1/clusters/{clusterArn}/bootstrap-brokers", httpMethod: "GET", input: input)
+    }
+
     ///  Returns a list of clusters in an account.
     public func listClusters(_ input: ListClustersRequest) throws -> Future<ListClustersResponse> {
         return try client.send(operation: "ListClusters", path: "/v1/clusters", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns a list of the broker nodes in the cluster.
+    public func listNodes(_ input: ListNodesRequest) throws -> Future<ListNodesResponse> {
+        return try client.send(operation: "ListNodes", path: "/v1/clusters/{clusterArn}/nodes", httpMethod: "GET", input: input)
     }
 
 

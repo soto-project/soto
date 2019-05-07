@@ -4,13 +4,13 @@ import AWSSDKSwiftCore
 
 /// Error enum for IoT1ClickDevicesService
 public enum IoT1ClickDevicesServiceErrorType: AWSErrorType {
-    case resourceNotFoundException(message: String?)
-    case rangeNotSatisfiableException(message: String?)
-    case invalidRequestException(message: String?)
-    case internalFailureException(message: String?)
-    case resourceConflictException(message: String?)
-    case preconditionFailedException(message: String?)
     case forbiddenException(message: String?)
+    case internalFailureException(message: String?)
+    case invalidRequestException(message: String?)
+    case preconditionFailedException(message: String?)
+    case rangeNotSatisfiableException(message: String?)
+    case resourceConflictException(message: String?)
+    case resourceNotFoundException(message: String?)
 }
 
 extension IoT1ClickDevicesServiceErrorType {
@@ -20,20 +20,20 @@ extension IoT1ClickDevicesServiceErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "RangeNotSatisfiableException":
-            self = .rangeNotSatisfiableException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "InternalFailureException":
-            self = .internalFailureException(message: message)
-        case "ResourceConflictException":
-            self = .resourceConflictException(message: message)
-        case "PreconditionFailedException":
-            self = .preconditionFailedException(message: message)
         case "ForbiddenException":
             self = .forbiddenException(message: message)
+        case "InternalFailureException":
+            self = .internalFailureException(message: message)
+        case "InvalidRequestException":
+            self = .invalidRequestException(message: message)
+        case "PreconditionFailedException":
+            self = .preconditionFailedException(message: message)
+        case "RangeNotSatisfiableException":
+            self = .rangeNotSatisfiableException(message: message)
+        case "ResourceConflictException":
+            self = .resourceConflictException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         default:
             return nil
         }

@@ -5,9 +5,9 @@ import AWSSDKSwiftCore
 /// Error enum for MediaStoreData
 public enum MediaStoreDataErrorType: AWSErrorType {
     case containerNotFoundException(message: String?)
+    case internalServerError(message: String?)
     case objectNotFoundException(message: String?)
     case requestedRangeNotSatisfiableException(message: String?)
-    case internalServerError(message: String?)
 }
 
 extension MediaStoreDataErrorType {
@@ -19,12 +19,12 @@ extension MediaStoreDataErrorType {
         switch errorCode {
         case "ContainerNotFoundException":
             self = .containerNotFoundException(message: message)
+        case "InternalServerError":
+            self = .internalServerError(message: message)
         case "ObjectNotFoundException":
             self = .objectNotFoundException(message: message)
         case "RequestedRangeNotSatisfiableException":
             self = .requestedRangeNotSatisfiableException(message: message)
-        case "InternalServerError":
-            self = .internalServerError(message: message)
         default:
             return nil
         }

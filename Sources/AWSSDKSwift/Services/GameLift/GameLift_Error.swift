@@ -4,19 +4,19 @@ import AWSSDKSwiftCore
 
 /// Error enum for GameLift
 public enum GameLiftErrorType: AWSErrorType {
-    case internalServiceException(message: String?)
-    case unauthorizedException(message: String?)
-    case invalidGameSessionStatusException(message: String?)
-    case gameSessionFullException(message: String?)
-    case terminalRoutingStrategyException(message: String?)
-    case invalidRequestException(message: String?)
-    case notFoundException(message: String?)
-    case unsupportedRegionException(message: String?)
     case conflictException(message: String?)
-    case invalidFleetStatusException(message: String?)
-    case limitExceededException(message: String?)
     case fleetCapacityExceededException(message: String?)
+    case gameSessionFullException(message: String?)
     case idempotentParameterMismatchException(message: String?)
+    case internalServiceException(message: String?)
+    case invalidFleetStatusException(message: String?)
+    case invalidGameSessionStatusException(message: String?)
+    case invalidRequestException(message: String?)
+    case limitExceededException(message: String?)
+    case notFoundException(message: String?)
+    case terminalRoutingStrategyException(message: String?)
+    case unauthorizedException(message: String?)
+    case unsupportedRegionException(message: String?)
 }
 
 extension GameLiftErrorType {
@@ -26,32 +26,32 @@ extension GameLiftErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "InternalServiceException":
-            self = .internalServiceException(message: message)
-        case "UnauthorizedException":
-            self = .unauthorizedException(message: message)
-        case "InvalidGameSessionStatusException":
-            self = .invalidGameSessionStatusException(message: message)
-        case "GameSessionFullException":
-            self = .gameSessionFullException(message: message)
-        case "TerminalRoutingStrategyException":
-            self = .terminalRoutingStrategyException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "UnsupportedRegionException":
-            self = .unsupportedRegionException(message: message)
         case "ConflictException":
             self = .conflictException(message: message)
-        case "InvalidFleetStatusException":
-            self = .invalidFleetStatusException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
         case "FleetCapacityExceededException":
             self = .fleetCapacityExceededException(message: message)
+        case "GameSessionFullException":
+            self = .gameSessionFullException(message: message)
         case "IdempotentParameterMismatchException":
             self = .idempotentParameterMismatchException(message: message)
+        case "InternalServiceException":
+            self = .internalServiceException(message: message)
+        case "InvalidFleetStatusException":
+            self = .invalidFleetStatusException(message: message)
+        case "InvalidGameSessionStatusException":
+            self = .invalidGameSessionStatusException(message: message)
+        case "InvalidRequestException":
+            self = .invalidRequestException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
+        case "NotFoundException":
+            self = .notFoundException(message: message)
+        case "TerminalRoutingStrategyException":
+            self = .terminalRoutingStrategyException(message: message)
+        case "UnauthorizedException":
+            self = .unauthorizedException(message: message)
+        case "UnsupportedRegionException":
+            self = .unsupportedRegionException(message: message)
         default:
             return nil
         }

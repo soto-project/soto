@@ -26,14 +26,19 @@ public struct SMS {
         )
     }
 
-    ///  Retrieves the application launch configuration associated with an application.
-    public func getAppLaunchConfiguration(_ input: GetAppLaunchConfigurationRequest) throws -> Future<GetAppLaunchConfigurationResponse> {
-        return try client.send(operation: "GetAppLaunchConfiguration", path: "/", httpMethod: "POST", input: input)
+    ///  Creates an application. An application consists of one or more server groups. Each server group contain one or more servers.
+    public func createApp(_ input: CreateAppRequest) throws -> Future<CreateAppResponse> {
+        return try client.send(operation: "CreateApp", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified replication job. After you delete a replication job, there are no further replication runs. AWS deletes the contents of the Amazon S3 bucket used to store AWS SMS artifacts. The AMIs created by the replication runs are not deleted.
-    public func deleteReplicationJob(_ input: DeleteReplicationJobRequest) throws -> Future<DeleteReplicationJobResponse> {
-        return try client.send(operation: "DeleteReplicationJob", path: "/", httpMethod: "POST", input: input)
+    ///  Creates a replication job. The replication job schedules periodic replication runs to replicate your server to AWS. Each replication run creates an Amazon Machine Image (AMI).
+    public func createReplicationJob(_ input: CreateReplicationJobRequest) throws -> Future<CreateReplicationJobResponse> {
+        return try client.send(operation: "CreateReplicationJob", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes an existing application. Optionally deletes the launched stack associated with the application and all AWS SMS replication jobs for servers in the application.
+    public func deleteApp(_ input: DeleteAppRequest) throws -> Future<DeleteAppResponse> {
+        return try client.send(operation: "DeleteApp", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes existing launch configuration for an application.
@@ -41,34 +46,19 @@ public struct SMS {
         return try client.send(operation: "DeleteAppLaunchConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the servers in your server catalog. Before you can describe your servers, you must import them using ImportServerCatalog.
-    public func getServers(_ input: GetServersRequest) throws -> Future<GetServersResponse> {
-        return try client.send(operation: "GetServers", path: "/", httpMethod: "POST", input: input)
+    ///  Deletes existing replication configuration for an application.
+    public func deleteAppReplicationConfiguration(_ input: DeleteAppReplicationConfigurationRequest) throws -> Future<DeleteAppReplicationConfigurationResponse> {
+        return try client.send(operation: "DeleteAppReplicationConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates or updates a replication configuration for an application.
-    public func putAppReplicationConfiguration(_ input: PutAppReplicationConfigurationRequest) throws -> Future<PutAppReplicationConfigurationResponse> {
-        return try client.send(operation: "PutAppReplicationConfiguration", path: "/", httpMethod: "POST", input: input)
+    ///  Deletes the specified replication job. After you delete a replication job, there are no further replication runs. AWS deletes the contents of the Amazon S3 bucket used to store AWS SMS artifacts. The AMIs created by the replication runs are not deleted.
+    public func deleteReplicationJob(_ input: DeleteReplicationJobRequest) throws -> Future<DeleteReplicationJobResponse> {
+        return try client.send(operation: "DeleteReplicationJob", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an application. An application consists of one or more server groups. Each server group contain one or more servers.
-    public func createApp(_ input: CreateAppRequest) throws -> Future<CreateAppResponse> {
-        return try client.send(operation: "CreateApp", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gathers a complete list of on-premises servers. Connectors must be installed and monitoring all servers that you want to import. This call returns immediately, but might take additional time to retrieve all the servers.
-    public func importServerCatalog(_ input: ImportServerCatalogRequest) throws -> Future<ImportServerCatalogResponse> {
-        return try client.send(operation: "ImportServerCatalog", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Starts an on-demand replication run for the specified replication job. This replication run starts immediately. This replication run is in addition to the ones already scheduled. There is a limit on the number of on-demand replications runs you can request in a 24-hour period.
-    public func startOnDemandReplicationRun(_ input: StartOnDemandReplicationRunRequest) throws -> Future<StartOnDemandReplicationRunResponse> {
-        return try client.send(operation: "StartOnDemandReplicationRun", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a launch configuration for an application.
-    public func putAppLaunchConfiguration(_ input: PutAppLaunchConfigurationRequest) throws -> Future<PutAppLaunchConfigurationResponse> {
-        return try client.send(operation: "PutAppLaunchConfiguration", path: "/", httpMethod: "POST", input: input)
+    ///  Deletes all servers from your server catalog.
+    public func deleteServerCatalog(_ input: DeleteServerCatalogRequest) throws -> Future<DeleteServerCatalogResponse> {
+        return try client.send(operation: "DeleteServerCatalog", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates the specified connector from AWS SMS. After you disassociate a connector, it is no longer available to support replication jobs.
@@ -81,39 +71,9 @@ public struct SMS {
         return try client.send(operation: "GenerateChangeSet", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the replication runs for the specified replication job.
-    public func getReplicationRuns(_ input: GetReplicationRunsRequest) throws -> Future<GetReplicationRunsResponse> {
-        return try client.send(operation: "GetReplicationRuns", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Describes the connectors registered with the AWS SMS.
-    public func getConnectors(_ input: GetConnectorsRequest) throws -> Future<GetConnectorsResponse> {
-        return try client.send(operation: "GetConnectors", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a replication job. The replication job schedules periodic replication runs to replicate your server to AWS. Each replication run creates an Amazon Machine Image (AMI).
-    public func createReplicationJob(_ input: CreateReplicationJobRequest) throws -> Future<CreateReplicationJobResponse> {
-        return try client.send(operation: "CreateReplicationJob", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Launches an application stack.
-    public func launchApp(_ input: LaunchAppRequest) throws -> Future<LaunchAppResponse> {
-        return try client.send(operation: "LaunchApp", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Starts replicating an application.
-    public func startAppReplication(_ input: StartAppReplicationRequest) throws -> Future<StartAppReplicationResponse> {
-        return try client.send(operation: "StartAppReplication", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Terminates the stack for an application.
-    public func terminateApp(_ input: TerminateAppRequest) throws -> Future<TerminateAppResponse> {
-        return try client.send(operation: "TerminateApp", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes all servers from your server catalog.
-    public func deleteServerCatalog(_ input: DeleteServerCatalogRequest) throws -> Future<DeleteServerCatalogResponse> {
-        return try client.send(operation: "DeleteServerCatalog", path: "/", httpMethod: "POST", input: input)
+    ///  Generates an Amazon CloudFormation template based on the current launch configuration and writes it to an Amazon S3 object in the customer’s Amazon S3 bucket.
+    public func generateTemplate(_ input: GenerateTemplateRequest) throws -> Future<GenerateTemplateResponse> {
+        return try client.send(operation: "GenerateTemplate", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieve information about an application.
@@ -121,24 +81,9 @@ public struct SMS {
         return try client.send(operation: "GetApp", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the specified settings for the specified replication job.
-    public func updateReplicationJob(_ input: UpdateReplicationJobRequest) throws -> Future<UpdateReplicationJobResponse> {
-        return try client.send(operation: "UpdateReplicationJob", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Describes the specified replication job or all of your replication jobs.
-    public func getReplicationJobs(_ input: GetReplicationJobsRequest) throws -> Future<GetReplicationJobsResponse> {
-        return try client.send(operation: "GetReplicationJobs", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Stops replicating an application.
-    public func stopAppReplication(_ input: StopAppReplicationRequest) throws -> Future<StopAppReplicationResponse> {
-        return try client.send(operation: "StopAppReplication", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes existing replication configuration for an application.
-    public func deleteAppReplicationConfiguration(_ input: DeleteAppReplicationConfigurationRequest) throws -> Future<DeleteAppReplicationConfigurationResponse> {
-        return try client.send(operation: "DeleteAppReplicationConfiguration", path: "/", httpMethod: "POST", input: input)
+    ///  Retrieves the application launch configuration associated with an application.
+    public func getAppLaunchConfiguration(_ input: GetAppLaunchConfigurationRequest) throws -> Future<GetAppLaunchConfigurationResponse> {
+        return try client.send(operation: "GetAppLaunchConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves an application replication configuration associatd with an application.
@@ -146,9 +91,34 @@ public struct SMS {
         return try client.send(operation: "GetAppReplicationConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates an application.
-    public func updateApp(_ input: UpdateAppRequest) throws -> Future<UpdateAppResponse> {
-        return try client.send(operation: "UpdateApp", path: "/", httpMethod: "POST", input: input)
+    ///  Describes the connectors registered with the AWS SMS.
+    public func getConnectors(_ input: GetConnectorsRequest) throws -> Future<GetConnectorsResponse> {
+        return try client.send(operation: "GetConnectors", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the specified replication job or all of your replication jobs.
+    public func getReplicationJobs(_ input: GetReplicationJobsRequest) throws -> Future<GetReplicationJobsResponse> {
+        return try client.send(operation: "GetReplicationJobs", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the replication runs for the specified replication job.
+    public func getReplicationRuns(_ input: GetReplicationRunsRequest) throws -> Future<GetReplicationRunsResponse> {
+        return try client.send(operation: "GetReplicationRuns", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the servers in your server catalog. Before you can describe your servers, you must import them using ImportServerCatalog.
+    public func getServers(_ input: GetServersRequest) throws -> Future<GetServersResponse> {
+        return try client.send(operation: "GetServers", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gathers a complete list of on-premises servers. Connectors must be installed and monitoring all servers that you want to import. This call returns immediately, but might take additional time to retrieve all the servers.
+    public func importServerCatalog(_ input: ImportServerCatalogRequest) throws -> Future<ImportServerCatalogResponse> {
+        return try client.send(operation: "ImportServerCatalog", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Launches an application stack.
+    public func launchApp(_ input: LaunchAppRequest) throws -> Future<LaunchAppResponse> {
+        return try client.send(operation: "LaunchApp", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of summaries for all applications.
@@ -156,14 +126,44 @@ public struct SMS {
         return try client.send(operation: "ListApps", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes an existing application. Optionally deletes the launched stack associated with the application and all AWS SMS replication jobs for servers in the application.
-    public func deleteApp(_ input: DeleteAppRequest) throws -> Future<DeleteAppResponse> {
-        return try client.send(operation: "DeleteApp", path: "/", httpMethod: "POST", input: input)
+    ///  Creates a launch configuration for an application.
+    public func putAppLaunchConfiguration(_ input: PutAppLaunchConfigurationRequest) throws -> Future<PutAppLaunchConfigurationResponse> {
+        return try client.send(operation: "PutAppLaunchConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Generates an Amazon CloudFormation template based on the current launch configuration and writes it to an Amazon S3 object in the customer’s Amazon S3 bucket.
-    public func generateTemplate(_ input: GenerateTemplateRequest) throws -> Future<GenerateTemplateResponse> {
-        return try client.send(operation: "GenerateTemplate", path: "/", httpMethod: "POST", input: input)
+    ///  Creates or updates a replication configuration for an application.
+    public func putAppReplicationConfiguration(_ input: PutAppReplicationConfigurationRequest) throws -> Future<PutAppReplicationConfigurationResponse> {
+        return try client.send(operation: "PutAppReplicationConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts replicating an application.
+    public func startAppReplication(_ input: StartAppReplicationRequest) throws -> Future<StartAppReplicationResponse> {
+        return try client.send(operation: "StartAppReplication", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts an on-demand replication run for the specified replication job. This replication run starts immediately. This replication run is in addition to the ones already scheduled. There is a limit on the number of on-demand replications runs you can request in a 24-hour period.
+    public func startOnDemandReplicationRun(_ input: StartOnDemandReplicationRunRequest) throws -> Future<StartOnDemandReplicationRunResponse> {
+        return try client.send(operation: "StartOnDemandReplicationRun", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Stops replicating an application.
+    public func stopAppReplication(_ input: StopAppReplicationRequest) throws -> Future<StopAppReplicationResponse> {
+        return try client.send(operation: "StopAppReplication", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Terminates the stack for an application.
+    public func terminateApp(_ input: TerminateAppRequest) throws -> Future<TerminateAppResponse> {
+        return try client.send(operation: "TerminateApp", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates an application.
+    public func updateApp(_ input: UpdateAppRequest) throws -> Future<UpdateAppResponse> {
+        return try client.send(operation: "UpdateApp", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the specified settings for the specified replication job.
+    public func updateReplicationJob(_ input: UpdateReplicationJobRequest) throws -> Future<UpdateReplicationJobResponse> {
+        return try client.send(operation: "UpdateReplicationJob", path: "/", httpMethod: "POST", input: input)
     }
 
 

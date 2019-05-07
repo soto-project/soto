@@ -5,68 +5,475 @@ import AWSSDKSwiftCore
 
 extension SMS {
 
+    public enum AppLaunchStatus: String, CustomStringConvertible, Codable {
+        case readyForConfiguration = "READY_FOR_CONFIGURATION"
+        case configurationInProgress = "CONFIGURATION_IN_PROGRESS"
+        case configurationInvalid = "CONFIGURATION_INVALID"
+        case readyForLaunch = "READY_FOR_LAUNCH"
+        case validationInProgress = "VALIDATION_IN_PROGRESS"
+        case launchPending = "LAUNCH_PENDING"
+        case launchInProgress = "LAUNCH_IN_PROGRESS"
+        case launched = "LAUNCHED"
+        case deltaLaunchInProgress = "DELTA_LAUNCH_IN_PROGRESS"
+        case deltaLaunchFailed = "DELTA_LAUNCH_FAILED"
+        case launchFailed = "LAUNCH_FAILED"
+        case terminateInProgress = "TERMINATE_IN_PROGRESS"
+        case terminateFailed = "TERMINATE_FAILED"
+        case terminated = "TERMINATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AppReplicationStatus: String, CustomStringConvertible, Codable {
+        case readyForConfiguration = "READY_FOR_CONFIGURATION"
+        case configurationInProgress = "CONFIGURATION_IN_PROGRESS"
+        case configurationInvalid = "CONFIGURATION_INVALID"
+        case readyForReplication = "READY_FOR_REPLICATION"
+        case validationInProgress = "VALIDATION_IN_PROGRESS"
+        case replicationPending = "REPLICATION_PENDING"
+        case replicationInProgress = "REPLICATION_IN_PROGRESS"
+        case replicated = "REPLICATED"
+        case deltaReplicationInProgress = "DELTA_REPLICATION_IN_PROGRESS"
+        case deltaReplicated = "DELTA_REPLICATED"
+        case deltaReplicationFailed = "DELTA_REPLICATION_FAILED"
+        case replicationFailed = "REPLICATION_FAILED"
+        case replicationStopping = "REPLICATION_STOPPING"
+        case replicationStopFailed = "REPLICATION_STOP_FAILED"
+        case replicationStopped = "REPLICATION_STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AppStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case active = "ACTIVE"
+        case updating = "UPDATING"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        case deleteFailed = "DELETE_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AppSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appId", required: false, type: .string), 
+            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "lastModified", required: false, type: .timestamp), 
+            AWSShapeMember(label: "latestReplicationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "launchDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "launchStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "launchStatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "replicationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "replicationStatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "roleName", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "statusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "totalServerGroups", required: false, type: .integer), 
+            AWSShapeMember(label: "totalServers", required: false, type: .integer)
+        ]
+        /// Unique ID of the application.
+        public let appId: String?
+        /// Time of creation of this application.
+        public let creationTime: TimeStamp?
+        /// Description of the application.
+        public let description: String?
+        /// Timestamp of the application's creation.
+        public let lastModified: TimeStamp?
+        /// Timestamp of the application's most recent successful replication.
+        public let latestReplicationTime: TimeStamp?
+        /// Details about the latest launch of the application.
+        public let launchDetails: LaunchDetails?
+        /// Launch status of the application.
+        public let launchStatus: AppLaunchStatus?
+        /// A message related to the launch status of the application.
+        public let launchStatusMessage: String?
+        /// Name of the application.
+        public let name: String?
+        /// Replication status of the application.
+        public let replicationStatus: AppReplicationStatus?
+        /// A message related to the replication status of the application.
+        public let replicationStatusMessage: String?
+        /// Name of the service role in the customer's account used by AWS SMS.
+        public let roleName: String?
+        /// Status of the application.
+        public let status: AppStatus?
+        /// A message related to the status of the application
+        public let statusMessage: String?
+        /// Number of server groups present in the application.
+        public let totalServerGroups: Int32?
+        /// Number of servers present in the application.
+        public let totalServers: Int32?
+
+        public init(appId: String? = nil, creationTime: TimeStamp? = nil, description: String? = nil, lastModified: TimeStamp? = nil, latestReplicationTime: TimeStamp? = nil, launchDetails: LaunchDetails? = nil, launchStatus: AppLaunchStatus? = nil, launchStatusMessage: String? = nil, name: String? = nil, replicationStatus: AppReplicationStatus? = nil, replicationStatusMessage: String? = nil, roleName: String? = nil, status: AppStatus? = nil, statusMessage: String? = nil, totalServerGroups: Int32? = nil, totalServers: Int32? = nil) {
+            self.appId = appId
+            self.creationTime = creationTime
+            self.description = description
+            self.lastModified = lastModified
+            self.latestReplicationTime = latestReplicationTime
+            self.launchDetails = launchDetails
+            self.launchStatus = launchStatus
+            self.launchStatusMessage = launchStatusMessage
+            self.name = name
+            self.replicationStatus = replicationStatus
+            self.replicationStatusMessage = replicationStatusMessage
+            self.roleName = roleName
+            self.status = status
+            self.statusMessage = statusMessage
+            self.totalServerGroups = totalServerGroups
+            self.totalServers = totalServers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+            case creationTime = "creationTime"
+            case description = "description"
+            case lastModified = "lastModified"
+            case latestReplicationTime = "latestReplicationTime"
+            case launchDetails = "launchDetails"
+            case launchStatus = "launchStatus"
+            case launchStatusMessage = "launchStatusMessage"
+            case name = "name"
+            case replicationStatus = "replicationStatus"
+            case replicationStatusMessage = "replicationStatusMessage"
+            case roleName = "roleName"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case totalServerGroups = "totalServerGroups"
+            case totalServers = "totalServers"
+        }
+    }
+
     public struct Connector: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "capabilityList", required: false, type: .list), 
-            AWSShapeMember(label: "version", required: false, type: .string), 
             AWSShapeMember(label: "associatedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "macAddress", required: false, type: .string), 
+            AWSShapeMember(label: "capabilityList", required: false, type: .list), 
             AWSShapeMember(label: "connectorId", required: false, type: .string), 
             AWSShapeMember(label: "ipAddress", required: false, type: .string), 
+            AWSShapeMember(label: "macAddress", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
             AWSShapeMember(label: "vmManagerId", required: false, type: .string), 
-            AWSShapeMember(label: "vmManagerType", required: false, type: .enum), 
             AWSShapeMember(label: "vmManagerName", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
+            AWSShapeMember(label: "vmManagerType", required: false, type: .enum)
         ]
-        /// The capabilities of the connector.
-        public let capabilityList: [ConnectorCapability]?
-        /// The connector version.
-        public let version: String?
         /// The time the connector was associated.
         public let associatedOn: TimeStamp?
-        /// The MAC address of the connector.
-        public let macAddress: String?
+        /// The capabilities of the connector.
+        public let capabilityList: [ConnectorCapability]?
         /// The identifier of the connector.
         public let connectorId: String?
         /// The IP address of the connector.
         public let ipAddress: String?
-        /// The identifier of the VM manager.
-        public let vmManagerId: String?
-        /// The VM management product.
-        public let vmManagerType: VmManagerType?
-        /// The name of the VM manager.
-        public let vmManagerName: String?
+        /// The MAC address of the connector.
+        public let macAddress: String?
         /// The status of the connector.
         public let status: ConnectorStatus?
+        /// The connector version.
+        public let version: String?
+        /// The identifier of the VM manager.
+        public let vmManagerId: String?
+        /// The name of the VM manager.
+        public let vmManagerName: String?
+        /// The VM management product.
+        public let vmManagerType: VmManagerType?
 
-        public init(capabilityList: [ConnectorCapability]? = nil, version: String? = nil, associatedOn: TimeStamp? = nil, macAddress: String? = nil, connectorId: String? = nil, ipAddress: String? = nil, vmManagerId: String? = nil, vmManagerType: VmManagerType? = nil, vmManagerName: String? = nil, status: ConnectorStatus? = nil) {
-            self.capabilityList = capabilityList
-            self.version = version
+        public init(associatedOn: TimeStamp? = nil, capabilityList: [ConnectorCapability]? = nil, connectorId: String? = nil, ipAddress: String? = nil, macAddress: String? = nil, status: ConnectorStatus? = nil, version: String? = nil, vmManagerId: String? = nil, vmManagerName: String? = nil, vmManagerType: VmManagerType? = nil) {
             self.associatedOn = associatedOn
-            self.macAddress = macAddress
+            self.capabilityList = capabilityList
             self.connectorId = connectorId
             self.ipAddress = ipAddress
-            self.vmManagerId = vmManagerId
-            self.vmManagerType = vmManagerType
-            self.vmManagerName = vmManagerName
+            self.macAddress = macAddress
             self.status = status
+            self.version = version
+            self.vmManagerId = vmManagerId
+            self.vmManagerName = vmManagerName
+            self.vmManagerType = vmManagerType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capabilityList = "capabilityList"
-            case version = "version"
             case associatedOn = "associatedOn"
-            case macAddress = "macAddress"
+            case capabilityList = "capabilityList"
             case connectorId = "connectorId"
             case ipAddress = "ipAddress"
-            case vmManagerId = "vmManagerId"
-            case vmManagerType = "vmManagerType"
-            case vmManagerName = "vmManagerName"
+            case macAddress = "macAddress"
             case status = "status"
+            case version = "version"
+            case vmManagerId = "vmManagerId"
+            case vmManagerName = "vmManagerName"
+            case vmManagerType = "vmManagerType"
         }
     }
 
-    public struct StopAppReplicationResponse: AWSShape {
+    public enum ConnectorCapability: String, CustomStringConvertible, Codable {
+        case vsphere = "VSPHERE"
+        case scvmm = "SCVMM"
+        case hypervManager = "HYPERV-MANAGER"
+        case snapshotBatching = "SNAPSHOT_BATCHING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectorStatus: String, CustomStringConvertible, Codable {
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateAppRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientToken", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "roleName", required: false, type: .string), 
+            AWSShapeMember(label: "serverGroups", required: false, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .list)
+        ]
+        /// A unique, case-sensitive identifier you provide to ensure idempotency of application creation.
+        public let clientToken: String?
+        /// Description of the new application
+        public let description: String?
+        /// Name of the new application.
+        public let name: String?
+        /// Name of service role in customer's account to be used by AWS SMS.
+        public let roleName: String?
+        /// List of server groups to include in the application.
+        public let serverGroups: [ServerGroup]?
+        /// List of tags to be associated with the application.
+        public let tags: [Tag]?
+
+        public init(clientToken: String? = nil, description: String? = nil, name: String? = nil, roleName: String? = nil, serverGroups: [ServerGroup]? = nil, tags: [Tag]? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.name = name
+            self.roleName = roleName
+            self.serverGroups = serverGroups
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
+            case roleName = "roleName"
+            case serverGroups = "serverGroups"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateAppResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "serverGroups", required: false, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .list)
+        ]
+        /// Summary description of the application.
+        public let appSummary: AppSummary?
+        /// List of server groups included in the application.
+        public let serverGroups: [ServerGroup]?
+        /// List of taags associated with the application.
+        public let tags: [Tag]?
+
+        public init(appSummary: AppSummary? = nil, serverGroups: [ServerGroup]? = nil, tags: [Tag]? = nil) {
+            self.appSummary = appSummary
+            self.serverGroups = serverGroups
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appSummary = "appSummary"
+            case serverGroups = "serverGroups"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateReplicationJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "encrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "frequency", required: false, type: .integer), 
+            AWSShapeMember(label: "kmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "licenseType", required: false, type: .enum), 
+            AWSShapeMember(label: "numberOfRecentAmisToKeep", required: false, type: .integer), 
+            AWSShapeMember(label: "roleName", required: false, type: .string), 
+            AWSShapeMember(label: "runOnce", required: false, type: .boolean), 
+            AWSShapeMember(label: "seedReplicationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "serverId", required: true, type: .string)
+        ]
+        /// The description of the replication job.
+        public let description: String?
+        /// When true, the replication job produces encrypted AMIs. See also KmsKeyId below.
+        public let encrypted: Bool?
+        /// The time between consecutive replication runs, in hours.
+        public let frequency: Int32?
+        /// KMS key ID for replication jobs that produce encrypted AMIs. Can be any of the following:    KMS key ID   KMS key alias   ARN referring to KMS key ID   ARN referring to KMS key alias    If encrypted is true but a KMS key id is not specified, the customer's default KMS key for EBS is used. 
+        public let kmsKeyId: String?
+        /// The license type to be used for the AMI created by a successful replication run.
+        public let licenseType: LicenseType?
+        /// The maximum number of SMS-created AMIs to retain. The oldest will be deleted once the maximum number is reached and a new AMI is created.
+        public let numberOfRecentAmisToKeep: Int32?
+        /// The name of the IAM role to be used by the AWS SMS.
+        public let roleName: String?
+        public let runOnce: Bool?
+        /// The seed replication time.
+        public let seedReplicationTime: TimeStamp
+        /// The identifier of the server.
+        public let serverId: String
+
+        public init(description: String? = nil, encrypted: Bool? = nil, frequency: Int32? = nil, kmsKeyId: String? = nil, licenseType: LicenseType? = nil, numberOfRecentAmisToKeep: Int32? = nil, roleName: String? = nil, runOnce: Bool? = nil, seedReplicationTime: TimeStamp, serverId: String) {
+            self.description = description
+            self.encrypted = encrypted
+            self.frequency = frequency
+            self.kmsKeyId = kmsKeyId
+            self.licenseType = licenseType
+            self.numberOfRecentAmisToKeep = numberOfRecentAmisToKeep
+            self.roleName = roleName
+            self.runOnce = runOnce
+            self.seedReplicationTime = seedReplicationTime
+            self.serverId = serverId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case encrypted = "encrypted"
+            case frequency = "frequency"
+            case kmsKeyId = "kmsKeyId"
+            case licenseType = "licenseType"
+            case numberOfRecentAmisToKeep = "numberOfRecentAmisToKeep"
+            case roleName = "roleName"
+            case runOnce = "runOnce"
+            case seedReplicationTime = "seedReplicationTime"
+            case serverId = "serverId"
+        }
+    }
+
+    public struct CreateReplicationJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "replicationJobId", required: false, type: .string)
+        ]
+        /// The unique identifier of the replication job.
+        public let replicationJobId: String?
+
+        public init(replicationJobId: String? = nil) {
+            self.replicationJobId = replicationJobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationJobId = "replicationJobId"
+        }
+    }
+
+    public struct DeleteAppLaunchConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appId", required: false, type: .string)
+        ]
+        /// ID of the application associated with the launch configuration.
+        public let appId: String?
+
+        public init(appId: String? = nil) {
+            self.appId = appId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+        }
+    }
+
+    public struct DeleteAppLaunchConfigurationResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteAppReplicationConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appId", required: false, type: .string)
+        ]
+        /// ID of the application associated with the replication configuration.
+        public let appId: String?
+
+        public init(appId: String? = nil) {
+            self.appId = appId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+        }
+    }
+
+    public struct DeleteAppReplicationConfigurationResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteAppRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appId", required: false, type: .string), 
+            AWSShapeMember(label: "forceStopAppReplication", required: false, type: .boolean), 
+            AWSShapeMember(label: "forceTerminateApp", required: false, type: .boolean)
+        ]
+        /// ID of the application to delete.
+        public let appId: String?
+        /// While deleting the application, stop all replication jobs corresponding to the servers in the application.
+        public let forceStopAppReplication: Bool?
+        /// While deleting the application, terminate the stack corresponding to the application.
+        public let forceTerminateApp: Bool?
+
+        public init(appId: String? = nil, forceStopAppReplication: Bool? = nil, forceTerminateApp: Bool? = nil) {
+            self.appId = appId
+            self.forceStopAppReplication = forceStopAppReplication
+            self.forceTerminateApp = forceTerminateApp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+            case forceStopAppReplication = "forceStopAppReplication"
+            case forceTerminateApp = "forceTerminateApp"
+        }
+    }
+
+    public struct DeleteAppResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteReplicationJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "replicationJobId", required: true, type: .string)
+        ]
+        /// The identifier of the replication job.
+        public let replicationJobId: String
+
+        public init(replicationJobId: String) {
+            self.replicationJobId = replicationJobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationJobId = "replicationJobId"
+        }
+    }
+
+    public struct DeleteReplicationJobResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteServerCatalogRequest: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteServerCatalogResponse: AWSShape {
+
+        public init() {
+        }
 
     }
 
@@ -83,6 +490,318 @@ extension SMS {
 
         private enum CodingKeys: String, CodingKey {
             case connectorId = "connectorId"
+        }
+    }
+
+    public struct DisassociateConnectorResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct GenerateChangeSetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appId", required: false, type: .string), 
+            AWSShapeMember(label: "changesetFormat", required: false, type: .enum)
+        ]
+        /// ID of the application associated with the change set.
+        public let appId: String?
+        /// Format for the change set.
+        public let changesetFormat: OutputFormat?
+
+        public init(appId: String? = nil, changesetFormat: OutputFormat? = nil) {
+            self.appId = appId
+            self.changesetFormat = changesetFormat
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+            case changesetFormat = "changesetFormat"
+        }
+    }
+
+    public struct GenerateChangeSetResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "s3Location", required: false, type: .structure)
+        ]
+        /// Location of the Amazon S3 object.
+        public let s3Location: S3Location?
+
+        public init(s3Location: S3Location? = nil) {
+            self.s3Location = s3Location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Location = "s3Location"
+        }
+    }
+
+    public struct GenerateTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appId", required: false, type: .string), 
+            AWSShapeMember(label: "templateFormat", required: false, type: .enum)
+        ]
+        /// ID of the application associated with the Amazon CloudFormation template.
+        public let appId: String?
+        /// Format for generating the Amazon CloudFormation template.
+        public let templateFormat: OutputFormat?
+
+        public init(appId: String? = nil, templateFormat: OutputFormat? = nil) {
+            self.appId = appId
+            self.templateFormat = templateFormat
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+            case templateFormat = "templateFormat"
+        }
+    }
+
+    public struct GenerateTemplateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "s3Location", required: false, type: .structure)
+        ]
+        /// Location of the Amazon S3 object.
+        public let s3Location: S3Location?
+
+        public init(s3Location: S3Location? = nil) {
+            self.s3Location = s3Location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Location = "s3Location"
+        }
+    }
+
+    public struct GetAppLaunchConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appId", required: false, type: .string)
+        ]
+        /// ID of the application launch configuration.
+        public let appId: String?
+
+        public init(appId: String? = nil) {
+            self.appId = appId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+        }
+    }
+
+    public struct GetAppLaunchConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appId", required: false, type: .string), 
+            AWSShapeMember(label: "roleName", required: false, type: .string), 
+            AWSShapeMember(label: "serverGroupLaunchConfigurations", required: false, type: .list)
+        ]
+        /// ID of the application associated with the launch configuration.
+        public let appId: String?
+        /// Name of the service role in the customer's account that Amazon CloudFormation uses to launch the application.
+        public let roleName: String?
+        /// List of launch configurations for server groups in this application.
+        public let serverGroupLaunchConfigurations: [ServerGroupLaunchConfiguration]?
+
+        public init(appId: String? = nil, roleName: String? = nil, serverGroupLaunchConfigurations: [ServerGroupLaunchConfiguration]? = nil) {
+            self.appId = appId
+            self.roleName = roleName
+            self.serverGroupLaunchConfigurations = serverGroupLaunchConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+            case roleName = "roleName"
+            case serverGroupLaunchConfigurations = "serverGroupLaunchConfigurations"
+        }
+    }
+
+    public struct GetAppReplicationConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appId", required: false, type: .string)
+        ]
+        /// ID of the application associated with the replication configuration.
+        public let appId: String?
+
+        public init(appId: String? = nil) {
+            self.appId = appId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+        }
+    }
+
+    public struct GetAppReplicationConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "serverGroupReplicationConfigurations", required: false, type: .list)
+        ]
+        /// Replication configurations associated with server groups in this application.
+        public let serverGroupReplicationConfigurations: [ServerGroupReplicationConfiguration]?
+
+        public init(serverGroupReplicationConfigurations: [ServerGroupReplicationConfiguration]? = nil) {
+            self.serverGroupReplicationConfigurations = serverGroupReplicationConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverGroupReplicationConfigurations = "serverGroupReplicationConfigurations"
+        }
+    }
+
+    public struct GetAppRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appId", required: false, type: .string)
+        ]
+        /// ID of the application whose information is being retrieved.
+        public let appId: String?
+
+        public init(appId: String? = nil) {
+            self.appId = appId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+        }
+    }
+
+    public struct GetAppResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "serverGroups", required: false, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .list)
+        ]
+        /// Information about the application.
+        public let appSummary: AppSummary?
+        /// List of server groups belonging to the application.
+        public let serverGroups: [ServerGroup]?
+        /// List of tags associated with the application.
+        public let tags: [Tag]?
+
+        public init(appSummary: AppSummary? = nil, serverGroups: [ServerGroup]? = nil, tags: [Tag]? = nil) {
+            self.appSummary = appSummary
+            self.serverGroups = serverGroups
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appSummary = "appSummary"
+            case serverGroups = "serverGroups"
+            case tags = "tags"
+        }
+    }
+
+    public struct GetConnectorsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
+        public let maxResults: Int32?
+        /// The token for the next set of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetConnectorsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectorList", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// Information about the registered connectors.
+        public let connectorList: [Connector]?
+        /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        public init(connectorList: [Connector]? = nil, nextToken: String? = nil) {
+            self.connectorList = connectorList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorList = "connectorList"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetReplicationJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "replicationJobId", required: false, type: .string)
+        ]
+        /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
+        public let maxResults: Int32?
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// The identifier of the replication job.
+        public let replicationJobId: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, replicationJobId: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.replicationJobId = replicationJobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case replicationJobId = "replicationJobId"
+        }
+    }
+
+    public struct GetReplicationJobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "replicationJobList", required: false, type: .list)
+        ]
+        /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// Information about the replication jobs.
+        public let replicationJobList: [ReplicationJob]?
+
+        public init(nextToken: String? = nil, replicationJobList: [ReplicationJob]? = nil) {
+            self.nextToken = nextToken
+            self.replicationJobList = replicationJobList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case replicationJobList = "replicationJobList"
+        }
+    }
+
+    public struct GetReplicationRunsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "replicationJobId", required: true, type: .string)
+        ]
+        /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
+        public let maxResults: Int32?
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// The identifier of the replication job.
+        public let replicationJobId: String
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, replicationJobId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.replicationJobId = replicationJobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case replicationJobId = "replicationJobId"
         }
     }
 
@@ -112,219 +831,82 @@ extension SMS {
         }
     }
 
-    public struct GenerateChangeSetResponse: AWSShape {
+    public struct GetServersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "s3Location", required: false, type: .structure)
-        ]
-        /// Location of the Amazon S3 object.
-        public let s3Location: S3Location?
-
-        public init(s3Location: S3Location? = nil) {
-            self.s3Location = s3Location
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3Location = "s3Location"
-        }
-    }
-
-    public struct CreateReplicationJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "replicationJobId", required: false, type: .string)
-        ]
-        /// The unique identifier of the replication job.
-        public let replicationJobId: String?
-
-        public init(replicationJobId: String? = nil) {
-            self.replicationJobId = replicationJobId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationJobId = "replicationJobId"
-        }
-    }
-
-    public struct ServerReplicationParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "numberOfRecentAmisToKeep", required: false, type: .integer), 
-            AWSShapeMember(label: "seedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "licenseType", required: false, type: .enum), 
-            AWSShapeMember(label: "runOnce", required: false, type: .boolean), 
-            AWSShapeMember(label: "kmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "encrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "frequency", required: false, type: .integer)
-        ]
-        /// Number of recent AMIs to keep when creating a replication job for this server.
-        public let numberOfRecentAmisToKeep: Int32?
-        /// Seed time for creating a replication job for the server.
-        public let seedTime: TimeStamp?
-        /// License type for creating a replication job for the server.
-        public let licenseType: LicenseType?
-        public let runOnce: Bool?
-        ///  KMS key ID for replication jobs that produce encrypted AMIs. Can be any of the following:    KMS key ID   KMS key alias   ARN referring to KMS key ID   ARN referring to KMS key alias    If encrypted is true but a KMS key id is not specified, the customer's default KMS key for EBS is used. 
-        public let kmsKeyId: String?
-        /// When true, the replication job produces encrypted AMIs. See also KmsKeyId below.
-        public let encrypted: Bool?
-        /// Frequency of creating replication jobs for the server.
-        public let frequency: Int32?
-
-        public init(numberOfRecentAmisToKeep: Int32? = nil, seedTime: TimeStamp? = nil, licenseType: LicenseType? = nil, runOnce: Bool? = nil, kmsKeyId: String? = nil, encrypted: Bool? = nil, frequency: Int32? = nil) {
-            self.numberOfRecentAmisToKeep = numberOfRecentAmisToKeep
-            self.seedTime = seedTime
-            self.licenseType = licenseType
-            self.runOnce = runOnce
-            self.kmsKeyId = kmsKeyId
-            self.encrypted = encrypted
-            self.frequency = frequency
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case numberOfRecentAmisToKeep = "numberOfRecentAmisToKeep"
-            case seedTime = "seedTime"
-            case licenseType = "licenseType"
-            case runOnce = "runOnce"
-            case kmsKeyId = "kmsKeyId"
-            case encrypted = "encrypted"
-            case frequency = "frequency"
-        }
-    }
-
-    public struct VmServerAddress: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "vmId", required: false, type: .string), 
-            AWSShapeMember(label: "vmManagerId", required: false, type: .string)
-        ]
-        /// The identifier of the VM.
-        public let vmId: String?
-        /// The identifier of the VM manager.
-        public let vmManagerId: String?
-
-        public init(vmId: String? = nil, vmManagerId: String? = nil) {
-            self.vmId = vmId
-            self.vmManagerId = vmManagerId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vmId = "vmId"
-            case vmManagerId = "vmManagerId"
-        }
-    }
-
-    public struct GetAppReplicationConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", required: false, type: .string)
-        ]
-        /// ID of the application associated with the replication configuration.
-        public let appId: String?
-
-        public init(appId: String? = nil) {
-            self.appId = appId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-        }
-    }
-
-    public struct GetConnectorsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "connectorList", required: false, type: .list)
+            AWSShapeMember(label: "vmServerAddressList", required: false, type: .list)
         ]
+        /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
+        public let maxResults: Int32?
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// List of VmServerAddress objects
+        public let vmServerAddressList: [VmServerAddress]?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, vmServerAddressList: [VmServerAddress]? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.vmServerAddressList = vmServerAddressList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case vmServerAddressList = "vmServerAddressList"
+        }
+    }
+
+    public struct GetServersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lastModifiedOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "serverCatalogStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "serverList", required: false, type: .list)
+        ]
+        /// The time when the server was last modified.
+        public let lastModifiedOn: TimeStamp?
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public let nextToken: String?
-        /// Information about the registered connectors.
-        public let connectorList: [Connector]?
+        /// The status of the server catalog.
+        public let serverCatalogStatus: ServerCatalogStatus?
+        /// Information about the servers.
+        public let serverList: [Server]?
 
-        public init(nextToken: String? = nil, connectorList: [Connector]? = nil) {
+        public init(lastModifiedOn: TimeStamp? = nil, nextToken: String? = nil, serverCatalogStatus: ServerCatalogStatus? = nil, serverList: [Server]? = nil) {
+            self.lastModifiedOn = lastModifiedOn
             self.nextToken = nextToken
-            self.connectorList = connectorList
+            self.serverCatalogStatus = serverCatalogStatus
+            self.serverList = serverList
         }
 
         private enum CodingKeys: String, CodingKey {
+            case lastModifiedOn = "lastModifiedOn"
             case nextToken = "nextToken"
-            case connectorList = "connectorList"
+            case serverCatalogStatus = "serverCatalogStatus"
+            case serverList = "serverList"
         }
     }
 
-    public struct UpdateReplicationJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "replicationJobId", required: true, type: .string), 
-            AWSShapeMember(label: "numberOfRecentAmisToKeep", required: false, type: .integer), 
-            AWSShapeMember(label: "roleName", required: false, type: .string), 
-            AWSShapeMember(label: "licenseType", required: false, type: .enum), 
-            AWSShapeMember(label: "nextReplicationRunStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "kmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "encrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "frequency", required: false, type: .integer)
-        ]
-        /// The identifier of the replication job.
-        public let replicationJobId: String
-        /// The maximum number of SMS-created AMIs to retain. The oldest will be deleted once the maximum number is reached and a new AMI is created.
-        public let numberOfRecentAmisToKeep: Int32?
-        /// The name of the IAM role to be used by AWS SMS.
-        public let roleName: String?
-        /// The license type to be used for the AMI created by a successful replication run.
-        public let licenseType: LicenseType?
-        /// The start time of the next replication run.
-        public let nextReplicationRunStartTime: TimeStamp?
-        /// The description of the replication job.
-        public let description: String?
-        ///  KMS key ID for replication jobs that produce encrypted AMIs. Can be any of the following:    KMS key ID   KMS key alias   ARN referring to KMS key ID   ARN referring to KMS key alias    If encrypted is true but a KMS key id is not specified, the customer's default KMS key for EBS is used. 
-        public let kmsKeyId: String?
-        /// When true, the replication job produces encrypted AMIs . See also KmsKeyId below.
-        public let encrypted: Bool?
-        /// The time between consecutive replication runs, in hours.
-        public let frequency: Int32?
+    public struct ImportServerCatalogRequest: AWSShape {
 
-        public init(replicationJobId: String, numberOfRecentAmisToKeep: Int32? = nil, roleName: String? = nil, licenseType: LicenseType? = nil, nextReplicationRunStartTime: TimeStamp? = nil, description: String? = nil, kmsKeyId: String? = nil, encrypted: Bool? = nil, frequency: Int32? = nil) {
-            self.replicationJobId = replicationJobId
-            self.numberOfRecentAmisToKeep = numberOfRecentAmisToKeep
-            self.roleName = roleName
-            self.licenseType = licenseType
-            self.nextReplicationRunStartTime = nextReplicationRunStartTime
-            self.description = description
-            self.kmsKeyId = kmsKeyId
-            self.encrypted = encrypted
-            self.frequency = frequency
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case replicationJobId = "replicationJobId"
-            case numberOfRecentAmisToKeep = "numberOfRecentAmisToKeep"
-            case roleName = "roleName"
-            case licenseType = "licenseType"
-            case nextReplicationRunStartTime = "nextReplicationRunStartTime"
-            case description = "description"
-            case kmsKeyId = "kmsKeyId"
-            case encrypted = "encrypted"
-            case frequency = "frequency"
+    }
+
+    public struct ImportServerCatalogResponse: AWSShape {
+
+        public init() {
         }
+
     }
 
-    public enum ReplicationRunType: String, CustomStringConvertible, Codable {
-        case onDemand = "ON_DEMAND"
-        case automatic = "AUTOMATIC"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ReplicationRunState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case missed = "MISSED"
-        case active = "ACTIVE"
-        case failed = "FAILED"
-        case completed = "COMPLETED"
-        case deleting = "DELETING"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteAppLaunchConfigurationRequest: AWSShape {
+    public struct LaunchAppRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "appId", required: false, type: .string)
         ]
-        /// ID of the application associated with the launch configuration.
+        /// ID of the application to launch.
         public let appId: String?
 
         public init(appId: String? = nil) {
@@ -338,488 +920,87 @@ extension SMS {
 
     public struct LaunchAppResponse: AWSShape {
 
-    }
-
-    public struct UpdateAppResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "serverGroups", required: false, type: .list)
-        ]
-        /// Summary description of the application.
-        public let appSummary: AppSummary?
-        /// List of tags associated with the application.
-        public let tags: [Tag]?
-        /// List of updated server groups in the application.
-        public let serverGroups: [ServerGroup]?
-
-        public init(appSummary: AppSummary? = nil, tags: [Tag]? = nil, serverGroups: [ServerGroup]? = nil) {
-            self.appSummary = appSummary
-            self.tags = tags
-            self.serverGroups = serverGroups
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case appSummary = "appSummary"
-            case tags = "tags"
-            case serverGroups = "serverGroups"
-        }
-    }
-
-    public struct ReplicationJob: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "vmServer", required: false, type: .structure), 
-            AWSShapeMember(label: "runOnce", required: false, type: .boolean), 
-            AWSShapeMember(label: "roleName", required: false, type: .string), 
-            AWSShapeMember(label: "licenseType", required: false, type: .enum), 
-            AWSShapeMember(label: "serverId", required: false, type: .string), 
-            AWSShapeMember(label: "latestAmiId", required: false, type: .string), 
-            AWSShapeMember(label: "frequency", required: false, type: .integer), 
-            AWSShapeMember(label: "serverType", required: false, type: .enum), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "replicationRunList", required: false, type: .list), 
-            AWSShapeMember(label: "numberOfRecentAmisToKeep", required: false, type: .integer), 
-            AWSShapeMember(label: "kmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "encrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "replicationJobId", required: false, type: .string), 
-            AWSShapeMember(label: "state", required: false, type: .enum), 
-            AWSShapeMember(label: "nextReplicationRunStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "statusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "seedReplicationTime", required: false, type: .timestamp)
-        ]
-        /// Information about the VM server.
-        public let vmServer: VmServer?
-        public let runOnce: Bool?
-        /// The name of the IAM role to be used by the Server Migration Service.
-        public let roleName: String?
-        /// The license type to be used for the AMI created by a successful replication run.
-        public let licenseType: LicenseType?
-        /// The identifier of the server.
-        public let serverId: String?
-        /// The ID of the latest Amazon Machine Image (AMI).
-        public let latestAmiId: String?
-        /// The time between consecutive replication runs, in hours.
-        public let frequency: Int32?
-        /// The type of server.
-        public let serverType: ServerType?
-        /// The description of the replication job.
-        public let description: String?
-        /// Information about the replication runs.
-        public let replicationRunList: [ReplicationRun]?
-        /// Number of recent AMIs to keep in the customer's account for a replication job. By default the value is set to zero, meaning that all AMIs are kept.
-        public let numberOfRecentAmisToKeep: Int32?
-        /// KMS key ID for replication jobs that produce encrypted AMIs. Can be any of the following:    KMS key ID   KMS key alias   ARN referring to KMS key ID   ARN referring to KMS key alias    If encrypted is true but a KMS key id is not specified, the customer's default KMS key for EBS is used. 
-        public let kmsKeyId: String?
-        /// Whether the replication job should produce encrypted AMIs or not. See also KmsKeyId below.
-        public let encrypted: Bool?
-        /// The identifier of the replication job.
-        public let replicationJobId: String?
-        /// The state of the replication job.
-        public let state: ReplicationJobState?
-        /// The start time of the next replication run.
-        public let nextReplicationRunStartTime: TimeStamp?
-        /// The description of the current status of the replication job.
-        public let statusMessage: String?
-        /// The seed replication time.
-        public let seedReplicationTime: TimeStamp?
-
-        public init(vmServer: VmServer? = nil, runOnce: Bool? = nil, roleName: String? = nil, licenseType: LicenseType? = nil, serverId: String? = nil, latestAmiId: String? = nil, frequency: Int32? = nil, serverType: ServerType? = nil, description: String? = nil, replicationRunList: [ReplicationRun]? = nil, numberOfRecentAmisToKeep: Int32? = nil, kmsKeyId: String? = nil, encrypted: Bool? = nil, replicationJobId: String? = nil, state: ReplicationJobState? = nil, nextReplicationRunStartTime: TimeStamp? = nil, statusMessage: String? = nil, seedReplicationTime: TimeStamp? = nil) {
-            self.vmServer = vmServer
-            self.runOnce = runOnce
-            self.roleName = roleName
-            self.licenseType = licenseType
-            self.serverId = serverId
-            self.latestAmiId = latestAmiId
-            self.frequency = frequency
-            self.serverType = serverType
-            self.description = description
-            self.replicationRunList = replicationRunList
-            self.numberOfRecentAmisToKeep = numberOfRecentAmisToKeep
-            self.kmsKeyId = kmsKeyId
-            self.encrypted = encrypted
-            self.replicationJobId = replicationJobId
-            self.state = state
-            self.nextReplicationRunStartTime = nextReplicationRunStartTime
-            self.statusMessage = statusMessage
-            self.seedReplicationTime = seedReplicationTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vmServer = "vmServer"
-            case runOnce = "runOnce"
-            case roleName = "roleName"
-            case licenseType = "licenseType"
-            case serverId = "serverId"
-            case latestAmiId = "latestAmiId"
-            case frequency = "frequency"
-            case serverType = "serverType"
-            case description = "description"
-            case replicationRunList = "replicationRunList"
-            case numberOfRecentAmisToKeep = "numberOfRecentAmisToKeep"
-            case kmsKeyId = "kmsKeyId"
-            case encrypted = "encrypted"
-            case replicationJobId = "replicationJobId"
-            case state = "state"
-            case nextReplicationRunStartTime = "nextReplicationRunStartTime"
-            case statusMessage = "statusMessage"
-            case seedReplicationTime = "seedReplicationTime"
-        }
-    }
-
-    public struct ServerGroupLaunchConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "serverGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "launchOrder", required: false, type: .integer), 
-            AWSShapeMember(label: "serverLaunchConfigurations", required: false, type: .list)
-        ]
-        /// Identifier of the server group the launch configuration is associated with.
-        public let serverGroupId: String?
-        /// Launch order of servers in the server group.
-        public let launchOrder: Int32?
-        /// Launch configuration for servers in the server group.
-        public let serverLaunchConfigurations: [ServerLaunchConfiguration]?
-
-        public init(serverGroupId: String? = nil, launchOrder: Int32? = nil, serverLaunchConfigurations: [ServerLaunchConfiguration]? = nil) {
-            self.serverGroupId = serverGroupId
-            self.launchOrder = launchOrder
-            self.serverLaunchConfigurations = serverLaunchConfigurations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverGroupId = "serverGroupId"
-            case launchOrder = "launchOrder"
-            case serverLaunchConfigurations = "serverLaunchConfigurations"
-        }
-    }
-
-    public struct UpdateReplicationJobResponse: AWSShape {
-
-    }
-
-    public struct GetConnectorsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// The token for the next set of results.
-        public let nextToken: String?
-        /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct AppSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "totalServerGroups", required: false, type: .integer), 
-            AWSShapeMember(label: "launchStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "replicationStatusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "launchStatusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "latestReplicationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "roleName", required: false, type: .string), 
-            AWSShapeMember(label: "launchDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "appId", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "totalServers", required: false, type: .integer), 
-            AWSShapeMember(label: "replicationStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "statusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "lastModified", required: false, type: .timestamp)
-        ]
-        /// Number of server groups present in the application.
-        public let totalServerGroups: Int32?
-        /// Launch status of the application.
-        public let launchStatus: AppLaunchStatus?
-        /// Status of the application.
-        public let status: AppStatus?
-        /// A message related to the replication status of the application.
-        public let replicationStatusMessage: String?
-        /// A message related to the launch status of the application.
-        public let launchStatusMessage: String?
-        /// Time of creation of this application.
-        public let creationTime: TimeStamp?
-        /// Timestamp of the application's most recent successful replication.
-        public let latestReplicationTime: TimeStamp?
-        /// Name of the service role in the customer's account used by AWS SMS.
-        public let roleName: String?
-        /// Details about the latest launch of the application.
-        public let launchDetails: LaunchDetails?
-        /// Name of the application.
-        public let name: String?
-        /// Unique ID of the application.
-        public let appId: String?
-        /// Description of the application.
-        public let description: String?
-        /// Number of servers present in the application.
-        public let totalServers: Int32?
-        /// Replication status of the application.
-        public let replicationStatus: AppReplicationStatus?
-        /// A message related to the status of the application
-        public let statusMessage: String?
-        /// Timestamp of the application's creation.
-        public let lastModified: TimeStamp?
-
-        public init(totalServerGroups: Int32? = nil, launchStatus: AppLaunchStatus? = nil, status: AppStatus? = nil, replicationStatusMessage: String? = nil, launchStatusMessage: String? = nil, creationTime: TimeStamp? = nil, latestReplicationTime: TimeStamp? = nil, roleName: String? = nil, launchDetails: LaunchDetails? = nil, name: String? = nil, appId: String? = nil, description: String? = nil, totalServers: Int32? = nil, replicationStatus: AppReplicationStatus? = nil, statusMessage: String? = nil, lastModified: TimeStamp? = nil) {
-            self.totalServerGroups = totalServerGroups
-            self.launchStatus = launchStatus
-            self.status = status
-            self.replicationStatusMessage = replicationStatusMessage
-            self.launchStatusMessage = launchStatusMessage
-            self.creationTime = creationTime
-            self.latestReplicationTime = latestReplicationTime
-            self.roleName = roleName
-            self.launchDetails = launchDetails
-            self.name = name
-            self.appId = appId
-            self.description = description
-            self.totalServers = totalServers
-            self.replicationStatus = replicationStatus
-            self.statusMessage = statusMessage
-            self.lastModified = lastModified
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case totalServerGroups = "totalServerGroups"
-            case launchStatus = "launchStatus"
-            case status = "status"
-            case replicationStatusMessage = "replicationStatusMessage"
-            case launchStatusMessage = "launchStatusMessage"
-            case creationTime = "creationTime"
-            case latestReplicationTime = "latestReplicationTime"
-            case roleName = "roleName"
-            case launchDetails = "launchDetails"
-            case name = "name"
-            case appId = "appId"
-            case description = "description"
-            case totalServers = "totalServers"
-            case replicationStatus = "replicationStatus"
-            case statusMessage = "statusMessage"
-            case lastModified = "lastModified"
-        }
-    }
-
-    public struct DeleteAppResponse: AWSShape {
-
-    }
-
-    public struct ServerGroupReplicationConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "serverReplicationConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "serverGroupId", required: false, type: .string)
-        ]
-        /// Replication configuration for servers in the server group.
-        public let serverReplicationConfigurations: [ServerReplicationConfiguration]?
-        /// Identifier of the server group this replication configuration is associated with.
-        public let serverGroupId: String?
-
-        public init(serverReplicationConfigurations: [ServerReplicationConfiguration]? = nil, serverGroupId: String? = nil) {
-            self.serverReplicationConfigurations = serverReplicationConfigurations
-            self.serverGroupId = serverGroupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverReplicationConfigurations = "serverReplicationConfigurations"
-            case serverGroupId = "serverGroupId"
-        }
     }
 
     public struct LaunchDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "latestLaunchTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "stackId", required: false, type: .string), 
-            AWSShapeMember(label: "stackName", required: false, type: .string), 
-            AWSShapeMember(label: "latestLaunchTime", required: false, type: .timestamp)
+            AWSShapeMember(label: "stackName", required: false, type: .string)
         ]
+        /// Latest time this application was launched successfully.
+        public let latestLaunchTime: TimeStamp?
         /// Identifier of the latest stack launched for this application.
         public let stackId: String?
         /// Name of the latest stack launched for this application.
         public let stackName: String?
-        /// Latest time this application was launched successfully.
-        public let latestLaunchTime: TimeStamp?
 
-        public init(stackId: String? = nil, stackName: String? = nil, latestLaunchTime: TimeStamp? = nil) {
+        public init(latestLaunchTime: TimeStamp? = nil, stackId: String? = nil, stackName: String? = nil) {
+            self.latestLaunchTime = latestLaunchTime
             self.stackId = stackId
             self.stackName = stackName
-            self.latestLaunchTime = latestLaunchTime
         }
 
         private enum CodingKeys: String, CodingKey {
+            case latestLaunchTime = "latestLaunchTime"
             case stackId = "stackId"
             case stackName = "stackName"
-            case latestLaunchTime = "latestLaunchTime"
         }
     }
 
-    public struct StartOnDemandReplicationRunRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "replicationJobId", required: true, type: .string)
-        ]
-        /// The description of the replication run.
-        public let description: String?
-        /// The identifier of the replication job.
-        public let replicationJobId: String
+    public enum LicenseType: String, CustomStringConvertible, Codable {
+        case aws = "AWS"
+        case byol = "BYOL"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(description: String? = nil, replicationJobId: String) {
-            self.description = description
-            self.replicationJobId = replicationJobId
+    public struct ListAppsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appIds", required: false, type: .list), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        public let appIds: [String]?
+        /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value. 
+        public let maxResults: Int32?
+        /// The token for the next set of results.
+        public let nextToken: String?
+
+        public init(appIds: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.appIds = appIds
+            self.maxResults = maxResults
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description = "description"
-            case replicationJobId = "replicationJobId"
+            case appIds = "appIds"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
-    public struct GenerateTemplateResponse: AWSShape {
+    public struct ListAppsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "s3Location", required: false, type: .structure)
+            AWSShapeMember(label: "apps", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// Location of the Amazon S3 object.
-        public let s3Location: S3Location?
+        /// A list of application summaries.
+        public let apps: [AppSummary]?
+        /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
+        public let nextToken: String?
 
-        public init(s3Location: S3Location? = nil) {
-            self.s3Location = s3Location
+        public init(apps: [AppSummary]? = nil, nextToken: String? = nil) {
+            self.apps = apps
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Location = "s3Location"
+            case apps = "apps"
+            case nextToken = "nextToken"
         }
-    }
-
-    public struct DeleteAppReplicationConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", required: false, type: .string)
-        ]
-        /// ID of the application associated with the replication configuration.
-        public let appId: String?
-
-        public init(appId: String? = nil) {
-            self.appId = appId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-        }
-    }
-
-    public struct ImportServerCatalogResponse: AWSShape {
-
-    }
-
-    public struct ReplicationRun: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "scheduledStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "statusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "completedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "kmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "amiId", required: false, type: .string), 
-            AWSShapeMember(label: "encrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "replicationRunId", required: false, type: .string), 
-            AWSShapeMember(label: "stageDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "state", required: false, type: .enum)
-        ]
-        /// The start time of the next replication run.
-        public let scheduledStartTime: TimeStamp?
-        /// The description of the current status of the replication job.
-        public let statusMessage: String?
-        /// The description of the replication run.
-        public let description: String?
-        /// The type of replication run.
-        public let `type`: ReplicationRunType?
-        /// The completion time of the last replication run.
-        public let completedTime: TimeStamp?
-        /// KMS key ID for replication jobs that produce encrypted AMIs. Can be any of the following:    KMS key ID   KMS key alias   ARN referring to KMS key ID   ARN referring to KMS key alias    If encrypted is true but a KMS key id is not specified, the customer's default KMS key for EBS is used. 
-        public let kmsKeyId: String?
-        /// The identifier of the Amazon Machine Image (AMI) from the replication run.
-        public let amiId: String?
-        /// Whether the replication run should produce encrypted AMI or not. See also KmsKeyId below.
-        public let encrypted: Bool?
-        /// The identifier of the replication run.
-        public let replicationRunId: String?
-        /// Details of the current stage of the replication run.
-        public let stageDetails: ReplicationRunStageDetails?
-        /// The state of the replication run.
-        public let state: ReplicationRunState?
-
-        public init(scheduledStartTime: TimeStamp? = nil, statusMessage: String? = nil, description: String? = nil, type: ReplicationRunType? = nil, completedTime: TimeStamp? = nil, kmsKeyId: String? = nil, amiId: String? = nil, encrypted: Bool? = nil, replicationRunId: String? = nil, stageDetails: ReplicationRunStageDetails? = nil, state: ReplicationRunState? = nil) {
-            self.scheduledStartTime = scheduledStartTime
-            self.statusMessage = statusMessage
-            self.description = description
-            self.`type` = `type`
-            self.completedTime = completedTime
-            self.kmsKeyId = kmsKeyId
-            self.amiId = amiId
-            self.encrypted = encrypted
-            self.replicationRunId = replicationRunId
-            self.stageDetails = stageDetails
-            self.state = state
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scheduledStartTime = "scheduledStartTime"
-            case statusMessage = "statusMessage"
-            case description = "description"
-            case `type` = "type"
-            case completedTime = "completedTime"
-            case kmsKeyId = "kmsKeyId"
-            case amiId = "amiId"
-            case encrypted = "encrypted"
-            case replicationRunId = "replicationRunId"
-            case stageDetails = "stageDetails"
-            case state = "state"
-        }
-    }
-
-    public struct Server: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "serverId", required: false, type: .string), 
-            AWSShapeMember(label: "vmServer", required: false, type: .structure), 
-            AWSShapeMember(label: "replicationJobId", required: false, type: .string), 
-            AWSShapeMember(label: "serverType", required: false, type: .enum), 
-            AWSShapeMember(label: "replicationJobTerminated", required: false, type: .boolean)
-        ]
-        /// The identifier of the server.
-        public let serverId: String?
-        /// Information about the VM server.
-        public let vmServer: VmServer?
-        /// The identifier of the replication job.
-        public let replicationJobId: String?
-        /// The type of server.
-        public let serverType: ServerType?
-        /// Indicates whether the replication job is deleted or failed.
-        public let replicationJobTerminated: Bool?
-
-        public init(serverId: String? = nil, vmServer: VmServer? = nil, replicationJobId: String? = nil, serverType: ServerType? = nil, replicationJobTerminated: Bool? = nil) {
-            self.serverId = serverId
-            self.vmServer = vmServer
-            self.replicationJobId = replicationJobId
-            self.serverType = serverType
-            self.replicationJobTerminated = replicationJobTerminated
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverId = "serverId"
-            case vmServer = "vmServer"
-            case replicationJobId = "replicationJobId"
-            case serverType = "serverType"
-            case replicationJobTerminated = "replicationJobTerminated"
-        }
-    }
-
-    public struct DeleteServerCatalogRequest: AWSShape {
-
     }
 
     public enum OutputFormat: String, CustomStringConvertible, Codable {
@@ -828,110 +1009,242 @@ extension SMS {
         public var description: String { return self.rawValue }
     }
 
-    public struct GetAppReplicationConfigurationResponse: AWSShape {
+    public struct PutAppLaunchConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "serverGroupReplicationConfigurations", required: false, type: .list)
+            AWSShapeMember(label: "appId", required: false, type: .string), 
+            AWSShapeMember(label: "roleName", required: false, type: .string), 
+            AWSShapeMember(label: "serverGroupLaunchConfigurations", required: false, type: .list)
         ]
-        /// Replication configurations associated with server groups in this application.
-        public let serverGroupReplicationConfigurations: [ServerGroupReplicationConfiguration]?
+        /// ID of the application associated with the launch configuration.
+        public let appId: String?
+        /// Name of service role in the customer's account that Amazon CloudFormation uses to launch the application.
+        public let roleName: String?
+        /// Launch configurations for server groups in the application.
+        public let serverGroupLaunchConfigurations: [ServerGroupLaunchConfiguration]?
 
-        public init(serverGroupReplicationConfigurations: [ServerGroupReplicationConfiguration]? = nil) {
-            self.serverGroupReplicationConfigurations = serverGroupReplicationConfigurations
+        public init(appId: String? = nil, roleName: String? = nil, serverGroupLaunchConfigurations: [ServerGroupLaunchConfiguration]? = nil) {
+            self.appId = appId
+            self.roleName = roleName
+            self.serverGroupLaunchConfigurations = serverGroupLaunchConfigurations
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serverGroupReplicationConfigurations = "serverGroupReplicationConfigurations"
+            case appId = "appId"
+            case roleName = "roleName"
+            case serverGroupLaunchConfigurations = "serverGroupLaunchConfigurations"
         }
     }
 
     public struct PutAppLaunchConfigurationResponse: AWSShape {
 
-    }
-
-    public struct DisassociateConnectorResponse: AWSShape {
-
-    }
-
-    public struct DeleteServerCatalogResponse: AWSShape {
+        public init() {
+        }
 
     }
 
-    public struct StartAppReplicationRequest: AWSShape {
+    public struct PutAppReplicationConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", required: false, type: .string)
+            AWSShapeMember(label: "appId", required: false, type: .string), 
+            AWSShapeMember(label: "serverGroupReplicationConfigurations", required: false, type: .list)
         ]
-        /// ID of the application to replicate.
+        /// ID of the application tassociated with the replication configuration.
         public let appId: String?
+        /// Replication configurations for server groups in the application.
+        public let serverGroupReplicationConfigurations: [ServerGroupReplicationConfiguration]?
 
-        public init(appId: String? = nil) {
+        public init(appId: String? = nil, serverGroupReplicationConfigurations: [ServerGroupReplicationConfiguration]? = nil) {
             self.appId = appId
+            self.serverGroupReplicationConfigurations = serverGroupReplicationConfigurations
         }
 
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
+            case serverGroupReplicationConfigurations = "serverGroupReplicationConfigurations"
         }
     }
 
-    public struct GenerateChangeSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "changesetFormat", required: false, type: .enum), 
-            AWSShapeMember(label: "appId", required: false, type: .string)
-        ]
-        /// Format for the change set.
-        public let changesetFormat: OutputFormat?
-        /// ID of the application associated with the change set.
-        public let appId: String?
+    public struct PutAppReplicationConfigurationResponse: AWSShape {
 
-        public init(changesetFormat: OutputFormat? = nil, appId: String? = nil) {
-            self.changesetFormat = changesetFormat
-            self.appId = appId
+        public init() {
+        }
+
+    }
+
+    public struct ReplicationJob: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "encrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "frequency", required: false, type: .integer), 
+            AWSShapeMember(label: "kmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "latestAmiId", required: false, type: .string), 
+            AWSShapeMember(label: "licenseType", required: false, type: .enum), 
+            AWSShapeMember(label: "nextReplicationRunStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "numberOfRecentAmisToKeep", required: false, type: .integer), 
+            AWSShapeMember(label: "replicationJobId", required: false, type: .string), 
+            AWSShapeMember(label: "replicationRunList", required: false, type: .list), 
+            AWSShapeMember(label: "roleName", required: false, type: .string), 
+            AWSShapeMember(label: "runOnce", required: false, type: .boolean), 
+            AWSShapeMember(label: "seedReplicationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "serverId", required: false, type: .string), 
+            AWSShapeMember(label: "serverType", required: false, type: .enum), 
+            AWSShapeMember(label: "state", required: false, type: .enum), 
+            AWSShapeMember(label: "statusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "vmServer", required: false, type: .structure)
+        ]
+        /// The description of the replication job.
+        public let description: String?
+        /// Whether the replication job should produce encrypted AMIs or not. See also KmsKeyId below.
+        public let encrypted: Bool?
+        /// The time between consecutive replication runs, in hours.
+        public let frequency: Int32?
+        /// KMS key ID for replication jobs that produce encrypted AMIs. Can be any of the following:    KMS key ID   KMS key alias   ARN referring to KMS key ID   ARN referring to KMS key alias    If encrypted is true but a KMS key id is not specified, the customer's default KMS key for EBS is used. 
+        public let kmsKeyId: String?
+        /// The ID of the latest Amazon Machine Image (AMI).
+        public let latestAmiId: String?
+        /// The license type to be used for the AMI created by a successful replication run.
+        public let licenseType: LicenseType?
+        /// The start time of the next replication run.
+        public let nextReplicationRunStartTime: TimeStamp?
+        /// Number of recent AMIs to keep in the customer's account for a replication job. By default the value is set to zero, meaning that all AMIs are kept.
+        public let numberOfRecentAmisToKeep: Int32?
+        /// The identifier of the replication job.
+        public let replicationJobId: String?
+        /// Information about the replication runs.
+        public let replicationRunList: [ReplicationRun]?
+        /// The name of the IAM role to be used by the Server Migration Service.
+        public let roleName: String?
+        public let runOnce: Bool?
+        /// The seed replication time.
+        public let seedReplicationTime: TimeStamp?
+        /// The identifier of the server.
+        public let serverId: String?
+        /// The type of server.
+        public let serverType: ServerType?
+        /// The state of the replication job.
+        public let state: ReplicationJobState?
+        /// The description of the current status of the replication job.
+        public let statusMessage: String?
+        /// Information about the VM server.
+        public let vmServer: VmServer?
+
+        public init(description: String? = nil, encrypted: Bool? = nil, frequency: Int32? = nil, kmsKeyId: String? = nil, latestAmiId: String? = nil, licenseType: LicenseType? = nil, nextReplicationRunStartTime: TimeStamp? = nil, numberOfRecentAmisToKeep: Int32? = nil, replicationJobId: String? = nil, replicationRunList: [ReplicationRun]? = nil, roleName: String? = nil, runOnce: Bool? = nil, seedReplicationTime: TimeStamp? = nil, serverId: String? = nil, serverType: ServerType? = nil, state: ReplicationJobState? = nil, statusMessage: String? = nil, vmServer: VmServer? = nil) {
+            self.description = description
+            self.encrypted = encrypted
+            self.frequency = frequency
+            self.kmsKeyId = kmsKeyId
+            self.latestAmiId = latestAmiId
+            self.licenseType = licenseType
+            self.nextReplicationRunStartTime = nextReplicationRunStartTime
+            self.numberOfRecentAmisToKeep = numberOfRecentAmisToKeep
+            self.replicationJobId = replicationJobId
+            self.replicationRunList = replicationRunList
+            self.roleName = roleName
+            self.runOnce = runOnce
+            self.seedReplicationTime = seedReplicationTime
+            self.serverId = serverId
+            self.serverType = serverType
+            self.state = state
+            self.statusMessage = statusMessage
+            self.vmServer = vmServer
         }
 
         private enum CodingKeys: String, CodingKey {
-            case changesetFormat = "changesetFormat"
-            case appId = "appId"
+            case description = "description"
+            case encrypted = "encrypted"
+            case frequency = "frequency"
+            case kmsKeyId = "kmsKeyId"
+            case latestAmiId = "latestAmiId"
+            case licenseType = "licenseType"
+            case nextReplicationRunStartTime = "nextReplicationRunStartTime"
+            case numberOfRecentAmisToKeep = "numberOfRecentAmisToKeep"
+            case replicationJobId = "replicationJobId"
+            case replicationRunList = "replicationRunList"
+            case roleName = "roleName"
+            case runOnce = "runOnce"
+            case seedReplicationTime = "seedReplicationTime"
+            case serverId = "serverId"
+            case serverType = "serverType"
+            case state = "state"
+            case statusMessage = "statusMessage"
+            case vmServer = "vmServer"
         }
     }
 
-    public struct GenerateTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "templateFormat", required: false, type: .enum), 
-            AWSShapeMember(label: "appId", required: false, type: .string)
-        ]
-        /// Format for generating the Amazon CloudFormation template.
-        public let templateFormat: OutputFormat?
-        /// ID of the application associated with the Amazon CloudFormation template.
-        public let appId: String?
-
-        public init(templateFormat: OutputFormat? = nil, appId: String? = nil) {
-            self.templateFormat = templateFormat
-            self.appId = appId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case templateFormat = "templateFormat"
-            case appId = "appId"
-        }
+    public enum ReplicationJobState: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case active = "ACTIVE"
+        case failed = "FAILED"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        case completed = "COMPLETED"
+        case pausedOnFailure = "PAUSED_ON_FAILURE"
+        case failing = "FAILING"
+        public var description: String { return self.rawValue }
     }
 
-    public struct Tag: AWSShape {
+    public struct ReplicationRun: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "key", required: false, type: .string), 
-            AWSShapeMember(label: "value", required: false, type: .string)
+            AWSShapeMember(label: "amiId", required: false, type: .string), 
+            AWSShapeMember(label: "completedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "encrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "kmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "replicationRunId", required: false, type: .string), 
+            AWSShapeMember(label: "scheduledStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "stageDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "state", required: false, type: .enum), 
+            AWSShapeMember(label: "statusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .enum)
         ]
-        /// Tag key.
-        public let key: String?
-        /// Tag value.
-        public let value: String?
+        /// The identifier of the Amazon Machine Image (AMI) from the replication run.
+        public let amiId: String?
+        /// The completion time of the last replication run.
+        public let completedTime: TimeStamp?
+        /// The description of the replication run.
+        public let description: String?
+        /// Whether the replication run should produce encrypted AMI or not. See also KmsKeyId below.
+        public let encrypted: Bool?
+        /// KMS key ID for replication jobs that produce encrypted AMIs. Can be any of the following:    KMS key ID   KMS key alias   ARN referring to KMS key ID   ARN referring to KMS key alias    If encrypted is true but a KMS key id is not specified, the customer's default KMS key for EBS is used. 
+        public let kmsKeyId: String?
+        /// The identifier of the replication run.
+        public let replicationRunId: String?
+        /// The start time of the next replication run.
+        public let scheduledStartTime: TimeStamp?
+        /// Details of the current stage of the replication run.
+        public let stageDetails: ReplicationRunStageDetails?
+        /// The state of the replication run.
+        public let state: ReplicationRunState?
+        /// The description of the current status of the replication job.
+        public let statusMessage: String?
+        /// The type of replication run.
+        public let `type`: ReplicationRunType?
 
-        public init(key: String? = nil, value: String? = nil) {
-            self.key = key
-            self.value = value
+        public init(amiId: String? = nil, completedTime: TimeStamp? = nil, description: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, replicationRunId: String? = nil, scheduledStartTime: TimeStamp? = nil, stageDetails: ReplicationRunStageDetails? = nil, state: ReplicationRunState? = nil, statusMessage: String? = nil, type: ReplicationRunType? = nil) {
+            self.amiId = amiId
+            self.completedTime = completedTime
+            self.description = description
+            self.encrypted = encrypted
+            self.kmsKeyId = kmsKeyId
+            self.replicationRunId = replicationRunId
+            self.scheduledStartTime = scheduledStartTime
+            self.stageDetails = stageDetails
+            self.state = state
+            self.statusMessage = statusMessage
+            self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key = "key"
-            case value = "value"
+            case amiId = "amiId"
+            case completedTime = "completedTime"
+            case description = "description"
+            case encrypted = "encrypted"
+            case kmsKeyId = "kmsKeyId"
+            case replicationRunId = "replicationRunId"
+            case scheduledStartTime = "scheduledStartTime"
+            case stageDetails = "stageDetails"
+            case state = "state"
+            case statusMessage = "statusMessage"
+            case `type` = "type"
         }
     }
 
@@ -956,494 +1269,86 @@ extension SMS {
         }
     }
 
-    public enum ReplicationJobState: String, CustomStringConvertible, Codable {
+    public enum ReplicationRunState: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
+        case missed = "MISSED"
         case active = "ACTIVE"
         case failed = "FAILED"
-        case deleting = "DELETING"
-        case deleted = "DELETED"
         case completed = "COMPLETED"
-        case pausedOnFailure = "PAUSED_ON_FAILURE"
-        case failing = "FAILING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct PutAppReplicationConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "serverGroupReplicationConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "appId", required: false, type: .string)
-        ]
-        /// Replication configurations for server groups in the application.
-        public let serverGroupReplicationConfigurations: [ServerGroupReplicationConfiguration]?
-        /// ID of the application tassociated with the replication configuration.
-        public let appId: String?
-
-        public init(serverGroupReplicationConfigurations: [ServerGroupReplicationConfiguration]? = nil, appId: String? = nil) {
-            self.serverGroupReplicationConfigurations = serverGroupReplicationConfigurations
-            self.appId = appId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverGroupReplicationConfigurations = "serverGroupReplicationConfigurations"
-            case appId = "appId"
-        }
-    }
-
-    public struct GetAppRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", required: false, type: .string)
-        ]
-        /// ID of the application whose information is being retrieved.
-        public let appId: String?
-
-        public init(appId: String? = nil) {
-            self.appId = appId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-        }
-    }
-
-    public struct LaunchAppRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", required: false, type: .string)
-        ]
-        /// ID of the application to launch.
-        public let appId: String?
-
-        public init(appId: String? = nil) {
-            self.appId = appId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-        }
-    }
-
-    public enum AppLaunchStatus: String, CustomStringConvertible, Codable {
-        case readyForConfiguration = "READY_FOR_CONFIGURATION"
-        case configurationInProgress = "CONFIGURATION_IN_PROGRESS"
-        case configurationInvalid = "CONFIGURATION_INVALID"
-        case readyForLaunch = "READY_FOR_LAUNCH"
-        case validationInProgress = "VALIDATION_IN_PROGRESS"
-        case launchPending = "LAUNCH_PENDING"
-        case launchInProgress = "LAUNCH_IN_PROGRESS"
-        case launched = "LAUNCHED"
-        case deltaLaunchInProgress = "DELTA_LAUNCH_IN_PROGRESS"
-        case deltaLaunchFailed = "DELTA_LAUNCH_FAILED"
-        case launchFailed = "LAUNCH_FAILED"
-        case terminateInProgress = "TERMINATE_IN_PROGRESS"
-        case terminateFailed = "TERMINATE_FAILED"
-        case terminated = "TERMINATED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetAppLaunchConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "roleName", required: false, type: .string), 
-            AWSShapeMember(label: "serverGroupLaunchConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "appId", required: false, type: .string)
-        ]
-        /// Name of the service role in the customer's account that Amazon CloudFormation uses to launch the application.
-        public let roleName: String?
-        /// List of launch configurations for server groups in this application.
-        public let serverGroupLaunchConfigurations: [ServerGroupLaunchConfiguration]?
-        /// ID of the application associated with the launch configuration.
-        public let appId: String?
-
-        public init(roleName: String? = nil, serverGroupLaunchConfigurations: [ServerGroupLaunchConfiguration]? = nil, appId: String? = nil) {
-            self.roleName = roleName
-            self.serverGroupLaunchConfigurations = serverGroupLaunchConfigurations
-            self.appId = appId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleName = "roleName"
-            case serverGroupLaunchConfigurations = "serverGroupLaunchConfigurations"
-            case appId = "appId"
-        }
-    }
-
-    public struct ListAppsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "apps", required: false, type: .list)
-        ]
-        /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
-        public let nextToken: String?
-        /// A list of application summaries.
-        public let apps: [AppSummary]?
-
-        public init(nextToken: String? = nil, apps: [AppSummary]? = nil) {
-            self.nextToken = nextToken
-            self.apps = apps
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case apps = "apps"
-        }
-    }
-
-    public struct DeleteAppLaunchConfigurationResponse: AWSShape {
-
-    }
-
-    public enum ConnectorCapability: String, CustomStringConvertible, Codable {
-        case vsphere = "VSPHERE"
-        case scvmm = "SCVMM"
-        case hypervManager = "HYPERV-MANAGER"
-        case snapshotBatching = "SNAPSHOT_BATCHING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ServerReplicationConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "serverReplicationParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "server", required: false, type: .structure)
-        ]
-        /// Parameters for replicating the server.
-        public let serverReplicationParameters: ServerReplicationParameters?
-        /// Identifier of the server this replication configuration is associated with.
-        public let server: Server?
-
-        public init(serverReplicationParameters: ServerReplicationParameters? = nil, server: Server? = nil) {
-            self.serverReplicationParameters = serverReplicationParameters
-            self.server = server
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverReplicationParameters = "serverReplicationParameters"
-            case server = "server"
-        }
-    }
-
-    public struct CreateAppRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "roleName", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "serverGroups", required: false, type: .list)
-        ]
-        /// Name of the new application.
-        public let name: String?
-        /// Name of service role in customer's account to be used by AWS SMS.
-        public let roleName: String?
-        /// List of tags to be associated with the application.
-        public let tags: [Tag]?
-        /// A unique, case-sensitive identifier you provide to ensure idempotency of application creation.
-        public let clientToken: String?
-        /// Description of the new application
-        public let description: String?
-        /// List of server groups to include in the application.
-        public let serverGroups: [ServerGroup]?
-
-        public init(name: String? = nil, roleName: String? = nil, tags: [Tag]? = nil, clientToken: String? = nil, description: String? = nil, serverGroups: [ServerGroup]? = nil) {
-            self.name = name
-            self.roleName = roleName
-            self.tags = tags
-            self.clientToken = clientToken
-            self.description = description
-            self.serverGroups = serverGroups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case roleName = "roleName"
-            case tags = "tags"
-            case clientToken = "clientToken"
-            case description = "description"
-            case serverGroups = "serverGroups"
-        }
-    }
-
-    public struct GetServersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "serverCatalogStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "serverList", required: false, type: .list), 
-            AWSShapeMember(label: "lastModifiedOn", required: false, type: .timestamp)
-        ]
-        /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
-        public let nextToken: String?
-        /// The status of the server catalog.
-        public let serverCatalogStatus: ServerCatalogStatus?
-        /// Information about the servers.
-        public let serverList: [Server]?
-        /// The time when the server was last modified.
-        public let lastModifiedOn: TimeStamp?
-
-        public init(nextToken: String? = nil, serverCatalogStatus: ServerCatalogStatus? = nil, serverList: [Server]? = nil, lastModifiedOn: TimeStamp? = nil) {
-            self.nextToken = nextToken
-            self.serverCatalogStatus = serverCatalogStatus
-            self.serverList = serverList
-            self.lastModifiedOn = lastModifiedOn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case serverCatalogStatus = "serverCatalogStatus"
-            case serverList = "serverList"
-            case lastModifiedOn = "lastModifiedOn"
-        }
-    }
-
-    public struct DeleteReplicationJobResponse: AWSShape {
-
-    }
-
-    public enum AppStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case active = "ACTIVE"
-        case updating = "UPDATING"
         case deleting = "DELETING"
         case deleted = "DELETED"
-        case deleteFailed = "DELETE_FAILED"
         public var description: String { return self.rawValue }
     }
 
-    public struct GetReplicationJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "replicationJobList", required: false, type: .list)
-        ]
-        /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
-        public let nextToken: String?
-        /// Information about the replication jobs.
-        public let replicationJobList: [ReplicationJob]?
+    public enum ReplicationRunType: String, CustomStringConvertible, Codable {
+        case onDemand = "ON_DEMAND"
+        case automatic = "AUTOMATIC"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(nextToken: String? = nil, replicationJobList: [ReplicationJob]? = nil) {
-            self.nextToken = nextToken
-            self.replicationJobList = replicationJobList
+    public struct S3Location: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bucket", required: false, type: .string), 
+            AWSShapeMember(label: "key", required: false, type: .string)
+        ]
+        /// Amazon S3 bucket name.
+        public let bucket: String?
+        /// Amazon S3 bucket key.
+        public let key: String?
+
+        public init(bucket: String? = nil, key: String? = nil) {
+            self.bucket = bucket
+            self.key = key
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case replicationJobList = "replicationJobList"
+            case bucket = "bucket"
+            case key = "key"
         }
     }
 
-    public struct GetReplicationJobsRequest: AWSShape {
+    public struct Server: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "replicationJobId", required: false, type: .string)
+            AWSShapeMember(label: "replicationJobId", required: false, type: .string), 
+            AWSShapeMember(label: "replicationJobTerminated", required: false, type: .boolean), 
+            AWSShapeMember(label: "serverId", required: false, type: .string), 
+            AWSShapeMember(label: "serverType", required: false, type: .enum), 
+            AWSShapeMember(label: "vmServer", required: false, type: .structure)
         ]
-        /// The token for the next set of results.
-        public let nextToken: String?
-        /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
-        public let maxResults: Int32?
         /// The identifier of the replication job.
         public let replicationJobId: String?
+        /// Indicates whether the replication job is deleted or failed.
+        public let replicationJobTerminated: Bool?
+        /// The identifier of the server.
+        public let serverId: String?
+        /// The type of server.
+        public let serverType: ServerType?
+        /// Information about the VM server.
+        public let vmServer: VmServer?
 
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, replicationJobId: String? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
+        public init(replicationJobId: String? = nil, replicationJobTerminated: Bool? = nil, serverId: String? = nil, serverType: ServerType? = nil, vmServer: VmServer? = nil) {
             self.replicationJobId = replicationJobId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-            case replicationJobId = "replicationJobId"
-        }
-    }
-
-    public struct GetServersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "vmServerAddressList", required: false, type: .list)
-        ]
-        /// The token for the next set of results.
-        public let nextToken: String?
-        /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
-        public let maxResults: Int32?
-        /// List of VmServerAddress objects
-        public let vmServerAddressList: [VmServerAddress]?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, vmServerAddressList: [VmServerAddress]? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.vmServerAddressList = vmServerAddressList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-            case vmServerAddressList = "vmServerAddressList"
-        }
-    }
-
-    public enum AppReplicationStatus: String, CustomStringConvertible, Codable {
-        case readyForConfiguration = "READY_FOR_CONFIGURATION"
-        case configurationInProgress = "CONFIGURATION_IN_PROGRESS"
-        case configurationInvalid = "CONFIGURATION_INVALID"
-        case readyForReplication = "READY_FOR_REPLICATION"
-        case validationInProgress = "VALIDATION_IN_PROGRESS"
-        case replicationPending = "REPLICATION_PENDING"
-        case replicationInProgress = "REPLICATION_IN_PROGRESS"
-        case replicated = "REPLICATED"
-        case deltaReplicationInProgress = "DELTA_REPLICATION_IN_PROGRESS"
-        case deltaReplicated = "DELTA_REPLICATED"
-        case deltaReplicationFailed = "DELTA_REPLICATION_FAILED"
-        case replicationFailed = "REPLICATION_FAILED"
-        case replicationStopping = "REPLICATION_STOPPING"
-        case replicationStopFailed = "REPLICATION_STOP_FAILED"
-        case replicationStopped = "REPLICATION_STOPPED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ServerType: String, CustomStringConvertible, Codable {
-        case virtualMachine = "VIRTUAL_MACHINE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ServerLaunchConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logicalId", required: false, type: .string), 
-            AWSShapeMember(label: "vpc", required: false, type: .string), 
-            AWSShapeMember(label: "userData", required: false, type: .structure), 
-            AWSShapeMember(label: "associatePublicIpAddress", required: false, type: .boolean), 
-            AWSShapeMember(label: "instanceType", required: false, type: .string), 
-            AWSShapeMember(label: "subnet", required: false, type: .string), 
-            AWSShapeMember(label: "ec2KeyName", required: false, type: .string), 
-            AWSShapeMember(label: "server", required: false, type: .structure), 
-            AWSShapeMember(label: "securityGroup", required: false, type: .string)
-        ]
-        /// Logical ID of the server in the Amazon CloudFormation template.
-        public let logicalId: String?
-        /// Identifier of the VPC the server should be launched into.
-        public let vpc: String?
-        /// Location of the user-data script to be executed when launching the server.
-        public let userData: UserData?
-        /// If true, a publicly accessible IP address is created when launching the server.
-        public let associatePublicIpAddress: Bool?
-        /// Instance type to be used for launching the server.
-        public let instanceType: String?
-        /// Identifier of the subnet the server should be launched into.
-        public let subnet: String?
-        /// Name of the EC2 SSH Key to be used for connecting to the launched server.
-        public let ec2KeyName: String?
-        /// Identifier of the server the launch configuration is associated with.
-        public let server: Server?
-        /// Identifier of the security group that applies to the launched server.
-        public let securityGroup: String?
-
-        public init(logicalId: String? = nil, vpc: String? = nil, userData: UserData? = nil, associatePublicIpAddress: Bool? = nil, instanceType: String? = nil, subnet: String? = nil, ec2KeyName: String? = nil, server: Server? = nil, securityGroup: String? = nil) {
-            self.logicalId = logicalId
-            self.vpc = vpc
-            self.userData = userData
-            self.associatePublicIpAddress = associatePublicIpAddress
-            self.instanceType = instanceType
-            self.subnet = subnet
-            self.ec2KeyName = ec2KeyName
-            self.server = server
-            self.securityGroup = securityGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case logicalId = "logicalId"
-            case vpc = "vpc"
-            case userData = "userData"
-            case associatePublicIpAddress = "associatePublicIpAddress"
-            case instanceType = "instanceType"
-            case subnet = "subnet"
-            case ec2KeyName = "ec2KeyName"
-            case server = "server"
-            case securityGroup = "securityGroup"
-        }
-    }
-
-    public struct ListAppsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appIds", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        public let appIds: [String]?
-        /// The token for the next set of results.
-        public let nextToken: String?
-        /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value. 
-        public let maxResults: Int32?
-
-        public init(appIds: [String]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.appIds = appIds
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case appIds = "appIds"
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct DeleteAppRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", required: false, type: .string), 
-            AWSShapeMember(label: "forceTerminateApp", required: false, type: .boolean), 
-            AWSShapeMember(label: "forceStopAppReplication", required: false, type: .boolean)
-        ]
-        /// ID of the application to delete.
-        public let appId: String?
-        /// While deleting the application, terminate the stack corresponding to the application.
-        public let forceTerminateApp: Bool?
-        /// While deleting the application, stop all replication jobs corresponding to the servers in the application.
-        public let forceStopAppReplication: Bool?
-
-        public init(appId: String? = nil, forceTerminateApp: Bool? = nil, forceStopAppReplication: Bool? = nil) {
-            self.appId = appId
-            self.forceTerminateApp = forceTerminateApp
-            self.forceStopAppReplication = forceStopAppReplication
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-            case forceTerminateApp = "forceTerminateApp"
-            case forceStopAppReplication = "forceStopAppReplication"
-        }
-    }
-
-    public struct DeleteReplicationJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "replicationJobId", required: true, type: .string)
-        ]
-        /// The identifier of the replication job.
-        public let replicationJobId: String
-
-        public init(replicationJobId: String) {
-            self.replicationJobId = replicationJobId
+            self.replicationJobTerminated = replicationJobTerminated
+            self.serverId = serverId
+            self.serverType = serverType
+            self.vmServer = vmServer
         }
 
         private enum CodingKeys: String, CodingKey {
             case replicationJobId = "replicationJobId"
+            case replicationJobTerminated = "replicationJobTerminated"
+            case serverId = "serverId"
+            case serverType = "serverType"
+            case vmServer = "vmServer"
         }
     }
 
-    public struct TerminateAppRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", required: false, type: .string)
-        ]
-        /// ID of the application to terminate.
-        public let appId: String?
-
-        public init(appId: String? = nil) {
-            self.appId = appId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-        }
-    }
-
-    public enum ConnectorStatus: String, CustomStringConvertible, Codable {
-        case healthy = "HEALTHY"
-        case unhealthy = "UNHEALTHY"
+    public enum ServerCatalogStatus: String, CustomStringConvertible, Codable {
+        case notImported = "NOT_IMPORTED"
+        case importing = "IMPORTING"
+        case available = "AVAILABLE"
+        case deleted = "DELETED"
+        case expired = "EXPIRED"
         public var description: String { return self.rawValue }
     }
 
@@ -1473,89 +1378,222 @@ extension SMS {
         }
     }
 
-    public struct CreateReplicationJobRequest: AWSShape {
+    public struct ServerGroupLaunchConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "numberOfRecentAmisToKeep", required: false, type: .integer), 
-            AWSShapeMember(label: "serverId", required: true, type: .string), 
-            AWSShapeMember(label: "seedReplicationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "roleName", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "runOnce", required: false, type: .boolean), 
-            AWSShapeMember(label: "licenseType", required: false, type: .enum), 
-            AWSShapeMember(label: "kmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "encrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "frequency", required: false, type: .integer)
+            AWSShapeMember(label: "launchOrder", required: false, type: .integer), 
+            AWSShapeMember(label: "serverGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "serverLaunchConfigurations", required: false, type: .list)
         ]
-        /// The maximum number of SMS-created AMIs to retain. The oldest will be deleted once the maximum number is reached and a new AMI is created.
-        public let numberOfRecentAmisToKeep: Int32?
-        /// The identifier of the server.
-        public let serverId: String
-        /// The seed replication time.
-        public let seedReplicationTime: TimeStamp
-        /// The name of the IAM role to be used by the AWS SMS.
-        public let roleName: String?
-        /// The description of the replication job.
-        public let description: String?
-        public let runOnce: Bool?
-        /// The license type to be used for the AMI created by a successful replication run.
-        public let licenseType: LicenseType?
-        /// KMS key ID for replication jobs that produce encrypted AMIs. Can be any of the following:    KMS key ID   KMS key alias   ARN referring to KMS key ID   ARN referring to KMS key alias    If encrypted is true but a KMS key id is not specified, the customer's default KMS key for EBS is used. 
-        public let kmsKeyId: String?
+        /// Launch order of servers in the server group.
+        public let launchOrder: Int32?
+        /// Identifier of the server group the launch configuration is associated with.
+        public let serverGroupId: String?
+        /// Launch configuration for servers in the server group.
+        public let serverLaunchConfigurations: [ServerLaunchConfiguration]?
+
+        public init(launchOrder: Int32? = nil, serverGroupId: String? = nil, serverLaunchConfigurations: [ServerLaunchConfiguration]? = nil) {
+            self.launchOrder = launchOrder
+            self.serverGroupId = serverGroupId
+            self.serverLaunchConfigurations = serverLaunchConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case launchOrder = "launchOrder"
+            case serverGroupId = "serverGroupId"
+            case serverLaunchConfigurations = "serverLaunchConfigurations"
+        }
+    }
+
+    public struct ServerGroupReplicationConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "serverGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "serverReplicationConfigurations", required: false, type: .list)
+        ]
+        /// Identifier of the server group this replication configuration is associated with.
+        public let serverGroupId: String?
+        /// Replication configuration for servers in the server group.
+        public let serverReplicationConfigurations: [ServerReplicationConfiguration]?
+
+        public init(serverGroupId: String? = nil, serverReplicationConfigurations: [ServerReplicationConfiguration]? = nil) {
+            self.serverGroupId = serverGroupId
+            self.serverReplicationConfigurations = serverReplicationConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverGroupId = "serverGroupId"
+            case serverReplicationConfigurations = "serverReplicationConfigurations"
+        }
+    }
+
+    public struct ServerLaunchConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "associatePublicIpAddress", required: false, type: .boolean), 
+            AWSShapeMember(label: "ec2KeyName", required: false, type: .string), 
+            AWSShapeMember(label: "instanceType", required: false, type: .string), 
+            AWSShapeMember(label: "logicalId", required: false, type: .string), 
+            AWSShapeMember(label: "securityGroup", required: false, type: .string), 
+            AWSShapeMember(label: "server", required: false, type: .structure), 
+            AWSShapeMember(label: "subnet", required: false, type: .string), 
+            AWSShapeMember(label: "userData", required: false, type: .structure), 
+            AWSShapeMember(label: "vpc", required: false, type: .string)
+        ]
+        /// If true, a publicly accessible IP address is created when launching the server.
+        public let associatePublicIpAddress: Bool?
+        /// Name of the EC2 SSH Key to be used for connecting to the launched server.
+        public let ec2KeyName: String?
+        /// Instance type to be used for launching the server.
+        public let instanceType: String?
+        /// Logical ID of the server in the Amazon CloudFormation template.
+        public let logicalId: String?
+        /// Identifier of the security group that applies to the launched server.
+        public let securityGroup: String?
+        /// Identifier of the server the launch configuration is associated with.
+        public let server: Server?
+        /// Identifier of the subnet the server should be launched into.
+        public let subnet: String?
+        /// Location of the user-data script to be executed when launching the server.
+        public let userData: UserData?
+        /// Identifier of the VPC the server should be launched into.
+        public let vpc: String?
+
+        public init(associatePublicIpAddress: Bool? = nil, ec2KeyName: String? = nil, instanceType: String? = nil, logicalId: String? = nil, securityGroup: String? = nil, server: Server? = nil, subnet: String? = nil, userData: UserData? = nil, vpc: String? = nil) {
+            self.associatePublicIpAddress = associatePublicIpAddress
+            self.ec2KeyName = ec2KeyName
+            self.instanceType = instanceType
+            self.logicalId = logicalId
+            self.securityGroup = securityGroup
+            self.server = server
+            self.subnet = subnet
+            self.userData = userData
+            self.vpc = vpc
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatePublicIpAddress = "associatePublicIpAddress"
+            case ec2KeyName = "ec2KeyName"
+            case instanceType = "instanceType"
+            case logicalId = "logicalId"
+            case securityGroup = "securityGroup"
+            case server = "server"
+            case subnet = "subnet"
+            case userData = "userData"
+            case vpc = "vpc"
+        }
+    }
+
+    public struct ServerReplicationConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "server", required: false, type: .structure), 
+            AWSShapeMember(label: "serverReplicationParameters", required: false, type: .structure)
+        ]
+        /// Identifier of the server this replication configuration is associated with.
+        public let server: Server?
+        /// Parameters for replicating the server.
+        public let serverReplicationParameters: ServerReplicationParameters?
+
+        public init(server: Server? = nil, serverReplicationParameters: ServerReplicationParameters? = nil) {
+            self.server = server
+            self.serverReplicationParameters = serverReplicationParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case server = "server"
+            case serverReplicationParameters = "serverReplicationParameters"
+        }
+    }
+
+    public struct ServerReplicationParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "encrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "frequency", required: false, type: .integer), 
+            AWSShapeMember(label: "kmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "licenseType", required: false, type: .enum), 
+            AWSShapeMember(label: "numberOfRecentAmisToKeep", required: false, type: .integer), 
+            AWSShapeMember(label: "runOnce", required: false, type: .boolean), 
+            AWSShapeMember(label: "seedTime", required: false, type: .timestamp)
+        ]
         /// When true, the replication job produces encrypted AMIs. See also KmsKeyId below.
         public let encrypted: Bool?
-        /// The time between consecutive replication runs, in hours.
+        /// Frequency of creating replication jobs for the server.
         public let frequency: Int32?
+        ///  KMS key ID for replication jobs that produce encrypted AMIs. Can be any of the following:    KMS key ID   KMS key alias   ARN referring to KMS key ID   ARN referring to KMS key alias    If encrypted is true but a KMS key id is not specified, the customer's default KMS key for EBS is used. 
+        public let kmsKeyId: String?
+        /// License type for creating a replication job for the server.
+        public let licenseType: LicenseType?
+        /// Number of recent AMIs to keep when creating a replication job for this server.
+        public let numberOfRecentAmisToKeep: Int32?
+        public let runOnce: Bool?
+        /// Seed time for creating a replication job for the server.
+        public let seedTime: TimeStamp?
 
-        public init(numberOfRecentAmisToKeep: Int32? = nil, serverId: String, seedReplicationTime: TimeStamp, roleName: String? = nil, description: String? = nil, runOnce: Bool? = nil, licenseType: LicenseType? = nil, kmsKeyId: String? = nil, encrypted: Bool? = nil, frequency: Int32? = nil) {
-            self.numberOfRecentAmisToKeep = numberOfRecentAmisToKeep
-            self.serverId = serverId
-            self.seedReplicationTime = seedReplicationTime
-            self.roleName = roleName
-            self.description = description
-            self.runOnce = runOnce
-            self.licenseType = licenseType
-            self.kmsKeyId = kmsKeyId
+        public init(encrypted: Bool? = nil, frequency: Int32? = nil, kmsKeyId: String? = nil, licenseType: LicenseType? = nil, numberOfRecentAmisToKeep: Int32? = nil, runOnce: Bool? = nil, seedTime: TimeStamp? = nil) {
             self.encrypted = encrypted
             self.frequency = frequency
+            self.kmsKeyId = kmsKeyId
+            self.licenseType = licenseType
+            self.numberOfRecentAmisToKeep = numberOfRecentAmisToKeep
+            self.runOnce = runOnce
+            self.seedTime = seedTime
         }
 
         private enum CodingKeys: String, CodingKey {
-            case numberOfRecentAmisToKeep = "numberOfRecentAmisToKeep"
-            case serverId = "serverId"
-            case seedReplicationTime = "seedReplicationTime"
-            case roleName = "roleName"
-            case description = "description"
-            case runOnce = "runOnce"
-            case licenseType = "licenseType"
-            case kmsKeyId = "kmsKeyId"
             case encrypted = "encrypted"
             case frequency = "frequency"
+            case kmsKeyId = "kmsKeyId"
+            case licenseType = "licenseType"
+            case numberOfRecentAmisToKeep = "numberOfRecentAmisToKeep"
+            case runOnce = "runOnce"
+            case seedTime = "seedTime"
         }
     }
 
-    public struct S3Location: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "key", required: false, type: .string), 
-            AWSShapeMember(label: "bucket", required: false, type: .string)
-        ]
-        /// Amazon S3 bucket key.
-        public let key: String?
-        /// Amazon S3 bucket name.
-        public let bucket: String?
+    public enum ServerType: String, CustomStringConvertible, Codable {
+        case virtualMachine = "VIRTUAL_MACHINE"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(key: String? = nil, bucket: String? = nil) {
-            self.key = key
-            self.bucket = bucket
+    public struct StartAppReplicationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appId", required: false, type: .string)
+        ]
+        /// ID of the application to replicate.
+        public let appId: String?
+
+        public init(appId: String? = nil) {
+            self.appId = appId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key = "key"
-            case bucket = "bucket"
+            case appId = "appId"
         }
     }
 
-    public struct ImportServerCatalogRequest: AWSShape {
+    public struct StartAppReplicationResponse: AWSShape {
 
+        public init() {
+        }
+
+    }
+
+    public struct StartOnDemandReplicationRunRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "replicationJobId", required: true, type: .string)
+        ]
+        /// The description of the replication run.
+        public let description: String?
+        /// The identifier of the replication job.
+        public let replicationJobId: String
+
+        public init(description: String? = nil, replicationJobId: String) {
+            self.description = description
+            self.replicationJobId = replicationJobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case replicationJobId = "replicationJobId"
+        }
     }
 
     public struct StartOnDemandReplicationRunResponse: AWSShape {
@@ -1571,28 +1609,6 @@ extension SMS {
 
         private enum CodingKeys: String, CodingKey {
             case replicationRunId = "replicationRunId"
-        }
-    }
-
-    public enum LicenseType: String, CustomStringConvertible, Codable {
-        case aws = "AWS"
-        case byol = "BYOL"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetAppLaunchConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", required: false, type: .string)
-        ]
-        /// ID of the application launch configuration.
-        public let appId: String?
-
-        public init(appId: String? = nil) {
-            self.appId = appId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
         }
     }
 
@@ -1612,137 +1628,185 @@ extension SMS {
         }
     }
 
+    public struct StopAppReplicationResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: false, type: .string), 
+            AWSShapeMember(label: "value", required: false, type: .string)
+        ]
+        /// Tag key.
+        public let key: String?
+        /// Tag value.
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
+    public struct TerminateAppRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appId", required: false, type: .string)
+        ]
+        /// ID of the application to terminate.
+        public let appId: String?
+
+        public init(appId: String? = nil) {
+            self.appId = appId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+        }
+    }
+
     public struct TerminateAppResponse: AWSShape {
 
-    }
-
-    public enum VmManagerType: String, CustomStringConvertible, Codable {
-        case vsphere = "VSPHERE"
-        case scvmm = "SCVMM"
-        case hypervManager = "HYPERV-MANAGER"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetReplicationRunsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "replicationJobId", required: true, type: .string)
-        ]
-        /// The token for the next set of results.
-        public let nextToken: String?
-        /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
-        public let maxResults: Int32?
-        /// The identifier of the replication job.
-        public let replicationJobId: String
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, replicationJobId: String) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.replicationJobId = replicationJobId
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-            case replicationJobId = "replicationJobId"
-        }
     }
 
-    public struct GetAppResponse: AWSShape {
+    public struct UpdateAppRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "serverGroups", required: false, type: .list)
+            AWSShapeMember(label: "appId", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "roleName", required: false, type: .string), 
+            AWSShapeMember(label: "serverGroups", required: false, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .list)
         ]
-        /// Information about the application.
-        public let appSummary: AppSummary?
-        /// List of tags associated with the application.
-        public let tags: [Tag]?
-        /// List of server groups belonging to the application.
+        /// ID of the application to update.
+        public let appId: String?
+        /// New description of the application.
+        public let description: String?
+        /// New name of the application.
+        public let name: String?
+        /// Name of the service role in the customer's account used by AWS SMS.
+        public let roleName: String?
+        /// List of server groups in the application to update.
         public let serverGroups: [ServerGroup]?
+        /// List of tags to associate with the application.
+        public let tags: [Tag]?
 
-        public init(appSummary: AppSummary? = nil, tags: [Tag]? = nil, serverGroups: [ServerGroup]? = nil) {
-            self.appSummary = appSummary
-            self.tags = tags
+        public init(appId: String? = nil, description: String? = nil, name: String? = nil, roleName: String? = nil, serverGroups: [ServerGroup]? = nil, tags: [Tag]? = nil) {
+            self.appId = appId
+            self.description = description
+            self.name = name
+            self.roleName = roleName
             self.serverGroups = serverGroups
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appSummary = "appSummary"
-            case tags = "tags"
+            case appId = "appId"
+            case description = "description"
+            case name = "name"
+            case roleName = "roleName"
             case serverGroups = "serverGroups"
+            case tags = "tags"
         }
     }
 
-    public struct VmServer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "vmName", required: false, type: .string), 
-            AWSShapeMember(label: "vmPath", required: false, type: .string), 
-            AWSShapeMember(label: "vmManagerName", required: false, type: .string), 
-            AWSShapeMember(label: "vmManagerType", required: false, type: .enum), 
-            AWSShapeMember(label: "vmServerAddress", required: false, type: .structure)
-        ]
-        /// The name of the VM.
-        public let vmName: String?
-        /// The VM folder path in the vCenter Server virtual machine inventory tree.
-        public let vmPath: String?
-        /// The name of the VM manager.
-        public let vmManagerName: String?
-        /// The type of VM management product.
-        public let vmManagerType: VmManagerType?
-        /// Information about the VM server location.
-        public let vmServerAddress: VmServerAddress?
-
-        public init(vmName: String? = nil, vmPath: String? = nil, vmManagerName: String? = nil, vmManagerType: VmManagerType? = nil, vmServerAddress: VmServerAddress? = nil) {
-            self.vmName = vmName
-            self.vmPath = vmPath
-            self.vmManagerName = vmManagerName
-            self.vmManagerType = vmManagerType
-            self.vmServerAddress = vmServerAddress
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vmName = "vmName"
-            case vmPath = "vmPath"
-            case vmManagerName = "vmManagerName"
-            case vmManagerType = "vmManagerType"
-            case vmServerAddress = "vmServerAddress"
-        }
-    }
-
-    public struct StartAppReplicationResponse: AWSShape {
-
-    }
-
-    public struct DeleteAppReplicationConfigurationResponse: AWSShape {
-
-    }
-
-    public struct CreateAppResponse: AWSShape {
+    public struct UpdateAppResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "appSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "serverGroups", required: false, type: .list)
+            AWSShapeMember(label: "serverGroups", required: false, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .list)
         ]
         /// Summary description of the application.
         public let appSummary: AppSummary?
-        /// List of taags associated with the application.
-        public let tags: [Tag]?
-        /// List of server groups included in the application.
+        /// List of updated server groups in the application.
         public let serverGroups: [ServerGroup]?
+        /// List of tags associated with the application.
+        public let tags: [Tag]?
 
-        public init(appSummary: AppSummary? = nil, tags: [Tag]? = nil, serverGroups: [ServerGroup]? = nil) {
+        public init(appSummary: AppSummary? = nil, serverGroups: [ServerGroup]? = nil, tags: [Tag]? = nil) {
             self.appSummary = appSummary
-            self.tags = tags
             self.serverGroups = serverGroups
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case appSummary = "appSummary"
-            case tags = "tags"
             case serverGroups = "serverGroups"
+            case tags = "tags"
         }
+    }
+
+    public struct UpdateReplicationJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "encrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "frequency", required: false, type: .integer), 
+            AWSShapeMember(label: "kmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "licenseType", required: false, type: .enum), 
+            AWSShapeMember(label: "nextReplicationRunStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "numberOfRecentAmisToKeep", required: false, type: .integer), 
+            AWSShapeMember(label: "replicationJobId", required: true, type: .string), 
+            AWSShapeMember(label: "roleName", required: false, type: .string)
+        ]
+        /// The description of the replication job.
+        public let description: String?
+        /// When true, the replication job produces encrypted AMIs . See also KmsKeyId below.
+        public let encrypted: Bool?
+        /// The time between consecutive replication runs, in hours.
+        public let frequency: Int32?
+        ///  KMS key ID for replication jobs that produce encrypted AMIs. Can be any of the following:    KMS key ID   KMS key alias   ARN referring to KMS key ID   ARN referring to KMS key alias    If encrypted is true but a KMS key id is not specified, the customer's default KMS key for EBS is used. 
+        public let kmsKeyId: String?
+        /// The license type to be used for the AMI created by a successful replication run.
+        public let licenseType: LicenseType?
+        /// The start time of the next replication run.
+        public let nextReplicationRunStartTime: TimeStamp?
+        /// The maximum number of SMS-created AMIs to retain. The oldest will be deleted once the maximum number is reached and a new AMI is created.
+        public let numberOfRecentAmisToKeep: Int32?
+        /// The identifier of the replication job.
+        public let replicationJobId: String
+        /// The name of the IAM role to be used by AWS SMS.
+        public let roleName: String?
+
+        public init(description: String? = nil, encrypted: Bool? = nil, frequency: Int32? = nil, kmsKeyId: String? = nil, licenseType: LicenseType? = nil, nextReplicationRunStartTime: TimeStamp? = nil, numberOfRecentAmisToKeep: Int32? = nil, replicationJobId: String, roleName: String? = nil) {
+            self.description = description
+            self.encrypted = encrypted
+            self.frequency = frequency
+            self.kmsKeyId = kmsKeyId
+            self.licenseType = licenseType
+            self.nextReplicationRunStartTime = nextReplicationRunStartTime
+            self.numberOfRecentAmisToKeep = numberOfRecentAmisToKeep
+            self.replicationJobId = replicationJobId
+            self.roleName = roleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case encrypted = "encrypted"
+            case frequency = "frequency"
+            case kmsKeyId = "kmsKeyId"
+            case licenseType = "licenseType"
+            case nextReplicationRunStartTime = "nextReplicationRunStartTime"
+            case numberOfRecentAmisToKeep = "numberOfRecentAmisToKeep"
+            case replicationJobId = "replicationJobId"
+            case roleName = "roleName"
+        }
+    }
+
+    public struct UpdateReplicationJobResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct UserData: AWSShape {
@@ -1761,83 +1825,67 @@ extension SMS {
         }
     }
 
-    public struct PutAppReplicationConfigurationResponse: AWSShape {
-
-    }
-
-    public enum ServerCatalogStatus: String, CustomStringConvertible, Codable {
-        case notImported = "NOT_IMPORTED"
-        case importing = "IMPORTING"
-        case available = "AVAILABLE"
-        case deleted = "DELETED"
-        case expired = "EXPIRED"
+    public enum VmManagerType: String, CustomStringConvertible, Codable {
+        case vsphere = "VSPHERE"
+        case scvmm = "SCVMM"
+        case hypervManager = "HYPERV-MANAGER"
         public var description: String { return self.rawValue }
     }
 
-    public struct UpdateAppRequest: AWSShape {
+    public struct VmServer: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", required: false, type: .string), 
-            AWSShapeMember(label: "roleName", required: false, type: .string), 
-            AWSShapeMember(label: "serverGroups", required: false, type: .list), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
+            AWSShapeMember(label: "vmManagerName", required: false, type: .string), 
+            AWSShapeMember(label: "vmManagerType", required: false, type: .enum), 
+            AWSShapeMember(label: "vmName", required: false, type: .string), 
+            AWSShapeMember(label: "vmPath", required: false, type: .string), 
+            AWSShapeMember(label: "vmServerAddress", required: false, type: .structure)
         ]
-        /// ID of the application to update.
-        public let appId: String?
-        /// Name of the service role in the customer's account used by AWS SMS.
-        public let roleName: String?
-        /// List of server groups in the application to update.
-        public let serverGroups: [ServerGroup]?
-        /// New name of the application.
-        public let name: String?
-        /// New description of the application.
-        public let description: String?
-        /// List of tags to associate with the application.
-        public let tags: [Tag]?
+        /// The name of the VM manager.
+        public let vmManagerName: String?
+        /// The type of VM management product.
+        public let vmManagerType: VmManagerType?
+        /// The name of the VM.
+        public let vmName: String?
+        /// The VM folder path in the vCenter Server virtual machine inventory tree.
+        public let vmPath: String?
+        /// Information about the VM server location.
+        public let vmServerAddress: VmServerAddress?
 
-        public init(appId: String? = nil, roleName: String? = nil, serverGroups: [ServerGroup]? = nil, name: String? = nil, description: String? = nil, tags: [Tag]? = nil) {
-            self.appId = appId
-            self.roleName = roleName
-            self.serverGroups = serverGroups
-            self.name = name
-            self.description = description
-            self.tags = tags
+        public init(vmManagerName: String? = nil, vmManagerType: VmManagerType? = nil, vmName: String? = nil, vmPath: String? = nil, vmServerAddress: VmServerAddress? = nil) {
+            self.vmManagerName = vmManagerName
+            self.vmManagerType = vmManagerType
+            self.vmName = vmName
+            self.vmPath = vmPath
+            self.vmServerAddress = vmServerAddress
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-            case roleName = "roleName"
-            case serverGroups = "serverGroups"
-            case name = "name"
-            case description = "description"
-            case tags = "tags"
+            case vmManagerName = "vmManagerName"
+            case vmManagerType = "vmManagerType"
+            case vmName = "vmName"
+            case vmPath = "vmPath"
+            case vmServerAddress = "vmServerAddress"
         }
     }
 
-    public struct PutAppLaunchConfigurationRequest: AWSShape {
+    public struct VmServerAddress: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "roleName", required: false, type: .string), 
-            AWSShapeMember(label: "serverGroupLaunchConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "appId", required: false, type: .string)
+            AWSShapeMember(label: "vmId", required: false, type: .string), 
+            AWSShapeMember(label: "vmManagerId", required: false, type: .string)
         ]
-        /// Name of service role in the customer's account that Amazon CloudFormation uses to launch the application.
-        public let roleName: String?
-        /// Launch configurations for server groups in the application.
-        public let serverGroupLaunchConfigurations: [ServerGroupLaunchConfiguration]?
-        /// ID of the application associated with the launch configuration.
-        public let appId: String?
+        /// The identifier of the VM.
+        public let vmId: String?
+        /// The identifier of the VM manager.
+        public let vmManagerId: String?
 
-        public init(roleName: String? = nil, serverGroupLaunchConfigurations: [ServerGroupLaunchConfiguration]? = nil, appId: String? = nil) {
-            self.roleName = roleName
-            self.serverGroupLaunchConfigurations = serverGroupLaunchConfigurations
-            self.appId = appId
+        public init(vmId: String? = nil, vmManagerId: String? = nil) {
+            self.vmId = vmId
+            self.vmManagerId = vmManagerId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case roleName = "roleName"
-            case serverGroupLaunchConfigurations = "serverGroupLaunchConfigurations"
-            case appId = "appId"
+            case vmId = "vmId"
+            case vmManagerId = "vmManagerId"
         }
     }
 

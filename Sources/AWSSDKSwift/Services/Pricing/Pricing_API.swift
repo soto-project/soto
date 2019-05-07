@@ -26,9 +26,9 @@ public struct Pricing {
         )
     }
 
-    ///  Returns a list of all products that match the filter criteria.
-    public func getProducts(_ input: GetProductsRequest) throws -> Future<GetProductsResponse> {
-        return try client.send(operation: "GetProducts", path: "/", httpMethod: "POST", input: input)
+    ///  Returns the metadata for one service or a list of the metadata for all services. Use this without a service code to get the service codes for all services. Use it with a service code, such as AmazonEC2, to get information specific to that service, such as the attribute names available for that service. For example, some of the attribute names available for EC2 are volumeType, maxIopsVolume, operation, locationType, and instanceCapacity10xlarge.
+    public func describeServices(_ input: DescribeServicesRequest) throws -> Future<DescribeServicesResponse> {
+        return try client.send(operation: "DescribeServices", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of attribute values. Attibutes are similar to the details in a Price List API offer file. For a list of available attributes, see Offer File Definitions in the AWS Billing and Cost Management User Guide.
@@ -36,9 +36,9 @@ public struct Pricing {
         return try client.send(operation: "GetAttributeValues", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the metadata for one service or a list of the metadata for all services. Use this without a service code to get the service codes for all services. Use it with a service code, such as AmazonEC2, to get information specific to that service, such as the attribute names available for that service. For example, some of the attribute names available for EC2 are volumeType, maxIopsVolume, operation, locationType, and instanceCapacity10xlarge.
-    public func describeServices(_ input: DescribeServicesRequest) throws -> Future<DescribeServicesResponse> {
-        return try client.send(operation: "DescribeServices", path: "/", httpMethod: "POST", input: input)
+    ///  Returns a list of all products that match the filter criteria.
+    public func getProducts(_ input: GetProductsRequest) throws -> Future<GetProductsResponse> {
+        return try client.send(operation: "GetProducts", path: "/", httpMethod: "POST", input: input)
     }
 
 

@@ -5,10 +5,10 @@ import AWSSDKSwiftCore
 /// Error enum for Pinpoint
 public enum PinpointErrorType: AWSErrorType {
     case badRequestException(message: String?)
-    case internalServerErrorException(message: String?)
     case forbiddenException(message: String?)
-    case notFoundException(message: String?)
+    case internalServerErrorException(message: String?)
     case methodNotAllowedException(message: String?)
+    case notFoundException(message: String?)
     case tooManyRequestsException(message: String?)
 }
 
@@ -21,14 +21,14 @@ extension PinpointErrorType {
         switch errorCode {
         case "BadRequestException":
             self = .badRequestException(message: message)
-        case "InternalServerErrorException":
-            self = .internalServerErrorException(message: message)
         case "ForbiddenException":
             self = .forbiddenException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
+        case "InternalServerErrorException":
+            self = .internalServerErrorException(message: message)
         case "MethodNotAllowedException":
             self = .methodNotAllowedException(message: message)
+        case "NotFoundException":
+            self = .notFoundException(message: message)
         case "TooManyRequestsException":
             self = .tooManyRequestsException(message: message)
         default:

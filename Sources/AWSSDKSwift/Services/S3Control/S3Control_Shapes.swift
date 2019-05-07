@@ -5,11 +5,11 @@ import AWSSDKSwiftCore
 
 extension S3Control {
 
-    public struct GetPublicAccessBlockRequest: AWSShape {
+    public struct DeletePublicAccessBlockRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string)
         ]
-        /// The Account ID for the Amazon Web Services account whose Public Access Block configuration you want to retrieve.
+        /// The Account ID for the Amazon Web Services account whose Public Access Block configuration you want to remove.
         public let accountId: String
 
         public init(accountId: String) {
@@ -18,37 +18,6 @@ extension S3Control {
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "x-amz-account-id"
-        }
-    }
-
-    public struct PublicAccessBlockConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IgnorePublicAcls", location: .body(locationName: "IgnorePublicAcls"), required: false, type: .boolean), 
-            AWSShapeMember(label: "BlockPublicAcls", location: .body(locationName: "BlockPublicAcls"), required: false, type: .boolean), 
-            AWSShapeMember(label: "BlockPublicPolicy", location: .body(locationName: "BlockPublicPolicy"), required: false, type: .boolean), 
-            AWSShapeMember(label: "RestrictPublicBuckets", location: .body(locationName: "RestrictPublicBuckets"), required: false, type: .boolean)
-        ]
-        /// Specifies whether Amazon S3 should ignore public ACLs for buckets in this account. Setting this element to TRUE causes Amazon S3 to ignore all public ACLs on buckets in this account and any objects that they contain.  Note that enabling this setting doesn't affect the persistence of any existing ACLs and doesn't prevent new public ACLs from being set.
-        public let ignorePublicAcls: Bool?
-        /// Specifies whether Amazon S3 should block public ACLs for buckets in this account. Setting this element to TRUE causes the following behavior:   PUT Bucket acl and PUT Object acl calls will fail if the specified ACL allows public access.   PUT Object calls will fail if the request includes an object ACL.   Note that enabling this setting doesn't affect existing policies or ACLs.
-        public let blockPublicAcls: Bool?
-        /// Specifies whether Amazon S3 should block public bucket policies for buckets in this account. Setting this element to TRUE causes Amazon S3 to reject calls to PUT Bucket policy if the specified bucket policy allows public access.  Note that enabling this setting doesn't affect existing bucket policies.
-        public let blockPublicPolicy: Bool?
-        /// Specifies whether Amazon S3 should restrict public bucket policies for buckets in this account. If this element is set to TRUE, then only the bucket owner and AWS Services can access buckets with public policies. Note that enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked. 
-        public let restrictPublicBuckets: Bool?
-
-        public init(ignorePublicAcls: Bool? = nil, blockPublicAcls: Bool? = nil, blockPublicPolicy: Bool? = nil, restrictPublicBuckets: Bool? = nil) {
-            self.ignorePublicAcls = ignorePublicAcls
-            self.blockPublicAcls = blockPublicAcls
-            self.blockPublicPolicy = blockPublicPolicy
-            self.restrictPublicBuckets = restrictPublicBuckets
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ignorePublicAcls = "IgnorePublicAcls"
-            case blockPublicAcls = "BlockPublicAcls"
-            case blockPublicPolicy = "BlockPublicPolicy"
-            case restrictPublicBuckets = "RestrictPublicBuckets"
         }
     }
 
@@ -70,11 +39,11 @@ extension S3Control {
         }
     }
 
-    public struct DeletePublicAccessBlockRequest: AWSShape {
+    public struct GetPublicAccessBlockRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string)
         ]
-        /// The Account ID for the Amazon Web Services account whose Public Access Block configuration you want to remove.
+        /// The Account ID for the Amazon Web Services account whose Public Access Block configuration you want to retrieve.
         public let accountId: String
 
         public init(accountId: String) {
@@ -86,26 +55,57 @@ extension S3Control {
         }
     }
 
+    public struct PublicAccessBlockConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BlockPublicAcls", location: .body(locationName: "BlockPublicAcls"), required: false, type: .boolean), 
+            AWSShapeMember(label: "BlockPublicPolicy", location: .body(locationName: "BlockPublicPolicy"), required: false, type: .boolean), 
+            AWSShapeMember(label: "IgnorePublicAcls", location: .body(locationName: "IgnorePublicAcls"), required: false, type: .boolean), 
+            AWSShapeMember(label: "RestrictPublicBuckets", location: .body(locationName: "RestrictPublicBuckets"), required: false, type: .boolean)
+        ]
+        /// Specifies whether Amazon S3 should block public ACLs for buckets in this account. Setting this element to TRUE causes the following behavior:   PUT Bucket acl and PUT Object acl calls will fail if the specified ACL allows public access.   PUT Object calls will fail if the request includes an object ACL.   Note that enabling this setting doesn't affect existing policies or ACLs.
+        public let blockPublicAcls: Bool?
+        /// Specifies whether Amazon S3 should block public bucket policies for buckets in this account. Setting this element to TRUE causes Amazon S3 to reject calls to PUT Bucket policy if the specified bucket policy allows public access.  Note that enabling this setting doesn't affect existing bucket policies.
+        public let blockPublicPolicy: Bool?
+        /// Specifies whether Amazon S3 should ignore public ACLs for buckets in this account. Setting this element to TRUE causes Amazon S3 to ignore all public ACLs on buckets in this account and any objects that they contain.  Note that enabling this setting doesn't affect the persistence of any existing ACLs and doesn't prevent new public ACLs from being set.
+        public let ignorePublicAcls: Bool?
+        /// Specifies whether Amazon S3 should restrict public bucket policies for buckets in this account. If this element is set to TRUE, then only the bucket owner and AWS Services can access buckets with public policies. Note that enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked. 
+        public let restrictPublicBuckets: Bool?
+
+        public init(blockPublicAcls: Bool? = nil, blockPublicPolicy: Bool? = nil, ignorePublicAcls: Bool? = nil, restrictPublicBuckets: Bool? = nil) {
+            self.blockPublicAcls = blockPublicAcls
+            self.blockPublicPolicy = blockPublicPolicy
+            self.ignorePublicAcls = ignorePublicAcls
+            self.restrictPublicBuckets = restrictPublicBuckets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blockPublicAcls = "BlockPublicAcls"
+            case blockPublicPolicy = "BlockPublicPolicy"
+            case ignorePublicAcls = "IgnorePublicAcls"
+            case restrictPublicBuckets = "RestrictPublicBuckets"
+        }
+    }
+
     public struct PutPublicAccessBlockRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "PublicAccessBlockConfiguration"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PublicAccessBlockConfiguration", location: .body(locationName: "PublicAccessBlockConfiguration"), required: true, type: .structure), 
-            AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string)
+            AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
+            AWSShapeMember(label: "PublicAccessBlockConfiguration", location: .body(locationName: "PublicAccessBlockConfiguration"), required: true, type: .structure)
         ]
-        /// The Public Access Block configuration that you want to apply to this Amazon Web Services account.
-        public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration
         /// The Account ID for the Amazon Web Services account whose Public Access Block configuration you want to set.
         public let accountId: String
+        /// The Public Access Block configuration that you want to apply to this Amazon Web Services account.
+        public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration
 
-        public init(publicAccessBlockConfiguration: PublicAccessBlockConfiguration, accountId: String) {
-            self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
+        public init(accountId: String, publicAccessBlockConfiguration: PublicAccessBlockConfiguration) {
             self.accountId = accountId
+            self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
-            case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
             case accountId = "x-amz-account-id"
+            case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
         }
     }
 

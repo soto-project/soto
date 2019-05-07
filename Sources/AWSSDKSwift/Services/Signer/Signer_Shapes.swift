@@ -5,201 +5,116 @@ import AWSSDKSwiftCore
 
 extension Signer {
 
-    public struct SigningImageFormat: AWSShape {
+    public struct CancelSigningProfileRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "defaultFormat", required: true, type: .enum), 
-            AWSShapeMember(label: "supportedFormats", required: true, type: .list)
+            AWSShapeMember(label: "profileName", location: .uri(locationName: "profileName"), required: true, type: .string)
         ]
-        /// The default format of an AWS Signer signing image.
-        public let defaultFormat: ImageFormat
-        /// The supported formats of an AWS Signer signing image.
-        public let supportedFormats: [ImageFormat]
+        /// The name of the signing profile to be canceled.
+        public let profileName: String
 
-        public init(defaultFormat: ImageFormat, supportedFormats: [ImageFormat]) {
-            self.defaultFormat = defaultFormat
-            self.supportedFormats = supportedFormats
+        public init(profileName: String) {
+            self.profileName = profileName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultFormat = "defaultFormat"
-            case supportedFormats = "supportedFormats"
+            case profileName = "profileName"
         }
     }
 
-    public struct ListSigningJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "jobs", required: false, type: .list)
-        ]
-        /// String for specifying the next set of paginated results.
-        public let nextToken: String?
-        /// A list of your signing jobs.
-        public let jobs: [SigningJob]?
+    public enum Category: String, CustomStringConvertible, Codable {
+        case awsiot = "AWSIoT"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(nextToken: String? = nil, jobs: [SigningJob]? = nil) {
-            self.nextToken = nextToken
-            self.jobs = jobs
+    public struct DescribeSigningJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string)
+        ]
+        /// The ID of the signing job on input.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case jobs = "jobs"
+            case jobId = "jobId"
         }
     }
 
-    public struct SigningConfiguration: AWSShape {
+    public struct DescribeSigningJobResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "hashAlgorithmOptions", required: true, type: .structure), 
-            AWSShapeMember(label: "encryptionAlgorithmOptions", required: true, type: .structure)
+            AWSShapeMember(label: "completedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "jobId", required: false, type: .string), 
+            AWSShapeMember(label: "overrides", required: false, type: .structure), 
+            AWSShapeMember(label: "platformId", required: false, type: .string), 
+            AWSShapeMember(label: "profileName", required: false, type: .string), 
+            AWSShapeMember(label: "requestedBy", required: false, type: .string), 
+            AWSShapeMember(label: "signedObject", required: false, type: .structure), 
+            AWSShapeMember(label: "signingMaterial", required: false, type: .structure), 
+            AWSShapeMember(label: "signingParameters", required: false, type: .map), 
+            AWSShapeMember(label: "source", required: false, type: .structure), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "statusReason", required: false, type: .string)
         ]
-        /// The hash algorithm options that are available for an AWS Signer job.
-        public let hashAlgorithmOptions: HashAlgorithmOptions
-        /// The encryption algorithm options that are available for an AWS Signer job.
-        public let encryptionAlgorithmOptions: EncryptionAlgorithmOptions
-
-        public init(hashAlgorithmOptions: HashAlgorithmOptions, encryptionAlgorithmOptions: EncryptionAlgorithmOptions) {
-            self.hashAlgorithmOptions = hashAlgorithmOptions
-            self.encryptionAlgorithmOptions = encryptionAlgorithmOptions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hashAlgorithmOptions = "hashAlgorithmOptions"
-            case encryptionAlgorithmOptions = "encryptionAlgorithmOptions"
-        }
-    }
-
-    public struct ListSigningJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "requestedBy", location: .querystring(locationName: "requestedBy"), required: false, type: .string), 
-            AWSShapeMember(label: "status", location: .querystring(locationName: "status"), required: false, type: .enum), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "platformId", location: .querystring(locationName: "platformId"), required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
-        ]
+        /// Date and time that the signing job was completed.
+        public let completedAt: TimeStamp?
+        /// Date and time that the signing job was created.
+        public let createdAt: TimeStamp?
+        /// The ID of the signing job on output.
+        public let jobId: String?
+        /// A list of any overrides that were applied to the signing operation.
+        public let overrides: SigningPlatformOverrides?
+        /// The microcontroller platform to which your signed code image will be distributed.
+        public let platformId: String?
+        /// The name of the profile that initiated the signing operation.
+        public let profileName: String?
         /// The IAM principal that requested the signing job.
         public let requestedBy: String?
-        /// A status value with which to filter your results.
-        public let status: SigningStatus?
-        /// String for specifying the next set of paginated results to return. After you receive a response with truncated results, use this parameter in a subsequent request. Set it to the value of nextToken from the response that you just received.
-        public let nextToken: String?
-        /// The ID of microcontroller platform that you specified for the distribution of your code image.
-        public let platformId: String?
-        /// Specifies the maximum number of items to return in the response. Use this parameter when paginating results. If additional items exist beyond the number you specify, the nextToken element is set in the response. Use the nextToken value in a subsequent request to retrieve additional items. 
-        public let maxResults: Int32?
-
-        public init(requestedBy: String? = nil, status: SigningStatus? = nil, nextToken: String? = nil, platformId: String? = nil, maxResults: Int32? = nil) {
-            self.requestedBy = requestedBy
-            self.status = status
-            self.nextToken = nextToken
-            self.platformId = platformId
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case requestedBy = "requestedBy"
-            case status = "status"
-            case nextToken = "nextToken"
-            case platformId = "platformId"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct SigningJob: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "source", required: false, type: .structure), 
-            AWSShapeMember(label: "jobId", required: false, type: .string), 
-            AWSShapeMember(label: "signingMaterial", required: false, type: .structure), 
-            AWSShapeMember(label: "signedObject", required: false, type: .structure)
-        ]
-        /// The status of the signing job.
-        public let status: SigningStatus?
-        /// The date and time that the signing job was created.
-        public let createdAt: TimeStamp?
-        /// A Source that contains information about a signing job's code image source.
-        public let source: Source?
-        /// The ID of the signing job.
-        public let jobId: String?
-        /// A SigningMaterial object that contains the Amazon Resource Name (ARN) of the certificate used for the signing job.
-        public let signingMaterial: SigningMaterial?
-        /// A SignedObject structure that contains information about a signing job's signed code image.
+        /// Name of the S3 bucket where the signed code image is saved by AWS Signer.
         public let signedObject: SignedObject?
+        /// Amazon Resource Name (ARN) of your code signing certificate.
+        public let signingMaterial: SigningMaterial?
+        /// Map of user-assigned key-value pairs used during signing. These values contain any information that you specified for use in your signing job. 
+        public let signingParameters: [String: String]?
+        /// The object that contains the name of your S3 bucket or your raw code.
+        public let source: Source?
+        /// Status of the signing job.
+        public let status: SigningStatus?
+        /// String value that contains the status reason.
+        public let statusReason: String?
 
-        public init(status: SigningStatus? = nil, createdAt: TimeStamp? = nil, source: Source? = nil, jobId: String? = nil, signingMaterial: SigningMaterial? = nil, signedObject: SignedObject? = nil) {
-            self.status = status
+        public init(completedAt: TimeStamp? = nil, createdAt: TimeStamp? = nil, jobId: String? = nil, overrides: SigningPlatformOverrides? = nil, platformId: String? = nil, profileName: String? = nil, requestedBy: String? = nil, signedObject: SignedObject? = nil, signingMaterial: SigningMaterial? = nil, signingParameters: [String: String]? = nil, source: Source? = nil, status: SigningStatus? = nil, statusReason: String? = nil) {
+            self.completedAt = completedAt
             self.createdAt = createdAt
-            self.source = source
             self.jobId = jobId
-            self.signingMaterial = signingMaterial
+            self.overrides = overrides
+            self.platformId = platformId
+            self.profileName = profileName
+            self.requestedBy = requestedBy
             self.signedObject = signedObject
+            self.signingMaterial = signingMaterial
+            self.signingParameters = signingParameters
+            self.source = source
+            self.status = status
+            self.statusReason = statusReason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status = "status"
+            case completedAt = "completedAt"
             case createdAt = "createdAt"
-            case source = "source"
             case jobId = "jobId"
-            case signingMaterial = "signingMaterial"
+            case overrides = "overrides"
+            case platformId = "platformId"
+            case profileName = "profileName"
+            case requestedBy = "requestedBy"
             case signedObject = "signedObject"
-        }
-    }
-
-    public struct SigningMaterial: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the certificates that is used to sign your code.
-        public let certificateArn: String
-
-        public init(certificateArn: String) {
-            self.certificateArn = certificateArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateArn = "certificateArn"
-        }
-    }
-
-    public struct ListSigningProfilesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "profiles", required: false, type: .list)
-        ]
-        /// Value for specifying the next set of paginated results to return.
-        public let nextToken: String?
-        /// A list of profiles that are available in the AWS account. This includes profiles with the status of CANCELED if the includeCanceled parameter is set to true.
-        public let profiles: [SigningProfile]?
-
-        public init(nextToken: String? = nil, profiles: [SigningProfile]? = nil) {
-            self.nextToken = nextToken
-            self.profiles = profiles
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case profiles = "profiles"
-        }
-    }
-
-    public struct HashAlgorithmOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "allowedValues", required: true, type: .list), 
-            AWSShapeMember(label: "defaultValue", required: true, type: .enum)
-        ]
-        /// The set of accepted hash algorithms allowed in an AWS Signer job.
-        public let allowedValues: [HashAlgorithm]
-        /// The default hash algorithm that is used in an AWS Signer job.
-        public let defaultValue: HashAlgorithm
-
-        public init(allowedValues: [HashAlgorithm], defaultValue: HashAlgorithm) {
-            self.allowedValues = allowedValues
-            self.defaultValue = defaultValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case allowedValues = "allowedValues"
-            case defaultValue = "defaultValue"
+            case signingMaterial = "signingMaterial"
+            case signingParameters = "signingParameters"
+            case source = "source"
+            case status = "status"
+            case statusReason = "statusReason"
         }
     }
 
@@ -219,20 +134,10 @@ extension Signer {
         }
     }
 
-    public struct GetSigningProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "profileName", location: .uri(locationName: "profileName"), required: true, type: .string)
-        ]
-        /// The name of the target signing profile.
-        public let profileName: String
-
-        public init(profileName: String) {
-            self.profileName = profileName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case profileName = "profileName"
-        }
+    public enum EncryptionAlgorithm: String, CustomStringConvertible, Codable {
+        case rsa = "RSA"
+        case ecdsa = "ECDSA"
+        public var description: String { return self.rawValue }
     }
 
     public struct EncryptionAlgorithmOptions: AWSShape {
@@ -256,158 +161,78 @@ extension Signer {
         }
     }
 
-    public enum SigningStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case failed = "Failed"
-        case succeeded = "Succeeded"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct SigningPlatformOverrides: AWSShape {
+    public struct GetSigningPlatformRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "signingConfiguration", required: false, type: .structure)
+            AWSShapeMember(label: "platformId", location: .uri(locationName: "platformId"), required: true, type: .string)
         ]
-        public let signingConfiguration: SigningConfigurationOverrides?
+        /// The ID of the target signing platform.
+        public let platformId: String
 
-        public init(signingConfiguration: SigningConfigurationOverrides? = nil) {
-            self.signingConfiguration = signingConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case signingConfiguration = "signingConfiguration"
-        }
-    }
-
-    public struct S3Destination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bucketName", required: false, type: .string), 
-            AWSShapeMember(label: "prefix", required: false, type: .string)
-        ]
-        /// Name of the S3 bucket.
-        public let bucketName: String?
-        /// An Amazon S3 prefix that you can use to limit responses to those that begin with the specified prefix.
-        public let prefix: String?
-
-        public init(bucketName: String? = nil, prefix: String? = nil) {
-            self.bucketName = bucketName
-            self.prefix = prefix
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucketName = "bucketName"
-            case prefix = "prefix"
-        }
-    }
-
-    public struct Source: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "s3", required: false, type: .structure)
-        ]
-        /// The S3Source object.
-        public let s3: S3Source?
-
-        public init(s3: S3Source? = nil) {
-            self.s3 = s3
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3 = "s3"
-        }
-    }
-
-    public struct S3Source: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "key", required: true, type: .string), 
-            AWSShapeMember(label: "bucketName", required: true, type: .string), 
-            AWSShapeMember(label: "version", required: true, type: .string)
-        ]
-        /// Key name of the bucket object that contains your unsigned code.
-        public let key: String
-        /// Name of the S3 bucket.
-        public let bucketName: String
-        /// Version of your source image in your version enabled S3 bucket.
-        public let version: String
-
-        public init(key: String, bucketName: String, version: String) {
-            self.key = key
-            self.bucketName = bucketName
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "key"
-            case bucketName = "bucketName"
-            case version = "version"
-        }
-    }
-
-    public struct SigningProfile: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "profileName", required: false, type: .string), 
-            AWSShapeMember(label: "signingParameters", required: false, type: .map), 
-            AWSShapeMember(label: "signingMaterial", required: false, type: .structure), 
-            AWSShapeMember(label: "platformId", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
-        /// The name of the AWS Signer profile.
-        public let profileName: String?
-        /// The parameters that are available for use by an AWS Signer user.
-        public let signingParameters: [String: String]?
-        /// The ACM certificate that is available for use by a signing profile.
-        public let signingMaterial: SigningMaterial?
-        /// The ID of a platform that is available for use by a signing profile.
-        public let platformId: String?
-        /// The status of an AWS Signer profile.
-        public let status: SigningProfileStatus?
-
-        public init(profileName: String? = nil, signingParameters: [String: String]? = nil, signingMaterial: SigningMaterial? = nil, platformId: String? = nil, status: SigningProfileStatus? = nil) {
-            self.profileName = profileName
-            self.signingParameters = signingParameters
-            self.signingMaterial = signingMaterial
+        public init(platformId: String) {
             self.platformId = platformId
-            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case profileName = "profileName"
-            case signingParameters = "signingParameters"
-            case signingMaterial = "signingMaterial"
             case platformId = "platformId"
-            case status = "status"
         }
     }
 
-    public struct ListSigningProfilesRequest: AWSShape {
+    public struct GetSigningPlatformResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "includeCanceled", location: .querystring(locationName: "includeCanceled"), required: false, type: .boolean)
+            AWSShapeMember(label: "category", required: false, type: .enum), 
+            AWSShapeMember(label: "displayName", required: false, type: .string), 
+            AWSShapeMember(label: "maxSizeInMB", required: false, type: .integer), 
+            AWSShapeMember(label: "partner", required: false, type: .string), 
+            AWSShapeMember(label: "platformId", required: false, type: .string), 
+            AWSShapeMember(label: "signingConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "signingImageFormat", required: false, type: .structure), 
+            AWSShapeMember(label: "target", required: false, type: .string)
         ]
-        /// The maximum number of profiles to be returned.
-        public let maxResults: Int32?
-        /// Value for specifying the next set of paginated results to return. After you receive a response with truncated results, use this parameter in a subsequent request. Set it to the value of nextToken from the response that you just received.
-        public let nextToken: String?
-        /// Designates whether to include profiles with the status of CANCELED.
-        public let includeCanceled: Bool?
+        /// The category type of the target signing platform.
+        public let category: Category?
+        /// The display name of the target signing platform.
+        public let displayName: String?
+        /// The maximum size (in MB) of the payload that can be signed by the target platform.
+        public let maxSizeInMB: Int32?
+        /// A list of partner entities that use the target signing platform.
+        public let partner: String?
+        /// The ID of the target signing platform.
+        public let platformId: String?
+        /// A list of configurations applied to the target platform at signing.
+        public let signingConfiguration: SigningConfiguration?
+        /// The format of the target platform's signing image.
+        public let signingImageFormat: SigningImageFormat?
+        /// The validation template that is used by the target signing platform.
+        public let target: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, includeCanceled: Bool? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.includeCanceled = includeCanceled
+        public init(category: Category? = nil, displayName: String? = nil, maxSizeInMB: Int32? = nil, partner: String? = nil, platformId: String? = nil, signingConfiguration: SigningConfiguration? = nil, signingImageFormat: SigningImageFormat? = nil, target: String? = nil) {
+            self.category = category
+            self.displayName = displayName
+            self.maxSizeInMB = maxSizeInMB
+            self.partner = partner
+            self.platformId = platformId
+            self.signingConfiguration = signingConfiguration
+            self.signingImageFormat = signingImageFormat
+            self.target = target
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case includeCanceled = "includeCanceled"
+            case category = "category"
+            case displayName = "displayName"
+            case maxSizeInMB = "maxSizeInMB"
+            case partner = "partner"
+            case platformId = "platformId"
+            case signingConfiguration = "signingConfiguration"
+            case signingImageFormat = "signingImageFormat"
+            case target = "target"
         }
     }
 
-    public struct CancelSigningProfileRequest: AWSShape {
+    public struct GetSigningProfileRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "profileName", location: .uri(locationName: "profileName"), required: true, type: .string)
         ]
-        /// The name of the signing profile to be canceled.
+        /// The name of the target signing profile.
         public let profileName: String
 
         public init(profileName: String) {
@@ -419,107 +244,169 @@ extension Signer {
         }
     }
 
-    public struct S3SignedObject: AWSShape {
+    public struct GetSigningProfileResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "key", required: false, type: .string), 
-            AWSShapeMember(label: "bucketName", required: false, type: .string)
-        ]
-        /// Key name that uniquely identifies a signed code image in your bucket.
-        public let key: String?
-        /// Name of the S3 bucket.
-        public let bucketName: String?
-
-        public init(key: String? = nil, bucketName: String? = nil) {
-            self.key = key
-            self.bucketName = bucketName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "key"
-            case bucketName = "bucketName"
-        }
-    }
-
-    public struct PutSigningProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "profileName", location: .uri(locationName: "profileName"), required: true, type: .string), 
-            AWSShapeMember(label: "signingParameters", required: false, type: .map), 
-            AWSShapeMember(label: "signingMaterial", required: true, type: .structure), 
-            AWSShapeMember(label: "platformId", required: true, type: .string), 
-            AWSShapeMember(label: "overrides", required: false, type: .structure)
-        ]
-        /// The name of the signing profile to be created.
-        public let profileName: String
-        /// Map of key-value pairs for signing. These can include any information that you want to use during signing.
-        public let signingParameters: [String: String]?
-        /// The AWS Certificate Manager certificate that will be used to sign code with the new signing profile.
-        public let signingMaterial: SigningMaterial
-        /// The ID of the signing profile to be created.
-        public let platformId: String
-        /// A subfield of platform. This specifies any different configuration options that you want to apply to the chosen platform (such as a different hash-algorithm or signing-algorithm).
-        public let overrides: SigningPlatformOverrides?
-
-        public init(profileName: String, signingParameters: [String: String]? = nil, signingMaterial: SigningMaterial, platformId: String, overrides: SigningPlatformOverrides? = nil) {
-            self.profileName = profileName
-            self.signingParameters = signingParameters
-            self.signingMaterial = signingMaterial
-            self.platformId = platformId
-            self.overrides = overrides
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case profileName = "profileName"
-            case signingParameters = "signingParameters"
-            case signingMaterial = "signingMaterial"
-            case platformId = "platformId"
-            case overrides = "overrides"
-        }
-    }
-
-    public struct SignedObject: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "s3", required: false, type: .structure)
-        ]
-        /// The S3SignedObject.
-        public let s3: S3SignedObject?
-
-        public init(s3: S3SignedObject? = nil) {
-            self.s3 = s3
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3 = "s3"
-        }
-    }
-
-    public struct StartSigningJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "overrides", required: false, type: .structure), 
+            AWSShapeMember(label: "platformId", required: false, type: .string), 
             AWSShapeMember(label: "profileName", required: false, type: .string), 
-            AWSShapeMember(label: "destination", required: true, type: .structure), 
-            AWSShapeMember(label: "source", required: true, type: .structure), 
-            AWSShapeMember(label: "clientRequestToken", required: true, type: .string)
+            AWSShapeMember(label: "signingMaterial", required: false, type: .structure), 
+            AWSShapeMember(label: "signingParameters", required: false, type: .map), 
+            AWSShapeMember(label: "status", required: false, type: .enum)
         ]
-        /// The name of the signing profile.
+        /// A list of overrides applied by the target signing profile for signing operations.
+        public let overrides: SigningPlatformOverrides?
+        /// The ID of the platform that is used by the target signing profile.
+        public let platformId: String?
+        /// The name of the target signing profile.
         public let profileName: String?
-        /// The S3 bucket in which to save your signed object. The destination contains the name of your bucket and an optional prefix.
-        public let destination: Destination
-        /// The S3 bucket that contains the object to sign or a BLOB that contains your raw code.
-        public let source: Source
-        /// String that identifies the signing request. All calls after the first that use this token return the same response as the first call.
-        public let clientRequestToken: String
+        /// The ARN of the certificate that the target profile uses for signing operations.
+        public let signingMaterial: SigningMaterial?
+        /// A map of key-value pairs for signing operations that is attached to the target signing profile.
+        public let signingParameters: [String: String]?
+        /// The status of the target signing profile.
+        public let status: SigningProfileStatus?
 
-        public init(profileName: String? = nil, destination: Destination, source: Source, clientRequestToken: String) {
+        public init(overrides: SigningPlatformOverrides? = nil, platformId: String? = nil, profileName: String? = nil, signingMaterial: SigningMaterial? = nil, signingParameters: [String: String]? = nil, status: SigningProfileStatus? = nil) {
+            self.overrides = overrides
+            self.platformId = platformId
             self.profileName = profileName
-            self.destination = destination
-            self.source = source
-            self.clientRequestToken = clientRequestToken
+            self.signingMaterial = signingMaterial
+            self.signingParameters = signingParameters
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case overrides = "overrides"
+            case platformId = "platformId"
             case profileName = "profileName"
-            case destination = "destination"
-            case source = "source"
-            case clientRequestToken = "clientRequestToken"
+            case signingMaterial = "signingMaterial"
+            case signingParameters = "signingParameters"
+            case status = "status"
+        }
+    }
+
+    public enum HashAlgorithm: String, CustomStringConvertible, Codable {
+        case sha1 = "SHA1"
+        case sha256 = "SHA256"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct HashAlgorithmOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "allowedValues", required: true, type: .list), 
+            AWSShapeMember(label: "defaultValue", required: true, type: .enum)
+        ]
+        /// The set of accepted hash algorithms allowed in an AWS Signer job.
+        public let allowedValues: [HashAlgorithm]
+        /// The default hash algorithm that is used in an AWS Signer job.
+        public let defaultValue: HashAlgorithm
+
+        public init(allowedValues: [HashAlgorithm], defaultValue: HashAlgorithm) {
+            self.allowedValues = allowedValues
+            self.defaultValue = defaultValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedValues = "allowedValues"
+            case defaultValue = "defaultValue"
+        }
+    }
+
+    public enum ImageFormat: String, CustomStringConvertible, Codable {
+        case json = "JSON"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListSigningJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "platformId", location: .querystring(locationName: "platformId"), required: false, type: .string), 
+            AWSShapeMember(label: "requestedBy", location: .querystring(locationName: "requestedBy"), required: false, type: .string), 
+            AWSShapeMember(label: "status", location: .querystring(locationName: "status"), required: false, type: .enum)
+        ]
+        /// Specifies the maximum number of items to return in the response. Use this parameter when paginating results. If additional items exist beyond the number you specify, the nextToken element is set in the response. Use the nextToken value in a subsequent request to retrieve additional items. 
+        public let maxResults: Int32?
+        /// String for specifying the next set of paginated results to return. After you receive a response with truncated results, use this parameter in a subsequent request. Set it to the value of nextToken from the response that you just received.
+        public let nextToken: String?
+        /// The ID of microcontroller platform that you specified for the distribution of your code image.
+        public let platformId: String?
+        /// The IAM principal that requested the signing job.
+        public let requestedBy: String?
+        /// A status value with which to filter your results.
+        public let status: SigningStatus?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, platformId: String? = nil, requestedBy: String? = nil, status: SigningStatus? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.platformId = platformId
+            self.requestedBy = requestedBy
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case platformId = "platformId"
+            case requestedBy = "requestedBy"
+            case status = "status"
+        }
+    }
+
+    public struct ListSigningJobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobs", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// A list of your signing jobs.
+        public let jobs: [SigningJob]?
+        /// String for specifying the next set of paginated results.
+        public let nextToken: String?
+
+        public init(jobs: [SigningJob]? = nil, nextToken: String? = nil) {
+            self.jobs = jobs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobs = "jobs"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListSigningPlatformsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "category", location: .querystring(locationName: "category"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "partner", location: .querystring(locationName: "partner"), required: false, type: .string), 
+            AWSShapeMember(label: "target", location: .querystring(locationName: "target"), required: false, type: .string)
+        ]
+        /// The category type of a signing platform.
+        public let category: String?
+        /// The maximum number of results to be returned by this operation.
+        public let maxResults: Int32?
+        /// Value for specifying the next set of paginated results to return. After you receive a response with truncated results, use this parameter in a subsequent request. Set it to the value of nextToken from the response that you just received.
+        public let nextToken: String?
+        /// Any partner entities connected to a signing platform.
+        public let partner: String?
+        /// The validation template that is used by the target signing platform.
+        public let target: String?
+
+        public init(category: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, partner: String? = nil, target: String? = nil) {
+            self.category = category
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.partner = partner
+            self.target = target
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "category"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case partner = "partner"
+            case target = "target"
         }
     }
 
@@ -544,6 +431,89 @@ extension Signer {
         }
     }
 
+    public struct ListSigningProfilesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "includeCanceled", location: .querystring(locationName: "includeCanceled"), required: false, type: .boolean), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+        /// Designates whether to include profiles with the status of CANCELED.
+        public let includeCanceled: Bool?
+        /// The maximum number of profiles to be returned.
+        public let maxResults: Int32?
+        /// Value for specifying the next set of paginated results to return. After you receive a response with truncated results, use this parameter in a subsequent request. Set it to the value of nextToken from the response that you just received.
+        public let nextToken: String?
+
+        public init(includeCanceled: Bool? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.includeCanceled = includeCanceled
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeCanceled = "includeCanceled"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListSigningProfilesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "profiles", required: false, type: .list)
+        ]
+        /// Value for specifying the next set of paginated results to return.
+        public let nextToken: String?
+        /// A list of profiles that are available in the AWS account. This includes profiles with the status of CANCELED if the includeCanceled parameter is set to true.
+        public let profiles: [SigningProfile]?
+
+        public init(nextToken: String? = nil, profiles: [SigningProfile]? = nil) {
+            self.nextToken = nextToken
+            self.profiles = profiles
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case profiles = "profiles"
+        }
+    }
+
+    public struct PutSigningProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "overrides", required: false, type: .structure), 
+            AWSShapeMember(label: "platformId", required: true, type: .string), 
+            AWSShapeMember(label: "profileName", location: .uri(locationName: "profileName"), required: true, type: .string), 
+            AWSShapeMember(label: "signingMaterial", required: true, type: .structure), 
+            AWSShapeMember(label: "signingParameters", required: false, type: .map)
+        ]
+        /// A subfield of platform. This specifies any different configuration options that you want to apply to the chosen platform (such as a different hash-algorithm or signing-algorithm).
+        public let overrides: SigningPlatformOverrides?
+        /// The ID of the signing profile to be created.
+        public let platformId: String
+        /// The name of the signing profile to be created.
+        public let profileName: String
+        /// The AWS Certificate Manager certificate that will be used to sign code with the new signing profile.
+        public let signingMaterial: SigningMaterial
+        /// Map of key-value pairs for signing. These can include any information that you want to use during signing.
+        public let signingParameters: [String: String]?
+
+        public init(overrides: SigningPlatformOverrides? = nil, platformId: String, profileName: String, signingMaterial: SigningMaterial, signingParameters: [String: String]? = nil) {
+            self.overrides = overrides
+            self.platformId = platformId
+            self.profileName = profileName
+            self.signingMaterial = signingMaterial
+            self.signingParameters = signingParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case overrides = "overrides"
+            case platformId = "platformId"
+            case profileName = "profileName"
+            case signingMaterial = "signingMaterial"
+            case signingParameters = "signingParameters"
+        }
+    }
+
     public struct PutSigningProfileResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: false, type: .string)
@@ -560,144 +530,108 @@ extension Signer {
         }
     }
 
-    public enum EncryptionAlgorithm: String, CustomStringConvertible, Codable {
-        case rsa = "RSA"
-        case ecdsa = "ECDSA"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetSigningPlatformResponse: AWSShape {
+    public struct S3Destination: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "category", required: false, type: .enum), 
-            AWSShapeMember(label: "signingImageFormat", required: false, type: .structure), 
-            AWSShapeMember(label: "platformId", required: false, type: .string), 
-            AWSShapeMember(label: "displayName", required: false, type: .string), 
-            AWSShapeMember(label: "target", required: false, type: .string), 
-            AWSShapeMember(label: "partner", required: false, type: .string), 
-            AWSShapeMember(label: "signingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "maxSizeInMB", required: false, type: .integer)
+            AWSShapeMember(label: "bucketName", required: false, type: .string), 
+            AWSShapeMember(label: "prefix", required: false, type: .string)
         ]
-        /// The category type of the target signing platform.
-        public let category: Category?
-        /// The format of the target platform's signing image.
-        public let signingImageFormat: SigningImageFormat?
-        /// The ID of the target signing platform.
-        public let platformId: String?
-        /// The display name of the target signing platform.
-        public let displayName: String?
-        /// The validation template that is used by the target signing platform.
-        public let target: String?
-        /// A list of partner entities that use the target signing platform.
-        public let partner: String?
-        /// A list of configurations applied to the target platform at signing.
-        public let signingConfiguration: SigningConfiguration?
-        /// The maximum size (in MB) of the payload that can be signed by the target platform.
-        public let maxSizeInMB: Int32?
+        /// Name of the S3 bucket.
+        public let bucketName: String?
+        /// An Amazon S3 prefix that you can use to limit responses to those that begin with the specified prefix.
+        public let prefix: String?
 
-        public init(category: Category? = nil, signingImageFormat: SigningImageFormat? = nil, platformId: String? = nil, displayName: String? = nil, target: String? = nil, partner: String? = nil, signingConfiguration: SigningConfiguration? = nil, maxSizeInMB: Int32? = nil) {
-            self.category = category
-            self.signingImageFormat = signingImageFormat
-            self.platformId = platformId
-            self.displayName = displayName
-            self.target = target
-            self.partner = partner
-            self.signingConfiguration = signingConfiguration
-            self.maxSizeInMB = maxSizeInMB
+        public init(bucketName: String? = nil, prefix: String? = nil) {
+            self.bucketName = bucketName
+            self.prefix = prefix
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category = "category"
-            case signingImageFormat = "signingImageFormat"
-            case platformId = "platformId"
-            case displayName = "displayName"
-            case target = "target"
-            case partner = "partner"
-            case signingConfiguration = "signingConfiguration"
-            case maxSizeInMB = "maxSizeInMB"
+            case bucketName = "bucketName"
+            case prefix = "prefix"
         }
     }
 
-    public struct ListSigningPlatformsRequest: AWSShape {
+    public struct S3SignedObject: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "category", location: .querystring(locationName: "category"), required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "partner", location: .querystring(locationName: "partner"), required: false, type: .string), 
-            AWSShapeMember(label: "target", location: .querystring(locationName: "target"), required: false, type: .string)
+            AWSShapeMember(label: "bucketName", required: false, type: .string), 
+            AWSShapeMember(label: "key", required: false, type: .string)
         ]
-        /// The maximum number of results to be returned by this operation.
-        public let maxResults: Int32?
-        /// The category type of a signing platform.
-        public let category: String?
-        /// Value for specifying the next set of paginated results to return. After you receive a response with truncated results, use this parameter in a subsequent request. Set it to the value of nextToken from the response that you just received.
-        public let nextToken: String?
-        /// Any partner entities connected to a signing platform.
-        public let partner: String?
-        /// The validation template that is used by the target signing platform.
-        public let target: String?
+        /// Name of the S3 bucket.
+        public let bucketName: String?
+        /// Key name that uniquely identifies a signed code image in your bucket.
+        public let key: String?
 
-        public init(maxResults: Int32? = nil, category: String? = nil, nextToken: String? = nil, partner: String? = nil, target: String? = nil) {
-            self.maxResults = maxResults
-            self.category = category
-            self.nextToken = nextToken
-            self.partner = partner
-            self.target = target
+        public init(bucketName: String? = nil, key: String? = nil) {
+            self.bucketName = bucketName
+            self.key = key
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case category = "category"
-            case nextToken = "nextToken"
-            case partner = "partner"
-            case target = "target"
+            case bucketName = "bucketName"
+            case key = "key"
         }
     }
 
-    public enum Category: String, CustomStringConvertible, Codable {
-        case awsiot = "AWSIoT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct StartSigningJobResponse: AWSShape {
+    public struct S3Source: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", required: false, type: .string)
+            AWSShapeMember(label: "bucketName", required: true, type: .string), 
+            AWSShapeMember(label: "key", required: true, type: .string), 
+            AWSShapeMember(label: "version", required: true, type: .string)
         ]
-        /// The ID of your signing job.
-        public let jobId: String?
+        /// Name of the S3 bucket.
+        public let bucketName: String
+        /// Key name of the bucket object that contains your unsigned code.
+        public let key: String
+        /// Version of your source image in your version enabled S3 bucket.
+        public let version: String
 
-        public init(jobId: String? = nil) {
-            self.jobId = jobId
+        public init(bucketName: String, key: String, version: String) {
+            self.bucketName = bucketName
+            self.key = key
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId = "jobId"
+            case bucketName = "bucketName"
+            case key = "key"
+            case version = "version"
         }
     }
 
-    public enum ImageFormat: String, CustomStringConvertible, Codable {
-        case json = "JSON"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HashAlgorithm: String, CustomStringConvertible, Codable {
-        case sha1 = "SHA1"
-        case sha256 = "SHA256"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetSigningPlatformRequest: AWSShape {
+    public struct SignedObject: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "platformId", location: .uri(locationName: "platformId"), required: true, type: .string)
+            AWSShapeMember(label: "s3", required: false, type: .structure)
         ]
-        /// The ID of the target signing platform.
-        public let platformId: String
+        /// The S3SignedObject.
+        public let s3: S3SignedObject?
 
-        public init(platformId: String) {
-            self.platformId = platformId
+        public init(s3: S3SignedObject? = nil) {
+            self.s3 = s3
         }
 
         private enum CodingKeys: String, CodingKey {
-            case platformId = "platformId"
+            case s3 = "s3"
+        }
+    }
+
+    public struct SigningConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "encryptionAlgorithmOptions", required: true, type: .structure), 
+            AWSShapeMember(label: "hashAlgorithmOptions", required: true, type: .structure)
+        ]
+        /// The encryption algorithm options that are available for an AWS Signer job.
+        public let encryptionAlgorithmOptions: EncryptionAlgorithmOptions
+        /// The hash algorithm options that are available for an AWS Signer job.
+        public let hashAlgorithmOptions: HashAlgorithmOptions
+
+        public init(encryptionAlgorithmOptions: EncryptionAlgorithmOptions, hashAlgorithmOptions: HashAlgorithmOptions) {
+            self.encryptionAlgorithmOptions = encryptionAlgorithmOptions
+            self.hashAlgorithmOptions = hashAlgorithmOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionAlgorithmOptions = "encryptionAlgorithmOptions"
+            case hashAlgorithmOptions = "hashAlgorithmOptions"
         }
     }
 
@@ -722,170 +656,182 @@ extension Signer {
         }
     }
 
+    public struct SigningImageFormat: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "defaultFormat", required: true, type: .enum), 
+            AWSShapeMember(label: "supportedFormats", required: true, type: .list)
+        ]
+        /// The default format of an AWS Signer signing image.
+        public let defaultFormat: ImageFormat
+        /// The supported formats of an AWS Signer signing image.
+        public let supportedFormats: [ImageFormat]
+
+        public init(defaultFormat: ImageFormat, supportedFormats: [ImageFormat]) {
+            self.defaultFormat = defaultFormat
+            self.supportedFormats = supportedFormats
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultFormat = "defaultFormat"
+            case supportedFormats = "supportedFormats"
+        }
+    }
+
+    public struct SigningJob: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "jobId", required: false, type: .string), 
+            AWSShapeMember(label: "signedObject", required: false, type: .structure), 
+            AWSShapeMember(label: "signingMaterial", required: false, type: .structure), 
+            AWSShapeMember(label: "source", required: false, type: .structure), 
+            AWSShapeMember(label: "status", required: false, type: .enum)
+        ]
+        /// The date and time that the signing job was created.
+        public let createdAt: TimeStamp?
+        /// The ID of the signing job.
+        public let jobId: String?
+        /// A SignedObject structure that contains information about a signing job's signed code image.
+        public let signedObject: SignedObject?
+        /// A SigningMaterial object that contains the Amazon Resource Name (ARN) of the certificate used for the signing job.
+        public let signingMaterial: SigningMaterial?
+        /// A Source that contains information about a signing job's code image source.
+        public let source: Source?
+        /// The status of the signing job.
+        public let status: SigningStatus?
+
+        public init(createdAt: TimeStamp? = nil, jobId: String? = nil, signedObject: SignedObject? = nil, signingMaterial: SigningMaterial? = nil, source: Source? = nil, status: SigningStatus? = nil) {
+            self.createdAt = createdAt
+            self.jobId = jobId
+            self.signedObject = signedObject
+            self.signingMaterial = signingMaterial
+            self.source = source
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case jobId = "jobId"
+            case signedObject = "signedObject"
+            case signingMaterial = "signingMaterial"
+            case source = "source"
+            case status = "status"
+        }
+    }
+
+    public struct SigningMaterial: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the certificates that is used to sign your code.
+        public let certificateArn: String
+
+        public init(certificateArn: String) {
+            self.certificateArn = certificateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "certificateArn"
+        }
+    }
+
     public struct SigningPlatform: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "category", required: false, type: .enum), 
-            AWSShapeMember(label: "signingImageFormat", required: false, type: .structure), 
-            AWSShapeMember(label: "platformId", required: false, type: .string), 
             AWSShapeMember(label: "displayName", required: false, type: .string), 
-            AWSShapeMember(label: "target", required: false, type: .string), 
+            AWSShapeMember(label: "maxSizeInMB", required: false, type: .integer), 
             AWSShapeMember(label: "partner", required: false, type: .string), 
+            AWSShapeMember(label: "platformId", required: false, type: .string), 
             AWSShapeMember(label: "signingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "maxSizeInMB", required: false, type: .integer)
+            AWSShapeMember(label: "signingImageFormat", required: false, type: .structure), 
+            AWSShapeMember(label: "target", required: false, type: .string)
         ]
         /// The category of an AWS Signer platform.
         public let category: Category?
-        /// The signing image format that is used by an AWS Signer platform.
-        public let signingImageFormat: SigningImageFormat?
-        /// The ID of an AWS Signer platform.
-        public let platformId: String?
         /// The display name of an AWS Signer platform.
         public let displayName: String?
-        /// The types of targets that can be signed by an AWS Signer platform.
-        public let target: String?
-        /// Any partner entities linked to an AWS Signer platform.
-        public let partner: String?
-        /// The configuration of an AWS Signer platform. This includes the designated hash algorithm and encryption algorithm of a signing platform.
-        public let signingConfiguration: SigningConfiguration?
         /// The maximum size (in MB) of code that can be signed by a AWS Signer platform.
         public let maxSizeInMB: Int32?
+        /// Any partner entities linked to an AWS Signer platform.
+        public let partner: String?
+        /// The ID of an AWS Signer platform.
+        public let platformId: String?
+        /// The configuration of an AWS Signer platform. This includes the designated hash algorithm and encryption algorithm of a signing platform.
+        public let signingConfiguration: SigningConfiguration?
+        /// The signing image format that is used by an AWS Signer platform.
+        public let signingImageFormat: SigningImageFormat?
+        /// The types of targets that can be signed by an AWS Signer platform.
+        public let target: String?
 
-        public init(category: Category? = nil, signingImageFormat: SigningImageFormat? = nil, platformId: String? = nil, displayName: String? = nil, target: String? = nil, partner: String? = nil, signingConfiguration: SigningConfiguration? = nil, maxSizeInMB: Int32? = nil) {
+        public init(category: Category? = nil, displayName: String? = nil, maxSizeInMB: Int32? = nil, partner: String? = nil, platformId: String? = nil, signingConfiguration: SigningConfiguration? = nil, signingImageFormat: SigningImageFormat? = nil, target: String? = nil) {
             self.category = category
-            self.signingImageFormat = signingImageFormat
-            self.platformId = platformId
             self.displayName = displayName
-            self.target = target
-            self.partner = partner
-            self.signingConfiguration = signingConfiguration
             self.maxSizeInMB = maxSizeInMB
+            self.partner = partner
+            self.platformId = platformId
+            self.signingConfiguration = signingConfiguration
+            self.signingImageFormat = signingImageFormat
+            self.target = target
         }
 
         private enum CodingKeys: String, CodingKey {
             case category = "category"
-            case signingImageFormat = "signingImageFormat"
-            case platformId = "platformId"
             case displayName = "displayName"
-            case target = "target"
-            case partner = "partner"
-            case signingConfiguration = "signingConfiguration"
             case maxSizeInMB = "maxSizeInMB"
+            case partner = "partner"
+            case platformId = "platformId"
+            case signingConfiguration = "signingConfiguration"
+            case signingImageFormat = "signingImageFormat"
+            case target = "target"
         }
     }
 
-    public struct DescribeSigningJobResponse: AWSShape {
+    public struct SigningPlatformOverrides: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "requestedBy", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "signingParameters", required: false, type: .map), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "completedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "signedObject", required: false, type: .structure), 
-            AWSShapeMember(label: "source", required: false, type: .structure), 
-            AWSShapeMember(label: "overrides", required: false, type: .structure), 
-            AWSShapeMember(label: "platformId", required: false, type: .string), 
-            AWSShapeMember(label: "jobId", required: false, type: .string), 
-            AWSShapeMember(label: "signingMaterial", required: false, type: .structure), 
-            AWSShapeMember(label: "profileName", required: false, type: .string), 
-            AWSShapeMember(label: "statusReason", required: false, type: .string)
+            AWSShapeMember(label: "signingConfiguration", required: false, type: .structure)
         ]
-        /// The IAM principal that requested the signing job.
-        public let requestedBy: String?
-        /// Status of the signing job.
-        public let status: SigningStatus?
-        /// Map of user-assigned key-value pairs used during signing. These values contain any information that you specified for use in your signing job. 
-        public let signingParameters: [String: String]?
-        /// Date and time that the signing job was created.
-        public let createdAt: TimeStamp?
-        /// Date and time that the signing job was completed.
-        public let completedAt: TimeStamp?
-        /// Name of the S3 bucket where the signed code image is saved by AWS Signer.
-        public let signedObject: SignedObject?
-        /// The object that contains the name of your S3 bucket or your raw code.
-        public let source: Source?
-        /// A list of any overrides that were applied to the signing operation.
-        public let overrides: SigningPlatformOverrides?
-        /// The microcontroller platform to which your signed code image will be distributed.
-        public let platformId: String?
-        /// The ID of the signing job on output.
-        public let jobId: String?
-        /// Amazon Resource Name (ARN) of your code signing certificate.
-        public let signingMaterial: SigningMaterial?
-        /// The name of the profile that initiated the signing operation.
-        public let profileName: String?
-        /// String value that contains the status reason.
-        public let statusReason: String?
+        public let signingConfiguration: SigningConfigurationOverrides?
 
-        public init(requestedBy: String? = nil, status: SigningStatus? = nil, signingParameters: [String: String]? = nil, createdAt: TimeStamp? = nil, completedAt: TimeStamp? = nil, signedObject: SignedObject? = nil, source: Source? = nil, overrides: SigningPlatformOverrides? = nil, platformId: String? = nil, jobId: String? = nil, signingMaterial: SigningMaterial? = nil, profileName: String? = nil, statusReason: String? = nil) {
-            self.requestedBy = requestedBy
-            self.status = status
-            self.signingParameters = signingParameters
-            self.createdAt = createdAt
-            self.completedAt = completedAt
-            self.signedObject = signedObject
-            self.source = source
-            self.overrides = overrides
-            self.platformId = platformId
-            self.jobId = jobId
-            self.signingMaterial = signingMaterial
-            self.profileName = profileName
-            self.statusReason = statusReason
+        public init(signingConfiguration: SigningConfigurationOverrides? = nil) {
+            self.signingConfiguration = signingConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
-            case requestedBy = "requestedBy"
-            case status = "status"
-            case signingParameters = "signingParameters"
-            case createdAt = "createdAt"
-            case completedAt = "completedAt"
-            case signedObject = "signedObject"
-            case source = "source"
-            case overrides = "overrides"
-            case platformId = "platformId"
-            case jobId = "jobId"
-            case signingMaterial = "signingMaterial"
-            case profileName = "profileName"
-            case statusReason = "statusReason"
+            case signingConfiguration = "signingConfiguration"
         }
     }
 
-    public struct GetSigningProfileResponse: AWSShape {
+    public struct SigningProfile: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "profileName", required: false, type: .string), 
-            AWSShapeMember(label: "signingParameters", required: false, type: .map), 
-            AWSShapeMember(label: "signingMaterial", required: false, type: .structure), 
             AWSShapeMember(label: "platformId", required: false, type: .string), 
-            AWSShapeMember(label: "overrides", required: false, type: .structure), 
+            AWSShapeMember(label: "profileName", required: false, type: .string), 
+            AWSShapeMember(label: "signingMaterial", required: false, type: .structure), 
+            AWSShapeMember(label: "signingParameters", required: false, type: .map), 
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
-        /// The name of the target signing profile.
-        public let profileName: String?
-        /// A map of key-value pairs for signing operations that is attached to the target signing profile.
-        public let signingParameters: [String: String]?
-        /// The ARN of the certificate that the target profile uses for signing operations.
-        public let signingMaterial: SigningMaterial?
-        /// The ID of the platform that is used by the target signing profile.
+        /// The ID of a platform that is available for use by a signing profile.
         public let platformId: String?
-        /// A list of overrides applied by the target signing profile for signing operations.
-        public let overrides: SigningPlatformOverrides?
-        /// The status of the target signing profile.
+        /// The name of the AWS Signer profile.
+        public let profileName: String?
+        /// The ACM certificate that is available for use by a signing profile.
+        public let signingMaterial: SigningMaterial?
+        /// The parameters that are available for use by an AWS Signer user.
+        public let signingParameters: [String: String]?
+        /// The status of an AWS Signer profile.
         public let status: SigningProfileStatus?
 
-        public init(profileName: String? = nil, signingParameters: [String: String]? = nil, signingMaterial: SigningMaterial? = nil, platformId: String? = nil, overrides: SigningPlatformOverrides? = nil, status: SigningProfileStatus? = nil) {
-            self.profileName = profileName
-            self.signingParameters = signingParameters
-            self.signingMaterial = signingMaterial
+        public init(platformId: String? = nil, profileName: String? = nil, signingMaterial: SigningMaterial? = nil, signingParameters: [String: String]? = nil, status: SigningProfileStatus? = nil) {
             self.platformId = platformId
-            self.overrides = overrides
+            self.profileName = profileName
+            self.signingMaterial = signingMaterial
+            self.signingParameters = signingParameters
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case profileName = "profileName"
-            case signingParameters = "signingParameters"
-            case signingMaterial = "signingMaterial"
             case platformId = "platformId"
-            case overrides = "overrides"
+            case profileName = "profileName"
+            case signingMaterial = "signingMaterial"
+            case signingParameters = "signingParameters"
             case status = "status"
         }
     }
@@ -896,14 +842,68 @@ extension Signer {
         public var description: String { return self.rawValue }
     }
 
-    public struct DescribeSigningJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string)
-        ]
-        /// The ID of the signing job on input.
-        public let jobId: String
+    public enum SigningStatus: String, CustomStringConvertible, Codable {
+        case inprogress = "InProgress"
+        case failed = "Failed"
+        case succeeded = "Succeeded"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(jobId: String) {
+    public struct Source: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "s3", required: false, type: .structure)
+        ]
+        /// The S3Source object.
+        public let s3: S3Source?
+
+        public init(s3: S3Source? = nil) {
+            self.s3 = s3
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3 = "s3"
+        }
+    }
+
+    public struct StartSigningJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientRequestToken", required: true, type: .string), 
+            AWSShapeMember(label: "destination", required: true, type: .structure), 
+            AWSShapeMember(label: "profileName", required: false, type: .string), 
+            AWSShapeMember(label: "source", required: true, type: .structure)
+        ]
+        /// String that identifies the signing request. All calls after the first that use this token return the same response as the first call.
+        public let clientRequestToken: String
+        /// The S3 bucket in which to save your signed object. The destination contains the name of your bucket and an optional prefix.
+        public let destination: Destination
+        /// The name of the signing profile.
+        public let profileName: String?
+        /// The S3 bucket that contains the object to sign or a BLOB that contains your raw code.
+        public let source: Source
+
+        public init(clientRequestToken: String, destination: Destination, profileName: String? = nil, source: Source) {
+            self.clientRequestToken = clientRequestToken
+            self.destination = destination
+            self.profileName = profileName
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case destination = "destination"
+            case profileName = "profileName"
+            case source = "source"
+        }
+    }
+
+    public struct StartSigningJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobId", required: false, type: .string)
+        ]
+        /// The ID of your signing job.
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
             self.jobId = jobId
         }
 

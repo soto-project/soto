@@ -26,79 +26,9 @@ public struct DataSync {
         )
     }
 
-    ///  Returns metadata about a task.
-    public func describeTask(_ input: DescribeTaskRequest) throws -> Future<DescribeTaskResponse> {
-        return try client.send(operation: "DescribeTask", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns metadata such as the name, the network interfaces, and the status (that is, whether the agent is running or not) for an agent. To specify which agent to describe, use the Amazon Resource Name (ARN) of the agent in your request. 
-    public func describeAgent(_ input: DescribeAgentRequest) throws -> Future<DescribeAgentResponse> {
-        return try client.send(operation: "DescribeAgent", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Updates the metadata associated with a task.
-    public func updateTask(_ input: UpdateTaskRequest) throws -> Future<UpdateTaskResponse> {
-        return try client.send(operation: "UpdateTask", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates an endpoint for an Amazon EFS file system.
-    public func createLocationEfs(_ input: CreateLocationEfsRequest) throws -> Future<CreateLocationEfsResponse> {
-        return try client.send(operation: "CreateLocationEfs", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Cancels execution of a task.  When you cancel a task execution, the transfer of some files are abruptly interrupted. The contents of files that are transferred to the destination might be incomplete or inconsistent with the source files. However, if you start a new task execution on the same task and you allow the task execution to complete, file content on the destination is complete and consistent. This applies to other unexpected failures that interrupt a task execution. In all of these cases, AWS DataSync successfully complete the transfer when you start the next task execution. 
     public func cancelTaskExecution(_ input: CancelTaskExecutionRequest) throws -> Future<CancelTaskExecutionResponse> {
         return try client.send(operation: "CancelTaskExecution", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Removes a tag from an AWS resource.
-    public func untagResource(_ input: UntagResourceRequest) throws -> Future<UntagResourceResponse> {
-        return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns metadata, such as the path information about an Amazon EFS location.
-    public func describeLocationEfs(_ input: DescribeLocationEfsRequest) throws -> Future<DescribeLocationEfsResponse> {
-        return try client.send(operation: "DescribeLocationEfs", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes an agent. To specify which agent to delete, use the Amazon Resource Name (ARN) of the agent in your request. The operation disassociates the agent from your AWS account. However, it doesn't delete the agent virtual machine (VM) from your on-premises environment.  After you delete an agent, you can't reactivate it and you longer pay software charges for it. 
-    public func deleteAgent(_ input: DeleteAgentRequest) throws -> Future<DeleteAgentResponse> {
-        return try client.send(operation: "DeleteAgent", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a task. A task is a set of two locations (source and destination) and a set of default OverrideOptions that you use to control the behavior of a task. If you don't specify default values for Options when you create a task, AWS DataSync populates them with safe service defaults. When you initially create a task, it enters the INITIALIZING status and then the CREATING status. In CREATING status, AWS DataSync attempts to mount the source Network File System (NFS) location. The task transitions to the AVAILABLE status without waiting for the destination location to mount. Instead, AWS DataSync mounts a destination before every task execution and then unmounts it after every task execution.  If an agent that is associated with a source (NFS) location goes offline, the task transitions to the UNAVAILABLE status. If the status of the task remains in the CREATING status for more than a few minutes, it means that your agent might be having trouble mounting the source NFS file system. Check the task's ErrorCode and ErrorDetail. Mount issues are often caused by either a misconfigured firewall or a mistyped NFS server host name.
-    public func createTask(_ input: CreateTaskRequest) throws -> Future<CreateTaskResponse> {
-        return try client.send(operation: "CreateTask", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes a task.
-    public func deleteTask(_ input: DeleteTaskRequest) throws -> Future<DeleteTaskResponse> {
-        return try client.send(operation: "DeleteTask", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns detailed metadata about a task that is being executed.
-    public func describeTaskExecution(_ input: DescribeTaskExecutionRequest) throws -> Future<DescribeTaskExecutionResponse> {
-        return try client.send(operation: "DescribeTaskExecution", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes the configuration of a location used by AWS DataSync. 
-    public func deleteLocation(_ input: DeleteLocationRequest) throws -> Future<DeleteLocationResponse> {
-        return try client.send(operation: "DeleteLocation", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates an endpoint for a Network File System (NFS) file system.
-    public func createLocationNfs(_ input: CreateLocationNfsRequest) throws -> Future<CreateLocationNfsResponse> {
-        return try client.send(operation: "CreateLocationNfs", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns metadata, such as the path information, about a NFS location.
-    public func describeLocationNfs(_ input: DescribeLocationNfsRequest) throws -> Future<DescribeLocationNfsResponse> {
-        return try client.send(operation: "DescribeLocationNfs", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates an endpoint for an Amazon S3 bucket. For AWS DataSync to access a destination S3 bucket, it needs an AWS Identity and Access Management (IAM) role that has the required permissions. You can set up the required permissions by creating an IAM policy that grants the required permissions and attaching the policy to the role. An example of such a policy is shown in the examples section. For more information, see Configuring Amazon S3 Location Settings in the AWS DataSync User Guide.
-    public func createLocationS3(_ input: CreateLocationS3Request) throws -> Future<CreateLocationS3Response> {
-        return try client.send(operation: "CreateLocationS3", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Activates an AWS DataSync agent that you have deployed on your host. The activation process associates your agent with your account. In the activation process, you specify information such as the AWS Region that you want to activate the agent in. You activate the agent in the AWS Region where your target locations (in Amazon S3 or Amazon EFS) reside. Your tasks are created in this AWS Region.  You can use an agent for more than one location. If a task uses multiple agents, all of them need to have status AVAILABLE for the task to run. If you use multiple agents for a source location, the status of all the agents must be AVAILABLE for the task to run. For more information, see Activating a Sync Agent in the AWS DataSync User Guide.  Agents are automatically updated by AWS on a regular basis, using a mechanism that ensures minimal interruption to your tasks. 
@@ -106,24 +36,69 @@ public struct DataSync {
         return try client.send(operation: "CreateAgent", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of executed tasks.
-    public func listTaskExecutions(_ input: ListTaskExecutionsRequest) throws -> Future<ListTaskExecutionsResponse> {
-        return try client.send(operation: "ListTaskExecutions", path: "/", httpMethod: "POST", input: input)
+    ///  Creates an endpoint for an Amazon EFS file system.
+    public func createLocationEfs(_ input: CreateLocationEfsRequest) throws -> Future<CreateLocationEfsResponse> {
+        return try client.send(operation: "CreateLocationEfs", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of all the tasks.
-    public func listTasks(_ input: ListTasksRequest) throws -> Future<ListTasksResponse> {
-        return try client.send(operation: "ListTasks", path: "/", httpMethod: "POST", input: input)
+    ///  Creates an endpoint for a Network File System (NFS) file system.
+    public func createLocationNfs(_ input: CreateLocationNfsRequest) throws -> Future<CreateLocationNfsResponse> {
+        return try client.send(operation: "CreateLocationNfs", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the name of an agent.
-    public func updateAgent(_ input: UpdateAgentRequest) throws -> Future<UpdateAgentResponse> {
-        return try client.send(operation: "UpdateAgent", path: "/", httpMethod: "POST", input: input)
+    ///  Creates an endpoint for an Amazon S3 bucket. For AWS DataSync to access a destination S3 bucket, it needs an AWS Identity and Access Management (IAM) role that has the required permissions. You can set up the required permissions by creating an IAM policy that grants the required permissions and attaching the policy to the role. An example of such a policy is shown in the examples section. For more information, see Configuring Amazon S3 Location Settings in the AWS DataSync User Guide.
+    public func createLocationS3(_ input: CreateLocationS3Request) throws -> Future<CreateLocationS3Response> {
+        return try client.send(operation: "CreateLocationS3", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Applies a key-value pair to an AWS resource.
-    public func tagResource(_ input: TagResourceRequest) throws -> Future<TagResourceResponse> {
-        return try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    ///  Creates a task. A task is a set of two locations (source and destination) and a set of default OverrideOptions that you use to control the behavior of a task. If you don't specify default values for Options when you create a task, AWS DataSync populates them with safe service defaults. When you initially create a task, it enters the INITIALIZING status and then the CREATING status. In CREATING status, AWS DataSync attempts to mount the source Network File System (NFS) location. The task transitions to the AVAILABLE status without waiting for the destination location to mount. Instead, AWS DataSync mounts a destination before every task execution and then unmounts it after every task execution.  If an agent that is associated with a source (NFS) location goes offline, the task transitions to the UNAVAILABLE status. If the status of the task remains in the CREATING status for more than a few minutes, it means that your agent might be having trouble mounting the source NFS file system. Check the task's ErrorCode and ErrorDetail. Mount issues are often caused by either a misconfigured firewall or a mistyped NFS server host name.
+    public func createTask(_ input: CreateTaskRequest) throws -> Future<CreateTaskResponse> {
+        return try client.send(operation: "CreateTask", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes an agent. To specify which agent to delete, use the Amazon Resource Name (ARN) of the agent in your request. The operation disassociates the agent from your AWS account. However, it doesn't delete the agent virtual machine (VM) from your on-premises environment.  After you delete an agent, you can't reactivate it and you longer pay software charges for it. 
+    public func deleteAgent(_ input: DeleteAgentRequest) throws -> Future<DeleteAgentResponse> {
+        return try client.send(operation: "DeleteAgent", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the configuration of a location used by AWS DataSync. 
+    public func deleteLocation(_ input: DeleteLocationRequest) throws -> Future<DeleteLocationResponse> {
+        return try client.send(operation: "DeleteLocation", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a task.
+    public func deleteTask(_ input: DeleteTaskRequest) throws -> Future<DeleteTaskResponse> {
+        return try client.send(operation: "DeleteTask", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns metadata such as the name, the network interfaces, and the status (that is, whether the agent is running or not) for an agent. To specify which agent to describe, use the Amazon Resource Name (ARN) of the agent in your request. 
+    public func describeAgent(_ input: DescribeAgentRequest) throws -> Future<DescribeAgentResponse> {
+        return try client.send(operation: "DescribeAgent", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns metadata, such as the path information about an Amazon EFS location.
+    public func describeLocationEfs(_ input: DescribeLocationEfsRequest) throws -> Future<DescribeLocationEfsResponse> {
+        return try client.send(operation: "DescribeLocationEfs", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns metadata, such as the path information, about a NFS location.
+    public func describeLocationNfs(_ input: DescribeLocationNfsRequest) throws -> Future<DescribeLocationNfsResponse> {
+        return try client.send(operation: "DescribeLocationNfs", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns metadata, such as bucket name, about an Amazon S3 bucket location.
+    public func describeLocationS3(_ input: DescribeLocationS3Request) throws -> Future<DescribeLocationS3Response> {
+        return try client.send(operation: "DescribeLocationS3", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns metadata about a task.
+    public func describeTask(_ input: DescribeTaskRequest) throws -> Future<DescribeTaskResponse> {
+        return try client.send(operation: "DescribeTask", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns detailed metadata about a task that is being executed.
+    public func describeTaskExecution(_ input: DescribeTaskExecutionRequest) throws -> Future<DescribeTaskExecutionResponse> {
+        return try client.send(operation: "DescribeTaskExecution", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of agents owned by an AWS account in the AWS Region specified in the request. The returned list is ordered by agent Amazon Resource Name (ARN). By default, this operation returns a maximum of 100 agents. This operation supports pagination that enables you to optionally reduce the number of agents returned in a response. If you have more agents than are returned in a response (that is, the response returns only a truncated list of your agents), the response contains a marker that you can specify in your next request to fetch the next page of agents.
@@ -136,19 +111,44 @@ public struct DataSync {
         return try client.send(operation: "ListLocations", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns metadata, such as bucket name, about an Amazon S3 bucket location.
-    public func describeLocationS3(_ input: DescribeLocationS3Request) throws -> Future<DescribeLocationS3Response> {
-        return try client.send(operation: "DescribeLocationS3", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Returns all the tags associated with a specified resources. 
     public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> Future<ListTagsForResourceResponse> {
         return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns a list of executed tasks.
+    public func listTaskExecutions(_ input: ListTaskExecutionsRequest) throws -> Future<ListTaskExecutionsResponse> {
+        return try client.send(operation: "ListTaskExecutions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of all the tasks.
+    public func listTasks(_ input: ListTasksRequest) throws -> Future<ListTasksResponse> {
+        return try client.send(operation: "ListTasks", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Starts a specific invocation of a task. A TaskExecution value represents an individual run of a task. Each task can have at most one TaskExecution at a time.  TaskExecution has the following transition phases: INITIALIZING | PREPARING | TRANSFERRING | VERIFYING | SUCCESS/FAILURE.  For detailed information, see Task Execution in Components and Terminology in the AWS DataSync User Guide.
     public func startTaskExecution(_ input: StartTaskExecutionRequest) throws -> Future<StartTaskExecutionResponse> {
         return try client.send(operation: "StartTaskExecution", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Applies a key-value pair to an AWS resource.
+    public func tagResource(_ input: TagResourceRequest) throws -> Future<TagResourceResponse> {
+        return try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes a tag from an AWS resource.
+    public func untagResource(_ input: UntagResourceRequest) throws -> Future<UntagResourceResponse> {
+        return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the name of an agent.
+    public func updateAgent(_ input: UpdateAgentRequest) throws -> Future<UpdateAgentResponse> {
+        return try client.send(operation: "UpdateAgent", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the metadata associated with a task.
+    public func updateTask(_ input: UpdateTaskRequest) throws -> Future<UpdateTaskResponse> {
+        return try client.send(operation: "UpdateTask", path: "/", httpMethod: "POST", input: input)
     }
 
 

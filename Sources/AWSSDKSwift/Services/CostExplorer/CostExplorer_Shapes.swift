@@ -5,206 +5,10 @@ import AWSSDKSwiftCore
 
 extension CostExplorer {
 
-    public struct ReservationPurchaseRecommendationMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecommendationId", required: false, type: .string), 
-            AWSShapeMember(label: "GenerationTimestamp", required: false, type: .string)
-        ]
-        /// The ID for this specific recommendation.
-        public let recommendationId: String?
-        /// The time stamp for when AWS made this recommendation.
-        public let generationTimestamp: String?
-
-        public init(recommendationId: String? = nil, generationTimestamp: String? = nil) {
-            self.recommendationId = recommendationId
-            self.generationTimestamp = generationTimestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case recommendationId = "RecommendationId"
-            case generationTimestamp = "GenerationTimestamp"
-        }
-    }
-
-    public struct EC2InstanceDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tenancy", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "Family", required: false, type: .string), 
-            AWSShapeMember(label: "SizeFlexEligible", required: false, type: .boolean), 
-            AWSShapeMember(label: "CurrentGeneration", required: false, type: .boolean), 
-            AWSShapeMember(label: "Platform", required: false, type: .string), 
-            AWSShapeMember(label: "Region", required: false, type: .string)
-        ]
-        /// Whether the recommended reservation is dedicated or shared.
-        public let tenancy: String?
-        /// The type of instance that AWS recommends.
-        public let instanceType: String?
-        /// The Availability Zone of the recommended reservation.
-        public let availabilityZone: String?
-        /// The instance family of the recommended reservation.
-        public let family: String?
-        /// Whether the recommended reservation is size flexible.
-        public let sizeFlexEligible: Bool?
-        /// Whether the recommendation is for a current generation instance. 
-        public let currentGeneration: Bool?
-        /// The platform of the recommended reservation. The platform is the specific combination of operating system, license model, and software on an instance.
-        public let platform: String?
-        /// The AWS Region of the recommended reservation.
-        public let region: String?
-
-        public init(tenancy: String? = nil, instanceType: String? = nil, availabilityZone: String? = nil, family: String? = nil, sizeFlexEligible: Bool? = nil, currentGeneration: Bool? = nil, platform: String? = nil, region: String? = nil) {
-            self.tenancy = tenancy
-            self.instanceType = instanceType
-            self.availabilityZone = availabilityZone
-            self.family = family
-            self.sizeFlexEligible = sizeFlexEligible
-            self.currentGeneration = currentGeneration
-            self.platform = platform
-            self.region = region
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tenancy = "Tenancy"
-            case instanceType = "InstanceType"
-            case availabilityZone = "AvailabilityZone"
-            case family = "Family"
-            case sizeFlexEligible = "SizeFlexEligible"
-            case currentGeneration = "CurrentGeneration"
-            case platform = "Platform"
-            case region = "Region"
-        }
-    }
-
-    public struct TagValues: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Values", required: false, type: .list)
-        ]
-        /// The key for a tag.
-        public let key: String?
-        /// The specific value of a tag.
-        public let values: [String]?
-
-        public init(key: String? = nil, values: [String]? = nil) {
-            self.key = key
-            self.values = values
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case values = "Values"
-        }
-    }
-
-    public struct GetReservationCoverageResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "CoveragesByTime", required: true, type: .list), 
-            AWSShapeMember(label: "Total", required: false, type: .structure)
-        ]
-        /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
-        public let nextPageToken: String?
-        /// The amount of time that your reservations covered.
-        public let coveragesByTime: [CoverageByTime]
-        /// The total amount of instance usage that is covered by a reservation.
-        public let total: Coverage?
-
-        public init(nextPageToken: String? = nil, coveragesByTime: [CoverageByTime], total: Coverage? = nil) {
-            self.nextPageToken = nextPageToken
-            self.coveragesByTime = coveragesByTime
-            self.total = total
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextPageToken = "NextPageToken"
-            case coveragesByTime = "CoveragesByTime"
-            case total = "Total"
-        }
-    }
-
-    public struct CoverageHours: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CoverageHoursPercentage", required: false, type: .string), 
-            AWSShapeMember(label: "OnDemandHours", required: false, type: .string), 
-            AWSShapeMember(label: "TotalRunningHours", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedHours", required: false, type: .string)
-        ]
-        /// The percentage of instance hours that are covered by a reservation.
-        public let coverageHoursPercentage: String?
-        /// The number of instance running hours that are covered by On-Demand Instances.
-        public let onDemandHours: String?
-        /// The total instance usage, in hours.
-        public let totalRunningHours: String?
-        /// The number of instance running hours that are covered by reservations.
-        public let reservedHours: String?
-
-        public init(coverageHoursPercentage: String? = nil, onDemandHours: String? = nil, totalRunningHours: String? = nil, reservedHours: String? = nil) {
-            self.coverageHoursPercentage = coverageHoursPercentage
-            self.onDemandHours = onDemandHours
-            self.totalRunningHours = totalRunningHours
-            self.reservedHours = reservedHours
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case coverageHoursPercentage = "CoverageHoursPercentage"
-            case onDemandHours = "OnDemandHours"
-            case totalRunningHours = "TotalRunningHours"
-            case reservedHours = "ReservedHours"
-        }
-    }
-
     public enum AccountScope: String, CustomStringConvertible, Codable {
         case payer = "PAYER"
         case linked = "LINKED"
         public var description: String { return self.rawValue }
-    }
-
-    public struct ReservationPurchaseRecommendation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountScope", required: false, type: .enum), 
-            AWSShapeMember(label: "ServiceSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "RecommendationDetails", required: false, type: .list), 
-            AWSShapeMember(label: "TermInYears", required: false, type: .enum), 
-            AWSShapeMember(label: "RecommendationSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "LookbackPeriodInDays", required: false, type: .enum), 
-            AWSShapeMember(label: "PaymentOption", required: false, type: .enum)
-        ]
-        /// The account scope that AWS recommends that you purchase this instance for. For example, you can purchase this reservation for an entire organization in AWS Organizations.
-        public let accountScope: AccountScope?
-        /// Hardware specifications for the service that you want recommendations for.
-        public let serviceSpecification: ServiceSpecification?
-        /// Details about the recommended purchases.
-        public let recommendationDetails: [ReservationPurchaseRecommendationDetail]?
-        /// The term of the reservation that you want recommendations for, in years.
-        public let termInYears: TermInYears?
-        /// A summary about the recommended purchase.
-        public let recommendationSummary: ReservationPurchaseRecommendationSummary?
-        /// How many days of previous usage that AWS considers when making this recommendation.
-        public let lookbackPeriodInDays: LookbackPeriodInDays?
-        /// The payment option for the reservation. For example, AllUpfront or NoUpfront.
-        public let paymentOption: PaymentOption?
-
-        public init(accountScope: AccountScope? = nil, serviceSpecification: ServiceSpecification? = nil, recommendationDetails: [ReservationPurchaseRecommendationDetail]? = nil, termInYears: TermInYears? = nil, recommendationSummary: ReservationPurchaseRecommendationSummary? = nil, lookbackPeriodInDays: LookbackPeriodInDays? = nil, paymentOption: PaymentOption? = nil) {
-            self.accountScope = accountScope
-            self.serviceSpecification = serviceSpecification
-            self.recommendationDetails = recommendationDetails
-            self.termInYears = termInYears
-            self.recommendationSummary = recommendationSummary
-            self.lookbackPeriodInDays = lookbackPeriodInDays
-            self.paymentOption = paymentOption
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountScope = "AccountScope"
-            case serviceSpecification = "ServiceSpecification"
-            case recommendationDetails = "RecommendationDetails"
-            case termInYears = "TermInYears"
-            case recommendationSummary = "RecommendationSummary"
-            case lookbackPeriodInDays = "LookbackPeriodInDays"
-            case paymentOption = "PaymentOption"
-        }
     }
 
     public enum Context: String, CustomStringConvertible, Codable {
@@ -213,175 +17,76 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
-    public struct Group: AWSShape {
+    public struct Coverage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Metrics", required: false, type: .map), 
-            AWSShapeMember(label: "Keys", required: false, type: .list)
+            AWSShapeMember(label: "CoverageHours", required: false, type: .structure)
         ]
-        /// The metrics that are included in this group.
-        public let metrics: [String: MetricValue]?
-        /// The keys that are included in this group.
-        public let keys: [String]?
+        /// The amount of instance usage that a reservation covered, in hours.
+        public let coverageHours: CoverageHours?
 
-        public init(metrics: [String: MetricValue]? = nil, keys: [String]? = nil) {
-            self.metrics = metrics
-            self.keys = keys
+        public init(coverageHours: CoverageHours? = nil) {
+            self.coverageHours = coverageHours
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metrics = "Metrics"
-            case keys = "Keys"
+            case coverageHours = "CoverageHours"
         }
-    }
-
-    public enum Granularity: String, CustomStringConvertible, Codable {
-        case daily = "DAILY"
-        case monthly = "MONTHLY"
-        case hourly = "HOURLY"
-        public var description: String { return self.rawValue }
     }
 
     public struct CoverageByTime: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TimePeriod", required: false, type: .structure), 
             AWSShapeMember(label: "Groups", required: false, type: .list), 
+            AWSShapeMember(label: "TimePeriod", required: false, type: .structure), 
             AWSShapeMember(label: "Total", required: false, type: .structure)
         ]
-        /// The period over which this coverage was used.
-        public let timePeriod: DateInterval?
         /// The groups of instances that are covered by a reservation.
         public let groups: [ReservationCoverageGroup]?
+        /// The period over which this coverage was used.
+        public let timePeriod: DateInterval?
         /// The total reservation coverage, in hours.
         public let total: Coverage?
 
-        public init(timePeriod: DateInterval? = nil, groups: [ReservationCoverageGroup]? = nil, total: Coverage? = nil) {
-            self.timePeriod = timePeriod
+        public init(groups: [ReservationCoverageGroup]? = nil, timePeriod: DateInterval? = nil, total: Coverage? = nil) {
             self.groups = groups
+            self.timePeriod = timePeriod
             self.total = total
         }
 
         private enum CodingKeys: String, CodingKey {
-            case timePeriod = "TimePeriod"
             case groups = "Groups"
+            case timePeriod = "TimePeriod"
             case total = "Total"
         }
     }
 
-    public class Expression: AWSShape {
+    public struct CoverageHours: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Dimensions", required: false, type: .structure), 
-            AWSShapeMember(label: "Or", required: false, type: .list), 
-            AWSShapeMember(label: "Not", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .structure), 
-            AWSShapeMember(label: "And", required: false, type: .list)
+            AWSShapeMember(label: "CoverageHoursPercentage", required: false, type: .string), 
+            AWSShapeMember(label: "OnDemandHours", required: false, type: .string), 
+            AWSShapeMember(label: "ReservedHours", required: false, type: .string), 
+            AWSShapeMember(label: "TotalRunningHours", required: false, type: .string)
         ]
-        /// The specific Dimension to use for Expression.
-        public let dimensions: DimensionValues?
-        /// Return results that match either Dimension object.
-        public let or: [Expression]?
-        /// Return results that don't match a Dimension object.
-        public let not: Expression?
-        /// The specific Tag to use for Expression.
-        public let tags: TagValues?
-        /// Return results that match both Dimension objects.
-        public let and: [Expression]?
+        /// The percentage of instance hours that are covered by a reservation.
+        public let coverageHoursPercentage: String?
+        /// The number of instance running hours that are covered by On-Demand Instances.
+        public let onDemandHours: String?
+        /// The number of instance running hours that are covered by reservations.
+        public let reservedHours: String?
+        /// The total instance usage, in hours.
+        public let totalRunningHours: String?
 
-        public init(dimensions: DimensionValues? = nil, or: [Expression]? = nil, not: Expression? = nil, tags: TagValues? = nil, and: [Expression]? = nil) {
-            self.dimensions = dimensions
-            self.or = or
-            self.not = not
-            self.tags = tags
-            self.and = and
+        public init(coverageHoursPercentage: String? = nil, onDemandHours: String? = nil, reservedHours: String? = nil, totalRunningHours: String? = nil) {
+            self.coverageHoursPercentage = coverageHoursPercentage
+            self.onDemandHours = onDemandHours
+            self.reservedHours = reservedHours
+            self.totalRunningHours = totalRunningHours
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dimensions = "Dimensions"
-            case or = "Or"
-            case not = "Not"
-            case tags = "Tags"
-            case and = "And"
-        }
-    }
-
-    public struct GetReservationPurchaseRecommendationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountScope", required: false, type: .enum), 
-            AWSShapeMember(label: "ServiceSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "Service", required: true, type: .string), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "TermInYears", required: false, type: .enum), 
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "LookbackPeriodInDays", required: false, type: .enum), 
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "PaymentOption", required: false, type: .enum)
-        ]
-        /// The account scope that you want recommendations for. PAYER means that AWS includes the master account and any member accounts when it calculates its recommendations. LINKED means that AWS includes only member accounts when it calculates its recommendations. Valid values are PAYER and LINKED.
-        public let accountScope: AccountScope?
-        /// The hardware specifications for the service instances that you want recommendations for, such as standard or convertible EC2 instances.
-        public let serviceSpecification: ServiceSpecification?
-        /// The specific service that you want recommendations for.
-        public let service: String
-        /// The pagination token that indicates the next set of results that you want to retrieve.
-        public let nextPageToken: String?
-        /// The reservation term that you want recommendations for.
-        public let termInYears: TermInYears?
-        /// The account ID that is associated with the recommendation. 
-        public let accountId: String?
-        /// The number of previous days that you want AWS to consider when it calculates your recommendations.
-        public let lookbackPeriodInDays: LookbackPeriodInDays?
-        /// The number of recommendations that you want returned in a single response object.
-        public let pageSize: Int32?
-        /// The reservation purchase option that you want recommendations for.
-        public let paymentOption: PaymentOption?
-
-        public init(accountScope: AccountScope? = nil, serviceSpecification: ServiceSpecification? = nil, service: String, nextPageToken: String? = nil, termInYears: TermInYears? = nil, accountId: String? = nil, lookbackPeriodInDays: LookbackPeriodInDays? = nil, pageSize: Int32? = nil, paymentOption: PaymentOption? = nil) {
-            self.accountScope = accountScope
-            self.serviceSpecification = serviceSpecification
-            self.service = service
-            self.nextPageToken = nextPageToken
-            self.termInYears = termInYears
-            self.accountId = accountId
-            self.lookbackPeriodInDays = lookbackPeriodInDays
-            self.pageSize = pageSize
-            self.paymentOption = paymentOption
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountScope = "AccountScope"
-            case serviceSpecification = "ServiceSpecification"
-            case service = "Service"
-            case nextPageToken = "NextPageToken"
-            case termInYears = "TermInYears"
-            case accountId = "AccountId"
-            case lookbackPeriodInDays = "LookbackPeriodInDays"
-            case pageSize = "PageSize"
-            case paymentOption = "PaymentOption"
-        }
-    }
-
-    public struct UtilizationByTime: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TimePeriod", required: false, type: .structure), 
-            AWSShapeMember(label: "Groups", required: false, type: .list), 
-            AWSShapeMember(label: "Total", required: false, type: .structure)
-        ]
-        /// The period of time over which this utilization was used.
-        public let timePeriod: DateInterval?
-        /// The groups that are included in this utilization result.
-        public let groups: [ReservationUtilizationGroup]?
-        /// The total number of RI hours that were used.
-        public let total: ReservationAggregates?
-
-        public init(timePeriod: DateInterval? = nil, groups: [ReservationUtilizationGroup]? = nil, total: ReservationAggregates? = nil) {
-            self.timePeriod = timePeriod
-            self.groups = groups
-            self.total = total
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case timePeriod = "TimePeriod"
-            case groups = "Groups"
-            case total = "Total"
+            case coverageHoursPercentage = "CoverageHoursPercentage"
+            case onDemandHours = "OnDemandHours"
+            case reservedHours = "ReservedHours"
+            case totalRunningHours = "TotalRunningHours"
         }
     }
 
@@ -432,703 +137,6 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
-    public struct MetricValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Unit", required: false, type: .string), 
-            AWSShapeMember(label: "Amount", required: false, type: .string)
-        ]
-        /// The unit that the metric is given in.
-        public let unit: String?
-        /// The actual number that represents the metric.
-        public let amount: String?
-
-        public init(unit: String? = nil, amount: String? = nil) {
-            self.unit = unit
-            self.amount = amount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case unit = "Unit"
-            case amount = "Amount"
-        }
-    }
-
-    public struct EC2Specification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OfferingClass", required: false, type: .enum)
-        ]
-        /// Whether you want a recommendation for standard or convertible reservations.
-        public let offeringClass: OfferingClass?
-
-        public init(offeringClass: OfferingClass? = nil) {
-            self.offeringClass = offeringClass
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case offeringClass = "OfferingClass"
-        }
-    }
-
-    public struct GetCostAndUsageResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResultsByTime", required: false, type: .list), 
-            AWSShapeMember(label: "GroupDefinitions", required: false, type: .list)
-        ]
-        /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
-        public let nextPageToken: String?
-        /// The time period that is covered by the results in the response.
-        public let resultsByTime: [ResultByTime]?
-        /// The groups that are specified by the Filter or GroupBy parameters in the request.
-        public let groupDefinitions: [GroupDefinition]?
-
-        public init(nextPageToken: String? = nil, resultsByTime: [ResultByTime]? = nil, groupDefinitions: [GroupDefinition]? = nil) {
-            self.nextPageToken = nextPageToken
-            self.resultsByTime = resultsByTime
-            self.groupDefinitions = groupDefinitions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextPageToken = "NextPageToken"
-            case resultsByTime = "ResultsByTime"
-            case groupDefinitions = "GroupDefinitions"
-        }
-    }
-
-    public struct GetCostAndUsageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "GroupBy", required: false, type: .list), 
-            AWSShapeMember(label: "TimePeriod", required: false, type: .structure), 
-            AWSShapeMember(label: "Metrics", required: false, type: .list), 
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "Granularity", required: false, type: .enum)
-        ]
-        /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
-        public let nextPageToken: String?
-        /// You can group AWS costs using up to two different groups, either dimensions, tag keys, or both. When you group by tag key, you get all tag values, including empty strings. Valid values are AZ, INSTANCE_TYPE, LEGAL_ENTITY_NAME, LINKED_ACCOUNT, OPERATION, PLATFORM, PURCHASE_TYPE, SERVICE, TAGS, TENANCY, and USAGE_TYPE.
-        public let groupBy: [GroupDefinition]?
-        /// Sets the start and end dates for retrieving AWS costs. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
-        public let timePeriod: DateInterval?
-        /// Which metrics are returned in the query. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.   If you return the UsageQuantity metric, the service aggregates all usage numbers without taking into account the units. For example, if you aggregate usageQuantity across all of EC2, the results aren't meaningful because EC2 compute hours and data transfer are measured in different units (for example, hours vs. GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups.    Metrics is required for GetCostAndUsage requests.
-        public let metrics: [String]?
-        /// Filters AWS costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression. 
-        public let filter: Expression?
-        /// Sets the AWS cost granularity to MONTHLY or DAILY. If Granularity isn't set, the response object doesn't include the Granularity, either MONTHLY or DAILY. 
-        public let granularity: Granularity?
-
-        public init(nextPageToken: String? = nil, groupBy: [GroupDefinition]? = nil, timePeriod: DateInterval? = nil, metrics: [String]? = nil, filter: Expression? = nil, granularity: Granularity? = nil) {
-            self.nextPageToken = nextPageToken
-            self.groupBy = groupBy
-            self.timePeriod = timePeriod
-            self.metrics = metrics
-            self.filter = filter
-            self.granularity = granularity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextPageToken = "NextPageToken"
-            case groupBy = "GroupBy"
-            case timePeriod = "TimePeriod"
-            case metrics = "Metrics"
-            case filter = "Filter"
-            case granularity = "Granularity"
-        }
-    }
-
-    public struct ReservationCoverageGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Coverage", required: false, type: .structure), 
-            AWSShapeMember(label: "Attributes", required: false, type: .map)
-        ]
-        /// How much instance usage this group of reservations covered.
-        public let coverage: Coverage?
-        /// The attributes for this group of reservations.
-        public let attributes: [String: String]?
-
-        public init(coverage: Coverage? = nil, attributes: [String: String]? = nil) {
-            self.coverage = coverage
-            self.attributes = attributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case coverage = "Coverage"
-            case attributes = "Attributes"
-        }
-    }
-
-    public struct RedshiftInstanceDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Region", required: false, type: .string), 
-            AWSShapeMember(label: "NodeType", required: false, type: .string), 
-            AWSShapeMember(label: "CurrentGeneration", required: false, type: .boolean), 
-            AWSShapeMember(label: "Family", required: false, type: .string), 
-            AWSShapeMember(label: "SizeFlexEligible", required: false, type: .boolean)
-        ]
-        /// The AWS Region of the recommended reservation.
-        public let region: String?
-        /// The type of node that AWS recommends.
-        public let nodeType: String?
-        /// Whether the recommendation is for a current generation instance.
-        public let currentGeneration: Bool?
-        /// The instance family of the recommended reservation.
-        public let family: String?
-        /// Whether the recommended reservation is size flexible.
-        public let sizeFlexEligible: Bool?
-
-        public init(region: String? = nil, nodeType: String? = nil, currentGeneration: Bool? = nil, family: String? = nil, sizeFlexEligible: Bool? = nil) {
-            self.region = region
-            self.nodeType = nodeType
-            self.currentGeneration = currentGeneration
-            self.family = family
-            self.sizeFlexEligible = sizeFlexEligible
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case region = "Region"
-            case nodeType = "NodeType"
-            case currentGeneration = "CurrentGeneration"
-            case family = "Family"
-            case sizeFlexEligible = "SizeFlexEligible"
-        }
-    }
-
-    public struct GetDimensionValuesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Dimension", required: true, type: .enum), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "Context", required: false, type: .enum), 
-            AWSShapeMember(label: "TimePeriod", required: true, type: .structure), 
-            AWSShapeMember(label: "SearchString", required: false, type: .string)
-        ]
-        /// The name of the dimension. Each Dimension is available for different a Context. For more information, see Context.
-        public let dimension: Dimension
-        /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
-        public let nextPageToken: String?
-        /// The context for the call to GetDimensionValues. This can be RESERVATIONS or COST_AND_USAGE. The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE the resulting dimension values can be used in the GetCostAndUsage operation. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of EC2 instance. An example is m4.xlarge.   LEGAL_ENTITY_NAME - The name of the organization that sells you AWS services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related. Examples include On-Demand Instances and Standard Reserved Instances.   SERVICE - The AWS service such as Amazon DynamoDB.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and credits.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   PLATFORM - The EC2 operating system. Examples are Windows or Linux.   REGION - The AWS Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.  
-        public let context: Context?
-        /// The start and end dates for retrieving the dimension values. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
-        public let timePeriod: DateInterval
-        /// The value that you want to search the filter values for.
-        public let searchString: String?
-
-        public init(dimension: Dimension, nextPageToken: String? = nil, context: Context? = nil, timePeriod: DateInterval, searchString: String? = nil) {
-            self.dimension = dimension
-            self.nextPageToken = nextPageToken
-            self.context = context
-            self.timePeriod = timePeriod
-            self.searchString = searchString
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dimension = "Dimension"
-            case nextPageToken = "NextPageToken"
-            case context = "Context"
-            case timePeriod = "TimePeriod"
-            case searchString = "SearchString"
-        }
-    }
-
-    public struct GetDimensionValuesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TotalSize", required: true, type: .integer), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "ReturnSize", required: true, type: .integer), 
-            AWSShapeMember(label: "DimensionValues", required: true, type: .list)
-        ]
-        /// The total number of search results.
-        public let totalSize: Int32
-        /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
-        public let nextPageToken: String?
-        /// The number of results that AWS returned at one time.
-        public let returnSize: Int32
-        /// The filters that you used to filter your request. Some dimensions are available only for a specific context: If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of EC2 instance. An example is m4.xlarge.   LEGAL_ENTITY_NAME - The name of the organization that sells you AWS services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related. Examples include On-Demand Instances and Standard Reserved Instances.   SERVICE - The AWS service such as Amazon DynamoDB.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and credits.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   PLATFORM - The EC2 operating system. Examples are Windows or Linux.   REGION - The AWS Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.  
-        public let dimensionValues: [DimensionValuesWithAttributes]
-
-        public init(totalSize: Int32, nextPageToken: String? = nil, returnSize: Int32, dimensionValues: [DimensionValuesWithAttributes]) {
-            self.totalSize = totalSize
-            self.nextPageToken = nextPageToken
-            self.returnSize = returnSize
-            self.dimensionValues = dimensionValues
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case totalSize = "TotalSize"
-            case nextPageToken = "NextPageToken"
-            case returnSize = "ReturnSize"
-            case dimensionValues = "DimensionValues"
-        }
-    }
-
-    public enum OfferingClass: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
-        case convertible = "CONVERTIBLE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ReservationPurchaseRecommendationSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TotalEstimatedMonthlySavingsAmount", required: false, type: .string), 
-            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
-            AWSShapeMember(label: "TotalEstimatedMonthlySavingsPercentage", required: false, type: .string)
-        ]
-        /// The total amount that AWS estimates that this recommendation could save you in a month.
-        public let totalEstimatedMonthlySavingsAmount: String?
-        /// The currency code used for this recommendation.
-        public let currencyCode: String?
-        /// The total amount that AWS estimates that this recommendation could save you in a month, as a percentage of your costs.
-        public let totalEstimatedMonthlySavingsPercentage: String?
-
-        public init(totalEstimatedMonthlySavingsAmount: String? = nil, currencyCode: String? = nil, totalEstimatedMonthlySavingsPercentage: String? = nil) {
-            self.totalEstimatedMonthlySavingsAmount = totalEstimatedMonthlySavingsAmount
-            self.currencyCode = currencyCode
-            self.totalEstimatedMonthlySavingsPercentage = totalEstimatedMonthlySavingsPercentage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case totalEstimatedMonthlySavingsAmount = "TotalEstimatedMonthlySavingsAmount"
-            case currencyCode = "CurrencyCode"
-            case totalEstimatedMonthlySavingsPercentage = "TotalEstimatedMonthlySavingsPercentage"
-        }
-    }
-
-    public struct InstanceDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ESInstanceDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "ElastiCacheInstanceDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "RedshiftInstanceDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "EC2InstanceDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "RDSInstanceDetails", required: false, type: .structure)
-        ]
-        /// The Amazon ES instances that AWS recommends that you purchase.
-        public let eSInstanceDetails: ESInstanceDetails?
-        /// The ElastiCache instances that AWS recommends that you purchase.
-        public let elastiCacheInstanceDetails: ElastiCacheInstanceDetails?
-        /// The Amazon Redshift instances that AWS recommends that you purchase.
-        public let redshiftInstanceDetails: RedshiftInstanceDetails?
-        /// The EC2 instances that AWS recommends that you purchase.
-        public let eC2InstanceDetails: EC2InstanceDetails?
-        /// The RDS instances that AWS recommends that you purchase.
-        public let rDSInstanceDetails: RDSInstanceDetails?
-
-        public init(eSInstanceDetails: ESInstanceDetails? = nil, elastiCacheInstanceDetails: ElastiCacheInstanceDetails? = nil, redshiftInstanceDetails: RedshiftInstanceDetails? = nil, eC2InstanceDetails: EC2InstanceDetails? = nil, rDSInstanceDetails: RDSInstanceDetails? = nil) {
-            self.eSInstanceDetails = eSInstanceDetails
-            self.elastiCacheInstanceDetails = elastiCacheInstanceDetails
-            self.redshiftInstanceDetails = redshiftInstanceDetails
-            self.eC2InstanceDetails = eC2InstanceDetails
-            self.rDSInstanceDetails = rDSInstanceDetails
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eSInstanceDetails = "ESInstanceDetails"
-            case elastiCacheInstanceDetails = "ElastiCacheInstanceDetails"
-            case redshiftInstanceDetails = "RedshiftInstanceDetails"
-            case eC2InstanceDetails = "EC2InstanceDetails"
-            case rDSInstanceDetails = "RDSInstanceDetails"
-        }
-    }
-
-    public enum GroupDefinitionType: String, CustomStringConvertible, Codable {
-        case dimension = "DIMENSION"
-        case tag = "TAG"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "TimePeriod", required: true, type: .structure), 
-            AWSShapeMember(label: "TagKey", required: false, type: .string), 
-            AWSShapeMember(label: "SearchString", required: false, type: .string)
-        ]
-        /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
-        public let nextPageToken: String?
-        /// The start and end dates for retrieving the dimension values. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
-        public let timePeriod: DateInterval
-        /// The key of the tag that you want to return values for.
-        public let tagKey: String?
-        /// The value that you want to search for.
-        public let searchString: String?
-
-        public init(nextPageToken: String? = nil, timePeriod: DateInterval, tagKey: String? = nil, searchString: String? = nil) {
-            self.nextPageToken = nextPageToken
-            self.timePeriod = timePeriod
-            self.tagKey = tagKey
-            self.searchString = searchString
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextPageToken = "NextPageToken"
-            case timePeriod = "TimePeriod"
-            case tagKey = "TagKey"
-            case searchString = "SearchString"
-        }
-    }
-
-    public struct ForecastResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TimePeriod", required: false, type: .structure), 
-            AWSShapeMember(label: "PredictionIntervalUpperBound", required: false, type: .string), 
-            AWSShapeMember(label: "PredictionIntervalLowerBound", required: false, type: .string), 
-            AWSShapeMember(label: "MeanValue", required: false, type: .string)
-        ]
-        /// The period of time that the forecast covers.
-        public let timePeriod: DateInterval?
-        /// The upper limit for the prediction interval. 
-        public let predictionIntervalUpperBound: String?
-        /// The lower limit for the prediction interval. 
-        public let predictionIntervalLowerBound: String?
-        /// The mean value of the forecast.
-        public let meanValue: String?
-
-        public init(timePeriod: DateInterval? = nil, predictionIntervalUpperBound: String? = nil, predictionIntervalLowerBound: String? = nil, meanValue: String? = nil) {
-            self.timePeriod = timePeriod
-            self.predictionIntervalUpperBound = predictionIntervalUpperBound
-            self.predictionIntervalLowerBound = predictionIntervalLowerBound
-            self.meanValue = meanValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case timePeriod = "TimePeriod"
-            case predictionIntervalUpperBound = "PredictionIntervalUpperBound"
-            case predictionIntervalLowerBound = "PredictionIntervalLowerBound"
-            case meanValue = "MeanValue"
-        }
-    }
-
-    public struct GetCostForecastResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Total", required: false, type: .structure), 
-            AWSShapeMember(label: "ForecastResultsByTime", required: false, type: .list)
-        ]
-        /// How much you are forecasted to spend over the forecast period, in USD.
-        public let total: MetricValue?
-        /// The forecasts for your query, in order. For DAILY forecasts, this is a list of days. For MONTHLY forecasts, this is a list of months.
-        public let forecastResultsByTime: [ForecastResult]?
-
-        public init(total: MetricValue? = nil, forecastResultsByTime: [ForecastResult]? = nil) {
-            self.total = total
-            self.forecastResultsByTime = forecastResultsByTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case total = "Total"
-            case forecastResultsByTime = "ForecastResultsByTime"
-        }
-    }
-
-    public struct GetTagsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TotalSize", required: true, type: .integer), 
-            AWSShapeMember(label: "ReturnSize", required: true, type: .integer), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
-        /// The total number of query results.
-        public let totalSize: Int32
-        /// The number of query results that AWS returns at a time.
-        public let returnSize: Int32
-        /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
-        public let nextPageToken: String?
-        /// The tags that match your request.
-        public let tags: [String]
-
-        public init(totalSize: Int32, returnSize: Int32, nextPageToken: String? = nil, tags: [String]) {
-            self.totalSize = totalSize
-            self.returnSize = returnSize
-            self.nextPageToken = nextPageToken
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case totalSize = "TotalSize"
-            case returnSize = "ReturnSize"
-            case nextPageToken = "NextPageToken"
-            case tags = "Tags"
-        }
-    }
-
-    public struct RDSInstanceDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "DeploymentOption", required: false, type: .string), 
-            AWSShapeMember(label: "Family", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseEngine", required: false, type: .string), 
-            AWSShapeMember(label: "CurrentGeneration", required: false, type: .boolean), 
-            AWSShapeMember(label: "SizeFlexEligible", required: false, type: .boolean), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseEdition", required: false, type: .string), 
-            AWSShapeMember(label: "Region", required: false, type: .string)
-        ]
-        /// The type of instance that AWS recommends.
-        public let instanceType: String?
-        /// Whether the recommendation is for a reservation in a single Availability Zone or a reservation with a backup in a second Availability Zone.
-        public let deploymentOption: String?
-        /// The instance family of the recommended reservation.
-        public let family: String?
-        /// The database engine that the recommended reservation supports.
-        public let databaseEngine: String?
-        /// Whether the recommendation is for a current generation instance. 
-        public let currentGeneration: Bool?
-        /// Whether the recommended reservation is size flexible.
-        public let sizeFlexEligible: Bool?
-        /// The license model that the recommended reservation supports.
-        public let licenseModel: String?
-        /// The database edition that the recommended reservation supports.
-        public let databaseEdition: String?
-        /// The AWS Region of the recommended reservation.
-        public let region: String?
-
-        public init(instanceType: String? = nil, deploymentOption: String? = nil, family: String? = nil, databaseEngine: String? = nil, currentGeneration: Bool? = nil, sizeFlexEligible: Bool? = nil, licenseModel: String? = nil, databaseEdition: String? = nil, region: String? = nil) {
-            self.instanceType = instanceType
-            self.deploymentOption = deploymentOption
-            self.family = family
-            self.databaseEngine = databaseEngine
-            self.currentGeneration = currentGeneration
-            self.sizeFlexEligible = sizeFlexEligible
-            self.licenseModel = licenseModel
-            self.databaseEdition = databaseEdition
-            self.region = region
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceType = "InstanceType"
-            case deploymentOption = "DeploymentOption"
-            case family = "Family"
-            case databaseEngine = "DatabaseEngine"
-            case currentGeneration = "CurrentGeneration"
-            case sizeFlexEligible = "SizeFlexEligible"
-            case licenseModel = "LicenseModel"
-            case databaseEdition = "DatabaseEdition"
-            case region = "Region"
-        }
-    }
-
-    public struct ESInstanceDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Region", required: false, type: .string), 
-            AWSShapeMember(label: "CurrentGeneration", required: false, type: .boolean), 
-            AWSShapeMember(label: "InstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "SizeFlexEligible", required: false, type: .boolean), 
-            AWSShapeMember(label: "InstanceSize", required: false, type: .string)
-        ]
-        /// The AWS Region of the recommended reservation.
-        public let region: String?
-        /// Whether the recommendation is for a current generation instance.
-        public let currentGeneration: Bool?
-        /// The class of instance that AWS recommends.
-        public let instanceClass: String?
-        /// Whether the recommended reservation is size flexible.
-        public let sizeFlexEligible: Bool?
-        /// The size of instance that AWS recommends.
-        public let instanceSize: String?
-
-        public init(region: String? = nil, currentGeneration: Bool? = nil, instanceClass: String? = nil, sizeFlexEligible: Bool? = nil, instanceSize: String? = nil) {
-            self.region = region
-            self.currentGeneration = currentGeneration
-            self.instanceClass = instanceClass
-            self.sizeFlexEligible = sizeFlexEligible
-            self.instanceSize = instanceSize
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case region = "Region"
-            case currentGeneration = "CurrentGeneration"
-            case instanceClass = "InstanceClass"
-            case sizeFlexEligible = "SizeFlexEligible"
-            case instanceSize = "InstanceSize"
-        }
-    }
-
-    public struct ReservationPurchaseRecommendationDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AverageNormalizedUnitsUsedPerHour", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedMonthlyOnDemandCost", required: false, type: .string), 
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "RecurringStandardMonthlyCost", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedMonthlySavingsAmount", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "AverageUtilization", required: false, type: .string), 
-            AWSShapeMember(label: "MinimumNumberOfInstancesUsedPerHour", required: false, type: .string), 
-            AWSShapeMember(label: "UpfrontCost", required: false, type: .string), 
-            AWSShapeMember(label: "AverageNumberOfInstancesUsedPerHour", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedReservationCostForLookbackPeriod", required: false, type: .string), 
-            AWSShapeMember(label: "MaximumNormalizedUnitsUsedPerHour", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedBreakEvenInMonths", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedMonthlySavingsPercentage", required: false, type: .string), 
-            AWSShapeMember(label: "MinimumNormalizedUnitsUsedPerHour", required: false, type: .string), 
-            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
-            AWSShapeMember(label: "RecommendedNumberOfInstancesToPurchase", required: false, type: .string), 
-            AWSShapeMember(label: "RecommendedNormalizedUnitsToPurchase", required: false, type: .string), 
-            AWSShapeMember(label: "MaximumNumberOfInstancesUsedPerHour", required: false, type: .string)
-        ]
-        /// The average number of normalized units that you used in an hour during the historical period. AWS uses this to calculate your recommended reservation purchases.
-        public let averageNormalizedUnitsUsedPerHour: String?
-        /// How much AWS estimates that you spend on On-Demand Instances in a month.
-        public let estimatedMonthlyOnDemandCost: String?
-        public let accountId: String?
-        /// How much purchasing this instance costs you on a monthly basis.
-        public let recurringStandardMonthlyCost: String?
-        /// How much AWS estimates that this specific recommendation could save you in a month.
-        public let estimatedMonthlySavingsAmount: String?
-        /// Details about the instances that AWS recommends that you purchase.
-        public let instanceDetails: InstanceDetails?
-        /// The average utilization of your instances. AWS uses this to calculate your recommended reservation purchases.
-        public let averageUtilization: String?
-        /// The minimum number of instances that you used in an hour during the historical period. AWS uses this to calculate your recommended reservation purchases.
-        public let minimumNumberOfInstancesUsedPerHour: String?
-        /// How much purchasing this instance costs you upfront.
-        public let upfrontCost: String?
-        /// The average number of instances that you used in an hour during the historical period. AWS uses this to calculate your recommended reservation purchases.
-        public let averageNumberOfInstancesUsedPerHour: String?
-        /// How much AWS estimates that you would have spent for all usage during the specified historical period if you had had a reservation.
-        public let estimatedReservationCostForLookbackPeriod: String?
-        /// The maximum number of normalized units that you used in an hour during the historical period. AWS uses this to calculate your recommended reservation purchases.
-        public let maximumNormalizedUnitsUsedPerHour: String?
-        /// How long AWS estimates that it takes for this instance to start saving you money, in months.
-        public let estimatedBreakEvenInMonths: String?
-        /// How much AWS estimates that this specific recommendation could save you in a month, as a percentage of your overall costs.
-        public let estimatedMonthlySavingsPercentage: String?
-        /// The minimum number of hours that you used in an hour during the historical period. AWS uses this to calculate your recommended reservation purchases.
-        public let minimumNormalizedUnitsUsedPerHour: String?
-        /// The currency code that AWS used to calculate the costs for this instance.
-        public let currencyCode: String?
-        /// The number of instances that AWS recommends that you purchase.
-        public let recommendedNumberOfInstancesToPurchase: String?
-        /// The number of normalized units that AWS recommends that you purchase.
-        public let recommendedNormalizedUnitsToPurchase: String?
-        /// The maximum number of instances that you used in an hour during the historical period. AWS uses this to calculate your recommended reservation purchases.
-        public let maximumNumberOfInstancesUsedPerHour: String?
-
-        public init(averageNormalizedUnitsUsedPerHour: String? = nil, estimatedMonthlyOnDemandCost: String? = nil, accountId: String? = nil, recurringStandardMonthlyCost: String? = nil, estimatedMonthlySavingsAmount: String? = nil, instanceDetails: InstanceDetails? = nil, averageUtilization: String? = nil, minimumNumberOfInstancesUsedPerHour: String? = nil, upfrontCost: String? = nil, averageNumberOfInstancesUsedPerHour: String? = nil, estimatedReservationCostForLookbackPeriod: String? = nil, maximumNormalizedUnitsUsedPerHour: String? = nil, estimatedBreakEvenInMonths: String? = nil, estimatedMonthlySavingsPercentage: String? = nil, minimumNormalizedUnitsUsedPerHour: String? = nil, currencyCode: String? = nil, recommendedNumberOfInstancesToPurchase: String? = nil, recommendedNormalizedUnitsToPurchase: String? = nil, maximumNumberOfInstancesUsedPerHour: String? = nil) {
-            self.averageNormalizedUnitsUsedPerHour = averageNormalizedUnitsUsedPerHour
-            self.estimatedMonthlyOnDemandCost = estimatedMonthlyOnDemandCost
-            self.accountId = accountId
-            self.recurringStandardMonthlyCost = recurringStandardMonthlyCost
-            self.estimatedMonthlySavingsAmount = estimatedMonthlySavingsAmount
-            self.instanceDetails = instanceDetails
-            self.averageUtilization = averageUtilization
-            self.minimumNumberOfInstancesUsedPerHour = minimumNumberOfInstancesUsedPerHour
-            self.upfrontCost = upfrontCost
-            self.averageNumberOfInstancesUsedPerHour = averageNumberOfInstancesUsedPerHour
-            self.estimatedReservationCostForLookbackPeriod = estimatedReservationCostForLookbackPeriod
-            self.maximumNormalizedUnitsUsedPerHour = maximumNormalizedUnitsUsedPerHour
-            self.estimatedBreakEvenInMonths = estimatedBreakEvenInMonths
-            self.estimatedMonthlySavingsPercentage = estimatedMonthlySavingsPercentage
-            self.minimumNormalizedUnitsUsedPerHour = minimumNormalizedUnitsUsedPerHour
-            self.currencyCode = currencyCode
-            self.recommendedNumberOfInstancesToPurchase = recommendedNumberOfInstancesToPurchase
-            self.recommendedNormalizedUnitsToPurchase = recommendedNormalizedUnitsToPurchase
-            self.maximumNumberOfInstancesUsedPerHour = maximumNumberOfInstancesUsedPerHour
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case averageNormalizedUnitsUsedPerHour = "AverageNormalizedUnitsUsedPerHour"
-            case estimatedMonthlyOnDemandCost = "EstimatedMonthlyOnDemandCost"
-            case accountId = "AccountId"
-            case recurringStandardMonthlyCost = "RecurringStandardMonthlyCost"
-            case estimatedMonthlySavingsAmount = "EstimatedMonthlySavingsAmount"
-            case instanceDetails = "InstanceDetails"
-            case averageUtilization = "AverageUtilization"
-            case minimumNumberOfInstancesUsedPerHour = "MinimumNumberOfInstancesUsedPerHour"
-            case upfrontCost = "UpfrontCost"
-            case averageNumberOfInstancesUsedPerHour = "AverageNumberOfInstancesUsedPerHour"
-            case estimatedReservationCostForLookbackPeriod = "EstimatedReservationCostForLookbackPeriod"
-            case maximumNormalizedUnitsUsedPerHour = "MaximumNormalizedUnitsUsedPerHour"
-            case estimatedBreakEvenInMonths = "EstimatedBreakEvenInMonths"
-            case estimatedMonthlySavingsPercentage = "EstimatedMonthlySavingsPercentage"
-            case minimumNormalizedUnitsUsedPerHour = "MinimumNormalizedUnitsUsedPerHour"
-            case currencyCode = "CurrencyCode"
-            case recommendedNumberOfInstancesToPurchase = "RecommendedNumberOfInstancesToPurchase"
-            case recommendedNormalizedUnitsToPurchase = "RecommendedNormalizedUnitsToPurchase"
-            case maximumNumberOfInstancesUsedPerHour = "MaximumNumberOfInstancesUsedPerHour"
-        }
-    }
-
-    public struct GetReservationPurchaseRecommendationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "Recommendations", required: false, type: .list), 
-            AWSShapeMember(label: "Metadata", required: false, type: .structure)
-        ]
-        /// The pagination token for the next set of retrievable results.
-        public let nextPageToken: String?
-        /// Recommendations for reservations to purchase.
-        public let recommendations: [ReservationPurchaseRecommendation]?
-        /// Information about this specific recommendation call, such as the time stamp for when Cost Explorer generated this recommendation.
-        public let metadata: ReservationPurchaseRecommendationMetadata?
-
-        public init(nextPageToken: String? = nil, recommendations: [ReservationPurchaseRecommendation]? = nil, metadata: ReservationPurchaseRecommendationMetadata? = nil) {
-            self.nextPageToken = nextPageToken
-            self.recommendations = recommendations
-            self.metadata = metadata
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextPageToken = "NextPageToken"
-            case recommendations = "Recommendations"
-            case metadata = "Metadata"
-        }
-    }
-
-    public struct ResultByTime: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Groups", required: false, type: .list), 
-            AWSShapeMember(label: "Estimated", required: false, type: .boolean), 
-            AWSShapeMember(label: "TimePeriod", required: false, type: .structure), 
-            AWSShapeMember(label: "Total", required: false, type: .map)
-        ]
-        /// The groups that are included in this time period.
-        public let groups: [Group]?
-        /// Whether this result is estimated.
-        public let estimated: Bool?
-        /// The time period covered by a result.
-        public let timePeriod: DateInterval?
-        /// The total amount of cost or usage accrued during the time period.
-        public let total: [String: MetricValue]?
-
-        public init(groups: [Group]? = nil, estimated: Bool? = nil, timePeriod: DateInterval? = nil, total: [String: MetricValue]? = nil) {
-            self.groups = groups
-            self.estimated = estimated
-            self.timePeriod = timePeriod
-            self.total = total
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groups = "Groups"
-            case estimated = "Estimated"
-            case timePeriod = "TimePeriod"
-            case total = "Total"
-        }
-    }
-
-    public struct ServiceSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EC2Specification", required: false, type: .structure)
-        ]
-        /// The EC2 hardware specifications that you want AWS to provide recommendations for.
-        public let eC2Specification: EC2Specification?
-
-        public init(eC2Specification: EC2Specification? = nil) {
-            self.eC2Specification = eC2Specification
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eC2Specification = "EC2Specification"
-        }
-    }
-
-    public enum Metric: String, CustomStringConvertible, Codable {
-        case blendedCost = "BLENDED_COST"
-        case unblendedCost = "UNBLENDED_COST"
-        case amortizedCost = "AMORTIZED_COST"
-        case netUnblendedCost = "NET_UNBLENDED_COST"
-        case netAmortizedCost = "NET_AMORTIZED_COST"
-        case usageQuantity = "USAGE_QUANTITY"
-        case normalizedUsageAmount = "NORMALIZED_USAGE_AMOUNT"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DimensionValues: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: false, type: .enum), 
@@ -1150,161 +158,607 @@ extension CostExplorer {
         }
     }
 
-    public struct ElastiCacheInstanceDetails: AWSShape {
+    public struct DimensionValuesWithAttributes: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Region", required: false, type: .string), 
-            AWSShapeMember(label: "ProductDescription", required: false, type: .string), 
-            AWSShapeMember(label: "NodeType", required: false, type: .string), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The attribute that applies to a specific Dimension.
+        public let attributes: [String: String]?
+        /// The value of a dimension with a specific attribute.
+        public let value: String?
+
+        public init(attributes: [String: String]? = nil, value: String? = nil) {
+            self.attributes = attributes
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case value = "Value"
+        }
+    }
+
+    public struct EC2InstanceDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
             AWSShapeMember(label: "CurrentGeneration", required: false, type: .boolean), 
             AWSShapeMember(label: "Family", required: false, type: .string), 
-            AWSShapeMember(label: "SizeFlexEligible", required: false, type: .boolean)
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "Platform", required: false, type: .string), 
+            AWSShapeMember(label: "Region", required: false, type: .string), 
+            AWSShapeMember(label: "SizeFlexEligible", required: false, type: .boolean), 
+            AWSShapeMember(label: "Tenancy", required: false, type: .string)
         ]
-        /// The AWS Region of the recommended reservation.
-        public let region: String?
-        /// The description of the recommended reservation.
-        public let productDescription: String?
-        /// The type of node that AWS recommends.
-        public let nodeType: String?
-        /// Whether the recommendation is for a current generation instance.
+        /// The Availability Zone of the recommended reservation.
+        public let availabilityZone: String?
+        /// Whether the recommendation is for a current generation instance. 
         public let currentGeneration: Bool?
         /// The instance family of the recommended reservation.
         public let family: String?
+        /// The type of instance that AWS recommends.
+        public let instanceType: String?
+        /// The platform of the recommended reservation. The platform is the specific combination of operating system, license model, and software on an instance.
+        public let platform: String?
+        /// The AWS Region of the recommended reservation.
+        public let region: String?
+        /// Whether the recommended reservation is size flexible.
+        public let sizeFlexEligible: Bool?
+        /// Whether the recommended reservation is dedicated or shared.
+        public let tenancy: String?
+
+        public init(availabilityZone: String? = nil, currentGeneration: Bool? = nil, family: String? = nil, instanceType: String? = nil, platform: String? = nil, region: String? = nil, sizeFlexEligible: Bool? = nil, tenancy: String? = nil) {
+            self.availabilityZone = availabilityZone
+            self.currentGeneration = currentGeneration
+            self.family = family
+            self.instanceType = instanceType
+            self.platform = platform
+            self.region = region
+            self.sizeFlexEligible = sizeFlexEligible
+            self.tenancy = tenancy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case currentGeneration = "CurrentGeneration"
+            case family = "Family"
+            case instanceType = "InstanceType"
+            case platform = "Platform"
+            case region = "Region"
+            case sizeFlexEligible = "SizeFlexEligible"
+            case tenancy = "Tenancy"
+        }
+    }
+
+    public struct EC2Specification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OfferingClass", required: false, type: .enum)
+        ]
+        /// Whether you want a recommendation for standard or convertible reservations.
+        public let offeringClass: OfferingClass?
+
+        public init(offeringClass: OfferingClass? = nil) {
+            self.offeringClass = offeringClass
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case offeringClass = "OfferingClass"
+        }
+    }
+
+    public struct ESInstanceDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CurrentGeneration", required: false, type: .boolean), 
+            AWSShapeMember(label: "InstanceClass", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceSize", required: false, type: .string), 
+            AWSShapeMember(label: "Region", required: false, type: .string), 
+            AWSShapeMember(label: "SizeFlexEligible", required: false, type: .boolean)
+        ]
+        /// Whether the recommendation is for a current generation instance.
+        public let currentGeneration: Bool?
+        /// The class of instance that AWS recommends.
+        public let instanceClass: String?
+        /// The size of instance that AWS recommends.
+        public let instanceSize: String?
+        /// The AWS Region of the recommended reservation.
+        public let region: String?
         /// Whether the recommended reservation is size flexible.
         public let sizeFlexEligible: Bool?
 
-        public init(region: String? = nil, productDescription: String? = nil, nodeType: String? = nil, currentGeneration: Bool? = nil, family: String? = nil, sizeFlexEligible: Bool? = nil) {
-            self.region = region
-            self.productDescription = productDescription
-            self.nodeType = nodeType
+        public init(currentGeneration: Bool? = nil, instanceClass: String? = nil, instanceSize: String? = nil, region: String? = nil, sizeFlexEligible: Bool? = nil) {
             self.currentGeneration = currentGeneration
-            self.family = family
+            self.instanceClass = instanceClass
+            self.instanceSize = instanceSize
+            self.region = region
             self.sizeFlexEligible = sizeFlexEligible
         }
 
         private enum CodingKeys: String, CodingKey {
-            case region = "Region"
-            case productDescription = "ProductDescription"
-            case nodeType = "NodeType"
             case currentGeneration = "CurrentGeneration"
-            case family = "Family"
+            case instanceClass = "InstanceClass"
+            case instanceSize = "InstanceSize"
+            case region = "Region"
             case sizeFlexEligible = "SizeFlexEligible"
         }
     }
 
-    public struct GetReservationUtilizationRequest: AWSShape {
+    public struct ElastiCacheInstanceDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "GroupBy", required: false, type: .list), 
-            AWSShapeMember(label: "TimePeriod", required: true, type: .structure), 
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "Granularity", required: false, type: .enum)
+            AWSShapeMember(label: "CurrentGeneration", required: false, type: .boolean), 
+            AWSShapeMember(label: "Family", required: false, type: .string), 
+            AWSShapeMember(label: "NodeType", required: false, type: .string), 
+            AWSShapeMember(label: "ProductDescription", required: false, type: .string), 
+            AWSShapeMember(label: "Region", required: false, type: .string), 
+            AWSShapeMember(label: "SizeFlexEligible", required: false, type: .boolean)
         ]
-        /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
-        public let nextPageToken: String?
-        /// Groups only by SUBSCRIPTION_ID. Metadata is included.
-        public let groupBy: [GroupDefinition]?
-        /// Sets the start and end dates for retrieving Reserved Instance (RI) utilization. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01. 
-        public let timePeriod: DateInterval
-        /// Filters utilization data by dimensions. You can filter by the following dimensions:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   SCOPE   TENANCY    GetReservationUtilization uses the same  Expression  object as the other operations, but only AND is supported among each dimension, and nesting is supported up to only one level deep. If there are multiple values for a dimension, they are OR'd together.
-        public let filter: Expression?
-        /// If GroupBy is set, Granularity can't be set. If Granularity isn't set, the response object doesn't include Granularity, either MONTHLY or DAILY. If both GroupBy and Granularity aren't set, GetReservationUtilization defaults to DAILY.
-        public let granularity: Granularity?
+        /// Whether the recommendation is for a current generation instance.
+        public let currentGeneration: Bool?
+        /// The instance family of the recommended reservation.
+        public let family: String?
+        /// The type of node that AWS recommends.
+        public let nodeType: String?
+        /// The description of the recommended reservation.
+        public let productDescription: String?
+        /// The AWS Region of the recommended reservation.
+        public let region: String?
+        /// Whether the recommended reservation is size flexible.
+        public let sizeFlexEligible: Bool?
 
-        public init(nextPageToken: String? = nil, groupBy: [GroupDefinition]? = nil, timePeriod: DateInterval, filter: Expression? = nil, granularity: Granularity? = nil) {
-            self.nextPageToken = nextPageToken
-            self.groupBy = groupBy
-            self.timePeriod = timePeriod
-            self.filter = filter
-            self.granularity = granularity
+        public init(currentGeneration: Bool? = nil, family: String? = nil, nodeType: String? = nil, productDescription: String? = nil, region: String? = nil, sizeFlexEligible: Bool? = nil) {
+            self.currentGeneration = currentGeneration
+            self.family = family
+            self.nodeType = nodeType
+            self.productDescription = productDescription
+            self.region = region
+            self.sizeFlexEligible = sizeFlexEligible
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextPageToken = "NextPageToken"
-            case groupBy = "GroupBy"
+            case currentGeneration = "CurrentGeneration"
+            case family = "Family"
+            case nodeType = "NodeType"
+            case productDescription = "ProductDescription"
+            case region = "Region"
+            case sizeFlexEligible = "SizeFlexEligible"
+        }
+    }
+
+    public class Expression: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "And", required: false, type: .list), 
+            AWSShapeMember(label: "Dimensions", required: false, type: .structure), 
+            AWSShapeMember(label: "Not", required: false, type: .structure), 
+            AWSShapeMember(label: "Or", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure)
+        ]
+        /// Return results that match both Dimension objects.
+        public let and: [Expression]?
+        /// The specific Dimension to use for Expression.
+        public let dimensions: DimensionValues?
+        /// Return results that don't match a Dimension object.
+        public let not: Expression?
+        /// Return results that match either Dimension object.
+        public let or: [Expression]?
+        /// The specific Tag to use for Expression.
+        public let tags: TagValues?
+
+        public init(and: [Expression]? = nil, dimensions: DimensionValues? = nil, not: Expression? = nil, or: [Expression]? = nil, tags: TagValues? = nil) {
+            self.and = and
+            self.dimensions = dimensions
+            self.not = not
+            self.or = or
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case and = "And"
+            case dimensions = "Dimensions"
+            case not = "Not"
+            case or = "Or"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ForecastResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MeanValue", required: false, type: .string), 
+            AWSShapeMember(label: "PredictionIntervalLowerBound", required: false, type: .string), 
+            AWSShapeMember(label: "PredictionIntervalUpperBound", required: false, type: .string), 
+            AWSShapeMember(label: "TimePeriod", required: false, type: .structure)
+        ]
+        /// The mean value of the forecast.
+        public let meanValue: String?
+        /// The lower limit for the prediction interval. 
+        public let predictionIntervalLowerBound: String?
+        /// The upper limit for the prediction interval. 
+        public let predictionIntervalUpperBound: String?
+        /// The period of time that the forecast covers.
+        public let timePeriod: DateInterval?
+
+        public init(meanValue: String? = nil, predictionIntervalLowerBound: String? = nil, predictionIntervalUpperBound: String? = nil, timePeriod: DateInterval? = nil) {
+            self.meanValue = meanValue
+            self.predictionIntervalLowerBound = predictionIntervalLowerBound
+            self.predictionIntervalUpperBound = predictionIntervalUpperBound
+            self.timePeriod = timePeriod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case meanValue = "MeanValue"
+            case predictionIntervalLowerBound = "PredictionIntervalLowerBound"
+            case predictionIntervalUpperBound = "PredictionIntervalUpperBound"
             case timePeriod = "TimePeriod"
+        }
+    }
+
+    public struct GetCostAndUsageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "Granularity", required: false, type: .enum), 
+            AWSShapeMember(label: "GroupBy", required: false, type: .list), 
+            AWSShapeMember(label: "Metrics", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "TimePeriod", required: false, type: .structure)
+        ]
+        /// Filters AWS costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression. 
+        public let filter: Expression?
+        /// Sets the AWS cost granularity to MONTHLY or DAILY. If Granularity isn't set, the response object doesn't include the Granularity, either MONTHLY or DAILY. 
+        public let granularity: Granularity?
+        /// You can group AWS costs using up to two different groups, either dimensions, tag keys, or both. When you group by tag key, you get all tag values, including empty strings. Valid values are AZ, INSTANCE_TYPE, LEGAL_ENTITY_NAME, LINKED_ACCOUNT, OPERATION, PLATFORM, PURCHASE_TYPE, SERVICE, TAGS, TENANCY, and USAGE_TYPE.
+        public let groupBy: [GroupDefinition]?
+        /// Which metrics are returned in the query. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.   If you return the UsageQuantity metric, the service aggregates all usage numbers without taking into account the units. For example, if you aggregate usageQuantity across all of EC2, the results aren't meaningful because EC2 compute hours and data transfer are measured in different units (for example, hours vs. GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups.    Metrics is required for GetCostAndUsage requests.
+        public let metrics: [String]?
+        /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextPageToken: String?
+        /// Sets the start and end dates for retrieving AWS costs. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
+        public let timePeriod: DateInterval?
+
+        public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, metrics: [String]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval? = nil) {
+            self.filter = filter
+            self.granularity = granularity
+            self.groupBy = groupBy
+            self.metrics = metrics
+            self.nextPageToken = nextPageToken
+            self.timePeriod = timePeriod
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case filter = "Filter"
             case granularity = "Granularity"
+            case groupBy = "GroupBy"
+            case metrics = "Metrics"
+            case nextPageToken = "NextPageToken"
+            case timePeriod = "TimePeriod"
+        }
+    }
+
+    public struct GetCostAndUsageResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupDefinitions", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResultsByTime", required: false, type: .list)
+        ]
+        /// The groups that are specified by the Filter or GroupBy parameters in the request.
+        public let groupDefinitions: [GroupDefinition]?
+        /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextPageToken: String?
+        /// The time period that is covered by the results in the response.
+        public let resultsByTime: [ResultByTime]?
+
+        public init(groupDefinitions: [GroupDefinition]? = nil, nextPageToken: String? = nil, resultsByTime: [ResultByTime]? = nil) {
+            self.groupDefinitions = groupDefinitions
+            self.nextPageToken = nextPageToken
+            self.resultsByTime = resultsByTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupDefinitions = "GroupDefinitions"
+            case nextPageToken = "NextPageToken"
+            case resultsByTime = "ResultsByTime"
+        }
+    }
+
+    public struct GetCostForecastRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "Granularity", required: true, type: .enum), 
+            AWSShapeMember(label: "Metric", required: true, type: .enum), 
+            AWSShapeMember(label: "PredictionIntervalLevel", required: false, type: .integer), 
+            AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
+        ]
+        /// The filters that you want to use to filter your forecast. Cost Explorer API supports all of the Cost Explorer filters.
+        public let filter: Expression?
+        /// How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 12 months of MONTHLY forecasts.
+        public let granularity: Granularity
+        /// Which metric Cost Explorer uses to create your forecast. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values for a GetCostForecast call are the following:   AmortizedCost   BlendedCost   NetAmortizedCost   NetUnblendedCost   UnblendedCost  
+        public let metric: Metric
+        /// Cost Explorer always returns the mean forecast as a single point. You can request a prediction interval around the mean by specifying a confidence level. The higher the confidence level, the more confident Cost Explorer is about the actual value falling in the prediction interval. Higher confidence levels result in wider prediction intervals.
+        public let predictionIntervalLevel: Int32?
+        /// The period of time that you want the forecast to cover.
+        public let timePeriod: DateInterval
+
+        public init(filter: Expression? = nil, granularity: Granularity, metric: Metric, predictionIntervalLevel: Int32? = nil, timePeriod: DateInterval) {
+            self.filter = filter
+            self.granularity = granularity
+            self.metric = metric
+            self.predictionIntervalLevel = predictionIntervalLevel
+            self.timePeriod = timePeriod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case granularity = "Granularity"
+            case metric = "Metric"
+            case predictionIntervalLevel = "PredictionIntervalLevel"
+            case timePeriod = "TimePeriod"
+        }
+    }
+
+    public struct GetCostForecastResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ForecastResultsByTime", required: false, type: .list), 
+            AWSShapeMember(label: "Total", required: false, type: .structure)
+        ]
+        /// The forecasts for your query, in order. For DAILY forecasts, this is a list of days. For MONTHLY forecasts, this is a list of months.
+        public let forecastResultsByTime: [ForecastResult]?
+        /// How much you are forecasted to spend over the forecast period, in USD.
+        public let total: MetricValue?
+
+        public init(forecastResultsByTime: [ForecastResult]? = nil, total: MetricValue? = nil) {
+            self.forecastResultsByTime = forecastResultsByTime
+            self.total = total
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forecastResultsByTime = "ForecastResultsByTime"
+            case total = "Total"
+        }
+    }
+
+    public struct GetDimensionValuesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Context", required: false, type: .enum), 
+            AWSShapeMember(label: "Dimension", required: true, type: .enum), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "SearchString", required: false, type: .string), 
+            AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
+        ]
+        /// The context for the call to GetDimensionValues. This can be RESERVATIONS or COST_AND_USAGE. The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE the resulting dimension values can be used in the GetCostAndUsage operation. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of EC2 instance. An example is m4.xlarge.   LEGAL_ENTITY_NAME - The name of the organization that sells you AWS services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related. Examples include On-Demand Instances and Standard Reserved Instances.   SERVICE - The AWS service such as Amazon DynamoDB.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and credits.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   PLATFORM - The EC2 operating system. Examples are Windows or Linux.   REGION - The AWS Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.  
+        public let context: Context?
+        /// The name of the dimension. Each Dimension is available for different a Context. For more information, see Context.
+        public let dimension: Dimension
+        /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextPageToken: String?
+        /// The value that you want to search the filter values for.
+        public let searchString: String?
+        /// The start and end dates for retrieving the dimension values. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
+        public let timePeriod: DateInterval
+
+        public init(context: Context? = nil, dimension: Dimension, nextPageToken: String? = nil, searchString: String? = nil, timePeriod: DateInterval) {
+            self.context = context
+            self.dimension = dimension
+            self.nextPageToken = nextPageToken
+            self.searchString = searchString
+            self.timePeriod = timePeriod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case context = "Context"
+            case dimension = "Dimension"
+            case nextPageToken = "NextPageToken"
+            case searchString = "SearchString"
+            case timePeriod = "TimePeriod"
+        }
+    }
+
+    public struct GetDimensionValuesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DimensionValues", required: true, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "ReturnSize", required: true, type: .integer), 
+            AWSShapeMember(label: "TotalSize", required: true, type: .integer)
+        ]
+        /// The filters that you used to filter your request. Some dimensions are available only for a specific context: If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of EC2 instance. An example is m4.xlarge.   LEGAL_ENTITY_NAME - The name of the organization that sells you AWS services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related. Examples include On-Demand Instances and Standard Reserved Instances.   SERVICE - The AWS service such as Amazon DynamoDB.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and credits.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   PLATFORM - The EC2 operating system. Examples are Windows or Linux.   REGION - The AWS Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.  
+        public let dimensionValues: [DimensionValuesWithAttributes]
+        /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextPageToken: String?
+        /// The number of results that AWS returned at one time.
+        public let returnSize: Int32
+        /// The total number of search results.
+        public let totalSize: Int32
+
+        public init(dimensionValues: [DimensionValuesWithAttributes], nextPageToken: String? = nil, returnSize: Int32, totalSize: Int32) {
+            self.dimensionValues = dimensionValues
+            self.nextPageToken = nextPageToken
+            self.returnSize = returnSize
+            self.totalSize = totalSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensionValues = "DimensionValues"
+            case nextPageToken = "NextPageToken"
+            case returnSize = "ReturnSize"
+            case totalSize = "TotalSize"
         }
     }
 
     public struct GetReservationCoverageRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "GroupBy", required: false, type: .list), 
-            AWSShapeMember(label: "TimePeriod", required: true, type: .structure), 
             AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "Granularity", required: false, type: .enum)
+            AWSShapeMember(label: "Granularity", required: false, type: .enum), 
+            AWSShapeMember(label: "GroupBy", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
         ]
-        /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
-        public let nextPageToken: String?
-        /// You can group the data by the following attributes:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   TAG   TENANCY  
-        public let groupBy: [GroupDefinition]?
-        /// The start and end dates of the period for which you want to retrieve data about reservation coverage. You can retrieve data for a maximum of 13 months: the last 12 months and the current month. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01. 
-        public let timePeriod: DateInterval
         /// Filters utilization data by dimensions. You can filter by the following dimensions:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   TAG   TENANCY    GetReservationCoverage uses the same  Expression  object as the other operations, but only AND is supported among each dimension. You can nest only one level deep. If there are multiple values for a dimension, they are OR'd together. If you don't provide a SERVICE filter, Cost Explorer defaults to EC2.
         public let filter: Expression?
         /// The granularity of the AWS cost data for the reservation. Valid values are MONTHLY and DAILY. If GroupBy is set, Granularity can't be set. If Granularity isn't set, the response object doesn't include Granularity, either MONTHLY or DAILY.
         public let granularity: Granularity?
+        /// You can group the data by the following attributes:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   TAG   TENANCY  
+        public let groupBy: [GroupDefinition]?
+        /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextPageToken: String?
+        /// The start and end dates of the period for which you want to retrieve data about reservation coverage. You can retrieve data for a maximum of 13 months: the last 12 months and the current month. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01. 
+        public let timePeriod: DateInterval
 
-        public init(nextPageToken: String? = nil, groupBy: [GroupDefinition]? = nil, timePeriod: DateInterval, filter: Expression? = nil, granularity: Granularity? = nil) {
-            self.nextPageToken = nextPageToken
-            self.groupBy = groupBy
-            self.timePeriod = timePeriod
+        public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
+            self.groupBy = groupBy
+            self.nextPageToken = nextPageToken
+            self.timePeriod = timePeriod
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextPageToken = "NextPageToken"
-            case groupBy = "GroupBy"
-            case timePeriod = "TimePeriod"
             case filter = "Filter"
             case granularity = "Granularity"
+            case groupBy = "GroupBy"
+            case nextPageToken = "NextPageToken"
+            case timePeriod = "TimePeriod"
         }
     }
 
-    public struct DimensionValuesWithAttributes: AWSShape {
+    public struct GetReservationCoverageResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Attributes", required: false, type: .map)
+            AWSShapeMember(label: "CoveragesByTime", required: true, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "Total", required: false, type: .structure)
         ]
-        /// The value of a dimension with a specific attribute.
-        public let value: String?
-        /// The attribute that applies to a specific Dimension.
-        public let attributes: [String: String]?
+        /// The amount of time that your reservations covered.
+        public let coveragesByTime: [CoverageByTime]
+        /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextPageToken: String?
+        /// The total amount of instance usage that is covered by a reservation.
+        public let total: Coverage?
 
-        public init(value: String? = nil, attributes: [String: String]? = nil) {
-            self.value = value
-            self.attributes = attributes
+        public init(coveragesByTime: [CoverageByTime], nextPageToken: String? = nil, total: Coverage? = nil) {
+            self.coveragesByTime = coveragesByTime
+            self.nextPageToken = nextPageToken
+            self.total = total
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case attributes = "Attributes"
+            case coveragesByTime = "CoveragesByTime"
+            case nextPageToken = "NextPageToken"
+            case total = "Total"
         }
     }
 
-    public enum LookbackPeriodInDays: String, CustomStringConvertible, Codable {
-        case sevenDays = "SEVEN_DAYS"
-        case thirtyDays = "THIRTY_DAYS"
-        case sixtyDays = "SIXTY_DAYS"
-        public var description: String { return self.rawValue }
+    public struct GetReservationPurchaseRecommendationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "AccountScope", required: false, type: .enum), 
+            AWSShapeMember(label: "LookbackPeriodInDays", required: false, type: .enum), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "PaymentOption", required: false, type: .enum), 
+            AWSShapeMember(label: "Service", required: true, type: .string), 
+            AWSShapeMember(label: "ServiceSpecification", required: false, type: .structure), 
+            AWSShapeMember(label: "TermInYears", required: false, type: .enum)
+        ]
+        /// The account ID that is associated with the recommendation. 
+        public let accountId: String?
+        /// The account scope that you want recommendations for. PAYER means that AWS includes the master account and any member accounts when it calculates its recommendations. LINKED means that AWS includes only member accounts when it calculates its recommendations. Valid values are PAYER and LINKED.
+        public let accountScope: AccountScope?
+        /// The number of previous days that you want AWS to consider when it calculates your recommendations.
+        public let lookbackPeriodInDays: LookbackPeriodInDays?
+        /// The pagination token that indicates the next set of results that you want to retrieve.
+        public let nextPageToken: String?
+        /// The number of recommendations that you want returned in a single response object.
+        public let pageSize: Int32?
+        /// The reservation purchase option that you want recommendations for.
+        public let paymentOption: PaymentOption?
+        /// The specific service that you want recommendations for.
+        public let service: String
+        /// The hardware specifications for the service instances that you want recommendations for, such as standard or convertible EC2 instances.
+        public let serviceSpecification: ServiceSpecification?
+        /// The reservation term that you want recommendations for.
+        public let termInYears: TermInYears?
+
+        public init(accountId: String? = nil, accountScope: AccountScope? = nil, lookbackPeriodInDays: LookbackPeriodInDays? = nil, nextPageToken: String? = nil, pageSize: Int32? = nil, paymentOption: PaymentOption? = nil, service: String, serviceSpecification: ServiceSpecification? = nil, termInYears: TermInYears? = nil) {
+            self.accountId = accountId
+            self.accountScope = accountScope
+            self.lookbackPeriodInDays = lookbackPeriodInDays
+            self.nextPageToken = nextPageToken
+            self.pageSize = pageSize
+            self.paymentOption = paymentOption
+            self.service = service
+            self.serviceSpecification = serviceSpecification
+            self.termInYears = termInYears
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case accountScope = "AccountScope"
+            case lookbackPeriodInDays = "LookbackPeriodInDays"
+            case nextPageToken = "NextPageToken"
+            case pageSize = "PageSize"
+            case paymentOption = "PaymentOption"
+            case service = "Service"
+            case serviceSpecification = "ServiceSpecification"
+            case termInYears = "TermInYears"
+        }
     }
 
-    public enum PaymentOption: String, CustomStringConvertible, Codable {
-        case noUpfront = "NO_UPFRONT"
-        case partialUpfront = "PARTIAL_UPFRONT"
-        case allUpfront = "ALL_UPFRONT"
-        case lightUtilization = "LIGHT_UTILIZATION"
-        case mediumUtilization = "MEDIUM_UTILIZATION"
-        case heavyUtilization = "HEAVY_UTILIZATION"
-        public var description: String { return self.rawValue }
+    public struct GetReservationPurchaseRecommendationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Metadata", required: false, type: .structure), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "Recommendations", required: false, type: .list)
+        ]
+        /// Information about this specific recommendation call, such as the time stamp for when Cost Explorer generated this recommendation.
+        public let metadata: ReservationPurchaseRecommendationMetadata?
+        /// The pagination token for the next set of retrievable results.
+        public let nextPageToken: String?
+        /// Recommendations for reservations to purchase.
+        public let recommendations: [ReservationPurchaseRecommendation]?
+
+        public init(metadata: ReservationPurchaseRecommendationMetadata? = nil, nextPageToken: String? = nil, recommendations: [ReservationPurchaseRecommendation]? = nil) {
+            self.metadata = metadata
+            self.nextPageToken = nextPageToken
+            self.recommendations = recommendations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "Metadata"
+            case nextPageToken = "NextPageToken"
+            case recommendations = "Recommendations"
+        }
     }
 
-    public enum TermInYears: String, CustomStringConvertible, Codable {
-        case oneYear = "ONE_YEAR"
-        case threeYears = "THREE_YEARS"
-        public var description: String { return self.rawValue }
+    public struct GetReservationUtilizationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "Granularity", required: false, type: .enum), 
+            AWSShapeMember(label: "GroupBy", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
+        ]
+        /// Filters utilization data by dimensions. You can filter by the following dimensions:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   SCOPE   TENANCY    GetReservationUtilization uses the same  Expression  object as the other operations, but only AND is supported among each dimension, and nesting is supported up to only one level deep. If there are multiple values for a dimension, they are OR'd together.
+        public let filter: Expression?
+        /// If GroupBy is set, Granularity can't be set. If Granularity isn't set, the response object doesn't include Granularity, either MONTHLY or DAILY. If both GroupBy and Granularity aren't set, GetReservationUtilization defaults to DAILY.
+        public let granularity: Granularity?
+        /// Groups only by SUBSCRIPTION_ID. Metadata is included.
+        public let groupBy: [GroupDefinition]?
+        /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextPageToken: String?
+        /// Sets the start and end dates for retrieving Reserved Instance (RI) utilization. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01. 
+        public let timePeriod: DateInterval
+
+        public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval) {
+            self.filter = filter
+            self.granularity = granularity
+            self.groupBy = groupBy
+            self.nextPageToken = nextPageToken
+            self.timePeriod = timePeriod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case granularity = "Granularity"
+            case groupBy = "GroupBy"
+            case nextPageToken = "NextPageToken"
+            case timePeriod = "TimePeriod"
+        }
     }
 
     public struct GetReservationUtilizationResponse: AWSShape {
@@ -1333,6 +787,96 @@ extension CostExplorer {
         }
     }
 
+    public struct GetTagsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "SearchString", required: false, type: .string), 
+            AWSShapeMember(label: "TagKey", required: false, type: .string), 
+            AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
+        ]
+        /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextPageToken: String?
+        /// The value that you want to search for.
+        public let searchString: String?
+        /// The key of the tag that you want to return values for.
+        public let tagKey: String?
+        /// The start and end dates for retrieving the dimension values. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
+        public let timePeriod: DateInterval
+
+        public init(nextPageToken: String? = nil, searchString: String? = nil, tagKey: String? = nil, timePeriod: DateInterval) {
+            self.nextPageToken = nextPageToken
+            self.searchString = searchString
+            self.tagKey = tagKey
+            self.timePeriod = timePeriod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "NextPageToken"
+            case searchString = "SearchString"
+            case tagKey = "TagKey"
+            case timePeriod = "TimePeriod"
+        }
+    }
+
+    public struct GetTagsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "ReturnSize", required: true, type: .integer), 
+            AWSShapeMember(label: "Tags", required: true, type: .list), 
+            AWSShapeMember(label: "TotalSize", required: true, type: .integer)
+        ]
+        /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextPageToken: String?
+        /// The number of query results that AWS returns at a time.
+        public let returnSize: Int32
+        /// The tags that match your request.
+        public let tags: [String]
+        /// The total number of query results.
+        public let totalSize: Int32
+
+        public init(nextPageToken: String? = nil, returnSize: Int32, tags: [String], totalSize: Int32) {
+            self.nextPageToken = nextPageToken
+            self.returnSize = returnSize
+            self.tags = tags
+            self.totalSize = totalSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "NextPageToken"
+            case returnSize = "ReturnSize"
+            case tags = "Tags"
+            case totalSize = "TotalSize"
+        }
+    }
+
+    public enum Granularity: String, CustomStringConvertible, Codable {
+        case daily = "DAILY"
+        case monthly = "MONTHLY"
+        case hourly = "HOURLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Group: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Keys", required: false, type: .list), 
+            AWSShapeMember(label: "Metrics", required: false, type: .map)
+        ]
+        /// The keys that are included in this group.
+        public let keys: [String]?
+        /// The metrics that are included in this group.
+        public let metrics: [String: MetricValue]?
+
+        public init(keys: [String]? = nil, metrics: [String: MetricValue]? = nil) {
+            self.keys = keys
+            self.metrics = metrics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keys = "Keys"
+            case metrics = "Metrics"
+        }
+    }
+
     public struct GroupDefinition: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: false, type: .string), 
@@ -1354,147 +898,603 @@ extension CostExplorer {
         }
     }
 
+    public enum GroupDefinitionType: String, CustomStringConvertible, Codable {
+        case dimension = "DIMENSION"
+        case tag = "TAG"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct InstanceDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EC2InstanceDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "ESInstanceDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "ElastiCacheInstanceDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "RDSInstanceDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "RedshiftInstanceDetails", required: false, type: .structure)
+        ]
+        /// The EC2 instances that AWS recommends that you purchase.
+        public let eC2InstanceDetails: EC2InstanceDetails?
+        /// The Amazon ES instances that AWS recommends that you purchase.
+        public let eSInstanceDetails: ESInstanceDetails?
+        /// The ElastiCache instances that AWS recommends that you purchase.
+        public let elastiCacheInstanceDetails: ElastiCacheInstanceDetails?
+        /// The RDS instances that AWS recommends that you purchase.
+        public let rDSInstanceDetails: RDSInstanceDetails?
+        /// The Amazon Redshift instances that AWS recommends that you purchase.
+        public let redshiftInstanceDetails: RedshiftInstanceDetails?
+
+        public init(eC2InstanceDetails: EC2InstanceDetails? = nil, eSInstanceDetails: ESInstanceDetails? = nil, elastiCacheInstanceDetails: ElastiCacheInstanceDetails? = nil, rDSInstanceDetails: RDSInstanceDetails? = nil, redshiftInstanceDetails: RedshiftInstanceDetails? = nil) {
+            self.eC2InstanceDetails = eC2InstanceDetails
+            self.eSInstanceDetails = eSInstanceDetails
+            self.elastiCacheInstanceDetails = elastiCacheInstanceDetails
+            self.rDSInstanceDetails = rDSInstanceDetails
+            self.redshiftInstanceDetails = redshiftInstanceDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eC2InstanceDetails = "EC2InstanceDetails"
+            case eSInstanceDetails = "ESInstanceDetails"
+            case elastiCacheInstanceDetails = "ElastiCacheInstanceDetails"
+            case rDSInstanceDetails = "RDSInstanceDetails"
+            case redshiftInstanceDetails = "RedshiftInstanceDetails"
+        }
+    }
+
+    public enum LookbackPeriodInDays: String, CustomStringConvertible, Codable {
+        case sevenDays = "SEVEN_DAYS"
+        case thirtyDays = "THIRTY_DAYS"
+        case sixtyDays = "SIXTY_DAYS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Metric: String, CustomStringConvertible, Codable {
+        case blendedCost = "BLENDED_COST"
+        case unblendedCost = "UNBLENDED_COST"
+        case amortizedCost = "AMORTIZED_COST"
+        case netUnblendedCost = "NET_UNBLENDED_COST"
+        case netAmortizedCost = "NET_AMORTIZED_COST"
+        case usageQuantity = "USAGE_QUANTITY"
+        case normalizedUsageAmount = "NORMALIZED_USAGE_AMOUNT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct MetricValue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Amount", required: false, type: .string), 
+            AWSShapeMember(label: "Unit", required: false, type: .string)
+        ]
+        /// The actual number that represents the metric.
+        public let amount: String?
+        /// The unit that the metric is given in.
+        public let unit: String?
+
+        public init(amount: String? = nil, unit: String? = nil) {
+            self.amount = amount
+            self.unit = unit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amount = "Amount"
+            case unit = "Unit"
+        }
+    }
+
+    public enum OfferingClass: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        case convertible = "CONVERTIBLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PaymentOption: String, CustomStringConvertible, Codable {
+        case noUpfront = "NO_UPFRONT"
+        case partialUpfront = "PARTIAL_UPFRONT"
+        case allUpfront = "ALL_UPFRONT"
+        case lightUtilization = "LIGHT_UTILIZATION"
+        case mediumUtilization = "MEDIUM_UTILIZATION"
+        case heavyUtilization = "HEAVY_UTILIZATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RDSInstanceDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CurrentGeneration", required: false, type: .boolean), 
+            AWSShapeMember(label: "DatabaseEdition", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseEngine", required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentOption", required: false, type: .string), 
+            AWSShapeMember(label: "Family", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
+            AWSShapeMember(label: "Region", required: false, type: .string), 
+            AWSShapeMember(label: "SizeFlexEligible", required: false, type: .boolean)
+        ]
+        /// Whether the recommendation is for a current generation instance. 
+        public let currentGeneration: Bool?
+        /// The database edition that the recommended reservation supports.
+        public let databaseEdition: String?
+        /// The database engine that the recommended reservation supports.
+        public let databaseEngine: String?
+        /// Whether the recommendation is for a reservation in a single Availability Zone or a reservation with a backup in a second Availability Zone.
+        public let deploymentOption: String?
+        /// The instance family of the recommended reservation.
+        public let family: String?
+        /// The type of instance that AWS recommends.
+        public let instanceType: String?
+        /// The license model that the recommended reservation supports.
+        public let licenseModel: String?
+        /// The AWS Region of the recommended reservation.
+        public let region: String?
+        /// Whether the recommended reservation is size flexible.
+        public let sizeFlexEligible: Bool?
+
+        public init(currentGeneration: Bool? = nil, databaseEdition: String? = nil, databaseEngine: String? = nil, deploymentOption: String? = nil, family: String? = nil, instanceType: String? = nil, licenseModel: String? = nil, region: String? = nil, sizeFlexEligible: Bool? = nil) {
+            self.currentGeneration = currentGeneration
+            self.databaseEdition = databaseEdition
+            self.databaseEngine = databaseEngine
+            self.deploymentOption = deploymentOption
+            self.family = family
+            self.instanceType = instanceType
+            self.licenseModel = licenseModel
+            self.region = region
+            self.sizeFlexEligible = sizeFlexEligible
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentGeneration = "CurrentGeneration"
+            case databaseEdition = "DatabaseEdition"
+            case databaseEngine = "DatabaseEngine"
+            case deploymentOption = "DeploymentOption"
+            case family = "Family"
+            case instanceType = "InstanceType"
+            case licenseModel = "LicenseModel"
+            case region = "Region"
+            case sizeFlexEligible = "SizeFlexEligible"
+        }
+    }
+
+    public struct RedshiftInstanceDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CurrentGeneration", required: false, type: .boolean), 
+            AWSShapeMember(label: "Family", required: false, type: .string), 
+            AWSShapeMember(label: "NodeType", required: false, type: .string), 
+            AWSShapeMember(label: "Region", required: false, type: .string), 
+            AWSShapeMember(label: "SizeFlexEligible", required: false, type: .boolean)
+        ]
+        /// Whether the recommendation is for a current generation instance.
+        public let currentGeneration: Bool?
+        /// The instance family of the recommended reservation.
+        public let family: String?
+        /// The type of node that AWS recommends.
+        public let nodeType: String?
+        /// The AWS Region of the recommended reservation.
+        public let region: String?
+        /// Whether the recommended reservation is size flexible.
+        public let sizeFlexEligible: Bool?
+
+        public init(currentGeneration: Bool? = nil, family: String? = nil, nodeType: String? = nil, region: String? = nil, sizeFlexEligible: Bool? = nil) {
+            self.currentGeneration = currentGeneration
+            self.family = family
+            self.nodeType = nodeType
+            self.region = region
+            self.sizeFlexEligible = sizeFlexEligible
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentGeneration = "CurrentGeneration"
+            case family = "Family"
+            case nodeType = "NodeType"
+            case region = "Region"
+            case sizeFlexEligible = "SizeFlexEligible"
+        }
+    }
+
+    public struct ReservationAggregates: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmortizedRecurringFee", required: false, type: .string), 
+            AWSShapeMember(label: "AmortizedUpfrontFee", required: false, type: .string), 
+            AWSShapeMember(label: "NetRISavings", required: false, type: .string), 
+            AWSShapeMember(label: "OnDemandCostOfRIHoursUsed", required: false, type: .string), 
+            AWSShapeMember(label: "PurchasedHours", required: false, type: .string), 
+            AWSShapeMember(label: "TotalActualHours", required: false, type: .string), 
+            AWSShapeMember(label: "TotalAmortizedFee", required: false, type: .string), 
+            AWSShapeMember(label: "TotalPotentialRISavings", required: false, type: .string), 
+            AWSShapeMember(label: "UnusedHours", required: false, type: .string), 
+            AWSShapeMember(label: "UtilizationPercentage", required: false, type: .string)
+        ]
+        /// The monthly cost of your RI, amortized over the RI period.
+        public let amortizedRecurringFee: String?
+        /// The upfront cost of your RI, amortized over the RI period.
+        public let amortizedUpfrontFee: String?
+        /// How much you saved due to purchasing and utilizing RIs. AWS calculates this by subtracting TotalAmortizedFee from OnDemandCostOfRIHoursUsed.
+        public let netRISavings: String?
+        /// How much your RIs would cost if charged On-Demand rates.
+        public let onDemandCostOfRIHoursUsed: String?
+        /// How many RI hours that you purchased.
+        public let purchasedHours: String?
+        /// The total number of RI hours that you used.
+        public let totalActualHours: String?
+        /// The total cost of your RI, amortized over the RI period.
+        public let totalAmortizedFee: String?
+        /// How much you could save if you use your entire reservation.
+        public let totalPotentialRISavings: String?
+        /// The number of RI hours that you didn't use.
+        public let unusedHours: String?
+        /// The percentage of RI time that you used.
+        public let utilizationPercentage: String?
+
+        public init(amortizedRecurringFee: String? = nil, amortizedUpfrontFee: String? = nil, netRISavings: String? = nil, onDemandCostOfRIHoursUsed: String? = nil, purchasedHours: String? = nil, totalActualHours: String? = nil, totalAmortizedFee: String? = nil, totalPotentialRISavings: String? = nil, unusedHours: String? = nil, utilizationPercentage: String? = nil) {
+            self.amortizedRecurringFee = amortizedRecurringFee
+            self.amortizedUpfrontFee = amortizedUpfrontFee
+            self.netRISavings = netRISavings
+            self.onDemandCostOfRIHoursUsed = onDemandCostOfRIHoursUsed
+            self.purchasedHours = purchasedHours
+            self.totalActualHours = totalActualHours
+            self.totalAmortizedFee = totalAmortizedFee
+            self.totalPotentialRISavings = totalPotentialRISavings
+            self.unusedHours = unusedHours
+            self.utilizationPercentage = utilizationPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amortizedRecurringFee = "AmortizedRecurringFee"
+            case amortizedUpfrontFee = "AmortizedUpfrontFee"
+            case netRISavings = "NetRISavings"
+            case onDemandCostOfRIHoursUsed = "OnDemandCostOfRIHoursUsed"
+            case purchasedHours = "PurchasedHours"
+            case totalActualHours = "TotalActualHours"
+            case totalAmortizedFee = "TotalAmortizedFee"
+            case totalPotentialRISavings = "TotalPotentialRISavings"
+            case unusedHours = "UnusedHours"
+            case utilizationPercentage = "UtilizationPercentage"
+        }
+    }
+
+    public struct ReservationCoverageGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "Coverage", required: false, type: .structure)
+        ]
+        /// The attributes for this group of reservations.
+        public let attributes: [String: String]?
+        /// How much instance usage this group of reservations covered.
+        public let coverage: Coverage?
+
+        public init(attributes: [String: String]? = nil, coverage: Coverage? = nil) {
+            self.attributes = attributes
+            self.coverage = coverage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case coverage = "Coverage"
+        }
+    }
+
+    public struct ReservationPurchaseRecommendation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountScope", required: false, type: .enum), 
+            AWSShapeMember(label: "LookbackPeriodInDays", required: false, type: .enum), 
+            AWSShapeMember(label: "PaymentOption", required: false, type: .enum), 
+            AWSShapeMember(label: "RecommendationDetails", required: false, type: .list), 
+            AWSShapeMember(label: "RecommendationSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "ServiceSpecification", required: false, type: .structure), 
+            AWSShapeMember(label: "TermInYears", required: false, type: .enum)
+        ]
+        /// The account scope that AWS recommends that you purchase this instance for. For example, you can purchase this reservation for an entire organization in AWS Organizations.
+        public let accountScope: AccountScope?
+        /// How many days of previous usage that AWS considers when making this recommendation.
+        public let lookbackPeriodInDays: LookbackPeriodInDays?
+        /// The payment option for the reservation. For example, AllUpfront or NoUpfront.
+        public let paymentOption: PaymentOption?
+        /// Details about the recommended purchases.
+        public let recommendationDetails: [ReservationPurchaseRecommendationDetail]?
+        /// A summary about the recommended purchase.
+        public let recommendationSummary: ReservationPurchaseRecommendationSummary?
+        /// Hardware specifications for the service that you want recommendations for.
+        public let serviceSpecification: ServiceSpecification?
+        /// The term of the reservation that you want recommendations for, in years.
+        public let termInYears: TermInYears?
+
+        public init(accountScope: AccountScope? = nil, lookbackPeriodInDays: LookbackPeriodInDays? = nil, paymentOption: PaymentOption? = nil, recommendationDetails: [ReservationPurchaseRecommendationDetail]? = nil, recommendationSummary: ReservationPurchaseRecommendationSummary? = nil, serviceSpecification: ServiceSpecification? = nil, termInYears: TermInYears? = nil) {
+            self.accountScope = accountScope
+            self.lookbackPeriodInDays = lookbackPeriodInDays
+            self.paymentOption = paymentOption
+            self.recommendationDetails = recommendationDetails
+            self.recommendationSummary = recommendationSummary
+            self.serviceSpecification = serviceSpecification
+            self.termInYears = termInYears
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountScope = "AccountScope"
+            case lookbackPeriodInDays = "LookbackPeriodInDays"
+            case paymentOption = "PaymentOption"
+            case recommendationDetails = "RecommendationDetails"
+            case recommendationSummary = "RecommendationSummary"
+            case serviceSpecification = "ServiceSpecification"
+            case termInYears = "TermInYears"
+        }
+    }
+
+    public struct ReservationPurchaseRecommendationDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "AverageNormalizedUnitsUsedPerHour", required: false, type: .string), 
+            AWSShapeMember(label: "AverageNumberOfInstancesUsedPerHour", required: false, type: .string), 
+            AWSShapeMember(label: "AverageUtilization", required: false, type: .string), 
+            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
+            AWSShapeMember(label: "EstimatedBreakEvenInMonths", required: false, type: .string), 
+            AWSShapeMember(label: "EstimatedMonthlyOnDemandCost", required: false, type: .string), 
+            AWSShapeMember(label: "EstimatedMonthlySavingsAmount", required: false, type: .string), 
+            AWSShapeMember(label: "EstimatedMonthlySavingsPercentage", required: false, type: .string), 
+            AWSShapeMember(label: "EstimatedReservationCostForLookbackPeriod", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "MaximumNormalizedUnitsUsedPerHour", required: false, type: .string), 
+            AWSShapeMember(label: "MaximumNumberOfInstancesUsedPerHour", required: false, type: .string), 
+            AWSShapeMember(label: "MinimumNormalizedUnitsUsedPerHour", required: false, type: .string), 
+            AWSShapeMember(label: "MinimumNumberOfInstancesUsedPerHour", required: false, type: .string), 
+            AWSShapeMember(label: "RecommendedNormalizedUnitsToPurchase", required: false, type: .string), 
+            AWSShapeMember(label: "RecommendedNumberOfInstancesToPurchase", required: false, type: .string), 
+            AWSShapeMember(label: "RecurringStandardMonthlyCost", required: false, type: .string), 
+            AWSShapeMember(label: "UpfrontCost", required: false, type: .string)
+        ]
+        public let accountId: String?
+        /// The average number of normalized units that you used in an hour during the historical period. AWS uses this to calculate your recommended reservation purchases.
+        public let averageNormalizedUnitsUsedPerHour: String?
+        /// The average number of instances that you used in an hour during the historical period. AWS uses this to calculate your recommended reservation purchases.
+        public let averageNumberOfInstancesUsedPerHour: String?
+        /// The average utilization of your instances. AWS uses this to calculate your recommended reservation purchases.
+        public let averageUtilization: String?
+        /// The currency code that AWS used to calculate the costs for this instance.
+        public let currencyCode: String?
+        /// How long AWS estimates that it takes for this instance to start saving you money, in months.
+        public let estimatedBreakEvenInMonths: String?
+        /// How much AWS estimates that you spend on On-Demand Instances in a month.
+        public let estimatedMonthlyOnDemandCost: String?
+        /// How much AWS estimates that this specific recommendation could save you in a month.
+        public let estimatedMonthlySavingsAmount: String?
+        /// How much AWS estimates that this specific recommendation could save you in a month, as a percentage of your overall costs.
+        public let estimatedMonthlySavingsPercentage: String?
+        /// How much AWS estimates that you would have spent for all usage during the specified historical period if you had had a reservation.
+        public let estimatedReservationCostForLookbackPeriod: String?
+        /// Details about the instances that AWS recommends that you purchase.
+        public let instanceDetails: InstanceDetails?
+        /// The maximum number of normalized units that you used in an hour during the historical period. AWS uses this to calculate your recommended reservation purchases.
+        public let maximumNormalizedUnitsUsedPerHour: String?
+        /// The maximum number of instances that you used in an hour during the historical period. AWS uses this to calculate your recommended reservation purchases.
+        public let maximumNumberOfInstancesUsedPerHour: String?
+        /// The minimum number of hours that you used in an hour during the historical period. AWS uses this to calculate your recommended reservation purchases.
+        public let minimumNormalizedUnitsUsedPerHour: String?
+        /// The minimum number of instances that you used in an hour during the historical period. AWS uses this to calculate your recommended reservation purchases.
+        public let minimumNumberOfInstancesUsedPerHour: String?
+        /// The number of normalized units that AWS recommends that you purchase.
+        public let recommendedNormalizedUnitsToPurchase: String?
+        /// The number of instances that AWS recommends that you purchase.
+        public let recommendedNumberOfInstancesToPurchase: String?
+        /// How much purchasing this instance costs you on a monthly basis.
+        public let recurringStandardMonthlyCost: String?
+        /// How much purchasing this instance costs you upfront.
+        public let upfrontCost: String?
+
+        public init(accountId: String? = nil, averageNormalizedUnitsUsedPerHour: String? = nil, averageNumberOfInstancesUsedPerHour: String? = nil, averageUtilization: String? = nil, currencyCode: String? = nil, estimatedBreakEvenInMonths: String? = nil, estimatedMonthlyOnDemandCost: String? = nil, estimatedMonthlySavingsAmount: String? = nil, estimatedMonthlySavingsPercentage: String? = nil, estimatedReservationCostForLookbackPeriod: String? = nil, instanceDetails: InstanceDetails? = nil, maximumNormalizedUnitsUsedPerHour: String? = nil, maximumNumberOfInstancesUsedPerHour: String? = nil, minimumNormalizedUnitsUsedPerHour: String? = nil, minimumNumberOfInstancesUsedPerHour: String? = nil, recommendedNormalizedUnitsToPurchase: String? = nil, recommendedNumberOfInstancesToPurchase: String? = nil, recurringStandardMonthlyCost: String? = nil, upfrontCost: String? = nil) {
+            self.accountId = accountId
+            self.averageNormalizedUnitsUsedPerHour = averageNormalizedUnitsUsedPerHour
+            self.averageNumberOfInstancesUsedPerHour = averageNumberOfInstancesUsedPerHour
+            self.averageUtilization = averageUtilization
+            self.currencyCode = currencyCode
+            self.estimatedBreakEvenInMonths = estimatedBreakEvenInMonths
+            self.estimatedMonthlyOnDemandCost = estimatedMonthlyOnDemandCost
+            self.estimatedMonthlySavingsAmount = estimatedMonthlySavingsAmount
+            self.estimatedMonthlySavingsPercentage = estimatedMonthlySavingsPercentage
+            self.estimatedReservationCostForLookbackPeriod = estimatedReservationCostForLookbackPeriod
+            self.instanceDetails = instanceDetails
+            self.maximumNormalizedUnitsUsedPerHour = maximumNormalizedUnitsUsedPerHour
+            self.maximumNumberOfInstancesUsedPerHour = maximumNumberOfInstancesUsedPerHour
+            self.minimumNormalizedUnitsUsedPerHour = minimumNormalizedUnitsUsedPerHour
+            self.minimumNumberOfInstancesUsedPerHour = minimumNumberOfInstancesUsedPerHour
+            self.recommendedNormalizedUnitsToPurchase = recommendedNormalizedUnitsToPurchase
+            self.recommendedNumberOfInstancesToPurchase = recommendedNumberOfInstancesToPurchase
+            self.recurringStandardMonthlyCost = recurringStandardMonthlyCost
+            self.upfrontCost = upfrontCost
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case averageNormalizedUnitsUsedPerHour = "AverageNormalizedUnitsUsedPerHour"
+            case averageNumberOfInstancesUsedPerHour = "AverageNumberOfInstancesUsedPerHour"
+            case averageUtilization = "AverageUtilization"
+            case currencyCode = "CurrencyCode"
+            case estimatedBreakEvenInMonths = "EstimatedBreakEvenInMonths"
+            case estimatedMonthlyOnDemandCost = "EstimatedMonthlyOnDemandCost"
+            case estimatedMonthlySavingsAmount = "EstimatedMonthlySavingsAmount"
+            case estimatedMonthlySavingsPercentage = "EstimatedMonthlySavingsPercentage"
+            case estimatedReservationCostForLookbackPeriod = "EstimatedReservationCostForLookbackPeriod"
+            case instanceDetails = "InstanceDetails"
+            case maximumNormalizedUnitsUsedPerHour = "MaximumNormalizedUnitsUsedPerHour"
+            case maximumNumberOfInstancesUsedPerHour = "MaximumNumberOfInstancesUsedPerHour"
+            case minimumNormalizedUnitsUsedPerHour = "MinimumNormalizedUnitsUsedPerHour"
+            case minimumNumberOfInstancesUsedPerHour = "MinimumNumberOfInstancesUsedPerHour"
+            case recommendedNormalizedUnitsToPurchase = "RecommendedNormalizedUnitsToPurchase"
+            case recommendedNumberOfInstancesToPurchase = "RecommendedNumberOfInstancesToPurchase"
+            case recurringStandardMonthlyCost = "RecurringStandardMonthlyCost"
+            case upfrontCost = "UpfrontCost"
+        }
+    }
+
+    public struct ReservationPurchaseRecommendationMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GenerationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "RecommendationId", required: false, type: .string)
+        ]
+        /// The time stamp for when AWS made this recommendation.
+        public let generationTimestamp: String?
+        /// The ID for this specific recommendation.
+        public let recommendationId: String?
+
+        public init(generationTimestamp: String? = nil, recommendationId: String? = nil) {
+            self.generationTimestamp = generationTimestamp
+            self.recommendationId = recommendationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case generationTimestamp = "GenerationTimestamp"
+            case recommendationId = "RecommendationId"
+        }
+    }
+
+    public struct ReservationPurchaseRecommendationSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
+            AWSShapeMember(label: "TotalEstimatedMonthlySavingsAmount", required: false, type: .string), 
+            AWSShapeMember(label: "TotalEstimatedMonthlySavingsPercentage", required: false, type: .string)
+        ]
+        /// The currency code used for this recommendation.
+        public let currencyCode: String?
+        /// The total amount that AWS estimates that this recommendation could save you in a month.
+        public let totalEstimatedMonthlySavingsAmount: String?
+        /// The total amount that AWS estimates that this recommendation could save you in a month, as a percentage of your costs.
+        public let totalEstimatedMonthlySavingsPercentage: String?
+
+        public init(currencyCode: String? = nil, totalEstimatedMonthlySavingsAmount: String? = nil, totalEstimatedMonthlySavingsPercentage: String? = nil) {
+            self.currencyCode = currencyCode
+            self.totalEstimatedMonthlySavingsAmount = totalEstimatedMonthlySavingsAmount
+            self.totalEstimatedMonthlySavingsPercentage = totalEstimatedMonthlySavingsPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currencyCode = "CurrencyCode"
+            case totalEstimatedMonthlySavingsAmount = "TotalEstimatedMonthlySavingsAmount"
+            case totalEstimatedMonthlySavingsPercentage = "TotalEstimatedMonthlySavingsPercentage"
+        }
+    }
+
     public struct ReservationUtilizationGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Utilization", required: false, type: .structure), 
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Attributes", required: false, type: .map)
+            AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+        /// The attributes for this group of RIs.
+        public let attributes: [String: String]?
         /// The key for a specific RI attribute.
         public let key: String?
         /// How much you used this group of RIs.
         public let utilization: ReservationAggregates?
         /// The value of a specific RI attribute.
         public let value: String?
-        /// The attributes for this group of RIs.
-        public let attributes: [String: String]?
 
-        public init(key: String? = nil, utilization: ReservationAggregates? = nil, value: String? = nil, attributes: [String: String]? = nil) {
+        public init(attributes: [String: String]? = nil, key: String? = nil, utilization: ReservationAggregates? = nil, value: String? = nil) {
+            self.attributes = attributes
             self.key = key
             self.utilization = utilization
             self.value = value
-            self.attributes = attributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case key = "Key"
+            case utilization = "Utilization"
+            case value = "Value"
+        }
+    }
+
+    public struct ResultByTime: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Estimated", required: false, type: .boolean), 
+            AWSShapeMember(label: "Groups", required: false, type: .list), 
+            AWSShapeMember(label: "TimePeriod", required: false, type: .structure), 
+            AWSShapeMember(label: "Total", required: false, type: .map)
+        ]
+        /// Whether this result is estimated.
+        public let estimated: Bool?
+        /// The groups that are included in this time period.
+        public let groups: [Group]?
+        /// The time period covered by a result.
+        public let timePeriod: DateInterval?
+        /// The total amount of cost or usage accrued during the time period.
+        public let total: [String: MetricValue]?
+
+        public init(estimated: Bool? = nil, groups: [Group]? = nil, timePeriod: DateInterval? = nil, total: [String: MetricValue]? = nil) {
+            self.estimated = estimated
+            self.groups = groups
+            self.timePeriod = timePeriod
+            self.total = total
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case estimated = "Estimated"
+            case groups = "Groups"
+            case timePeriod = "TimePeriod"
+            case total = "Total"
+        }
+    }
+
+    public struct ServiceSpecification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EC2Specification", required: false, type: .structure)
+        ]
+        /// The EC2 hardware specifications that you want AWS to provide recommendations for.
+        public let eC2Specification: EC2Specification?
+
+        public init(eC2Specification: EC2Specification? = nil) {
+            self.eC2Specification = eC2Specification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eC2Specification = "EC2Specification"
+        }
+    }
+
+    public struct TagValues: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
+        ]
+        /// The key for a tag.
+        public let key: String?
+        /// The specific value of a tag.
+        public let values: [String]?
+
+        public init(key: String? = nil, values: [String]? = nil) {
+            self.key = key
+            self.values = values
         }
 
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
-            case utilization = "Utilization"
-            case value = "Value"
-            case attributes = "Attributes"
+            case values = "Values"
         }
     }
 
-    public struct GetCostForecastRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PredictionIntervalLevel", required: false, type: .integer), 
-            AWSShapeMember(label: "Metric", required: true, type: .enum), 
-            AWSShapeMember(label: "TimePeriod", required: true, type: .structure), 
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "Granularity", required: true, type: .enum)
-        ]
-        /// Cost Explorer always returns the mean forecast as a single point. You can request a prediction interval around the mean by specifying a confidence level. The higher the confidence level, the more confident Cost Explorer is about the actual value falling in the prediction interval. Higher confidence levels result in wider prediction intervals.
-        public let predictionIntervalLevel: Int32?
-        /// Which metric Cost Explorer uses to create your forecast. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values for a GetCostForecast call are the following:   AmortizedCost   BlendedCost   NetAmortizedCost   NetUnblendedCost   UnblendedCost  
-        public let metric: Metric
-        /// The period of time that you want the forecast to cover.
-        public let timePeriod: DateInterval
-        /// The filters that you want to use to filter your forecast. Cost Explorer API supports all of the Cost Explorer filters.
-        public let filter: Expression?
-        /// How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 12 months of MONTHLY forecasts.
-        public let granularity: Granularity
+    public enum TermInYears: String, CustomStringConvertible, Codable {
+        case oneYear = "ONE_YEAR"
+        case threeYears = "THREE_YEARS"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(predictionIntervalLevel: Int32? = nil, metric: Metric, timePeriod: DateInterval, filter: Expression? = nil, granularity: Granularity) {
-            self.predictionIntervalLevel = predictionIntervalLevel
-            self.metric = metric
+    public struct UtilizationByTime: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Groups", required: false, type: .list), 
+            AWSShapeMember(label: "TimePeriod", required: false, type: .structure), 
+            AWSShapeMember(label: "Total", required: false, type: .structure)
+        ]
+        /// The groups that are included in this utilization result.
+        public let groups: [ReservationUtilizationGroup]?
+        /// The period of time over which this utilization was used.
+        public let timePeriod: DateInterval?
+        /// The total number of RI hours that were used.
+        public let total: ReservationAggregates?
+
+        public init(groups: [ReservationUtilizationGroup]? = nil, timePeriod: DateInterval? = nil, total: ReservationAggregates? = nil) {
+            self.groups = groups
             self.timePeriod = timePeriod
-            self.filter = filter
-            self.granularity = granularity
+            self.total = total
         }
 
         private enum CodingKeys: String, CodingKey {
-            case predictionIntervalLevel = "PredictionIntervalLevel"
-            case metric = "Metric"
+            case groups = "Groups"
             case timePeriod = "TimePeriod"
-            case filter = "Filter"
-            case granularity = "Granularity"
-        }
-    }
-
-    public struct ReservationAggregates: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnusedHours", required: false, type: .string), 
-            AWSShapeMember(label: "TotalAmortizedFee", required: false, type: .string), 
-            AWSShapeMember(label: "PurchasedHours", required: false, type: .string), 
-            AWSShapeMember(label: "AmortizedUpfrontFee", required: false, type: .string), 
-            AWSShapeMember(label: "TotalPotentialRISavings", required: false, type: .string), 
-            AWSShapeMember(label: "TotalActualHours", required: false, type: .string), 
-            AWSShapeMember(label: "AmortizedRecurringFee", required: false, type: .string), 
-            AWSShapeMember(label: "OnDemandCostOfRIHoursUsed", required: false, type: .string), 
-            AWSShapeMember(label: "UtilizationPercentage", required: false, type: .string), 
-            AWSShapeMember(label: "NetRISavings", required: false, type: .string)
-        ]
-        /// The number of RI hours that you didn't use.
-        public let unusedHours: String?
-        /// The total cost of your RI, amortized over the RI period.
-        public let totalAmortizedFee: String?
-        /// How many RI hours that you purchased.
-        public let purchasedHours: String?
-        /// The upfront cost of your RI, amortized over the RI period.
-        public let amortizedUpfrontFee: String?
-        /// How much you could save if you use your entire reservation.
-        public let totalPotentialRISavings: String?
-        /// The total number of RI hours that you used.
-        public let totalActualHours: String?
-        /// The monthly cost of your RI, amortized over the RI period.
-        public let amortizedRecurringFee: String?
-        /// How much your RIs would cost if charged On-Demand rates.
-        public let onDemandCostOfRIHoursUsed: String?
-        /// The percentage of RI time that you used.
-        public let utilizationPercentage: String?
-        /// How much you saved due to purchasing and utilizing RIs. AWS calculates this by subtracting TotalAmortizedFee from OnDemandCostOfRIHoursUsed.
-        public let netRISavings: String?
-
-        public init(unusedHours: String? = nil, totalAmortizedFee: String? = nil, purchasedHours: String? = nil, amortizedUpfrontFee: String? = nil, totalPotentialRISavings: String? = nil, totalActualHours: String? = nil, amortizedRecurringFee: String? = nil, onDemandCostOfRIHoursUsed: String? = nil, utilizationPercentage: String? = nil, netRISavings: String? = nil) {
-            self.unusedHours = unusedHours
-            self.totalAmortizedFee = totalAmortizedFee
-            self.purchasedHours = purchasedHours
-            self.amortizedUpfrontFee = amortizedUpfrontFee
-            self.totalPotentialRISavings = totalPotentialRISavings
-            self.totalActualHours = totalActualHours
-            self.amortizedRecurringFee = amortizedRecurringFee
-            self.onDemandCostOfRIHoursUsed = onDemandCostOfRIHoursUsed
-            self.utilizationPercentage = utilizationPercentage
-            self.netRISavings = netRISavings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case unusedHours = "UnusedHours"
-            case totalAmortizedFee = "TotalAmortizedFee"
-            case purchasedHours = "PurchasedHours"
-            case amortizedUpfrontFee = "AmortizedUpfrontFee"
-            case totalPotentialRISavings = "TotalPotentialRISavings"
-            case totalActualHours = "TotalActualHours"
-            case amortizedRecurringFee = "AmortizedRecurringFee"
-            case onDemandCostOfRIHoursUsed = "OnDemandCostOfRIHoursUsed"
-            case utilizationPercentage = "UtilizationPercentage"
-            case netRISavings = "NetRISavings"
-        }
-    }
-
-    public struct Coverage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CoverageHours", required: false, type: .structure)
-        ]
-        /// The amount of instance usage that a reservation covered, in hours.
-        public let coverageHours: CoverageHours?
-
-        public init(coverageHours: CoverageHours? = nil) {
-            self.coverageHours = coverageHours
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case coverageHours = "CoverageHours"
+            case total = "Total"
         }
     }
 

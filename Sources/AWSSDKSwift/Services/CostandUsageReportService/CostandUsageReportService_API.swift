@@ -31,14 +31,14 @@ public struct CostandUsageReportService {
         return try client.send(operation: "DeleteReportDefinition", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Create a new report definition
-    public func putReportDefinition(_ input: PutReportDefinitionRequest) throws -> Future<PutReportDefinitionResponse> {
-        return try client.send(operation: "PutReportDefinition", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Describe a list of report definitions owned by the account
     public func describeReportDefinitions(_ input: DescribeReportDefinitionsRequest) throws -> Future<DescribeReportDefinitionsResponse> {
         return try client.send(operation: "DescribeReportDefinitions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Create a new report definition
+    public func putReportDefinition(_ input: PutReportDefinitionRequest) throws -> Future<PutReportDefinitionResponse> {
+        return try client.send(operation: "PutReportDefinition", path: "/", httpMethod: "POST", input: input)
     }
 
 

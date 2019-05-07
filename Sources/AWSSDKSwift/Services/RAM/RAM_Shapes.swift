@@ -5,91 +5,138 @@ import AWSSDKSwiftCore
 
 extension RAM {
 
-    public struct GetResourceSharesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceShareStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareArns", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceOwner", required: true, type: .enum), 
-            AWSShapeMember(label: "tagFilters", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// The status of the resource share.
-        public let resourceShareStatus: ResourceShareStatus?
-        /// The name of the resource share.
-        public let name: String?
-        /// The Amazon Resource Names (ARN) of the resource shares.
-        public let resourceShareArns: [String]?
-        /// The token for the next page of results.
-        public let nextToken: String?
-        /// The type of owner.
-        public let resourceOwner: ResourceOwner
-        /// One or more tag filters.
-        public let tagFilters: [TagFilter]?
-        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
-        public let maxResults: Int32?
-
-        public init(resourceShareStatus: ResourceShareStatus? = nil, name: String? = nil, resourceShareArns: [String]? = nil, nextToken: String? = nil, resourceOwner: ResourceOwner, tagFilters: [TagFilter]? = nil, maxResults: Int32? = nil) {
-            self.resourceShareStatus = resourceShareStatus
-            self.name = name
-            self.resourceShareArns = resourceShareArns
-            self.nextToken = nextToken
-            self.resourceOwner = resourceOwner
-            self.tagFilters = tagFilters
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceShareStatus = "resourceShareStatus"
-            case name = "name"
-            case resourceShareArns = "resourceShareArns"
-            case nextToken = "nextToken"
-            case resourceOwner = "resourceOwner"
-            case tagFilters = "tagFilters"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct DeleteResourceShareResponse: AWSShape {
+    public struct AcceptResourceShareInvitationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "returnValue", required: false, type: .boolean)
+            AWSShapeMember(label: "resourceShareInvitationArn", required: true, type: .string)
         ]
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
-        /// Indicates whether the request succeeded.
-        public let returnValue: Bool?
+        /// The Amazon Resource Name (ARN) of the invitation.
+        public let resourceShareInvitationArn: String
 
-        public init(clientToken: String? = nil, returnValue: Bool? = nil) {
+        public init(clientToken: String? = nil, resourceShareInvitationArn: String) {
             self.clientToken = clientToken
-            self.returnValue = returnValue
+            self.resourceShareInvitationArn = resourceShareInvitationArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
-            case returnValue = "returnValue"
+            case resourceShareInvitationArn = "resourceShareInvitationArn"
         }
     }
 
-    public struct DeleteResourceShareRequest: AWSShape {
+    public struct AcceptResourceShareInvitationResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", location: .querystring(locationName: "clientToken"), required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareArn", location: .querystring(locationName: "resourceShareArn"), required: true, type: .string)
+            AWSShapeMember(label: "clientToken", required: false, type: .string), 
+            AWSShapeMember(label: "resourceShareInvitation", required: false, type: .structure)
         ]
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
+        /// Information about the invitation.
+        public let resourceShareInvitation: ResourceShareInvitation?
+
+        public init(clientToken: String? = nil, resourceShareInvitation: ResourceShareInvitation? = nil) {
+            self.clientToken = clientToken
+            self.resourceShareInvitation = resourceShareInvitation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case resourceShareInvitation = "resourceShareInvitation"
+        }
+    }
+
+    public struct AssociateResourceShareRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientToken", required: false, type: .string), 
+            AWSShapeMember(label: "principals", required: false, type: .list), 
+            AWSShapeMember(label: "resourceArns", required: false, type: .list), 
+            AWSShapeMember(label: "resourceShareArn", required: true, type: .string)
+        ]
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The principals.
+        public let principals: [String]?
+        /// The Amazon Resource Names (ARN) of the resources.
+        public let resourceArns: [String]?
         /// The Amazon Resource Name (ARN) of the resource share.
         public let resourceShareArn: String
 
-        public init(clientToken: String? = nil, resourceShareArn: String) {
+        public init(clientToken: String? = nil, principals: [String]? = nil, resourceArns: [String]? = nil, resourceShareArn: String) {
             self.clientToken = clientToken
+            self.principals = principals
+            self.resourceArns = resourceArns
             self.resourceShareArn = resourceShareArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
+            case principals = "principals"
+            case resourceArns = "resourceArns"
             case resourceShareArn = "resourceShareArn"
+        }
+    }
+
+    public struct AssociateResourceShareResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientToken", required: false, type: .string), 
+            AWSShapeMember(label: "resourceShareAssociations", required: false, type: .list)
+        ]
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// Information about the associations.
+        public let resourceShareAssociations: [ResourceShareAssociation]?
+
+        public init(clientToken: String? = nil, resourceShareAssociations: [ResourceShareAssociation]? = nil) {
+            self.clientToken = clientToken
+            self.resourceShareAssociations = resourceShareAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case resourceShareAssociations = "resourceShareAssociations"
+        }
+    }
+
+    public struct CreateResourceShareRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "allowExternalPrincipals", required: false, type: .boolean), 
+            AWSShapeMember(label: "clientToken", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "principals", required: false, type: .list), 
+            AWSShapeMember(label: "resourceArns", required: false, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .list)
+        ]
+        /// Indicates whether principals outside your organization can be associated with a resource share.
+        public let allowExternalPrincipals: Bool?
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The name of the resource share.
+        public let name: String
+        /// The principals to associate with the resource share. The possible values are IDs of AWS accounts, the ARN of an OU or organization from AWS Organizations.
+        public let principals: [String]?
+        /// The Amazon Resource Names (ARN) of the resources to associate with the resource share.
+        public let resourceArns: [String]?
+        /// One or more tags.
+        public let tags: [Tag]?
+
+        public init(allowExternalPrincipals: Bool? = nil, clientToken: String? = nil, name: String, principals: [String]? = nil, resourceArns: [String]? = nil, tags: [Tag]? = nil) {
+            self.allowExternalPrincipals = allowExternalPrincipals
+            self.clientToken = clientToken
+            self.name = name
+            self.principals = principals
+            self.resourceArns = resourceArns
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowExternalPrincipals = "allowExternalPrincipals"
+            case clientToken = "clientToken"
+            case name = "name"
+            case principals = "principals"
+            case resourceArns = "resourceArns"
+            case tags = "tags"
         }
     }
 
@@ -114,6 +161,154 @@ extension RAM {
         }
     }
 
+    public struct DeleteResourceShareRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientToken", location: .querystring(locationName: "clientToken"), required: false, type: .string), 
+            AWSShapeMember(label: "resourceShareArn", location: .querystring(locationName: "resourceShareArn"), required: true, type: .string)
+        ]
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The Amazon Resource Name (ARN) of the resource share.
+        public let resourceShareArn: String
+
+        public init(clientToken: String? = nil, resourceShareArn: String) {
+            self.clientToken = clientToken
+            self.resourceShareArn = resourceShareArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case resourceShareArn = "resourceShareArn"
+        }
+    }
+
+    public struct DeleteResourceShareResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientToken", required: false, type: .string), 
+            AWSShapeMember(label: "returnValue", required: false, type: .boolean)
+        ]
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// Indicates whether the request succeeded.
+        public let returnValue: Bool?
+
+        public init(clientToken: String? = nil, returnValue: Bool? = nil) {
+            self.clientToken = clientToken
+            self.returnValue = returnValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case returnValue = "returnValue"
+        }
+    }
+
+    public struct DisassociateResourceShareRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientToken", required: false, type: .string), 
+            AWSShapeMember(label: "principals", required: false, type: .list), 
+            AWSShapeMember(label: "resourceArns", required: false, type: .list), 
+            AWSShapeMember(label: "resourceShareArn", required: true, type: .string)
+        ]
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The principals.
+        public let principals: [String]?
+        /// The Amazon Resource Names (ARN) of the resources.
+        public let resourceArns: [String]?
+        /// The Amazon Resource Name (ARN) of the resource share.
+        public let resourceShareArn: String
+
+        public init(clientToken: String? = nil, principals: [String]? = nil, resourceArns: [String]? = nil, resourceShareArn: String) {
+            self.clientToken = clientToken
+            self.principals = principals
+            self.resourceArns = resourceArns
+            self.resourceShareArn = resourceShareArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case principals = "principals"
+            case resourceArns = "resourceArns"
+            case resourceShareArn = "resourceShareArn"
+        }
+    }
+
+    public struct DisassociateResourceShareResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientToken", required: false, type: .string), 
+            AWSShapeMember(label: "resourceShareAssociations", required: false, type: .list)
+        ]
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// Information about the associations.
+        public let resourceShareAssociations: [ResourceShareAssociation]?
+
+        public init(clientToken: String? = nil, resourceShareAssociations: [ResourceShareAssociation]? = nil) {
+            self.clientToken = clientToken
+            self.resourceShareAssociations = resourceShareAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case resourceShareAssociations = "resourceShareAssociations"
+        }
+    }
+
+    public struct EnableSharingWithAwsOrganizationRequest: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct EnableSharingWithAwsOrganizationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "returnValue", required: false, type: .boolean)
+        ]
+        /// Indicates whether the request succeeded.
+        public let returnValue: Bool?
+
+        public init(returnValue: Bool? = nil) {
+            self.returnValue = returnValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case returnValue = "returnValue"
+        }
+    }
+
+    public struct GetResourcePoliciesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "principal", required: false, type: .string), 
+            AWSShapeMember(label: "resourceArns", required: true, type: .list)
+        ]
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int32?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The principal.
+        public let principal: String?
+        /// The Amazon Resource Names (ARN) of the resources.
+        public let resourceArns: [String]
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, principal: String? = nil, resourceArns: [String]) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.principal = principal
+            self.resourceArns = resourceArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case principal = "principal"
+            case resourceArns = "resourceArns"
+        }
+    }
+
     public struct GetResourcePoliciesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
@@ -135,75 +330,447 @@ extension RAM {
         }
     }
 
-    public struct ResourceShareAssociation: AWSShape {
+    public struct GetResourceShareAssociationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceShareArn", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "statusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "external", required: false, type: .boolean), 
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "associationType", required: false, type: .enum), 
-            AWSShapeMember(label: "associatedEntity", required: false, type: .string)
+            AWSShapeMember(label: "associationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "associationType", required: true, type: .enum), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "principal", required: false, type: .string), 
+            AWSShapeMember(label: "resourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "resourceShareArns", required: false, type: .list)
         ]
-        /// The Amazon Resource Name (ARN) of the resource share.
-        public let resourceShareArn: String?
-        /// The time when the association was last updated.
-        public let lastUpdatedTime: TimeStamp?
-        /// A message about the status of the association.
-        public let statusMessage: String?
-        /// Indicates whether the principal belongs to the same organization as the AWS account that owns the resource share.
-        public let external: Bool?
-        /// The time when the association was created.
-        public let creationTime: TimeStamp?
         /// The status of the association.
-        public let status: ResourceShareAssociationStatus?
+        public let associationStatus: ResourceShareAssociationStatus?
         /// The association type.
-        public let associationType: ResourceShareAssociationType?
-        /// The associated entity. For resource associations, this is the ARN of the resource. For principal associations, this is the ID of an AWS account or the ARN of an OU or organization from AWS Organizations.
-        public let associatedEntity: String?
+        public let associationType: ResourceShareAssociationType
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int32?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The principal.
+        public let principal: String?
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String?
+        /// The Amazon Resource Names (ARN) of the resource shares.
+        public let resourceShareArns: [String]?
 
-        public init(resourceShareArn: String? = nil, lastUpdatedTime: TimeStamp? = nil, statusMessage: String? = nil, external: Bool? = nil, creationTime: TimeStamp? = nil, status: ResourceShareAssociationStatus? = nil, associationType: ResourceShareAssociationType? = nil, associatedEntity: String? = nil) {
-            self.resourceShareArn = resourceShareArn
-            self.lastUpdatedTime = lastUpdatedTime
-            self.statusMessage = statusMessage
-            self.external = external
-            self.creationTime = creationTime
-            self.status = status
+        public init(associationStatus: ResourceShareAssociationStatus? = nil, associationType: ResourceShareAssociationType, maxResults: Int32? = nil, nextToken: String? = nil, principal: String? = nil, resourceArn: String? = nil, resourceShareArns: [String]? = nil) {
+            self.associationStatus = associationStatus
             self.associationType = associationType
-            self.associatedEntity = associatedEntity
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.principal = principal
+            self.resourceArn = resourceArn
+            self.resourceShareArns = resourceShareArns
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceShareArn = "resourceShareArn"
-            case lastUpdatedTime = "lastUpdatedTime"
-            case statusMessage = "statusMessage"
-            case external = "external"
-            case creationTime = "creationTime"
-            case status = "status"
+            case associationStatus = "associationStatus"
             case associationType = "associationType"
-            case associatedEntity = "associatedEntity"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case principal = "principal"
+            case resourceArn = "resourceArn"
+            case resourceShareArns = "resourceShareArns"
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct GetResourceShareAssociationsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: true, type: .list), 
-            AWSShapeMember(label: "resourceShareArn", required: true, type: .string)
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "resourceShareAssociations", required: false, type: .list)
         ]
-        /// One or more tags.
-        public let tags: [Tag]
-        /// The Amazon Resource Name (ARN) of the resource share.
-        public let resourceShareArn: String
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// Information about the association.
+        public let resourceShareAssociations: [ResourceShareAssociation]?
 
-        public init(tags: [Tag], resourceShareArn: String) {
-            self.tags = tags
+        public init(nextToken: String? = nil, resourceShareAssociations: [ResourceShareAssociation]? = nil) {
+            self.nextToken = nextToken
+            self.resourceShareAssociations = resourceShareAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case resourceShareAssociations = "resourceShareAssociations"
+        }
+    }
+
+    public struct GetResourceShareInvitationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "resourceShareArns", required: false, type: .list), 
+            AWSShapeMember(label: "resourceShareInvitationArns", required: false, type: .list)
+        ]
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int32?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The Amazon Resource Names (ARN) of the resource shares.
+        public let resourceShareArns: [String]?
+        /// The Amazon Resource Names (ARN) of the invitations.
+        public let resourceShareInvitationArns: [String]?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceShareArns: [String]? = nil, resourceShareInvitationArns: [String]? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceShareArns = resourceShareArns
+            self.resourceShareInvitationArns = resourceShareInvitationArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceShareArns = "resourceShareArns"
+            case resourceShareInvitationArns = "resourceShareInvitationArns"
+        }
+    }
+
+    public struct GetResourceShareInvitationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "resourceShareInvitations", required: false, type: .list)
+        ]
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// Information about the invitations.
+        public let resourceShareInvitations: [ResourceShareInvitation]?
+
+        public init(nextToken: String? = nil, resourceShareInvitations: [ResourceShareInvitation]? = nil) {
+            self.nextToken = nextToken
+            self.resourceShareInvitations = resourceShareInvitations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case resourceShareInvitations = "resourceShareInvitations"
+        }
+    }
+
+    public struct GetResourceSharesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "resourceOwner", required: true, type: .enum), 
+            AWSShapeMember(label: "resourceShareArns", required: false, type: .list), 
+            AWSShapeMember(label: "resourceShareStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "tagFilters", required: false, type: .list)
+        ]
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int32?
+        /// The name of the resource share.
+        public let name: String?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The type of owner.
+        public let resourceOwner: ResourceOwner
+        /// The Amazon Resource Names (ARN) of the resource shares.
+        public let resourceShareArns: [String]?
+        /// The status of the resource share.
+        public let resourceShareStatus: ResourceShareStatus?
+        /// One or more tag filters.
+        public let tagFilters: [TagFilter]?
+
+        public init(maxResults: Int32? = nil, name: String? = nil, nextToken: String? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceShareStatus: ResourceShareStatus? = nil, tagFilters: [TagFilter]? = nil) {
+            self.maxResults = maxResults
+            self.name = name
+            self.nextToken = nextToken
+            self.resourceOwner = resourceOwner
+            self.resourceShareArns = resourceShareArns
+            self.resourceShareStatus = resourceShareStatus
+            self.tagFilters = tagFilters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case name = "name"
+            case nextToken = "nextToken"
+            case resourceOwner = "resourceOwner"
+            case resourceShareArns = "resourceShareArns"
+            case resourceShareStatus = "resourceShareStatus"
+            case tagFilters = "tagFilters"
+        }
+    }
+
+    public struct GetResourceSharesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "resourceShares", required: false, type: .list)
+        ]
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// Information about the resource shares.
+        public let resourceShares: [ResourceShare]?
+
+        public init(nextToken: String? = nil, resourceShares: [ResourceShare]? = nil) {
+            self.nextToken = nextToken
+            self.resourceShares = resourceShares
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case resourceShares = "resourceShares"
+        }
+    }
+
+    public struct ListPrincipalsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "principals", required: false, type: .list), 
+            AWSShapeMember(label: "resourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "resourceOwner", required: true, type: .enum), 
+            AWSShapeMember(label: "resourceShareArns", required: false, type: .list), 
+            AWSShapeMember(label: "resourceType", required: false, type: .string)
+        ]
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int32?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The principals.
+        public let principals: [String]?
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String?
+        /// The type of owner.
+        public let resourceOwner: ResourceOwner
+        /// The Amazon Resource Names (ARN) of the resource shares.
+        public let resourceShareArns: [String]?
+        /// The resource type.
+        public let resourceType: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, principals: [String]? = nil, resourceArn: String? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceType: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.principals = principals
+            self.resourceArn = resourceArn
+            self.resourceOwner = resourceOwner
+            self.resourceShareArns = resourceShareArns
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case principals = "principals"
+            case resourceArn = "resourceArn"
+            case resourceOwner = "resourceOwner"
+            case resourceShareArns = "resourceShareArns"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct ListPrincipalsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "principals", required: false, type: .list)
+        ]
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The principals.
+        public let principals: [Principal]?
+
+        public init(nextToken: String? = nil, principals: [Principal]? = nil) {
+            self.nextToken = nextToken
+            self.principals = principals
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case principals = "principals"
+        }
+    }
+
+    public struct ListResourcesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "principal", required: false, type: .string), 
+            AWSShapeMember(label: "resourceArns", required: false, type: .list), 
+            AWSShapeMember(label: "resourceOwner", required: true, type: .enum), 
+            AWSShapeMember(label: "resourceShareArns", required: false, type: .list), 
+            AWSShapeMember(label: "resourceType", required: false, type: .string)
+        ]
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int32?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The principal.
+        public let principal: String?
+        /// The Amazon Resource Names (ARN) of the resources.
+        public let resourceArns: [String]?
+        /// The type of owner.
+        public let resourceOwner: ResourceOwner
+        /// The Amazon Resource Names (ARN) of the resource shares.
+        public let resourceShareArns: [String]?
+        /// The resource type.
+        public let resourceType: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, principal: String? = nil, resourceArns: [String]? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceType: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.principal = principal
+            self.resourceArns = resourceArns
+            self.resourceOwner = resourceOwner
+            self.resourceShareArns = resourceShareArns
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case principal = "principal"
+            case resourceArns = "resourceArns"
+            case resourceOwner = "resourceOwner"
+            case resourceShareArns = "resourceShareArns"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct ListResourcesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "resources", required: false, type: .list)
+        ]
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// Information about the resources.
+        public let resources: [Resource]?
+
+        public init(nextToken: String? = nil, resources: [Resource]? = nil) {
+            self.nextToken = nextToken
+            self.resources = resources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case resources = "resources"
+        }
+    }
+
+    public struct Principal: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "external", required: false, type: .boolean), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "resourceShareArn", required: false, type: .string)
+        ]
+        /// The time when the principal was associated with the resource share.
+        public let creationTime: TimeStamp?
+        /// Indicates whether the principal belongs to the same organization as the AWS account that owns the resource share.
+        public let external: Bool?
+        /// The ID of the principal.
+        public let id: String?
+        /// The time when the association was last updated.
+        public let lastUpdatedTime: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the resource share.
+        public let resourceShareArn: String?
+
+        public init(creationTime: TimeStamp? = nil, external: Bool? = nil, id: String? = nil, lastUpdatedTime: TimeStamp? = nil, resourceShareArn: String? = nil) {
+            self.creationTime = creationTime
+            self.external = external
+            self.id = id
+            self.lastUpdatedTime = lastUpdatedTime
             self.resourceShareArn = resourceShareArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
+            case creationTime = "creationTime"
+            case external = "external"
+            case id = "id"
+            case lastUpdatedTime = "lastUpdatedTime"
             case resourceShareArn = "resourceShareArn"
+        }
+    }
+
+    public struct RejectResourceShareInvitationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientToken", required: false, type: .string), 
+            AWSShapeMember(label: "resourceShareInvitationArn", required: true, type: .string)
+        ]
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The Amazon Resource Name (ARN) of the invitation.
+        public let resourceShareInvitationArn: String
+
+        public init(clientToken: String? = nil, resourceShareInvitationArn: String) {
+            self.clientToken = clientToken
+            self.resourceShareInvitationArn = resourceShareInvitationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case resourceShareInvitationArn = "resourceShareInvitationArn"
+        }
+    }
+
+    public struct RejectResourceShareInvitationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientToken", required: false, type: .string), 
+            AWSShapeMember(label: "resourceShareInvitation", required: false, type: .structure)
+        ]
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// Information about the invitation.
+        public let resourceShareInvitation: ResourceShareInvitation?
+
+        public init(clientToken: String? = nil, resourceShareInvitation: ResourceShareInvitation? = nil) {
+            self.clientToken = clientToken
+            self.resourceShareInvitation = resourceShareInvitation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case resourceShareInvitation = "resourceShareInvitation"
+        }
+    }
+
+    public struct Resource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "resourceShareArn", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "statusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let arn: String?
+        /// The time when the resource was associated with the resource share.
+        public let creationTime: TimeStamp?
+        /// The time when the association was last updated.
+        public let lastUpdatedTime: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the resource share.
+        public let resourceShareArn: String?
+        /// The status of the resource.
+        public let status: ResourceStatus?
+        /// A message about the status of the resource.
+        public let statusMessage: String?
+        /// The resource type.
+        public let `type`: String?
+
+        public init(arn: String? = nil, creationTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, resourceShareArn: String? = nil, status: ResourceStatus? = nil, statusMessage: String? = nil, type: String? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.lastUpdatedTime = lastUpdatedTime
+            self.resourceShareArn = resourceShareArn
+            self.status = status
+            self.statusMessage = statusMessage
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case resourceShareArn = "resourceShareArn"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case `type` = "type"
         }
     }
 
@@ -213,132 +780,176 @@ extension RAM {
         public var description: String { return self.rawValue }
     }
 
-    public struct GetResourcePoliciesRequest: AWSShape {
+    public struct ResourceShare: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArns", required: true, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "principal", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
+            AWSShapeMember(label: "allowExternalPrincipals", required: false, type: .boolean), 
+            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "owningAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "resourceShareArn", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "statusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list)
         ]
-        /// The Amazon Resource Names (ARN) of the resources.
-        public let resourceArns: [String]
-        /// The token for the next page of results.
-        public let nextToken: String?
-        /// The principal.
-        public let principal: String?
-        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
-        public let maxResults: Int32?
+        /// Indicates whether principals outside your organization can be associated with a resource share.
+        public let allowExternalPrincipals: Bool?
+        /// The time when the resource share was created.
+        public let creationTime: TimeStamp?
+        /// The time when the resource share was last updated.
+        public let lastUpdatedTime: TimeStamp?
+        /// The name of the resource share.
+        public let name: String?
+        /// The ID of the AWS account that owns the resource share.
+        public let owningAccountId: String?
+        /// The Amazon Resource Name (ARN) of the resource share.
+        public let resourceShareArn: String?
+        /// The status of the resource share.
+        public let status: ResourceShareStatus?
+        /// A message about the status of the resource share.
+        public let statusMessage: String?
+        /// The tags for the resource share.
+        public let tags: [Tag]?
 
-        public init(resourceArns: [String], nextToken: String? = nil, principal: String? = nil, maxResults: Int32? = nil) {
-            self.resourceArns = resourceArns
-            self.nextToken = nextToken
-            self.principal = principal
-            self.maxResults = maxResults
+        public init(allowExternalPrincipals: Bool? = nil, creationTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, owningAccountId: String? = nil, resourceShareArn: String? = nil, status: ResourceShareStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil) {
+            self.allowExternalPrincipals = allowExternalPrincipals
+            self.creationTime = creationTime
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.owningAccountId = owningAccountId
+            self.resourceShareArn = resourceShareArn
+            self.status = status
+            self.statusMessage = statusMessage
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArns = "resourceArns"
-            case nextToken = "nextToken"
-            case principal = "principal"
-            case maxResults = "maxResults"
+            case allowExternalPrincipals = "allowExternalPrincipals"
+            case creationTime = "creationTime"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case name = "name"
+            case owningAccountId = "owningAccountId"
+            case resourceShareArn = "resourceShareArn"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case tags = "tags"
         }
     }
 
-    public struct Resource: AWSShape {
+    public struct ResourceShareAssociation: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "statusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .string), 
+            AWSShapeMember(label: "associatedEntity", required: false, type: .string), 
+            AWSShapeMember(label: "associationType", required: false, type: .enum), 
             AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "external", required: false, type: .boolean), 
             AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "resourceShareArn", required: false, type: .string)
+            AWSShapeMember(label: "resourceShareArn", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "statusMessage", required: false, type: .string)
         ]
-        /// A message about the status of the resource.
-        public let statusMessage: String?
-        /// The Amazon Resource Name (ARN) of the resource.
-        public let arn: String?
-        /// The resource type.
-        public let `type`: String?
-        /// The time when the resource was associated with the resource share.
+        /// The associated entity. For resource associations, this is the ARN of the resource. For principal associations, this is the ID of an AWS account or the ARN of an OU or organization from AWS Organizations.
+        public let associatedEntity: String?
+        /// The association type.
+        public let associationType: ResourceShareAssociationType?
+        /// The time when the association was created.
         public let creationTime: TimeStamp?
-        /// The status of the resource.
-        public let status: ResourceStatus?
+        /// Indicates whether the principal belongs to the same organization as the AWS account that owns the resource share.
+        public let external: Bool?
         /// The time when the association was last updated.
         public let lastUpdatedTime: TimeStamp?
         /// The Amazon Resource Name (ARN) of the resource share.
         public let resourceShareArn: String?
+        /// The status of the association.
+        public let status: ResourceShareAssociationStatus?
+        /// A message about the status of the association.
+        public let statusMessage: String?
 
-        public init(statusMessage: String? = nil, arn: String? = nil, type: String? = nil, creationTime: TimeStamp? = nil, status: ResourceStatus? = nil, lastUpdatedTime: TimeStamp? = nil, resourceShareArn: String? = nil) {
-            self.statusMessage = statusMessage
-            self.arn = arn
-            self.`type` = `type`
+        public init(associatedEntity: String? = nil, associationType: ResourceShareAssociationType? = nil, creationTime: TimeStamp? = nil, external: Bool? = nil, lastUpdatedTime: TimeStamp? = nil, resourceShareArn: String? = nil, status: ResourceShareAssociationStatus? = nil, statusMessage: String? = nil) {
+            self.associatedEntity = associatedEntity
+            self.associationType = associationType
             self.creationTime = creationTime
-            self.status = status
+            self.external = external
             self.lastUpdatedTime = lastUpdatedTime
             self.resourceShareArn = resourceShareArn
+            self.status = status
+            self.statusMessage = statusMessage
         }
 
         private enum CodingKeys: String, CodingKey {
-            case statusMessage = "statusMessage"
-            case arn = "arn"
-            case `type` = "type"
+            case associatedEntity = "associatedEntity"
+            case associationType = "associationType"
             case creationTime = "creationTime"
-            case status = "status"
+            case external = "external"
             case lastUpdatedTime = "lastUpdatedTime"
             case resourceShareArn = "resourceShareArn"
+            case status = "status"
+            case statusMessage = "statusMessage"
         }
     }
 
-    public struct GetResourceShareInvitationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceShareArns", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareInvitationArns", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// The Amazon Resource Names (ARN) of the resource shares.
-        public let resourceShareArns: [String]?
-        /// The token for the next page of results.
-        public let nextToken: String?
-        /// The Amazon Resource Names (ARN) of the invitations.
-        public let resourceShareInvitationArns: [String]?
-        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
-        public let maxResults: Int32?
-
-        public init(resourceShareArns: [String]? = nil, nextToken: String? = nil, resourceShareInvitationArns: [String]? = nil, maxResults: Int32? = nil) {
-            self.resourceShareArns = resourceShareArns
-            self.nextToken = nextToken
-            self.resourceShareInvitationArns = resourceShareInvitationArns
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceShareArns = "resourceShareArns"
-            case nextToken = "nextToken"
-            case resourceShareInvitationArns = "resourceShareInvitationArns"
-            case maxResults = "maxResults"
-        }
+    public enum ResourceShareAssociationStatus: String, CustomStringConvertible, Codable {
+        case associating = "ASSOCIATING"
+        case associated = "ASSOCIATED"
+        case failed = "FAILED"
+        case disassociating = "DISASSOCIATING"
+        case disassociated = "DISASSOCIATED"
+        public var description: String { return self.rawValue }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public enum ResourceShareAssociationType: String, CustomStringConvertible, Codable {
+        case principal = "PRINCIPAL"
+        case resource = "RESOURCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ResourceShareInvitation: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tagKeys", required: true, type: .list), 
-            AWSShapeMember(label: "resourceShareArn", required: true, type: .string)
+            AWSShapeMember(label: "invitationTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "receiverAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "resourceShareArn", required: false, type: .string), 
+            AWSShapeMember(label: "resourceShareAssociations", required: false, type: .list), 
+            AWSShapeMember(label: "resourceShareInvitationArn", required: false, type: .string), 
+            AWSShapeMember(label: "resourceShareName", required: false, type: .string), 
+            AWSShapeMember(label: "senderAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum)
         ]
-        /// The tag keys of the tags to remove.
-        public let tagKeys: [String]
+        /// The date and time when the invitation was sent.
+        public let invitationTimestamp: TimeStamp?
+        /// The ID of the AWS account that received the invitation.
+        public let receiverAccountId: String?
         /// The Amazon Resource Name (ARN) of the resource share.
-        public let resourceShareArn: String
+        public let resourceShareArn: String?
+        /// The resources associated with the resource share.
+        public let resourceShareAssociations: [ResourceShareAssociation]?
+        /// The Amazon Resource Name (ARN) of the invitation.
+        public let resourceShareInvitationArn: String?
+        /// The name of the resource share.
+        public let resourceShareName: String?
+        /// The ID of the AWS account that sent the invitation.
+        public let senderAccountId: String?
+        /// The status of the invitation.
+        public let status: ResourceShareInvitationStatus?
 
-        public init(tagKeys: [String], resourceShareArn: String) {
-            self.tagKeys = tagKeys
+        public init(invitationTimestamp: TimeStamp? = nil, receiverAccountId: String? = nil, resourceShareArn: String? = nil, resourceShareAssociations: [ResourceShareAssociation]? = nil, resourceShareInvitationArn: String? = nil, resourceShareName: String? = nil, senderAccountId: String? = nil, status: ResourceShareInvitationStatus? = nil) {
+            self.invitationTimestamp = invitationTimestamp
+            self.receiverAccountId = receiverAccountId
             self.resourceShareArn = resourceShareArn
+            self.resourceShareAssociations = resourceShareAssociations
+            self.resourceShareInvitationArn = resourceShareInvitationArn
+            self.resourceShareName = resourceShareName
+            self.senderAccountId = senderAccountId
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tagKeys = "tagKeys"
+            case invitationTimestamp = "invitationTimestamp"
+            case receiverAccountId = "receiverAccountId"
             case resourceShareArn = "resourceShareArn"
+            case resourceShareAssociations = "resourceShareAssociations"
+            case resourceShareInvitationArn = "resourceShareInvitationArn"
+            case resourceShareName = "resourceShareName"
+            case senderAccountId = "senderAccountId"
+            case status = "status"
         }
     }
 
@@ -348,6 +959,121 @@ extension RAM {
         case rejected = "REJECTED"
         case expired = "EXPIRED"
         public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceShareStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case active = "ACTIVE"
+        case failed = "FAILED"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceStatus: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case zonalResourceInaccessible = "ZONAL_RESOURCE_INACCESSIBLE"
+        case limitExceeded = "LIMIT_EXCEEDED"
+        case unavailable = "UNAVAILABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: false, type: .string), 
+            AWSShapeMember(label: "value", required: false, type: .string)
+        ]
+        /// The key of the tag.
+        public let key: String?
+        /// The value of the tag.
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
+    public struct TagFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tagKey", required: false, type: .string), 
+            AWSShapeMember(label: "tagValues", required: false, type: .list)
+        ]
+        /// The tag key.
+        public let tagKey: String?
+        /// The tag values.
+        public let tagValues: [String]?
+
+        public init(tagKey: String? = nil, tagValues: [String]? = nil) {
+            self.tagKey = tagKey
+            self.tagValues = tagValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagKey = "tagKey"
+            case tagValues = "tagValues"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceShareArn", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the resource share.
+        public let resourceShareArn: String
+        /// One or more tags.
+        public let tags: [Tag]
+
+        public init(resourceShareArn: String, tags: [Tag]) {
+            self.resourceShareArn = resourceShareArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceShareArn = "resourceShareArn"
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceShareArn", required: true, type: .string), 
+            AWSShapeMember(label: "tagKeys", required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the resource share.
+        public let resourceShareArn: String
+        /// The tag keys of the tags to remove.
+        public let tagKeys: [String]
+
+        public init(resourceShareArn: String, tagKeys: [String]) {
+            self.resourceShareArn = resourceShareArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceShareArn = "resourceShareArn"
+            case tagKeys = "tagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct UpdateResourceShareRequest: AWSShape {
@@ -381,62 +1107,6 @@ extension RAM {
         }
     }
 
-    public struct ResourceShare: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "owningAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "statusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "allowExternalPrincipals", required: false, type: .boolean), 
-            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "resourceShareArn", required: false, type: .string)
-        ]
-        /// The ID of the AWS account that owns the resource share.
-        public let owningAccountId: String?
-        /// A message about the status of the resource share.
-        public let statusMessage: String?
-        /// The name of the resource share.
-        public let name: String?
-        /// The tags for the resource share.
-        public let tags: [Tag]?
-        /// The time when the resource share was created.
-        public let creationTime: TimeStamp?
-        /// The status of the resource share.
-        public let status: ResourceShareStatus?
-        /// Indicates whether principals outside your organization can be associated with a resource share.
-        public let allowExternalPrincipals: Bool?
-        /// The time when the resource share was last updated.
-        public let lastUpdatedTime: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the resource share.
-        public let resourceShareArn: String?
-
-        public init(owningAccountId: String? = nil, statusMessage: String? = nil, name: String? = nil, tags: [Tag]? = nil, creationTime: TimeStamp? = nil, status: ResourceShareStatus? = nil, allowExternalPrincipals: Bool? = nil, lastUpdatedTime: TimeStamp? = nil, resourceShareArn: String? = nil) {
-            self.owningAccountId = owningAccountId
-            self.statusMessage = statusMessage
-            self.name = name
-            self.tags = tags
-            self.creationTime = creationTime
-            self.status = status
-            self.allowExternalPrincipals = allowExternalPrincipals
-            self.lastUpdatedTime = lastUpdatedTime
-            self.resourceShareArn = resourceShareArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case owningAccountId = "owningAccountId"
-            case statusMessage = "statusMessage"
-            case name = "name"
-            case tags = "tags"
-            case creationTime = "creationTime"
-            case status = "status"
-            case allowExternalPrincipals = "allowExternalPrincipals"
-            case lastUpdatedTime = "lastUpdatedTime"
-            case resourceShareArn = "resourceShareArn"
-        }
-    }
-
     public struct UpdateResourceShareResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clientToken", required: false, type: .string), 
@@ -455,667 +1125,6 @@ extension RAM {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case resourceShare = "resourceShare"
-        }
-    }
-
-    public struct ResourceShareInvitation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "senderAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareName", required: false, type: .string), 
-            AWSShapeMember(label: "invitationTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "resourceShareAssociations", required: false, type: .list), 
-            AWSShapeMember(label: "resourceShareInvitationArn", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "receiverAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareArn", required: false, type: .string)
-        ]
-        /// The ID of the AWS account that sent the invitation.
-        public let senderAccountId: String?
-        /// The name of the resource share.
-        public let resourceShareName: String?
-        /// The date and time when the invitation was sent.
-        public let invitationTimestamp: TimeStamp?
-        /// The resources associated with the resource share.
-        public let resourceShareAssociations: [ResourceShareAssociation]?
-        /// The Amazon Resource Name (ARN) of the invitation.
-        public let resourceShareInvitationArn: String?
-        /// The status of the invitation.
-        public let status: ResourceShareInvitationStatus?
-        /// The ID of the AWS account that received the invitation.
-        public let receiverAccountId: String?
-        /// The Amazon Resource Name (ARN) of the resource share.
-        public let resourceShareArn: String?
-
-        public init(senderAccountId: String? = nil, resourceShareName: String? = nil, invitationTimestamp: TimeStamp? = nil, resourceShareAssociations: [ResourceShareAssociation]? = nil, resourceShareInvitationArn: String? = nil, status: ResourceShareInvitationStatus? = nil, receiverAccountId: String? = nil, resourceShareArn: String? = nil) {
-            self.senderAccountId = senderAccountId
-            self.resourceShareName = resourceShareName
-            self.invitationTimestamp = invitationTimestamp
-            self.resourceShareAssociations = resourceShareAssociations
-            self.resourceShareInvitationArn = resourceShareInvitationArn
-            self.status = status
-            self.receiverAccountId = receiverAccountId
-            self.resourceShareArn = resourceShareArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case senderAccountId = "senderAccountId"
-            case resourceShareName = "resourceShareName"
-            case invitationTimestamp = "invitationTimestamp"
-            case resourceShareAssociations = "resourceShareAssociations"
-            case resourceShareInvitationArn = "resourceShareInvitationArn"
-            case status = "status"
-            case receiverAccountId = "receiverAccountId"
-            case resourceShareArn = "resourceShareArn"
-        }
-    }
-
-    public struct ListResourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceType", required: false, type: .string), 
-            AWSShapeMember(label: "resourceArns", required: false, type: .list), 
-            AWSShapeMember(label: "resourceShareArns", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceOwner", required: true, type: .enum), 
-            AWSShapeMember(label: "principal", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// The resource type.
-        public let resourceType: String?
-        /// The Amazon Resource Names (ARN) of the resources.
-        public let resourceArns: [String]?
-        /// The Amazon Resource Names (ARN) of the resource shares.
-        public let resourceShareArns: [String]?
-        /// The token for the next page of results.
-        public let nextToken: String?
-        /// The type of owner.
-        public let resourceOwner: ResourceOwner
-        /// The principal.
-        public let principal: String?
-        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
-        public let maxResults: Int32?
-
-        public init(resourceType: String? = nil, resourceArns: [String]? = nil, resourceShareArns: [String]? = nil, nextToken: String? = nil, resourceOwner: ResourceOwner, principal: String? = nil, maxResults: Int32? = nil) {
-            self.resourceType = resourceType
-            self.resourceArns = resourceArns
-            self.resourceShareArns = resourceShareArns
-            self.nextToken = nextToken
-            self.resourceOwner = resourceOwner
-            self.principal = principal
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceType = "resourceType"
-            case resourceArns = "resourceArns"
-            case resourceShareArns = "resourceShareArns"
-            case nextToken = "nextToken"
-            case resourceOwner = "resourceOwner"
-            case principal = "principal"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct EnableSharingWithAwsOrganizationRequest: AWSShape {
-
-    }
-
-    public struct RejectResourceShareInvitationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareInvitation", required: false, type: .structure)
-        ]
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
-        public let clientToken: String?
-        /// Information about the invitation.
-        public let resourceShareInvitation: ResourceShareInvitation?
-
-        public init(clientToken: String? = nil, resourceShareInvitation: ResourceShareInvitation? = nil) {
-            self.clientToken = clientToken
-            self.resourceShareInvitation = resourceShareInvitation
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case resourceShareInvitation = "resourceShareInvitation"
-        }
-    }
-
-    public struct GetResourceShareAssociationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareAssociations", required: false, type: .list)
-        ]
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
-        public let nextToken: String?
-        /// Information about the association.
-        public let resourceShareAssociations: [ResourceShareAssociation]?
-
-        public init(nextToken: String? = nil, resourceShareAssociations: [ResourceShareAssociation]? = nil) {
-            self.nextToken = nextToken
-            self.resourceShareAssociations = resourceShareAssociations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case resourceShareAssociations = "resourceShareAssociations"
-        }
-    }
-
-    public struct UntagResourceResponse: AWSShape {
-
-    }
-
-    public struct AssociateResourceShareRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "principals", required: false, type: .list), 
-            AWSShapeMember(label: "resourceArns", required: false, type: .list), 
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareArn", required: true, type: .string)
-        ]
-        /// The principals.
-        public let principals: [String]?
-        /// The Amazon Resource Names (ARN) of the resources.
-        public let resourceArns: [String]?
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
-        public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the resource share.
-        public let resourceShareArn: String
-
-        public init(principals: [String]? = nil, resourceArns: [String]? = nil, clientToken: String? = nil, resourceShareArn: String) {
-            self.principals = principals
-            self.resourceArns = resourceArns
-            self.clientToken = clientToken
-            self.resourceShareArn = resourceShareArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case principals = "principals"
-            case resourceArns = "resourceArns"
-            case clientToken = "clientToken"
-            case resourceShareArn = "resourceShareArn"
-        }
-    }
-
-    public struct AcceptResourceShareInvitationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareInvitationArn", required: true, type: .string)
-        ]
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
-        public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the invitation.
-        public let resourceShareInvitationArn: String
-
-        public init(clientToken: String? = nil, resourceShareInvitationArn: String) {
-            self.clientToken = clientToken
-            self.resourceShareInvitationArn = resourceShareInvitationArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case resourceShareInvitationArn = "resourceShareInvitationArn"
-        }
-    }
-
-    public struct DisassociateResourceShareRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "principals", required: false, type: .list), 
-            AWSShapeMember(label: "resourceArns", required: false, type: .list), 
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareArn", required: true, type: .string)
-        ]
-        /// The principals.
-        public let principals: [String]?
-        /// The Amazon Resource Names (ARN) of the resources.
-        public let resourceArns: [String]?
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
-        public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the resource share.
-        public let resourceShareArn: String
-
-        public init(principals: [String]? = nil, resourceArns: [String]? = nil, clientToken: String? = nil, resourceShareArn: String) {
-            self.principals = principals
-            self.resourceArns = resourceArns
-            self.clientToken = clientToken
-            self.resourceShareArn = resourceShareArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case principals = "principals"
-            case resourceArns = "resourceArns"
-            case clientToken = "clientToken"
-            case resourceShareArn = "resourceShareArn"
-        }
-    }
-
-    public enum ResourceShareStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case active = "ACTIVE"
-        case failed = "FAILED"
-        case deleting = "DELETING"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ResourceShareAssociationType: String, CustomStringConvertible, Codable {
-        case principal = "PRINCIPAL"
-        case resource = "RESOURCE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Principal: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "external", required: false, type: .boolean), 
-            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "resourceShareArn", required: false, type: .string)
-        ]
-        /// The time when the principal was associated with the resource share.
-        public let creationTime: TimeStamp?
-        /// The ID of the principal.
-        public let id: String?
-        /// Indicates whether the principal belongs to the same organization as the AWS account that owns the resource share.
-        public let external: Bool?
-        /// The time when the association was last updated.
-        public let lastUpdatedTime: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the resource share.
-        public let resourceShareArn: String?
-
-        public init(creationTime: TimeStamp? = nil, id: String? = nil, external: Bool? = nil, lastUpdatedTime: TimeStamp? = nil, resourceShareArn: String? = nil) {
-            self.creationTime = creationTime
-            self.id = id
-            self.external = external
-            self.lastUpdatedTime = lastUpdatedTime
-            self.resourceShareArn = resourceShareArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationTime = "creationTime"
-            case id = "id"
-            case external = "external"
-            case lastUpdatedTime = "lastUpdatedTime"
-            case resourceShareArn = "resourceShareArn"
-        }
-    }
-
-    public struct RejectResourceShareInvitationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareInvitationArn", required: true, type: .string)
-        ]
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
-        public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the invitation.
-        public let resourceShareInvitationArn: String
-
-        public init(clientToken: String? = nil, resourceShareInvitationArn: String) {
-            self.clientToken = clientToken
-            self.resourceShareInvitationArn = resourceShareInvitationArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case resourceShareInvitationArn = "resourceShareInvitationArn"
-        }
-    }
-
-    public struct ListPrincipalsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceType", required: false, type: .string), 
-            AWSShapeMember(label: "resourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareArns", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceOwner", required: true, type: .enum), 
-            AWSShapeMember(label: "principals", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// The resource type.
-        public let resourceType: String?
-        /// The Amazon Resource Name (ARN) of the resource.
-        public let resourceArn: String?
-        /// The Amazon Resource Names (ARN) of the resource shares.
-        public let resourceShareArns: [String]?
-        /// The token for the next page of results.
-        public let nextToken: String?
-        /// The type of owner.
-        public let resourceOwner: ResourceOwner
-        /// The principals.
-        public let principals: [String]?
-        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
-        public let maxResults: Int32?
-
-        public init(resourceType: String? = nil, resourceArn: String? = nil, resourceShareArns: [String]? = nil, nextToken: String? = nil, resourceOwner: ResourceOwner, principals: [String]? = nil, maxResults: Int32? = nil) {
-            self.resourceType = resourceType
-            self.resourceArn = resourceArn
-            self.resourceShareArns = resourceShareArns
-            self.nextToken = nextToken
-            self.resourceOwner = resourceOwner
-            self.principals = principals
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceType = "resourceType"
-            case resourceArn = "resourceArn"
-            case resourceShareArns = "resourceShareArns"
-            case nextToken = "nextToken"
-            case resourceOwner = "resourceOwner"
-            case principals = "principals"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "key", required: false, type: .string), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
-        /// The key of the tag.
-        public let key: String?
-        /// The value of the tag.
-        public let value: String?
-
-        public init(key: String? = nil, value: String? = nil) {
-            self.key = key
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "key"
-            case value = "value"
-        }
-    }
-
-    public struct GetResourceShareAssociationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "principal", required: false, type: .string), 
-            AWSShapeMember(label: "resourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareArns", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "associationType", required: true, type: .enum), 
-            AWSShapeMember(label: "associationStatus", required: false, type: .enum)
-        ]
-        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
-        public let maxResults: Int32?
-        /// The principal.
-        public let principal: String?
-        /// The Amazon Resource Name (ARN) of the resource.
-        public let resourceArn: String?
-        /// The Amazon Resource Names (ARN) of the resource shares.
-        public let resourceShareArns: [String]?
-        /// The token for the next page of results.
-        public let nextToken: String?
-        /// The association type.
-        public let associationType: ResourceShareAssociationType
-        /// The status of the association.
-        public let associationStatus: ResourceShareAssociationStatus?
-
-        public init(maxResults: Int32? = nil, principal: String? = nil, resourceArn: String? = nil, resourceShareArns: [String]? = nil, nextToken: String? = nil, associationType: ResourceShareAssociationType, associationStatus: ResourceShareAssociationStatus? = nil) {
-            self.maxResults = maxResults
-            self.principal = principal
-            self.resourceArn = resourceArn
-            self.resourceShareArns = resourceShareArns
-            self.nextToken = nextToken
-            self.associationType = associationType
-            self.associationStatus = associationStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case principal = "principal"
-            case resourceArn = "resourceArn"
-            case resourceShareArns = "resourceShareArns"
-            case nextToken = "nextToken"
-            case associationType = "associationType"
-            case associationStatus = "associationStatus"
-        }
-    }
-
-    public struct AcceptResourceShareInvitationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareInvitation", required: false, type: .structure)
-        ]
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
-        public let clientToken: String?
-        /// Information about the invitation.
-        public let resourceShareInvitation: ResourceShareInvitation?
-
-        public init(clientToken: String? = nil, resourceShareInvitation: ResourceShareInvitation? = nil) {
-            self.clientToken = clientToken
-            self.resourceShareInvitation = resourceShareInvitation
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case resourceShareInvitation = "resourceShareInvitation"
-        }
-    }
-
-    public enum ResourceStatus: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case zonalResourceInaccessible = "ZONAL_RESOURCE_INACCESSIBLE"
-        case limitExceeded = "LIMIT_EXCEEDED"
-        case unavailable = "UNAVAILABLE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ResourceShareAssociationStatus: String, CustomStringConvertible, Codable {
-        case associating = "ASSOCIATING"
-        case associated = "ASSOCIATED"
-        case failed = "FAILED"
-        case disassociating = "DISASSOCIATING"
-        case disassociated = "DISASSOCIATED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AssociateResourceShareResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceShareAssociations", required: false, type: .list), 
-            AWSShapeMember(label: "clientToken", required: false, type: .string)
-        ]
-        /// Information about the associations.
-        public let resourceShareAssociations: [ResourceShareAssociation]?
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
-        public let clientToken: String?
-
-        public init(resourceShareAssociations: [ResourceShareAssociation]? = nil, clientToken: String? = nil) {
-            self.resourceShareAssociations = resourceShareAssociations
-            self.clientToken = clientToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceShareAssociations = "resourceShareAssociations"
-            case clientToken = "clientToken"
-        }
-    }
-
-    public struct DisassociateResourceShareResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceShareAssociations", required: false, type: .list), 
-            AWSShapeMember(label: "clientToken", required: false, type: .string)
-        ]
-        /// Information about the associations.
-        public let resourceShareAssociations: [ResourceShareAssociation]?
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
-        public let clientToken: String?
-
-        public init(resourceShareAssociations: [ResourceShareAssociation]? = nil, clientToken: String? = nil) {
-            self.resourceShareAssociations = resourceShareAssociations
-            self.clientToken = clientToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceShareAssociations = "resourceShareAssociations"
-            case clientToken = "clientToken"
-        }
-    }
-
-    public struct GetResourceSharesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShares", required: false, type: .list)
-        ]
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
-        public let nextToken: String?
-        /// Information about the resource shares.
-        public let resourceShares: [ResourceShare]?
-
-        public init(nextToken: String? = nil, resourceShares: [ResourceShare]? = nil) {
-            self.nextToken = nextToken
-            self.resourceShares = resourceShares
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case resourceShares = "resourceShares"
-        }
-    }
-
-    public struct EnableSharingWithAwsOrganizationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "returnValue", required: false, type: .boolean)
-        ]
-        /// Indicates whether the request succeeded.
-        public let returnValue: Bool?
-
-        public init(returnValue: Bool? = nil) {
-            self.returnValue = returnValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case returnValue = "returnValue"
-        }
-    }
-
-    public struct ListPrincipalsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "principals", required: false, type: .list)
-        ]
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
-        public let nextToken: String?
-        /// The principals.
-        public let principals: [Principal]?
-
-        public init(nextToken: String? = nil, principals: [Principal]? = nil) {
-            self.nextToken = nextToken
-            self.principals = principals
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case principals = "principals"
-        }
-    }
-
-    public struct CreateResourceShareRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArns", required: false, type: .list), 
-            AWSShapeMember(label: "allowExternalPrincipals", required: false, type: .boolean), 
-            AWSShapeMember(label: "principals", required: false, type: .list), 
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
-        /// The Amazon Resource Names (ARN) of the resources to associate with the resource share.
-        public let resourceArns: [String]?
-        /// Indicates whether principals outside your organization can be associated with a resource share.
-        public let allowExternalPrincipals: Bool?
-        /// The principals to associate with the resource share. The possible values are IDs of AWS accounts, the ARN of an OU or organization from AWS Organizations.
-        public let principals: [String]?
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
-        public let clientToken: String?
-        /// The name of the resource share.
-        public let name: String
-        /// One or more tags.
-        public let tags: [Tag]?
-
-        public init(resourceArns: [String]? = nil, allowExternalPrincipals: Bool? = nil, principals: [String]? = nil, clientToken: String? = nil, name: String, tags: [Tag]? = nil) {
-            self.resourceArns = resourceArns
-            self.allowExternalPrincipals = allowExternalPrincipals
-            self.principals = principals
-            self.clientToken = clientToken
-            self.name = name
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceArns = "resourceArns"
-            case allowExternalPrincipals = "allowExternalPrincipals"
-            case principals = "principals"
-            case clientToken = "clientToken"
-            case name = "name"
-            case tags = "tags"
-        }
-    }
-
-    public struct ListResourcesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resources", required: false, type: .list)
-        ]
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
-        public let nextToken: String?
-        /// Information about the resources.
-        public let resources: [Resource]?
-
-        public init(nextToken: String? = nil, resources: [Resource]? = nil) {
-            self.nextToken = nextToken
-            self.resources = resources
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case resources = "resources"
-        }
-    }
-
-    public struct GetResourceShareInvitationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareInvitations", required: false, type: .list)
-        ]
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
-        public let nextToken: String?
-        /// Information about the invitations.
-        public let resourceShareInvitations: [ResourceShareInvitation]?
-
-        public init(nextToken: String? = nil, resourceShareInvitations: [ResourceShareInvitation]? = nil) {
-            self.nextToken = nextToken
-            self.resourceShareInvitations = resourceShareInvitations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case resourceShareInvitations = "resourceShareInvitations"
-        }
-    }
-
-    public struct TagResourceResponse: AWSShape {
-
-    }
-
-    public struct TagFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tagKey", required: false, type: .string), 
-            AWSShapeMember(label: "tagValues", required: false, type: .list)
-        ]
-        /// The tag key.
-        public let tagKey: String?
-        /// The tag values.
-        public let tagValues: [String]?
-
-        public init(tagKey: String? = nil, tagValues: [String]? = nil) {
-            self.tagKey = tagKey
-            self.tagValues = tagValues
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagKey = "tagKey"
-            case tagValues = "tagValues"
         }
     }
 

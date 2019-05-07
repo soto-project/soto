@@ -5,8 +5,8 @@ import AWSSDKSwiftCore
 /// Error enum for XRay
 public enum XRayErrorType: AWSErrorType {
     case invalidRequestException(message: String?)
-    case throttledException(message: String?)
     case ruleLimitExceededException(message: String?)
+    case throttledException(message: String?)
 }
 
 extension XRayErrorType {
@@ -18,10 +18,10 @@ extension XRayErrorType {
         switch errorCode {
         case "InvalidRequestException":
             self = .invalidRequestException(message: message)
-        case "ThrottledException":
-            self = .throttledException(message: message)
         case "RuleLimitExceededException":
             self = .ruleLimitExceededException(message: message)
+        case "ThrottledException":
+            self = .throttledException(message: message)
         default:
             return nil
         }

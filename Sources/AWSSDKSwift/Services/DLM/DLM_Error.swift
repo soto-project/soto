@@ -4,10 +4,10 @@ import AWSSDKSwiftCore
 
 /// Error enum for DLM
 public enum DLMErrorType: AWSErrorType {
-    case resourceNotFoundException(message: String?)
     case internalServerException(message: String?)
-    case limitExceededException(message: String?)
     case invalidRequestException(message: String?)
+    case limitExceededException(message: String?)
+    case resourceNotFoundException(message: String?)
 }
 
 extension DLMErrorType {
@@ -17,14 +17,14 @@ extension DLMErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
         case "InternalServerException":
             self = .internalServerException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
         case "InvalidRequestException":
             self = .invalidRequestException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         default:
             return nil
         }

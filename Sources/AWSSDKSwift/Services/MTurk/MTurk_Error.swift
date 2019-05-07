@@ -4,8 +4,8 @@ import AWSSDKSwiftCore
 
 /// Error enum for MTurk
 public enum MTurkErrorType: AWSErrorType {
-    case serviceFault(message: String?)
     case requestError(message: String?)
+    case serviceFault(message: String?)
 }
 
 extension MTurkErrorType {
@@ -15,10 +15,10 @@ extension MTurkErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "ServiceFault":
-            self = .serviceFault(message: message)
         case "RequestError":
             self = .requestError(message: message)
+        case "ServiceFault":
+            self = .serviceFault(message: message)
         default:
             return nil
         }

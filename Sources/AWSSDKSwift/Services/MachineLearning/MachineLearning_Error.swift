@@ -4,14 +4,14 @@ import AWSSDKSwiftCore
 
 /// Error enum for MachineLearning
 public enum MachineLearningErrorType: AWSErrorType {
+    case idempotentParameterMismatchException(message: String?)
+    case internalServerException(message: String?)
     case invalidInputException(message: String?)
     case invalidTagException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case internalServerException(message: String?)
-    case idempotentParameterMismatchException(message: String?)
-    case tagLimitExceededException(message: String?)
     case limitExceededException(message: String?)
     case predictorNotMountedException(message: String?)
+    case resourceNotFoundException(message: String?)
+    case tagLimitExceededException(message: String?)
 }
 
 extension MachineLearningErrorType {
@@ -21,22 +21,22 @@ extension MachineLearningErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "IdempotentParameterMismatchException":
+            self = .idempotentParameterMismatchException(message: message)
+        case "InternalServerException":
+            self = .internalServerException(message: message)
         case "InvalidInputException":
             self = .invalidInputException(message: message)
         case "InvalidTagException":
             self = .invalidTagException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "InternalServerException":
-            self = .internalServerException(message: message)
-        case "IdempotentParameterMismatchException":
-            self = .idempotentParameterMismatchException(message: message)
-        case "TagLimitExceededException":
-            self = .tagLimitExceededException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
         case "PredictorNotMountedException":
             self = .predictorNotMountedException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
+        case "TagLimitExceededException":
+            self = .tagLimitExceededException(message: message)
         default:
             return nil
         }

@@ -5,250 +5,6 @@ import AWSSDKSwiftCore
 
 extension Transfer {
 
-    public struct ListServersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Specifies the number of servers to return as a response to the ListServers query.
-        public let maxResults: Int32?
-        /// When additional results are obtained from the ListServers command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional servers.
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DeleteServerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerId", required: true, type: .string)
-        ]
-        /// A unique system-assigned identifier for an SFTP server instance.
-        public let serverId: String
-
-        public init(serverId: String) {
-            self.serverId = serverId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverId = "ServerId"
-        }
-    }
-
-    public struct ImportSshPublicKeyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "ServerId", required: true, type: .string), 
-            AWSShapeMember(label: "SshPublicKeyBody", required: true, type: .string)
-        ]
-        /// The name of the user account that is assigned to one or more servers.
-        public let userName: String
-        /// A system-assigned unique identifier for an SFTP server.
-        public let serverId: String
-        /// The public key portion of an SSH key pair.
-        public let sshPublicKeyBody: String
-
-        public init(userName: String, serverId: String, sshPublicKeyBody: String) {
-            self.userName = userName
-            self.serverId = serverId
-            self.sshPublicKeyBody = sshPublicKeyBody
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-            case serverId = "ServerId"
-            case sshPublicKeyBody = "SshPublicKeyBody"
-        }
-    }
-
-    public struct DescribedUser: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Role", required: false, type: .string), 
-            AWSShapeMember(label: "HomeDirectory", required: false, type: .string), 
-            AWSShapeMember(label: "SshPublicKeys", required: false, type: .list), 
-            AWSShapeMember(label: "UserName", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "Policy", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: true, type: .string)
-        ]
-        /// This property specifies the IAM role that controls your user’s access to your Amazon S3 bucket. The policies attached to this role will determine the level of access you want to provide your users when transferring files into and out of your Amazon S3 bucket or buckets. The IAM role should also contain a trust relationship that allows the SFTP server to access your resources when servicing your SFTP user’s transfer requests.
-        public let role: String?
-        /// This property specifies the landing directory (or folder) which is the location that files are written to or read from in an Amazon S3 bucket for the described user. An example would be: /bucket_name/home/username .
-        public let homeDirectory: String?
-        /// This property contains the public key portion of the Secure Shell (SSH) keys stored for the described user.
-        public let sshPublicKeys: [SshPublicKey]?
-        /// This property is the name of the user that was requested to be described. User names are used for authentication purposes. This is the string that will be used by your user when they log in to your SFTP server.
-        public let userName: String?
-        /// This property contains the key-value pairs for the user requested. Tag can be used to search for and group users for a variety of purposes.
-        public let tags: [Tag]?
-        /// Specifies the name of the policy in use for the described user.
-        public let policy: String?
-        /// This property contains the unique Amazon Resource Name (ARN) for the user that was requested to be described.
-        public let arn: String
-
-        public init(role: String? = nil, homeDirectory: String? = nil, sshPublicKeys: [SshPublicKey]? = nil, userName: String? = nil, tags: [Tag]? = nil, policy: String? = nil, arn: String) {
-            self.role = role
-            self.homeDirectory = homeDirectory
-            self.sshPublicKeys = sshPublicKeys
-            self.userName = userName
-            self.tags = tags
-            self.policy = policy
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case role = "Role"
-            case homeDirectory = "HomeDirectory"
-            case sshPublicKeys = "SshPublicKeys"
-            case userName = "UserName"
-            case tags = "Tags"
-            case policy = "Policy"
-            case arn = "Arn"
-        }
-    }
-
-    public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: true, type: .list), 
-            AWSShapeMember(label: "Arn", required: true, type: .string)
-        ]
-        /// Key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to user accounts for any purpose.
-        public let tags: [Tag]
-        /// An Amazon Resource Name (ARN) for a specific AWS resource, such as a server, user, or role.
-        public let arn: String
-
-        public init(tags: [Tag], arn: String) {
-            self.tags = tags
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case arn = "Arn"
-        }
-    }
-
-    public struct ListServersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Servers", required: true, type: .list)
-        ]
-        /// When you can get additional results from the ListServers operation, a NextToken parameter is returned in the output. In a following command, you can pass in the NextToken parameter to continue listing additional servers.
-        public let nextToken: String?
-        /// An array of servers that were listed.
-        public let servers: [ListedServer]
-
-        public init(nextToken: String? = nil, servers: [ListedServer]) {
-            self.nextToken = nextToken
-            self.servers = servers
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case servers = "Servers"
-        }
-    }
-
-    public struct CreateUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "ServerId", required: true, type: .string)
-        ]
-        /// A unique string that identifies a user account associated with an SFTP server.
-        public let userName: String
-        /// The ID of the SFTP server that the user is attached to.
-        public let serverId: String
-
-        public init(userName: String, serverId: String) {
-            self.userName = userName
-            self.serverId = serverId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-            case serverId = "ServerId"
-        }
-    }
-
-    public struct ListUsersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Users", required: true, type: .list), 
-            AWSShapeMember(label: "ServerId", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Returns the user accounts and their properties for the ServerId value that you specify.
-        public let users: [ListedUser]
-        /// A system-assigned unique identifier for an SFTP server that the users are assigned to.
-        public let serverId: String
-        /// When you can get additional results from the ListUsers call, a NextToken parameter is returned in the output. You can then pass in a subsequent command the NextToken parameter to continue listing additional users.
-        public let nextToken: String?
-
-        public init(users: [ListedUser], serverId: String, nextToken: String? = nil) {
-            self.users = users
-            self.serverId = serverId
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case users = "Users"
-            case serverId = "ServerId"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct CreateUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HomeDirectory", required: false, type: .string), 
-            AWSShapeMember(label: "SshPublicKeyBody", required: false, type: .string), 
-            AWSShapeMember(label: "ServerId", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "Policy", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "Role", required: true, type: .string)
-        ]
-        /// The landing directory (folder) for a user when they log in to the server using their SFTP client. An example is /home/username .
-        public let homeDirectory: String?
-        /// The public portion of the Secure Shall (SSH) key used to authenticate the user to the SFTP server.
-        public let sshPublicKeyBody: String?
-        /// A system-assigned unique identifier for an SFTP server instance. This is the specific SFTP server that you added your user to.
-        public let serverId: String
-        /// A unique string that identifies a user and is associated with a server as specified by the ServerId.
-        public let userName: String
-        /// A scope-down policy for your user so you can use the same IAM role across multiple users. This policy scopes down user access to portions of their Amazon S3 bucket. Variables you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.
-        public let policy: String?
-        /// Key-value pairs that can be used to group and search for users. Tags are metadata attached to users for any purpose.
-        public let tags: [Tag]?
-        /// The IAM role that controls your user’s access to your Amazon S3 bucket. The policies attached to this role will determine the level of access you want to provide your users when transferring files into and out of your Amazon S3 bucket or buckets. The IAM role should also contain a trust relationship that allows the SFTP server to access your resources when servicing your SFTP user’s transfer requests.
-        public let role: String
-
-        public init(homeDirectory: String? = nil, sshPublicKeyBody: String? = nil, serverId: String, userName: String, policy: String? = nil, tags: [Tag]? = nil, role: String) {
-            self.homeDirectory = homeDirectory
-            self.sshPublicKeyBody = sshPublicKeyBody
-            self.serverId = serverId
-            self.userName = userName
-            self.policy = policy
-            self.tags = tags
-            self.role = role
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case homeDirectory = "HomeDirectory"
-            case sshPublicKeyBody = "SshPublicKeyBody"
-            case serverId = "ServerId"
-            case userName = "UserName"
-            case policy = "Policy"
-            case tags = "Tags"
-            case role = "Role"
-        }
-    }
-
     public struct CreateServerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityProviderDetails", required: false, type: .structure), 
@@ -280,29 +36,202 @@ extension Transfer {
         }
     }
 
-    public struct ImportSshPublicKeyResponse: AWSShape {
+    public struct CreateServerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerId", required: true, type: .string)
+        ]
+        /// The service-assigned ID of the SFTP server that is created.
+        public let serverId: String
+
+        public init(serverId: String) {
+            self.serverId = serverId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverId = "ServerId"
+        }
+    }
+
+    public struct CreateUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HomeDirectory", required: false, type: .string), 
+            AWSShapeMember(label: "Policy", required: false, type: .string), 
+            AWSShapeMember(label: "Role", required: true, type: .string), 
+            AWSShapeMember(label: "ServerId", required: true, type: .string), 
+            AWSShapeMember(label: "SshPublicKeyBody", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "UserName", required: true, type: .string)
+        ]
+        /// The landing directory (folder) for a user when they log in to the server using their SFTP client. An example is /home/username .
+        public let homeDirectory: String?
+        /// A scope-down policy for your user so you can use the same IAM role across multiple users. This policy scopes down user access to portions of their Amazon S3 bucket. Variables you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.
+        public let policy: String?
+        /// The IAM role that controls your user’s access to your Amazon S3 bucket. The policies attached to this role will determine the level of access you want to provide your users when transferring files into and out of your Amazon S3 bucket or buckets. The IAM role should also contain a trust relationship that allows the SFTP server to access your resources when servicing your SFTP user’s transfer requests.
+        public let role: String
+        /// A system-assigned unique identifier for an SFTP server instance. This is the specific SFTP server that you added your user to.
+        public let serverId: String
+        /// The public portion of the Secure Shall (SSH) key used to authenticate the user to the SFTP server.
+        public let sshPublicKeyBody: String?
+        /// Key-value pairs that can be used to group and search for users. Tags are metadata attached to users for any purpose.
+        public let tags: [Tag]?
+        /// A unique string that identifies a user and is associated with a server as specified by the ServerId.
+        public let userName: String
+
+        public init(homeDirectory: String? = nil, policy: String? = nil, role: String, serverId: String, sshPublicKeyBody: String? = nil, tags: [Tag]? = nil, userName: String) {
+            self.homeDirectory = homeDirectory
+            self.policy = policy
+            self.role = role
+            self.serverId = serverId
+            self.sshPublicKeyBody = sshPublicKeyBody
+            self.tags = tags
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case homeDirectory = "HomeDirectory"
+            case policy = "Policy"
+            case role = "Role"
+            case serverId = "ServerId"
+            case sshPublicKeyBody = "SshPublicKeyBody"
+            case tags = "Tags"
+            case userName = "UserName"
+        }
+    }
+
+    public struct CreateUserResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServerId", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "SshPublicKeyId", required: true, type: .string)
+            AWSShapeMember(label: "UserName", required: true, type: .string)
         ]
-        /// A system-assigned unique identifier for an SFTP server.
+        /// The ID of the SFTP server that the user is attached to.
         public let serverId: String
-        /// A user name assigned to the ServerID value that you specified.
+        /// A unique string that identifies a user account associated with an SFTP server.
         public let userName: String
-        /// This identifier is the name given to a public key by the system that was imported.
-        public let sshPublicKeyId: String
 
-        public init(serverId: String, userName: String, sshPublicKeyId: String) {
+        public init(serverId: String, userName: String) {
             self.serverId = serverId
             self.userName = userName
-            self.sshPublicKeyId = sshPublicKeyId
         }
 
         private enum CodingKeys: String, CodingKey {
             case serverId = "ServerId"
             case userName = "UserName"
+        }
+    }
+
+    public struct DeleteServerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerId", required: true, type: .string)
+        ]
+        /// A unique system-assigned identifier for an SFTP server instance.
+        public let serverId: String
+
+        public init(serverId: String) {
+            self.serverId = serverId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverId = "ServerId"
+        }
+    }
+
+    public struct DeleteSshPublicKeyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerId", required: true, type: .string), 
+            AWSShapeMember(label: "SshPublicKeyId", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string)
+        ]
+        /// A system-assigned unique identifier for a Secure File Transfer Protocol (SFTP) server instance that has the user assigned to it.
+        public let serverId: String
+        /// A unique identifier used to reference your user’s specific SSH key.
+        public let sshPublicKeyId: String
+        /// A unique string that identifies a user whose public key is being deleted.
+        public let userName: String
+
+        public init(serverId: String, sshPublicKeyId: String, userName: String) {
+            self.serverId = serverId
+            self.sshPublicKeyId = sshPublicKeyId
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverId = "ServerId"
             case sshPublicKeyId = "SshPublicKeyId"
+            case userName = "UserName"
+        }
+    }
+
+    public struct DeleteUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerId", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string)
+        ]
+        /// A system-assigned unique identifier for an SFTP server instance that has the user assigned to it.
+        public let serverId: String
+        /// A unique string that identifies a user that is being deleted from the server.
+        public let userName: String
+
+        public init(serverId: String, userName: String) {
+            self.serverId = serverId
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverId = "ServerId"
+            case userName = "UserName"
+        }
+    }
+
+    public struct DescribeServerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerId", required: true, type: .string)
+        ]
+        /// A system-assigned unique identifier for an SFTP server.
+        public let serverId: String
+
+        public init(serverId: String) {
+            self.serverId = serverId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverId = "ServerId"
+        }
+    }
+
+    public struct DescribeServerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Server", required: true, type: .structure)
+        ]
+        /// An array containing the properties of the server with the ServerID you specified.
+        public let server: DescribedServer
+
+        public init(server: DescribedServer) {
+            self.server = server
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case server = "Server"
+        }
+    }
+
+    public struct DescribeUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerId", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string)
+        ]
+        /// A system-assigned unique identifier for an SFTP server that has this user assigned.
+        public let serverId: String
+        /// The name of the user assigned to one or more servers. User names are part of the sign-in credentials to use the AWS Transfer service and perform file transfer tasks.
+        public let userName: String
+
+        public init(serverId: String, userName: String) {
+            self.serverId = serverId
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverId = "ServerId"
+            case userName = "UserName"
         }
     }
 
@@ -327,377 +256,121 @@ extension Transfer {
         }
     }
 
-    public struct ListedServer: AWSShape {
+    public struct DescribedServer: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerId", required: false, type: .string), 
-            AWSShapeMember(label: "UserCount", required: false, type: .integer), 
-            AWSShapeMember(label: "IdentityProviderType", required: false, type: .enum), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
             AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "LoggingRole", required: false, type: .string)
+            AWSShapeMember(label: "IdentityProviderDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "IdentityProviderType", required: false, type: .enum), 
+            AWSShapeMember(label: "LoggingRole", required: false, type: .string), 
+            AWSShapeMember(label: "ServerId", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "UserCount", required: false, type: .integer)
         ]
-        /// This value is the unique system assigned identifier for the SFTP servers that were listed.
-        public let serverId: String?
-        /// This property is a numeric value that indicates the number of users that are assigned to the SFTP server you specified with the ServerId.
-        public let userCount: Int32?
-        /// The authentication method used to validate a user for the server that was specified. listed. This can include Secure Shell (SSH), user name and password combinations, or your own custom authentication method. Valid values include SERVICE_MANAGED or API_GATEWAY.
-        public let identityProviderType: IdentityProviderType?
-        /// This property describes the condition of the SFTP server for the server that was described. A value of ONLINE&gt; indicates that the server can accept jobs and transfer files. A State value of OFFLINE means that the server cannot perform file transfer operations. The states of STARTING and STOPPING indicated that the server is in an intermediate state, either not fully able to respond, or not fully offline. The values of START_FAILED or STOP_FAILED can indicate an error condition.
-        public let state: State?
-        /// The unique Amazon Resource Name (ARN) for the server to be listed.
+        /// Specifies the unique Amazon Resource Name (ARN) for the server to be described.
         public let arn: String
-        /// The AWS Identity and Access Management entity that allows the server to turn on Amazon CloudWatch logging.
+        /// Specifies information to call a customer-supplied authentication API. This field is not populated when the IdentityProviderType of the server is SERVICE_MANAGED&gt;.
+        public let identityProviderDetails: IdentityProviderDetails?
+        /// This property defines the mode of authentication method enabled for this service. A value of SERVICE_MANAGED, means that you are using this Server to store and access SFTP user credentials within the service. A value of API_GATEWAY indicates that you have integrated an API Gateway endpoint that will be invoked for authenticating your user into the service.
+        public let identityProviderType: IdentityProviderType?
+        /// This property is an AWS Identity and Access Management (IAM) entity that allows the server to turn on Amazon CloudWatch logging for Amazon S3 events. When set, user activity can be view in your CloudWatch logs.
         public let loggingRole: String?
+        /// This property is a unique system assigned identifier for the SFTP server that you instantiate.
+        public let serverId: String?
+        /// The condition of the SFTP server for the server that was described. A value of ONLINE indicates that the server can accept jobs and transfer files. A State value of OFFLINE means that the server cannot perform file transfer operations. The states of STARTING and STOPPING indicated that the server is in an intermediate state, either not fully able to respond, or not fully offline. The values of START_FAILED or STOP_FAILED can indicate an error condition.
+        public let state: State?
+        /// This property contains the key-value pairs that you can use to search for and group servers that were assigned to the server that was described.
+        public let tags: [Tag]?
+        /// The number of users that are assigned to the SFTP server you specified with the ServerId.
+        public let userCount: Int32?
 
-        public init(serverId: String? = nil, userCount: Int32? = nil, identityProviderType: IdentityProviderType? = nil, state: State? = nil, arn: String, loggingRole: String? = nil) {
-            self.serverId = serverId
-            self.userCount = userCount
-            self.identityProviderType = identityProviderType
-            self.state = state
+        public init(arn: String, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, serverId: String? = nil, state: State? = nil, tags: [Tag]? = nil, userCount: Int32? = nil) {
             self.arn = arn
+            self.identityProviderDetails = identityProviderDetails
+            self.identityProviderType = identityProviderType
             self.loggingRole = loggingRole
+            self.serverId = serverId
+            self.state = state
+            self.tags = tags
+            self.userCount = userCount
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serverId = "ServerId"
-            case userCount = "UserCount"
-            case identityProviderType = "IdentityProviderType"
-            case state = "State"
             case arn = "Arn"
+            case identityProviderDetails = "IdentityProviderDetails"
+            case identityProviderType = "IdentityProviderType"
             case loggingRole = "LoggingRole"
+            case serverId = "ServerId"
+            case state = "State"
+            case tags = "Tags"
+            case userCount = "UserCount"
+        }
+    }
+
+    public struct DescribedUser: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: true, type: .string), 
+            AWSShapeMember(label: "HomeDirectory", required: false, type: .string), 
+            AWSShapeMember(label: "Policy", required: false, type: .string), 
+            AWSShapeMember(label: "Role", required: false, type: .string), 
+            AWSShapeMember(label: "SshPublicKeys", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "UserName", required: false, type: .string)
+        ]
+        /// This property contains the unique Amazon Resource Name (ARN) for the user that was requested to be described.
+        public let arn: String
+        /// This property specifies the landing directory (or folder) which is the location that files are written to or read from in an Amazon S3 bucket for the described user. An example would be: /bucket_name/home/username .
+        public let homeDirectory: String?
+        /// Specifies the name of the policy in use for the described user.
+        public let policy: String?
+        /// This property specifies the IAM role that controls your user’s access to your Amazon S3 bucket. The policies attached to this role will determine the level of access you want to provide your users when transferring files into and out of your Amazon S3 bucket or buckets. The IAM role should also contain a trust relationship that allows the SFTP server to access your resources when servicing your SFTP user’s transfer requests.
+        public let role: String?
+        /// This property contains the public key portion of the Secure Shell (SSH) keys stored for the described user.
+        public let sshPublicKeys: [SshPublicKey]?
+        /// This property contains the key-value pairs for the user requested. Tag can be used to search for and group users for a variety of purposes.
+        public let tags: [Tag]?
+        /// This property is the name of the user that was requested to be described. User names are used for authentication purposes. This is the string that will be used by your user when they log in to your SFTP server.
+        public let userName: String?
+
+        public init(arn: String, homeDirectory: String? = nil, policy: String? = nil, role: String? = nil, sshPublicKeys: [SshPublicKey]? = nil, tags: [Tag]? = nil, userName: String? = nil) {
+            self.arn = arn
+            self.homeDirectory = homeDirectory
+            self.policy = policy
+            self.role = role
+            self.sshPublicKeys = sshPublicKeys
+            self.tags = tags
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case homeDirectory = "HomeDirectory"
+            case policy = "Policy"
+            case role = "Role"
+            case sshPublicKeys = "SshPublicKeys"
+            case tags = "Tags"
+            case userName = "UserName"
         }
     }
 
     public struct IdentityProviderDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Url", required: false, type: .string), 
-            AWSShapeMember(label: "InvocationRole", required: false, type: .string)
+            AWSShapeMember(label: "InvocationRole", required: false, type: .string), 
+            AWSShapeMember(label: "Url", required: false, type: .string)
         ]
-        /// The IdentityProviderDetail parameter contains the location of the service endpoint used to authenticate users.
-        public let url: String?
         /// The Role parameter provides the type of InvocationRole used to authenticate the user account.
         public let invocationRole: String?
+        /// The IdentityProviderDetail parameter contains the location of the service endpoint used to authenticate users.
+        public let url: String?
 
-        public init(url: String? = nil, invocationRole: String? = nil) {
-            self.url = url
+        public init(invocationRole: String? = nil, url: String? = nil) {
             self.invocationRole = invocationRole
+            self.url = url
         }
 
         private enum CodingKeys: String, CodingKey {
-            case url = "Url"
             case invocationRole = "InvocationRole"
-        }
-    }
-
-    public struct UpdateUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "ServerId", required: true, type: .string)
-        ]
-        /// The unique identifier for a user that is assigned to the SFTP server instance that was specified in the request.
-        public let userName: String
-        /// A system-assigned unique identifier for an SFTP server instance that the user account is assigned to.
-        public let serverId: String
-
-        public init(userName: String, serverId: String) {
-            self.userName = userName
-            self.serverId = serverId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-            case serverId = "ServerId"
-        }
-    }
-
-    public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagKeys", required: true, type: .list), 
-            AWSShapeMember(label: "Arn", required: true, type: .string)
-        ]
-        /// TagKeys are key-value pairs assigned to ARNs that can be used to group and search for resources by type. This metadata can be attached to resources for any purpose.
-        public let tagKeys: [String]
-        /// This is the value of the resource that will have the tag removed. An Amazon Resource Name (ARN) is an identifier for a specific AWS resource, such as a server, user, or role.
-        public let arn: String
-
-        public init(tagKeys: [String], arn: String) {
-            self.tagKeys = tagKeys
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagKeys = "TagKeys"
-            case arn = "Arn"
-        }
-    }
-
-    public struct DescribedServer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "LoggingRole", required: false, type: .string), 
-            AWSShapeMember(label: "IdentityProviderDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "ServerId", required: false, type: .string), 
-            AWSShapeMember(label: "UserCount", required: false, type: .integer), 
-            AWSShapeMember(label: "IdentityProviderType", required: false, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "Arn", required: true, type: .string)
-        ]
-        /// The condition of the SFTP server for the server that was described. A value of ONLINE indicates that the server can accept jobs and transfer files. A State value of OFFLINE means that the server cannot perform file transfer operations. The states of STARTING and STOPPING indicated that the server is in an intermediate state, either not fully able to respond, or not fully offline. The values of START_FAILED or STOP_FAILED can indicate an error condition.
-        public let state: State?
-        /// This property is an AWS Identity and Access Management (IAM) entity that allows the server to turn on Amazon CloudWatch logging for Amazon S3 events. When set, user activity can be view in your CloudWatch logs.
-        public let loggingRole: String?
-        /// Specifies information to call a customer-supplied authentication API. This field is not populated when the IdentityProviderType of the server is SERVICE_MANAGED&gt;.
-        public let identityProviderDetails: IdentityProviderDetails?
-        /// This property is a unique system assigned identifier for the SFTP server that you instantiate.
-        public let serverId: String?
-        /// The number of users that are assigned to the SFTP server you specified with the ServerId.
-        public let userCount: Int32?
-        /// This property defines the mode of authentication method enabled for this service. A value of SERVICE_MANAGED, means that you are using this Server to store and access SFTP user credentials within the service. A value of API_GATEWAY indicates that you have integrated an API Gateway endpoint that will be invoked for authenticating your user into the service.
-        public let identityProviderType: IdentityProviderType?
-        /// This property contains the key-value pairs that you can use to search for and group servers that were assigned to the server that was described.
-        public let tags: [Tag]?
-        /// Specifies the unique Amazon Resource Name (ARN) for the server to be described.
-        public let arn: String
-
-        public init(state: State? = nil, loggingRole: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, serverId: String? = nil, userCount: Int32? = nil, identityProviderType: IdentityProviderType? = nil, tags: [Tag]? = nil, arn: String) {
-            self.state = state
-            self.loggingRole = loggingRole
-            self.identityProviderDetails = identityProviderDetails
-            self.serverId = serverId
-            self.userCount = userCount
-            self.identityProviderType = identityProviderType
-            self.tags = tags
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "State"
-            case loggingRole = "LoggingRole"
-            case identityProviderDetails = "IdentityProviderDetails"
-            case serverId = "ServerId"
-            case userCount = "UserCount"
-            case identityProviderType = "IdentityProviderType"
-            case tags = "Tags"
-            case arn = "Arn"
-        }
-    }
-
-    public struct StopServerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerId", required: true, type: .string)
-        ]
-        /// A system-assigned unique identifier for an SFTP server that you stopped.
-        public let serverId: String
-
-        public init(serverId: String) {
-            self.serverId = serverId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverId = "ServerId"
-        }
-    }
-
-    public struct DescribeServerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerId", required: true, type: .string)
-        ]
-        /// A system-assigned unique identifier for an SFTP server.
-        public let serverId: String
-
-        public init(serverId: String) {
-            self.serverId = serverId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverId = "ServerId"
-        }
-    }
-
-    public struct DeleteUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "ServerId", required: true, type: .string)
-        ]
-        /// A unique string that identifies a user that is being deleted from the server.
-        public let userName: String
-        /// A system-assigned unique identifier for an SFTP server instance that has the user assigned to it.
-        public let serverId: String
-
-        public init(userName: String, serverId: String) {
-            self.userName = userName
-            self.serverId = serverId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-            case serverId = "ServerId"
-        }
-    }
-
-    public struct UpdateServerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerId", required: true, type: .string)
-        ]
-        /// A system-assigned unique identifier for an SFTP server that the user account is assigned to.
-        public let serverId: String
-
-        public init(serverId: String) {
-            self.serverId = serverId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverId = "ServerId"
-        }
-    }
-
-    public struct ListedUser: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HomeDirectory", required: false, type: .string), 
-            AWSShapeMember(label: "SshPublicKeyCount", required: false, type: .integer), 
-            AWSShapeMember(label: "UserName", required: false, type: .string), 
-            AWSShapeMember(label: "Role", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: true, type: .string)
-        ]
-        /// This value specifies the location that files are written to or read from an Amazon S3 bucket for the user you specify by their ARN.
-        public let homeDirectory: String?
-        /// This value is the number of SSH public keys stored for the user you specified.
-        public let sshPublicKeyCount: Int32?
-        /// The name of the user whose ARN was specified. User names are used for authentication purposes.
-        public let userName: String?
-        /// The role in use by this user. A role is an AWS Identity and Access Management (IAM) entity that in this case allows the SFTP server to act on a user's behalf. It allows the server to inherit the trust relationship that enables that user to perform file operations to their Amazon S3 bucket.
-        public let role: String?
-        /// This property is the unique Amazon Resource Name (ARN) for the user that you wish to learn about.
-        public let arn: String
-
-        public init(homeDirectory: String? = nil, sshPublicKeyCount: Int32? = nil, userName: String? = nil, role: String? = nil, arn: String) {
-            self.homeDirectory = homeDirectory
-            self.sshPublicKeyCount = sshPublicKeyCount
-            self.userName = userName
-            self.role = role
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case homeDirectory = "HomeDirectory"
-            case sshPublicKeyCount = "SshPublicKeyCount"
-            case userName = "UserName"
-            case role = "Role"
-            case arn = "Arn"
-        }
-    }
-
-    public struct UpdateUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerId", required: true, type: .string), 
-            AWSShapeMember(label: "HomeDirectory", required: false, type: .string), 
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "Policy", required: false, type: .string), 
-            AWSShapeMember(label: "Role", required: false, type: .string)
-        ]
-        /// A system-assigned unique identifier for an SFTP server instance that the user account is assigned to.
-        public let serverId: String
-        /// The HomeDirectory parameter specifies the landing directory (folder) for a user when they log in to the server using their client. An example would be: /home/username .
-        public let homeDirectory: String?
-        /// A unique string that identifies a user and is associated with a server as specified by the ServerId. This is the string that will be used by your user when they log in to your SFTP server.
-        public let userName: String
-        /// Allows you to supply a scope-down policy for your user so you can use the same AWS Identity and Access Management (IAM) role across multiple users. The policy scopes down users access to portions of your Amazon S3 bucket. Variables you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.
-        public let policy: String?
-        /// The IAM role that controls your user’s access to your Amazon S3 bucket. The policies attached to this role will determine the level of access you want to provide your users when transferring files into and out of your Amazon S3 bucket or buckets. The IAM role should also contain a trust relationship that allows the Secure File Transfer Protocol (SFTP) server to access your resources when servicing your SFTP user’s transfer requests.
-        public let role: String?
-
-        public init(serverId: String, homeDirectory: String? = nil, userName: String, policy: String? = nil, role: String? = nil) {
-            self.serverId = serverId
-            self.homeDirectory = homeDirectory
-            self.userName = userName
-            self.policy = policy
-            self.role = role
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverId = "ServerId"
-            case homeDirectory = "HomeDirectory"
-            case userName = "UserName"
-            case policy = "Policy"
-            case role = "Role"
-        }
-    }
-
-    public struct DeleteSshPublicKeyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerId", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "SshPublicKeyId", required: true, type: .string)
-        ]
-        /// A system-assigned unique identifier for a Secure File Transfer Protocol (SFTP) server instance that has the user assigned to it.
-        public let serverId: String
-        /// A unique string that identifies a user whose public key is being deleted.
-        public let userName: String
-        /// A unique identifier used to reference your user’s specific SSH key.
-        public let sshPublicKeyId: String
-
-        public init(serverId: String, userName: String, sshPublicKeyId: String) {
-            self.serverId = serverId
-            self.userName = userName
-            self.sshPublicKeyId = sshPublicKeyId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverId = "ServerId"
-            case userName = "UserName"
-            case sshPublicKeyId = "SshPublicKeyId"
-        }
-    }
-
-    public struct TestIdentityProviderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "ServerId", required: true, type: .string), 
-            AWSShapeMember(label: "UserPassword", required: false, type: .string)
-        ]
-        /// This request parameter is name of the user account to be tested.
-        public let userName: String
-        /// A system assigned identifier for a specific server. That server's user authentication method is tested with a user name and password.
-        public let serverId: String
-        /// The password of the user account to be tested.
-        public let userPassword: String?
-
-        public init(userName: String, serverId: String, userPassword: String? = nil) {
-            self.userName = userName
-            self.serverId = serverId
-            self.userPassword = userPassword
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-            case serverId = "ServerId"
-            case userPassword = "UserPassword"
-        }
-    }
-
-    public struct UpdateServerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerId", required: true, type: .string), 
-            AWSShapeMember(label: "IdentityProviderDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "LoggingRole", required: false, type: .string)
-        ]
-        /// A system-assigned unique identifier for an SFTP server instance that the user account is assigned to.
-        public let serverId: String
-        /// This response parameter is an array containing all of the information required to call a customer's authentication API method.
-        public let identityProviderDetails: IdentityProviderDetails?
-        /// Changes the AWS Identity and Access Management (IAM) role that allows Amazon S3 events to be logged in Amazon CloudWatch, turning logging on or off.
-        public let loggingRole: String?
-
-        public init(serverId: String, identityProviderDetails: IdentityProviderDetails? = nil, loggingRole: String? = nil) {
-            self.serverId = serverId
-            self.identityProviderDetails = identityProviderDetails
-            self.loggingRole = loggingRole
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverId = "ServerId"
-            case identityProviderDetails = "IdentityProviderDetails"
-            case loggingRole = "LoggingRole"
+            case url = "Url"
         }
     }
 
@@ -707,104 +380,317 @@ extension Transfer {
         public var description: String { return self.rawValue }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Key-value pairs that are assigned to a resource, usually for the purpose of grouping and searching for items. Tags are metadata that you define that you can use for any purpose.
-        public let tags: [Tag]?
-        /// This value is the ARN you specified to list the tags of.
-        public let arn: String?
-        public let nextToken: String?
-
-        public init(tags: [Tag]? = nil, arn: String? = nil, nextToken: String? = nil) {
-            self.tags = tags
-            self.arn = arn
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case arn = "Arn"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct TestIdentityProviderResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Url", required: true, type: .string), 
-            AWSShapeMember(label: "StatusCode", required: true, type: .integer)
-        ]
-        /// The result of the authorization test as a message. 
-        public let message: String?
-        /// The endpoint of the service used to authenticate a user.
-        public let url: String
-        /// The HTTP status code that is the response from your API Gateway.
-        public let statusCode: Int32
-
-        public init(message: String? = nil, url: String, statusCode: Int32) {
-            self.message = message
-            self.url = url
-            self.statusCode = statusCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-            case url = "Url"
-            case statusCode = "StatusCode"
-        }
-    }
-
-    public struct ListUsersRequest: AWSShape {
+    public struct ImportSshPublicKeyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServerId", required: true, type: .string), 
+            AWSShapeMember(label: "SshPublicKeyBody", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string)
+        ]
+        /// A system-assigned unique identifier for an SFTP server.
+        public let serverId: String
+        /// The public key portion of an SSH key pair.
+        public let sshPublicKeyBody: String
+        /// The name of the user account that is assigned to one or more servers.
+        public let userName: String
+
+        public init(serverId: String, sshPublicKeyBody: String, userName: String) {
+            self.serverId = serverId
+            self.sshPublicKeyBody = sshPublicKeyBody
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverId = "ServerId"
+            case sshPublicKeyBody = "SshPublicKeyBody"
+            case userName = "UserName"
+        }
+    }
+
+    public struct ImportSshPublicKeyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerId", required: true, type: .string), 
+            AWSShapeMember(label: "SshPublicKeyId", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string)
+        ]
+        /// A system-assigned unique identifier for an SFTP server.
+        public let serverId: String
+        /// This identifier is the name given to a public key by the system that was imported.
+        public let sshPublicKeyId: String
+        /// A user name assigned to the ServerID value that you specified.
+        public let userName: String
+
+        public init(serverId: String, sshPublicKeyId: String, userName: String) {
+            self.serverId = serverId
+            self.sshPublicKeyId = sshPublicKeyId
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverId = "ServerId"
+            case sshPublicKeyId = "SshPublicKeyId"
+            case userName = "UserName"
+        }
+    }
+
+    public struct ListServersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// A system-assigned unique identifier for a Secure File Transfer Protocol (SFTP) server that has users are assigned to it.
-        public let serverId: String
-        /// Specifies the number of users to return as a response to the ListUsers request.
+        /// Specifies the number of servers to return as a response to the ListServers query.
         public let maxResults: Int32?
-        /// When you can get additional results from the ListUsersListUsers call, a NextToken parameter is returned in the output. You can then pass in a subsequent command the NextToken parameter to continue listing additional users.
+        /// When additional results are obtained from the ListServers command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional servers.
         public let nextToken: String?
 
-        public init(serverId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.serverId = serverId
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serverId = "ServerId"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListServersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Servers", required: true, type: .list)
+        ]
+        /// When you can get additional results from the ListServers operation, a NextToken parameter is returned in the output. In a following command, you can pass in the NextToken parameter to continue listing additional servers.
+        public let nextToken: String?
+        /// An array of servers that were listed.
+        public let servers: [ListedServer]
+
+        public init(nextToken: String? = nil, servers: [ListedServer]) {
+            self.nextToken = nextToken
+            self.servers = servers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case servers = "Servers"
         }
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "Arn", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        public let maxResults: Int32?
         /// Requests the tags associated with a particular Amazon Resource Name (ARN). An ARN is an identifier for a specific AWS resource, such as a server, user, or role.
         public let arn: String
+        public let maxResults: Int32?
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, arn: String, nextToken: String? = nil) {
-            self.maxResults = maxResults
+        public init(arn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.arn = arn
+            self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
             case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// This value is the ARN you specified to list the tags of.
+        public let arn: String?
+        public let nextToken: String?
+        /// Key-value pairs that are assigned to a resource, usually for the purpose of grouping and searching for items. Tags are metadata that you define that you can use for any purpose.
+        public let tags: [Tag]?
+
+        public init(arn: String? = nil, nextToken: String? = nil, tags: [Tag]? = nil) {
+            self.arn = arn
+            self.nextToken = nextToken
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case nextToken = "NextToken"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ListUsersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ServerId", required: true, type: .string)
+        ]
+        /// Specifies the number of users to return as a response to the ListUsers request.
+        public let maxResults: Int32?
+        /// When you can get additional results from the ListUsersListUsers call, a NextToken parameter is returned in the output. You can then pass in a subsequent command the NextToken parameter to continue listing additional users.
+        public let nextToken: String?
+        /// A system-assigned unique identifier for a Secure File Transfer Protocol (SFTP) server that has users are assigned to it.
+        public let serverId: String
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, serverId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.serverId = serverId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case serverId = "ServerId"
+        }
+    }
+
+    public struct ListUsersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ServerId", required: true, type: .string), 
+            AWSShapeMember(label: "Users", required: true, type: .list)
+        ]
+        /// When you can get additional results from the ListUsers call, a NextToken parameter is returned in the output. You can then pass in a subsequent command the NextToken parameter to continue listing additional users.
+        public let nextToken: String?
+        /// A system-assigned unique identifier for an SFTP server that the users are assigned to.
+        public let serverId: String
+        /// Returns the user accounts and their properties for the ServerId value that you specify.
+        public let users: [ListedUser]
+
+        public init(nextToken: String? = nil, serverId: String, users: [ListedUser]) {
+            self.nextToken = nextToken
+            self.serverId = serverId
+            self.users = users
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case serverId = "ServerId"
+            case users = "Users"
+        }
+    }
+
+    public struct ListedServer: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: true, type: .string), 
+            AWSShapeMember(label: "IdentityProviderType", required: false, type: .enum), 
+            AWSShapeMember(label: "LoggingRole", required: false, type: .string), 
+            AWSShapeMember(label: "ServerId", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "UserCount", required: false, type: .integer)
+        ]
+        /// The unique Amazon Resource Name (ARN) for the server to be listed.
+        public let arn: String
+        /// The authentication method used to validate a user for the server that was specified. listed. This can include Secure Shell (SSH), user name and password combinations, or your own custom authentication method. Valid values include SERVICE_MANAGED or API_GATEWAY.
+        public let identityProviderType: IdentityProviderType?
+        /// The AWS Identity and Access Management entity that allows the server to turn on Amazon CloudWatch logging.
+        public let loggingRole: String?
+        /// This value is the unique system assigned identifier for the SFTP servers that were listed.
+        public let serverId: String?
+        /// This property describes the condition of the SFTP server for the server that was described. A value of ONLINE&gt; indicates that the server can accept jobs and transfer files. A State value of OFFLINE means that the server cannot perform file transfer operations. The states of STARTING and STOPPING indicated that the server is in an intermediate state, either not fully able to respond, or not fully offline. The values of START_FAILED or STOP_FAILED can indicate an error condition.
+        public let state: State?
+        /// This property is a numeric value that indicates the number of users that are assigned to the SFTP server you specified with the ServerId.
+        public let userCount: Int32?
+
+        public init(arn: String, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, serverId: String? = nil, state: State? = nil, userCount: Int32? = nil) {
+            self.arn = arn
+            self.identityProviderType = identityProviderType
+            self.loggingRole = loggingRole
+            self.serverId = serverId
+            self.state = state
+            self.userCount = userCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case identityProviderType = "IdentityProviderType"
+            case loggingRole = "LoggingRole"
+            case serverId = "ServerId"
+            case state = "State"
+            case userCount = "UserCount"
+        }
+    }
+
+    public struct ListedUser: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: true, type: .string), 
+            AWSShapeMember(label: "HomeDirectory", required: false, type: .string), 
+            AWSShapeMember(label: "Role", required: false, type: .string), 
+            AWSShapeMember(label: "SshPublicKeyCount", required: false, type: .integer), 
+            AWSShapeMember(label: "UserName", required: false, type: .string)
+        ]
+        /// This property is the unique Amazon Resource Name (ARN) for the user that you wish to learn about.
+        public let arn: String
+        /// This value specifies the location that files are written to or read from an Amazon S3 bucket for the user you specify by their ARN.
+        public let homeDirectory: String?
+        /// The role in use by this user. A role is an AWS Identity and Access Management (IAM) entity that in this case allows the SFTP server to act on a user's behalf. It allows the server to inherit the trust relationship that enables that user to perform file operations to their Amazon S3 bucket.
+        public let role: String?
+        /// This value is the number of SSH public keys stored for the user you specified.
+        public let sshPublicKeyCount: Int32?
+        /// The name of the user whose ARN was specified. User names are used for authentication purposes.
+        public let userName: String?
+
+        public init(arn: String, homeDirectory: String? = nil, role: String? = nil, sshPublicKeyCount: Int32? = nil, userName: String? = nil) {
+            self.arn = arn
+            self.homeDirectory = homeDirectory
+            self.role = role
+            self.sshPublicKeyCount = sshPublicKeyCount
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case homeDirectory = "HomeDirectory"
+            case role = "Role"
+            case sshPublicKeyCount = "SshPublicKeyCount"
+            case userName = "UserName"
+        }
+    }
+
+    public struct SshPublicKey: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DateImported", required: true, type: .timestamp), 
+            AWSShapeMember(label: "SshPublicKeyBody", required: true, type: .string), 
+            AWSShapeMember(label: "SshPublicKeyId", required: true, type: .string)
+        ]
+        /// The date that the public key was added to the user account.
+        public let dateImported: TimeStamp
+        /// The content of the SSH public key as specified by the PublicKeyId.
+        public let sshPublicKeyBody: String
+        /// The SshPublicKeyId parameter contains the identifier of the public key.
+        public let sshPublicKeyId: String
+
+        public init(dateImported: TimeStamp, sshPublicKeyBody: String, sshPublicKeyId: String) {
+            self.dateImported = dateImported
+            self.sshPublicKeyBody = sshPublicKeyBody
+            self.sshPublicKeyId = sshPublicKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateImported = "DateImported"
+            case sshPublicKeyBody = "SshPublicKeyBody"
+            case sshPublicKeyId = "SshPublicKeyId"
+        }
+    }
+
+    public struct StartServerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerId", required: true, type: .string)
+        ]
+        /// A system-assigned unique identifier for an SFTP server that you start.
+        public let serverId: String
+
+        public init(serverId: String) {
+            self.serverId = serverId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverId = "ServerId"
         }
     }
 
@@ -818,32 +704,11 @@ extension Transfer {
         public var description: String { return self.rawValue }
     }
 
-    public struct DescribeUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "ServerId", required: true, type: .string)
-        ]
-        /// The name of the user assigned to one or more servers. User names are part of the sign-in credentials to use the AWS Transfer service and perform file transfer tasks.
-        public let userName: String
-        /// A system-assigned unique identifier for an SFTP server that has this user assigned.
-        public let serverId: String
-
-        public init(userName: String, serverId: String) {
-            self.userName = userName
-            self.serverId = serverId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-            case serverId = "ServerId"
-        }
-    }
-
-    public struct StartServerRequest: AWSShape {
+    public struct StopServerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServerId", required: true, type: .string)
         ]
-        /// A system-assigned unique identifier for an SFTP server that you start.
+        /// A system-assigned unique identifier for an SFTP server that you stopped.
         public let serverId: String
 
         public init(serverId: String) {
@@ -876,27 +741,131 @@ extension Transfer {
         }
     }
 
-    public struct DescribeServerResponse: AWSShape {
+    public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Server", required: true, type: .structure)
+            AWSShapeMember(label: "Arn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
-        /// An array containing the properties of the server with the ServerID you specified.
-        public let server: DescribedServer
+        /// An Amazon Resource Name (ARN) for a specific AWS resource, such as a server, user, or role.
+        public let arn: String
+        /// Key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to user accounts for any purpose.
+        public let tags: [Tag]
 
-        public init(server: DescribedServer) {
-            self.server = server
+        public init(arn: String, tags: [Tag]) {
+            self.arn = arn
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case server = "Server"
+            case arn = "Arn"
+            case tags = "Tags"
         }
     }
 
-    public struct CreateServerResponse: AWSShape {
+    public struct TestIdentityProviderRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerId", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "UserPassword", required: false, type: .string)
+        ]
+        /// A system assigned identifier for a specific server. That server's user authentication method is tested with a user name and password.
+        public let serverId: String
+        /// This request parameter is name of the user account to be tested.
+        public let userName: String
+        /// The password of the user account to be tested.
+        public let userPassword: String?
+
+        public init(serverId: String, userName: String, userPassword: String? = nil) {
+            self.serverId = serverId
+            self.userName = userName
+            self.userPassword = userPassword
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverId = "ServerId"
+            case userName = "UserName"
+            case userPassword = "UserPassword"
+        }
+    }
+
+    public struct TestIdentityProviderResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "StatusCode", required: true, type: .integer), 
+            AWSShapeMember(label: "Url", required: true, type: .string)
+        ]
+        /// The result of the authorization test as a message. 
+        public let message: String?
+        /// The HTTP status code that is the response from your API Gateway.
+        public let statusCode: Int32
+        /// The endpoint of the service used to authenticate a user.
+        public let url: String
+
+        public init(message: String? = nil, statusCode: Int32, url: String) {
+            self.message = message
+            self.statusCode = statusCode
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case statusCode = "StatusCode"
+            case url = "Url"
+        }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+        ]
+        /// This is the value of the resource that will have the tag removed. An Amazon Resource Name (ARN) is an identifier for a specific AWS resource, such as a server, user, or role.
+        public let arn: String
+        /// TagKeys are key-value pairs assigned to ARNs that can be used to group and search for resources by type. This metadata can be attached to resources for any purpose.
+        public let tagKeys: [String]
+
+        public init(arn: String, tagKeys: [String]) {
+            self.arn = arn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UpdateServerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityProviderDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "LoggingRole", required: false, type: .string), 
+            AWSShapeMember(label: "ServerId", required: true, type: .string)
+        ]
+        /// This response parameter is an array containing all of the information required to call a customer's authentication API method.
+        public let identityProviderDetails: IdentityProviderDetails?
+        /// Changes the AWS Identity and Access Management (IAM) role that allows Amazon S3 events to be logged in Amazon CloudWatch, turning logging on or off.
+        public let loggingRole: String?
+        /// A system-assigned unique identifier for an SFTP server instance that the user account is assigned to.
+        public let serverId: String
+
+        public init(identityProviderDetails: IdentityProviderDetails? = nil, loggingRole: String? = nil, serverId: String) {
+            self.identityProviderDetails = identityProviderDetails
+            self.loggingRole = loggingRole
+            self.serverId = serverId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityProviderDetails = "IdentityProviderDetails"
+            case loggingRole = "LoggingRole"
+            case serverId = "ServerId"
+        }
+    }
+
+    public struct UpdateServerResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServerId", required: true, type: .string)
         ]
-        /// The service-assigned ID of the SFTP server that is created.
+        /// A system-assigned unique identifier for an SFTP server that the user account is assigned to.
         public let serverId: String
 
         public init(serverId: String) {
@@ -908,29 +877,60 @@ extension Transfer {
         }
     }
 
-    public struct SshPublicKey: AWSShape {
+    public struct UpdateUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SshPublicKeyBody", required: true, type: .string), 
-            AWSShapeMember(label: "SshPublicKeyId", required: true, type: .string), 
-            AWSShapeMember(label: "DateImported", required: true, type: .timestamp)
+            AWSShapeMember(label: "HomeDirectory", required: false, type: .string), 
+            AWSShapeMember(label: "Policy", required: false, type: .string), 
+            AWSShapeMember(label: "Role", required: false, type: .string), 
+            AWSShapeMember(label: "ServerId", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string)
         ]
-        /// The content of the SSH public key as specified by the PublicKeyId.
-        public let sshPublicKeyBody: String
-        /// The SshPublicKeyId parameter contains the identifier of the public key.
-        public let sshPublicKeyId: String
-        /// The date that the public key was added to the user account.
-        public let dateImported: TimeStamp
+        /// The HomeDirectory parameter specifies the landing directory (folder) for a user when they log in to the server using their client. An example would be: /home/username .
+        public let homeDirectory: String?
+        /// Allows you to supply a scope-down policy for your user so you can use the same AWS Identity and Access Management (IAM) role across multiple users. The policy scopes down users access to portions of your Amazon S3 bucket. Variables you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.
+        public let policy: String?
+        /// The IAM role that controls your user’s access to your Amazon S3 bucket. The policies attached to this role will determine the level of access you want to provide your users when transferring files into and out of your Amazon S3 bucket or buckets. The IAM role should also contain a trust relationship that allows the Secure File Transfer Protocol (SFTP) server to access your resources when servicing your SFTP user’s transfer requests.
+        public let role: String?
+        /// A system-assigned unique identifier for an SFTP server instance that the user account is assigned to.
+        public let serverId: String
+        /// A unique string that identifies a user and is associated with a server as specified by the ServerId. This is the string that will be used by your user when they log in to your SFTP server.
+        public let userName: String
 
-        public init(sshPublicKeyBody: String, sshPublicKeyId: String, dateImported: TimeStamp) {
-            self.sshPublicKeyBody = sshPublicKeyBody
-            self.sshPublicKeyId = sshPublicKeyId
-            self.dateImported = dateImported
+        public init(homeDirectory: String? = nil, policy: String? = nil, role: String? = nil, serverId: String, userName: String) {
+            self.homeDirectory = homeDirectory
+            self.policy = policy
+            self.role = role
+            self.serverId = serverId
+            self.userName = userName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sshPublicKeyBody = "SshPublicKeyBody"
-            case sshPublicKeyId = "SshPublicKeyId"
-            case dateImported = "DateImported"
+            case homeDirectory = "HomeDirectory"
+            case policy = "Policy"
+            case role = "Role"
+            case serverId = "ServerId"
+            case userName = "UserName"
+        }
+    }
+
+    public struct UpdateUserResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerId", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string)
+        ]
+        /// A system-assigned unique identifier for an SFTP server instance that the user account is assigned to.
+        public let serverId: String
+        /// The unique identifier for a user that is assigned to the SFTP server instance that was specified in the request.
+        public let userName: String
+
+        public init(serverId: String, userName: String) {
+            self.serverId = serverId
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverId = "ServerId"
+            case userName = "UserName"
         }
     }
 

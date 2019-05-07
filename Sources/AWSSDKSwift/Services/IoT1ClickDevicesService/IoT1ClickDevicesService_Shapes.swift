@@ -5,6 +5,50 @@ import AWSSDKSwiftCore
 
 extension IoT1ClickDevicesService {
 
+    public struct Attributes: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct ClaimDevicesByClaimCodeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClaimCode", location: .uri(locationName: "claimCode"), required: true, type: .string)
+        ]
+        public let claimCode: String
+
+        public init(claimCode: String) {
+            self.claimCode = claimCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case claimCode = "claimCode"
+        }
+    }
+
+    public struct ClaimDevicesByClaimCodeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClaimCode", location: .body(locationName: "claimCode"), required: false, type: .string), 
+            AWSShapeMember(label: "Total", location: .body(locationName: "total"), required: false, type: .integer)
+        ]
+        /// The claim code provided by the device manufacturer.
+        public let claimCode: String?
+        /// The total number of devices associated with the claim code that has been processed
+        ///  in the claim request.
+        public let total: Int32?
+
+        public init(claimCode: String? = nil, total: Int32? = nil) {
+            self.claimCode = claimCode
+            self.total = total
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case claimCode = "claimCode"
+            case total = "total"
+        }
+    }
+
     public struct DescribeDeviceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"), required: true, type: .string)
@@ -20,26 +64,53 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct InvokeDeviceMethodResponse: AWSShape {
+    public struct DescribeDeviceResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceMethodResponse", location: .body(locationName: "deviceMethodResponse"), required: false, type: .string)
+            AWSShapeMember(label: "DeviceDescription", location: .body(locationName: "deviceDescription"), required: false, type: .structure)
         ]
-        /// A JSON encoded string containing the device method response.
-        public let deviceMethodResponse: String?
+        /// Device details.
+        public let deviceDescription: DeviceDescription?
 
-        public init(deviceMethodResponse: String? = nil) {
-            self.deviceMethodResponse = deviceMethodResponse
+        public init(deviceDescription: DeviceDescription? = nil) {
+            self.deviceDescription = deviceDescription
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceMethodResponse = "deviceMethodResponse"
+            case deviceDescription = "deviceDescription"
         }
     }
 
-    public struct InitiateDeviceClaimResponse: AWSShape {
+    public struct Device: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", location: .body(locationName: "attributes"), required: false, type: .structure), 
+            AWSShapeMember(label: "DeviceId", location: .body(locationName: "deviceId"), required: false, type: .string), 
+            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .string)
+        ]
+        /// The user specified attributes associated with the device for an event.
+        public let attributes: Attributes?
+        /// The unique identifier of the device.
+        public let deviceId: String?
+        /// The device type, such as "button".
+        public let `type`: String?
+
+        public init(attributes: Attributes? = nil, deviceId: String? = nil, type: String? = nil) {
+            self.attributes = attributes
+            self.deviceId = deviceId
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case deviceId = "deviceId"
+            case `type` = "type"
+        }
+    }
+
+    public struct DeviceClaimResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .string)
         ]
+        /// The device's final claim state.
         public let state: String?
 
         public init(state: String? = nil) {
@@ -51,82 +122,116 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct ListDeviceEventsRequest: AWSShape {
+    public struct DeviceDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FromTimeStamp", location: .querystring(locationName: "fromTimeStamp"), required: true, type: .timestamp), 
-            AWSShapeMember(label: "ToTimeStamp", location: .querystring(locationName: "toTimeStamp"), required: true, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"), required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "Attributes", location: .body(locationName: "attributes"), required: false, type: .map), 
+            AWSShapeMember(label: "DeviceId", location: .body(locationName: "deviceId"), required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", location: .body(locationName: "enabled"), required: false, type: .boolean), 
+            AWSShapeMember(label: "RemainingLife", location: .body(locationName: "remainingLife"), required: false, type: .double), 
+            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .string)
         ]
-        public let fromTimeStamp: TimeStamp
-        public let toTimeStamp: TimeStamp
-        public let maxResults: Int32?
-        public let deviceId: String
-        public let nextToken: String?
+        /// An array of zero or more elements of DeviceAttribute objects
+        ///  providing user specified device attributes.
+        public let attributes: [String: String]?
+        /// The unique identifier of the device.
+        public let deviceId: String?
+        /// A Boolean value indicating whether or not the device is enabled.
+        public let enabled: Bool?
+        /// A value between 0 and 1 inclusive, representing the fraction of life remaining for
+        ///  the device.
+        public let remainingLife: Double?
+        /// The type of the device, such as "button".
+        public let `type`: String?
 
-        public init(fromTimeStamp: TimeStamp, toTimeStamp: TimeStamp, maxResults: Int32? = nil, deviceId: String, nextToken: String? = nil) {
-            self.fromTimeStamp = fromTimeStamp
-            self.toTimeStamp = toTimeStamp
-            self.maxResults = maxResults
+        public init(attributes: [String: String]? = nil, deviceId: String? = nil, enabled: Bool? = nil, remainingLife: Double? = nil, type: String? = nil) {
+            self.attributes = attributes
             self.deviceId = deviceId
-            self.nextToken = nextToken
+            self.enabled = enabled
+            self.remainingLife = remainingLife
+            self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fromTimeStamp = "fromTimeStamp"
-            case toTimeStamp = "toTimeStamp"
-            case maxResults = "maxResults"
+            case attributes = "attributes"
             case deviceId = "deviceId"
-            case nextToken = "nextToken"
+            case enabled = "enabled"
+            case remainingLife = "remainingLife"
+            case `type` = "type"
         }
     }
 
-    public struct ListDeviceEventsResponse: AWSShape {
+    public struct DeviceEvent: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Events", location: .body(locationName: "events"), required: false, type: .list)
+            AWSShapeMember(label: "Device", location: .body(locationName: "device"), required: false, type: .structure), 
+            AWSShapeMember(label: "StdEvent", location: .body(locationName: "stdEvent"), required: false, type: .string)
         ]
-        public let nextToken: String?
+        /// An object representing the device associated with the event.
+        public let device: Device?
+        /// A serialized JSON object representing the device-type specific event.
+        public let stdEvent: String?
+
+        public init(device: Device? = nil, stdEvent: String? = nil) {
+            self.device = device
+            self.stdEvent = stdEvent
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case device = "device"
+            case stdEvent = "stdEvent"
+        }
+    }
+
+    public struct DeviceEventsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Events", location: .body(locationName: "events"), required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+        /// An array of zero or more elements describing the event(s) associated with the
+        ///  device.
         public let events: [DeviceEvent]?
+        /// The token to retrieve the next set of results.
+        public let nextToken: String?
 
-        public init(nextToken: String? = nil, events: [DeviceEvent]? = nil) {
-            self.nextToken = nextToken
+        public init(events: [DeviceEvent]? = nil, nextToken: String? = nil) {
             self.events = events
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
             case events = "events"
+            case nextToken = "nextToken"
         }
     }
 
-    public struct InvokeDeviceMethodRequest: AWSShape {
+    public struct DeviceMethod: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceMethodParameters", location: .body(locationName: "deviceMethodParameters"), required: false, type: .string), 
-            AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"), required: true, type: .string), 
-            AWSShapeMember(label: "DeviceMethod", location: .body(locationName: "deviceMethod"), required: false, type: .structure)
+            AWSShapeMember(label: "DeviceType", location: .body(locationName: "deviceType"), required: false, type: .string), 
+            AWSShapeMember(label: "MethodName", location: .body(locationName: "methodName"), required: false, type: .string)
         ]
-        /// A JSON encoded string containing the device method request parameters.
-        public let deviceMethodParameters: String?
-        public let deviceId: String
-        /// The device method to invoke.
-        public let deviceMethod: DeviceMethod?
+        /// The type of the device, such as "button".
+        public let deviceType: String?
+        /// The name of the method applicable to the deviceType.
+        public let methodName: String?
 
-        public init(deviceMethodParameters: String? = nil, deviceId: String, deviceMethod: DeviceMethod? = nil) {
-            self.deviceMethodParameters = deviceMethodParameters
-            self.deviceId = deviceId
-            self.deviceMethod = deviceMethod
+        public init(deviceType: String? = nil, methodName: String? = nil) {
+            self.deviceType = deviceType
+            self.methodName = methodName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceMethodParameters = "deviceMethodParameters"
-            case deviceId = "deviceId"
-            case deviceMethod = "deviceMethod"
+            case deviceType = "deviceType"
+            case methodName = "methodName"
         }
     }
 
-    public struct InitiateDeviceClaimRequest: AWSShape {
+    public struct Empty: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct FinalizeDeviceClaimRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"), required: true, type: .string)
         ]
@@ -171,46 +276,23 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct DeviceClaimResponse: AWSShape {
+    public struct GetDeviceMethodsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .string)
+            AWSShapeMember(label: "DeviceMethods", location: .body(locationName: "deviceMethods"), required: false, type: .list)
         ]
-        /// The device's final claim state.
-        public let state: String?
+        /// List of available device APIs.
+        public let deviceMethods: [DeviceMethod]?
 
-        public init(state: String? = nil) {
-            self.state = state
+        public init(deviceMethods: [DeviceMethod]? = nil) {
+            self.deviceMethods = deviceMethods
         }
 
         private enum CodingKeys: String, CodingKey {
-            case state = "state"
+            case deviceMethods = "deviceMethods"
         }
     }
 
-    public struct Empty: AWSShape {
-
-    }
-
-    public struct UpdateDeviceStateResponse: AWSShape {
-
-    }
-
-    public struct UnclaimDeviceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .string)
-        ]
-        public let state: String?
-
-        public init(state: String? = nil) {
-            self.state = state
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "state"
-        }
-    }
-
-    public struct FinalizeDeviceClaimRequest: AWSShape {
+    public struct InitiateDeviceClaimRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"), required: true, type: .string)
         ]
@@ -225,107 +307,109 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct UpdateDeviceStateRequest: AWSShape {
+    public struct InitiateDeviceClaimResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .string)
+        ]
+        public let state: String?
+
+        public init(state: String? = nil) {
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+        }
+    }
+
+    public struct InvokeDeviceMethodRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"), required: true, type: .string), 
-            AWSShapeMember(label: "Enabled", location: .body(locationName: "enabled"), required: false, type: .boolean)
+            AWSShapeMember(label: "DeviceMethod", location: .body(locationName: "deviceMethod"), required: false, type: .structure), 
+            AWSShapeMember(label: "DeviceMethodParameters", location: .body(locationName: "deviceMethodParameters"), required: false, type: .string)
         ]
         public let deviceId: String
-        /// If true, the device is enabled. If false, the device is
-        ///  disabled.
-        public let enabled: Bool?
+        /// The device method to invoke.
+        public let deviceMethod: DeviceMethod?
+        /// A JSON encoded string containing the device method request parameters.
+        public let deviceMethodParameters: String?
 
-        public init(deviceId: String, enabled: Bool? = nil) {
+        public init(deviceId: String, deviceMethod: DeviceMethod? = nil, deviceMethodParameters: String? = nil) {
             self.deviceId = deviceId
-            self.enabled = enabled
+            self.deviceMethod = deviceMethod
+            self.deviceMethodParameters = deviceMethodParameters
         }
 
         private enum CodingKeys: String, CodingKey {
             case deviceId = "deviceId"
-            case enabled = "enabled"
+            case deviceMethod = "deviceMethod"
+            case deviceMethodParameters = "deviceMethodParameters"
         }
     }
 
-    public struct Attributes: AWSShape {
+    public struct InvokeDeviceMethodResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceMethodResponse", location: .body(locationName: "deviceMethodResponse"), required: false, type: .string)
+        ]
+        /// A JSON encoded string containing the device method response.
+        public let deviceMethodResponse: String?
 
+        public init(deviceMethodResponse: String? = nil) {
+            self.deviceMethodResponse = deviceMethodResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceMethodResponse = "deviceMethodResponse"
+        }
     }
 
-    public struct DeviceDescription: AWSShape {
+    public struct ListDeviceEventsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RemainingLife", location: .body(locationName: "remainingLife"), required: false, type: .double), 
-            AWSShapeMember(label: "Enabled", location: .body(locationName: "enabled"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .string), 
-            AWSShapeMember(label: "DeviceId", location: .body(locationName: "deviceId"), required: false, type: .string), 
-            AWSShapeMember(label: "Attributes", location: .body(locationName: "attributes"), required: false, type: .map)
+            AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"), required: true, type: .string), 
+            AWSShapeMember(label: "FromTimeStamp", location: .querystring(locationName: "fromTimeStamp"), required: true, type: .timestamp), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "ToTimeStamp", location: .querystring(locationName: "toTimeStamp"), required: true, type: .timestamp)
         ]
-        /// A value between 0 and 1 inclusive, representing the fraction of life remaining for
-        ///  the device.
-        public let remainingLife: Double?
-        /// A Boolean value indicating whether or not the device is enabled.
-        public let enabled: Bool?
-        /// The type of the device, such as "button".
-        public let `type`: String?
-        /// The unique identifier of the device.
-        public let deviceId: String?
-        /// An array of zero or more elements of DeviceAttribute objects
-        ///  providing user specified device attributes.
-        public let attributes: [String: String]?
+        public let deviceId: String
+        public let fromTimeStamp: TimeStamp
+        public let maxResults: Int32?
+        public let nextToken: String?
+        public let toTimeStamp: TimeStamp
 
-        public init(remainingLife: Double? = nil, enabled: Bool? = nil, type: String? = nil, deviceId: String? = nil, attributes: [String: String]? = nil) {
-            self.remainingLife = remainingLife
-            self.enabled = enabled
-            self.`type` = `type`
+        public init(deviceId: String, fromTimeStamp: TimeStamp, maxResults: Int32? = nil, nextToken: String? = nil, toTimeStamp: TimeStamp) {
             self.deviceId = deviceId
-            self.attributes = attributes
+            self.fromTimeStamp = fromTimeStamp
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.toTimeStamp = toTimeStamp
         }
 
         private enum CodingKeys: String, CodingKey {
-            case remainingLife = "remainingLife"
-            case enabled = "enabled"
-            case `type` = "type"
             case deviceId = "deviceId"
-            case attributes = "attributes"
+            case fromTimeStamp = "fromTimeStamp"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case toTimeStamp = "toTimeStamp"
         }
     }
 
-    public struct Device: AWSShape {
+    public struct ListDeviceEventsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", location: .body(locationName: "attributes"), required: false, type: .structure), 
-            AWSShapeMember(label: "DeviceId", location: .body(locationName: "deviceId"), required: false, type: .string), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .string)
+            AWSShapeMember(label: "Events", location: .body(locationName: "events"), required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
-        /// The user specified attributes associated with the device for an event.
-        public let attributes: Attributes?
-        /// The unique identifier of the device.
-        public let deviceId: String?
-        /// The device type, such as "button".
-        public let `type`: String?
+        public let events: [DeviceEvent]?
+        public let nextToken: String?
 
-        public init(attributes: Attributes? = nil, deviceId: String? = nil, type: String? = nil) {
-            self.attributes = attributes
-            self.deviceId = deviceId
-            self.`type` = `type`
+        public init(events: [DeviceEvent]? = nil, nextToken: String? = nil) {
+            self.events = events
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes = "attributes"
-            case deviceId = "deviceId"
-            case `type` = "type"
-        }
-    }
-
-    public struct ClaimDevicesByClaimCodeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClaimCode", location: .uri(locationName: "claimCode"), required: true, type: .string)
-        ]
-        public let claimCode: String
-
-        public init(claimCode: String) {
-            self.claimCode = claimCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case claimCode = "claimCode"
+            case events = "events"
+            case nextToken = "nextToken"
         }
     }
 
@@ -352,142 +436,24 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct DescribeDeviceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceDescription", location: .body(locationName: "deviceDescription"), required: false, type: .structure)
-        ]
-        /// Device details.
-        public let deviceDescription: DeviceDescription?
-
-        public init(deviceDescription: DeviceDescription? = nil) {
-            self.deviceDescription = deviceDescription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deviceDescription = "deviceDescription"
-        }
-    }
-
-    public struct DeviceMethod: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceType", location: .body(locationName: "deviceType"), required: false, type: .string), 
-            AWSShapeMember(label: "MethodName", location: .body(locationName: "methodName"), required: false, type: .string)
-        ]
-        /// The type of the device, such as "button".
-        public let deviceType: String?
-        /// The name of the method applicable to the deviceType.
-        public let methodName: String?
-
-        public init(deviceType: String? = nil, methodName: String? = nil) {
-            self.deviceType = deviceType
-            self.methodName = methodName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deviceType = "deviceType"
-            case methodName = "methodName"
-        }
-    }
-
-    public struct DeviceEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StdEvent", location: .body(locationName: "stdEvent"), required: false, type: .string), 
-            AWSShapeMember(label: "Device", location: .body(locationName: "device"), required: false, type: .structure)
-        ]
-        /// A serialized JSON object representing the device-type specific event.
-        public let stdEvent: String?
-        /// An object representing the device associated with the event.
-        public let device: Device?
-
-        public init(stdEvent: String? = nil, device: Device? = nil) {
-            self.stdEvent = stdEvent
-            self.device = device
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stdEvent = "stdEvent"
-            case device = "device"
-        }
-    }
-
-    public struct ClaimDevicesByClaimCodeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClaimCode", location: .body(locationName: "claimCode"), required: false, type: .string), 
-            AWSShapeMember(label: "Total", location: .body(locationName: "total"), required: false, type: .integer)
-        ]
-        /// The claim code provided by the device manufacturer.
-        public let claimCode: String?
-        /// The total number of devices associated with the claim code that has been processed
-        ///  in the claim request.
-        public let total: Int32?
-
-        public init(claimCode: String? = nil, total: Int32? = nil) {
-            self.claimCode = claimCode
-            self.total = total
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case claimCode = "claimCode"
-            case total = "total"
-        }
-    }
-
-    public struct DeviceEventsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Events", location: .body(locationName: "events"), required: false, type: .list)
-        ]
-        /// The token to retrieve the next set of results.
-        public let nextToken: String?
-        /// An array of zero or more elements describing the event(s) associated with the
-        ///  device.
-        public let events: [DeviceEvent]?
-
-        public init(nextToken: String? = nil, events: [DeviceEvent]? = nil) {
-            self.nextToken = nextToken
-            self.events = events
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case events = "events"
-        }
-    }
-
-    public struct GetDeviceMethodsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceMethods", location: .body(locationName: "deviceMethods"), required: false, type: .list)
-        ]
-        /// List of available device APIs.
-        public let deviceMethods: [DeviceMethod]?
-
-        public init(deviceMethods: [DeviceMethod]? = nil) {
-            self.deviceMethods = deviceMethods
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deviceMethods = "deviceMethods"
-        }
-    }
-
     public struct ListDevicesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Devices", location: .body(locationName: "devices"), required: false, type: .list)
+            AWSShapeMember(label: "Devices", location: .body(locationName: "devices"), required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
-        /// The token to retrieve the next set of results.
-        public let nextToken: String?
         /// A list of devices.
         public let devices: [DeviceDescription]?
+        /// The token to retrieve the next set of results.
+        public let nextToken: String?
 
-        public init(nextToken: String? = nil, devices: [DeviceDescription]? = nil) {
-            self.nextToken = nextToken
+        public init(devices: [DeviceDescription]? = nil, nextToken: String? = nil) {
             self.devices = devices
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
             case devices = "devices"
+            case nextToken = "nextToken"
         }
     }
 
@@ -504,6 +470,49 @@ extension IoT1ClickDevicesService {
         private enum CodingKeys: String, CodingKey {
             case deviceId = "deviceId"
         }
+    }
+
+    public struct UnclaimDeviceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .string)
+        ]
+        public let state: String?
+
+        public init(state: String? = nil) {
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+        }
+    }
+
+    public struct UpdateDeviceStateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"), required: true, type: .string), 
+            AWSShapeMember(label: "Enabled", location: .body(locationName: "enabled"), required: false, type: .boolean)
+        ]
+        public let deviceId: String
+        /// If true, the device is enabled. If false, the device is
+        ///  disabled.
+        public let enabled: Bool?
+
+        public init(deviceId: String, enabled: Bool? = nil) {
+            self.deviceId = deviceId
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceId = "deviceId"
+            case enabled = "enabled"
+        }
+    }
+
+    public struct UpdateDeviceStateResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
 }

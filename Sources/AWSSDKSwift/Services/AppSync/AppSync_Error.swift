@@ -4,16 +4,16 @@ import AWSSDKSwiftCore
 
 /// Error enum for AppSync
 public enum AppSyncErrorType: AWSErrorType {
-    case badRequestException(message: String?)
-    case concurrentModificationException(message: String?)
-    case notFoundException(message: String?)
-    case unauthorizedException(message: String?)
-    case internalFailureException(message: String?)
-    case limitExceededException(message: String?)
     case apiKeyLimitExceededException(message: String?)
     case apiKeyValidityOutOfBoundsException(message: String?)
     case apiLimitExceededException(message: String?)
+    case badRequestException(message: String?)
+    case concurrentModificationException(message: String?)
     case graphQLSchemaException(message: String?)
+    case internalFailureException(message: String?)
+    case limitExceededException(message: String?)
+    case notFoundException(message: String?)
+    case unauthorizedException(message: String?)
 }
 
 extension AppSyncErrorType {
@@ -23,26 +23,26 @@ extension AppSyncErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "UnauthorizedException":
-            self = .unauthorizedException(message: message)
-        case "InternalFailureException":
-            self = .internalFailureException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
         case "ApiKeyLimitExceededException":
             self = .apiKeyLimitExceededException(message: message)
         case "ApiKeyValidityOutOfBoundsException":
             self = .apiKeyValidityOutOfBoundsException(message: message)
         case "ApiLimitExceededException":
             self = .apiLimitExceededException(message: message)
+        case "BadRequestException":
+            self = .badRequestException(message: message)
+        case "ConcurrentModificationException":
+            self = .concurrentModificationException(message: message)
         case "GraphQLSchemaException":
             self = .graphQLSchemaException(message: message)
+        case "InternalFailureException":
+            self = .internalFailureException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
+        case "NotFoundException":
+            self = .notFoundException(message: message)
+        case "UnauthorizedException":
+            self = .unauthorizedException(message: message)
         default:
             return nil
         }

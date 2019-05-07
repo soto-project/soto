@@ -4,23 +4,23 @@ import AWSSDKSwiftCore
 
 /// Error enum for SimpleDB
 public enum SimpleDBErrorType: AWSErrorType {
-    case missingParameter(message: String?)
-    case noSuchDomain(message: String?)
-    case invalidParameterValue(message: String?)
-    case numberDomainAttributesExceeded(message: String?)
-    case numberDomainBytesExceeded(message: String?)
-    case numberItemAttributesExceeded(message: String?)
     case attributeDoesNotExist(message: String?)
     case duplicateItemName(message: String?)
-    case numberSubmittedItemsExceeded(message: String?)
-    case numberSubmittedAttributesExceeded(message: String?)
     case invalidNextToken(message: String?)
     case invalidNumberPredicates(message: String?)
     case invalidNumberValueTests(message: String?)
+    case invalidParameterValue(message: String?)
     case invalidQueryExpression(message: String?)
+    case missingParameter(message: String?)
+    case noSuchDomain(message: String?)
+    case numberDomainAttributesExceeded(message: String?)
+    case numberDomainBytesExceeded(message: String?)
+    case numberDomainsExceeded(message: String?)
+    case numberItemAttributesExceeded(message: String?)
+    case numberSubmittedAttributesExceeded(message: String?)
+    case numberSubmittedItemsExceeded(message: String?)
     case requestTimeout(message: String?)
     case tooManyRequestedAttributes(message: String?)
-    case numberDomainsExceeded(message: String?)
 }
 
 extension SimpleDBErrorType {
@@ -30,40 +30,40 @@ extension SimpleDBErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "MissingParameter":
-            self = .missingParameter(message: message)
-        case "NoSuchDomain":
-            self = .noSuchDomain(message: message)
-        case "InvalidParameterValue":
-            self = .invalidParameterValue(message: message)
-        case "NumberDomainAttributesExceeded":
-            self = .numberDomainAttributesExceeded(message: message)
-        case "NumberDomainBytesExceeded":
-            self = .numberDomainBytesExceeded(message: message)
-        case "NumberItemAttributesExceeded":
-            self = .numberItemAttributesExceeded(message: message)
         case "AttributeDoesNotExist":
             self = .attributeDoesNotExist(message: message)
         case "DuplicateItemName":
             self = .duplicateItemName(message: message)
-        case "NumberSubmittedItemsExceeded":
-            self = .numberSubmittedItemsExceeded(message: message)
-        case "NumberSubmittedAttributesExceeded":
-            self = .numberSubmittedAttributesExceeded(message: message)
         case "InvalidNextToken":
             self = .invalidNextToken(message: message)
         case "InvalidNumberPredicates":
             self = .invalidNumberPredicates(message: message)
         case "InvalidNumberValueTests":
             self = .invalidNumberValueTests(message: message)
+        case "InvalidParameterValue":
+            self = .invalidParameterValue(message: message)
         case "InvalidQueryExpression":
             self = .invalidQueryExpression(message: message)
+        case "MissingParameter":
+            self = .missingParameter(message: message)
+        case "NoSuchDomain":
+            self = .noSuchDomain(message: message)
+        case "NumberDomainAttributesExceeded":
+            self = .numberDomainAttributesExceeded(message: message)
+        case "NumberDomainBytesExceeded":
+            self = .numberDomainBytesExceeded(message: message)
+        case "NumberDomainsExceeded":
+            self = .numberDomainsExceeded(message: message)
+        case "NumberItemAttributesExceeded":
+            self = .numberItemAttributesExceeded(message: message)
+        case "NumberSubmittedAttributesExceeded":
+            self = .numberSubmittedAttributesExceeded(message: message)
+        case "NumberSubmittedItemsExceeded":
+            self = .numberSubmittedItemsExceeded(message: message)
         case "RequestTimeout":
             self = .requestTimeout(message: message)
         case "TooManyRequestedAttributes":
             self = .tooManyRequestedAttributes(message: message)
-        case "NumberDomainsExceeded":
-            self = .numberDomainsExceeded(message: message)
         default:
             return nil
         }

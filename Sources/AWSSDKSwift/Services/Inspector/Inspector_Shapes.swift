@@ -5,22 +5,6 @@ import AWSSDKSwiftCore
 
 extension Inspector {
 
-    public struct CreateResourceGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceGroupTags", required: true, type: .list)
-        ]
-        /// A collection of keys and an array of possible values, '[{"key":"key1","values":["Value1","Value2"]},{"key":"Key2","values":["Value3"]}]'. For example,'[{"key":"Name","values":["TestEC2Instance"]}]'.
-        public let resourceGroupTags: [ResourceGroupTag]
-
-        public init(resourceGroupTags: [ResourceGroupTag]) {
-            self.resourceGroupTags = resourceGroupTags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceGroupTags = "resourceGroupTags"
-        }
-    }
-
     public enum AccessDeniedErrorCode: String, CustomStringConvertible, Codable {
         case accessDeniedToAssessmentTarget = "ACCESS_DENIED_TO_ASSESSMENT_TARGET"
         case accessDeniedToAssessmentTemplate = "ACCESS_DENIED_TO_ASSESSMENT_TEMPLATE"
@@ -33,30 +17,606 @@ extension Inspector {
         public var description: String { return self.rawValue }
     }
 
-    public struct GetExclusionsPreviewResponse: AWSShape {
+    public struct AddAttributesToFindingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "previewStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "exclusionPreviews", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
+            AWSShapeMember(label: "attributes", required: true, type: .list), 
+            AWSShapeMember(label: "findingArns", required: true, type: .list)
         ]
-        /// Specifies the status of the request to generate an exclusions preview.
-        public let previewStatus: PreviewStatus
-        /// Information about the exclusions included in the preview.
-        public let exclusionPreviews: [ExclusionPreview]?
-        /// When a response is generated, if there is more data to be listed, this parameters is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
-        public let nextToken: String?
+        /// The array of attributes that you want to assign to specified findings.
+        public let attributes: [Attribute]
+        /// The ARNs that specify the findings that you want to assign attributes to.
+        public let findingArns: [String]
 
-        public init(previewStatus: PreviewStatus, exclusionPreviews: [ExclusionPreview]? = nil, nextToken: String? = nil) {
-            self.previewStatus = previewStatus
-            self.exclusionPreviews = exclusionPreviews
-            self.nextToken = nextToken
+        public init(attributes: [Attribute], findingArns: [String]) {
+            self.attributes = attributes
+            self.findingArns = findingArns
         }
 
         private enum CodingKeys: String, CodingKey {
-            case previewStatus = "previewStatus"
-            case exclusionPreviews = "exclusionPreviews"
-            case nextToken = "nextToken"
+            case attributes = "attributes"
+            case findingArns = "findingArns"
         }
+    }
+
+    public struct AddAttributesToFindingsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failedItems", required: true, type: .map)
+        ]
+        /// Attribute details that cannot be described. An error code is provided for each failed item.
+        public let failedItems: [String: FailedItemDetails]
+
+        public init(failedItems: [String: FailedItemDetails]) {
+            self.failedItems = failedItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedItems = "failedItems"
+        }
+    }
+
+    public struct AgentAlreadyRunningAssessment: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "agentId", required: true, type: .string), 
+            AWSShapeMember(label: "assessmentRunArn", required: true, type: .string)
+        ]
+        /// ID of the agent that is running on an EC2 instance that is already participating in another started assessment run.
+        public let agentId: String
+        /// The ARN of the assessment run that has already been started.
+        public let assessmentRunArn: String
+
+        public init(agentId: String, assessmentRunArn: String) {
+            self.agentId = agentId
+            self.assessmentRunArn = assessmentRunArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentId = "agentId"
+            case assessmentRunArn = "assessmentRunArn"
+        }
+    }
+
+    public struct AgentFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "agentHealthCodes", required: true, type: .list), 
+            AWSShapeMember(label: "agentHealths", required: true, type: .list)
+        ]
+        /// The detailed health state of the agent. Values can be set to IDLE, RUNNING, SHUTDOWN, UNHEALTHY, THROTTLED, and UNKNOWN. 
+        public let agentHealthCodes: [AgentHealthCode]
+        /// The current health state of the agent. Values can be set to HEALTHY or UNHEALTHY.
+        public let agentHealths: [AgentHealth]
+
+        public init(agentHealthCodes: [AgentHealthCode], agentHealths: [AgentHealth]) {
+            self.agentHealthCodes = agentHealthCodes
+            self.agentHealths = agentHealths
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentHealthCodes = "agentHealthCodes"
+            case agentHealths = "agentHealths"
+        }
+    }
+
+    public enum AgentHealth: String, CustomStringConvertible, Codable {
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AgentHealthCode: String, CustomStringConvertible, Codable {
+        case idle = "IDLE"
+        case running = "RUNNING"
+        case shutdown = "SHUTDOWN"
+        case unhealthy = "UNHEALTHY"
+        case throttled = "THROTTLED"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AgentPreview: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "agentHealth", required: false, type: .enum), 
+            AWSShapeMember(label: "agentId", required: true, type: .string), 
+            AWSShapeMember(label: "agentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "autoScalingGroup", required: false, type: .string), 
+            AWSShapeMember(label: "hostname", required: false, type: .string), 
+            AWSShapeMember(label: "ipv4Address", required: false, type: .string), 
+            AWSShapeMember(label: "kernelVersion", required: false, type: .string), 
+            AWSShapeMember(label: "operatingSystem", required: false, type: .string)
+        ]
+        /// The health status of the Amazon Inspector Agent.
+        public let agentHealth: AgentHealth?
+        /// The ID of the EC2 instance where the agent is installed.
+        public let agentId: String
+        /// The version of the Amazon Inspector Agent.
+        public let agentVersion: String?
+        /// The Auto Scaling group for the EC2 instance where the agent is installed.
+        public let autoScalingGroup: String?
+        /// The hostname of the EC2 instance on which the Amazon Inspector Agent is installed.
+        public let hostname: String?
+        /// The IP address of the EC2 instance on which the Amazon Inspector Agent is installed.
+        public let ipv4Address: String?
+        /// The kernel version of the operating system running on the EC2 instance on which the Amazon Inspector Agent is installed.
+        public let kernelVersion: String?
+        /// The operating system running on the EC2 instance on which the Amazon Inspector Agent is installed.
+        public let operatingSystem: String?
+
+        public init(agentHealth: AgentHealth? = nil, agentId: String, agentVersion: String? = nil, autoScalingGroup: String? = nil, hostname: String? = nil, ipv4Address: String? = nil, kernelVersion: String? = nil, operatingSystem: String? = nil) {
+            self.agentHealth = agentHealth
+            self.agentId = agentId
+            self.agentVersion = agentVersion
+            self.autoScalingGroup = autoScalingGroup
+            self.hostname = hostname
+            self.ipv4Address = ipv4Address
+            self.kernelVersion = kernelVersion
+            self.operatingSystem = operatingSystem
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentHealth = "agentHealth"
+            case agentId = "agentId"
+            case agentVersion = "agentVersion"
+            case autoScalingGroup = "autoScalingGroup"
+            case hostname = "hostname"
+            case ipv4Address = "ipv4Address"
+            case kernelVersion = "kernelVersion"
+            case operatingSystem = "operatingSystem"
+        }
+    }
+
+    public struct AssessmentRun: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string), 
+            AWSShapeMember(label: "assessmentTemplateArn", required: true, type: .string), 
+            AWSShapeMember(label: "completedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "createdAt", required: true, type: .timestamp), 
+            AWSShapeMember(label: "dataCollected", required: true, type: .boolean), 
+            AWSShapeMember(label: "durationInSeconds", required: true, type: .integer), 
+            AWSShapeMember(label: "findingCounts", required: true, type: .map), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "notifications", required: true, type: .list), 
+            AWSShapeMember(label: "rulesPackageArns", required: true, type: .list), 
+            AWSShapeMember(label: "startedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "state", required: true, type: .enum), 
+            AWSShapeMember(label: "stateChangedAt", required: true, type: .timestamp), 
+            AWSShapeMember(label: "stateChanges", required: true, type: .list), 
+            AWSShapeMember(label: "userAttributesForFindings", required: true, type: .list)
+        ]
+        /// The ARN of the assessment run.
+        public let arn: String
+        /// The ARN of the assessment template that is associated with the assessment run.
+        public let assessmentTemplateArn: String
+        /// The assessment run completion time that corresponds to the rules packages evaluation completion time or failure.
+        public let completedAt: TimeStamp?
+        /// The time when StartAssessmentRun was called.
+        public let createdAt: TimeStamp
+        /// A Boolean value (true or false) that specifies whether the process of collecting data from the agents is completed.
+        public let dataCollected: Bool
+        /// The duration of the assessment run.
+        public let durationInSeconds: Int32
+        /// Provides a total count of generated findings per severity.
+        public let findingCounts: [Severity: Int32]
+        /// The auto-generated name for the assessment run.
+        public let name: String
+        /// A list of notifications for the event subscriptions. A notification about a particular generated finding is added to this list only once.
+        public let notifications: [AssessmentRunNotification]
+        /// The rules packages selected for the assessment run.
+        public let rulesPackageArns: [String]
+        /// The time when StartAssessmentRun was called.
+        public let startedAt: TimeStamp?
+        /// The state of the assessment run.
+        public let state: AssessmentRunState
+        /// The last time when the assessment run's state changed.
+        public let stateChangedAt: TimeStamp
+        /// A list of the assessment run state changes.
+        public let stateChanges: [AssessmentRunStateChange]
+        /// The user-defined attributes that are assigned to every generated finding.
+        public let userAttributesForFindings: [Attribute]
+
+        public init(arn: String, assessmentTemplateArn: String, completedAt: TimeStamp? = nil, createdAt: TimeStamp, dataCollected: Bool, durationInSeconds: Int32, findingCounts: [Severity: Int32], name: String, notifications: [AssessmentRunNotification], rulesPackageArns: [String], startedAt: TimeStamp? = nil, state: AssessmentRunState, stateChangedAt: TimeStamp, stateChanges: [AssessmentRunStateChange], userAttributesForFindings: [Attribute]) {
+            self.arn = arn
+            self.assessmentTemplateArn = assessmentTemplateArn
+            self.completedAt = completedAt
+            self.createdAt = createdAt
+            self.dataCollected = dataCollected
+            self.durationInSeconds = durationInSeconds
+            self.findingCounts = findingCounts
+            self.name = name
+            self.notifications = notifications
+            self.rulesPackageArns = rulesPackageArns
+            self.startedAt = startedAt
+            self.state = state
+            self.stateChangedAt = stateChangedAt
+            self.stateChanges = stateChanges
+            self.userAttributesForFindings = userAttributesForFindings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case assessmentTemplateArn = "assessmentTemplateArn"
+            case completedAt = "completedAt"
+            case createdAt = "createdAt"
+            case dataCollected = "dataCollected"
+            case durationInSeconds = "durationInSeconds"
+            case findingCounts = "findingCounts"
+            case name = "name"
+            case notifications = "notifications"
+            case rulesPackageArns = "rulesPackageArns"
+            case startedAt = "startedAt"
+            case state = "state"
+            case stateChangedAt = "stateChangedAt"
+            case stateChanges = "stateChanges"
+            case userAttributesForFindings = "userAttributesForFindings"
+        }
+    }
+
+    public struct AssessmentRunAgent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "agentHealth", required: true, type: .enum), 
+            AWSShapeMember(label: "agentHealthCode", required: true, type: .enum), 
+            AWSShapeMember(label: "agentHealthDetails", required: false, type: .string), 
+            AWSShapeMember(label: "agentId", required: true, type: .string), 
+            AWSShapeMember(label: "assessmentRunArn", required: true, type: .string), 
+            AWSShapeMember(label: "autoScalingGroup", required: false, type: .string), 
+            AWSShapeMember(label: "telemetryMetadata", required: true, type: .list)
+        ]
+        /// The current health state of the agent.
+        public let agentHealth: AgentHealth
+        /// The detailed health state of the agent.
+        public let agentHealthCode: AgentHealthCode
+        /// The description for the agent health code.
+        public let agentHealthDetails: String?
+        /// The AWS account of the EC2 instance where the agent is installed.
+        public let agentId: String
+        /// The ARN of the assessment run that is associated with the agent.
+        public let assessmentRunArn: String
+        /// The Auto Scaling group of the EC2 instance that is specified by the agent ID.
+        public let autoScalingGroup: String?
+        /// The Amazon Inspector application data metrics that are collected by the agent.
+        public let telemetryMetadata: [TelemetryMetadata]
+
+        public init(agentHealth: AgentHealth, agentHealthCode: AgentHealthCode, agentHealthDetails: String? = nil, agentId: String, assessmentRunArn: String, autoScalingGroup: String? = nil, telemetryMetadata: [TelemetryMetadata]) {
+            self.agentHealth = agentHealth
+            self.agentHealthCode = agentHealthCode
+            self.agentHealthDetails = agentHealthDetails
+            self.agentId = agentId
+            self.assessmentRunArn = assessmentRunArn
+            self.autoScalingGroup = autoScalingGroup
+            self.telemetryMetadata = telemetryMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentHealth = "agentHealth"
+            case agentHealthCode = "agentHealthCode"
+            case agentHealthDetails = "agentHealthDetails"
+            case agentId = "agentId"
+            case assessmentRunArn = "assessmentRunArn"
+            case autoScalingGroup = "autoScalingGroup"
+            case telemetryMetadata = "telemetryMetadata"
+        }
+    }
+
+    public struct AssessmentRunFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "completionTimeRange", required: false, type: .structure), 
+            AWSShapeMember(label: "durationRange", required: false, type: .structure), 
+            AWSShapeMember(label: "namePattern", required: false, type: .string), 
+            AWSShapeMember(label: "rulesPackageArns", required: false, type: .list), 
+            AWSShapeMember(label: "startTimeRange", required: false, type: .structure), 
+            AWSShapeMember(label: "stateChangeTimeRange", required: false, type: .structure), 
+            AWSShapeMember(label: "states", required: false, type: .list)
+        ]
+        /// For a record to match a filter, the value that is specified for this data type property must inclusively match any value between the specified minimum and maximum values of the completedAt property of the AssessmentRun data type.
+        public let completionTimeRange: TimestampRange?
+        /// For a record to match a filter, the value that is specified for this data type property must inclusively match any value between the specified minimum and maximum values of the durationInSeconds property of the AssessmentRun data type.
+        public let durationRange: DurationRange?
+        /// For a record to match a filter, an explicit value or a string containing a wildcard that is specified for this data type property must match the value of the assessmentRunName property of the AssessmentRun data type.
+        public let namePattern: String?
+        /// For a record to match a filter, the value that is specified for this data type property must be contained in the list of values of the rulesPackages property of the AssessmentRun data type.
+        public let rulesPackageArns: [String]?
+        /// For a record to match a filter, the value that is specified for this data type property must inclusively match any value between the specified minimum and maximum values of the startTime property of the AssessmentRun data type.
+        public let startTimeRange: TimestampRange?
+        /// For a record to match a filter, the value that is specified for this data type property must match the stateChangedAt property of the AssessmentRun data type.
+        public let stateChangeTimeRange: TimestampRange?
+        /// For a record to match a filter, one of the values specified for this data type property must be the exact match of the value of the assessmentRunState property of the AssessmentRun data type.
+        public let states: [AssessmentRunState]?
+
+        public init(completionTimeRange: TimestampRange? = nil, durationRange: DurationRange? = nil, namePattern: String? = nil, rulesPackageArns: [String]? = nil, startTimeRange: TimestampRange? = nil, stateChangeTimeRange: TimestampRange? = nil, states: [AssessmentRunState]? = nil) {
+            self.completionTimeRange = completionTimeRange
+            self.durationRange = durationRange
+            self.namePattern = namePattern
+            self.rulesPackageArns = rulesPackageArns
+            self.startTimeRange = startTimeRange
+            self.stateChangeTimeRange = stateChangeTimeRange
+            self.states = states
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completionTimeRange = "completionTimeRange"
+            case durationRange = "durationRange"
+            case namePattern = "namePattern"
+            case rulesPackageArns = "rulesPackageArns"
+            case startTimeRange = "startTimeRange"
+            case stateChangeTimeRange = "stateChangeTimeRange"
+            case states = "states"
+        }
+    }
+
+    public struct AssessmentRunNotification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "date", required: true, type: .timestamp), 
+            AWSShapeMember(label: "error", required: true, type: .boolean), 
+            AWSShapeMember(label: "event", required: true, type: .enum), 
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "snsPublishStatusCode", required: false, type: .enum), 
+            AWSShapeMember(label: "snsTopicArn", required: false, type: .string)
+        ]
+        /// The date of the notification.
+        public let date: TimeStamp
+        /// The Boolean value that specifies whether the notification represents an error.
+        public let error: Bool
+        /// The event for which a notification is sent.
+        public let event: InspectorEvent
+        /// The message included in the notification.
+        public let message: String?
+        /// The status code of the SNS notification.
+        public let snsPublishStatusCode: AssessmentRunNotificationSnsStatusCode?
+        /// The SNS topic to which the SNS notification is sent.
+        public let snsTopicArn: String?
+
+        public init(date: TimeStamp, error: Bool, event: InspectorEvent, message: String? = nil, snsPublishStatusCode: AssessmentRunNotificationSnsStatusCode? = nil, snsTopicArn: String? = nil) {
+            self.date = date
+            self.error = error
+            self.event = event
+            self.message = message
+            self.snsPublishStatusCode = snsPublishStatusCode
+            self.snsTopicArn = snsTopicArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case date = "date"
+            case error = "error"
+            case event = "event"
+            case message = "message"
+            case snsPublishStatusCode = "snsPublishStatusCode"
+            case snsTopicArn = "snsTopicArn"
+        }
+    }
+
+    public enum AssessmentRunNotificationSnsStatusCode: String, CustomStringConvertible, Codable {
+        case success = "SUCCESS"
+        case topicDoesNotExist = "TOPIC_DOES_NOT_EXIST"
+        case accessDenied = "ACCESS_DENIED"
+        case internalError = "INTERNAL_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AssessmentRunState: String, CustomStringConvertible, Codable {
+        case created = "CREATED"
+        case startDataCollectionPending = "START_DATA_COLLECTION_PENDING"
+        case startDataCollectionInProgress = "START_DATA_COLLECTION_IN_PROGRESS"
+        case collectingData = "COLLECTING_DATA"
+        case stopDataCollectionPending = "STOP_DATA_COLLECTION_PENDING"
+        case dataCollected = "DATA_COLLECTED"
+        case startEvaluatingRulesPending = "START_EVALUATING_RULES_PENDING"
+        case evaluatingRules = "EVALUATING_RULES"
+        case failed = "FAILED"
+        case error = "ERROR"
+        case completed = "COMPLETED"
+        case completedWithErrors = "COMPLETED_WITH_ERRORS"
+        case canceled = "CANCELED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AssessmentRunStateChange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "state", required: true, type: .enum), 
+            AWSShapeMember(label: "stateChangedAt", required: true, type: .timestamp)
+        ]
+        /// The assessment run state.
+        public let state: AssessmentRunState
+        /// The last time the assessment run state changed.
+        public let stateChangedAt: TimeStamp
+
+        public init(state: AssessmentRunState, stateChangedAt: TimeStamp) {
+            self.state = state
+            self.stateChangedAt = stateChangedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case stateChangedAt = "stateChangedAt"
+        }
+    }
+
+    public struct AssessmentTarget: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string), 
+            AWSShapeMember(label: "createdAt", required: true, type: .timestamp), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "resourceGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "updatedAt", required: true, type: .timestamp)
+        ]
+        /// The ARN that specifies the Amazon Inspector assessment target.
+        public let arn: String
+        /// The time at which the assessment target is created.
+        public let createdAt: TimeStamp
+        /// The name of the Amazon Inspector assessment target.
+        public let name: String
+        /// The ARN that specifies the resource group that is associated with the assessment target.
+        public let resourceGroupArn: String?
+        /// The time at which UpdateAssessmentTarget is called.
+        public let updatedAt: TimeStamp
+
+        public init(arn: String, createdAt: TimeStamp, name: String, resourceGroupArn: String? = nil, updatedAt: TimeStamp) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.name = name
+            self.resourceGroupArn = resourceGroupArn
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case name = "name"
+            case resourceGroupArn = "resourceGroupArn"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct AssessmentTargetFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentTargetNamePattern", required: false, type: .string)
+        ]
+        /// For a record to match a filter, an explicit value or a string that contains a wildcard that is specified for this data type property must match the value of the assessmentTargetName property of the AssessmentTarget data type.
+        public let assessmentTargetNamePattern: String?
+
+        public init(assessmentTargetNamePattern: String? = nil) {
+            self.assessmentTargetNamePattern = assessmentTargetNamePattern
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentTargetNamePattern = "assessmentTargetNamePattern"
+        }
+    }
+
+    public struct AssessmentTemplate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string), 
+            AWSShapeMember(label: "assessmentRunCount", required: true, type: .integer), 
+            AWSShapeMember(label: "assessmentTargetArn", required: true, type: .string), 
+            AWSShapeMember(label: "createdAt", required: true, type: .timestamp), 
+            AWSShapeMember(label: "durationInSeconds", required: true, type: .integer), 
+            AWSShapeMember(label: "lastAssessmentRunArn", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "rulesPackageArns", required: true, type: .list), 
+            AWSShapeMember(label: "userAttributesForFindings", required: true, type: .list)
+        ]
+        /// The ARN of the assessment template.
+        public let arn: String
+        /// The number of existing assessment runs associated with this assessment template. This value can be zero or a positive integer.
+        public let assessmentRunCount: Int32
+        /// The ARN of the assessment target that corresponds to this assessment template.
+        public let assessmentTargetArn: String
+        /// The time at which the assessment template is created.
+        public let createdAt: TimeStamp
+        /// The duration in seconds specified for this assessment template. The default value is 3600 seconds (one hour). The maximum value is 86400 seconds (one day).
+        public let durationInSeconds: Int32
+        /// The Amazon Resource Name (ARN) of the most recent assessment run associated with this assessment template. This value exists only when the value of assessmentRunCount is greaterpa than zero.
+        public let lastAssessmentRunArn: String?
+        /// The name of the assessment template.
+        public let name: String
+        /// The rules packages that are specified for this assessment template.
+        public let rulesPackageArns: [String]
+        /// The user-defined attributes that are assigned to every generated finding from the assessment run that uses this assessment template.
+        public let userAttributesForFindings: [Attribute]
+
+        public init(arn: String, assessmentRunCount: Int32, assessmentTargetArn: String, createdAt: TimeStamp, durationInSeconds: Int32, lastAssessmentRunArn: String? = nil, name: String, rulesPackageArns: [String], userAttributesForFindings: [Attribute]) {
+            self.arn = arn
+            self.assessmentRunCount = assessmentRunCount
+            self.assessmentTargetArn = assessmentTargetArn
+            self.createdAt = createdAt
+            self.durationInSeconds = durationInSeconds
+            self.lastAssessmentRunArn = lastAssessmentRunArn
+            self.name = name
+            self.rulesPackageArns = rulesPackageArns
+            self.userAttributesForFindings = userAttributesForFindings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case assessmentRunCount = "assessmentRunCount"
+            case assessmentTargetArn = "assessmentTargetArn"
+            case createdAt = "createdAt"
+            case durationInSeconds = "durationInSeconds"
+            case lastAssessmentRunArn = "lastAssessmentRunArn"
+            case name = "name"
+            case rulesPackageArns = "rulesPackageArns"
+            case userAttributesForFindings = "userAttributesForFindings"
+        }
+    }
+
+    public struct AssessmentTemplateFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "durationRange", required: false, type: .structure), 
+            AWSShapeMember(label: "namePattern", required: false, type: .string), 
+            AWSShapeMember(label: "rulesPackageArns", required: false, type: .list)
+        ]
+        /// For a record to match a filter, the value specified for this data type property must inclusively match any value between the specified minimum and maximum values of the durationInSeconds property of the AssessmentTemplate data type.
+        public let durationRange: DurationRange?
+        /// For a record to match a filter, an explicit value or a string that contains a wildcard that is specified for this data type property must match the value of the assessmentTemplateName property of the AssessmentTemplate data type.
+        public let namePattern: String?
+        /// For a record to match a filter, the values that are specified for this data type property must be contained in the list of values of the rulesPackageArns property of the AssessmentTemplate data type.
+        public let rulesPackageArns: [String]?
+
+        public init(durationRange: DurationRange? = nil, namePattern: String? = nil, rulesPackageArns: [String]? = nil) {
+            self.durationRange = durationRange
+            self.namePattern = namePattern
+            self.rulesPackageArns = rulesPackageArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case durationRange = "durationRange"
+            case namePattern = "namePattern"
+            case rulesPackageArns = "rulesPackageArns"
+        }
+    }
+
+    public struct AssetAttributes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "agentId", required: false, type: .string), 
+            AWSShapeMember(label: "amiId", required: false, type: .string), 
+            AWSShapeMember(label: "autoScalingGroup", required: false, type: .string), 
+            AWSShapeMember(label: "hostname", required: false, type: .string), 
+            AWSShapeMember(label: "ipv4Addresses", required: false, type: .list), 
+            AWSShapeMember(label: "networkInterfaces", required: false, type: .list), 
+            AWSShapeMember(label: "schemaVersion", required: true, type: .integer), 
+            AWSShapeMember(label: "tags", required: false, type: .list)
+        ]
+        /// The ID of the agent that is installed on the EC2 instance where the finding is generated.
+        public let agentId: String?
+        /// The ID of the Amazon Machine Image (AMI) that is installed on the EC2 instance where the finding is generated.
+        public let amiId: String?
+        /// The Auto Scaling group of the EC2 instance where the finding is generated.
+        public let autoScalingGroup: String?
+        /// The hostname of the EC2 instance where the finding is generated.
+        public let hostname: String?
+        /// The list of IP v4 addresses of the EC2 instance where the finding is generated.
+        public let ipv4Addresses: [String]?
+        /// An array of the network interfaces interacting with the EC2 instance where the finding is generated.
+        public let networkInterfaces: [NetworkInterface]?
+        /// The schema version of this data type.
+        public let schemaVersion: Int32
+        /// The tags related to the EC2 instance where the finding is generated.
+        public let tags: [Tag]?
+
+        public init(agentId: String? = nil, amiId: String? = nil, autoScalingGroup: String? = nil, hostname: String? = nil, ipv4Addresses: [String]? = nil, networkInterfaces: [NetworkInterface]? = nil, schemaVersion: Int32, tags: [Tag]? = nil) {
+            self.agentId = agentId
+            self.amiId = amiId
+            self.autoScalingGroup = autoScalingGroup
+            self.hostname = hostname
+            self.ipv4Addresses = ipv4Addresses
+            self.networkInterfaces = networkInterfaces
+            self.schemaVersion = schemaVersion
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentId = "agentId"
+            case amiId = "amiId"
+            case autoScalingGroup = "autoScalingGroup"
+            case hostname = "hostname"
+            case ipv4Addresses = "ipv4Addresses"
+            case networkInterfaces = "networkInterfaces"
+            case schemaVersion = "schemaVersion"
+            case tags = "tags"
+        }
+    }
+
+    public enum AssetType: String, CustomStringConvertible, Codable {
+        case ec2Instance = "ec2-instance"
+        public var description: String { return self.rawValue }
     }
 
     public struct Attribute: AWSShape {
@@ -80,432 +640,24 @@ extension Inspector {
         }
     }
 
-    public struct StartAssessmentRunRequest: AWSShape {
+    public struct CreateAssessmentTargetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "assessmentRunName", required: false, type: .string), 
-            AWSShapeMember(label: "assessmentTemplateArn", required: true, type: .string)
+            AWSShapeMember(label: "assessmentTargetName", required: true, type: .string), 
+            AWSShapeMember(label: "resourceGroupArn", required: false, type: .string)
         ]
-        /// You can specify the name for the assessment run. The name must be unique for the assessment template whose ARN is used to start the assessment run.
-        public let assessmentRunName: String?
-        /// The ARN of the assessment template of the assessment run that you want to start.
-        public let assessmentTemplateArn: String
+        /// The user-defined name that identifies the assessment target that you want to create. The name must be unique within the AWS account.
+        public let assessmentTargetName: String
+        /// The ARN that specifies the resource group that is used to create the assessment target. If resourceGroupArn is not specified, all EC2 instances in the current AWS account and region are included in the assessment target.
+        public let resourceGroupArn: String?
 
-        public init(assessmentRunName: String? = nil, assessmentTemplateArn: String) {
-            self.assessmentRunName = assessmentRunName
-            self.assessmentTemplateArn = assessmentTemplateArn
+        public init(assessmentTargetName: String, resourceGroupArn: String? = nil) {
+            self.assessmentTargetName = assessmentTargetName
+            self.resourceGroupArn = resourceGroupArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentRunName = "assessmentRunName"
-            case assessmentTemplateArn = "assessmentTemplateArn"
-        }
-    }
-
-    public struct AgentFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "agentHealths", required: true, type: .list), 
-            AWSShapeMember(label: "agentHealthCodes", required: true, type: .list)
-        ]
-        /// The current health state of the agent. Values can be set to HEALTHY or UNHEALTHY.
-        public let agentHealths: [AgentHealth]
-        /// The detailed health state of the agent. Values can be set to IDLE, RUNNING, SHUTDOWN, UNHEALTHY, THROTTLED, and UNKNOWN. 
-        public let agentHealthCodes: [AgentHealthCode]
-
-        public init(agentHealths: [AgentHealth], agentHealthCodes: [AgentHealthCode]) {
-            self.agentHealths = agentHealths
-            self.agentHealthCodes = agentHealthCodes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case agentHealths = "agentHealths"
-            case agentHealthCodes = "agentHealthCodes"
-        }
-    }
-
-    public enum InvalidCrossAccountRoleErrorCode: String, CustomStringConvertible, Codable {
-        case roleDoesNotExistOrInvalidTrustRelationship = "ROLE_DOES_NOT_EXIST_OR_INVALID_TRUST_RELATIONSHIP"
-        case roleDoesNotHaveCorrectPolicy = "ROLE_DOES_NOT_HAVE_CORRECT_POLICY"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListAssessmentTargetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "filter", required: false, type: .structure)
-        ]
-        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListAssessmentTargets action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
-        public let nextToken: String?
-        /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
-        public let maxResults: Int32?
-        /// You can use this parameter to specify a subset of data to be included in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match.
-        public let filter: AssessmentTargetFilter?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, filter: AssessmentTargetFilter? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.filter = filter
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-            case filter = "filter"
-        }
-    }
-
-    public struct ListAssessmentRunsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "assessmentRunArns", required: true, type: .list)
-        ]
-        ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
-        public let nextToken: String?
-        /// A list of ARNs that specifies the assessment runs that are returned by the action.
-        public let assessmentRunArns: [String]
-
-        public init(nextToken: String? = nil, assessmentRunArns: [String]) {
-            self.nextToken = nextToken
-            self.assessmentRunArns = assessmentRunArns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case assessmentRunArns = "assessmentRunArns"
-        }
-    }
-
-    public struct DescribeAssessmentRunsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failedItems", required: true, type: .map), 
-            AWSShapeMember(label: "assessmentRuns", required: true, type: .list)
-        ]
-        /// Assessment run details that cannot be described. An error code is provided for each failed item.
-        public let failedItems: [String: FailedItemDetails]
-        /// Information about the assessment run.
-        public let assessmentRuns: [AssessmentRun]
-
-        public init(failedItems: [String: FailedItemDetails], assessmentRuns: [AssessmentRun]) {
-            self.failedItems = failedItems
-            self.assessmentRuns = assessmentRuns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failedItems = "failedItems"
-            case assessmentRuns = "assessmentRuns"
-        }
-    }
-
-    public struct ListAssessmentTargetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "assessmentTargetArns", required: true, type: .list)
-        ]
-        ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
-        public let nextToken: String?
-        /// A list of ARNs that specifies the assessment targets that are returned by the action.
-        public let assessmentTargetArns: [String]
-
-        public init(nextToken: String? = nil, assessmentTargetArns: [String]) {
-            self.nextToken = nextToken
-            self.assessmentTargetArns = assessmentTargetArns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case assessmentTargetArns = "assessmentTargetArns"
-        }
-    }
-
-    public struct DescribeAssessmentRunsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "assessmentRunArns", required: true, type: .list)
-        ]
-        /// The ARN that specifies the assessment run that you want to describe.
-        public let assessmentRunArns: [String]
-
-        public init(assessmentRunArns: [String]) {
-            self.assessmentRunArns = assessmentRunArns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case assessmentRunArns = "assessmentRunArns"
-        }
-    }
-
-    public enum PreviewStatus: String, CustomStringConvertible, Codable {
-        case workInProgress = "WORK_IN_PROGRESS"
-        case completed = "COMPLETED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetAssessmentReportResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: true, type: .enum), 
-            AWSShapeMember(label: "url", required: false, type: .string)
-        ]
-        /// Specifies the status of the request to generate an assessment report. 
-        public let status: ReportStatus
-        /// Specifies the URL where you can find the generated assessment report. This parameter is only returned if the report is successfully generated.
-        public let url: String?
-
-        public init(status: ReportStatus, url: String? = nil) {
-            self.status = status
-            self.url = url
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "status"
-            case url = "url"
-        }
-    }
-
-    public struct PrivateIp: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "privateIpAddress", required: false, type: .string), 
-            AWSShapeMember(label: "privateDnsName", required: false, type: .string)
-        ]
-        /// The full IP address of the network inteface.
-        public let privateIpAddress: String?
-        /// The DNS name of the private IP address.
-        public let privateDnsName: String?
-
-        public init(privateIpAddress: String? = nil, privateDnsName: String? = nil) {
-            self.privateIpAddress = privateIpAddress
-            self.privateDnsName = privateDnsName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case privateIpAddress = "privateIpAddress"
-            case privateDnsName = "privateDnsName"
-        }
-    }
-
-    public struct CreateAssessmentTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "rulesPackageArns", required: true, type: .list), 
-            AWSShapeMember(label: "assessmentTemplateName", required: true, type: .string), 
-            AWSShapeMember(label: "assessmentTargetArn", required: true, type: .string), 
-            AWSShapeMember(label: "userAttributesForFindings", required: false, type: .list), 
-            AWSShapeMember(label: "durationInSeconds", required: true, type: .integer)
-        ]
-        /// The ARNs that specify the rules packages that you want to attach to the assessment template.
-        public let rulesPackageArns: [String]
-        /// The user-defined name that identifies the assessment template that you want to create. You can create several assessment templates for an assessment target. The names of the assessment templates that correspond to a particular assessment target must be unique.
-        public let assessmentTemplateName: String
-        /// The ARN that specifies the assessment target for which you want to create the assessment template.
-        public let assessmentTargetArn: String
-        /// The user-defined attributes that are assigned to every finding that is generated by the assessment run that uses this assessment template. An attribute is a key and value pair (an Attribute object). Within an assessment template, each key must be unique.
-        public let userAttributesForFindings: [Attribute]?
-        /// The duration of the assessment run in seconds.
-        public let durationInSeconds: Int32
-
-        public init(rulesPackageArns: [String], assessmentTemplateName: String, assessmentTargetArn: String, userAttributesForFindings: [Attribute]? = nil, durationInSeconds: Int32) {
-            self.rulesPackageArns = rulesPackageArns
-            self.assessmentTemplateName = assessmentTemplateName
-            self.assessmentTargetArn = assessmentTargetArn
-            self.userAttributesForFindings = userAttributesForFindings
-            self.durationInSeconds = durationInSeconds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rulesPackageArns = "rulesPackageArns"
-            case assessmentTemplateName = "assessmentTemplateName"
-            case assessmentTargetArn = "assessmentTargetArn"
-            case userAttributesForFindings = "userAttributesForFindings"
-            case durationInSeconds = "durationInSeconds"
-        }
-    }
-
-    public struct ListAssessmentRunAgentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "assessmentRunArn", required: true, type: .string), 
-            AWSShapeMember(label: "filter", required: false, type: .structure), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListAssessmentRunAgents action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
-        public let nextToken: String?
-        /// The ARN that specifies the assessment run whose agents you want to list.
-        public let assessmentRunArn: String
-        /// You can use this parameter to specify a subset of data to be included in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match.
-        public let filter: AgentFilter?
-        /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 10. The maximum value is 500.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, assessmentRunArn: String, filter: AgentFilter? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.assessmentRunArn = assessmentRunArn
-            self.filter = filter
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case assessmentRunArn = "assessmentRunArn"
-            case filter = "filter"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public enum LimitExceededErrorCode: String, CustomStringConvertible, Codable {
-        case assessmentTargetLimitExceeded = "ASSESSMENT_TARGET_LIMIT_EXCEEDED"
-        case assessmentTemplateLimitExceeded = "ASSESSMENT_TEMPLATE_LIMIT_EXCEEDED"
-        case assessmentRunLimitExceeded = "ASSESSMENT_RUN_LIMIT_EXCEEDED"
-        case resourceGroupLimitExceeded = "RESOURCE_GROUP_LIMIT_EXCEEDED"
-        case eventSubscriptionLimitExceeded = "EVENT_SUBSCRIPTION_LIMIT_EXCEEDED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateExclusionsPreviewRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "assessmentTemplateArn", required: true, type: .string)
-        ]
-        /// The ARN that specifies the assessment template for which you want to create an exclusions preview.
-        public let assessmentTemplateArn: String
-
-        public init(assessmentTemplateArn: String) {
-            self.assessmentTemplateArn = assessmentTemplateArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case assessmentTemplateArn = "assessmentTemplateArn"
-        }
-    }
-
-    public enum AssetType: String, CustomStringConvertible, Codable {
-        case ec2Instance = "ec2-instance"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InspectorEvent: String, CustomStringConvertible, Codable {
-        case assessmentRunStarted = "ASSESSMENT_RUN_STARTED"
-        case assessmentRunCompleted = "ASSESSMENT_RUN_COMPLETED"
-        case assessmentRunStateChanged = "ASSESSMENT_RUN_STATE_CHANGED"
-        case findingReported = "FINDING_REPORTED"
-        case other = "OTHER"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Finding: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: true, type: .list), 
-            AWSShapeMember(label: "recommendation", required: false, type: .string), 
-            AWSShapeMember(label: "indicatorOfCompromise", required: false, type: .boolean), 
-            AWSShapeMember(label: "assetAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "createdAt", required: true, type: .timestamp), 
-            AWSShapeMember(label: "confidence", required: false, type: .integer), 
-            AWSShapeMember(label: "updatedAt", required: true, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "numericSeverity", required: false, type: .double), 
-            AWSShapeMember(label: "service", required: false, type: .string), 
-            AWSShapeMember(label: "title", required: false, type: .string), 
-            AWSShapeMember(label: "schemaVersion", required: false, type: .integer), 
-            AWSShapeMember(label: "serviceAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "userAttributes", required: true, type: .list), 
-            AWSShapeMember(label: "severity", required: false, type: .enum), 
-            AWSShapeMember(label: "assetType", required: false, type: .enum)
-        ]
-        /// The system-defined attributes for the finding.
-        public let attributes: [Attribute]
-        /// The recommendation for the finding.
-        public let recommendation: String?
-        /// This data element is currently not used.
-        public let indicatorOfCompromise: Bool?
-        /// A collection of attributes of the host from which the finding is generated.
-        public let assetAttributes: AssetAttributes?
-        /// The ARN that specifies the finding.
-        public let arn: String
-        /// The time when the finding was generated.
-        public let createdAt: TimeStamp
-        /// This data element is currently not used.
-        public let confidence: Int32?
-        /// The time when AddAttributesToFindings is called.
-        public let updatedAt: TimeStamp
-        /// The description of the finding.
-        public let description: String?
-        /// The numeric value of the finding severity.
-        public let numericSeverity: Double?
-        /// The data element is set to "Inspector".
-        public let service: String?
-        /// The name of the finding.
-        public let title: String?
-        /// The schema version of this data type.
-        public let schemaVersion: Int32?
-        /// This data type is used in the Finding data type.
-        public let serviceAttributes: InspectorServiceAttributes?
-        /// The ID of the finding.
-        public let id: String?
-        /// The user-defined attributes that are assigned to the finding.
-        public let userAttributes: [Attribute]
-        /// The finding severity. Values can be set to High, Medium, Low, and Informational.
-        public let severity: Severity?
-        /// The type of the host from which the finding is generated.
-        public let assetType: AssetType?
-
-        public init(attributes: [Attribute], recommendation: String? = nil, indicatorOfCompromise: Bool? = nil, assetAttributes: AssetAttributes? = nil, arn: String, createdAt: TimeStamp, confidence: Int32? = nil, updatedAt: TimeStamp, description: String? = nil, numericSeverity: Double? = nil, service: String? = nil, title: String? = nil, schemaVersion: Int32? = nil, serviceAttributes: InspectorServiceAttributes? = nil, id: String? = nil, userAttributes: [Attribute], severity: Severity? = nil, assetType: AssetType? = nil) {
-            self.attributes = attributes
-            self.recommendation = recommendation
-            self.indicatorOfCompromise = indicatorOfCompromise
-            self.assetAttributes = assetAttributes
-            self.arn = arn
-            self.createdAt = createdAt
-            self.confidence = confidence
-            self.updatedAt = updatedAt
-            self.description = description
-            self.numericSeverity = numericSeverity
-            self.service = service
-            self.title = title
-            self.schemaVersion = schemaVersion
-            self.serviceAttributes = serviceAttributes
-            self.id = id
-            self.userAttributes = userAttributes
-            self.severity = severity
-            self.assetType = assetType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributes = "attributes"
-            case recommendation = "recommendation"
-            case indicatorOfCompromise = "indicatorOfCompromise"
-            case assetAttributes = "assetAttributes"
-            case arn = "arn"
-            case createdAt = "createdAt"
-            case confidence = "confidence"
-            case updatedAt = "updatedAt"
-            case description = "description"
-            case numericSeverity = "numericSeverity"
-            case service = "service"
-            case title = "title"
-            case schemaVersion = "schemaVersion"
-            case serviceAttributes = "serviceAttributes"
-            case id = "id"
-            case userAttributes = "userAttributes"
-            case severity = "severity"
-            case assetType = "assetType"
-        }
-    }
-
-    public struct StopAssessmentRunRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "assessmentRunArn", required: true, type: .string), 
-            AWSShapeMember(label: "stopAction", required: false, type: .enum)
-        ]
-        /// The ARN of the assessment run that you want to stop.
-        public let assessmentRunArn: String
-        /// An input option that can be set to either START_EVALUATION or SKIP_EVALUATION. START_EVALUATION (the default value), stops the AWS agent from collecting data and begins the results evaluation and the findings generation process. SKIP_EVALUATION cancels the assessment run immediately, after which no findings are generated.
-        public let stopAction: StopAction?
-
-        public init(assessmentRunArn: String, stopAction: StopAction? = nil) {
-            self.assessmentRunArn = assessmentRunArn
-            self.stopAction = stopAction
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case assessmentRunArn = "assessmentRunArn"
-            case stopAction = "stopAction"
+            case assessmentTargetName = "assessmentTargetName"
+            case resourceGroupArn = "resourceGroupArn"
         }
     }
 
@@ -525,24 +677,424 @@ extension Inspector {
         }
     }
 
-    public struct ListAssessmentTemplatesResponse: AWSShape {
+    public struct CreateAssessmentTemplateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "assessmentTargetArn", required: true, type: .string), 
+            AWSShapeMember(label: "assessmentTemplateName", required: true, type: .string), 
+            AWSShapeMember(label: "durationInSeconds", required: true, type: .integer), 
+            AWSShapeMember(label: "rulesPackageArns", required: true, type: .list), 
+            AWSShapeMember(label: "userAttributesForFindings", required: false, type: .list)
+        ]
+        /// The ARN that specifies the assessment target for which you want to create the assessment template.
+        public let assessmentTargetArn: String
+        /// The user-defined name that identifies the assessment template that you want to create. You can create several assessment templates for an assessment target. The names of the assessment templates that correspond to a particular assessment target must be unique.
+        public let assessmentTemplateName: String
+        /// The duration of the assessment run in seconds.
+        public let durationInSeconds: Int32
+        /// The ARNs that specify the rules packages that you want to attach to the assessment template.
+        public let rulesPackageArns: [String]
+        /// The user-defined attributes that are assigned to every finding that is generated by the assessment run that uses this assessment template. An attribute is a key and value pair (an Attribute object). Within an assessment template, each key must be unique.
+        public let userAttributesForFindings: [Attribute]?
+
+        public init(assessmentTargetArn: String, assessmentTemplateName: String, durationInSeconds: Int32, rulesPackageArns: [String], userAttributesForFindings: [Attribute]? = nil) {
+            self.assessmentTargetArn = assessmentTargetArn
+            self.assessmentTemplateName = assessmentTemplateName
+            self.durationInSeconds = durationInSeconds
+            self.rulesPackageArns = rulesPackageArns
+            self.userAttributesForFindings = userAttributesForFindings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentTargetArn = "assessmentTargetArn"
+            case assessmentTemplateName = "assessmentTemplateName"
+            case durationInSeconds = "durationInSeconds"
+            case rulesPackageArns = "rulesPackageArns"
+            case userAttributesForFindings = "userAttributesForFindings"
+        }
+    }
+
+    public struct CreateAssessmentTemplateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentTemplateArn", required: true, type: .string)
+        ]
+        /// The ARN that specifies the assessment template that is created.
+        public let assessmentTemplateArn: String
+
+        public init(assessmentTemplateArn: String) {
+            self.assessmentTemplateArn = assessmentTemplateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentTemplateArn = "assessmentTemplateArn"
+        }
+    }
+
+    public struct CreateExclusionsPreviewRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentTemplateArn", required: true, type: .string)
+        ]
+        /// The ARN that specifies the assessment template for which you want to create an exclusions preview.
+        public let assessmentTemplateArn: String
+
+        public init(assessmentTemplateArn: String) {
+            self.assessmentTemplateArn = assessmentTemplateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentTemplateArn = "assessmentTemplateArn"
+        }
+    }
+
+    public struct CreateExclusionsPreviewResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "previewToken", required: true, type: .string)
+        ]
+        /// Specifies the unique identifier of the requested exclusions preview. You can use the unique identifier to retrieve the exclusions preview when running the GetExclusionsPreview API.
+        public let previewToken: String
+
+        public init(previewToken: String) {
+            self.previewToken = previewToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case previewToken = "previewToken"
+        }
+    }
+
+    public struct CreateResourceGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceGroupTags", required: true, type: .list)
+        ]
+        /// A collection of keys and an array of possible values, '[{"key":"key1","values":["Value1","Value2"]},{"key":"Key2","values":["Value3"]}]'. For example,'[{"key":"Name","values":["TestEC2Instance"]}]'.
+        public let resourceGroupTags: [ResourceGroupTag]
+
+        public init(resourceGroupTags: [ResourceGroupTag]) {
+            self.resourceGroupTags = resourceGroupTags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceGroupTags = "resourceGroupTags"
+        }
+    }
+
+    public struct CreateResourceGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceGroupArn", required: true, type: .string)
+        ]
+        /// The ARN that specifies the resource group that is created.
+        public let resourceGroupArn: String
+
+        public init(resourceGroupArn: String) {
+            self.resourceGroupArn = resourceGroupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceGroupArn = "resourceGroupArn"
+        }
+    }
+
+    public struct DeleteAssessmentRunRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentRunArn", required: true, type: .string)
+        ]
+        /// The ARN that specifies the assessment run that you want to delete.
+        public let assessmentRunArn: String
+
+        public init(assessmentRunArn: String) {
+            self.assessmentRunArn = assessmentRunArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentRunArn = "assessmentRunArn"
+        }
+    }
+
+    public struct DeleteAssessmentTargetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentTargetArn", required: true, type: .string)
+        ]
+        /// The ARN that specifies the assessment target that you want to delete.
+        public let assessmentTargetArn: String
+
+        public init(assessmentTargetArn: String) {
+            self.assessmentTargetArn = assessmentTargetArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentTargetArn = "assessmentTargetArn"
+        }
+    }
+
+    public struct DeleteAssessmentTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentTemplateArn", required: true, type: .string)
+        ]
+        /// The ARN that specifies the assessment template that you want to delete.
+        public let assessmentTemplateArn: String
+
+        public init(assessmentTemplateArn: String) {
+            self.assessmentTemplateArn = assessmentTemplateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentTemplateArn = "assessmentTemplateArn"
+        }
+    }
+
+    public struct DescribeAssessmentRunsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentRunArns", required: true, type: .list)
+        ]
+        /// The ARN that specifies the assessment run that you want to describe.
+        public let assessmentRunArns: [String]
+
+        public init(assessmentRunArns: [String]) {
+            self.assessmentRunArns = assessmentRunArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentRunArns = "assessmentRunArns"
+        }
+    }
+
+    public struct DescribeAssessmentRunsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentRuns", required: true, type: .list), 
+            AWSShapeMember(label: "failedItems", required: true, type: .map)
+        ]
+        /// Information about the assessment run.
+        public let assessmentRuns: [AssessmentRun]
+        /// Assessment run details that cannot be described. An error code is provided for each failed item.
+        public let failedItems: [String: FailedItemDetails]
+
+        public init(assessmentRuns: [AssessmentRun], failedItems: [String: FailedItemDetails]) {
+            self.assessmentRuns = assessmentRuns
+            self.failedItems = failedItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentRuns = "assessmentRuns"
+            case failedItems = "failedItems"
+        }
+    }
+
+    public struct DescribeAssessmentTargetsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentTargetArns", required: true, type: .list)
+        ]
+        /// The ARNs that specifies the assessment targets that you want to describe.
+        public let assessmentTargetArns: [String]
+
+        public init(assessmentTargetArns: [String]) {
+            self.assessmentTargetArns = assessmentTargetArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentTargetArns = "assessmentTargetArns"
+        }
+    }
+
+    public struct DescribeAssessmentTargetsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentTargets", required: true, type: .list), 
+            AWSShapeMember(label: "failedItems", required: true, type: .map)
+        ]
+        /// Information about the assessment targets.
+        public let assessmentTargets: [AssessmentTarget]
+        /// Assessment target details that cannot be described. An error code is provided for each failed item.
+        public let failedItems: [String: FailedItemDetails]
+
+        public init(assessmentTargets: [AssessmentTarget], failedItems: [String: FailedItemDetails]) {
+            self.assessmentTargets = assessmentTargets
+            self.failedItems = failedItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentTargets = "assessmentTargets"
+            case failedItems = "failedItems"
+        }
+    }
+
+    public struct DescribeAssessmentTemplatesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "assessmentTemplateArns", required: true, type: .list)
         ]
-        ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
-        public let nextToken: String?
-        /// A list of ARNs that specifies the assessment templates returned by the action.
         public let assessmentTemplateArns: [String]
 
-        public init(nextToken: String? = nil, assessmentTemplateArns: [String]) {
-            self.nextToken = nextToken
+        public init(assessmentTemplateArns: [String]) {
             self.assessmentTemplateArns = assessmentTemplateArns
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
             case assessmentTemplateArns = "assessmentTemplateArns"
+        }
+    }
+
+    public struct DescribeAssessmentTemplatesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentTemplates", required: true, type: .list), 
+            AWSShapeMember(label: "failedItems", required: true, type: .map)
+        ]
+        /// Information about the assessment templates.
+        public let assessmentTemplates: [AssessmentTemplate]
+        /// Assessment template details that cannot be described. An error code is provided for each failed item.
+        public let failedItems: [String: FailedItemDetails]
+
+        public init(assessmentTemplates: [AssessmentTemplate], failedItems: [String: FailedItemDetails]) {
+            self.assessmentTemplates = assessmentTemplates
+            self.failedItems = failedItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentTemplates = "assessmentTemplates"
+            case failedItems = "failedItems"
+        }
+    }
+
+    public struct DescribeCrossAccountAccessRoleResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "registeredAt", required: true, type: .timestamp), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "valid", required: true, type: .boolean)
+        ]
+        /// The date when the cross-account access role was registered.
+        public let registeredAt: TimeStamp
+        /// The ARN that specifies the IAM role that Amazon Inspector uses to access your AWS account.
+        public let roleArn: String
+        /// A Boolean value that specifies whether the IAM role has the necessary policies attached to enable Amazon Inspector to access your AWS account.
+        public let valid: Bool
+
+        public init(registeredAt: TimeStamp, roleArn: String, valid: Bool) {
+            self.registeredAt = registeredAt
+            self.roleArn = roleArn
+            self.valid = valid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registeredAt = "registeredAt"
+            case roleArn = "roleArn"
+            case valid = "valid"
+        }
+    }
+
+    public struct DescribeExclusionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "exclusionArns", required: true, type: .list), 
+            AWSShapeMember(label: "locale", required: false, type: .enum)
+        ]
+        /// The list of ARNs that specify the exclusions that you want to describe.
+        public let exclusionArns: [String]
+        /// The locale into which you want to translate the exclusion's title, description, and recommendation.
+        public let locale: Locale?
+
+        public init(exclusionArns: [String], locale: Locale? = nil) {
+            self.exclusionArns = exclusionArns
+            self.locale = locale
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exclusionArns = "exclusionArns"
+            case locale = "locale"
+        }
+    }
+
+    public struct DescribeExclusionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "exclusions", required: true, type: .map), 
+            AWSShapeMember(label: "failedItems", required: true, type: .map)
+        ]
+        /// Information about the exclusions.
+        public let exclusions: [String: Exclusion]
+        /// Exclusion details that cannot be described. An error code is provided for each failed item.
+        public let failedItems: [String: FailedItemDetails]
+
+        public init(exclusions: [String: Exclusion], failedItems: [String: FailedItemDetails]) {
+            self.exclusions = exclusions
+            self.failedItems = failedItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exclusions = "exclusions"
+            case failedItems = "failedItems"
+        }
+    }
+
+    public struct DescribeFindingsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "findingArns", required: true, type: .list), 
+            AWSShapeMember(label: "locale", required: false, type: .enum)
+        ]
+        /// The ARN that specifies the finding that you want to describe.
+        public let findingArns: [String]
+        /// The locale into which you want to translate a finding description, recommendation, and the short description that identifies the finding.
+        public let locale: Locale?
+
+        public init(findingArns: [String], locale: Locale? = nil) {
+            self.findingArns = findingArns
+            self.locale = locale
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingArns = "findingArns"
+            case locale = "locale"
+        }
+    }
+
+    public struct DescribeFindingsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failedItems", required: true, type: .map), 
+            AWSShapeMember(label: "findings", required: true, type: .list)
+        ]
+        /// Finding details that cannot be described. An error code is provided for each failed item.
+        public let failedItems: [String: FailedItemDetails]
+        /// Information about the finding.
+        public let findings: [Finding]
+
+        public init(failedItems: [String: FailedItemDetails], findings: [Finding]) {
+            self.failedItems = failedItems
+            self.findings = findings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedItems = "failedItems"
+            case findings = "findings"
+        }
+    }
+
+    public struct DescribeResourceGroupsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceGroupArns", required: true, type: .list)
+        ]
+        /// The ARN that specifies the resource group that you want to describe.
+        public let resourceGroupArns: [String]
+
+        public init(resourceGroupArns: [String]) {
+            self.resourceGroupArns = resourceGroupArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceGroupArns = "resourceGroupArns"
+        }
+    }
+
+    public struct DescribeResourceGroupsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failedItems", required: true, type: .map), 
+            AWSShapeMember(label: "resourceGroups", required: true, type: .list)
+        ]
+        /// Resource group details that cannot be described. An error code is provided for each failed item.
+        public let failedItems: [String: FailedItemDetails]
+        /// Information about a resource group.
+        public let resourceGroups: [ResourceGroup]
+
+        public init(failedItems: [String: FailedItemDetails], resourceGroups: [ResourceGroup]) {
+            self.failedItems = failedItems
+            self.resourceGroups = resourceGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedItems = "failedItems"
+            case resourceGroups = "resourceGroups"
         }
     }
 
@@ -567,19 +1119,143 @@ extension Inspector {
         }
     }
 
-    public struct DeleteAssessmentRunRequest: AWSShape {
+    public struct DescribeRulesPackagesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "assessmentRunArn", required: true, type: .string)
+            AWSShapeMember(label: "failedItems", required: true, type: .map), 
+            AWSShapeMember(label: "rulesPackages", required: true, type: .list)
         ]
-        /// The ARN that specifies the assessment run that you want to delete.
-        public let assessmentRunArn: String
+        /// Rules package details that cannot be described. An error code is provided for each failed item.
+        public let failedItems: [String: FailedItemDetails]
+        /// Information about the rules package.
+        public let rulesPackages: [RulesPackage]
 
-        public init(assessmentRunArn: String) {
-            self.assessmentRunArn = assessmentRunArn
+        public init(failedItems: [String: FailedItemDetails], rulesPackages: [RulesPackage]) {
+            self.failedItems = failedItems
+            self.rulesPackages = rulesPackages
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentRunArn = "assessmentRunArn"
+            case failedItems = "failedItems"
+            case rulesPackages = "rulesPackages"
+        }
+    }
+
+    public struct DurationRange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "minSeconds", required: false, type: .integer)
+        ]
+        /// The maximum value of the duration range. Must be less than or equal to 604800 seconds (1 week).
+        public let maxSeconds: Int32?
+        /// The minimum value of the duration range. Must be greater than zero.
+        public let minSeconds: Int32?
+
+        public init(maxSeconds: Int32? = nil, minSeconds: Int32? = nil) {
+            self.maxSeconds = maxSeconds
+            self.minSeconds = minSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxSeconds = "maxSeconds"
+            case minSeconds = "minSeconds"
+        }
+    }
+
+    public struct EventSubscription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "event", required: true, type: .enum), 
+            AWSShapeMember(label: "subscribedAt", required: true, type: .timestamp)
+        ]
+        /// The event for which Amazon Simple Notification Service (SNS) notifications are sent.
+        public let event: InspectorEvent
+        /// The time at which SubscribeToEvent is called.
+        public let subscribedAt: TimeStamp
+
+        public init(event: InspectorEvent, subscribedAt: TimeStamp) {
+            self.event = event
+            self.subscribedAt = subscribedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case event = "event"
+            case subscribedAt = "subscribedAt"
+        }
+    }
+
+    public struct Exclusion: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string), 
+            AWSShapeMember(label: "attributes", required: false, type: .list), 
+            AWSShapeMember(label: "description", required: true, type: .string), 
+            AWSShapeMember(label: "recommendation", required: true, type: .string), 
+            AWSShapeMember(label: "scopes", required: true, type: .list), 
+            AWSShapeMember(label: "title", required: true, type: .string)
+        ]
+        /// The ARN that specifies the exclusion.
+        public let arn: String
+        /// The system-defined attributes for the exclusion.
+        public let attributes: [Attribute]?
+        /// The description of the exclusion.
+        public let description: String
+        /// The recommendation for the exclusion.
+        public let recommendation: String
+        /// The AWS resources for which the exclusion pertains.
+        public let scopes: [Scope]
+        /// The name of the exclusion.
+        public let title: String
+
+        public init(arn: String, attributes: [Attribute]? = nil, description: String, recommendation: String, scopes: [Scope], title: String) {
+            self.arn = arn
+            self.attributes = attributes
+            self.description = description
+            self.recommendation = recommendation
+            self.scopes = scopes
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case attributes = "attributes"
+            case description = "description"
+            case recommendation = "recommendation"
+            case scopes = "scopes"
+            case title = "title"
+        }
+    }
+
+    public struct ExclusionPreview: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attributes", required: false, type: .list), 
+            AWSShapeMember(label: "description", required: true, type: .string), 
+            AWSShapeMember(label: "recommendation", required: true, type: .string), 
+            AWSShapeMember(label: "scopes", required: true, type: .list), 
+            AWSShapeMember(label: "title", required: true, type: .string)
+        ]
+        /// The system-defined attributes for the exclusion preview.
+        public let attributes: [Attribute]?
+        /// The description of the exclusion preview.
+        public let description: String
+        /// The recommendation for the exclusion preview.
+        public let recommendation: String
+        /// The AWS resources for which the exclusion preview pertains.
+        public let scopes: [Scope]
+        /// The name of the exclusion preview.
+        public let title: String
+
+        public init(attributes: [Attribute]? = nil, description: String, recommendation: String, scopes: [Scope], title: String) {
+            self.attributes = attributes
+            self.description = description
+            self.recommendation = recommendation
+            self.scopes = scopes
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case description = "description"
+            case recommendation = "recommendation"
+            case scopes = "scopes"
+            case title = "title"
         }
     }
 
@@ -604,19 +1280,348 @@ extension Inspector {
         }
     }
 
-    public struct DescribeAssessmentTemplatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "assessmentTemplateArns", required: true, type: .list)
-        ]
-        public let assessmentTemplateArns: [String]
+    public enum FailedItemErrorCode: String, CustomStringConvertible, Codable {
+        case invalidArn = "INVALID_ARN"
+        case duplicateArn = "DUPLICATE_ARN"
+        case itemDoesNotExist = "ITEM_DOES_NOT_EXIST"
+        case accessDenied = "ACCESS_DENIED"
+        case limitExceeded = "LIMIT_EXCEEDED"
+        case internalError = "INTERNAL_ERROR"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(assessmentTemplateArns: [String]) {
-            self.assessmentTemplateArns = assessmentTemplateArns
+    public struct Finding: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string), 
+            AWSShapeMember(label: "assetAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "assetType", required: false, type: .enum), 
+            AWSShapeMember(label: "attributes", required: true, type: .list), 
+            AWSShapeMember(label: "confidence", required: false, type: .integer), 
+            AWSShapeMember(label: "createdAt", required: true, type: .timestamp), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "indicatorOfCompromise", required: false, type: .boolean), 
+            AWSShapeMember(label: "numericSeverity", required: false, type: .double), 
+            AWSShapeMember(label: "recommendation", required: false, type: .string), 
+            AWSShapeMember(label: "schemaVersion", required: false, type: .integer), 
+            AWSShapeMember(label: "service", required: false, type: .string), 
+            AWSShapeMember(label: "serviceAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "severity", required: false, type: .enum), 
+            AWSShapeMember(label: "title", required: false, type: .string), 
+            AWSShapeMember(label: "updatedAt", required: true, type: .timestamp), 
+            AWSShapeMember(label: "userAttributes", required: true, type: .list)
+        ]
+        /// The ARN that specifies the finding.
+        public let arn: String
+        /// A collection of attributes of the host from which the finding is generated.
+        public let assetAttributes: AssetAttributes?
+        /// The type of the host from which the finding is generated.
+        public let assetType: AssetType?
+        /// The system-defined attributes for the finding.
+        public let attributes: [Attribute]
+        /// This data element is currently not used.
+        public let confidence: Int32?
+        /// The time when the finding was generated.
+        public let createdAt: TimeStamp
+        /// The description of the finding.
+        public let description: String?
+        /// The ID of the finding.
+        public let id: String?
+        /// This data element is currently not used.
+        public let indicatorOfCompromise: Bool?
+        /// The numeric value of the finding severity.
+        public let numericSeverity: Double?
+        /// The recommendation for the finding.
+        public let recommendation: String?
+        /// The schema version of this data type.
+        public let schemaVersion: Int32?
+        /// The data element is set to "Inspector".
+        public let service: String?
+        /// This data type is used in the Finding data type.
+        public let serviceAttributes: InspectorServiceAttributes?
+        /// The finding severity. Values can be set to High, Medium, Low, and Informational.
+        public let severity: Severity?
+        /// The name of the finding.
+        public let title: String?
+        /// The time when AddAttributesToFindings is called.
+        public let updatedAt: TimeStamp
+        /// The user-defined attributes that are assigned to the finding.
+        public let userAttributes: [Attribute]
+
+        public init(arn: String, assetAttributes: AssetAttributes? = nil, assetType: AssetType? = nil, attributes: [Attribute], confidence: Int32? = nil, createdAt: TimeStamp, description: String? = nil, id: String? = nil, indicatorOfCompromise: Bool? = nil, numericSeverity: Double? = nil, recommendation: String? = nil, schemaVersion: Int32? = nil, service: String? = nil, serviceAttributes: InspectorServiceAttributes? = nil, severity: Severity? = nil, title: String? = nil, updatedAt: TimeStamp, userAttributes: [Attribute]) {
+            self.arn = arn
+            self.assetAttributes = assetAttributes
+            self.assetType = assetType
+            self.attributes = attributes
+            self.confidence = confidence
+            self.createdAt = createdAt
+            self.description = description
+            self.id = id
+            self.indicatorOfCompromise = indicatorOfCompromise
+            self.numericSeverity = numericSeverity
+            self.recommendation = recommendation
+            self.schemaVersion = schemaVersion
+            self.service = service
+            self.serviceAttributes = serviceAttributes
+            self.severity = severity
+            self.title = title
+            self.updatedAt = updatedAt
+            self.userAttributes = userAttributes
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentTemplateArns = "assessmentTemplateArns"
+            case arn = "arn"
+            case assetAttributes = "assetAttributes"
+            case assetType = "assetType"
+            case attributes = "attributes"
+            case confidence = "confidence"
+            case createdAt = "createdAt"
+            case description = "description"
+            case id = "id"
+            case indicatorOfCompromise = "indicatorOfCompromise"
+            case numericSeverity = "numericSeverity"
+            case recommendation = "recommendation"
+            case schemaVersion = "schemaVersion"
+            case service = "service"
+            case serviceAttributes = "serviceAttributes"
+            case severity = "severity"
+            case title = "title"
+            case updatedAt = "updatedAt"
+            case userAttributes = "userAttributes"
         }
+    }
+
+    public struct FindingFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "agentIds", required: false, type: .list), 
+            AWSShapeMember(label: "attributes", required: false, type: .list), 
+            AWSShapeMember(label: "autoScalingGroups", required: false, type: .list), 
+            AWSShapeMember(label: "creationTimeRange", required: false, type: .structure), 
+            AWSShapeMember(label: "ruleNames", required: false, type: .list), 
+            AWSShapeMember(label: "rulesPackageArns", required: false, type: .list), 
+            AWSShapeMember(label: "severities", required: false, type: .list), 
+            AWSShapeMember(label: "userAttributes", required: false, type: .list)
+        ]
+        /// For a record to match a filter, one of the values that is specified for this data type property must be the exact match of the value of the agentId property of the Finding data type.
+        public let agentIds: [String]?
+        /// For a record to match a filter, the list of values that are specified for this data type property must be contained in the list of values of the attributes property of the Finding data type.
+        public let attributes: [Attribute]?
+        /// For a record to match a filter, one of the values that is specified for this data type property must be the exact match of the value of the autoScalingGroup property of the Finding data type.
+        public let autoScalingGroups: [String]?
+        /// The time range during which the finding is generated.
+        public let creationTimeRange: TimestampRange?
+        /// For a record to match a filter, one of the values that is specified for this data type property must be the exact match of the value of the ruleName property of the Finding data type.
+        public let ruleNames: [String]?
+        /// For a record to match a filter, one of the values that is specified for this data type property must be the exact match of the value of the rulesPackageArn property of the Finding data type.
+        public let rulesPackageArns: [String]?
+        /// For a record to match a filter, one of the values that is specified for this data type property must be the exact match of the value of the severity property of the Finding data type.
+        public let severities: [Severity]?
+        /// For a record to match a filter, the value that is specified for this data type property must be contained in the list of values of the userAttributes property of the Finding data type.
+        public let userAttributes: [Attribute]?
+
+        public init(agentIds: [String]? = nil, attributes: [Attribute]? = nil, autoScalingGroups: [String]? = nil, creationTimeRange: TimestampRange? = nil, ruleNames: [String]? = nil, rulesPackageArns: [String]? = nil, severities: [Severity]? = nil, userAttributes: [Attribute]? = nil) {
+            self.agentIds = agentIds
+            self.attributes = attributes
+            self.autoScalingGroups = autoScalingGroups
+            self.creationTimeRange = creationTimeRange
+            self.ruleNames = ruleNames
+            self.rulesPackageArns = rulesPackageArns
+            self.severities = severities
+            self.userAttributes = userAttributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentIds = "agentIds"
+            case attributes = "attributes"
+            case autoScalingGroups = "autoScalingGroups"
+            case creationTimeRange = "creationTimeRange"
+            case ruleNames = "ruleNames"
+            case rulesPackageArns = "rulesPackageArns"
+            case severities = "severities"
+            case userAttributes = "userAttributes"
+        }
+    }
+
+    public struct GetAssessmentReportRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentRunArn", required: true, type: .string), 
+            AWSShapeMember(label: "reportFileFormat", required: true, type: .enum), 
+            AWSShapeMember(label: "reportType", required: true, type: .enum)
+        ]
+        /// The ARN that specifies the assessment run for which you want to generate a report.
+        public let assessmentRunArn: String
+        /// Specifies the file format (html or pdf) of the assessment report that you want to generate.
+        public let reportFileFormat: ReportFileFormat
+        /// Specifies the type of the assessment report that you want to generate. There are two types of assessment reports: a finding report and a full report. For more information, see Assessment Reports. 
+        public let reportType: ReportType
+
+        public init(assessmentRunArn: String, reportFileFormat: ReportFileFormat, reportType: ReportType) {
+            self.assessmentRunArn = assessmentRunArn
+            self.reportFileFormat = reportFileFormat
+            self.reportType = reportType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentRunArn = "assessmentRunArn"
+            case reportFileFormat = "reportFileFormat"
+            case reportType = "reportType"
+        }
+    }
+
+    public struct GetAssessmentReportResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: true, type: .enum), 
+            AWSShapeMember(label: "url", required: false, type: .string)
+        ]
+        /// Specifies the status of the request to generate an assessment report. 
+        public let status: ReportStatus
+        /// Specifies the URL where you can find the generated assessment report. This parameter is only returned if the report is successfully generated.
+        public let url: String?
+
+        public init(status: ReportStatus, url: String? = nil) {
+            self.status = status
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case url = "url"
+        }
+    }
+
+    public struct GetExclusionsPreviewRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentTemplateArn", required: true, type: .string), 
+            AWSShapeMember(label: "locale", required: false, type: .enum), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "previewToken", required: true, type: .string)
+        ]
+        /// The ARN that specifies the assessment template for which the exclusions preview was requested.
+        public let assessmentTemplateArn: String
+        /// The locale into which you want to translate the exclusion's title, description, and recommendation.
+        public let locale: Locale?
+        /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 100. The maximum value is 500.
+        public let maxResults: Int32?
+        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the GetExclusionsPreviewRequest action. Subsequent calls to the action fill nextToken in the request with the value of nextToken from the previous response to continue listing data.
+        public let nextToken: String?
+        /// The unique identifier associated of the exclusions preview.
+        public let previewToken: String
+
+        public init(assessmentTemplateArn: String, locale: Locale? = nil, maxResults: Int32? = nil, nextToken: String? = nil, previewToken: String) {
+            self.assessmentTemplateArn = assessmentTemplateArn
+            self.locale = locale
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.previewToken = previewToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentTemplateArn = "assessmentTemplateArn"
+            case locale = "locale"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case previewToken = "previewToken"
+        }
+    }
+
+    public struct GetExclusionsPreviewResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "exclusionPreviews", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "previewStatus", required: true, type: .enum)
+        ]
+        /// Information about the exclusions included in the preview.
+        public let exclusionPreviews: [ExclusionPreview]?
+        /// When a response is generated, if there is more data to be listed, this parameters is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
+        public let nextToken: String?
+        /// Specifies the status of the request to generate an exclusions preview.
+        public let previewStatus: PreviewStatus
+
+        public init(exclusionPreviews: [ExclusionPreview]? = nil, nextToken: String? = nil, previewStatus: PreviewStatus) {
+            self.exclusionPreviews = exclusionPreviews
+            self.nextToken = nextToken
+            self.previewStatus = previewStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exclusionPreviews = "exclusionPreviews"
+            case nextToken = "nextToken"
+            case previewStatus = "previewStatus"
+        }
+    }
+
+    public struct GetTelemetryMetadataRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentRunArn", required: true, type: .string)
+        ]
+        /// The ARN that specifies the assessment run that has the telemetry data that you want to obtain.
+        public let assessmentRunArn: String
+
+        public init(assessmentRunArn: String) {
+            self.assessmentRunArn = assessmentRunArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentRunArn = "assessmentRunArn"
+        }
+    }
+
+    public struct GetTelemetryMetadataResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "telemetryMetadata", required: true, type: .list)
+        ]
+        /// Telemetry details.
+        public let telemetryMetadata: [TelemetryMetadata]
+
+        public init(telemetryMetadata: [TelemetryMetadata]) {
+            self.telemetryMetadata = telemetryMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case telemetryMetadata = "telemetryMetadata"
+        }
+    }
+
+    public enum InspectorEvent: String, CustomStringConvertible, Codable {
+        case assessmentRunStarted = "ASSESSMENT_RUN_STARTED"
+        case assessmentRunCompleted = "ASSESSMENT_RUN_COMPLETED"
+        case assessmentRunStateChanged = "ASSESSMENT_RUN_STATE_CHANGED"
+        case findingReported = "FINDING_REPORTED"
+        case other = "OTHER"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct InspectorServiceAttributes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentRunArn", required: false, type: .string), 
+            AWSShapeMember(label: "rulesPackageArn", required: false, type: .string), 
+            AWSShapeMember(label: "schemaVersion", required: true, type: .integer)
+        ]
+        /// The ARN of the assessment run during which the finding is generated.
+        public let assessmentRunArn: String?
+        /// The ARN of the rules package that is used to generate the finding.
+        public let rulesPackageArn: String?
+        /// The schema version of this data type.
+        public let schemaVersion: Int32
+
+        public init(assessmentRunArn: String? = nil, rulesPackageArn: String? = nil, schemaVersion: Int32) {
+            self.assessmentRunArn = assessmentRunArn
+            self.rulesPackageArn = rulesPackageArn
+            self.schemaVersion = schemaVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentRunArn = "assessmentRunArn"
+            case rulesPackageArn = "rulesPackageArn"
+            case schemaVersion = "schemaVersion"
+        }
+    }
+
+    public enum InvalidCrossAccountRoleErrorCode: String, CustomStringConvertible, Codable {
+        case roleDoesNotExistOrInvalidTrustRelationship = "ROLE_DOES_NOT_EXIST_OR_INVALID_TRUST_RELATIONSHIP"
+        case roleDoesNotHaveCorrectPolicy = "ROLE_DOES_NOT_HAVE_CORRECT_POLICY"
+        public var description: String { return self.rawValue }
     }
 
     public enum InvalidInputErrorCode: String, CustomStringConvertible, Codable {
@@ -677,103 +1682,382 @@ extension Inspector {
         public var description: String { return self.rawValue }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: true, type: .list)
-        ]
-        /// A collection of key and value pairs.
-        public let tags: [Tag]
+    public enum LimitExceededErrorCode: String, CustomStringConvertible, Codable {
+        case assessmentTargetLimitExceeded = "ASSESSMENT_TARGET_LIMIT_EXCEEDED"
+        case assessmentTemplateLimitExceeded = "ASSESSMENT_TEMPLATE_LIMIT_EXCEEDED"
+        case assessmentRunLimitExceeded = "ASSESSMENT_RUN_LIMIT_EXCEEDED"
+        case resourceGroupLimitExceeded = "RESOURCE_GROUP_LIMIT_EXCEEDED"
+        case eventSubscriptionLimitExceeded = "EVENT_SUBSCRIPTION_LIMIT_EXCEEDED"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(tags: [Tag]) {
-            self.tags = tags
+    public struct ListAssessmentRunAgentsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentRunArn", required: true, type: .string), 
+            AWSShapeMember(label: "filter", required: false, type: .structure), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The ARN that specifies the assessment run whose agents you want to list.
+        public let assessmentRunArn: String
+        /// You can use this parameter to specify a subset of data to be included in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match.
+        public let filter: AgentFilter?
+        /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 10. The maximum value is 500.
+        public let maxResults: Int32?
+        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListAssessmentRunAgents action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+        public let nextToken: String?
+
+        public init(assessmentRunArn: String, filter: AgentFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.assessmentRunArn = assessmentRunArn
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
+            case assessmentRunArn = "assessmentRunArn"
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
-    public struct CreateAssessmentTargetRequest: AWSShape {
+    public struct ListAssessmentRunAgentsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "assessmentTargetName", required: true, type: .string)
+            AWSShapeMember(label: "assessmentRunAgents", required: true, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// The ARN that specifies the resource group that is used to create the assessment target. If resourceGroupArn is not specified, all EC2 instances in the current AWS account and region are included in the assessment target.
-        public let resourceGroupArn: String?
-        /// The user-defined name that identifies the assessment target that you want to create. The name must be unique within the AWS account.
-        public let assessmentTargetName: String
+        /// A list of ARNs that specifies the agents returned by the action.
+        public let assessmentRunAgents: [AssessmentRunAgent]
+        ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
+        public let nextToken: String?
 
-        public init(resourceGroupArn: String? = nil, assessmentTargetName: String) {
-            self.resourceGroupArn = resourceGroupArn
-            self.assessmentTargetName = assessmentTargetName
+        public init(assessmentRunAgents: [AssessmentRunAgent], nextToken: String? = nil) {
+            self.assessmentRunAgents = assessmentRunAgents
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceGroupArn = "resourceGroupArn"
-            case assessmentTargetName = "assessmentTargetName"
+            case assessmentRunAgents = "assessmentRunAgents"
+            case nextToken = "nextToken"
         }
     }
 
-    public struct ResourceGroup: AWSShape {
+    public struct ListAssessmentRunsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdAt", required: true, type: .timestamp), 
-            AWSShapeMember(label: "tags", required: true, type: .list), 
-            AWSShapeMember(label: "arn", required: true, type: .string)
+            AWSShapeMember(label: "assessmentTemplateArns", required: false, type: .list), 
+            AWSShapeMember(label: "filter", required: false, type: .structure), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// The time at which resource group is created.
-        public let createdAt: TimeStamp
-        /// The tags (key and value pairs) of the resource group. This data type property is used in the CreateResourceGroup action.
-        public let tags: [ResourceGroupTag]
-        /// The ARN of the resource group.
-        public let arn: String
+        /// The ARNs that specify the assessment templates whose assessment runs you want to list.
+        public let assessmentTemplateArns: [String]?
+        /// You can use this parameter to specify a subset of data to be included in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match.
+        public let filter: AssessmentRunFilter?
+        /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 10. The maximum value is 500.
+        public let maxResults: Int32?
+        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListAssessmentRuns action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+        public let nextToken: String?
 
-        public init(createdAt: TimeStamp, tags: [ResourceGroupTag], arn: String) {
-            self.createdAt = createdAt
-            self.tags = tags
-            self.arn = arn
+        public init(assessmentTemplateArns: [String]? = nil, filter: AssessmentRunFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.assessmentTemplateArns = assessmentTemplateArns
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt = "createdAt"
-            case tags = "tags"
-            case arn = "arn"
+            case assessmentTemplateArns = "assessmentTemplateArns"
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
-    public struct DeleteAssessmentTemplateRequest: AWSShape {
+    public struct ListAssessmentRunsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "assessmentTemplateArn", required: true, type: .string)
+            AWSShapeMember(label: "assessmentRunArns", required: true, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// The ARN that specifies the assessment template that you want to delete.
-        public let assessmentTemplateArn: String
+        /// A list of ARNs that specifies the assessment runs that are returned by the action.
+        public let assessmentRunArns: [String]
+        ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
+        public let nextToken: String?
 
-        public init(assessmentTemplateArn: String) {
-            self.assessmentTemplateArn = assessmentTemplateArn
+        public init(assessmentRunArns: [String], nextToken: String? = nil) {
+            self.assessmentRunArns = assessmentRunArns
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentTemplateArn = "assessmentTemplateArn"
+            case assessmentRunArns = "assessmentRunArns"
+            case nextToken = "nextToken"
         }
     }
 
-    public struct PreviewAgentsResponse: AWSShape {
+    public struct ListAssessmentTargetsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filter", required: false, type: .structure), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// You can use this parameter to specify a subset of data to be included in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match.
+        public let filter: AssessmentTargetFilter?
+        /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
+        public let maxResults: Int32?
+        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListAssessmentTargets action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+        public let nextToken: String?
+
+        public init(filter: AssessmentTargetFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAssessmentTargetsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentTargetArns", required: true, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// A list of ARNs that specifies the assessment targets that are returned by the action.
+        public let assessmentTargetArns: [String]
+        ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
+        public let nextToken: String?
+
+        public init(assessmentTargetArns: [String], nextToken: String? = nil) {
+            self.assessmentTargetArns = assessmentTargetArns
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentTargetArns = "assessmentTargetArns"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAssessmentTemplatesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentTargetArns", required: false, type: .list), 
+            AWSShapeMember(label: "filter", required: false, type: .structure), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// A list of ARNs that specifies the assessment targets whose assessment templates you want to list.
+        public let assessmentTargetArns: [String]?
+        /// You can use this parameter to specify a subset of data to be included in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match.
+        public let filter: AssessmentTemplateFilter?
+        /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
+        public let maxResults: Int32?
+        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListAssessmentTemplates action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+        public let nextToken: String?
+
+        public init(assessmentTargetArns: [String]? = nil, filter: AssessmentTemplateFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.assessmentTargetArns = assessmentTargetArns
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentTargetArns = "assessmentTargetArns"
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAssessmentTemplatesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentTemplateArns", required: true, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// A list of ARNs that specifies the assessment templates returned by the action.
+        public let assessmentTemplateArns: [String]
+        ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
+        public let nextToken: String?
+
+        public init(assessmentTemplateArns: [String], nextToken: String? = nil) {
+            self.assessmentTemplateArns = assessmentTemplateArns
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentTemplateArns = "assessmentTemplateArns"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListEventSubscriptionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "resourceArn", required: false, type: .string)
+        ]
+        /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
+        public let maxResults: Int32?
+        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListEventSubscriptions action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+        public let nextToken: String?
+        /// The ARN of the assessment template for which you want to list the existing event subscriptions.
+        public let resourceArn: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceArn: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct ListEventSubscriptionsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "agentPreviews", required: true, type: .list)
+            AWSShapeMember(label: "subscriptions", required: true, type: .list)
         ]
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
         public let nextToken: String?
-        /// The resulting list of agents.
-        public let agentPreviews: [AgentPreview]
+        /// Details of the returned event subscriptions.
+        public let subscriptions: [Subscription]
 
-        public init(nextToken: String? = nil, agentPreviews: [AgentPreview]) {
+        public init(nextToken: String? = nil, subscriptions: [Subscription]) {
             self.nextToken = nextToken
-            self.agentPreviews = agentPreviews
+            self.subscriptions = subscriptions
         }
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
-            case agentPreviews = "agentPreviews"
+            case subscriptions = "subscriptions"
+        }
+    }
+
+    public struct ListExclusionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentRunArn", required: true, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The ARN of the assessment run that generated the exclusions that you want to list.
+        public let assessmentRunArn: String
+        /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 100. The maximum value is 500.
+        public let maxResults: Int32?
+        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListExclusionsRequest action. Subsequent calls to the action fill nextToken in the request with the value of nextToken from the previous response to continue listing data.
+        public let nextToken: String?
+
+        public init(assessmentRunArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.assessmentRunArn = assessmentRunArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentRunArn = "assessmentRunArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListExclusionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "exclusionArns", required: true, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// A list of exclusions' ARNs returned by the action.
+        public let exclusionArns: [String]
+        /// When a response is generated, if there is more data to be listed, this parameters is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
+        public let nextToken: String?
+
+        public init(exclusionArns: [String], nextToken: String? = nil) {
+            self.exclusionArns = exclusionArns
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exclusionArns = "exclusionArns"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListFindingsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentRunArns", required: false, type: .list), 
+            AWSShapeMember(label: "filter", required: false, type: .structure), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The ARNs of the assessment runs that generate the findings that you want to list.
+        public let assessmentRunArns: [String]?
+        /// You can use this parameter to specify a subset of data to be included in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match.
+        public let filter: FindingFilter?
+        /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
+        public let maxResults: Int32?
+        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListFindings action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+        public let nextToken: String?
+
+        public init(assessmentRunArns: [String]? = nil, filter: FindingFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.assessmentRunArns = assessmentRunArns
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentRunArns = "assessmentRunArns"
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListFindingsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "findingArns", required: true, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// A list of ARNs that specifies the findings returned by the action.
+        public let findingArns: [String]
+        ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
+        public let nextToken: String?
+
+        public init(findingArns: [String], nextToken: String? = nil) {
+            self.findingArns = findingArns
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingArns = "findingArns"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListRulesPackagesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
+        public let maxResults: Int32?
+        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListRulesPackages action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -798,112 +2082,343 @@ extension Inspector {
         }
     }
 
-    public struct AssessmentRun: AWSShape {
+    public struct ListTagsForResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "durationInSeconds", required: true, type: .integer), 
-            AWSShapeMember(label: "findingCounts", required: true, type: .map), 
-            AWSShapeMember(label: "stateChangedAt", required: true, type: .timestamp), 
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "assessmentTemplateArn", required: true, type: .string), 
-            AWSShapeMember(label: "createdAt", required: true, type: .timestamp), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "rulesPackageArns", required: true, type: .list), 
-            AWSShapeMember(label: "completedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "notifications", required: true, type: .list), 
-            AWSShapeMember(label: "dataCollected", required: true, type: .boolean), 
-            AWSShapeMember(label: "stateChanges", required: true, type: .list), 
-            AWSShapeMember(label: "userAttributesForFindings", required: true, type: .list), 
-            AWSShapeMember(label: "state", required: true, type: .enum), 
-            AWSShapeMember(label: "startedAt", required: false, type: .timestamp)
+            AWSShapeMember(label: "resourceArn", required: true, type: .string)
         ]
-        /// The duration of the assessment run.
-        public let durationInSeconds: Int32
-        /// Provides a total count of generated findings per severity.
-        public let findingCounts: [Severity: Int32]
-        /// The last time when the assessment run's state changed.
-        public let stateChangedAt: TimeStamp
-        /// The ARN of the assessment run.
-        public let arn: String
-        /// The ARN of the assessment template that is associated with the assessment run.
-        public let assessmentTemplateArn: String
-        /// The time when StartAssessmentRun was called.
-        public let createdAt: TimeStamp
-        /// The auto-generated name for the assessment run.
-        public let name: String
-        /// The rules packages selected for the assessment run.
-        public let rulesPackageArns: [String]
-        /// The assessment run completion time that corresponds to the rules packages evaluation completion time or failure.
-        public let completedAt: TimeStamp?
-        /// A list of notifications for the event subscriptions. A notification about a particular generated finding is added to this list only once.
-        public let notifications: [AssessmentRunNotification]
-        /// A Boolean value (true or false) that specifies whether the process of collecting data from the agents is completed.
-        public let dataCollected: Bool
-        /// A list of the assessment run state changes.
-        public let stateChanges: [AssessmentRunStateChange]
-        /// The user-defined attributes that are assigned to every generated finding.
-        public let userAttributesForFindings: [Attribute]
-        /// The state of the assessment run.
-        public let state: AssessmentRunState
-        /// The time when StartAssessmentRun was called.
-        public let startedAt: TimeStamp?
+        /// The ARN that specifies the assessment template whose tags you want to list.
+        public let resourceArn: String
 
-        public init(durationInSeconds: Int32, findingCounts: [Severity: Int32], stateChangedAt: TimeStamp, arn: String, assessmentTemplateArn: String, createdAt: TimeStamp, name: String, rulesPackageArns: [String], completedAt: TimeStamp? = nil, notifications: [AssessmentRunNotification], dataCollected: Bool, stateChanges: [AssessmentRunStateChange], userAttributesForFindings: [Attribute], state: AssessmentRunState, startedAt: TimeStamp? = nil) {
-            self.durationInSeconds = durationInSeconds
-            self.findingCounts = findingCounts
-            self.stateChangedAt = stateChangedAt
-            self.arn = arn
-            self.assessmentTemplateArn = assessmentTemplateArn
-            self.createdAt = createdAt
-            self.name = name
-            self.rulesPackageArns = rulesPackageArns
-            self.completedAt = completedAt
-            self.notifications = notifications
-            self.dataCollected = dataCollected
-            self.stateChanges = stateChanges
-            self.userAttributesForFindings = userAttributesForFindings
-            self.state = state
-            self.startedAt = startedAt
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case durationInSeconds = "durationInSeconds"
-            case findingCounts = "findingCounts"
-            case stateChangedAt = "stateChangedAt"
-            case arn = "arn"
-            case assessmentTemplateArn = "assessmentTemplateArn"
-            case createdAt = "createdAt"
-            case name = "name"
-            case rulesPackageArns = "rulesPackageArns"
-            case completedAt = "completedAt"
-            case notifications = "notifications"
-            case dataCollected = "dataCollected"
-            case stateChanges = "stateChanges"
-            case userAttributesForFindings = "userAttributesForFindings"
-            case state = "state"
-            case startedAt = "startedAt"
+            case resourceArn = "resourceArn"
         }
     }
 
-    public struct CreateResourceGroupResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceGroupArn", required: true, type: .string)
+            AWSShapeMember(label: "tags", required: true, type: .list)
         ]
-        /// The ARN that specifies the resource group that is created.
-        public let resourceGroupArn: String
+        /// A collection of key and value pairs.
+        public let tags: [Tag]
 
-        public init(resourceGroupArn: String) {
-            self.resourceGroupArn = resourceGroupArn
+        public init(tags: [Tag]) {
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceGroupArn = "resourceGroupArn"
+            case tags = "tags"
         }
+    }
+
+    public enum Locale: String, CustomStringConvertible, Codable {
+        case enUs = "EN_US"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct NetworkInterface: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ipv6Addresses", required: false, type: .list), 
+            AWSShapeMember(label: "networkInterfaceId", required: false, type: .string), 
+            AWSShapeMember(label: "privateDnsName", required: false, type: .string), 
+            AWSShapeMember(label: "privateIpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "privateIpAddresses", required: false, type: .list), 
+            AWSShapeMember(label: "publicDnsName", required: false, type: .string), 
+            AWSShapeMember(label: "publicIp", required: false, type: .string), 
+            AWSShapeMember(label: "securityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "subnetId", required: false, type: .string), 
+            AWSShapeMember(label: "vpcId", required: false, type: .string)
+        ]
+        /// The IP addresses associated with the network interface.
+        public let ipv6Addresses: [String]?
+        /// The ID of the network interface.
+        public let networkInterfaceId: String?
+        /// The name of a private DNS associated with the network interface.
+        public let privateDnsName: String?
+        /// The private IP address associated with the network interface.
+        public let privateIpAddress: String?
+        /// A list of the private IP addresses associated with the network interface. Includes the privateDnsName and privateIpAddress.
+        public let privateIpAddresses: [PrivateIp]?
+        /// The name of a public DNS associated with the network interface.
+        public let publicDnsName: String?
+        /// The public IP address from which the network interface is reachable.
+        public let publicIp: String?
+        /// A list of the security groups associated with the network interface. Includes the groupId and groupName.
+        public let securityGroups: [SecurityGroup]?
+        /// The ID of a subnet associated with the network interface.
+        public let subnetId: String?
+        /// The ID of a VPC associated with the network interface.
+        public let vpcId: String?
+
+        public init(ipv6Addresses: [String]? = nil, networkInterfaceId: String? = nil, privateDnsName: String? = nil, privateIpAddress: String? = nil, privateIpAddresses: [PrivateIp]? = nil, publicDnsName: String? = nil, publicIp: String? = nil, securityGroups: [SecurityGroup]? = nil, subnetId: String? = nil, vpcId: String? = nil) {
+            self.ipv6Addresses = ipv6Addresses
+            self.networkInterfaceId = networkInterfaceId
+            self.privateDnsName = privateDnsName
+            self.privateIpAddress = privateIpAddress
+            self.privateIpAddresses = privateIpAddresses
+            self.publicDnsName = publicDnsName
+            self.publicIp = publicIp
+            self.securityGroups = securityGroups
+            self.subnetId = subnetId
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipv6Addresses = "ipv6Addresses"
+            case networkInterfaceId = "networkInterfaceId"
+            case privateDnsName = "privateDnsName"
+            case privateIpAddress = "privateIpAddress"
+            case privateIpAddresses = "privateIpAddresses"
+            case publicDnsName = "publicDnsName"
+            case publicIp = "publicIp"
+            case securityGroups = "securityGroups"
+            case subnetId = "subnetId"
+            case vpcId = "vpcId"
+        }
+    }
+
+    public enum NoSuchEntityErrorCode: String, CustomStringConvertible, Codable {
+        case assessmentTargetDoesNotExist = "ASSESSMENT_TARGET_DOES_NOT_EXIST"
+        case assessmentTemplateDoesNotExist = "ASSESSMENT_TEMPLATE_DOES_NOT_EXIST"
+        case assessmentRunDoesNotExist = "ASSESSMENT_RUN_DOES_NOT_EXIST"
+        case findingDoesNotExist = "FINDING_DOES_NOT_EXIST"
+        case resourceGroupDoesNotExist = "RESOURCE_GROUP_DOES_NOT_EXIST"
+        case rulesPackageDoesNotExist = "RULES_PACKAGE_DOES_NOT_EXIST"
+        case snsTopicDoesNotExist = "SNS_TOPIC_DOES_NOT_EXIST"
+        case iamRoleDoesNotExist = "IAM_ROLE_DOES_NOT_EXIST"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct PreviewAgentsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "previewAgentsArn", required: true, type: .string)
+        ]
+        /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
+        public let maxResults: Int32?
+        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the PreviewAgents action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+        public let nextToken: String?
+        /// The ARN of the assessment target whose agents you want to preview.
+        public let previewAgentsArn: String
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, previewAgentsArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.previewAgentsArn = previewAgentsArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case previewAgentsArn = "previewAgentsArn"
+        }
+    }
+
+    public struct PreviewAgentsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "agentPreviews", required: true, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The resulting list of agents.
+        public let agentPreviews: [AgentPreview]
+        ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
+        public let nextToken: String?
+
+        public init(agentPreviews: [AgentPreview], nextToken: String? = nil) {
+            self.agentPreviews = agentPreviews
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentPreviews = "agentPreviews"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public enum PreviewStatus: String, CustomStringConvertible, Codable {
+        case workInProgress = "WORK_IN_PROGRESS"
+        case completed = "COMPLETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct PrivateIp: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "privateDnsName", required: false, type: .string), 
+            AWSShapeMember(label: "privateIpAddress", required: false, type: .string)
+        ]
+        /// The DNS name of the private IP address.
+        public let privateDnsName: String?
+        /// The full IP address of the network inteface.
+        public let privateIpAddress: String?
+
+        public init(privateDnsName: String? = nil, privateIpAddress: String? = nil) {
+            self.privateDnsName = privateDnsName
+            self.privateIpAddress = privateIpAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case privateDnsName = "privateDnsName"
+            case privateIpAddress = "privateIpAddress"
+        }
+    }
+
+    public struct RegisterCrossAccountAccessRoleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleArn", required: true, type: .string)
+        ]
+        /// The ARN of the IAM role that grants Amazon Inspector access to AWS Services needed to perform security assessments. 
+        public let roleArn: String
+
+        public init(roleArn: String) {
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct RemoveAttributesFromFindingsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attributeKeys", required: true, type: .list), 
+            AWSShapeMember(label: "findingArns", required: true, type: .list)
+        ]
+        /// The array of attribute keys that you want to remove from specified findings.
+        public let attributeKeys: [String]
+        /// The ARNs that specify the findings that you want to remove attributes from.
+        public let findingArns: [String]
+
+        public init(attributeKeys: [String], findingArns: [String]) {
+            self.attributeKeys = attributeKeys
+            self.findingArns = findingArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeKeys = "attributeKeys"
+            case findingArns = "findingArns"
+        }
+    }
+
+    public struct RemoveAttributesFromFindingsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failedItems", required: true, type: .map)
+        ]
+        /// Attributes details that cannot be described. An error code is provided for each failed item.
+        public let failedItems: [String: FailedItemDetails]
+
+        public init(failedItems: [String: FailedItemDetails]) {
+            self.failedItems = failedItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedItems = "failedItems"
+        }
+    }
+
+    public enum ReportFileFormat: String, CustomStringConvertible, Codable {
+        case html = "HTML"
+        case pdf = "PDF"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportStatus: String, CustomStringConvertible, Codable {
+        case workInProgress = "WORK_IN_PROGRESS"
+        case failed = "FAILED"
+        case completed = "COMPLETED"
+        public var description: String { return self.rawValue }
     }
 
     public enum ReportType: String, CustomStringConvertible, Codable {
         case finding = "FINDING"
         case full = "FULL"
         public var description: String { return self.rawValue }
+    }
+
+    public struct ResourceGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string), 
+            AWSShapeMember(label: "createdAt", required: true, type: .timestamp), 
+            AWSShapeMember(label: "tags", required: true, type: .list)
+        ]
+        /// The ARN of the resource group.
+        public let arn: String
+        /// The time at which resource group is created.
+        public let createdAt: TimeStamp
+        /// The tags (key and value pairs) of the resource group. This data type property is used in the CreateResourceGroup action.
+        public let tags: [ResourceGroupTag]
+
+        public init(arn: String, createdAt: TimeStamp, tags: [ResourceGroupTag]) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case tags = "tags"
+        }
+    }
+
+    public struct ResourceGroupTag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: true, type: .string), 
+            AWSShapeMember(label: "value", required: false, type: .string)
+        ]
+        /// A tag key.
+        public let key: String
+        /// The value assigned to a tag key.
+        public let value: String?
+
+        public init(key: String, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
+    public struct RulesPackage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "provider", required: true, type: .string), 
+            AWSShapeMember(label: "version", required: true, type: .string)
+        ]
+        /// The ARN of the rules package.
+        public let arn: String
+        /// The description of the rules package.
+        public let description: String?
+        /// The name of the rules package.
+        public let name: String
+        /// The provider of the rules package.
+        public let provider: String
+        /// The version ID of the rules package.
+        public let version: String
+
+        public init(arn: String, description: String? = nil, name: String, provider: String, version: String) {
+            self.arn = arn
+            self.description = description
+            self.name = name
+            self.provider = provider
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case description = "description"
+            case name = "name"
+            case provider = "provider"
+            case version = "version"
+        }
     }
 
     public struct Scope: AWSShape {
@@ -927,125 +2442,97 @@ extension Inspector {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string)
-        ]
-        /// The ARN that specifies the assessment template whose tags you want to list.
-        public let resourceArn: String
-
-        public init(resourceArn: String) {
-            self.resourceArn = resourceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
-    }
-
-    public struct RegisterCrossAccountAccessRoleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
-        ]
-        /// The ARN of the IAM role that grants Amazon Inspector access to AWS Services needed to perform security assessments. 
-        public let roleArn: String
-
-        public init(roleArn: String) {
-            self.roleArn = roleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleArn = "roleArn"
-        }
-    }
-
-    public enum Locale: String, CustomStringConvertible, Codable {
-        case enUs = "EN_US"
-        public var description: String { return self.rawValue }
-    }
-
     public enum ScopeType: String, CustomStringConvertible, Codable {
         case instanceId = "INSTANCE_ID"
         case rulesPackageArn = "RULES_PACKAGE_ARN"
         public var description: String { return self.rawValue }
     }
 
-    public struct EventSubscription: AWSShape {
+    public struct SecurityGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "event", required: true, type: .enum), 
-            AWSShapeMember(label: "subscribedAt", required: true, type: .timestamp)
+            AWSShapeMember(label: "groupId", required: false, type: .string), 
+            AWSShapeMember(label: "groupName", required: false, type: .string)
         ]
-        /// The event for which Amazon Simple Notification Service (SNS) notifications are sent.
-        public let event: InspectorEvent
-        /// The time at which SubscribeToEvent is called.
-        public let subscribedAt: TimeStamp
+        /// The ID of the security group.
+        public let groupId: String?
+        /// The name of the security group.
+        public let groupName: String?
 
-        public init(event: InspectorEvent, subscribedAt: TimeStamp) {
-            self.event = event
-            self.subscribedAt = subscribedAt
+        public init(groupId: String? = nil, groupName: String? = nil) {
+            self.groupId = groupId
+            self.groupName = groupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case event = "event"
-            case subscribedAt = "subscribedAt"
+            case groupId = "groupId"
+            case groupName = "groupName"
         }
     }
 
-    public struct CreateAssessmentTemplateResponse: AWSShape {
+    public struct SetTagsForResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list)
+        ]
+        /// The ARN of the assessment template that you want to set tags to.
+        public let resourceArn: String
+        /// A collection of key and value pairs that you want to set to the assessment template.
+        public let tags: [Tag]?
+
+        public init(resourceArn: String, tags: [Tag]? = nil) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tags = "tags"
+        }
+    }
+
+    public enum Severity: String, CustomStringConvertible, Codable {
+        case low = "Low"
+        case medium = "Medium"
+        case high = "High"
+        case informational = "Informational"
+        case undefined = "Undefined"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct StartAssessmentRunRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentRunName", required: false, type: .string), 
             AWSShapeMember(label: "assessmentTemplateArn", required: true, type: .string)
         ]
-        /// The ARN that specifies the assessment template that is created.
+        /// You can specify the name for the assessment run. The name must be unique for the assessment template whose ARN is used to start the assessment run.
+        public let assessmentRunName: String?
+        /// The ARN of the assessment template of the assessment run that you want to start.
         public let assessmentTemplateArn: String
 
-        public init(assessmentTemplateArn: String) {
+        public init(assessmentRunName: String? = nil, assessmentTemplateArn: String) {
+            self.assessmentRunName = assessmentRunName
             self.assessmentTemplateArn = assessmentTemplateArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assessmentRunName = "assessmentRunName"
             case assessmentTemplateArn = "assessmentTemplateArn"
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct StartAssessmentRunResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "key", required: true, type: .string), 
-            AWSShapeMember(label: "value", required: false, type: .string)
+            AWSShapeMember(label: "assessmentRunArn", required: true, type: .string)
         ]
-        /// A tag key.
-        public let key: String
-        /// A value assigned to a tag key.
-        public let value: String?
+        /// The ARN of the assessment run that has been started.
+        public let assessmentRunArn: String
 
-        public init(key: String, value: String? = nil) {
-            self.key = key
-            self.value = value
+        public init(assessmentRunArn: String) {
+            self.assessmentRunArn = assessmentRunArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key = "key"
-            case value = "value"
-        }
-    }
-
-    public struct DurationRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "minSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "maxSeconds", required: false, type: .integer)
-        ]
-        /// The minimum value of the duration range. Must be greater than zero.
-        public let minSeconds: Int32?
-        /// The maximum value of the duration range. Must be less than or equal to 604800 seconds (1 week).
-        public let maxSeconds: Int32?
-
-        public init(minSeconds: Int32? = nil, maxSeconds: Int32? = nil) {
-            self.minSeconds = minSeconds
-            self.maxSeconds = maxSeconds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case minSeconds = "minSeconds"
-            case maxSeconds = "maxSeconds"
+            case assessmentRunArn = "assessmentRunArn"
         }
     }
 
@@ -1055,40 +2542,24 @@ extension Inspector {
         public var description: String { return self.rawValue }
     }
 
-    public struct DeleteAssessmentTargetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "assessmentTargetArn", required: true, type: .string)
-        ]
-        /// The ARN that specifies the assessment target that you want to delete.
-        public let assessmentTargetArn: String
-
-        public init(assessmentTargetArn: String) {
-            self.assessmentTargetArn = assessmentTargetArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case assessmentTargetArn = "assessmentTargetArn"
-        }
-    }
-
-    public struct AgentAlreadyRunningAssessment: AWSShape {
+    public struct StopAssessmentRunRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "assessmentRunArn", required: true, type: .string), 
-            AWSShapeMember(label: "agentId", required: true, type: .string)
+            AWSShapeMember(label: "stopAction", required: false, type: .enum)
         ]
-        /// The ARN of the assessment run that has already been started.
+        /// The ARN of the assessment run that you want to stop.
         public let assessmentRunArn: String
-        /// ID of the agent that is running on an EC2 instance that is already participating in another started assessment run.
-        public let agentId: String
+        /// An input option that can be set to either START_EVALUATION or SKIP_EVALUATION. START_EVALUATION (the default value), stops the AWS agent from collecting data and begins the results evaluation and the findings generation process. SKIP_EVALUATION cancels the assessment run immediately, after which no findings are generated.
+        public let stopAction: StopAction?
 
-        public init(assessmentRunArn: String, agentId: String) {
+        public init(assessmentRunArn: String, stopAction: StopAction? = nil) {
             self.assessmentRunArn = assessmentRunArn
-            self.agentId = agentId
+            self.stopAction = stopAction
         }
 
         private enum CodingKeys: String, CodingKey {
             case assessmentRunArn = "assessmentRunArn"
-            case agentId = "agentId"
+            case stopAction = "stopAction"
         }
     }
 
@@ -1118,82 +2589,97 @@ extension Inspector {
         }
     }
 
-    public struct DescribeRulesPackagesResponse: AWSShape {
+    public struct Subscription: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "rulesPackages", required: true, type: .list), 
-            AWSShapeMember(label: "failedItems", required: true, type: .map)
-        ]
-        /// Information about the rules package.
-        public let rulesPackages: [RulesPackage]
-        /// Rules package details that cannot be described. An error code is provided for each failed item.
-        public let failedItems: [String: FailedItemDetails]
-
-        public init(rulesPackages: [RulesPackage], failedItems: [String: FailedItemDetails]) {
-            self.rulesPackages = rulesPackages
-            self.failedItems = failedItems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rulesPackages = "rulesPackages"
-            case failedItems = "failedItems"
-        }
-    }
-
-    public struct StartAssessmentRunResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "assessmentRunArn", required: true, type: .string)
-        ]
-        /// The ARN of the assessment run that has been started.
-        public let assessmentRunArn: String
-
-        public init(assessmentRunArn: String) {
-            self.assessmentRunArn = assessmentRunArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case assessmentRunArn = "assessmentRunArn"
-        }
-    }
-
-    public struct SetTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "eventSubscriptions", required: true, type: .list), 
             AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
+            AWSShapeMember(label: "topicArn", required: true, type: .string)
         ]
-        /// The ARN of the assessment template that you want to set tags to.
+        /// The list of existing event subscriptions.
+        public let eventSubscriptions: [EventSubscription]
+        /// The ARN of the assessment template that is used during the event for which the SNS notification is sent.
         public let resourceArn: String
-        /// A collection of key and value pairs that you want to set to the assessment template.
-        public let tags: [Tag]?
+        /// The ARN of the Amazon Simple Notification Service (SNS) topic to which the SNS notifications are sent.
+        public let topicArn: String
 
-        public init(resourceArn: String, tags: [Tag]? = nil) {
+        public init(eventSubscriptions: [EventSubscription], resourceArn: String, topicArn: String) {
+            self.eventSubscriptions = eventSubscriptions
             self.resourceArn = resourceArn
-            self.tags = tags
+            self.topicArn = topicArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eventSubscriptions = "eventSubscriptions"
             case resourceArn = "resourceArn"
-            case tags = "tags"
+            case topicArn = "topicArn"
         }
     }
 
-    public struct DescribeFindingsRequest: AWSShape {
+    public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "locale", required: false, type: .enum), 
-            AWSShapeMember(label: "findingArns", required: true, type: .list)
+            AWSShapeMember(label: "key", required: true, type: .string), 
+            AWSShapeMember(label: "value", required: false, type: .string)
         ]
-        /// The locale into which you want to translate a finding description, recommendation, and the short description that identifies the finding.
-        public let locale: Locale?
-        /// The ARN that specifies the finding that you want to describe.
-        public let findingArns: [String]
+        /// A tag key.
+        public let key: String
+        /// A value assigned to a tag key.
+        public let value: String?
 
-        public init(locale: Locale? = nil, findingArns: [String]) {
-            self.locale = locale
-            self.findingArns = findingArns
+        public init(key: String, value: String? = nil) {
+            self.key = key
+            self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case locale = "locale"
-            case findingArns = "findingArns"
+            case key = "key"
+            case value = "value"
+        }
+    }
+
+    public struct TelemetryMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "count", required: true, type: .long), 
+            AWSShapeMember(label: "dataSize", required: false, type: .long), 
+            AWSShapeMember(label: "messageType", required: true, type: .string)
+        ]
+        /// The count of messages that the agent sends to the Amazon Inspector service.
+        public let count: Int64
+        /// The data size of messages that the agent sends to the Amazon Inspector service.
+        public let dataSize: Int64?
+        /// A specific type of behavioral data that is collected by the agent.
+        public let messageType: String
+
+        public init(count: Int64, dataSize: Int64? = nil, messageType: String) {
+            self.count = count
+            self.dataSize = dataSize
+            self.messageType = messageType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "count"
+            case dataSize = "dataSize"
+            case messageType = "messageType"
+        }
+    }
+
+    public struct TimestampRange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "beginDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "endDate", required: false, type: .timestamp)
+        ]
+        /// The minimum value of the timestamp range.
+        public let beginDate: TimeStamp?
+        /// The maximum value of the timestamp range.
+        public let endDate: TimeStamp?
+
+        public init(beginDate: TimeStamp? = nil, endDate: TimeStamp? = nil) {
+            self.beginDate = beginDate
+            self.endDate = endDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case beginDate = "beginDate"
+            case endDate = "endDate"
         }
     }
 
@@ -1223,1516 +2709,30 @@ extension Inspector {
         }
     }
 
-    public struct ListEventSubscriptionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "subscriptions", required: true, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// Details of the returned event subscriptions.
-        public let subscriptions: [Subscription]
-        ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
-        public let nextToken: String?
-
-        public init(subscriptions: [Subscription], nextToken: String? = nil) {
-            self.subscriptions = subscriptions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subscriptions = "subscriptions"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct CreateExclusionsPreviewResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "previewToken", required: true, type: .string)
-        ]
-        /// Specifies the unique identifier of the requested exclusions preview. You can use the unique identifier to retrieve the exclusions preview when running the GetExclusionsPreview API.
-        public let previewToken: String
-
-        public init(previewToken: String) {
-            self.previewToken = previewToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case previewToken = "previewToken"
-        }
-    }
-
-    public struct AddAttributesToFindingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: true, type: .list), 
-            AWSShapeMember(label: "findingArns", required: true, type: .list)
-        ]
-        /// The array of attributes that you want to assign to specified findings.
-        public let attributes: [Attribute]
-        /// The ARNs that specify the findings that you want to assign attributes to.
-        public let findingArns: [String]
-
-        public init(attributes: [Attribute], findingArns: [String]) {
-            self.attributes = attributes
-            self.findingArns = findingArns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributes = "attributes"
-            case findingArns = "findingArns"
-        }
-    }
-
-    public enum AgentHealthCode: String, CustomStringConvertible, Codable {
-        case idle = "IDLE"
-        case running = "RUNNING"
-        case shutdown = "SHUTDOWN"
-        case unhealthy = "UNHEALTHY"
-        case throttled = "THROTTLED"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct InspectorServiceAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "rulesPackageArn", required: false, type: .string), 
-            AWSShapeMember(label: "assessmentRunArn", required: false, type: .string), 
-            AWSShapeMember(label: "schemaVersion", required: true, type: .integer)
-        ]
-        /// The ARN of the rules package that is used to generate the finding.
-        public let rulesPackageArn: String?
-        /// The ARN of the assessment run during which the finding is generated.
-        public let assessmentRunArn: String?
-        /// The schema version of this data type.
-        public let schemaVersion: Int32
-
-        public init(rulesPackageArn: String? = nil, assessmentRunArn: String? = nil, schemaVersion: Int32) {
-            self.rulesPackageArn = rulesPackageArn
-            self.assessmentRunArn = assessmentRunArn
-            self.schemaVersion = schemaVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rulesPackageArn = "rulesPackageArn"
-            case assessmentRunArn = "assessmentRunArn"
-            case schemaVersion = "schemaVersion"
-        }
-    }
-
-    public struct AgentPreview: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ipv4Address", required: false, type: .string), 
-            AWSShapeMember(label: "agentHealth", required: false, type: .enum), 
-            AWSShapeMember(label: "agentId", required: true, type: .string), 
-            AWSShapeMember(label: "agentVersion", required: false, type: .string), 
-            AWSShapeMember(label: "kernelVersion", required: false, type: .string), 
-            AWSShapeMember(label: "autoScalingGroup", required: false, type: .string), 
-            AWSShapeMember(label: "operatingSystem", required: false, type: .string), 
-            AWSShapeMember(label: "hostname", required: false, type: .string)
-        ]
-        /// The IP address of the EC2 instance on which the Amazon Inspector Agent is installed.
-        public let ipv4Address: String?
-        /// The health status of the Amazon Inspector Agent.
-        public let agentHealth: AgentHealth?
-        /// The ID of the EC2 instance where the agent is installed.
-        public let agentId: String
-        /// The version of the Amazon Inspector Agent.
-        public let agentVersion: String?
-        /// The kernel version of the operating system running on the EC2 instance on which the Amazon Inspector Agent is installed.
-        public let kernelVersion: String?
-        /// The Auto Scaling group for the EC2 instance where the agent is installed.
-        public let autoScalingGroup: String?
-        /// The operating system running on the EC2 instance on which the Amazon Inspector Agent is installed.
-        public let operatingSystem: String?
-        /// The hostname of the EC2 instance on which the Amazon Inspector Agent is installed.
-        public let hostname: String?
-
-        public init(ipv4Address: String? = nil, agentHealth: AgentHealth? = nil, agentId: String, agentVersion: String? = nil, kernelVersion: String? = nil, autoScalingGroup: String? = nil, operatingSystem: String? = nil, hostname: String? = nil) {
-            self.ipv4Address = ipv4Address
-            self.agentHealth = agentHealth
-            self.agentId = agentId
-            self.agentVersion = agentVersion
-            self.kernelVersion = kernelVersion
-            self.autoScalingGroup = autoScalingGroup
-            self.operatingSystem = operatingSystem
-            self.hostname = hostname
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ipv4Address = "ipv4Address"
-            case agentHealth = "agentHealth"
-            case agentId = "agentId"
-            case agentVersion = "agentVersion"
-            case kernelVersion = "kernelVersion"
-            case autoScalingGroup = "autoScalingGroup"
-            case operatingSystem = "operatingSystem"
-            case hostname = "hostname"
-        }
-    }
-
-    public struct NetworkInterface: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "networkInterfaceId", required: false, type: .string), 
-            AWSShapeMember(label: "securityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "publicDnsName", required: false, type: .string), 
-            AWSShapeMember(label: "privateDnsName", required: false, type: .string), 
-            AWSShapeMember(label: "subnetId", required: false, type: .string), 
-            AWSShapeMember(label: "vpcId", required: false, type: .string), 
-            AWSShapeMember(label: "privateIpAddresses", required: false, type: .list), 
-            AWSShapeMember(label: "privateIpAddress", required: false, type: .string), 
-            AWSShapeMember(label: "ipv6Addresses", required: false, type: .list), 
-            AWSShapeMember(label: "publicIp", required: false, type: .string)
-        ]
-        /// The ID of the network interface.
-        public let networkInterfaceId: String?
-        /// A list of the security groups associated with the network interface. Includes the groupId and groupName.
-        public let securityGroups: [SecurityGroup]?
-        /// The name of a public DNS associated with the network interface.
-        public let publicDnsName: String?
-        /// The name of a private DNS associated with the network interface.
-        public let privateDnsName: String?
-        /// The ID of a subnet associated with the network interface.
-        public let subnetId: String?
-        /// The ID of a VPC associated with the network interface.
-        public let vpcId: String?
-        /// A list of the private IP addresses associated with the network interface. Includes the privateDnsName and privateIpAddress.
-        public let privateIpAddresses: [PrivateIp]?
-        /// The private IP address associated with the network interface.
-        public let privateIpAddress: String?
-        /// The IP addresses associated with the network interface.
-        public let ipv6Addresses: [String]?
-        /// The public IP address from which the network interface is reachable.
-        public let publicIp: String?
-
-        public init(networkInterfaceId: String? = nil, securityGroups: [SecurityGroup]? = nil, publicDnsName: String? = nil, privateDnsName: String? = nil, subnetId: String? = nil, vpcId: String? = nil, privateIpAddresses: [PrivateIp]? = nil, privateIpAddress: String? = nil, ipv6Addresses: [String]? = nil, publicIp: String? = nil) {
-            self.networkInterfaceId = networkInterfaceId
-            self.securityGroups = securityGroups
-            self.publicDnsName = publicDnsName
-            self.privateDnsName = privateDnsName
-            self.subnetId = subnetId
-            self.vpcId = vpcId
-            self.privateIpAddresses = privateIpAddresses
-            self.privateIpAddress = privateIpAddress
-            self.ipv6Addresses = ipv6Addresses
-            self.publicIp = publicIp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case networkInterfaceId = "networkInterfaceId"
-            case securityGroups = "securityGroups"
-            case publicDnsName = "publicDnsName"
-            case privateDnsName = "privateDnsName"
-            case subnetId = "subnetId"
-            case vpcId = "vpcId"
-            case privateIpAddresses = "privateIpAddresses"
-            case privateIpAddress = "privateIpAddress"
-            case ipv6Addresses = "ipv6Addresses"
-            case publicIp = "publicIp"
-        }
-    }
-
-    public struct AssessmentRunFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "stateChangeTimeRange", required: false, type: .structure), 
-            AWSShapeMember(label: "durationRange", required: false, type: .structure), 
-            AWSShapeMember(label: "namePattern", required: false, type: .string), 
-            AWSShapeMember(label: "completionTimeRange", required: false, type: .structure), 
-            AWSShapeMember(label: "startTimeRange", required: false, type: .structure), 
-            AWSShapeMember(label: "rulesPackageArns", required: false, type: .list), 
-            AWSShapeMember(label: "states", required: false, type: .list)
-        ]
-        /// For a record to match a filter, the value that is specified for this data type property must match the stateChangedAt property of the AssessmentRun data type.
-        public let stateChangeTimeRange: TimestampRange?
-        /// For a record to match a filter, the value that is specified for this data type property must inclusively match any value between the specified minimum and maximum values of the durationInSeconds property of the AssessmentRun data type.
-        public let durationRange: DurationRange?
-        /// For a record to match a filter, an explicit value or a string containing a wildcard that is specified for this data type property must match the value of the assessmentRunName property of the AssessmentRun data type.
-        public let namePattern: String?
-        /// For a record to match a filter, the value that is specified for this data type property must inclusively match any value between the specified minimum and maximum values of the completedAt property of the AssessmentRun data type.
-        public let completionTimeRange: TimestampRange?
-        /// For a record to match a filter, the value that is specified for this data type property must inclusively match any value between the specified minimum and maximum values of the startTime property of the AssessmentRun data type.
-        public let startTimeRange: TimestampRange?
-        /// For a record to match a filter, the value that is specified for this data type property must be contained in the list of values of the rulesPackages property of the AssessmentRun data type.
-        public let rulesPackageArns: [String]?
-        /// For a record to match a filter, one of the values specified for this data type property must be the exact match of the value of the assessmentRunState property of the AssessmentRun data type.
-        public let states: [AssessmentRunState]?
-
-        public init(stateChangeTimeRange: TimestampRange? = nil, durationRange: DurationRange? = nil, namePattern: String? = nil, completionTimeRange: TimestampRange? = nil, startTimeRange: TimestampRange? = nil, rulesPackageArns: [String]? = nil, states: [AssessmentRunState]? = nil) {
-            self.stateChangeTimeRange = stateChangeTimeRange
-            self.durationRange = durationRange
-            self.namePattern = namePattern
-            self.completionTimeRange = completionTimeRange
-            self.startTimeRange = startTimeRange
-            self.rulesPackageArns = rulesPackageArns
-            self.states = states
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stateChangeTimeRange = "stateChangeTimeRange"
-            case durationRange = "durationRange"
-            case namePattern = "namePattern"
-            case completionTimeRange = "completionTimeRange"
-            case startTimeRange = "startTimeRange"
-            case rulesPackageArns = "rulesPackageArns"
-            case states = "states"
-        }
-    }
-
-    public struct ExclusionPreview: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: true, type: .string), 
-            AWSShapeMember(label: "attributes", required: false, type: .list), 
-            AWSShapeMember(label: "recommendation", required: true, type: .string), 
-            AWSShapeMember(label: "title", required: true, type: .string), 
-            AWSShapeMember(label: "scopes", required: true, type: .list)
-        ]
-        /// The description of the exclusion preview.
-        public let description: String
-        /// The system-defined attributes for the exclusion preview.
-        public let attributes: [Attribute]?
-        /// The recommendation for the exclusion preview.
-        public let recommendation: String
-        /// The name of the exclusion preview.
-        public let title: String
-        /// The AWS resources for which the exclusion preview pertains.
-        public let scopes: [Scope]
-
-        public init(description: String, attributes: [Attribute]? = nil, recommendation: String, title: String, scopes: [Scope]) {
-            self.description = description
-            self.attributes = attributes
-            self.recommendation = recommendation
-            self.title = title
-            self.scopes = scopes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "description"
-            case attributes = "attributes"
-            case recommendation = "recommendation"
-            case title = "title"
-            case scopes = "scopes"
-        }
-    }
-
-    public struct DescribeExclusionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "exclusionArns", required: true, type: .list), 
-            AWSShapeMember(label: "locale", required: false, type: .enum)
-        ]
-        /// The list of ARNs that specify the exclusions that you want to describe.
-        public let exclusionArns: [String]
-        /// The locale into which you want to translate the exclusion's title, description, and recommendation.
-        public let locale: Locale?
-
-        public init(exclusionArns: [String], locale: Locale? = nil) {
-            self.exclusionArns = exclusionArns
-            self.locale = locale
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case exclusionArns = "exclusionArns"
-            case locale = "locale"
-        }
-    }
-
-    public struct DescribeResourceGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceGroupArns", required: true, type: .list)
-        ]
-        /// The ARN that specifies the resource group that you want to describe.
-        public let resourceGroupArns: [String]
-
-        public init(resourceGroupArns: [String]) {
-            self.resourceGroupArns = resourceGroupArns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceGroupArns = "resourceGroupArns"
-        }
-    }
-
-    public struct DescribeFindingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failedItems", required: true, type: .map), 
-            AWSShapeMember(label: "findings", required: true, type: .list)
-        ]
-        /// Finding details that cannot be described. An error code is provided for each failed item.
-        public let failedItems: [String: FailedItemDetails]
-        /// Information about the finding.
-        public let findings: [Finding]
-
-        public init(failedItems: [String: FailedItemDetails], findings: [Finding]) {
-            self.failedItems = failedItems
-            self.findings = findings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failedItems = "failedItems"
-            case findings = "findings"
-        }
-    }
-
-    public struct AssessmentTemplate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "lastAssessmentRunArn", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "createdAt", required: true, type: .timestamp), 
-            AWSShapeMember(label: "durationInSeconds", required: true, type: .integer), 
-            AWSShapeMember(label: "rulesPackageArns", required: true, type: .list), 
-            AWSShapeMember(label: "assessmentTargetArn", required: true, type: .string), 
-            AWSShapeMember(label: "assessmentRunCount", required: true, type: .integer), 
-            AWSShapeMember(label: "userAttributesForFindings", required: true, type: .list)
-        ]
-        /// The ARN of the assessment template.
-        public let arn: String
-        /// The Amazon Resource Name (ARN) of the most recent assessment run associated with this assessment template. This value exists only when the value of assessmentRunCount is greaterpa than zero.
-        public let lastAssessmentRunArn: String?
-        /// The name of the assessment template.
-        public let name: String
-        /// The time at which the assessment template is created.
-        public let createdAt: TimeStamp
-        /// The duration in seconds specified for this assessment template. The default value is 3600 seconds (one hour). The maximum value is 86400 seconds (one day).
-        public let durationInSeconds: Int32
-        /// The rules packages that are specified for this assessment template.
-        public let rulesPackageArns: [String]
-        /// The ARN of the assessment target that corresponds to this assessment template.
-        public let assessmentTargetArn: String
-        /// The number of existing assessment runs associated with this assessment template. This value can be zero or a positive integer.
-        public let assessmentRunCount: Int32
-        /// The user-defined attributes that are assigned to every generated finding from the assessment run that uses this assessment template.
-        public let userAttributesForFindings: [Attribute]
-
-        public init(arn: String, lastAssessmentRunArn: String? = nil, name: String, createdAt: TimeStamp, durationInSeconds: Int32, rulesPackageArns: [String], assessmentTargetArn: String, assessmentRunCount: Int32, userAttributesForFindings: [Attribute]) {
-            self.arn = arn
-            self.lastAssessmentRunArn = lastAssessmentRunArn
-            self.name = name
-            self.createdAt = createdAt
-            self.durationInSeconds = durationInSeconds
-            self.rulesPackageArns = rulesPackageArns
-            self.assessmentTargetArn = assessmentTargetArn
-            self.assessmentRunCount = assessmentRunCount
-            self.userAttributesForFindings = userAttributesForFindings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case lastAssessmentRunArn = "lastAssessmentRunArn"
-            case name = "name"
-            case createdAt = "createdAt"
-            case durationInSeconds = "durationInSeconds"
-            case rulesPackageArns = "rulesPackageArns"
-            case assessmentTargetArn = "assessmentTargetArn"
-            case assessmentRunCount = "assessmentRunCount"
-            case userAttributesForFindings = "userAttributesForFindings"
-        }
-    }
-
-    public struct GetExclusionsPreviewRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "locale", required: false, type: .enum), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "assessmentTemplateArn", required: true, type: .string), 
-            AWSShapeMember(label: "previewToken", required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// The locale into which you want to translate the exclusion's title, description, and recommendation.
-        public let locale: Locale?
-        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the GetExclusionsPreviewRequest action. Subsequent calls to the action fill nextToken in the request with the value of nextToken from the previous response to continue listing data.
-        public let nextToken: String?
-        /// The ARN that specifies the assessment template for which the exclusions preview was requested.
-        public let assessmentTemplateArn: String
-        /// The unique identifier associated of the exclusions preview.
-        public let previewToken: String
-        /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 100. The maximum value is 500.
-        public let maxResults: Int32?
-
-        public init(locale: Locale? = nil, nextToken: String? = nil, assessmentTemplateArn: String, previewToken: String, maxResults: Int32? = nil) {
-            self.locale = locale
-            self.nextToken = nextToken
-            self.assessmentTemplateArn = assessmentTemplateArn
-            self.previewToken = previewToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case locale = "locale"
-            case nextToken = "nextToken"
-            case assessmentTemplateArn = "assessmentTemplateArn"
-            case previewToken = "previewToken"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct DescribeExclusionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "exclusions", required: true, type: .map), 
-            AWSShapeMember(label: "failedItems", required: true, type: .map)
-        ]
-        /// Information about the exclusions.
-        public let exclusions: [String: Exclusion]
-        /// Exclusion details that cannot be described. An error code is provided for each failed item.
-        public let failedItems: [String: FailedItemDetails]
-
-        public init(exclusions: [String: Exclusion], failedItems: [String: FailedItemDetails]) {
-            self.exclusions = exclusions
-            self.failedItems = failedItems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case exclusions = "exclusions"
-            case failedItems = "failedItems"
-        }
-    }
-
-    public struct AssessmentTemplateFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "rulesPackageArns", required: false, type: .list), 
-            AWSShapeMember(label: "namePattern", required: false, type: .string), 
-            AWSShapeMember(label: "durationRange", required: false, type: .structure)
-        ]
-        /// For a record to match a filter, the values that are specified for this data type property must be contained in the list of values of the rulesPackageArns property of the AssessmentTemplate data type.
-        public let rulesPackageArns: [String]?
-        /// For a record to match a filter, an explicit value or a string that contains a wildcard that is specified for this data type property must match the value of the assessmentTemplateName property of the AssessmentTemplate data type.
-        public let namePattern: String?
-        /// For a record to match a filter, the value specified for this data type property must inclusively match any value between the specified minimum and maximum values of the durationInSeconds property of the AssessmentTemplate data type.
-        public let durationRange: DurationRange?
-
-        public init(rulesPackageArns: [String]? = nil, namePattern: String? = nil, durationRange: DurationRange? = nil) {
-            self.rulesPackageArns = rulesPackageArns
-            self.namePattern = namePattern
-            self.durationRange = durationRange
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rulesPackageArns = "rulesPackageArns"
-            case namePattern = "namePattern"
-            case durationRange = "durationRange"
-        }
-    }
-
-    public struct GetTelemetryMetadataResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "telemetryMetadata", required: true, type: .list)
-        ]
-        /// Telemetry details.
-        public let telemetryMetadata: [TelemetryMetadata]
-
-        public init(telemetryMetadata: [TelemetryMetadata]) {
-            self.telemetryMetadata = telemetryMetadata
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case telemetryMetadata = "telemetryMetadata"
-        }
-    }
-
-    public enum AssessmentRunState: String, CustomStringConvertible, Codable {
-        case created = "CREATED"
-        case startDataCollectionPending = "START_DATA_COLLECTION_PENDING"
-        case startDataCollectionInProgress = "START_DATA_COLLECTION_IN_PROGRESS"
-        case collectingData = "COLLECTING_DATA"
-        case stopDataCollectionPending = "STOP_DATA_COLLECTION_PENDING"
-        case dataCollected = "DATA_COLLECTED"
-        case startEvaluatingRulesPending = "START_EVALUATING_RULES_PENDING"
-        case evaluatingRules = "EVALUATING_RULES"
-        case failed = "FAILED"
-        case error = "ERROR"
-        case completed = "COMPLETED"
-        case completedWithErrors = "COMPLETED_WITH_ERRORS"
-        case canceled = "CANCELED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeResourceGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceGroups", required: true, type: .list), 
-            AWSShapeMember(label: "failedItems", required: true, type: .map)
-        ]
-        /// Information about a resource group.
-        public let resourceGroups: [ResourceGroup]
-        /// Resource group details that cannot be described. An error code is provided for each failed item.
-        public let failedItems: [String: FailedItemDetails]
-
-        public init(resourceGroups: [ResourceGroup], failedItems: [String: FailedItemDetails]) {
-            self.resourceGroups = resourceGroups
-            self.failedItems = failedItems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceGroups = "resourceGroups"
-            case failedItems = "failedItems"
-        }
-    }
-
-    public struct GetTelemetryMetadataRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "assessmentRunArn", required: true, type: .string)
-        ]
-        /// The ARN that specifies the assessment run that has the telemetry data that you want to obtain.
-        public let assessmentRunArn: String
-
-        public init(assessmentRunArn: String) {
-            self.assessmentRunArn = assessmentRunArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case assessmentRunArn = "assessmentRunArn"
-        }
-    }
-
-    public struct DescribeAssessmentTargetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "assessmentTargets", required: true, type: .list), 
-            AWSShapeMember(label: "failedItems", required: true, type: .map)
-        ]
-        /// Information about the assessment targets.
-        public let assessmentTargets: [AssessmentTarget]
-        /// Assessment target details that cannot be described. An error code is provided for each failed item.
-        public let failedItems: [String: FailedItemDetails]
-
-        public init(assessmentTargets: [AssessmentTarget], failedItems: [String: FailedItemDetails]) {
-            self.assessmentTargets = assessmentTargets
-            self.failedItems = failedItems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case assessmentTargets = "assessmentTargets"
-            case failedItems = "failedItems"
-        }
-    }
-
-    public struct DescribeCrossAccountAccessRoleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "valid", required: true, type: .boolean), 
-            AWSShapeMember(label: "registeredAt", required: true, type: .timestamp)
-        ]
-        /// The ARN that specifies the IAM role that Amazon Inspector uses to access your AWS account.
-        public let roleArn: String
-        /// A Boolean value that specifies whether the IAM role has the necessary policies attached to enable Amazon Inspector to access your AWS account.
-        public let valid: Bool
-        /// The date when the cross-account access role was registered.
-        public let registeredAt: TimeStamp
-
-        public init(roleArn: String, valid: Bool, registeredAt: TimeStamp) {
-            self.roleArn = roleArn
-            self.valid = valid
-            self.registeredAt = registeredAt
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleArn = "roleArn"
-            case valid = "valid"
-            case registeredAt = "registeredAt"
-        }
-    }
-
-    public struct PreviewAgentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "previewAgentsArn", required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the PreviewAgents action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
-        public let nextToken: String?
-        /// The ARN of the assessment target whose agents you want to preview.
-        public let previewAgentsArn: String
-        /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, previewAgentsArn: String, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.previewAgentsArn = previewAgentsArn
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case previewAgentsArn = "previewAgentsArn"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct RemoveAttributesFromFindingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributeKeys", required: true, type: .list), 
-            AWSShapeMember(label: "findingArns", required: true, type: .list)
-        ]
-        /// The array of attribute keys that you want to remove from specified findings.
-        public let attributeKeys: [String]
-        /// The ARNs that specify the findings that you want to remove attributes from.
-        public let findingArns: [String]
-
-        public init(attributeKeys: [String], findingArns: [String]) {
-            self.attributeKeys = attributeKeys
-            self.findingArns = findingArns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributeKeys = "attributeKeys"
-            case findingArns = "findingArns"
-        }
-    }
-
-    public struct AssessmentTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "createdAt", required: true, type: .timestamp), 
-            AWSShapeMember(label: "updatedAt", required: true, type: .timestamp)
-        ]
-        /// The ARN that specifies the resource group that is associated with the assessment target.
-        public let resourceGroupArn: String?
-        /// The ARN that specifies the Amazon Inspector assessment target.
-        public let arn: String
-        /// The name of the Amazon Inspector assessment target.
-        public let name: String
-        /// The time at which the assessment target is created.
-        public let createdAt: TimeStamp
-        /// The time at which UpdateAssessmentTarget is called.
-        public let updatedAt: TimeStamp
-
-        public init(resourceGroupArn: String? = nil, arn: String, name: String, createdAt: TimeStamp, updatedAt: TimeStamp) {
-            self.resourceGroupArn = resourceGroupArn
-            self.arn = arn
-            self.name = name
-            self.createdAt = createdAt
-            self.updatedAt = updatedAt
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceGroupArn = "resourceGroupArn"
-            case arn = "arn"
-            case name = "name"
-            case createdAt = "createdAt"
-            case updatedAt = "updatedAt"
-        }
-    }
-
-    public struct ListExclusionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "assessmentRunArn", required: true, type: .string)
-        ]
-        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListExclusionsRequest action. Subsequent calls to the action fill nextToken in the request with the value of nextToken from the previous response to continue listing data.
-        public let nextToken: String?
-        /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 100. The maximum value is 500.
-        public let maxResults: Int32?
-        /// The ARN of the assessment run that generated the exclusions that you want to list.
-        public let assessmentRunArn: String
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, assessmentRunArn: String) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.assessmentRunArn = assessmentRunArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-            case assessmentRunArn = "assessmentRunArn"
-        }
-    }
-
-    public enum Severity: String, CustomStringConvertible, Codable {
-        case low = "Low"
-        case medium = "Medium"
-        case high = "High"
-        case informational = "Informational"
-        case undefined = "Undefined"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RulesPackage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "provider", required: true, type: .string), 
-            AWSShapeMember(label: "version", required: true, type: .string), 
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string)
-        ]
-        /// The provider of the rules package.
-        public let provider: String
-        /// The version ID of the rules package.
-        public let version: String
-        /// The ARN of the rules package.
-        public let arn: String
-        /// The name of the rules package.
-        public let name: String
-        /// The description of the rules package.
-        public let description: String?
-
-        public init(provider: String, version: String, arn: String, name: String, description: String? = nil) {
-            self.provider = provider
-            self.version = version
-            self.arn = arn
-            self.name = name
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case provider = "provider"
-            case version = "version"
-            case arn = "arn"
-            case name = "name"
-            case description = "description"
-        }
-    }
-
-    public struct ListEventSubscriptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListEventSubscriptions action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
-        public let nextToken: String?
-        /// The ARN of the assessment template for which you want to list the existing event subscriptions.
-        public let resourceArn: String?
-        /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, resourceArn: String? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.resourceArn = resourceArn
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case resourceArn = "resourceArn"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct ListExclusionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "exclusionArns", required: true, type: .list)
-        ]
-        /// When a response is generated, if there is more data to be listed, this parameters is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
-        public let nextToken: String?
-        /// A list of exclusions' ARNs returned by the action.
-        public let exclusionArns: [String]
-
-        public init(nextToken: String? = nil, exclusionArns: [String]) {
-            self.nextToken = nextToken
-            self.exclusionArns = exclusionArns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case exclusionArns = "exclusionArns"
-        }
-    }
-
-    public struct SecurityGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "groupId", required: false, type: .string), 
-            AWSShapeMember(label: "groupName", required: false, type: .string)
-        ]
-        /// The ID of the security group.
-        public let groupId: String?
-        /// The name of the security group.
-        public let groupName: String?
-
-        public init(groupId: String? = nil, groupName: String? = nil) {
-            self.groupId = groupId
-            self.groupName = groupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "groupId"
-            case groupName = "groupName"
-        }
-    }
-
-    public struct Exclusion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: true, type: .string), 
-            AWSShapeMember(label: "attributes", required: false, type: .list), 
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "recommendation", required: true, type: .string), 
-            AWSShapeMember(label: "title", required: true, type: .string), 
-            AWSShapeMember(label: "scopes", required: true, type: .list)
-        ]
-        /// The description of the exclusion.
-        public let description: String
-        /// The system-defined attributes for the exclusion.
-        public let attributes: [Attribute]?
-        /// The ARN that specifies the exclusion.
-        public let arn: String
-        /// The recommendation for the exclusion.
-        public let recommendation: String
-        /// The name of the exclusion.
-        public let title: String
-        /// The AWS resources for which the exclusion pertains.
-        public let scopes: [Scope]
-
-        public init(description: String, attributes: [Attribute]? = nil, arn: String, recommendation: String, title: String, scopes: [Scope]) {
-            self.description = description
-            self.attributes = attributes
-            self.arn = arn
-            self.recommendation = recommendation
-            self.title = title
-            self.scopes = scopes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "description"
-            case attributes = "attributes"
-            case arn = "arn"
-            case recommendation = "recommendation"
-            case title = "title"
-            case scopes = "scopes"
-        }
-    }
-
-    public struct TimestampRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "beginDate", required: false, type: .timestamp)
-        ]
-        /// The maximum value of the timestamp range.
-        public let endDate: TimeStamp?
-        /// The minimum value of the timestamp range.
-        public let beginDate: TimeStamp?
-
-        public init(endDate: TimeStamp? = nil, beginDate: TimeStamp? = nil) {
-            self.endDate = endDate
-            self.beginDate = beginDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endDate = "endDate"
-            case beginDate = "beginDate"
-        }
-    }
-
-    public enum AssessmentRunNotificationSnsStatusCode: String, CustomStringConvertible, Codable {
-        case success = "SUCCESS"
-        case topicDoesNotExist = "TOPIC_DOES_NOT_EXIST"
-        case accessDenied = "ACCESS_DENIED"
-        case internalError = "INTERNAL_ERROR"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetAssessmentReportRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "assessmentRunArn", required: true, type: .string), 
-            AWSShapeMember(label: "reportFileFormat", required: true, type: .enum), 
-            AWSShapeMember(label: "reportType", required: true, type: .enum)
-        ]
-        /// The ARN that specifies the assessment run for which you want to generate a report.
-        public let assessmentRunArn: String
-        /// Specifies the file format (html or pdf) of the assessment report that you want to generate.
-        public let reportFileFormat: ReportFileFormat
-        /// Specifies the type of the assessment report that you want to generate. There are two types of assessment reports: a finding report and a full report. For more information, see Assessment Reports. 
-        public let reportType: ReportType
-
-        public init(assessmentRunArn: String, reportFileFormat: ReportFileFormat, reportType: ReportType) {
-            self.assessmentRunArn = assessmentRunArn
-            self.reportFileFormat = reportFileFormat
-            self.reportType = reportType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case assessmentRunArn = "assessmentRunArn"
-            case reportFileFormat = "reportFileFormat"
-            case reportType = "reportType"
-        }
-    }
-
-    public struct DescribeAssessmentTemplatesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "assessmentTemplates", required: true, type: .list), 
-            AWSShapeMember(label: "failedItems", required: true, type: .map)
-        ]
-        /// Information about the assessment templates.
-        public let assessmentTemplates: [AssessmentTemplate]
-        /// Assessment template details that cannot be described. An error code is provided for each failed item.
-        public let failedItems: [String: FailedItemDetails]
-
-        public init(assessmentTemplates: [AssessmentTemplate], failedItems: [String: FailedItemDetails]) {
-            self.assessmentTemplates = assessmentTemplates
-            self.failedItems = failedItems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case assessmentTemplates = "assessmentTemplates"
-            case failedItems = "failedItems"
-        }
-    }
-
-    public struct ListFindingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "findingArns", required: true, type: .list)
-        ]
-        ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
-        public let nextToken: String?
-        /// A list of ARNs that specifies the findings returned by the action.
-        public let findingArns: [String]
-
-        public init(nextToken: String? = nil, findingArns: [String]) {
-            self.nextToken = nextToken
-            self.findingArns = findingArns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case findingArns = "findingArns"
-        }
-    }
-
     public struct UpdateAssessmentTargetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceGroupArn", required: false, type: .string), 
             AWSShapeMember(label: "assessmentTargetArn", required: true, type: .string), 
-            AWSShapeMember(label: "assessmentTargetName", required: true, type: .string)
+            AWSShapeMember(label: "assessmentTargetName", required: true, type: .string), 
+            AWSShapeMember(label: "resourceGroupArn", required: false, type: .string)
         ]
-        /// The ARN of the resource group that is used to specify the new resource group to associate with the assessment target.
-        public let resourceGroupArn: String?
         /// The ARN of the assessment target that you want to update.
         public let assessmentTargetArn: String
         /// The name of the assessment target that you want to update.
         public let assessmentTargetName: String
+        /// The ARN of the resource group that is used to specify the new resource group to associate with the assessment target.
+        public let resourceGroupArn: String?
 
-        public init(resourceGroupArn: String? = nil, assessmentTargetArn: String, assessmentTargetName: String) {
-            self.resourceGroupArn = resourceGroupArn
+        public init(assessmentTargetArn: String, assessmentTargetName: String, resourceGroupArn: String? = nil) {
             self.assessmentTargetArn = assessmentTargetArn
             self.assessmentTargetName = assessmentTargetName
+            self.resourceGroupArn = resourceGroupArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceGroupArn = "resourceGroupArn"
             case assessmentTargetArn = "assessmentTargetArn"
             case assessmentTargetName = "assessmentTargetName"
+            case resourceGroupArn = "resourceGroupArn"
         }
-    }
-
-    public struct ResourceGroupTag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "key", required: true, type: .string), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
-        /// A tag key.
-        public let key: String
-        /// The value assigned to a tag key.
-        public let value: String?
-
-        public init(key: String, value: String? = nil) {
-            self.key = key
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "key"
-            case value = "value"
-        }
-    }
-
-    public struct AddAttributesToFindingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failedItems", required: true, type: .map)
-        ]
-        /// Attribute details that cannot be described. An error code is provided for each failed item.
-        public let failedItems: [String: FailedItemDetails]
-
-        public init(failedItems: [String: FailedItemDetails]) {
-            self.failedItems = failedItems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failedItems = "failedItems"
-        }
-    }
-
-    public struct ListRulesPackagesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListRulesPackages action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
-        public let nextToken: String?
-        /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct AssessmentTargetFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "assessmentTargetNamePattern", required: false, type: .string)
-        ]
-        /// For a record to match a filter, an explicit value or a string that contains a wildcard that is specified for this data type property must match the value of the assessmentTargetName property of the AssessmentTarget data type.
-        public let assessmentTargetNamePattern: String?
-
-        public init(assessmentTargetNamePattern: String? = nil) {
-            self.assessmentTargetNamePattern = assessmentTargetNamePattern
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case assessmentTargetNamePattern = "assessmentTargetNamePattern"
-        }
-    }
-
-    public struct AssessmentRunStateChange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "state", required: true, type: .enum), 
-            AWSShapeMember(label: "stateChangedAt", required: true, type: .timestamp)
-        ]
-        /// The assessment run state.
-        public let state: AssessmentRunState
-        /// The last time the assessment run state changed.
-        public let stateChangedAt: TimeStamp
-
-        public init(state: AssessmentRunState, stateChangedAt: TimeStamp) {
-            self.state = state
-            self.stateChangedAt = stateChangedAt
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "state"
-            case stateChangedAt = "stateChangedAt"
-        }
-    }
-
-    public struct TelemetryMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dataSize", required: false, type: .long), 
-            AWSShapeMember(label: "messageType", required: true, type: .string), 
-            AWSShapeMember(label: "count", required: true, type: .long)
-        ]
-        /// The data size of messages that the agent sends to the Amazon Inspector service.
-        public let dataSize: Int64?
-        /// A specific type of behavioral data that is collected by the agent.
-        public let messageType: String
-        /// The count of messages that the agent sends to the Amazon Inspector service.
-        public let count: Int64
-
-        public init(dataSize: Int64? = nil, messageType: String, count: Int64) {
-            self.dataSize = dataSize
-            self.messageType = messageType
-            self.count = count
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dataSize = "dataSize"
-            case messageType = "messageType"
-            case count = "count"
-        }
-    }
-
-    public struct AssessmentRunAgent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "agentHealthDetails", required: false, type: .string), 
-            AWSShapeMember(label: "agentHealth", required: true, type: .enum), 
-            AWSShapeMember(label: "assessmentRunArn", required: true, type: .string), 
-            AWSShapeMember(label: "telemetryMetadata", required: true, type: .list), 
-            AWSShapeMember(label: "agentId", required: true, type: .string), 
-            AWSShapeMember(label: "autoScalingGroup", required: false, type: .string), 
-            AWSShapeMember(label: "agentHealthCode", required: true, type: .enum)
-        ]
-        /// The description for the agent health code.
-        public let agentHealthDetails: String?
-        /// The current health state of the agent.
-        public let agentHealth: AgentHealth
-        /// The ARN of the assessment run that is associated with the agent.
-        public let assessmentRunArn: String
-        /// The Amazon Inspector application data metrics that are collected by the agent.
-        public let telemetryMetadata: [TelemetryMetadata]
-        /// The AWS account of the EC2 instance where the agent is installed.
-        public let agentId: String
-        /// The Auto Scaling group of the EC2 instance that is specified by the agent ID.
-        public let autoScalingGroup: String?
-        /// The detailed health state of the agent.
-        public let agentHealthCode: AgentHealthCode
-
-        public init(agentHealthDetails: String? = nil, agentHealth: AgentHealth, assessmentRunArn: String, telemetryMetadata: [TelemetryMetadata], agentId: String, autoScalingGroup: String? = nil, agentHealthCode: AgentHealthCode) {
-            self.agentHealthDetails = agentHealthDetails
-            self.agentHealth = agentHealth
-            self.assessmentRunArn = assessmentRunArn
-            self.telemetryMetadata = telemetryMetadata
-            self.agentId = agentId
-            self.autoScalingGroup = autoScalingGroup
-            self.agentHealthCode = agentHealthCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case agentHealthDetails = "agentHealthDetails"
-            case agentHealth = "agentHealth"
-            case assessmentRunArn = "assessmentRunArn"
-            case telemetryMetadata = "telemetryMetadata"
-            case agentId = "agentId"
-            case autoScalingGroup = "autoScalingGroup"
-            case agentHealthCode = "agentHealthCode"
-        }
-    }
-
-    public enum ReportStatus: String, CustomStringConvertible, Codable {
-        case workInProgress = "WORK_IN_PROGRESS"
-        case failed = "FAILED"
-        case completed = "COMPLETED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ReportFileFormat: String, CustomStringConvertible, Codable {
-        case html = "HTML"
-        case pdf = "PDF"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListAssessmentRunAgentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "assessmentRunAgents", required: true, type: .list)
-        ]
-        ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
-        public let nextToken: String?
-        /// A list of ARNs that specifies the agents returned by the action.
-        public let assessmentRunAgents: [AssessmentRunAgent]
-
-        public init(nextToken: String? = nil, assessmentRunAgents: [AssessmentRunAgent]) {
-            self.nextToken = nextToken
-            self.assessmentRunAgents = assessmentRunAgents
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case assessmentRunAgents = "assessmentRunAgents"
-        }
-    }
-
-    public enum NoSuchEntityErrorCode: String, CustomStringConvertible, Codable {
-        case assessmentTargetDoesNotExist = "ASSESSMENT_TARGET_DOES_NOT_EXIST"
-        case assessmentTemplateDoesNotExist = "ASSESSMENT_TEMPLATE_DOES_NOT_EXIST"
-        case assessmentRunDoesNotExist = "ASSESSMENT_RUN_DOES_NOT_EXIST"
-        case findingDoesNotExist = "FINDING_DOES_NOT_EXIST"
-        case resourceGroupDoesNotExist = "RESOURCE_GROUP_DOES_NOT_EXIST"
-        case rulesPackageDoesNotExist = "RULES_PACKAGE_DOES_NOT_EXIST"
-        case snsTopicDoesNotExist = "SNS_TOPIC_DOES_NOT_EXIST"
-        case iamRoleDoesNotExist = "IAM_ROLE_DOES_NOT_EXIST"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListAssessmentRunsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "assessmentTemplateArns", required: false, type: .list), 
-            AWSShapeMember(label: "filter", required: false, type: .structure), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListAssessmentRuns action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
-        public let nextToken: String?
-        /// The ARNs that specify the assessment templates whose assessment runs you want to list.
-        public let assessmentTemplateArns: [String]?
-        /// You can use this parameter to specify a subset of data to be included in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match.
-        public let filter: AssessmentRunFilter?
-        /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 10. The maximum value is 500.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, assessmentTemplateArns: [String]? = nil, filter: AssessmentRunFilter? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.assessmentTemplateArns = assessmentTemplateArns
-            self.filter = filter
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case assessmentTemplateArns = "assessmentTemplateArns"
-            case filter = "filter"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct Subscription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "topicArn", required: true, type: .string), 
-            AWSShapeMember(label: "eventSubscriptions", required: true, type: .list)
-        ]
-        /// The ARN of the assessment template that is used during the event for which the SNS notification is sent.
-        public let resourceArn: String
-        /// The ARN of the Amazon Simple Notification Service (SNS) topic to which the SNS notifications are sent.
-        public let topicArn: String
-        /// The list of existing event subscriptions.
-        public let eventSubscriptions: [EventSubscription]
-
-        public init(resourceArn: String, topicArn: String, eventSubscriptions: [EventSubscription]) {
-            self.resourceArn = resourceArn
-            self.topicArn = topicArn
-            self.eventSubscriptions = eventSubscriptions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case topicArn = "topicArn"
-            case eventSubscriptions = "eventSubscriptions"
-        }
-    }
-
-    public struct ListAssessmentTemplatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "filter", required: false, type: .structure), 
-            AWSShapeMember(label: "assessmentTargetArns", required: false, type: .list)
-        ]
-        /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
-        public let maxResults: Int32?
-        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListAssessmentTemplates action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
-        public let nextToken: String?
-        /// You can use this parameter to specify a subset of data to be included in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match.
-        public let filter: AssessmentTemplateFilter?
-        /// A list of ARNs that specifies the assessment targets whose assessment templates you want to list.
-        public let assessmentTargetArns: [String]?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, filter: AssessmentTemplateFilter? = nil, assessmentTargetArns: [String]? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.filter = filter
-            self.assessmentTargetArns = assessmentTargetArns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case filter = "filter"
-            case assessmentTargetArns = "assessmentTargetArns"
-        }
-    }
-
-    public struct FindingFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "severities", required: false, type: .list), 
-            AWSShapeMember(label: "ruleNames", required: false, type: .list), 
-            AWSShapeMember(label: "userAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "rulesPackageArns", required: false, type: .list), 
-            AWSShapeMember(label: "creationTimeRange", required: false, type: .structure), 
-            AWSShapeMember(label: "attributes", required: false, type: .list), 
-            AWSShapeMember(label: "agentIds", required: false, type: .list), 
-            AWSShapeMember(label: "autoScalingGroups", required: false, type: .list)
-        ]
-        /// For a record to match a filter, one of the values that is specified for this data type property must be the exact match of the value of the severity property of the Finding data type.
-        public let severities: [Severity]?
-        /// For a record to match a filter, one of the values that is specified for this data type property must be the exact match of the value of the ruleName property of the Finding data type.
-        public let ruleNames: [String]?
-        /// For a record to match a filter, the value that is specified for this data type property must be contained in the list of values of the userAttributes property of the Finding data type.
-        public let userAttributes: [Attribute]?
-        /// For a record to match a filter, one of the values that is specified for this data type property must be the exact match of the value of the rulesPackageArn property of the Finding data type.
-        public let rulesPackageArns: [String]?
-        /// The time range during which the finding is generated.
-        public let creationTimeRange: TimestampRange?
-        /// For a record to match a filter, the list of values that are specified for this data type property must be contained in the list of values of the attributes property of the Finding data type.
-        public let attributes: [Attribute]?
-        /// For a record to match a filter, one of the values that is specified for this data type property must be the exact match of the value of the agentId property of the Finding data type.
-        public let agentIds: [String]?
-        /// For a record to match a filter, one of the values that is specified for this data type property must be the exact match of the value of the autoScalingGroup property of the Finding data type.
-        public let autoScalingGroups: [String]?
-
-        public init(severities: [Severity]? = nil, ruleNames: [String]? = nil, userAttributes: [Attribute]? = nil, rulesPackageArns: [String]? = nil, creationTimeRange: TimestampRange? = nil, attributes: [Attribute]? = nil, agentIds: [String]? = nil, autoScalingGroups: [String]? = nil) {
-            self.severities = severities
-            self.ruleNames = ruleNames
-            self.userAttributes = userAttributes
-            self.rulesPackageArns = rulesPackageArns
-            self.creationTimeRange = creationTimeRange
-            self.attributes = attributes
-            self.agentIds = agentIds
-            self.autoScalingGroups = autoScalingGroups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case severities = "severities"
-            case ruleNames = "ruleNames"
-            case userAttributes = "userAttributes"
-            case rulesPackageArns = "rulesPackageArns"
-            case creationTimeRange = "creationTimeRange"
-            case attributes = "attributes"
-            case agentIds = "agentIds"
-            case autoScalingGroups = "autoScalingGroups"
-        }
-    }
-
-    public struct AssetAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "ipv4Addresses", required: false, type: .list), 
-            AWSShapeMember(label: "agentId", required: false, type: .string), 
-            AWSShapeMember(label: "networkInterfaces", required: false, type: .list), 
-            AWSShapeMember(label: "autoScalingGroup", required: false, type: .string), 
-            AWSShapeMember(label: "schemaVersion", required: true, type: .integer), 
-            AWSShapeMember(label: "amiId", required: false, type: .string), 
-            AWSShapeMember(label: "hostname", required: false, type: .string)
-        ]
-        /// The tags related to the EC2 instance where the finding is generated.
-        public let tags: [Tag]?
-        /// The list of IP v4 addresses of the EC2 instance where the finding is generated.
-        public let ipv4Addresses: [String]?
-        /// The ID of the agent that is installed on the EC2 instance where the finding is generated.
-        public let agentId: String?
-        /// An array of the network interfaces interacting with the EC2 instance where the finding is generated.
-        public let networkInterfaces: [NetworkInterface]?
-        /// The Auto Scaling group of the EC2 instance where the finding is generated.
-        public let autoScalingGroup: String?
-        /// The schema version of this data type.
-        public let schemaVersion: Int32
-        /// The ID of the Amazon Machine Image (AMI) that is installed on the EC2 instance where the finding is generated.
-        public let amiId: String?
-        /// The hostname of the EC2 instance where the finding is generated.
-        public let hostname: String?
-
-        public init(tags: [Tag]? = nil, ipv4Addresses: [String]? = nil, agentId: String? = nil, networkInterfaces: [NetworkInterface]? = nil, autoScalingGroup: String? = nil, schemaVersion: Int32, amiId: String? = nil, hostname: String? = nil) {
-            self.tags = tags
-            self.ipv4Addresses = ipv4Addresses
-            self.agentId = agentId
-            self.networkInterfaces = networkInterfaces
-            self.autoScalingGroup = autoScalingGroup
-            self.schemaVersion = schemaVersion
-            self.amiId = amiId
-            self.hostname = hostname
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
-            case ipv4Addresses = "ipv4Addresses"
-            case agentId = "agentId"
-            case networkInterfaces = "networkInterfaces"
-            case autoScalingGroup = "autoScalingGroup"
-            case schemaVersion = "schemaVersion"
-            case amiId = "amiId"
-            case hostname = "hostname"
-        }
-    }
-
-    public struct DescribeAssessmentTargetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "assessmentTargetArns", required: true, type: .list)
-        ]
-        /// The ARNs that specifies the assessment targets that you want to describe.
-        public let assessmentTargetArns: [String]
-
-        public init(assessmentTargetArns: [String]) {
-            self.assessmentTargetArns = assessmentTargetArns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case assessmentTargetArns = "assessmentTargetArns"
-        }
-    }
-
-    public struct ListFindingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "assessmentRunArns", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "filter", required: false, type: .structure), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
-        ]
-        /// The ARNs of the assessment runs that generate the findings that you want to list.
-        public let assessmentRunArns: [String]?
-        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListFindings action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
-        public let nextToken: String?
-        /// You can use this parameter to specify a subset of data to be included in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match.
-        public let filter: FindingFilter?
-        /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
-        public let maxResults: Int32?
-
-        public init(assessmentRunArns: [String]? = nil, nextToken: String? = nil, filter: FindingFilter? = nil, maxResults: Int32? = nil) {
-            self.assessmentRunArns = assessmentRunArns
-            self.nextToken = nextToken
-            self.filter = filter
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case assessmentRunArns = "assessmentRunArns"
-            case nextToken = "nextToken"
-            case filter = "filter"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct RemoveAttributesFromFindingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failedItems", required: true, type: .map)
-        ]
-        /// Attributes details that cannot be described. An error code is provided for each failed item.
-        public let failedItems: [String: FailedItemDetails]
-
-        public init(failedItems: [String: FailedItemDetails]) {
-            self.failedItems = failedItems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failedItems = "failedItems"
-        }
-    }
-
-    public struct AssessmentRunNotification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "date", required: true, type: .timestamp), 
-            AWSShapeMember(label: "error", required: true, type: .boolean), 
-            AWSShapeMember(label: "snsPublishStatusCode", required: false, type: .enum), 
-            AWSShapeMember(label: "event", required: true, type: .enum), 
-            AWSShapeMember(label: "snsTopicArn", required: false, type: .string)
-        ]
-        /// The message included in the notification.
-        public let message: String?
-        /// The date of the notification.
-        public let date: TimeStamp
-        /// The Boolean value that specifies whether the notification represents an error.
-        public let error: Bool
-        /// The status code of the SNS notification.
-        public let snsPublishStatusCode: AssessmentRunNotificationSnsStatusCode?
-        /// The event for which a notification is sent.
-        public let event: InspectorEvent
-        /// The SNS topic to which the SNS notification is sent.
-        public let snsTopicArn: String?
-
-        public init(message: String? = nil, date: TimeStamp, error: Bool, snsPublishStatusCode: AssessmentRunNotificationSnsStatusCode? = nil, event: InspectorEvent, snsTopicArn: String? = nil) {
-            self.message = message
-            self.date = date
-            self.error = error
-            self.snsPublishStatusCode = snsPublishStatusCode
-            self.event = event
-            self.snsTopicArn = snsTopicArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-            case date = "date"
-            case error = "error"
-            case snsPublishStatusCode = "snsPublishStatusCode"
-            case event = "event"
-            case snsTopicArn = "snsTopicArn"
-        }
-    }
-
-    public enum AgentHealth: String, CustomStringConvertible, Codable {
-        case healthy = "HEALTHY"
-        case unhealthy = "UNHEALTHY"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FailedItemErrorCode: String, CustomStringConvertible, Codable {
-        case invalidArn = "INVALID_ARN"
-        case duplicateArn = "DUPLICATE_ARN"
-        case itemDoesNotExist = "ITEM_DOES_NOT_EXIST"
-        case accessDenied = "ACCESS_DENIED"
-        case limitExceeded = "LIMIT_EXCEEDED"
-        case internalError = "INTERNAL_ERROR"
-        public var description: String { return self.rawValue }
     }
 
 }

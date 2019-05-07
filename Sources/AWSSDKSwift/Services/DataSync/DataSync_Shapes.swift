@@ -5,1262 +5,6 @@ import AWSSDKSwiftCore
 
 extension DataSync {
 
-    public enum PreserveDeletedFiles: String, CustomStringConvertible, Codable {
-        case preserve = "PRESERVE"
-        case remove = "REMOVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Ec2Config: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetArn", required: true, type: .string), 
-            AWSShapeMember(label: "SecurityGroupArns", required: true, type: .list)
-        ]
-        /// The ARN of the subnet that the Amazon EC2 resource belongs in. 
-        public let subnetArn: String
-        /// The Amazon Resource Names (ARNs) of the security groups that are configured for the Amazon EC2 resource.
-        public let securityGroupArns: [String]
-
-        public init(subnetArn: String, securityGroupArns: [String]) {
-            self.subnetArn = subnetArn
-            self.securityGroupArns = securityGroupArns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subnetArn = "SubnetArn"
-            case securityGroupArns = "SecurityGroupArns"
-        }
-    }
-
-    public struct DeleteLocationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocationArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the location to delete.
-        public let locationArn: String
-
-        public init(locationArn: String) {
-            self.locationArn = locationArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case locationArn = "LocationArn"
-        }
-    }
-
-    public struct ListLocationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The maximum number of locations to return.
-        public let maxResults: Int32?
-        /// An opaque string that indicates the position at which to begin the next list of locations.
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct S3Config: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketAccessRoleArn", required: true, type: .string)
-        ]
-        /// The Amazon S3 bucket to access. This bucket is used as a parameter in the CreateLocationS3 operation. 
-        public let bucketAccessRoleArn: String
-
-        public init(bucketAccessRoleArn: String) {
-            self.bucketAccessRoleArn = bucketAccessRoleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucketAccessRoleArn = "BucketAccessRoleArn"
-        }
-    }
-
-    public struct DescribeTaskExecutionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TaskExecutionArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the task that is being executed.
-        public let taskExecutionArn: String
-
-        public init(taskExecutionArn: String) {
-            self.taskExecutionArn = taskExecutionArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case taskExecutionArn = "TaskExecutionArn"
-        }
-    }
-
-    public struct TaskListEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TaskArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
-        /// The Amazon Resource Name (ARN) of the task.
-        public let taskArn: String?
-        /// The name of the task.
-        public let name: String?
-        /// The status of the task.
-        public let status: TaskStatus?
-
-        public init(taskArn: String? = nil, name: String? = nil, status: TaskStatus? = nil) {
-            self.taskArn = taskArn
-            self.name = name
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case taskArn = "TaskArn"
-            case name = "Name"
-            case status = "Status"
-        }
-    }
-
-    public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the resource whose tags to list.
-        public let resourceArn: String
-        /// The maximum number of locations to return.
-        public let maxResults: Int32?
-        /// An opaque string that indicates the position at which to begin the next list of locations.
-        public let nextToken: String?
-
-        public init(resourceArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.resourceArn = resourceArn
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct CreateTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Options", required: false, type: .structure), 
-            AWSShapeMember(label: "CloudWatchLogGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "DestinationLocationArn", required: true, type: .string), 
-            AWSShapeMember(label: "SourceLocationArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
-        /// The name of a task. This value is a text reference that is used to identify the task in the console. 
-        public let name: String?
-        /// The set of configuration options that control the behavior of a single execution of the task that occurs when you call StartTaskExecution. You can configure these options to preserve metadata such as user ID (UID) and group ID (GID), file permissions, data integrity verification, and so on. For each individual task execution, you can override these options by specifying the OverrideOptions before starting a the task execution. For more information, see the operation. 
-        public let options: Options?
-        /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that is used to monitor and log events in the task. For more information on these groups, see Working with Log Groups and Log Streams in the Amazon CloudWatch User Guide.   For more information about how to useCloudWatchLogs with DataSync, see Monitoring Your Task.
-        public let cloudWatchLogGroupArn: String?
-        /// The Amazon Resource Name (ARN) of an AWS storage resource's location. 
-        public let destinationLocationArn: String
-        /// The Amazon Resource Name (ARN) of the source location for the task.
-        public let sourceLocationArn: String
-        /// The key-value pair that represents the tag that you want to add to the resource. The value can be an empty string. 
-        public let tags: [TagListEntry]?
-
-        public init(name: String? = nil, options: Options? = nil, cloudWatchLogGroupArn: String? = nil, destinationLocationArn: String, sourceLocationArn: String, tags: [TagListEntry]? = nil) {
-            self.name = name
-            self.options = options
-            self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
-            self.destinationLocationArn = destinationLocationArn
-            self.sourceLocationArn = sourceLocationArn
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case options = "Options"
-            case cloudWatchLogGroupArn = "CloudWatchLogGroupArn"
-            case destinationLocationArn = "DestinationLocationArn"
-            case sourceLocationArn = "SourceLocationArn"
-            case tags = "Tags"
-        }
-    }
-
-    public struct Options: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Uid", required: false, type: .enum), 
-            AWSShapeMember(label: "BytesPerSecond", required: false, type: .long), 
-            AWSShapeMember(label: "Gid", required: false, type: .enum), 
-            AWSShapeMember(label: "Mtime", required: false, type: .enum), 
-            AWSShapeMember(label: "PreserveDevices", required: false, type: .enum), 
-            AWSShapeMember(label: "PosixPermissions", required: false, type: .enum), 
-            AWSShapeMember(label: "VerifyMode", required: false, type: .enum), 
-            AWSShapeMember(label: "Atime", required: false, type: .enum), 
-            AWSShapeMember(label: "PreserveDeletedFiles", required: false, type: .enum)
-        ]
-        /// The user ID (UID) of the file's owner.  Default value: INT_VALUE. This preserves the integer value of the ID. INT_VALUE: Preserve the integer value of UID and group ID (GID) (recommended). NONE: Ignore UID and GID. 
-        public let uid: Uid?
-        /// A value that limits the bandwidth used by AWS DataSync. For example, if you want AWS DataSync to use a maximum of 1 MB, set this value to 1048576 (=1024*1024).
-        public let bytesPerSecond: Int64?
-        /// The group ID (GID) of the file's owners.  Default value: INT_VALUE. This preserves the integer value of the ID. INT_VALUE: Preserve the integer value of user ID (UID) and GID (recommended). NONE: Ignore UID and GID. 
-        public let gid: Gid?
-        /// A value that indicates the last time that a file was modified (that is, a file was written to) before the PREPARING phase.  Default value: PRESERVE.  PRESERVE: Preserve original Mtime (recommended)  NONE: Ignore Mtime.   If Mtime is set to PRESERVE, Atime must be set to BEST_EFFORT. If Mtime is set to NONE, Atime must also be set to NONE.  
-        public let mtime: Mtime?
-        /// A value that determines whether AWS DataSync should preserve the metadata of block and character devices in the source file system, and recreate the files with that device name and metadata on the destination.  AWS DataSync can't sync the actual contents of such devices, because they are nonterminal and don't return an end-of-file (EOF) marker.  Default value: NONE. NONE: Ignore special devices (recommended).  PRESERVE: Preserve character and block device metadata. This option isn't currently supported for Amazon EFS. 
-        public let preserveDevices: PreserveDevices?
-        /// A value that determines which users or groups can access a file for a specific purpose such as reading, writing, or execution of the file.  Default value: PRESERVE. PRESERVE: Preserve POSIX-style permissions (recommended). NONE: Ignore permissions.   AWS DataSync can preserve extant permissions of a source location. 
-        public let posixPermissions: PosixPermissions?
-        /// A value that determines whether a data integrity verification should be performed at the end of a task execution after all data and metadata have been transferred.  Default value: POINT_IN_TIME_CONSISTENT. POINT_IN_TIME_CONSISTENT: Perform verification (recommended).  NONE: Skip verification.
-        public let verifyMode: VerifyMode?
-        /// A file metadata value that shows the last time a file was accessed (that is, when the file was read or written to). If you set Atime to BEST_EFFORT, DataSync attempts to preserve the original Atime attribute on all source files (that is, the version before the PREPARING phase). However, Atime's behavior is not fully standard across platforms, so AWS DataSync can only do this on a best-effort basis.  Default value: BEST_EFFORT. BEST_EFFORT: Attempt to preserve the per-file Atime value (recommended). NONE: Ignore Atime.  If Atime is set to BEST_EFFORT, Mtime must be set to PRESERVE.  If Atime is set to NONE, Mtime must also be NONE.  
-        public let atime: Atime?
-        /// A value that specifies whether files in the destination that don't exist in the source file system should be preserved.  Default value: PRESERVE. PRESERVE: Ignore such destination files (recommended).  REMOVE: Delete destination files that aren’t present in the source.
-        public let preserveDeletedFiles: PreserveDeletedFiles?
-
-        public init(uid: Uid? = nil, bytesPerSecond: Int64? = nil, gid: Gid? = nil, mtime: Mtime? = nil, preserveDevices: PreserveDevices? = nil, posixPermissions: PosixPermissions? = nil, verifyMode: VerifyMode? = nil, atime: Atime? = nil, preserveDeletedFiles: PreserveDeletedFiles? = nil) {
-            self.uid = uid
-            self.bytesPerSecond = bytesPerSecond
-            self.gid = gid
-            self.mtime = mtime
-            self.preserveDevices = preserveDevices
-            self.posixPermissions = posixPermissions
-            self.verifyMode = verifyMode
-            self.atime = atime
-            self.preserveDeletedFiles = preserveDeletedFiles
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case uid = "Uid"
-            case bytesPerSecond = "BytesPerSecond"
-            case gid = "Gid"
-            case mtime = "Mtime"
-            case preserveDevices = "PreserveDevices"
-            case posixPermissions = "PosixPermissions"
-            case verifyMode = "VerifyMode"
-            case atime = "Atime"
-            case preserveDeletedFiles = "PreserveDeletedFiles"
-        }
-    }
-
-    public struct ListTasksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tasks", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list of all the tasks that are returned.
-        public let tasks: [TaskListEntry]?
-        /// An opaque string that indicates the position at which to begin returning the next list of tasks.
-        public let nextToken: String?
-
-        public init(tasks: [TaskListEntry]? = nil, nextToken: String? = nil) {
-            self.tasks = tasks
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tasks = "Tasks"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListTaskExecutionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TaskExecutions", required: false, type: .list)
-        ]
-        /// An opaque string that indicates the position at which to begin returning the next list of executed tasks.
-        public let nextToken: String?
-        /// A list of executed tasks.
-        public let taskExecutions: [TaskExecutionListEntry]?
-
-        public init(nextToken: String? = nil, taskExecutions: [TaskExecutionListEntry]? = nil) {
-            self.nextToken = nextToken
-            self.taskExecutions = taskExecutions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case taskExecutions = "TaskExecutions"
-        }
-    }
-
-    public enum PreserveDevices: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case preserve = "PRESERVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateAgentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AgentArn", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the agent to update.
-        public let agentArn: String
-        /// The name that you want to use to configure the agent.
-        public let name: String?
-
-        public init(agentArn: String, name: String? = nil) {
-            self.agentArn = agentArn
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case agentArn = "AgentArn"
-            case name = "Name"
-        }
-    }
-
-    public struct TaskExecutionListEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TaskExecutionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
-        /// The Amazon Resource Name (ARN) of the task that was executed.
-        public let taskExecutionArn: String?
-        /// The status of a task execution.
-        public let status: TaskExecutionStatus?
-
-        public init(taskExecutionArn: String? = nil, status: TaskExecutionStatus? = nil) {
-            self.taskExecutionArn = taskExecutionArn
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case taskExecutionArn = "TaskExecutionArn"
-            case status = "Status"
-        }
-    }
-
-    public struct CreateLocationEfsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ec2Config", required: true, type: .structure), 
-            AWSShapeMember(label: "Subdirectory", required: true, type: .string), 
-            AWSShapeMember(label: "EfsFilesystemArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
-        /// The subnet and security group that the Amazon EFS file system uses.
-        public let ec2Config: Ec2Config
-        /// A subdirectory in the location’s path. This subdirectory in the EFS file system is used to read data from the EFS source location or write data to the EFS destination. By default, AWS DataSync uses the root directory.
-        public let subdirectory: String
-        /// The Amazon Resource Name (ARN) for the Amazon EFS file system.
-        public let efsFilesystemArn: String
-        /// The key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
-        public let tags: [TagListEntry]?
-
-        public init(ec2Config: Ec2Config, subdirectory: String, efsFilesystemArn: String, tags: [TagListEntry]? = nil) {
-            self.ec2Config = ec2Config
-            self.subdirectory = subdirectory
-            self.efsFilesystemArn = efsFilesystemArn
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ec2Config = "Ec2Config"
-            case subdirectory = "Subdirectory"
-            case efsFilesystemArn = "EfsFilesystemArn"
-            case tags = "Tags"
-        }
-    }
-
-    public struct DeleteTaskResponse: AWSShape {
-
-    }
-
-    public enum PhaseStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case success = "SUCCESS"
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteAgentResponse: AWSShape {
-
-    }
-
-    public enum TaskExecutionStatus: String, CustomStringConvertible, Codable {
-        case launching = "LAUNCHING"
-        case preparing = "PREPARING"
-        case transferring = "TRANSFERRING"
-        case verifying = "VERIFYING"
-        case success = "SUCCESS"
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UntagResourceResponse: AWSShape {
-
-    }
-
-    public struct DescribeLocationNfsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OnPremConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "LocationArn", required: false, type: .string), 
-            AWSShapeMember(label: "LocationUri", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp)
-        ]
-        public let onPremConfig: OnPremConfig?
-        /// The Amazon resource Name (ARN) of the NFS location that was described.
-        public let locationArn: String?
-        /// The URL of the source NFS location that was described.
-        public let locationUri: String?
-        /// The time that the NFS location was created.
-        public let creationTime: TimeStamp?
-
-        public init(onPremConfig: OnPremConfig? = nil, locationArn: String? = nil, locationUri: String? = nil, creationTime: TimeStamp? = nil) {
-            self.onPremConfig = onPremConfig
-            self.locationArn = locationArn
-            self.locationUri = locationUri
-            self.creationTime = creationTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case onPremConfig = "OnPremConfig"
-            case locationArn = "LocationArn"
-            case locationUri = "LocationUri"
-            case creationTime = "CreationTime"
-        }
-    }
-
-    public struct DescribeLocationEfsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ec2Config", required: false, type: .structure), 
-            AWSShapeMember(label: "LocationUri", required: false, type: .string), 
-            AWSShapeMember(label: "LocationArn", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp)
-        ]
-        public let ec2Config: Ec2Config?
-        /// The URL of the EFS location that was described.
-        public let locationUri: String?
-        /// The Amazon resource Name (ARN) of the EFS location that was described.
-        public let locationArn: String?
-        /// The time that the EFS location was created.
-        public let creationTime: TimeStamp?
-
-        public init(ec2Config: Ec2Config? = nil, locationUri: String? = nil, locationArn: String? = nil, creationTime: TimeStamp? = nil) {
-            self.ec2Config = ec2Config
-            self.locationUri = locationUri
-            self.locationArn = locationArn
-            self.creationTime = creationTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ec2Config = "Ec2Config"
-            case locationUri = "LocationUri"
-            case locationArn = "LocationArn"
-            case creationTime = "CreationTime"
-        }
-    }
-
-    public struct CreateAgentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AgentArn", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the agent. Use the ListAgents operation to return a list of agents for your account and AWS Region.
-        public let agentArn: String?
-
-        public init(agentArn: String? = nil) {
-            self.agentArn = agentArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case agentArn = "AgentArn"
-        }
-    }
-
-    public struct TagResourceResponse: AWSShape {
-
-    }
-
-    public struct CancelTaskExecutionResponse: AWSShape {
-
-    }
-
-    public struct DescribeAgentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AgentArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the agent to describe.
-        public let agentArn: String
-
-        public init(agentArn: String) {
-            self.agentArn = agentArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case agentArn = "AgentArn"
-        }
-    }
-
-    public enum Atime: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case bestEffort = "BEST_EFFORT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct TaskExecutionResultDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PrepareStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "TransferStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "VerifyDuration", required: false, type: .long), 
-            AWSShapeMember(label: "VerifyStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "PrepareDuration", required: false, type: .long), 
-            AWSShapeMember(label: "ErrorDetail", required: false, type: .string), 
-            AWSShapeMember(label: "TransferDuration", required: false, type: .long)
-        ]
-        /// The status of the PREPARING phase.
-        public let prepareStatus: PhaseStatus?
-        /// The status of the TRANSFERRING Phase.
-        public let transferStatus: PhaseStatus?
-        /// The total time in milliseconds that AWS DataSync spent in the VERIFYING phase.
-        public let verifyDuration: Int64?
-        /// The status of the VERIFYING Phase.
-        public let verifyStatus: PhaseStatus?
-        /// Errors that AWS DataSync encountered during execution of the task. You can use this error code to help troubleshoot issues.
-        public let errorCode: String?
-        /// The total time in milliseconds that AWS DataSync spent in the PREPARING phase. 
-        public let prepareDuration: Int64?
-        /// Detailed description of an error that was encountered during the task execution. You can use this information to help troubleshoot issues. 
-        public let errorDetail: String?
-        /// The total time in milliseconds that AWS DataSync spent in the TRANSFERRING phase.
-        public let transferDuration: Int64?
-
-        public init(prepareStatus: PhaseStatus? = nil, transferStatus: PhaseStatus? = nil, verifyDuration: Int64? = nil, verifyStatus: PhaseStatus? = nil, errorCode: String? = nil, prepareDuration: Int64? = nil, errorDetail: String? = nil, transferDuration: Int64? = nil) {
-            self.prepareStatus = prepareStatus
-            self.transferStatus = transferStatus
-            self.verifyDuration = verifyDuration
-            self.verifyStatus = verifyStatus
-            self.errorCode = errorCode
-            self.prepareDuration = prepareDuration
-            self.errorDetail = errorDetail
-            self.transferDuration = transferDuration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case prepareStatus = "PrepareStatus"
-            case transferStatus = "TransferStatus"
-            case verifyDuration = "VerifyDuration"
-            case verifyStatus = "VerifyStatus"
-            case errorCode = "ErrorCode"
-            case prepareDuration = "PrepareDuration"
-            case errorDetail = "ErrorDetail"
-            case transferDuration = "TransferDuration"
-        }
-    }
-
-    public enum PosixPermissions: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case bestEffort = "BEST_EFFORT"
-        case preserve = "PRESERVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListAgentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The maximum number of agents to list.
-        public let maxResults: Int32?
-        /// An opaque string that indicates the position at which to begin the next list of agents.
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct CreateLocationNfsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocationArn", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the source NFS file system location that is created.
-        public let locationArn: String?
-
-        public init(locationArn: String? = nil) {
-            self.locationArn = locationArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case locationArn = "LocationArn"
-        }
-    }
-
-    public struct DeleteTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TaskArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the task to delete.
-        public let taskArn: String
-
-        public init(taskArn: String) {
-            self.taskArn = taskArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case taskArn = "TaskArn"
-        }
-    }
-
-    public enum Mtime: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case preserve = "PRESERVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TaskStatus: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
-        case creating = "CREATING"
-        case running = "RUNNING"
-        case unavailable = "UNAVAILABLE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Gid: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case intValue = "INT_VALUE"
-        case name = "NAME"
-        case both = "BOTH"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TaskArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the task to describe.
-        public let taskArn: String
-
-        public init(taskArn: String) {
-            self.taskArn = taskArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case taskArn = "TaskArn"
-        }
-    }
-
-    public struct UpdateAgentResponse: AWSShape {
-
-    }
-
-    public enum VerifyMode: String, CustomStringConvertible, Codable {
-        case pointInTimeConsistent = "POINT_IN_TIME_CONSISTENT"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateTaskResponse: AWSShape {
-
-    }
-
-    public struct CreateLocationS3Request: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3Config", required: true, type: .structure), 
-            AWSShapeMember(label: "Subdirectory", required: true, type: .string), 
-            AWSShapeMember(label: "S3BucketArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
-        public let s3Config: S3Config
-        /// A subdirectory in the Amazon S3 bucket. This subdirectory in Amazon S3 is used to read data from the S3 source location or write data to the S3 destination.
-        public let subdirectory: String
-        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket.
-        public let s3BucketArn: String
-        /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
-        public let tags: [TagListEntry]?
-
-        public init(s3Config: S3Config, subdirectory: String, s3BucketArn: String, tags: [TagListEntry]? = nil) {
-            self.s3Config = s3Config
-            self.subdirectory = subdirectory
-            self.s3BucketArn = s3BucketArn
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3Config = "S3Config"
-            case subdirectory = "Subdirectory"
-            case s3BucketArn = "S3BucketArn"
-            case tags = "Tags"
-        }
-    }
-
-    public struct ListTaskExecutionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TaskArn", required: false, type: .string)
-        ]
-        /// The maximum number of executed tasks to list.
-        public let maxResults: Int32?
-        /// An opaque string that indicates the position at which to begin the next list of the executed tasks.
-        public let nextToken: String?
-        /// The Amazon Resource Name (ARN) of the task whose tasks you want to list.
-        public let taskArn: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, taskArn: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.taskArn = taskArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case taskArn = "TaskArn"
-        }
-    }
-
-    public struct DescribeLocationEfsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocationArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the EFS location to describe.
-        public let locationArn: String
-
-        public init(locationArn: String) {
-            self.locationArn = locationArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case locationArn = "LocationArn"
-        }
-    }
-
-    public struct TagListEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
-        /// The key for an AWS resource tag.
-        public let key: String?
-        /// The value for an AWS resource tag.
-        public let value: String?
-
-        public init(key: String? = nil, value: String? = nil) {
-            self.key = key
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case value = "Value"
-        }
-    }
-
-    public struct DescribeTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentTaskExecutionArn", required: false, type: .string), 
-            AWSShapeMember(label: "TaskArn", required: false, type: .string), 
-            AWSShapeMember(label: "SourceLocationArn", required: false, type: .string), 
-            AWSShapeMember(label: "Options", required: false, type: .structure), 
-            AWSShapeMember(label: "DestinationLocationArn", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ErrorDetail", required: false, type: .string), 
-            AWSShapeMember(label: "CloudWatchLogGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the task execution that is syncing files.
-        public let currentTaskExecutionArn: String?
-        /// The Amazon Resource Name (ARN) of the task that was described.
-        public let taskArn: String?
-        /// The Amazon Resource Name (ARN) of the source file system's location.
-        public let sourceLocationArn: String?
-        /// The set of configuration options that control the behavior of a single execution of the task that occurs when you call StartTaskExecution. You can configure these options to preserve metadata such as user ID (UID) and group (GID), file permissions, data integrity verification, and so on. For each individual task execution, you can override these options by specifying the overriding OverrideOptions value to operation. 
-        public let options: Options?
-        /// The Amazon Resource Name (ARN) of the AWS storage resource's location.
-        public let destinationLocationArn: String?
-        /// The status of the task that was described. For detailed information about sync statuses, see Understanding Sync Task Statuses.
-        public let status: TaskStatus?
-        /// Errors that AWS DataSync encountered during execution of the task. You can use this error code to help troubleshoot issues.
-        public let errorCode: String?
-        /// The time that the task was created.
-        public let creationTime: TimeStamp?
-        /// Detailed description of an error that was encountered during the task execution. You can use this information to help troubleshoot issues. 
-        public let errorDetail: String?
-        /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that was used to monitor and log events in the task. For more information on these groups, see Working with Log Groups and Log Streams in the Amazon CloudWatch User Guide. 
-        public let cloudWatchLogGroupArn: String?
-        /// The name of the task that was described.
-        public let name: String?
-
-        public init(currentTaskExecutionArn: String? = nil, taskArn: String? = nil, sourceLocationArn: String? = nil, options: Options? = nil, destinationLocationArn: String? = nil, status: TaskStatus? = nil, errorCode: String? = nil, creationTime: TimeStamp? = nil, errorDetail: String? = nil, cloudWatchLogGroupArn: String? = nil, name: String? = nil) {
-            self.currentTaskExecutionArn = currentTaskExecutionArn
-            self.taskArn = taskArn
-            self.sourceLocationArn = sourceLocationArn
-            self.options = options
-            self.destinationLocationArn = destinationLocationArn
-            self.status = status
-            self.errorCode = errorCode
-            self.creationTime = creationTime
-            self.errorDetail = errorDetail
-            self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case currentTaskExecutionArn = "CurrentTaskExecutionArn"
-            case taskArn = "TaskArn"
-            case sourceLocationArn = "SourceLocationArn"
-            case options = "Options"
-            case destinationLocationArn = "DestinationLocationArn"
-            case status = "Status"
-            case errorCode = "ErrorCode"
-            case creationTime = "CreationTime"
-            case errorDetail = "ErrorDetail"
-            case cloudWatchLogGroupArn = "CloudWatchLogGroupArn"
-            case name = "Name"
-        }
-    }
-
-    public struct CreateLocationEfsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocationArn", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the Amazon EFS file system location that is created.
-        public let locationArn: String?
-
-        public init(locationArn: String? = nil) {
-            self.locationArn = locationArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case locationArn = "LocationArn"
-        }
-    }
-
-    public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
-        /// The Amazon Resource Name (ARN) of the resource to apply the tag to.
-        public let resourceArn: String
-        /// The tags to apply.
-        public let tags: [TagListEntry]
-
-        public init(resourceArn: String, tags: [TagListEntry]) {
-            self.resourceArn = resourceArn
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
-            case tags = "Tags"
-        }
-    }
-
-    public struct CancelTaskExecutionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TaskExecutionArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the task execution to cancel.
-        public let taskExecutionArn: String
-
-        public init(taskExecutionArn: String) {
-            self.taskExecutionArn = taskExecutionArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case taskExecutionArn = "TaskExecutionArn"
-        }
-    }
-
-    public struct DescribeLocationS3Response: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3Config", required: false, type: .structure), 
-            AWSShapeMember(label: "LocationArn", required: false, type: .string), 
-            AWSShapeMember(label: "LocationUri", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp)
-        ]
-        public let s3Config: S3Config?
-        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket location.
-        public let locationArn: String?
-        /// The URL of the Amazon S3 location that was described.
-        public let locationUri: String?
-        /// The time that the Amazon S3 bucket location was created.
-        public let creationTime: TimeStamp?
-
-        public init(s3Config: S3Config? = nil, locationArn: String? = nil, locationUri: String? = nil, creationTime: TimeStamp? = nil) {
-            self.s3Config = s3Config
-            self.locationArn = locationArn
-            self.locationUri = locationUri
-            self.creationTime = creationTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3Config = "S3Config"
-            case locationArn = "LocationArn"
-            case locationUri = "LocationUri"
-            case creationTime = "CreationTime"
-        }
-    }
-
-    public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "Keys", required: true, type: .list)
-        ]
-        /// The Amazon Resource Name (ARN) of the resource to remove the tag from.
-        public let resourceArn: String
-        /// The keys in the key-value pair in the tag to remove.
-        public let keys: [String]
-
-        public init(resourceArn: String, keys: [String]) {
-            self.resourceArn = resourceArn
-            self.keys = keys
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
-            case keys = "Keys"
-        }
-    }
-
-    public struct DescribeLocationS3Request: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocationArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket location to describe.
-        public let locationArn: String
-
-        public init(locationArn: String) {
-            self.locationArn = locationArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case locationArn = "LocationArn"
-        }
-    }
-
-    public struct ListTasksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The maximum number of tasks to return.
-        public let maxResults: Int32?
-        /// An opaque string that indicates the position at which to begin the next list of tasks.
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct CreateAgentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AgentName", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "ActivationKey", required: true, type: .string)
-        ]
-        /// The name you configured for your agent. This value is a text reference that is used to identify the agent in the console.
-        public let agentName: String?
-        /// The key-value pair that represents the tag you want to associate with the agent. The value can be an empty string. This value helps you manage, filter, and search for your agents.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @.  
-        public let tags: [TagListEntry]?
-        /// Your agent activation key. You can get the activation key either by sending an HTTP GET request with redirects that enable you to get the agent IP address (port 80). Alternatively, you can get it from the AWS DataSync console.  The redirect URL returned in the response provides you the activation key for your agent in the query string parameter activationKey. It might also include other activation-related parameters; however, these are merely defaults. The arguments you pass to this API call determine the actual configuration of your agent. For more information, see Activating a Sync Agent in the AWS DataSync User Guide. 
-        public let activationKey: String
-
-        public init(agentName: String? = nil, tags: [TagListEntry]? = nil, activationKey: String) {
-            self.agentName = agentName
-            self.tags = tags
-            self.activationKey = activationKey
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case agentName = "AgentName"
-            case tags = "Tags"
-            case activationKey = "ActivationKey"
-        }
-    }
-
-    public enum Uid: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case intValue = "INT_VALUE"
-        case name = "NAME"
-        case both = "BOTH"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct OnPremConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AgentArns", required: true, type: .list)
-        ]
-        /// ARNs)of the agents to use for an NFS location.
-        public let agentArns: [String]
-
-        public init(agentArns: [String]) {
-            self.agentArns = agentArns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case agentArns = "AgentArns"
-        }
-    }
-
-    public struct DeleteLocationResponse: AWSShape {
-
-    }
-
-    public struct ListAgentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Agents", required: false, type: .list)
-        ]
-        /// An opaque string that indicates the position at which to begin returning the next list of agents.
-        public let nextToken: String?
-        /// A list of agents in your account.
-        public let agents: [AgentListEntry]?
-
-        public init(nextToken: String? = nil, agents: [AgentListEntry]? = nil) {
-            self.nextToken = nextToken
-            self.agents = agents
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case agents = "Agents"
-        }
-    }
-
-    public struct DeleteAgentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AgentArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the agent to delete. Use the ListAgents operation to return a list of agents for your account and AWS Region.
-        public let agentArn: String
-
-        public init(agentArn: String) {
-            self.agentArn = agentArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case agentArn = "AgentArn"
-        }
-    }
-
-    public struct CreateLocationS3Response: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocationArn", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the source Amazon S3 bucket location that is created.
-        public let locationArn: String?
-
-        public init(locationArn: String? = nil) {
-            self.locationArn = locationArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case locationArn = "LocationArn"
-        }
-    }
-
-    public struct ListLocationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Locations", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// An array that contains a list of locations.
-        public let locations: [LocationListEntry]?
-        /// An opaque string that indicates the position at which to begin returning the next list of locations.
-        public let nextToken: String?
-
-        public init(locations: [LocationListEntry]? = nil, nextToken: String? = nil) {
-            self.locations = locations
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case locations = "Locations"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct LocationListEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocationArn", required: false, type: .string), 
-            AWSShapeMember(label: "LocationUri", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the location. For Network File System (NFS) or Amazon EFS, the location is the export path. For Amazon S3, the location is the prefix path that you want to mount and use as the root of the location.
-        public let locationArn: String?
-        /// Represents a list of URLs of a location. LocationUri returns an array that contains a list of locations when the ListLocations operation is called. Format: TYPE://GLOBAL_ID/SUBDIR. TYPE designates the type of location. Valid values: NFS | EFS | S3. GLOBAL_ID is the globally unique identifier of the resource that backs the location. An example for EFS is us-east-2.fs-abcd1234. An example for Amazon S3 is the bucket name, such as myBucket. An example for NFS is a valid IPv4 address or a host name compliant with Domain Name Service (DNS). SUBDIR is a valid file system path, delimited by forward slashes as is the *nix convention. For NFS and Amazon EFS, it's the export path to mount the location. For Amazon S3, it's the prefix path that you mount to and treat as the root of the location. 
-        public let locationUri: String?
-
-        public init(locationArn: String? = nil, locationUri: String? = nil) {
-            self.locationArn = locationArn
-            self.locationUri = locationUri
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case locationArn = "LocationArn"
-            case locationUri = "LocationUri"
-        }
-    }
-
-    public enum AgentStatus: String, CustomStringConvertible, Codable {
-        case online = "ONLINE"
-        case offline = "OFFLINE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeTaskExecutionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TaskExecutionArn", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedBytesToTransfer", required: false, type: .long), 
-            AWSShapeMember(label: "Options", required: false, type: .structure), 
-            AWSShapeMember(label: "EstimatedFilesToTransfer", required: false, type: .long), 
-            AWSShapeMember(label: "BytesTransferred", required: false, type: .long), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Result", required: false, type: .structure), 
-            AWSShapeMember(label: "FilesTransferred", required: false, type: .long), 
-            AWSShapeMember(label: "BytesWritten", required: false, type: .long), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
-        ]
-        /// The Amazon Resource Name (ARN) of the task execution that was described. TaskExecutionArn is hierarchical and includes TaskArn for the task that was executed.  For example, a TaskExecution value with the ARN arn:aws:sync:us-east-1:209870788375:task/task-0208075f79cedf4a2/execution/exec-08ef1e88ec491019b executed the task with the ARN arn:aws:sync:us-east-1:209870788375:task/task-0208075f79cedf4a2. 
-        public let taskExecutionArn: String?
-        /// The estimated physical number of bytes that is to be transferred over the network.
-        public let estimatedBytesToTransfer: Int64?
-        public let options: Options?
-        /// The expected number of files that is to be transferred over the network. This value is calculated during the PREPARING phase, before the TRANSFERRING phase. This value is the expected number of files to be transferred. It's calculated based on comparing the content of the source and destination locations and finding the delta that needs to be transferred. 
-        public let estimatedFilesToTransfer: Int64?
-        /// The physical number of bytes transferred over the network.
-        public let bytesTransferred: Int64?
-        /// The status of the task. For detailed information about sync statuses, see Understanding Sync Task Statuses.
-        public let status: TaskExecutionStatus?
-        /// The result of the task execution.
-        public let result: TaskExecutionResultDetail?
-        /// The actual number of files that was transferred over the network. This value is calculated and updated on an ongoing basis during the TRANSFERRING phase. It's updated periodically when each file is read from the source and sent over the network.  If failures occur during a transfer, this value can be less than EstimatedFilesToTransfer. This value can also be greater than EstimatedFilesTransferred in some cases. This element is implementation-specific for some location types, so don't use it as an indicator for a correct file number or to monitor your task execution.
-        public let filesTransferred: Int64?
-        /// The number of logical bytes written to the destination AWS storage resource.
-        public let bytesWritten: Int64?
-        /// The time that the task execution was started.
-        public let startTime: TimeStamp?
-
-        public init(taskExecutionArn: String? = nil, estimatedBytesToTransfer: Int64? = nil, options: Options? = nil, estimatedFilesToTransfer: Int64? = nil, bytesTransferred: Int64? = nil, status: TaskExecutionStatus? = nil, result: TaskExecutionResultDetail? = nil, filesTransferred: Int64? = nil, bytesWritten: Int64? = nil, startTime: TimeStamp? = nil) {
-            self.taskExecutionArn = taskExecutionArn
-            self.estimatedBytesToTransfer = estimatedBytesToTransfer
-            self.options = options
-            self.estimatedFilesToTransfer = estimatedFilesToTransfer
-            self.bytesTransferred = bytesTransferred
-            self.status = status
-            self.result = result
-            self.filesTransferred = filesTransferred
-            self.bytesWritten = bytesWritten
-            self.startTime = startTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case taskExecutionArn = "TaskExecutionArn"
-            case estimatedBytesToTransfer = "EstimatedBytesToTransfer"
-            case options = "Options"
-            case estimatedFilesToTransfer = "EstimatedFilesToTransfer"
-            case bytesTransferred = "BytesTransferred"
-            case status = "Status"
-            case result = "Result"
-            case filesTransferred = "FilesTransferred"
-            case bytesWritten = "BytesWritten"
-            case startTime = "StartTime"
-        }
-    }
-
-    public struct CreateTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TaskArn", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the task.
-        public let taskArn: String?
-
-        public init(taskArn: String? = nil) {
-            self.taskArn = taskArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case taskArn = "TaskArn"
-        }
-    }
-
-    public struct UpdateTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TaskArn", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Options", required: false, type: .structure)
-        ]
-        /// The Amazon Resource Name (ARN) of the resource name of the task to update.
-        public let taskArn: String
-        /// The name of the task to update.
-        public let name: String?
-        public let options: Options?
-
-        public init(taskArn: String, name: String? = nil, options: Options? = nil) {
-            self.taskArn = taskArn
-            self.name = name
-            self.options = options
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case taskArn = "TaskArn"
-            case name = "Name"
-            case options = "Options"
-        }
-    }
-
-    public struct DescribeAgentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastConnectionTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "AgentArn", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
-        /// The time that the agent was last connected.
-        public let lastConnectionTime: TimeStamp?
-        /// The name of the agent.
-        public let name: String?
-        /// The time that the agent was activated (that is, created in your account).
-        public let creationTime: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the agent.
-        public let agentArn: String?
-        /// The status of the agent. If the status is ONLINE, then the agent is configured properly and is available to use. The Running status is the normal running status for an agent. If the status is OFFLINE, the agent's VM is turned off or the agent is in an unhealthy state. When the issue that caused the unhealthy state is resolved, the agent returns to ONLINE status.
-        public let status: AgentStatus?
-
-        public init(lastConnectionTime: TimeStamp? = nil, name: String? = nil, creationTime: TimeStamp? = nil, agentArn: String? = nil, status: AgentStatus? = nil) {
-            self.lastConnectionTime = lastConnectionTime
-            self.name = name
-            self.creationTime = creationTime
-            self.agentArn = agentArn
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastConnectionTime = "LastConnectionTime"
-            case name = "Name"
-            case creationTime = "CreationTime"
-            case agentArn = "AgentArn"
-            case status = "Status"
-        }
-    }
-
     public struct AgentListEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AgentArn", required: false, type: .string), 
@@ -1287,24 +31,127 @@ extension DataSync {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Array of resource tags.
-        public let tags: [TagListEntry]?
-        /// An opaque string that indicates the position at which to begin returning the next list of resource tags.
-        public let nextToken: String?
+    public enum AgentStatus: String, CustomStringConvertible, Codable {
+        case online = "ONLINE"
+        case offline = "OFFLINE"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(tags: [TagListEntry]? = nil, nextToken: String? = nil) {
-            self.tags = tags
-            self.nextToken = nextToken
+    public enum Atime: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case bestEffort = "BEST_EFFORT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CancelTaskExecutionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TaskExecutionArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the task execution to cancel.
+        public let taskExecutionArn: String
+
+        public init(taskExecutionArn: String) {
+            self.taskExecutionArn = taskExecutionArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case taskExecutionArn = "TaskExecutionArn"
+        }
+    }
+
+    public struct CancelTaskExecutionResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct CreateAgentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActivationKey", required: true, type: .string), 
+            AWSShapeMember(label: "AgentName", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// Your agent activation key. You can get the activation key either by sending an HTTP GET request with redirects that enable you to get the agent IP address (port 80). Alternatively, you can get it from the AWS DataSync console.  The redirect URL returned in the response provides you the activation key for your agent in the query string parameter activationKey. It might also include other activation-related parameters; however, these are merely defaults. The arguments you pass to this API call determine the actual configuration of your agent. For more information, see Activating a Sync Agent in the AWS DataSync User Guide. 
+        public let activationKey: String
+        /// The name you configured for your agent. This value is a text reference that is used to identify the agent in the console.
+        public let agentName: String?
+        /// The key-value pair that represents the tag you want to associate with the agent. The value can be an empty string. This value helps you manage, filter, and search for your agents.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @.  
+        public let tags: [TagListEntry]?
+
+        public init(activationKey: String, agentName: String? = nil, tags: [TagListEntry]? = nil) {
+            self.activationKey = activationKey
+            self.agentName = agentName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activationKey = "ActivationKey"
+            case agentName = "AgentName"
             case tags = "Tags"
-            case nextToken = "NextToken"
+        }
+    }
+
+    public struct CreateAgentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AgentArn", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the agent. Use the ListAgents operation to return a list of agents for your account and AWS Region.
+        public let agentArn: String?
+
+        public init(agentArn: String? = nil) {
+            self.agentArn = agentArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentArn = "AgentArn"
+        }
+    }
+
+    public struct CreateLocationEfsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Ec2Config", required: true, type: .structure), 
+            AWSShapeMember(label: "EfsFilesystemArn", required: true, type: .string), 
+            AWSShapeMember(label: "Subdirectory", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// The subnet and security group that the Amazon EFS file system uses.
+        public let ec2Config: Ec2Config
+        /// The Amazon Resource Name (ARN) for the Amazon EFS file system.
+        public let efsFilesystemArn: String
+        /// A subdirectory in the location’s path. This subdirectory in the EFS file system is used to read data from the EFS source location or write data to the EFS destination. By default, AWS DataSync uses the root directory.
+        public let subdirectory: String
+        /// The key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
+        public let tags: [TagListEntry]?
+
+        public init(ec2Config: Ec2Config, efsFilesystemArn: String, subdirectory: String, tags: [TagListEntry]? = nil) {
+            self.ec2Config = ec2Config
+            self.efsFilesystemArn = efsFilesystemArn
+            self.subdirectory = subdirectory
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ec2Config = "Ec2Config"
+            case efsFilesystemArn = "EfsFilesystemArn"
+            case subdirectory = "Subdirectory"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateLocationEfsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LocationArn", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the Amazon EFS file system location that is created.
+        public let locationArn: String?
+
+        public init(locationArn: String? = nil) {
+            self.locationArn = locationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
         }
     }
 
@@ -1339,39 +186,289 @@ extension DataSync {
         }
     }
 
-    public struct StartTaskExecutionResponse: AWSShape {
+    public struct CreateLocationNfsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TaskExecutionArn", required: false, type: .string)
+            AWSShapeMember(label: "LocationArn", required: false, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the specific task execution that was started.
-        public let taskExecutionArn: String?
+        /// The Amazon Resource Name (ARN) of the source NFS file system location that is created.
+        public let locationArn: String?
 
-        public init(taskExecutionArn: String? = nil) {
-            self.taskExecutionArn = taskExecutionArn
+        public init(locationArn: String? = nil) {
+            self.locationArn = locationArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case taskExecutionArn = "TaskExecutionArn"
+            case locationArn = "LocationArn"
         }
     }
 
-    public struct StartTaskExecutionRequest: AWSShape {
+    public struct CreateLocationS3Request: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TaskArn", required: true, type: .string), 
-            AWSShapeMember(label: "OverrideOptions", required: false, type: .structure)
+            AWSShapeMember(label: "S3BucketArn", required: true, type: .string), 
+            AWSShapeMember(label: "S3Config", required: true, type: .structure), 
+            AWSShapeMember(label: "Subdirectory", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
-        /// The Amazon Resource Name (ARN) of the task to start.
-        public let taskArn: String
-        public let overrideOptions: Options?
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket.
+        public let s3BucketArn: String
+        public let s3Config: S3Config
+        /// A subdirectory in the Amazon S3 bucket. This subdirectory in Amazon S3 is used to read data from the S3 source location or write data to the S3 destination.
+        public let subdirectory: String
+        /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
+        public let tags: [TagListEntry]?
 
-        public init(taskArn: String, overrideOptions: Options? = nil) {
+        public init(s3BucketArn: String, s3Config: S3Config, subdirectory: String, tags: [TagListEntry]? = nil) {
+            self.s3BucketArn = s3BucketArn
+            self.s3Config = s3Config
+            self.subdirectory = subdirectory
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3BucketArn = "S3BucketArn"
+            case s3Config = "S3Config"
+            case subdirectory = "Subdirectory"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateLocationS3Response: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LocationArn", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the source Amazon S3 bucket location that is created.
+        public let locationArn: String?
+
+        public init(locationArn: String? = nil) {
+            self.locationArn = locationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+        }
+    }
+
+    public struct CreateTaskRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudWatchLogGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "DestinationLocationArn", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Options", required: false, type: .structure), 
+            AWSShapeMember(label: "SourceLocationArn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that is used to monitor and log events in the task. For more information on these groups, see Working with Log Groups and Log Streams in the Amazon CloudWatch User Guide.   For more information about how to useCloudWatchLogs with DataSync, see Monitoring Your Task.
+        public let cloudWatchLogGroupArn: String?
+        /// The Amazon Resource Name (ARN) of an AWS storage resource's location. 
+        public let destinationLocationArn: String
+        /// The name of a task. This value is a text reference that is used to identify the task in the console. 
+        public let name: String?
+        /// The set of configuration options that control the behavior of a single execution of the task that occurs when you call StartTaskExecution. You can configure these options to preserve metadata such as user ID (UID) and group ID (GID), file permissions, data integrity verification, and so on. For each individual task execution, you can override these options by specifying the OverrideOptions before starting a the task execution. For more information, see the operation. 
+        public let options: Options?
+        /// The Amazon Resource Name (ARN) of the source location for the task.
+        public let sourceLocationArn: String
+        /// The key-value pair that represents the tag that you want to add to the resource. The value can be an empty string. 
+        public let tags: [TagListEntry]?
+
+        public init(cloudWatchLogGroupArn: String? = nil, destinationLocationArn: String, name: String? = nil, options: Options? = nil, sourceLocationArn: String, tags: [TagListEntry]? = nil) {
+            self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
+            self.destinationLocationArn = destinationLocationArn
+            self.name = name
+            self.options = options
+            self.sourceLocationArn = sourceLocationArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogGroupArn = "CloudWatchLogGroupArn"
+            case destinationLocationArn = "DestinationLocationArn"
+            case name = "Name"
+            case options = "Options"
+            case sourceLocationArn = "SourceLocationArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateTaskResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TaskArn", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the task.
+        public let taskArn: String?
+
+        public init(taskArn: String? = nil) {
             self.taskArn = taskArn
-            self.overrideOptions = overrideOptions
         }
 
         private enum CodingKeys: String, CodingKey {
             case taskArn = "TaskArn"
-            case overrideOptions = "OverrideOptions"
+        }
+    }
+
+    public struct DeleteAgentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AgentArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the agent to delete. Use the ListAgents operation to return a list of agents for your account and AWS Region.
+        public let agentArn: String
+
+        public init(agentArn: String) {
+            self.agentArn = agentArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentArn = "AgentArn"
+        }
+    }
+
+    public struct DeleteAgentResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteLocationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LocationArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the location to delete.
+        public let locationArn: String
+
+        public init(locationArn: String) {
+            self.locationArn = locationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+        }
+    }
+
+    public struct DeleteLocationResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteTaskRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TaskArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the task to delete.
+        public let taskArn: String
+
+        public init(taskArn: String) {
+            self.taskArn = taskArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskArn = "TaskArn"
+        }
+    }
+
+    public struct DeleteTaskResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DescribeAgentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AgentArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the agent to describe.
+        public let agentArn: String
+
+        public init(agentArn: String) {
+            self.agentArn = agentArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentArn = "AgentArn"
+        }
+    }
+
+    public struct DescribeAgentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AgentArn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastConnectionTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        /// The Amazon Resource Name (ARN) of the agent.
+        public let agentArn: String?
+        /// The time that the agent was activated (that is, created in your account).
+        public let creationTime: TimeStamp?
+        /// The time that the agent was last connected.
+        public let lastConnectionTime: TimeStamp?
+        /// The name of the agent.
+        public let name: String?
+        /// The status of the agent. If the status is ONLINE, then the agent is configured properly and is available to use. The Running status is the normal running status for an agent. If the status is OFFLINE, the agent's VM is turned off or the agent is in an unhealthy state. When the issue that caused the unhealthy state is resolved, the agent returns to ONLINE status.
+        public let status: AgentStatus?
+
+        public init(agentArn: String? = nil, creationTime: TimeStamp? = nil, lastConnectionTime: TimeStamp? = nil, name: String? = nil, status: AgentStatus? = nil) {
+            self.agentArn = agentArn
+            self.creationTime = creationTime
+            self.lastConnectionTime = lastConnectionTime
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentArn = "AgentArn"
+            case creationTime = "CreationTime"
+            case lastConnectionTime = "LastConnectionTime"
+            case name = "Name"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeLocationEfsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LocationArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the EFS location to describe.
+        public let locationArn: String
+
+        public init(locationArn: String) {
+            self.locationArn = locationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+        }
+    }
+
+    public struct DescribeLocationEfsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Ec2Config", required: false, type: .structure), 
+            AWSShapeMember(label: "LocationArn", required: false, type: .string), 
+            AWSShapeMember(label: "LocationUri", required: false, type: .string)
+        ]
+        /// The time that the EFS location was created.
+        public let creationTime: TimeStamp?
+        public let ec2Config: Ec2Config?
+        /// The Amazon resource Name (ARN) of the EFS location that was described.
+        public let locationArn: String?
+        /// The URL of the EFS location that was described.
+        public let locationUri: String?
+
+        public init(creationTime: TimeStamp? = nil, ec2Config: Ec2Config? = nil, locationArn: String? = nil, locationUri: String? = nil) {
+            self.creationTime = creationTime
+            self.ec2Config = ec2Config
+            self.locationArn = locationArn
+            self.locationUri = locationUri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case ec2Config = "Ec2Config"
+            case locationArn = "LocationArn"
+            case locationUri = "LocationUri"
         }
     }
 
@@ -1389,6 +486,933 @@ extension DataSync {
         private enum CodingKeys: String, CodingKey {
             case locationArn = "LocationArn"
         }
+    }
+
+    public struct DescribeLocationNfsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LocationArn", required: false, type: .string), 
+            AWSShapeMember(label: "LocationUri", required: false, type: .string), 
+            AWSShapeMember(label: "OnPremConfig", required: false, type: .structure)
+        ]
+        /// The time that the NFS location was created.
+        public let creationTime: TimeStamp?
+        /// The Amazon resource Name (ARN) of the NFS location that was described.
+        public let locationArn: String?
+        /// The URL of the source NFS location that was described.
+        public let locationUri: String?
+        public let onPremConfig: OnPremConfig?
+
+        public init(creationTime: TimeStamp? = nil, locationArn: String? = nil, locationUri: String? = nil, onPremConfig: OnPremConfig? = nil) {
+            self.creationTime = creationTime
+            self.locationArn = locationArn
+            self.locationUri = locationUri
+            self.onPremConfig = onPremConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case locationArn = "LocationArn"
+            case locationUri = "LocationUri"
+            case onPremConfig = "OnPremConfig"
+        }
+    }
+
+    public struct DescribeLocationS3Request: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LocationArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket location to describe.
+        public let locationArn: String
+
+        public init(locationArn: String) {
+            self.locationArn = locationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+        }
+    }
+
+    public struct DescribeLocationS3Response: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LocationArn", required: false, type: .string), 
+            AWSShapeMember(label: "LocationUri", required: false, type: .string), 
+            AWSShapeMember(label: "S3Config", required: false, type: .structure)
+        ]
+        /// The time that the Amazon S3 bucket location was created.
+        public let creationTime: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket location.
+        public let locationArn: String?
+        /// The URL of the Amazon S3 location that was described.
+        public let locationUri: String?
+        public let s3Config: S3Config?
+
+        public init(creationTime: TimeStamp? = nil, locationArn: String? = nil, locationUri: String? = nil, s3Config: S3Config? = nil) {
+            self.creationTime = creationTime
+            self.locationArn = locationArn
+            self.locationUri = locationUri
+            self.s3Config = s3Config
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case locationArn = "LocationArn"
+            case locationUri = "LocationUri"
+            case s3Config = "S3Config"
+        }
+    }
+
+    public struct DescribeTaskExecutionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TaskExecutionArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the task that is being executed.
+        public let taskExecutionArn: String
+
+        public init(taskExecutionArn: String) {
+            self.taskExecutionArn = taskExecutionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskExecutionArn = "TaskExecutionArn"
+        }
+    }
+
+    public struct DescribeTaskExecutionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BytesTransferred", required: false, type: .long), 
+            AWSShapeMember(label: "BytesWritten", required: false, type: .long), 
+            AWSShapeMember(label: "EstimatedBytesToTransfer", required: false, type: .long), 
+            AWSShapeMember(label: "EstimatedFilesToTransfer", required: false, type: .long), 
+            AWSShapeMember(label: "FilesTransferred", required: false, type: .long), 
+            AWSShapeMember(label: "Options", required: false, type: .structure), 
+            AWSShapeMember(label: "Result", required: false, type: .structure), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "TaskExecutionArn", required: false, type: .string)
+        ]
+        /// The physical number of bytes transferred over the network.
+        public let bytesTransferred: Int64?
+        /// The number of logical bytes written to the destination AWS storage resource.
+        public let bytesWritten: Int64?
+        /// The estimated physical number of bytes that is to be transferred over the network.
+        public let estimatedBytesToTransfer: Int64?
+        /// The expected number of files that is to be transferred over the network. This value is calculated during the PREPARING phase, before the TRANSFERRING phase. This value is the expected number of files to be transferred. It's calculated based on comparing the content of the source and destination locations and finding the delta that needs to be transferred. 
+        public let estimatedFilesToTransfer: Int64?
+        /// The actual number of files that was transferred over the network. This value is calculated and updated on an ongoing basis during the TRANSFERRING phase. It's updated periodically when each file is read from the source and sent over the network.  If failures occur during a transfer, this value can be less than EstimatedFilesToTransfer. This value can also be greater than EstimatedFilesTransferred in some cases. This element is implementation-specific for some location types, so don't use it as an indicator for a correct file number or to monitor your task execution.
+        public let filesTransferred: Int64?
+        public let options: Options?
+        /// The result of the task execution.
+        public let result: TaskExecutionResultDetail?
+        /// The time that the task execution was started.
+        public let startTime: TimeStamp?
+        /// The status of the task. For detailed information about sync statuses, see Understanding Sync Task Statuses.
+        public let status: TaskExecutionStatus?
+        /// The Amazon Resource Name (ARN) of the task execution that was described. TaskExecutionArn is hierarchical and includes TaskArn for the task that was executed.  For example, a TaskExecution value with the ARN arn:aws:sync:us-east-1:209870788375:task/task-0208075f79cedf4a2/execution/exec-08ef1e88ec491019b executed the task with the ARN arn:aws:sync:us-east-1:209870788375:task/task-0208075f79cedf4a2. 
+        public let taskExecutionArn: String?
+
+        public init(bytesTransferred: Int64? = nil, bytesWritten: Int64? = nil, estimatedBytesToTransfer: Int64? = nil, estimatedFilesToTransfer: Int64? = nil, filesTransferred: Int64? = nil, options: Options? = nil, result: TaskExecutionResultDetail? = nil, startTime: TimeStamp? = nil, status: TaskExecutionStatus? = nil, taskExecutionArn: String? = nil) {
+            self.bytesTransferred = bytesTransferred
+            self.bytesWritten = bytesWritten
+            self.estimatedBytesToTransfer = estimatedBytesToTransfer
+            self.estimatedFilesToTransfer = estimatedFilesToTransfer
+            self.filesTransferred = filesTransferred
+            self.options = options
+            self.result = result
+            self.startTime = startTime
+            self.status = status
+            self.taskExecutionArn = taskExecutionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytesTransferred = "BytesTransferred"
+            case bytesWritten = "BytesWritten"
+            case estimatedBytesToTransfer = "EstimatedBytesToTransfer"
+            case estimatedFilesToTransfer = "EstimatedFilesToTransfer"
+            case filesTransferred = "FilesTransferred"
+            case options = "Options"
+            case result = "Result"
+            case startTime = "StartTime"
+            case status = "Status"
+            case taskExecutionArn = "TaskExecutionArn"
+        }
+    }
+
+    public struct DescribeTaskRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TaskArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the task to describe.
+        public let taskArn: String
+
+        public init(taskArn: String) {
+            self.taskArn = taskArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskArn = "TaskArn"
+        }
+    }
+
+    public struct DescribeTaskResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudWatchLogGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CurrentTaskExecutionArn", required: false, type: .string), 
+            AWSShapeMember(label: "DestinationLocationArn", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorDetail", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Options", required: false, type: .structure), 
+            AWSShapeMember(label: "SourceLocationArn", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "TaskArn", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that was used to monitor and log events in the task. For more information on these groups, see Working with Log Groups and Log Streams in the Amazon CloudWatch User Guide. 
+        public let cloudWatchLogGroupArn: String?
+        /// The time that the task was created.
+        public let creationTime: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the task execution that is syncing files.
+        public let currentTaskExecutionArn: String?
+        /// The Amazon Resource Name (ARN) of the AWS storage resource's location.
+        public let destinationLocationArn: String?
+        /// Errors that AWS DataSync encountered during execution of the task. You can use this error code to help troubleshoot issues.
+        public let errorCode: String?
+        /// Detailed description of an error that was encountered during the task execution. You can use this information to help troubleshoot issues. 
+        public let errorDetail: String?
+        /// The name of the task that was described.
+        public let name: String?
+        /// The set of configuration options that control the behavior of a single execution of the task that occurs when you call StartTaskExecution. You can configure these options to preserve metadata such as user ID (UID) and group (GID), file permissions, data integrity verification, and so on. For each individual task execution, you can override these options by specifying the overriding OverrideOptions value to operation. 
+        public let options: Options?
+        /// The Amazon Resource Name (ARN) of the source file system's location.
+        public let sourceLocationArn: String?
+        /// The status of the task that was described. For detailed information about sync statuses, see Understanding Sync Task Statuses.
+        public let status: TaskStatus?
+        /// The Amazon Resource Name (ARN) of the task that was described.
+        public let taskArn: String?
+
+        public init(cloudWatchLogGroupArn: String? = nil, creationTime: TimeStamp? = nil, currentTaskExecutionArn: String? = nil, destinationLocationArn: String? = nil, errorCode: String? = nil, errorDetail: String? = nil, name: String? = nil, options: Options? = nil, sourceLocationArn: String? = nil, status: TaskStatus? = nil, taskArn: String? = nil) {
+            self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
+            self.creationTime = creationTime
+            self.currentTaskExecutionArn = currentTaskExecutionArn
+            self.destinationLocationArn = destinationLocationArn
+            self.errorCode = errorCode
+            self.errorDetail = errorDetail
+            self.name = name
+            self.options = options
+            self.sourceLocationArn = sourceLocationArn
+            self.status = status
+            self.taskArn = taskArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogGroupArn = "CloudWatchLogGroupArn"
+            case creationTime = "CreationTime"
+            case currentTaskExecutionArn = "CurrentTaskExecutionArn"
+            case destinationLocationArn = "DestinationLocationArn"
+            case errorCode = "ErrorCode"
+            case errorDetail = "ErrorDetail"
+            case name = "Name"
+            case options = "Options"
+            case sourceLocationArn = "SourceLocationArn"
+            case status = "Status"
+            case taskArn = "TaskArn"
+        }
+    }
+
+    public struct Ec2Config: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SecurityGroupArns", required: true, type: .list), 
+            AWSShapeMember(label: "SubnetArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Names (ARNs) of the security groups that are configured for the Amazon EC2 resource.
+        public let securityGroupArns: [String]
+        /// The ARN of the subnet that the Amazon EC2 resource belongs in. 
+        public let subnetArn: String
+
+        public init(securityGroupArns: [String], subnetArn: String) {
+            self.securityGroupArns = securityGroupArns
+            self.subnetArn = subnetArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupArns = "SecurityGroupArns"
+            case subnetArn = "SubnetArn"
+        }
+    }
+
+    public enum Gid: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case intValue = "INT_VALUE"
+        case name = "NAME"
+        case both = "BOTH"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListAgentsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of agents to list.
+        public let maxResults: Int32?
+        /// An opaque string that indicates the position at which to begin the next list of agents.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAgentsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Agents", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of agents in your account.
+        public let agents: [AgentListEntry]?
+        /// An opaque string that indicates the position at which to begin returning the next list of agents.
+        public let nextToken: String?
+
+        public init(agents: [AgentListEntry]? = nil, nextToken: String? = nil) {
+            self.agents = agents
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agents = "Agents"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListLocationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of locations to return.
+        public let maxResults: Int32?
+        /// An opaque string that indicates the position at which to begin the next list of locations.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListLocationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Locations", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// An array that contains a list of locations.
+        public let locations: [LocationListEntry]?
+        /// An opaque string that indicates the position at which to begin returning the next list of locations.
+        public let nextToken: String?
+
+        public init(locations: [LocationListEntry]? = nil, nextToken: String? = nil) {
+            self.locations = locations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locations = "Locations"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
+        ]
+        /// The maximum number of locations to return.
+        public let maxResults: Int32?
+        /// An opaque string that indicates the position at which to begin the next list of locations.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the resource whose tags to list.
+        public let resourceArn: String
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// An opaque string that indicates the position at which to begin returning the next list of resource tags.
+        public let nextToken: String?
+        /// Array of resource tags.
+        public let tags: [TagListEntry]?
+
+        public init(nextToken: String? = nil, tags: [TagListEntry]? = nil) {
+            self.nextToken = nextToken
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ListTaskExecutionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TaskArn", required: false, type: .string)
+        ]
+        /// The maximum number of executed tasks to list.
+        public let maxResults: Int32?
+        /// An opaque string that indicates the position at which to begin the next list of the executed tasks.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the task whose tasks you want to list.
+        public let taskArn: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, taskArn: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.taskArn = taskArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case taskArn = "TaskArn"
+        }
+    }
+
+    public struct ListTaskExecutionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TaskExecutions", required: false, type: .list)
+        ]
+        /// An opaque string that indicates the position at which to begin returning the next list of executed tasks.
+        public let nextToken: String?
+        /// A list of executed tasks.
+        public let taskExecutions: [TaskExecutionListEntry]?
+
+        public init(nextToken: String? = nil, taskExecutions: [TaskExecutionListEntry]? = nil) {
+            self.nextToken = nextToken
+            self.taskExecutions = taskExecutions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case taskExecutions = "TaskExecutions"
+        }
+    }
+
+    public struct ListTasksRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of tasks to return.
+        public let maxResults: Int32?
+        /// An opaque string that indicates the position at which to begin the next list of tasks.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListTasksResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tasks", required: false, type: .list)
+        ]
+        /// An opaque string that indicates the position at which to begin returning the next list of tasks.
+        public let nextToken: String?
+        /// A list of all the tasks that are returned.
+        public let tasks: [TaskListEntry]?
+
+        public init(nextToken: String? = nil, tasks: [TaskListEntry]? = nil) {
+            self.nextToken = nextToken
+            self.tasks = tasks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tasks = "Tasks"
+        }
+    }
+
+    public struct LocationListEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LocationArn", required: false, type: .string), 
+            AWSShapeMember(label: "LocationUri", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the location. For Network File System (NFS) or Amazon EFS, the location is the export path. For Amazon S3, the location is the prefix path that you want to mount and use as the root of the location.
+        public let locationArn: String?
+        /// Represents a list of URLs of a location. LocationUri returns an array that contains a list of locations when the ListLocations operation is called. Format: TYPE://GLOBAL_ID/SUBDIR. TYPE designates the type of location. Valid values: NFS | EFS | S3. GLOBAL_ID is the globally unique identifier of the resource that backs the location. An example for EFS is us-east-2.fs-abcd1234. An example for Amazon S3 is the bucket name, such as myBucket. An example for NFS is a valid IPv4 address or a host name compliant with Domain Name Service (DNS). SUBDIR is a valid file system path, delimited by forward slashes as is the *nix convention. For NFS and Amazon EFS, it's the export path to mount the location. For Amazon S3, it's the prefix path that you mount to and treat as the root of the location. 
+        public let locationUri: String?
+
+        public init(locationArn: String? = nil, locationUri: String? = nil) {
+            self.locationArn = locationArn
+            self.locationUri = locationUri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+            case locationUri = "LocationUri"
+        }
+    }
+
+    public enum Mtime: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case preserve = "PRESERVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct OnPremConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AgentArns", required: true, type: .list)
+        ]
+        /// ARNs)of the agents to use for an NFS location.
+        public let agentArns: [String]
+
+        public init(agentArns: [String]) {
+            self.agentArns = agentArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentArns = "AgentArns"
+        }
+    }
+
+    public struct Options: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Atime", required: false, type: .enum), 
+            AWSShapeMember(label: "BytesPerSecond", required: false, type: .long), 
+            AWSShapeMember(label: "Gid", required: false, type: .enum), 
+            AWSShapeMember(label: "Mtime", required: false, type: .enum), 
+            AWSShapeMember(label: "PosixPermissions", required: false, type: .enum), 
+            AWSShapeMember(label: "PreserveDeletedFiles", required: false, type: .enum), 
+            AWSShapeMember(label: "PreserveDevices", required: false, type: .enum), 
+            AWSShapeMember(label: "Uid", required: false, type: .enum), 
+            AWSShapeMember(label: "VerifyMode", required: false, type: .enum)
+        ]
+        /// A file metadata value that shows the last time a file was accessed (that is, when the file was read or written to). If you set Atime to BEST_EFFORT, DataSync attempts to preserve the original Atime attribute on all source files (that is, the version before the PREPARING phase). However, Atime's behavior is not fully standard across platforms, so AWS DataSync can only do this on a best-effort basis.  Default value: BEST_EFFORT. BEST_EFFORT: Attempt to preserve the per-file Atime value (recommended). NONE: Ignore Atime.  If Atime is set to BEST_EFFORT, Mtime must be set to PRESERVE.  If Atime is set to NONE, Mtime must also be NONE.  
+        public let atime: Atime?
+        /// A value that limits the bandwidth used by AWS DataSync. For example, if you want AWS DataSync to use a maximum of 1 MB, set this value to 1048576 (=1024*1024).
+        public let bytesPerSecond: Int64?
+        /// The group ID (GID) of the file's owners.  Default value: INT_VALUE. This preserves the integer value of the ID. INT_VALUE: Preserve the integer value of user ID (UID) and GID (recommended). NONE: Ignore UID and GID. 
+        public let gid: Gid?
+        /// A value that indicates the last time that a file was modified (that is, a file was written to) before the PREPARING phase.  Default value: PRESERVE.  PRESERVE: Preserve original Mtime (recommended)  NONE: Ignore Mtime.   If Mtime is set to PRESERVE, Atime must be set to BEST_EFFORT. If Mtime is set to NONE, Atime must also be set to NONE.  
+        public let mtime: Mtime?
+        /// A value that determines which users or groups can access a file for a specific purpose such as reading, writing, or execution of the file.  Default value: PRESERVE. PRESERVE: Preserve POSIX-style permissions (recommended). NONE: Ignore permissions.   AWS DataSync can preserve extant permissions of a source location. 
+        public let posixPermissions: PosixPermissions?
+        /// A value that specifies whether files in the destination that don't exist in the source file system should be preserved.  Default value: PRESERVE. PRESERVE: Ignore such destination files (recommended).  REMOVE: Delete destination files that aren’t present in the source.
+        public let preserveDeletedFiles: PreserveDeletedFiles?
+        /// A value that determines whether AWS DataSync should preserve the metadata of block and character devices in the source file system, and recreate the files with that device name and metadata on the destination.  AWS DataSync can't sync the actual contents of such devices, because they are nonterminal and don't return an end-of-file (EOF) marker.  Default value: NONE. NONE: Ignore special devices (recommended).  PRESERVE: Preserve character and block device metadata. This option isn't currently supported for Amazon EFS. 
+        public let preserveDevices: PreserveDevices?
+        /// The user ID (UID) of the file's owner.  Default value: INT_VALUE. This preserves the integer value of the ID. INT_VALUE: Preserve the integer value of UID and group ID (GID) (recommended). NONE: Ignore UID and GID. 
+        public let uid: Uid?
+        /// A value that determines whether a data integrity verification should be performed at the end of a task execution after all data and metadata have been transferred.  Default value: POINT_IN_TIME_CONSISTENT. POINT_IN_TIME_CONSISTENT: Perform verification (recommended).  NONE: Skip verification.
+        public let verifyMode: VerifyMode?
+
+        public init(atime: Atime? = nil, bytesPerSecond: Int64? = nil, gid: Gid? = nil, mtime: Mtime? = nil, posixPermissions: PosixPermissions? = nil, preserveDeletedFiles: PreserveDeletedFiles? = nil, preserveDevices: PreserveDevices? = nil, uid: Uid? = nil, verifyMode: VerifyMode? = nil) {
+            self.atime = atime
+            self.bytesPerSecond = bytesPerSecond
+            self.gid = gid
+            self.mtime = mtime
+            self.posixPermissions = posixPermissions
+            self.preserveDeletedFiles = preserveDeletedFiles
+            self.preserveDevices = preserveDevices
+            self.uid = uid
+            self.verifyMode = verifyMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case atime = "Atime"
+            case bytesPerSecond = "BytesPerSecond"
+            case gid = "Gid"
+            case mtime = "Mtime"
+            case posixPermissions = "PosixPermissions"
+            case preserveDeletedFiles = "PreserveDeletedFiles"
+            case preserveDevices = "PreserveDevices"
+            case uid = "Uid"
+            case verifyMode = "VerifyMode"
+        }
+    }
+
+    public enum PhaseStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case success = "SUCCESS"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PosixPermissions: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case bestEffort = "BEST_EFFORT"
+        case preserve = "PRESERVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PreserveDeletedFiles: String, CustomStringConvertible, Codable {
+        case preserve = "PRESERVE"
+        case remove = "REMOVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PreserveDevices: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case preserve = "PRESERVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct S3Config: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BucketAccessRoleArn", required: true, type: .string)
+        ]
+        /// The Amazon S3 bucket to access. This bucket is used as a parameter in the CreateLocationS3 operation. 
+        public let bucketAccessRoleArn: String
+
+        public init(bucketAccessRoleArn: String) {
+            self.bucketAccessRoleArn = bucketAccessRoleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketAccessRoleArn = "BucketAccessRoleArn"
+        }
+    }
+
+    public struct StartTaskExecutionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OverrideOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "TaskArn", required: true, type: .string)
+        ]
+        public let overrideOptions: Options?
+        /// The Amazon Resource Name (ARN) of the task to start.
+        public let taskArn: String
+
+        public init(overrideOptions: Options? = nil, taskArn: String) {
+            self.overrideOptions = overrideOptions
+            self.taskArn = taskArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case overrideOptions = "OverrideOptions"
+            case taskArn = "TaskArn"
+        }
+    }
+
+    public struct StartTaskExecutionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TaskExecutionArn", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the specific task execution that was started.
+        public let taskExecutionArn: String?
+
+        public init(taskExecutionArn: String? = nil) {
+            self.taskExecutionArn = taskExecutionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskExecutionArn = "TaskExecutionArn"
+        }
+    }
+
+    public struct TagListEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The key for an AWS resource tag.
+        public let key: String?
+        /// The value for an AWS resource tag.
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the resource to apply the tag to.
+        public let resourceArn: String
+        /// The tags to apply.
+        public let tags: [TagListEntry]
+
+        public init(resourceArn: String, tags: [TagListEntry]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct TaskExecutionListEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "TaskExecutionArn", required: false, type: .string)
+        ]
+        /// The status of a task execution.
+        public let status: TaskExecutionStatus?
+        /// The Amazon Resource Name (ARN) of the task that was executed.
+        public let taskExecutionArn: String?
+
+        public init(status: TaskExecutionStatus? = nil, taskExecutionArn: String? = nil) {
+            self.status = status
+            self.taskExecutionArn = taskExecutionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case taskExecutionArn = "TaskExecutionArn"
+        }
+    }
+
+    public struct TaskExecutionResultDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorDetail", required: false, type: .string), 
+            AWSShapeMember(label: "PrepareDuration", required: false, type: .long), 
+            AWSShapeMember(label: "PrepareStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "TransferDuration", required: false, type: .long), 
+            AWSShapeMember(label: "TransferStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "VerifyDuration", required: false, type: .long), 
+            AWSShapeMember(label: "VerifyStatus", required: false, type: .enum)
+        ]
+        /// Errors that AWS DataSync encountered during execution of the task. You can use this error code to help troubleshoot issues.
+        public let errorCode: String?
+        /// Detailed description of an error that was encountered during the task execution. You can use this information to help troubleshoot issues. 
+        public let errorDetail: String?
+        /// The total time in milliseconds that AWS DataSync spent in the PREPARING phase. 
+        public let prepareDuration: Int64?
+        /// The status of the PREPARING phase.
+        public let prepareStatus: PhaseStatus?
+        /// The total time in milliseconds that AWS DataSync spent in the TRANSFERRING phase.
+        public let transferDuration: Int64?
+        /// The status of the TRANSFERRING Phase.
+        public let transferStatus: PhaseStatus?
+        /// The total time in milliseconds that AWS DataSync spent in the VERIFYING phase.
+        public let verifyDuration: Int64?
+        /// The status of the VERIFYING Phase.
+        public let verifyStatus: PhaseStatus?
+
+        public init(errorCode: String? = nil, errorDetail: String? = nil, prepareDuration: Int64? = nil, prepareStatus: PhaseStatus? = nil, transferDuration: Int64? = nil, transferStatus: PhaseStatus? = nil, verifyDuration: Int64? = nil, verifyStatus: PhaseStatus? = nil) {
+            self.errorCode = errorCode
+            self.errorDetail = errorDetail
+            self.prepareDuration = prepareDuration
+            self.prepareStatus = prepareStatus
+            self.transferDuration = transferDuration
+            self.transferStatus = transferStatus
+            self.verifyDuration = verifyDuration
+            self.verifyStatus = verifyStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorDetail = "ErrorDetail"
+            case prepareDuration = "PrepareDuration"
+            case prepareStatus = "PrepareStatus"
+            case transferDuration = "TransferDuration"
+            case transferStatus = "TransferStatus"
+            case verifyDuration = "VerifyDuration"
+            case verifyStatus = "VerifyStatus"
+        }
+    }
+
+    public enum TaskExecutionStatus: String, CustomStringConvertible, Codable {
+        case launching = "LAUNCHING"
+        case preparing = "PREPARING"
+        case transferring = "TRANSFERRING"
+        case verifying = "VERIFYING"
+        case success = "SUCCESS"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct TaskListEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "TaskArn", required: false, type: .string)
+        ]
+        /// The name of the task.
+        public let name: String?
+        /// The status of the task.
+        public let status: TaskStatus?
+        /// The Amazon Resource Name (ARN) of the task.
+        public let taskArn: String?
+
+        public init(name: String? = nil, status: TaskStatus? = nil, taskArn: String? = nil) {
+            self.name = name
+            self.status = status
+            self.taskArn = taskArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case status = "Status"
+            case taskArn = "TaskArn"
+        }
+    }
+
+    public enum TaskStatus: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case creating = "CREATING"
+        case running = "RUNNING"
+        case unavailable = "UNAVAILABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Uid: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case intValue = "INT_VALUE"
+        case name = "NAME"
+        case both = "BOTH"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Keys", required: true, type: .list), 
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
+        ]
+        /// The keys in the key-value pair in the tag to remove.
+        public let keys: [String]
+        /// The Amazon Resource Name (ARN) of the resource to remove the tag from.
+        public let resourceArn: String
+
+        public init(keys: [String], resourceArn: String) {
+            self.keys = keys
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keys = "Keys"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateAgentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AgentArn", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the agent to update.
+        public let agentArn: String
+        /// The name that you want to use to configure the agent.
+        public let name: String?
+
+        public init(agentArn: String, name: String? = nil) {
+            self.agentArn = agentArn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentArn = "AgentArn"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateAgentResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateTaskRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Options", required: false, type: .structure), 
+            AWSShapeMember(label: "TaskArn", required: true, type: .string)
+        ]
+        /// The name of the task to update.
+        public let name: String?
+        public let options: Options?
+        /// The Amazon Resource Name (ARN) of the resource name of the task to update.
+        public let taskArn: String
+
+        public init(name: String? = nil, options: Options? = nil, taskArn: String) {
+            self.name = name
+            self.options = options
+            self.taskArn = taskArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case options = "Options"
+            case taskArn = "TaskArn"
+        }
+    }
+
+    public struct UpdateTaskResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public enum VerifyMode: String, CustomStringConvertible, Codable {
+        case pointInTimeConsistent = "POINT_IN_TIME_CONSISTENT"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
     }
 
 }

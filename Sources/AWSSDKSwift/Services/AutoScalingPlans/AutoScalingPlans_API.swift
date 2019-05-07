@@ -26,9 +26,9 @@ public struct AutoScalingPlans {
         )
     }
 
-    ///  Describes one or more of your scaling plans.
-    public func describeScalingPlans(_ input: DescribeScalingPlansRequest) throws -> Future<DescribeScalingPlansResponse> {
-        return try client.send(operation: "DescribeScalingPlans", path: "/", httpMethod: "POST", input: input)
+    ///  Creates a scaling plan.
+    public func createScalingPlan(_ input: CreateScalingPlanRequest) throws -> Future<CreateScalingPlanResponse> {
+        return try client.send(operation: "CreateScalingPlan", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified scaling plan. Deleting a scaling plan deletes the underlying ScalingInstruction for all of the scalable resources that are covered by the plan. If the plan has launched resources or has scaling activities in progress, you must delete those resources separately.
@@ -36,24 +36,24 @@ public struct AutoScalingPlans {
         return try client.send(operation: "DeleteScalingPlan", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the specified scaling plan. You cannot update a scaling plan if it is in the process of being created, updated, or deleted.
-    public func updateScalingPlan(_ input: UpdateScalingPlanRequest) throws -> Future<UpdateScalingPlanResponse> {
-        return try client.send(operation: "UpdateScalingPlan", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Describes the scalable resources in the specified scaling plan.
     public func describeScalingPlanResources(_ input: DescribeScalingPlanResourcesRequest) throws -> Future<DescribeScalingPlanResourcesResponse> {
         return try client.send(operation: "DescribeScalingPlanResources", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a scaling plan.
-    public func createScalingPlan(_ input: CreateScalingPlanRequest) throws -> Future<CreateScalingPlanResponse> {
-        return try client.send(operation: "CreateScalingPlan", path: "/", httpMethod: "POST", input: input)
+    ///  Describes one or more of your scaling plans.
+    public func describeScalingPlans(_ input: DescribeScalingPlansRequest) throws -> Future<DescribeScalingPlansResponse> {
+        return try client.send(operation: "DescribeScalingPlans", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the forecast data for a scalable resource. Capacity forecasts are represented as predicted values, or data points, that are calculated using historical data points from a specified CloudWatch load metric. Data points are available for up to 56 days. 
     public func getScalingPlanResourceForecastData(_ input: GetScalingPlanResourceForecastDataRequest) throws -> Future<GetScalingPlanResourceForecastDataResponse> {
         return try client.send(operation: "GetScalingPlanResourceForecastData", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the specified scaling plan. You cannot update a scaling plan if it is in the process of being created, updated, or deleted.
+    public func updateScalingPlan(_ input: UpdateScalingPlanRequest) throws -> Future<UpdateScalingPlanResponse> {
+        return try client.send(operation: "UpdateScalingPlan", path: "/", httpMethod: "POST", input: input)
     }
 
 

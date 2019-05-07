@@ -4,9 +4,9 @@ import AWSSDKSwiftCore
 
 /// Error enum for EMR
 public enum EMRErrorType: AWSErrorType {
+    case internalServerError(message: String?)
     case internalServerException(message: String?)
     case invalidRequestException(message: String?)
-    case internalServerError(message: String?)
 }
 
 extension EMRErrorType {
@@ -16,12 +16,12 @@ extension EMRErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "InternalServerError":
+            self = .internalServerError(message: message)
         case "InternalServerException":
             self = .internalServerException(message: message)
         case "InvalidRequestException":
             self = .invalidRequestException(message: message)
-        case "InternalServerError":
-            self = .internalServerError(message: message)
         default:
             return nil
         }
