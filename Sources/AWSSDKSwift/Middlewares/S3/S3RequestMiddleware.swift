@@ -44,6 +44,11 @@ public struct S3RequestMiddleware: AWSRequestMiddleware {
             }
         }
 
+        if let data = try request.body.asData() {
+            let encoded = Data(md5(data)).base64EncodedString()
+            request.addValue(encoded, forHTTPHeaderField: "Content-MD5")
+        }
+        
         switch request.operation {
         case "CreateBucket":
             var xml = ""
@@ -54,11 +59,6 @@ public struct S3RequestMiddleware: AWSRequestMiddleware {
             xml += "</CreateBucketConfiguration>"
             request.body = .text(xml)
 
-        case "PutObject":
-            if let data = try request.body.asData() {
-                let encoded = Data(bytes: md5(data)).base64EncodedString()
-                request.addValue(encoded, forHTTPHeaderField: "Content-MD5")
-            }
         default:
             break
         }
