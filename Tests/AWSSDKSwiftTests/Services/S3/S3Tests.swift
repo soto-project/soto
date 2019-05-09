@@ -32,12 +32,12 @@ class S3Tests: XCTestCase {
 
     override func setUp() {
         let bucketRequest = S3.CreateBucketRequest(bucket: TestData.shared.bucket)
-        _ = try? client.createBucket(bucketRequest)
+        _ = try? client.createBucket(bucketRequest).wait()
     }
 
     override func tearDown() {
         let deleteRequest = S3.DeleteObjectRequest(bucket: TestData.shared.bucket, key: TestData.shared.key)
-        _ = try? client.deleteObject(deleteRequest)
+        _ = try? client.deleteObject(deleteRequest).wait()
     }
 
     func testPutObject() throws {
@@ -63,7 +63,7 @@ class S3Tests: XCTestCase {
             key: TestData.shared.key
         )
 
-        _ = try client.putObject(putRequest)
+        _ = try client.putObject(putRequest).wait()
         let object = try client.getObject(S3.GetObjectRequest(bucket: TestData.shared.bucket, key: "hello.txt")).wait()
         XCTAssertEqual(object.body, TestData.shared.bodyData)
     }
