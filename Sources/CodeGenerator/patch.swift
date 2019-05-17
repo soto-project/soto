@@ -16,10 +16,10 @@ let servicePatches : [String: [Patch]] = [
         Patch(operation:.add, entry:["shapes", "PropagateTags", "enum"], value:"NONE")
     ],
     "ELB" : [
-        //Patch(operation:.replace, entry:["shapes", "SecurityGroupOwnerAlias", "type"], value:"integer", originalValue:"string")
+        Patch(operation:.replace, entry:["shapes", "SecurityGroupOwnerAlias", "type"], value:"integer", originalValue:"string")
     ],
     "S3": [
-        //Patch(operation:.replace, entry:["shapes","ReplicationStatus","enum",0], value:"COMPLETED", originalValue:"COMPLETE"),
+        Patch(operation:.replace, entry:["shapes","ReplicationStatus","enum",0], value:"COMPLETED", originalValue:"COMPLETE"),
         Patch(operation:.replace, entry:["shapes","Size","type"], value:"long", originalValue:"integer")
     ]
 ]
