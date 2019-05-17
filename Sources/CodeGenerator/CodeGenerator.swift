@@ -62,7 +62,7 @@ extension ServiceProtocol {
     }
 }
 
-extension AWSSDKSwiftCore.Operation {
+extension Operation {
     func generateSwiftFunctionCode() -> String {
         var code = ""
 
