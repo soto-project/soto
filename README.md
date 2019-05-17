@@ -210,7 +210,7 @@ final class MyController {
 
           return try req.content.decode(EmailData.self).map { emailData in
               return emailData
-          }.then { emailData -> Future<SendEmailResponse> in
+          }.flatMap(to: HTTPStatus.self) { emailData -> Future<HTTPStatus> in
               do {
                   let client = SES(
                       accessKeyId: "Your-Access-Key",
@@ -223,12 +223,14 @@ final class MyController {
                       message: emailData.message
                   )
 
-                  return try client.sendEmail(sendEmailRequest).map { response -> HTTPResponseStatus in
-                      print(response)
+                  return try client.sendEmail(sendEmailRequest)
+                    .hopTo(eventLoop: req.eventLoop)
+                    .map { response -> HTTPResponseStatus in
+                      // print(response)
                       return HTTPStatus.ok
                   }
               } catch {
-                  print(error)
+                  // print(error)
                   return req.eventLoop.newSucceededFuture(result: HTTPStatus.internalServerError)
               }
           }
