@@ -82,7 +82,7 @@ class S3Tests: XCTestCase {
         let output = try client.listObjects(S3.ListObjectsRequest(bucket: TestData.shared.bucket)).wait()
         XCTAssertEqual(output.maxKeys, 1000)
         XCTAssertEqual(output.contents?.first?.key, TestData.shared.key)
-        XCTAssertEqual(output.contents?.first?.size, Int32(TestData.shared.bodyData.count))
+        XCTAssertEqual(output.contents?.first?.size, Int64(TestData.shared.bodyData.count))
         XCTAssertEqual(output.contents?.first?.eTag, putResult.eTag?.replacingOccurrences(of: "\"", with: ""))
     }
 

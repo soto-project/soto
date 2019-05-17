@@ -78,7 +78,7 @@ struct AWSService {
     }
 
     init(fromAPIJSON apiJSON: JSON, docJSON: JSON, endpointJSON: JSON) throws {
-        self.apiJSON = apiJSON
+        self.apiJSON = patch(apiJSON)
         self.docJSON = docJSON
         self.endpointJSON = endpointJSON
         self.shapes = try parseShapes()

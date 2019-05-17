@@ -1458,7 +1458,7 @@
     "SSLCertificateId":{"type":"string"},
     "SecurityGroupId":{"type":"string"},
     "SecurityGroupName":{"type":"string"},
-    "SecurityGroupOwnerAlias":{"type":"integer"},
+    "SecurityGroupOwnerAlias":{"type":"string"},
     "SecurityGroups":{
       "type":"list",
       "member":{"shape":"SecurityGroupId"}
