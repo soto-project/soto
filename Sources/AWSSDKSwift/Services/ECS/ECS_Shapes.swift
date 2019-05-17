@@ -2398,6 +2398,7 @@ extension ECS {
     public enum PropagateTags: String, CustomStringConvertible, Codable {
         case taskDefinition = "TASK_DEFINITION"
         case service = "SERVICE"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 

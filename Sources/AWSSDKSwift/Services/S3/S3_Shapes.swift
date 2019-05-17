@@ -4932,18 +4932,18 @@ extension S3 {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
             AWSShapeMember(label: "Owner", required: false, type: .structure), 
-            AWSShapeMember(label: "Size", required: false, type: .integer), 
+            AWSShapeMember(label: "Size", required: false, type: .long), 
             AWSShapeMember(label: "StorageClass", required: false, type: .enum)
         ]
         public let eTag: String?
         public let key: String?
         public let lastModified: TimeStamp?
         public let owner: Owner?
-        public let size: Int32?
+        public let size: Int64?
         /// The class of storage used to store the object.
         public let storageClass: ObjectStorageClass?
 
-        public init(eTag: String? = nil, key: String? = nil, lastModified: TimeStamp? = nil, owner: Owner? = nil, size: Int32? = nil, storageClass: ObjectStorageClass? = nil) {
+        public init(eTag: String? = nil, key: String? = nil, lastModified: TimeStamp? = nil, owner: Owner? = nil, size: Int64? = nil, storageClass: ObjectStorageClass? = nil) {
             self.eTag = eTag
             self.key = key
             self.lastModified = lastModified
@@ -5108,7 +5108,7 @@ extension S3 {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
             AWSShapeMember(label: "Owner", required: false, type: .structure), 
-            AWSShapeMember(label: "Size", required: false, type: .integer), 
+            AWSShapeMember(label: "Size", required: false, type: .long), 
             AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
             AWSShapeMember(label: "VersionId", required: false, type: .string)
         ]
@@ -5121,13 +5121,13 @@ extension S3 {
         public let lastModified: TimeStamp?
         public let owner: Owner?
         /// Size in bytes of the object.
-        public let size: Int32?
+        public let size: Int64?
         /// The class of storage used to store the object.
         public let storageClass: ObjectVersionStorageClass?
         /// Version ID of an object.
         public let versionId: String?
 
-        public init(eTag: String? = nil, isLatest: Bool? = nil, key: String? = nil, lastModified: TimeStamp? = nil, owner: Owner? = nil, size: Int32? = nil, storageClass: ObjectVersionStorageClass? = nil, versionId: String? = nil) {
+        public init(eTag: String? = nil, isLatest: Bool? = nil, key: String? = nil, lastModified: TimeStamp? = nil, owner: Owner? = nil, size: Int64? = nil, storageClass: ObjectVersionStorageClass? = nil, versionId: String? = nil) {
             self.eTag = eTag
             self.isLatest = isLatest
             self.key = key
@@ -5228,7 +5228,7 @@ extension S3 {
             AWSShapeMember(label: "ETag", required: false, type: .string), 
             AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
             AWSShapeMember(label: "PartNumber", required: false, type: .integer), 
-            AWSShapeMember(label: "Size", required: false, type: .integer)
+            AWSShapeMember(label: "Size", required: false, type: .long)
         ]
         /// Entity tag returned when the part was uploaded.
         public let eTag: String?
@@ -5237,9 +5237,9 @@ extension S3 {
         /// Part number identifying the part. This is a positive integer between 1 and 10,000.
         public let partNumber: Int32?
         /// Size in bytes of the uploaded part data.
-        public let size: Int32?
+        public let size: Int64?
 
-        public init(eTag: String? = nil, lastModified: TimeStamp? = nil, partNumber: Int32? = nil, size: Int32? = nil) {
+        public init(eTag: String? = nil, lastModified: TimeStamp? = nil, partNumber: Int32? = nil, size: Int64? = nil) {
             self.eTag = eTag
             self.lastModified = lastModified
             self.partNumber = partNumber
