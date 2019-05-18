@@ -26,5 +26,5 @@ install:
 
 script:
   - source scripts/install-swift.sh
-  - source scripts/help-travis-wait.sh& travis_wait 60 swift build
-  - if [ "${OS}" != "macos" ]; then swift test; fi
+  - source scripts/help-travis-wait.sh& travis_wait 60
+  - if [ "${OS}" != "macos" ]; then swift test; else swift build; fi

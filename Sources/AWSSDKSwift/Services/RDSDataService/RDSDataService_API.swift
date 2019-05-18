@@ -2,6 +2,7 @@
 
 import Foundation
 import AWSSDKSwiftCore
+import NIO
 
 /**
 AWS RDS DataService provides Http Endpoint to query RDS databases.
@@ -25,7 +26,7 @@ public struct RDSDataService {
     }
 
     ///  Executes any SQL statement on the target database synchronously
-    public func executeSql(_ input: ExecuteSqlRequest) throws -> ExecuteSqlResponse {
+    public func executeSql(_ input: ExecuteSqlRequest) throws -> Future<ExecuteSqlResponse> {
         return try client.send(operation: "ExecuteSql", path: "/ExecuteSql", httpMethod: "POST", input: input)
     }
 

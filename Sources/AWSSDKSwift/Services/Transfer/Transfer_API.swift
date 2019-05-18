@@ -2,6 +2,7 @@
 
 import Foundation
 import AWSSDKSwiftCore
+import NIO
 
 /**
 
@@ -26,12 +27,12 @@ public struct Transfer {
     }
 
     ///  Instantiates an autoscaling virtual server based on Secure File Transfer Protocol (SFTP) in AWS. The call returns the ServerId property assigned by the service to the newly created server. Reference this ServerId property when you make updates to your server, or work with users. The response returns the ServerId value for the newly created server.
-    public func createServer(_ input: CreateServerRequest) throws -> CreateServerResponse {
+    public func createServer(_ input: CreateServerRequest) throws -> Future<CreateServerResponse> {
         return try client.send(operation: "CreateServer", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds a user and associate them with an existing Secure File Transfer Protocol (SFTP) server. Using parameters for CreateUser, you can specify the user name, set the home directory, store the user's public key, and assign the user's AWS Identity and Access Management (IAM) role. You can also optionally add a scope-down policy, and assign metadata with tags that can be used to group and search for users. The response returns the UserName and ServerId values of the new user for that server.
-    public func createUser(_ input: CreateUserRequest) throws -> CreateUserResponse {
+    public func createUser(_ input: CreateUserRequest) throws -> Future<CreateUserResponse> {
         return try client.send(operation: "CreateUser", path: "/", httpMethod: "POST", input: input)
     }
 
@@ -51,32 +52,32 @@ public struct Transfer {
     }
 
     ///  Describes the server that you specify by passing the ServerId parameter. The response contains a description of the server's properties.
-    public func describeServer(_ input: DescribeServerRequest) throws -> DescribeServerResponse {
+    public func describeServer(_ input: DescribeServerRequest) throws -> Future<DescribeServerResponse> {
         return try client.send(operation: "DescribeServer", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the user assigned to a specific server, as identified by its ServerId property. The response from this call returns the properties of the user associated with the ServerId value that was specified.
-    public func describeUser(_ input: DescribeUserRequest) throws -> DescribeUserResponse {
+    public func describeUser(_ input: DescribeUserRequest) throws -> Future<DescribeUserResponse> {
         return try client.send(operation: "DescribeUser", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds a Secure Shell (SSH) public key to a user account identified by a UserName value assigned to a specific server, identified by ServerId. The response returns the UserName value, the ServerId value, and the name of the SshPublicKeyId.
-    public func importSshPublicKey(_ input: ImportSshPublicKeyRequest) throws -> ImportSshPublicKeyResponse {
+    public func importSshPublicKey(_ input: ImportSshPublicKeyRequest) throws -> Future<ImportSshPublicKeyResponse> {
         return try client.send(operation: "ImportSshPublicKey", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the Secure File Transfer Protocol (SFTP) servers that are associated with your AWS account.
-    public func listServers(_ input: ListServersRequest) throws -> ListServersResponse {
+    public func listServers(_ input: ListServersRequest) throws -> Future<ListServersResponse> {
         return try client.send(operation: "ListServers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all of the tags associated with the Amazon Resource Number (ARN) you specify. The resource can be a user, server, or role.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> ListTagsForResourceResponse {
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> Future<ListTagsForResourceResponse> {
         return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the users for the server that you specify by passing the ServerId parameter.
-    public func listUsers(_ input: ListUsersRequest) throws -> ListUsersResponse {
+    public func listUsers(_ input: ListUsersRequest) throws -> Future<ListUsersResponse> {
         return try client.send(operation: "ListUsers", path: "/", httpMethod: "POST", input: input)
     }
 
@@ -96,7 +97,7 @@ public struct Transfer {
     }
 
     ///  If the IdentityProviderType of the server is API_Gateway, tests whether your API Gateway is set up successfully. We highly recommend that you call this method to test your authentication method as soon as you create your server. By doing so, you can troubleshoot issues with the API Gateway integration to ensure that your users can successfully use the service.
-    public func testIdentityProvider(_ input: TestIdentityProviderRequest) throws -> TestIdentityProviderResponse {
+    public func testIdentityProvider(_ input: TestIdentityProviderRequest) throws -> Future<TestIdentityProviderResponse> {
         return try client.send(operation: "TestIdentityProvider", path: "/", httpMethod: "POST", input: input)
     }
 
@@ -106,12 +107,12 @@ public struct Transfer {
     }
 
     ///  Updates the server properties after that server has been created. The UpdateServer call returns the ServerId of the Secure File Transfer Protocol (SFTP) server you updated.
-    public func updateServer(_ input: UpdateServerRequest) throws -> UpdateServerResponse {
+    public func updateServer(_ input: UpdateServerRequest) throws -> Future<UpdateServerResponse> {
         return try client.send(operation: "UpdateServer", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Assigns new properties to a user. Parameters you pass modify any or all of the following: the home directory, role, and policy for the UserName and ServerId you specify. The response returns the ServerId and the UserName for the updated user.
-    public func updateUser(_ input: UpdateUserRequest) throws -> UpdateUserResponse {
+    public func updateUser(_ input: UpdateUserRequest) throws -> Future<UpdateUserResponse> {
         return try client.send(operation: "UpdateUser", path: "/", httpMethod: "POST", input: input)
     }
 

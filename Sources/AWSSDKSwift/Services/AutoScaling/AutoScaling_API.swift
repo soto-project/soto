@@ -2,6 +2,7 @@
 
 import Foundation
 import AWSSDKSwiftCore
+import NIO
 
 /**
 Amazon EC2 Auto Scaling Amazon EC2 Auto Scaling is designed to automatically launch or terminate EC2 instances based on user-defined policies, schedules, and health checks. Use this service with AWS Auto Scaling, Amazon CloudWatch, and Elastic Load Balancing. For more information, see the Amazon EC2 Auto Scaling User Guide.
@@ -30,27 +31,27 @@ public struct AutoScaling {
     }
 
     ///  Attaches one or more target groups to the specified Auto Scaling group. To describe the target groups for an Auto Scaling group, use DescribeLoadBalancerTargetGroups. To detach the target group from the Auto Scaling group, use DetachLoadBalancerTargetGroups. For more information, see Attach a Load Balancer to Your Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide.
-    public func attachLoadBalancerTargetGroups(_ input: AttachLoadBalancerTargetGroupsType) throws -> AttachLoadBalancerTargetGroupsResultType {
+    public func attachLoadBalancerTargetGroups(_ input: AttachLoadBalancerTargetGroupsType) throws -> Future<AttachLoadBalancerTargetGroupsResultType> {
         return try client.send(operation: "AttachLoadBalancerTargetGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Attaches one or more Classic Load Balancers to the specified Auto Scaling group. To attach an Application Load Balancer instead, see AttachLoadBalancerTargetGroups. To describe the load balancers for an Auto Scaling group, use DescribeLoadBalancers. To detach the load balancer from the Auto Scaling group, use DetachLoadBalancers. For more information, see Attach a Load Balancer to Your Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide.
-    public func attachLoadBalancers(_ input: AttachLoadBalancersType) throws -> AttachLoadBalancersResultType {
+    public func attachLoadBalancers(_ input: AttachLoadBalancersType) throws -> Future<AttachLoadBalancersResultType> {
         return try client.send(operation: "AttachLoadBalancers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes one or more scheduled actions for the specified Auto Scaling group.
-    public func batchDeleteScheduledAction(_ input: BatchDeleteScheduledActionType) throws -> BatchDeleteScheduledActionAnswer {
+    public func batchDeleteScheduledAction(_ input: BatchDeleteScheduledActionType) throws -> Future<BatchDeleteScheduledActionAnswer> {
         return try client.send(operation: "BatchDeleteScheduledAction", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates or updates one or more scheduled scaling actions for an Auto Scaling group. If you leave a parameter unspecified when updating a scheduled scaling action, the corresponding value remains unchanged.
-    public func batchPutScheduledUpdateGroupAction(_ input: BatchPutScheduledUpdateGroupActionType) throws -> BatchPutScheduledUpdateGroupActionAnswer {
+    public func batchPutScheduledUpdateGroupAction(_ input: BatchPutScheduledUpdateGroupActionType) throws -> Future<BatchPutScheduledUpdateGroupActionAnswer> {
         return try client.send(operation: "BatchPutScheduledUpdateGroupAction", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Completes the lifecycle action for the specified token or instance with the specified result. This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling group:   (Optional) Create a Lambda function and a rule that allows CloudWatch Events to invoke your Lambda function when Amazon EC2 Auto Scaling launches or terminates instances.   (Optional) Create a notification target and an IAM role. The target can be either an Amazon SQS queue or an Amazon SNS topic. The role allows Amazon EC2 Auto Scaling to publish lifecycle notifications to the target.   Create the lifecycle hook. Specify whether the hook is used when the instances launch or terminate.   If you need more time, record the lifecycle action heartbeat to keep the instance in a pending state.    If you finish before the timeout period ends, complete the lifecycle action.    For more information, see Auto Scaling Lifecycle in the Amazon EC2 Auto Scaling User Guide.
-    public func completeLifecycleAction(_ input: CompleteLifecycleActionType) throws -> CompleteLifecycleActionAnswer {
+    public func completeLifecycleAction(_ input: CompleteLifecycleActionType) throws -> Future<CompleteLifecycleActionAnswer> {
         return try client.send(operation: "CompleteLifecycleAction", path: "/", httpMethod: "POST", input: input)
     }
 
@@ -80,7 +81,7 @@ public struct AutoScaling {
     }
 
     ///  Deletes the specified lifecycle hook. If there are any outstanding lifecycle actions, they are completed first (ABANDON for launching instances, CONTINUE for terminating instances).
-    public func deleteLifecycleHook(_ input: DeleteLifecycleHookType) throws -> DeleteLifecycleHookAnswer {
+    public func deleteLifecycleHook(_ input: DeleteLifecycleHookType) throws -> Future<DeleteLifecycleHookAnswer> {
         return try client.send(operation: "DeleteLifecycleHook", path: "/", httpMethod: "POST", input: input)
     }
 
@@ -105,107 +106,107 @@ public struct AutoScaling {
     }
 
     ///  Describes the current Auto Scaling resource limits for your AWS account. For information about requesting an increase in these limits, see Auto Scaling Limits in the Amazon EC2 Auto Scaling User Guide.
-    public func describeAccountLimits() throws -> DescribeAccountLimitsAnswer {
+    public func describeAccountLimits() throws -> Future<DescribeAccountLimitsAnswer> {
         return try client.send(operation: "DescribeAccountLimits", path: "/", httpMethod: "POST")
     }
 
     ///  Describes the policy adjustment types for use with PutScalingPolicy.
-    public func describeAdjustmentTypes() throws -> DescribeAdjustmentTypesAnswer {
+    public func describeAdjustmentTypes() throws -> Future<DescribeAdjustmentTypesAnswer> {
         return try client.send(operation: "DescribeAdjustmentTypes", path: "/", httpMethod: "POST")
     }
 
     ///  Describes one or more Auto Scaling groups.
-    public func describeAutoScalingGroups(_ input: AutoScalingGroupNamesType) throws -> AutoScalingGroupsType {
+    public func describeAutoScalingGroups(_ input: AutoScalingGroupNamesType) throws -> Future<AutoScalingGroupsType> {
         return try client.send(operation: "DescribeAutoScalingGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more Auto Scaling instances.
-    public func describeAutoScalingInstances(_ input: DescribeAutoScalingInstancesType) throws -> AutoScalingInstancesType {
+    public func describeAutoScalingInstances(_ input: DescribeAutoScalingInstancesType) throws -> Future<AutoScalingInstancesType> {
         return try client.send(operation: "DescribeAutoScalingInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the notification types that are supported by Amazon EC2 Auto Scaling.
-    public func describeAutoScalingNotificationTypes() throws -> DescribeAutoScalingNotificationTypesAnswer {
+    public func describeAutoScalingNotificationTypes() throws -> Future<DescribeAutoScalingNotificationTypesAnswer> {
         return try client.send(operation: "DescribeAutoScalingNotificationTypes", path: "/", httpMethod: "POST")
     }
 
     ///  Describes one or more launch configurations.
-    public func describeLaunchConfigurations(_ input: LaunchConfigurationNamesType) throws -> LaunchConfigurationsType {
+    public func describeLaunchConfigurations(_ input: LaunchConfigurationNamesType) throws -> Future<LaunchConfigurationsType> {
         return try client.send(operation: "DescribeLaunchConfigurations", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the available types of lifecycle hooks. The following hook types are supported:   autoscaling:EC2_INSTANCE_LAUNCHING   autoscaling:EC2_INSTANCE_TERMINATING  
-    public func describeLifecycleHookTypes() throws -> DescribeLifecycleHookTypesAnswer {
+    public func describeLifecycleHookTypes() throws -> Future<DescribeLifecycleHookTypesAnswer> {
         return try client.send(operation: "DescribeLifecycleHookTypes", path: "/", httpMethod: "POST")
     }
 
     ///  Describes the lifecycle hooks for the specified Auto Scaling group.
-    public func describeLifecycleHooks(_ input: DescribeLifecycleHooksType) throws -> DescribeLifecycleHooksAnswer {
+    public func describeLifecycleHooks(_ input: DescribeLifecycleHooksType) throws -> Future<DescribeLifecycleHooksAnswer> {
         return try client.send(operation: "DescribeLifecycleHooks", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the target groups for the specified Auto Scaling group.
-    public func describeLoadBalancerTargetGroups(_ input: DescribeLoadBalancerTargetGroupsRequest) throws -> DescribeLoadBalancerTargetGroupsResponse {
+    public func describeLoadBalancerTargetGroups(_ input: DescribeLoadBalancerTargetGroupsRequest) throws -> Future<DescribeLoadBalancerTargetGroupsResponse> {
         return try client.send(operation: "DescribeLoadBalancerTargetGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the load balancers for the specified Auto Scaling group. This operation describes only Classic Load Balancers. If you have Application Load Balancers, use DescribeLoadBalancerTargetGroups instead.
-    public func describeLoadBalancers(_ input: DescribeLoadBalancersRequest) throws -> DescribeLoadBalancersResponse {
+    public func describeLoadBalancers(_ input: DescribeLoadBalancersRequest) throws -> Future<DescribeLoadBalancersResponse> {
         return try client.send(operation: "DescribeLoadBalancers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the available CloudWatch metrics for Amazon EC2 Auto Scaling. The GroupStandbyInstances metric is not returned by default. You must explicitly request this metric when calling EnableMetricsCollection.
-    public func describeMetricCollectionTypes() throws -> DescribeMetricCollectionTypesAnswer {
+    public func describeMetricCollectionTypes() throws -> Future<DescribeMetricCollectionTypesAnswer> {
         return try client.send(operation: "DescribeMetricCollectionTypes", path: "/", httpMethod: "POST")
     }
 
     ///  Describes the notification actions associated with the specified Auto Scaling group.
-    public func describeNotificationConfigurations(_ input: DescribeNotificationConfigurationsType) throws -> DescribeNotificationConfigurationsAnswer {
+    public func describeNotificationConfigurations(_ input: DescribeNotificationConfigurationsType) throws -> Future<DescribeNotificationConfigurationsAnswer> {
         return try client.send(operation: "DescribeNotificationConfigurations", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the policies for the specified Auto Scaling group.
-    public func describePolicies(_ input: DescribePoliciesType) throws -> PoliciesType {
+    public func describePolicies(_ input: DescribePoliciesType) throws -> Future<PoliciesType> {
         return try client.send(operation: "DescribePolicies", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more scaling activities for the specified Auto Scaling group.
-    public func describeScalingActivities(_ input: DescribeScalingActivitiesType) throws -> ActivitiesType {
+    public func describeScalingActivities(_ input: DescribeScalingActivitiesType) throws -> Future<ActivitiesType> {
         return try client.send(operation: "DescribeScalingActivities", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the scaling process types for use with ResumeProcesses and SuspendProcesses.
-    public func describeScalingProcessTypes() throws -> ProcessesType {
+    public func describeScalingProcessTypes() throws -> Future<ProcessesType> {
         return try client.send(operation: "DescribeScalingProcessTypes", path: "/", httpMethod: "POST")
     }
 
     ///  Describes the actions scheduled for your Auto Scaling group that haven't run. To describe the actions that have already run, use DescribeScalingActivities.
-    public func describeScheduledActions(_ input: DescribeScheduledActionsType) throws -> ScheduledActionsType {
+    public func describeScheduledActions(_ input: DescribeScheduledActionsType) throws -> Future<ScheduledActionsType> {
         return try client.send(operation: "DescribeScheduledActions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the specified tags. You can use filters to limit the results. For example, you can query for the tags for a specific Auto Scaling group. You can specify multiple values for a filter. A tag must match at least one of the specified values for it to be included in the results. You can also specify multiple filters. The result includes information for a particular tag only if it matches all the filters. If there's no match, no special message is returned.
-    public func describeTags(_ input: DescribeTagsType) throws -> TagsType {
+    public func describeTags(_ input: DescribeTagsType) throws -> Future<TagsType> {
         return try client.send(operation: "DescribeTags", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the termination policies supported by Amazon EC2 Auto Scaling. For more information, see Controlling Which Auto Scaling Instances Terminate During Scale In in the Amazon EC2 Auto Scaling User Guide.
-    public func describeTerminationPolicyTypes() throws -> DescribeTerminationPolicyTypesAnswer {
+    public func describeTerminationPolicyTypes() throws -> Future<DescribeTerminationPolicyTypesAnswer> {
         return try client.send(operation: "DescribeTerminationPolicyTypes", path: "/", httpMethod: "POST")
     }
 
     ///  Removes one or more instances from the specified Auto Scaling group. After the instances are detached, you can manage them independent of the Auto Scaling group. If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto Scaling launches instances to replace the ones that are detached. If there is a Classic Load Balancer attached to the Auto Scaling group, the instances are deregistered from the load balancer. If there are target groups attached to the Auto Scaling group, the instances are deregistered from the target groups. For more information, see Detach EC2 Instances from Your Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide.
-    public func detachInstances(_ input: DetachInstancesQuery) throws -> DetachInstancesAnswer {
+    public func detachInstances(_ input: DetachInstancesQuery) throws -> Future<DetachInstancesAnswer> {
         return try client.send(operation: "DetachInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Detaches one or more target groups from the specified Auto Scaling group.
-    public func detachLoadBalancerTargetGroups(_ input: DetachLoadBalancerTargetGroupsType) throws -> DetachLoadBalancerTargetGroupsResultType {
+    public func detachLoadBalancerTargetGroups(_ input: DetachLoadBalancerTargetGroupsType) throws -> Future<DetachLoadBalancerTargetGroupsResultType> {
         return try client.send(operation: "DetachLoadBalancerTargetGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Detaches one or more Classic Load Balancers from the specified Auto Scaling group. This operation detaches only Classic Load Balancers. If you have Application Load Balancers, use DetachLoadBalancerTargetGroups instead. When you detach a load balancer, it enters the Removing state while deregistering the instances in the group. When all instances are deregistered, then you can no longer describe the load balancer using DescribeLoadBalancers. The instances remain running.
-    public func detachLoadBalancers(_ input: DetachLoadBalancersType) throws -> DetachLoadBalancersResultType {
+    public func detachLoadBalancers(_ input: DetachLoadBalancersType) throws -> Future<DetachLoadBalancersResultType> {
         return try client.send(operation: "DetachLoadBalancers", path: "/", httpMethod: "POST", input: input)
     }
 
@@ -220,7 +221,7 @@ public struct AutoScaling {
     }
 
     ///  Moves the specified instances into the standby state. For more information, see Temporarily Removing Instances from Your Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide.
-    public func enterStandby(_ input: EnterStandbyQuery) throws -> EnterStandbyAnswer {
+    public func enterStandby(_ input: EnterStandbyQuery) throws -> Future<EnterStandbyAnswer> {
         return try client.send(operation: "EnterStandby", path: "/", httpMethod: "POST", input: input)
     }
 
@@ -230,12 +231,12 @@ public struct AutoScaling {
     }
 
     ///  Moves the specified instances out of the standby state. For more information, see Temporarily Removing Instances from Your Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide.
-    public func exitStandby(_ input: ExitStandbyQuery) throws -> ExitStandbyAnswer {
+    public func exitStandby(_ input: ExitStandbyQuery) throws -> Future<ExitStandbyAnswer> {
         return try client.send(operation: "ExitStandby", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates or updates a lifecycle hook for the specified Auto Scaling group. A lifecycle hook tells Amazon EC2 Auto Scaling to perform an action on an instance that is not actively in service; for example, either when the instance launches or before the instance terminates. This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling group:   (Optional) Create a Lambda function and a rule that allows CloudWatch Events to invoke your Lambda function when Amazon EC2 Auto Scaling launches or terminates instances.   (Optional) Create a notification target and an IAM role. The target can be either an Amazon SQS queue or an Amazon SNS topic. The role allows Amazon EC2 Auto Scaling to publish lifecycle notifications to the target.    Create the lifecycle hook. Specify whether the hook is used when the instances launch or terminate.    If you need more time, record the lifecycle action heartbeat to keep the instance in a pending state.   If you finish before the timeout period ends, complete the lifecycle action.   For more information, see Auto Scaling Lifecycle Hooks in the Amazon EC2 Auto Scaling User Guide. If you exceed your maximum limit of lifecycle hooks, which by default is 50 per Auto Scaling group, the call fails. For information about updating this limit, see AWS Service Limits in the Amazon Web Services General Reference.
-    public func putLifecycleHook(_ input: PutLifecycleHookType) throws -> PutLifecycleHookAnswer {
+    public func putLifecycleHook(_ input: PutLifecycleHookType) throws -> Future<PutLifecycleHookAnswer> {
         return try client.send(operation: "PutLifecycleHook", path: "/", httpMethod: "POST", input: input)
     }
 
@@ -245,7 +246,7 @@ public struct AutoScaling {
     }
 
     ///  Creates or updates a policy for an Auto Scaling group. To update an existing policy, use the existing policy name and set the parameters to change. Any existing parameter not changed in an update to an existing policy is not changed in this update request. If you exceed your maximum limit of step adjustments, which by default is 20 per region, the call fails. For information about updating this limit, see AWS Service Limits in the Amazon Web Services General Reference.
-    public func putScalingPolicy(_ input: PutScalingPolicyType) throws -> PolicyARNType {
+    public func putScalingPolicy(_ input: PutScalingPolicyType) throws -> Future<PolicyARNType> {
         return try client.send(operation: "PutScalingPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
@@ -255,7 +256,7 @@ public struct AutoScaling {
     }
 
     ///  Records a heartbeat for the lifecycle action associated with the specified token or instance. This extends the timeout by the length of time defined using PutLifecycleHook. This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling group:   (Optional) Create a Lambda function and a rule that allows CloudWatch Events to invoke your Lambda function when Amazon EC2 Auto Scaling launches or terminates instances.   (Optional) Create a notification target and an IAM role. The target can be either an Amazon SQS queue or an Amazon SNS topic. The role allows Amazon EC2 Auto Scaling to publish lifecycle notifications to the target.   Create the lifecycle hook. Specify whether the hook is used when the instances launch or terminate.    If you need more time, record the lifecycle action heartbeat to keep the instance in a pending state.    If you finish before the timeout period ends, complete the lifecycle action.   For more information, see Auto Scaling Lifecycle in the Amazon EC2 Auto Scaling User Guide.
-    public func recordLifecycleActionHeartbeat(_ input: RecordLifecycleActionHeartbeatType) throws -> RecordLifecycleActionHeartbeatAnswer {
+    public func recordLifecycleActionHeartbeat(_ input: RecordLifecycleActionHeartbeatType) throws -> Future<RecordLifecycleActionHeartbeatAnswer> {
         return try client.send(operation: "RecordLifecycleActionHeartbeat", path: "/", httpMethod: "POST", input: input)
     }
 
@@ -275,7 +276,7 @@ public struct AutoScaling {
     }
 
     ///  Updates the instance protection settings of the specified instances. For more information, see Instance Protection in the Amazon EC2 Auto Scaling User Guide.
-    public func setInstanceProtection(_ input: SetInstanceProtectionQuery) throws -> SetInstanceProtectionAnswer {
+    public func setInstanceProtection(_ input: SetInstanceProtectionQuery) throws -> Future<SetInstanceProtectionAnswer> {
         return try client.send(operation: "SetInstanceProtection", path: "/", httpMethod: "POST", input: input)
     }
 
@@ -285,7 +286,7 @@ public struct AutoScaling {
     }
 
     ///  Terminates the specified instance and optionally adjusts the desired group size. This call simply makes a termination request. The instance is not terminated immediately.
-    public func terminateInstanceInAutoScalingGroup(_ input: TerminateInstanceInAutoScalingGroupType) throws -> ActivityType {
+    public func terminateInstanceInAutoScalingGroup(_ input: TerminateInstanceInAutoScalingGroupType) throws -> Future<ActivityType> {
         return try client.send(operation: "TerminateInstanceInAutoScalingGroup", path: "/", httpMethod: "POST", input: input)
     }
 

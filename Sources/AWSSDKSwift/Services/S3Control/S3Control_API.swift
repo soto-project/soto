@@ -2,6 +2,7 @@
 
 import Foundation
 import AWSSDKSwiftCore
+import NIO
 
 /**
  AWS S3 Control provides access to Amazon S3 control plane operations. 
@@ -31,7 +32,7 @@ public struct S3Control {
     }
 
     ///  Retrieves the Public Access Block configuration for an Amazon Web Services account.
-    public func getPublicAccessBlock(_ input: GetPublicAccessBlockRequest) throws -> GetPublicAccessBlockOutput {
+    public func getPublicAccessBlock(_ input: GetPublicAccessBlockRequest) throws -> Future<GetPublicAccessBlockOutput> {
         return try client.send(operation: "GetPublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "GET", input: input)
     }
 

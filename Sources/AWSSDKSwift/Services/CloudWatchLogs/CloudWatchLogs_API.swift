@@ -2,6 +2,7 @@
 
 import Foundation
 import AWSSDKSwiftCore
+import NIO
 
 /**
 You can use Amazon CloudWatch Logs to monitor, store, and access your log files from Amazon EC2 instances, AWS CloudTrail, or other sources. You can then retrieve the associated log data from CloudWatch Logs using the CloudWatch console, CloudWatch Logs commands in the AWS CLI, CloudWatch Logs API, or CloudWatch Logs SDK. You can use CloudWatch Logs to:    Monitor logs from EC2 instances in real-time: You can use CloudWatch Logs to monitor applications and systems using log data. For example, CloudWatch Logs can track the number of errors that occur in your application logs and send you a notification whenever the rate of errors exceeds a threshold that you specify. CloudWatch Logs uses your log data for monitoring; so, no code changes are required. For example, you can monitor application logs for specific literal terms (such as "NullReferenceException") or count the number of occurrences of a literal term at a particular position in log data (such as "404" status codes in an Apache access log). When the term you are searching for is found, CloudWatch Logs reports the data to a CloudWatch metric that you specify.    Monitor AWS CloudTrail logged events: You can create alarms in CloudWatch and receive notifications of particular API activity as captured by CloudTrail and use the notification to perform troubleshooting.    Archive log data: You can use CloudWatch Logs to store your log data in highly durable storage. You can change the log retention setting so that any log events older than this setting are automatically deleted. The CloudWatch Logs agent makes it easy to quickly send both rotated and non-rotated log data off of a host and into the log service. You can then access the raw log data when you need it.  
@@ -36,7 +37,7 @@ public struct CloudWatchLogs {
     }
 
     ///  Creates an export task, which allows you to efficiently export data from a log group to an Amazon S3 bucket. This is an asynchronous call. If all the required information is provided, this operation initiates an export task and responds with the ID of the task. After the task has started, you can use DescribeExportTasks to get the status of the export task. Each account can only have one active (RUNNING or PENDING) export task at a time. To cancel an export task, use CancelExportTask. You can export logs from multiple log groups or multiple time ranges to the same S3 bucket. To separate out log data for each export task, you can specify a prefix to be used as the Amazon S3 key prefix for all exported objects.
-    public func createExportTask(_ input: CreateExportTaskRequest) throws -> CreateExportTaskResponse {
+    public func createExportTask(_ input: CreateExportTaskRequest) throws -> Future<CreateExportTaskResponse> {
         return try client.send(operation: "CreateExportTask", path: "/", httpMethod: "POST", input: input)
     }
 
@@ -86,42 +87,42 @@ public struct CloudWatchLogs {
     }
 
     ///  Lists all your destinations. The results are ASCII-sorted by destination name.
-    public func describeDestinations(_ input: DescribeDestinationsRequest) throws -> DescribeDestinationsResponse {
+    public func describeDestinations(_ input: DescribeDestinationsRequest) throws -> Future<DescribeDestinationsResponse> {
         return try client.send(operation: "DescribeDestinations", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the specified export tasks. You can list all your export tasks or filter the results based on task ID or task status.
-    public func describeExportTasks(_ input: DescribeExportTasksRequest) throws -> DescribeExportTasksResponse {
+    public func describeExportTasks(_ input: DescribeExportTasksRequest) throws -> Future<DescribeExportTasksResponse> {
         return try client.send(operation: "DescribeExportTasks", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the specified log groups. You can list all your log groups or filter the results by prefix. The results are ASCII-sorted by log group name.
-    public func describeLogGroups(_ input: DescribeLogGroupsRequest) throws -> DescribeLogGroupsResponse {
+    public func describeLogGroups(_ input: DescribeLogGroupsRequest) throws -> Future<DescribeLogGroupsResponse> {
         return try client.send(operation: "DescribeLogGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the log streams for the specified log group. You can list all the log streams or filter the results by prefix. You can also control how the results are ordered. This operation has a limit of five transactions per second, after which transactions are throttled.
-    public func describeLogStreams(_ input: DescribeLogStreamsRequest) throws -> DescribeLogStreamsResponse {
+    public func describeLogStreams(_ input: DescribeLogStreamsRequest) throws -> Future<DescribeLogStreamsResponse> {
         return try client.send(operation: "DescribeLogStreams", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the specified metric filters. You can list all the metric filters or filter the results by log name, prefix, metric name, or metric namespace. The results are ASCII-sorted by filter name.
-    public func describeMetricFilters(_ input: DescribeMetricFiltersRequest) throws -> DescribeMetricFiltersResponse {
+    public func describeMetricFilters(_ input: DescribeMetricFiltersRequest) throws -> Future<DescribeMetricFiltersResponse> {
         return try client.send(operation: "DescribeMetricFilters", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of CloudWatch Logs Insights queries that are scheduled, executing, or have been executed recently in this account. You can request all queries, or limit it to queries of a specific log group or queries with a certain status.
-    public func describeQueries(_ input: DescribeQueriesRequest) throws -> DescribeQueriesResponse {
+    public func describeQueries(_ input: DescribeQueriesRequest) throws -> Future<DescribeQueriesResponse> {
         return try client.send(operation: "DescribeQueries", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the resource policies in this account.
-    public func describeResourcePolicies(_ input: DescribeResourcePoliciesRequest) throws -> DescribeResourcePoliciesResponse {
+    public func describeResourcePolicies(_ input: DescribeResourcePoliciesRequest) throws -> Future<DescribeResourcePoliciesResponse> {
         return try client.send(operation: "DescribeResourcePolicies", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the subscription filters for the specified log group. You can list all the subscription filters or filter the results by prefix. The results are ASCII-sorted by filter name.
-    public func describeSubscriptionFilters(_ input: DescribeSubscriptionFiltersRequest) throws -> DescribeSubscriptionFiltersResponse {
+    public func describeSubscriptionFilters(_ input: DescribeSubscriptionFiltersRequest) throws -> Future<DescribeSubscriptionFiltersResponse> {
         return try client.send(operation: "DescribeSubscriptionFilters", path: "/", httpMethod: "POST", input: input)
     }
 
@@ -131,37 +132,37 @@ public struct CloudWatchLogs {
     }
 
     ///  Lists log events from the specified log group. You can list all the log events or filter the results using a filter pattern, a time range, and the name of the log stream. By default, this operation returns as many log events as can fit in 1 MB (up to 10,000 log events), or all the events found within the time range that you specify. If the results include a token, then there are more log events available, and you can get additional results by specifying the token in a subsequent call.
-    public func filterLogEvents(_ input: FilterLogEventsRequest) throws -> FilterLogEventsResponse {
+    public func filterLogEvents(_ input: FilterLogEventsRequest) throws -> Future<FilterLogEventsResponse> {
         return try client.send(operation: "FilterLogEvents", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists log events from the specified log stream. You can list all the log events or filter using a time range. By default, this operation returns as many log events as can fit in a response size of 1MB (up to 10,000 log events). You can get additional log events by specifying one of the tokens in a subsequent call.
-    public func getLogEvents(_ input: GetLogEventsRequest) throws -> GetLogEventsResponse {
+    public func getLogEvents(_ input: GetLogEventsRequest) throws -> Future<GetLogEventsResponse> {
         return try client.send(operation: "GetLogEvents", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of the fields that are included in log events in the specified log group, along with the percentage of log events that contain each field. The search is limited to a time period that you specify. In the results, fields that start with @ are fields generated by CloudWatch Logs. For example, @timestamp is the timestamp of each log event. The response results are sorted by the frequency percentage, starting with the highest percentage.
-    public func getLogGroupFields(_ input: GetLogGroupFieldsRequest) throws -> GetLogGroupFieldsResponse {
+    public func getLogGroupFields(_ input: GetLogGroupFieldsRequest) throws -> Future<GetLogGroupFieldsResponse> {
         return try client.send(operation: "GetLogGroupFields", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves all the fields and values of a single log event. All fields are retrieved, even if the original query that produced the logRecordPointer retrieved only a subset of fields. Fields are returned as field name/field value pairs. Additionally, the entire unparsed log event is returned within @message.
-    public func getLogRecord(_ input: GetLogRecordRequest) throws -> GetLogRecordResponse {
+    public func getLogRecord(_ input: GetLogRecordRequest) throws -> Future<GetLogRecordResponse> {
         return try client.send(operation: "GetLogRecord", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the results from the specified query. If the query is in progress, partial results of that current execution are returned. Only the fields requested in the query are returned.  GetQueryResults does not start a query execution. To run a query, use .
-    public func getQueryResults(_ input: GetQueryResultsRequest) throws -> GetQueryResultsResponse {
+    public func getQueryResults(_ input: GetQueryResultsRequest) throws -> Future<GetQueryResultsResponse> {
         return try client.send(operation: "GetQueryResults", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the tags for the specified log group.
-    public func listTagsLogGroup(_ input: ListTagsLogGroupRequest) throws -> ListTagsLogGroupResponse {
+    public func listTagsLogGroup(_ input: ListTagsLogGroupRequest) throws -> Future<ListTagsLogGroupResponse> {
         return try client.send(operation: "ListTagsLogGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates or updates a destination. A destination encapsulates a physical resource (such as an Amazon Kinesis stream) and enables you to subscribe to a real-time stream of log events for a different account, ingested using PutLogEvents. Currently, the only supported physical resource is a Kinesis stream belonging to the same account as the destination. Through an access policy, a destination controls what is written to its Kinesis stream. By default, PutDestination does not set any access policy with the destination, which means a cross-account user cannot call PutSubscriptionFilter against this destination. To enable this, the destination owner must call PutDestinationPolicy after PutDestination.
-    public func putDestination(_ input: PutDestinationRequest) throws -> PutDestinationResponse {
+    public func putDestination(_ input: PutDestinationRequest) throws -> Future<PutDestinationResponse> {
         return try client.send(operation: "PutDestination", path: "/", httpMethod: "POST", input: input)
     }
 
@@ -171,7 +172,7 @@ public struct CloudWatchLogs {
     }
 
     ///  Uploads a batch of log events to the specified log stream. You must include the sequence token obtained from the response of the previous call. An upload in a newly created log stream does not require a sequence token. You can also get the sequence token using DescribeLogStreams. If you call PutLogEvents twice within a narrow time period using the same value for sequenceToken, both calls may be successful, or one may be rejected. The batch of events must satisfy the following constraints:   The maximum batch size is 1,048,576 bytes, and this size is calculated as the sum of all event messages in UTF-8, plus 26 bytes for each log event.   None of the log events in the batch can be more than 2 hours in the future.   None of the log events in the batch can be older than 14 days or the retention period of the log group.   The log events in the batch must be in chronological ordered by their timestamp. The timestamp is the time the event occurred, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. (In AWS Tools for PowerShell and the AWS SDK for .NET, the timestamp is specified in .NET format: yyyy-mm-ddThh:mm:ss. For example, 2017-09-15T13:45:30.)    The maximum number of log events in a batch is 10,000.   A batch of log events in a single request cannot span more than 24 hours. Otherwise, the operation fails.   If a call to PutLogEvents returns "UnrecognizedClientException" the most likely cause is an invalid AWS access key ID or secret key. 
-    public func putLogEvents(_ input: PutLogEventsRequest) throws -> PutLogEventsResponse {
+    public func putLogEvents(_ input: PutLogEventsRequest) throws -> Future<PutLogEventsResponse> {
         return try client.send(operation: "PutLogEvents", path: "/", httpMethod: "POST", input: input)
     }
 
@@ -181,7 +182,7 @@ public struct CloudWatchLogs {
     }
 
     ///  Creates or updates a resource policy allowing other AWS services to put log events to this account, such as Amazon Route 53. An account can have up to 10 resource policies per region.
-    public func putResourcePolicy(_ input: PutResourcePolicyRequest) throws -> PutResourcePolicyResponse {
+    public func putResourcePolicy(_ input: PutResourcePolicyRequest) throws -> Future<PutResourcePolicyResponse> {
         return try client.send(operation: "PutResourcePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
@@ -196,12 +197,12 @@ public struct CloudWatchLogs {
     }
 
     ///  Schedules a query of a log group using CloudWatch Logs Insights. You specify the log group to query, the query string to use, and the time to query. For more information, see CloudWatch Logs Insights Query Syntax.
-    public func startQuery(_ input: StartQueryRequest) throws -> StartQueryResponse {
+    public func startQuery(_ input: StartQueryRequest) throws -> Future<StartQueryResponse> {
         return try client.send(operation: "StartQuery", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops a CloudWatch Logs Insights query that is in progress. If the query has already ended, the operation returns an error indicating that the specified query is not running.
-    public func stopQuery(_ input: StopQueryRequest) throws -> StopQueryResponse {
+    public func stopQuery(_ input: StopQueryRequest) throws -> Future<StopQueryResponse> {
         return try client.send(operation: "StopQuery", path: "/", httpMethod: "POST", input: input)
     }
 
@@ -211,7 +212,7 @@ public struct CloudWatchLogs {
     }
 
     ///  Tests the filter pattern of a metric filter against a sample of log event messages. You can use this operation to validate the correctness of a metric filter pattern.
-    public func testMetricFilter(_ input: TestMetricFilterRequest) throws -> TestMetricFilterResponse {
+    public func testMetricFilter(_ input: TestMetricFilterRequest) throws -> Future<TestMetricFilterResponse> {
         return try client.send(operation: "TestMetricFilter", path: "/", httpMethod: "POST", input: input)
     }
 

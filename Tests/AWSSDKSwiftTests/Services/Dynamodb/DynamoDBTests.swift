@@ -44,7 +44,7 @@ class DynamoDBTests: XCTestCase {
             provisionedThroughput: DynamoDB.ProvisionedThroughput(readCapacityUnits: 10, writeCapacityUnits: 10),
             tableName: tableName
         )
-        _ = try client.createTable(createTableInput)
+        _ = try client.createTable(createTableInput).wait()
 
         let putItemInput = DynamoDB.PutItemInput(
             item: [
@@ -53,13 +53,13 @@ class DynamoDBTests: XCTestCase {
             ],
             tableName: tableName
         )
-        _ = try client.putItem(putItemInput)
+        _ = try client.putItem(putItemInput).wait()
     }
 
     override func tearDown() {
         do {
             let input = DynamoDB.DeleteTableInput(tableName: tableName)
-            _ = try client.deleteTable(input)
+            _ = try client.deleteTable(input).wait()
         } catch {
             print(error)
         }
@@ -76,7 +76,7 @@ class DynamoDBTests: XCTestCase {
                 tableName: tableName
             )
 
-            let output = try client.getItem(input)
+            let output = try client.getItem(input).wait()
             XCTAssertEqual(output.item?["hashKey"]?.s, "hello")
             XCTAssertEqual(output.item?["rangeKey"]?.s, "world")
         } catch {

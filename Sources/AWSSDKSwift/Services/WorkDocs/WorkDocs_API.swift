@@ -2,6 +2,7 @@
 
 import Foundation
 import AWSSDKSwiftCore
+import NIO
 
 /**
 The WorkDocs API is designed for the following use cases:   File Migration: File migration applications are supported for users who want to migrate their files from an on-premises or off-premises file system or service. Users can insert files into a user directory structure, as well as allow for basic metadata changes, such as modifications to the permissions of files.   Security: Support security applications are supported for users who have additional security needs, such as antivirus or data loss prevention. The API actions, along with AWS CloudTrail, allow these applications to detect when changes occur in Amazon WorkDocs. Then, the application can take the necessary actions and replace the target file. If the target file violates the policy, the application can also choose to email the user.   eDiscovery/Analytics: General administrative applications are supported, such as eDiscovery and analytics. These applications can choose to mimic or record the actions in an Amazon WorkDocs site, along with AWS CloudTrail, to replicate data for eDiscovery, backup, or analytical applications.   All Amazon WorkDocs API actions are Amazon authenticated and certificate-signed. They not only require the use of the AWS SDK, but also allow for the exclusive use of IAM users and roles to help facilitate access, trust, and permission policies. By creating a role and allowing an IAM user to access the Amazon WorkDocs site, the IAM user gains full administrative visibility into the entire Amazon WorkDocs site (or as set in the IAM policy). This includes, but is not limited to, the ability to modify file permissions and upload any file to any user. This allows developers to perform the three use cases above, as well as give users the ability to grant access on a selective basis using the IAM model.
@@ -30,42 +31,42 @@ public struct WorkDocs {
     }
 
     ///  Activates the specified user. Only active users can access Amazon WorkDocs.
-    public func activateUser(_ input: ActivateUserRequest) throws -> ActivateUserResponse {
+    public func activateUser(_ input: ActivateUserRequest) throws -> Future<ActivateUserResponse> {
         return try client.send(operation: "ActivateUser", path: "/api/v1/users/{UserId}/activation", httpMethod: "POST", input: input)
     }
 
     ///  Creates a set of permissions for the specified folder or document. The resource permissions are overwritten if the principals already have different permissions.
-    public func addResourcePermissions(_ input: AddResourcePermissionsRequest) throws -> AddResourcePermissionsResponse {
+    public func addResourcePermissions(_ input: AddResourcePermissionsRequest) throws -> Future<AddResourcePermissionsResponse> {
         return try client.send(operation: "AddResourcePermissions", path: "/api/v1/resources/{ResourceId}/permissions", httpMethod: "POST", input: input)
     }
 
     ///  Adds a new comment to the specified document version.
-    public func createComment(_ input: CreateCommentRequest) throws -> CreateCommentResponse {
+    public func createComment(_ input: CreateCommentRequest) throws -> Future<CreateCommentResponse> {
         return try client.send(operation: "CreateComment", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}/comment", httpMethod: "POST", input: input)
     }
 
     ///  Adds one or more custom properties to the specified resource (a folder, document, or version).
-    public func createCustomMetadata(_ input: CreateCustomMetadataRequest) throws -> CreateCustomMetadataResponse {
+    public func createCustomMetadata(_ input: CreateCustomMetadataRequest) throws -> Future<CreateCustomMetadataResponse> {
         return try client.send(operation: "CreateCustomMetadata", path: "/api/v1/resources/{ResourceId}/customMetadata", httpMethod: "PUT", input: input)
     }
 
     ///  Creates a folder with the specified name and parent folder.
-    public func createFolder(_ input: CreateFolderRequest) throws -> CreateFolderResponse {
+    public func createFolder(_ input: CreateFolderRequest) throws -> Future<CreateFolderResponse> {
         return try client.send(operation: "CreateFolder", path: "/api/v1/folders", httpMethod: "POST", input: input)
     }
 
     ///  Adds the specified list of labels to the given resource (a document or folder)
-    public func createLabels(_ input: CreateLabelsRequest) throws -> CreateLabelsResponse {
+    public func createLabels(_ input: CreateLabelsRequest) throws -> Future<CreateLabelsResponse> {
         return try client.send(operation: "CreateLabels", path: "/api/v1/resources/{ResourceId}/labels", httpMethod: "PUT", input: input)
     }
 
     ///  Configure Amazon WorkDocs to use Amazon SNS notifications. The endpoint receives a confirmation message, and must confirm the subscription. For more information, see Subscribe to Notifications in the Amazon WorkDocs Developer Guide.
-    public func createNotificationSubscription(_ input: CreateNotificationSubscriptionRequest) throws -> CreateNotificationSubscriptionResponse {
+    public func createNotificationSubscription(_ input: CreateNotificationSubscriptionRequest) throws -> Future<CreateNotificationSubscriptionResponse> {
         return try client.send(operation: "CreateNotificationSubscription", path: "/api/v1/organizations/{OrganizationId}/subscriptions", httpMethod: "POST", input: input)
     }
 
     ///  Creates a user in a Simple AD or Microsoft AD directory. The status of a newly created user is "ACTIVE". New users can access Amazon WorkDocs.
-    public func createUser(_ input: CreateUserRequest) throws -> CreateUserResponse {
+    public func createUser(_ input: CreateUserRequest) throws -> Future<CreateUserResponse> {
         return try client.send(operation: "CreateUser", path: "/api/v1/users", httpMethod: "POST", input: input)
     }
 
@@ -80,7 +81,7 @@ public struct WorkDocs {
     }
 
     ///  Deletes custom metadata from the specified resource.
-    public func deleteCustomMetadata(_ input: DeleteCustomMetadataRequest) throws -> DeleteCustomMetadataResponse {
+    public func deleteCustomMetadata(_ input: DeleteCustomMetadataRequest) throws -> Future<DeleteCustomMetadataResponse> {
         return try client.send(operation: "DeleteCustomMetadata", path: "/api/v1/resources/{ResourceId}/customMetadata", httpMethod: "DELETE", input: input)
     }
 
@@ -100,7 +101,7 @@ public struct WorkDocs {
     }
 
     ///  Deletes the specified list of labels from a resource.
-    public func deleteLabels(_ input: DeleteLabelsRequest) throws -> DeleteLabelsResponse {
+    public func deleteLabels(_ input: DeleteLabelsRequest) throws -> Future<DeleteLabelsResponse> {
         return try client.send(operation: "DeleteLabels", path: "/api/v1/resources/{ResourceId}/labels", httpMethod: "DELETE", input: input)
     }
 
@@ -115,87 +116,87 @@ public struct WorkDocs {
     }
 
     ///  Describes the user activities in a specified time period.
-    public func describeActivities(_ input: DescribeActivitiesRequest) throws -> DescribeActivitiesResponse {
+    public func describeActivities(_ input: DescribeActivitiesRequest) throws -> Future<DescribeActivitiesResponse> {
         return try client.send(operation: "DescribeActivities", path: "/api/v1/activities", httpMethod: "GET", input: input)
     }
 
     ///  List all the comments for the specified document version.
-    public func describeComments(_ input: DescribeCommentsRequest) throws -> DescribeCommentsResponse {
+    public func describeComments(_ input: DescribeCommentsRequest) throws -> Future<DescribeCommentsResponse> {
         return try client.send(operation: "DescribeComments", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}/comments", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves the document versions for the specified document. By default, only active versions are returned.
-    public func describeDocumentVersions(_ input: DescribeDocumentVersionsRequest) throws -> DescribeDocumentVersionsResponse {
+    public func describeDocumentVersions(_ input: DescribeDocumentVersionsRequest) throws -> Future<DescribeDocumentVersionsResponse> {
         return try client.send(operation: "DescribeDocumentVersions", path: "/api/v1/documents/{DocumentId}/versions", httpMethod: "GET", input: input)
     }
 
     ///  Describes the contents of the specified folder, including its documents and subfolders. By default, Amazon WorkDocs returns the first 100 active document and folder metadata items. If there are more results, the response includes a marker that you can use to request the next set of results. You can also request initialized documents.
-    public func describeFolderContents(_ input: DescribeFolderContentsRequest) throws -> DescribeFolderContentsResponse {
+    public func describeFolderContents(_ input: DescribeFolderContentsRequest) throws -> Future<DescribeFolderContentsResponse> {
         return try client.send(operation: "DescribeFolderContents", path: "/api/v1/folders/{FolderId}/contents", httpMethod: "GET", input: input)
     }
 
     ///  Describes the groups specified by the query. Groups are defined by the underlying Active Directory.
-    public func describeGroups(_ input: DescribeGroupsRequest) throws -> DescribeGroupsResponse {
+    public func describeGroups(_ input: DescribeGroupsRequest) throws -> Future<DescribeGroupsResponse> {
         return try client.send(operation: "DescribeGroups", path: "/api/v1/groups", httpMethod: "GET", input: input)
     }
 
     ///  Lists the specified notification subscriptions.
-    public func describeNotificationSubscriptions(_ input: DescribeNotificationSubscriptionsRequest) throws -> DescribeNotificationSubscriptionsResponse {
+    public func describeNotificationSubscriptions(_ input: DescribeNotificationSubscriptionsRequest) throws -> Future<DescribeNotificationSubscriptionsResponse> {
         return try client.send(operation: "DescribeNotificationSubscriptions", path: "/api/v1/organizations/{OrganizationId}/subscriptions", httpMethod: "GET", input: input)
     }
 
     ///  Describes the permissions of a specified resource.
-    public func describeResourcePermissions(_ input: DescribeResourcePermissionsRequest) throws -> DescribeResourcePermissionsResponse {
+    public func describeResourcePermissions(_ input: DescribeResourcePermissionsRequest) throws -> Future<DescribeResourcePermissionsResponse> {
         return try client.send(operation: "DescribeResourcePermissions", path: "/api/v1/resources/{ResourceId}/permissions", httpMethod: "GET", input: input)
     }
 
     ///  Describes the current user's special folders; the RootFolder and the RecycleBin. RootFolder is the root of user's files and folders and RecycleBin is the root of recycled items. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more information, see Authentication and Access Control for User Applications in the Amazon WorkDocs Developer Guide.
-    public func describeRootFolders(_ input: DescribeRootFoldersRequest) throws -> DescribeRootFoldersResponse {
+    public func describeRootFolders(_ input: DescribeRootFoldersRequest) throws -> Future<DescribeRootFoldersResponse> {
         return try client.send(operation: "DescribeRootFolders", path: "/api/v1/me/root", httpMethod: "GET", input: input)
     }
 
     ///  Describes the specified users. You can describe all users or filter the results (for example, by status or organization). By default, Amazon WorkDocs returns the first 24 active or pending users. If there are more results, the response includes a marker that you can use to request the next set of results.
-    public func describeUsers(_ input: DescribeUsersRequest) throws -> DescribeUsersResponse {
+    public func describeUsers(_ input: DescribeUsersRequest) throws -> Future<DescribeUsersResponse> {
         return try client.send(operation: "DescribeUsers", path: "/api/v1/users", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves details of the current user for whom the authentication token was generated. This is not a valid action for SigV4 (administrative API) clients.
-    public func getCurrentUser(_ input: GetCurrentUserRequest) throws -> GetCurrentUserResponse {
+    public func getCurrentUser(_ input: GetCurrentUserRequest) throws -> Future<GetCurrentUserResponse> {
         return try client.send(operation: "GetCurrentUser", path: "/api/v1/me", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves details of a document.
-    public func getDocument(_ input: GetDocumentRequest) throws -> GetDocumentResponse {
+    public func getDocument(_ input: GetDocumentRequest) throws -> Future<GetDocumentResponse> {
         return try client.send(operation: "GetDocument", path: "/api/v1/documents/{DocumentId}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves the path information (the hierarchy from the root folder) for the requested document. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested document and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the names of the parent folders.
-    public func getDocumentPath(_ input: GetDocumentPathRequest) throws -> GetDocumentPathResponse {
+    public func getDocumentPath(_ input: GetDocumentPathRequest) throws -> Future<GetDocumentPathResponse> {
         return try client.send(operation: "GetDocumentPath", path: "/api/v1/documents/{DocumentId}/path", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves version metadata for the specified document.
-    public func getDocumentVersion(_ input: GetDocumentVersionRequest) throws -> GetDocumentVersionResponse {
+    public func getDocumentVersion(_ input: GetDocumentVersionRequest) throws -> Future<GetDocumentVersionResponse> {
         return try client.send(operation: "GetDocumentVersion", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves the metadata of the specified folder.
-    public func getFolder(_ input: GetFolderRequest) throws -> GetFolderResponse {
+    public func getFolder(_ input: GetFolderRequest) throws -> Future<GetFolderResponse> {
         return try client.send(operation: "GetFolder", path: "/api/v1/folders/{FolderId}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves the path information (the hierarchy from the root folder) for the specified folder. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested folder and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the parent folder names.
-    public func getFolderPath(_ input: GetFolderPathRequest) throws -> GetFolderPathResponse {
+    public func getFolderPath(_ input: GetFolderPathRequest) throws -> Future<GetFolderPathResponse> {
         return try client.send(operation: "GetFolderPath", path: "/api/v1/folders/{FolderId}/path", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves a collection of resources, including folders and documents. The only CollectionType supported is SHARED_WITH_ME.
-    public func getResources(_ input: GetResourcesRequest) throws -> GetResourcesResponse {
+    public func getResources(_ input: GetResourcesRequest) throws -> Future<GetResourcesResponse> {
         return try client.send(operation: "GetResources", path: "/api/v1/resources", httpMethod: "GET", input: input)
     }
 
     ///  Creates a new document object and version object. The client specifies the parent folder ID and name of the document to upload. The ID is optionally specified when creating a new version of an existing document. This is the first step to upload a document. Next, upload the document to the URL returned from the call, and then call UpdateDocumentVersion. To cancel the document upload, call AbortDocumentVersionUpload.
-    public func initiateDocumentVersionUpload(_ input: InitiateDocumentVersionUploadRequest) throws -> InitiateDocumentVersionUploadResponse {
+    public func initiateDocumentVersionUpload(_ input: InitiateDocumentVersionUploadRequest) throws -> Future<InitiateDocumentVersionUploadResponse> {
         return try client.send(operation: "InitiateDocumentVersionUpload", path: "/api/v1/documents", httpMethod: "POST", input: input)
     }
 
@@ -225,7 +226,7 @@ public struct WorkDocs {
     }
 
     ///  Updates the specified attributes of the specified user, and grants or revokes administrative privileges to the Amazon WorkDocs site.
-    public func updateUser(_ input: UpdateUserRequest) throws -> UpdateUserResponse {
+    public func updateUser(_ input: UpdateUserRequest) throws -> Future<UpdateUserResponse> {
         return try client.send(operation: "UpdateUser", path: "/api/v1/users/{UserId}", httpMethod: "PATCH", input: input)
     }
 

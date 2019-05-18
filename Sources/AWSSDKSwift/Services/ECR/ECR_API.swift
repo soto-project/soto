@@ -2,6 +2,7 @@
 
 import Foundation
 import AWSSDKSwiftCore
+import NIO
 
 /**
 Amazon Elastic Container Registry (Amazon ECR) is a managed Docker registry service. Customers can use the familiar Docker CLI to push, pull, and manage images. Amazon ECR provides a secure, scalable, and reliable registry. Amazon ECR supports private Docker repositories with resource-based permissions using IAM so that specific users or Amazon EC2 instances can access repositories and images. Developers can use the Docker CLI to author and manage images.
@@ -26,112 +27,112 @@ public struct ECR {
     }
 
     ///  Check the availability of multiple image layers in a specified registry and repository.  This operation is used by the Amazon ECR proxy, and it is not intended for general use by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
-    public func batchCheckLayerAvailability(_ input: BatchCheckLayerAvailabilityRequest) throws -> BatchCheckLayerAvailabilityResponse {
+    public func batchCheckLayerAvailability(_ input: BatchCheckLayerAvailabilityRequest) throws -> Future<BatchCheckLayerAvailabilityResponse> {
         return try client.send(operation: "BatchCheckLayerAvailability", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a list of specified images within a specified repository. Images are specified with either imageTag or imageDigest. You can remove a tag from an image by specifying the image's tag in your request. When you remove the last tag from an image, the image is deleted from your repository. You can completely delete an image (and all of its tags) by specifying the image's digest in your request.
-    public func batchDeleteImage(_ input: BatchDeleteImageRequest) throws -> BatchDeleteImageResponse {
+    public func batchDeleteImage(_ input: BatchDeleteImageRequest) throws -> Future<BatchDeleteImageResponse> {
         return try client.send(operation: "BatchDeleteImage", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets detailed information for specified images within a specified repository. Images are specified with either imageTag or imageDigest.
-    public func batchGetImage(_ input: BatchGetImageRequest) throws -> BatchGetImageResponse {
+    public func batchGetImage(_ input: BatchGetImageRequest) throws -> Future<BatchGetImageResponse> {
         return try client.send(operation: "BatchGetImage", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Informs Amazon ECR that the image layer upload has completed for a specified registry, repository name, and upload ID. You can optionally provide a sha256 digest of the image layer for data validation purposes.  This operation is used by the Amazon ECR proxy, and it is not intended for general use by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
-    public func completeLayerUpload(_ input: CompleteLayerUploadRequest) throws -> CompleteLayerUploadResponse {
+    public func completeLayerUpload(_ input: CompleteLayerUploadRequest) throws -> Future<CompleteLayerUploadResponse> {
         return try client.send(operation: "CompleteLayerUpload", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an image repository.
-    public func createRepository(_ input: CreateRepositoryRequest) throws -> CreateRepositoryResponse {
+    public func createRepository(_ input: CreateRepositoryRequest) throws -> Future<CreateRepositoryResponse> {
         return try client.send(operation: "CreateRepository", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified lifecycle policy.
-    public func deleteLifecyclePolicy(_ input: DeleteLifecyclePolicyRequest) throws -> DeleteLifecyclePolicyResponse {
+    public func deleteLifecyclePolicy(_ input: DeleteLifecyclePolicyRequest) throws -> Future<DeleteLifecyclePolicyResponse> {
         return try client.send(operation: "DeleteLifecyclePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an existing image repository. If a repository contains images, you must use the force option to delete it.
-    public func deleteRepository(_ input: DeleteRepositoryRequest) throws -> DeleteRepositoryResponse {
+    public func deleteRepository(_ input: DeleteRepositoryRequest) throws -> Future<DeleteRepositoryResponse> {
         return try client.send(operation: "DeleteRepository", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the repository policy from a specified repository.
-    public func deleteRepositoryPolicy(_ input: DeleteRepositoryPolicyRequest) throws -> DeleteRepositoryPolicyResponse {
+    public func deleteRepositoryPolicy(_ input: DeleteRepositoryPolicyRequest) throws -> Future<DeleteRepositoryPolicyResponse> {
         return try client.send(operation: "DeleteRepositoryPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns metadata about the images in a repository, including image size, image tags, and creation date.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages. 
-    public func describeImages(_ input: DescribeImagesRequest) throws -> DescribeImagesResponse {
+    public func describeImages(_ input: DescribeImagesRequest) throws -> Future<DescribeImagesResponse> {
         return try client.send(operation: "DescribeImages", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes image repositories in a registry.
-    public func describeRepositories(_ input: DescribeRepositoriesRequest) throws -> DescribeRepositoriesResponse {
+    public func describeRepositories(_ input: DescribeRepositoriesRequest) throws -> Future<DescribeRepositoriesResponse> {
         return try client.send(operation: "DescribeRepositories", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a token that is valid for a specified registry for 12 hours. This command allows you to use the docker CLI to push and pull images with Amazon ECR. If you do not specify a registry, the default registry is assumed. The authorizationToken returned for each registry specified is a base64 encoded string that can be decoded and used in a docker login command to authenticate to a registry. The AWS CLI offers an aws ecr get-login command that simplifies the login process.
-    public func getAuthorizationToken(_ input: GetAuthorizationTokenRequest) throws -> GetAuthorizationTokenResponse {
+    public func getAuthorizationToken(_ input: GetAuthorizationTokenRequest) throws -> Future<GetAuthorizationTokenResponse> {
         return try client.send(operation: "GetAuthorizationToken", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the pre-signed Amazon S3 download URL corresponding to an image layer. You can only get URLs for image layers that are referenced in an image.  This operation is used by the Amazon ECR proxy, and it is not intended for general use by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
-    public func getDownloadUrlForLayer(_ input: GetDownloadUrlForLayerRequest) throws -> GetDownloadUrlForLayerResponse {
+    public func getDownloadUrlForLayer(_ input: GetDownloadUrlForLayerRequest) throws -> Future<GetDownloadUrlForLayerResponse> {
         return try client.send(operation: "GetDownloadUrlForLayer", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the specified lifecycle policy.
-    public func getLifecyclePolicy(_ input: GetLifecyclePolicyRequest) throws -> GetLifecyclePolicyResponse {
+    public func getLifecyclePolicy(_ input: GetLifecyclePolicyRequest) throws -> Future<GetLifecyclePolicyResponse> {
         return try client.send(operation: "GetLifecyclePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the results of the specified lifecycle policy preview request.
-    public func getLifecyclePolicyPreview(_ input: GetLifecyclePolicyPreviewRequest) throws -> GetLifecyclePolicyPreviewResponse {
+    public func getLifecyclePolicyPreview(_ input: GetLifecyclePolicyPreviewRequest) throws -> Future<GetLifecyclePolicyPreviewResponse> {
         return try client.send(operation: "GetLifecyclePolicyPreview", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the repository policy for a specified repository.
-    public func getRepositoryPolicy(_ input: GetRepositoryPolicyRequest) throws -> GetRepositoryPolicyResponse {
+    public func getRepositoryPolicy(_ input: GetRepositoryPolicyRequest) throws -> Future<GetRepositoryPolicyResponse> {
         return try client.send(operation: "GetRepositoryPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Notify Amazon ECR that you intend to upload an image layer.  This operation is used by the Amazon ECR proxy, and it is not intended for general use by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
-    public func initiateLayerUpload(_ input: InitiateLayerUploadRequest) throws -> InitiateLayerUploadResponse {
+    public func initiateLayerUpload(_ input: InitiateLayerUploadRequest) throws -> Future<InitiateLayerUploadResponse> {
         return try client.send(operation: "InitiateLayerUpload", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all the image IDs for a given repository. You can filter images based on whether or not they are tagged by setting the tagStatus parameter to TAGGED or UNTAGGED. For example, you can filter your results to return only UNTAGGED images and then pipe that result to a BatchDeleteImage operation to delete them. Or, you can filter your results to return only TAGGED images to list all of the tags in your repository.
-    public func listImages(_ input: ListImagesRequest) throws -> ListImagesResponse {
+    public func listImages(_ input: ListImagesRequest) throws -> Future<ListImagesResponse> {
         return try client.send(operation: "ListImages", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates or updates the image manifest and tags associated with an image.  This operation is used by the Amazon ECR proxy, and it is not intended for general use by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
-    public func putImage(_ input: PutImageRequest) throws -> PutImageResponse {
+    public func putImage(_ input: PutImageRequest) throws -> Future<PutImageResponse> {
         return try client.send(operation: "PutImage", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates or updates a lifecycle policy. For information about lifecycle policy syntax, see Lifecycle Policy Template.
-    public func putLifecyclePolicy(_ input: PutLifecyclePolicyRequest) throws -> PutLifecyclePolicyResponse {
+    public func putLifecyclePolicy(_ input: PutLifecyclePolicyRequest) throws -> Future<PutLifecyclePolicyResponse> {
         return try client.send(operation: "PutLifecyclePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Applies a repository policy on a specified repository to control access permissions.
-    public func setRepositoryPolicy(_ input: SetRepositoryPolicyRequest) throws -> SetRepositoryPolicyResponse {
+    public func setRepositoryPolicy(_ input: SetRepositoryPolicyRequest) throws -> Future<SetRepositoryPolicyResponse> {
         return try client.send(operation: "SetRepositoryPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts a preview of the specified lifecycle policy. This allows you to see the results before creating the lifecycle policy.
-    public func startLifecyclePolicyPreview(_ input: StartLifecyclePolicyPreviewRequest) throws -> StartLifecyclePolicyPreviewResponse {
+    public func startLifecyclePolicyPreview(_ input: StartLifecyclePolicyPreviewRequest) throws -> Future<StartLifecyclePolicyPreviewResponse> {
         return try client.send(operation: "StartLifecyclePolicyPreview", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Uploads an image layer part to Amazon ECR.  This operation is used by the Amazon ECR proxy, and it is not intended for general use by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
-    public func uploadLayerPart(_ input: UploadLayerPartRequest) throws -> UploadLayerPartResponse {
+    public func uploadLayerPart(_ input: UploadLayerPartRequest) throws -> Future<UploadLayerPartResponse> {
         return try client.send(operation: "UploadLayerPart", path: "/", httpMethod: "POST", input: input)
     }
 

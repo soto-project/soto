@@ -2,6 +2,7 @@
 
 import Foundation
 import AWSSDKSwiftCore
+import NIO
 
 /**
 Amazon SimpleDB is a web service providing the core database functions of data indexing and querying in the cloud. By offloading the time and effort associated with building and operating a web-scale database, SimpleDB provides developers the freedom to focus on application development.  A traditional, clustered relational database requires a sizable upfront capital outlay, is complex to design, and often requires extensive and repetitive database administration. Amazon SimpleDB is dramatically simpler, requiring no schema, automatically indexing your data and providing a simple API for storage and access. This approach eliminates the administrative burden of data modeling, index maintenance, and performance tuning. Developers gain access to this functionality within Amazon's proven computing environment, are able to scale instantly, and pay only for what they use.   Visit http://aws.amazon.com/simpledb/ for more information. 
@@ -51,17 +52,17 @@ public struct SimpleDB {
     }
 
     ///   Returns information about the domain, including when the domain was created, the number of items and attributes in the domain, and the size of the attribute names and values. 
-    public func domainMetadata(_ input: DomainMetadataRequest) throws -> DomainMetadataResult {
+    public func domainMetadata(_ input: DomainMetadataRequest) throws -> Future<DomainMetadataResult> {
         return try client.send(operation: "DomainMetadata", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Returns all of the attributes associated with the specified item. Optionally, the attributes returned can be limited to one or more attributes by specifying an attribute name parameter.   If the item does not exist on the replica that was accessed for this operation, an empty set is returned. The system does not return an error as it cannot guarantee the item does not exist on other replicas.   If GetAttributes is called without being passed any attribute names, all the attributes for the item are returned. 
-    public func getAttributes(_ input: GetAttributesRequest) throws -> GetAttributesResult {
+    public func getAttributes(_ input: GetAttributesRequest) throws -> Future<GetAttributesResult> {
         return try client.send(operation: "GetAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   The ListDomains operation lists all domains associated with the Access Key ID. It returns domain names up to the limit set by MaxNumberOfDomains. A NextToken is returned if there are more than MaxNumberOfDomains domains. Calling ListDomains successive times with the NextToken provided by the operation returns up to MaxNumberOfDomains more domain names with each successive operation call. 
-    public func listDomains(_ input: ListDomainsRequest) throws -> ListDomainsResult {
+    public func listDomains(_ input: ListDomainsRequest) throws -> Future<ListDomainsResult> {
         return try client.send(operation: "ListDomains", path: "/", httpMethod: "POST", input: input)
     }
 
@@ -71,7 +72,7 @@ public struct SimpleDB {
     }
 
     ///   The Select operation returns a set of attributes for ItemNames that match the select expression. Select is similar to the standard SQL SELECT statement.   The total size of the response cannot exceed 1 MB in total size. Amazon SimpleDB automatically adjusts the number of items returned per page to enforce this limit. For example, if the client asks to retrieve 2500 items, but each individual item is 10 kB in size, the system returns 100 items and an appropriate NextToken so the client can access the next page of results.   For information on how to construct select expressions, see Using Select to Create Amazon SimpleDB Queries in the Developer Guide. 
-    public func select(_ input: SelectRequest) throws -> SelectResult {
+    public func select(_ input: SelectRequest) throws -> Future<SelectResult> {
         return try client.send(operation: "Select", path: "/", httpMethod: "POST", input: input)
     }
 

@@ -30,14 +30,14 @@ struct Patch {
         case replace
         case add
     }
-    
+
     init(operation: Operation, entry: [JSONSubscriptType], value: String, originalValue: String? = nil) {
         self.operation = operation
         self.entry = entry
         self.value = value
         self.originalValue = originalValue
     }
-    
+
     let operation : Operation
     let entry : [JSONSubscriptType]
     let value : CustomStringConvertible
@@ -49,7 +49,7 @@ func patch(_ apiJSON: JSON) -> JSON {
     let service = apiJSON["serviceName"].stringValue.toSwiftClassCase()
     guard let patches = servicePatches[service] else {return apiJSON}
     var patchedJSON = apiJSON
-    
+
     for patch in patches {
         let field = patchedJSON[patch.entry]
         guard field != JSON.null else {
@@ -65,7 +65,7 @@ func patch(_ apiJSON: JSON) -> JSON {
                     exit(-1)
                 }
             }
-            
+
             patchedJSON[patch.entry].object = patch.value
         case .add:
             guard let array = field.array else {
@@ -77,7 +77,7 @@ func patch(_ apiJSON: JSON) -> JSON {
                 print("Attempting to add field \"\(patch.value)\" to array \(patch.entry) that aleady exists.")
                 exit(-1)
             }
-            
+
             var newArray = field.arrayObject!
             newArray.append(patch.value)
             patchedJSON[patch.entry].arrayObject = newArray
@@ -85,5 +85,3 @@ func patch(_ apiJSON: JSON) -> JSON {
     }
     return patchedJSON
 }
-
-

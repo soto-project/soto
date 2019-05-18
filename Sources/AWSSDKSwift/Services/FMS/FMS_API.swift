@@ -2,6 +2,7 @@
 
 import Foundation
 import AWSSDKSwiftCore
+import NIO
 
 /**
 AWS Firewall Manager This is the AWS Firewall Manager API Reference. This guide is for developers who need detailed information about the AWS Firewall Manager API actions, data types, and errors. For detailed information about AWS Firewall Manager features, see the AWS Firewall Manager Developer Guide.
@@ -46,37 +47,37 @@ public struct FMS {
     }
 
     ///  Returns the AWS Organizations master account that is associated with AWS Firewall Manager as the AWS Firewall Manager administrator.
-    public func getAdminAccount(_ input: GetAdminAccountRequest) throws -> GetAdminAccountResponse {
+    public func getAdminAccount(_ input: GetAdminAccountRequest) throws -> Future<GetAdminAccountResponse> {
         return try client.send(operation: "GetAdminAccount", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns detailed compliance information about the specified member account. Details include resources that are in and out of compliance with the specified policy. Resources are considered non-compliant if the specified policy has not been applied to them.
-    public func getComplianceDetail(_ input: GetComplianceDetailRequest) throws -> GetComplianceDetailResponse {
+    public func getComplianceDetail(_ input: GetComplianceDetailRequest) throws -> Future<GetComplianceDetailResponse> {
         return try client.send(operation: "GetComplianceDetail", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about the Amazon Simple Notification Service (SNS) topic that is used to record AWS Firewall Manager SNS logs.
-    public func getNotificationChannel(_ input: GetNotificationChannelRequest) throws -> GetNotificationChannelResponse {
+    public func getNotificationChannel(_ input: GetNotificationChannelRequest) throws -> Future<GetNotificationChannelResponse> {
         return try client.send(operation: "GetNotificationChannel", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about the specified AWS Firewall Manager policy.
-    public func getPolicy(_ input: GetPolicyRequest) throws -> GetPolicyResponse {
+    public func getPolicy(_ input: GetPolicyRequest) throws -> Future<GetPolicyResponse> {
         return try client.send(operation: "GetPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns an array of PolicyComplianceStatus objects in the response. Use PolicyComplianceStatus to get a summary of which member accounts are protected by the specified policy. 
-    public func listComplianceStatus(_ input: ListComplianceStatusRequest) throws -> ListComplianceStatusResponse {
+    public func listComplianceStatus(_ input: ListComplianceStatusRequest) throws -> Future<ListComplianceStatusResponse> {
         return try client.send(operation: "ListComplianceStatus", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a MemberAccounts object that lists the member accounts in the administrator's AWS organization. The ListMemberAccounts must be submitted by the account that is set as the AWS Firewall Manager administrator.
-    public func listMemberAccounts(_ input: ListMemberAccountsRequest) throws -> ListMemberAccountsResponse {
+    public func listMemberAccounts(_ input: ListMemberAccountsRequest) throws -> Future<ListMemberAccountsResponse> {
         return try client.send(operation: "ListMemberAccounts", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns an array of PolicySummary objects in the response.
-    public func listPolicies(_ input: ListPoliciesRequest) throws -> ListPoliciesResponse {
+    public func listPolicies(_ input: ListPoliciesRequest) throws -> Future<ListPoliciesResponse> {
         return try client.send(operation: "ListPolicies", path: "/", httpMethod: "POST", input: input)
     }
 
@@ -86,7 +87,7 @@ public struct FMS {
     }
 
     ///  Creates an AWS Firewall Manager policy.
-    public func putPolicy(_ input: PutPolicyRequest) throws -> PutPolicyResponse {
+    public func putPolicy(_ input: PutPolicyRequest) throws -> Future<PutPolicyResponse> {
         return try client.send(operation: "PutPolicy", path: "/", httpMethod: "POST", input: input)
     }
 

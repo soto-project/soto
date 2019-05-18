@@ -32,12 +32,12 @@ class S3Tests: XCTestCase {
 
     override func setUp() {
         let bucketRequest = S3.CreateBucketRequest(bucket: TestData.shared.bucket)
-        _ = try? client.createBucket(bucketRequest)
+        _ = try? client.createBucket(bucketRequest).wait()
     }
 
     override func tearDown() {
         let deleteRequest = S3.DeleteObjectRequest(bucket: TestData.shared.bucket, key: TestData.shared.key)
-        _ = try? client.deleteObject(deleteRequest)
+        _ = try? client.deleteObject(deleteRequest).wait()
     }
 
     func testPutObject() throws {
@@ -49,7 +49,7 @@ class S3Tests: XCTestCase {
             key: TestData.shared.key
         )
 
-        let output = try client.putObject(putRequest)
+        let output = try client.putObject(putRequest).wait()
         XCTAssertNotNil(output.eTag)
     }
 
@@ -63,8 +63,8 @@ class S3Tests: XCTestCase {
             key: TestData.shared.key
         )
 
-        _ = try client.putObject(putRequest)
-        let object = try client.getObject(S3.GetObjectRequest(bucket: TestData.shared.bucket, key: "hello.txt"))
+        _ = try client.putObject(putRequest).wait()
+        let object = try client.getObject(S3.GetObjectRequest(bucket: TestData.shared.bucket, key: "hello.txt")).wait()
         XCTAssertEqual(object.body, TestData.shared.bodyData)
     }
 
@@ -77,9 +77,9 @@ class S3Tests: XCTestCase {
             key: TestData.shared.key
         )
 
-        let putResult = try client.putObject(putRequest)
+        let putResult = try client.putObject(putRequest).wait()
 
-        let output = try client.listObjects(S3.ListObjectsRequest(bucket: TestData.shared.bucket))
+        let output = try client.listObjects(S3.ListObjectsRequest(bucket: TestData.shared.bucket)).wait()
         XCTAssertEqual(output.maxKeys, 1000)
         XCTAssertEqual(output.contents?.first?.key, TestData.shared.key)
         XCTAssertEqual(output.contents?.first?.size, Int64(TestData.shared.bodyData.count))
