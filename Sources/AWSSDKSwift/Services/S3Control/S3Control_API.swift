@@ -27,8 +27,8 @@ public struct S3Control {
     }
 
     ///  Removes the Public Access Block configuration for an Amazon Web Services account.
-    public func deletePublicAccessBlock(_ input: DeletePublicAccessBlockRequest) throws {
-        _ = try client.send(operation: "DeletePublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "DELETE", input: input)
+    @discardableResult public func deletePublicAccessBlock(_ input: DeletePublicAccessBlockRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeletePublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "DELETE", input: input)
     }
 
     ///  Retrieves the Public Access Block configuration for an Amazon Web Services account.
@@ -37,8 +37,8 @@ public struct S3Control {
     }
 
     ///  Creates or modifies the Public Access Block configuration for an Amazon Web Services account.
-    public func putPublicAccessBlock(_ input: PutPublicAccessBlockRequest) throws {
-        _ = try client.send(operation: "PutPublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "PUT", input: input)
+    @discardableResult public func putPublicAccessBlock(_ input: PutPublicAccessBlockRequest) throws -> Future<Void> {
+        return try client.send(operation: "PutPublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "PUT", input: input)
     }
 
 

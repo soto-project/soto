@@ -27,23 +27,23 @@ public struct FMS {
     }
 
     ///  Sets the AWS Firewall Manager administrator account. AWS Firewall Manager must be associated with the master account your AWS organization or associated with a member account that has the appropriate permissions. If the account ID that you submit is not an AWS Organizations master account, AWS Firewall Manager will set the appropriate permissions for the given member account. The account that you associate with AWS Firewall Manager is called the AWS Firewall Manager administrator account. 
-    public func associateAdminAccount(_ input: AssociateAdminAccountRequest) throws {
-        _ = try client.send(operation: "AssociateAdminAccount", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func associateAdminAccount(_ input: AssociateAdminAccountRequest) throws -> Future<Void> {
+        return try client.send(operation: "AssociateAdminAccount", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an AWS Firewall Manager association with the IAM role and the Amazon Simple Notification Service (SNS) topic that is used to record AWS Firewall Manager SNS logs.
-    public func deleteNotificationChannel(_ input: DeleteNotificationChannelRequest) throws {
-        _ = try client.send(operation: "DeleteNotificationChannel", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteNotificationChannel(_ input: DeleteNotificationChannelRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteNotificationChannel", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Permanently deletes an AWS Firewall Manager policy. 
-    public func deletePolicy(_ input: DeletePolicyRequest) throws {
-        _ = try client.send(operation: "DeletePolicy", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deletePolicy(_ input: DeletePolicyRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeletePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates the account that has been set as the AWS Firewall Manager administrator account. You will need to submit an AssociateAdminAccount request to set a new account as the AWS Firewall administrator.
-    public func disassociateAdminAccount(_ input: DisassociateAdminAccountRequest) throws {
-        _ = try client.send(operation: "DisassociateAdminAccount", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func disassociateAdminAccount(_ input: DisassociateAdminAccountRequest) throws -> Future<Void> {
+        return try client.send(operation: "DisassociateAdminAccount", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the AWS Organizations master account that is associated with AWS Firewall Manager as the AWS Firewall Manager administrator.
@@ -82,8 +82,8 @@ public struct FMS {
     }
 
     ///  Designates the IAM role and Amazon Simple Notification Service (SNS) topic that AWS Firewall Manager uses to record SNS logs.
-    public func putNotificationChannel(_ input: PutNotificationChannelRequest) throws {
-        _ = try client.send(operation: "PutNotificationChannel", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func putNotificationChannel(_ input: PutNotificationChannelRequest) throws -> Future<Void> {
+        return try client.send(operation: "PutNotificationChannel", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an AWS Firewall Manager policy.

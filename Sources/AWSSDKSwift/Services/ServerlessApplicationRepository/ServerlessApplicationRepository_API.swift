@@ -65,8 +65,8 @@ public struct ServerlessApplicationRepository {
     }
 
     ///  Deletes the specified application.
-    public func deleteApplication(_ input: DeleteApplicationRequest) throws {
-        _ = try client.send(operation: "DeleteApplication", path: "/applications/{applicationId}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteApplication(_ input: DeleteApplicationRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteApplication", path: "/applications/{applicationId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Gets the specified application.

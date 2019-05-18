@@ -31,8 +31,8 @@ public struct Connect {
     }
 
     ///  Deletes a user account from Amazon Connect.
-    public func deleteUser(_ input: DeleteUserRequest) throws {
-        _ = try client.send(operation: "DeleteUser", path: "/users/{InstanceId}/{UserId}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteUser(_ input: DeleteUserRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteUser", path: "/users/{InstanceId}/{UserId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Returns a User object that contains information about the user account specified by the UserId.
@@ -101,28 +101,28 @@ public struct Connect {
     }
 
     ///  Assigns the specified hierarchy group to the user.
-    public func updateUserHierarchy(_ input: UpdateUserHierarchyRequest) throws {
-        _ = try client.send(operation: "UpdateUserHierarchy", path: "/users/{InstanceId}/{UserId}/hierarchy", httpMethod: "POST", input: input)
+    @discardableResult public func updateUserHierarchy(_ input: UpdateUserHierarchyRequest) throws -> Future<Void> {
+        return try client.send(operation: "UpdateUserHierarchy", path: "/users/{InstanceId}/{UserId}/hierarchy", httpMethod: "POST", input: input)
     }
 
     ///  Updates the identity information for the specified user in a UserIdentityInfo object, including email, first name, and last name.
-    public func updateUserIdentityInfo(_ input: UpdateUserIdentityInfoRequest) throws {
-        _ = try client.send(operation: "UpdateUserIdentityInfo", path: "/users/{InstanceId}/{UserId}/identity-info", httpMethod: "POST", input: input)
+    @discardableResult public func updateUserIdentityInfo(_ input: UpdateUserIdentityInfoRequest) throws -> Future<Void> {
+        return try client.send(operation: "UpdateUserIdentityInfo", path: "/users/{InstanceId}/{UserId}/identity-info", httpMethod: "POST", input: input)
     }
 
     ///  Updates the phone configuration settings in the UserPhoneConfig object for the specified user.
-    public func updateUserPhoneConfig(_ input: UpdateUserPhoneConfigRequest) throws {
-        _ = try client.send(operation: "UpdateUserPhoneConfig", path: "/users/{InstanceId}/{UserId}/phone-config", httpMethod: "POST", input: input)
+    @discardableResult public func updateUserPhoneConfig(_ input: UpdateUserPhoneConfigRequest) throws -> Future<Void> {
+        return try client.send(operation: "UpdateUserPhoneConfig", path: "/users/{InstanceId}/{UserId}/phone-config", httpMethod: "POST", input: input)
     }
 
     ///  Assigns the specified routing profile to a user.
-    public func updateUserRoutingProfile(_ input: UpdateUserRoutingProfileRequest) throws {
-        _ = try client.send(operation: "UpdateUserRoutingProfile", path: "/users/{InstanceId}/{UserId}/routing-profile", httpMethod: "POST", input: input)
+    @discardableResult public func updateUserRoutingProfile(_ input: UpdateUserRoutingProfileRequest) throws -> Future<Void> {
+        return try client.send(operation: "UpdateUserRoutingProfile", path: "/users/{InstanceId}/{UserId}/routing-profile", httpMethod: "POST", input: input)
     }
 
     ///  Updates the security profiles assigned to the user.
-    public func updateUserSecurityProfiles(_ input: UpdateUserSecurityProfilesRequest) throws {
-        _ = try client.send(operation: "UpdateUserSecurityProfiles", path: "/users/{InstanceId}/{UserId}/security-profiles", httpMethod: "POST", input: input)
+    @discardableResult public func updateUserSecurityProfiles(_ input: UpdateUserSecurityProfilesRequest) throws -> Future<Void> {
+        return try client.send(operation: "UpdateUserSecurityProfiles", path: "/users/{InstanceId}/{UserId}/security-profiles", httpMethod: "POST", input: input)
     }
 
 

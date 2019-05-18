@@ -32,8 +32,8 @@ public struct CognitoIdentityProvider {
     }
 
     ///  Adds the specified user to the specified group. Requires developer credentials.
-    public func adminAddUserToGroup(_ input: AdminAddUserToGroupRequest) throws {
-        _ = try client.send(operation: "AdminAddUserToGroup", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func adminAddUserToGroup(_ input: AdminAddUserToGroupRequest) throws -> Future<Void> {
+        return try client.send(operation: "AdminAddUserToGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Confirms user registration as an admin without using a confirmation code. Works on any user. Requires developer credentials.
@@ -47,8 +47,8 @@ public struct CognitoIdentityProvider {
     }
 
     ///  Deletes a user as an administrator. Works on any user. Requires developer credentials.
-    public func adminDeleteUser(_ input: AdminDeleteUserRequest) throws {
-        _ = try client.send(operation: "AdminDeleteUser", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func adminDeleteUser(_ input: AdminDeleteUserRequest) throws -> Future<Void> {
+        return try client.send(operation: "AdminDeleteUser", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the user attributes in a user pool as an administrator. Works on any user. Requires developer credentials.
@@ -72,8 +72,8 @@ public struct CognitoIdentityProvider {
     }
 
     ///  Forgets the device, as an administrator. Requires developer credentials.
-    public func adminForgetDevice(_ input: AdminForgetDeviceRequest) throws {
-        _ = try client.send(operation: "AdminForgetDevice", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func adminForgetDevice(_ input: AdminForgetDeviceRequest) throws -> Future<Void> {
+        return try client.send(operation: "AdminForgetDevice", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the device, as an administrator. Requires developer credentials.
@@ -112,8 +112,8 @@ public struct CognitoIdentityProvider {
     }
 
     ///  Removes the specified user from the specified group. Requires developer credentials.
-    public func adminRemoveUserFromGroup(_ input: AdminRemoveUserFromGroupRequest) throws {
-        _ = try client.send(operation: "AdminRemoveUserFromGroup", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func adminRemoveUserFromGroup(_ input: AdminRemoveUserFromGroupRequest) throws -> Future<Void> {
+        return try client.send(operation: "AdminRemoveUserFromGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Resets the specified user's password in a user pool as an administrator. Works on any user. When a developer calls this API, the current password is invalidated, so it must be changed. If a user tries to sign in after the API is called, the app will get a PasswordResetRequiredException exception back and should direct the user down the flow to reset the password, which is the same as the forgot password flow. In addition, if the user pool has phone verification selected and a verified phone number exists for the user, or if email verification is selected and a verified email exists for the user, calling this API will also result in sending a message to the end user with the code to change their password. Requires developer credentials.
@@ -217,23 +217,23 @@ public struct CognitoIdentityProvider {
     }
 
     ///  Deletes a group. Currently only groups with no members can be deleted. Requires developer credentials.
-    public func deleteGroup(_ input: DeleteGroupRequest) throws {
-        _ = try client.send(operation: "DeleteGroup", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteGroup(_ input: DeleteGroupRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an identity provider for a user pool.
-    public func deleteIdentityProvider(_ input: DeleteIdentityProviderRequest) throws {
-        _ = try client.send(operation: "DeleteIdentityProvider", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteIdentityProvider(_ input: DeleteIdentityProviderRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteIdentityProvider", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a resource server.
-    public func deleteResourceServer(_ input: DeleteResourceServerRequest) throws {
-        _ = try client.send(operation: "DeleteResourceServer", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteResourceServer(_ input: DeleteResourceServerRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteResourceServer", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Allows a user to delete himself or herself.
-    public func deleteUser(_ input: DeleteUserRequest) throws {
-        _ = try client.send(operation: "DeleteUser", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteUser(_ input: DeleteUserRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteUser", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the attributes for a user.
@@ -242,13 +242,13 @@ public struct CognitoIdentityProvider {
     }
 
     ///  Deletes the specified Amazon Cognito user pool.
-    public func deleteUserPool(_ input: DeleteUserPoolRequest) throws {
-        _ = try client.send(operation: "DeleteUserPool", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteUserPool(_ input: DeleteUserPoolRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteUserPool", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Allows the developer to delete the user pool client.
-    public func deleteUserPoolClient(_ input: DeleteUserPoolClientRequest) throws {
-        _ = try client.send(operation: "DeleteUserPoolClient", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteUserPoolClient(_ input: DeleteUserPoolClientRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteUserPoolClient", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a domain for a user pool.
@@ -292,8 +292,8 @@ public struct CognitoIdentityProvider {
     }
 
     ///  Forgets the specified device.
-    public func forgetDevice(_ input: ForgetDeviceRequest) throws {
-        _ = try client.send(operation: "ForgetDevice", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func forgetDevice(_ input: ForgetDeviceRequest) throws -> Future<Void> {
+        return try client.send(operation: "ForgetDevice", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Calling this API causes a message to be sent to the end user with a confirmation code that is required to change the user's password. For the Username parameter, you can use the username or user alias. If a verified phone number exists for the user, the confirmation code is sent to the phone number. Otherwise, if a verified email exists, the confirmation code is sent to the email. If neither a verified phone number nor a verified email exists, InvalidParameterException is thrown. To use the confirmation code for resetting the password, call .

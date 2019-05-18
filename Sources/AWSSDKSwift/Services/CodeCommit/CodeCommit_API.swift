@@ -33,8 +33,8 @@ public struct CodeCommit {
     }
 
     ///  Creates a new branch in a repository and points the branch to a commit.  Calling the create branch operation does not set a repository's default branch. To do this, call the update default branch operation. 
-    public func createBranch(_ input: CreateBranchInput) throws {
-        _ = try client.send(operation: "CreateBranch", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func createBranch(_ input: CreateBranchInput) throws -> Future<Void> {
+        return try client.send(operation: "CreateBranch", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a pull request in the specified repository.
@@ -193,8 +193,8 @@ public struct CodeCommit {
     }
 
     ///  Sets or changes the default branch name for the specified repository.  If you use this operation to change the default branch name to the current default branch name, a success message is returned even though the default branch did not change. 
-    public func updateDefaultBranch(_ input: UpdateDefaultBranchInput) throws {
-        _ = try client.send(operation: "UpdateDefaultBranch", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func updateDefaultBranch(_ input: UpdateDefaultBranchInput) throws -> Future<Void> {
+        return try client.send(operation: "UpdateDefaultBranch", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Replaces the contents of the description of a pull request.
@@ -213,13 +213,13 @@ public struct CodeCommit {
     }
 
     ///  Sets or changes the comment or description for a repository.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a web page could expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a web page. 
-    public func updateRepositoryDescription(_ input: UpdateRepositoryDescriptionInput) throws {
-        _ = try client.send(operation: "UpdateRepositoryDescription", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func updateRepositoryDescription(_ input: UpdateRepositoryDescriptionInput) throws -> Future<Void> {
+        return try client.send(operation: "UpdateRepositoryDescription", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Renames a repository. The repository name must be unique across the calling AWS account. In addition, repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. The suffix ".git" is prohibited. For a full description of the limits on repository names, see Limits in the AWS CodeCommit User Guide.
-    public func updateRepositoryName(_ input: UpdateRepositoryNameInput) throws {
-        _ = try client.send(operation: "UpdateRepositoryName", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func updateRepositoryName(_ input: UpdateRepositoryNameInput) throws -> Future<Void> {
+        return try client.send(operation: "UpdateRepositoryName", path: "/", httpMethod: "POST", input: input)
     }
 
 

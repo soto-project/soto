@@ -26,8 +26,8 @@ public struct Signer {
     }
 
     ///  Changes the state of an ACTIVE signing profile to CANCELED. A canceled profile is still viewable with the ListSigningProfiles operation, but it cannot perform new signing jobs, and is deleted two years after cancelation.
-    public func cancelSigningProfile(_ input: CancelSigningProfileRequest) throws {
-        _ = try client.send(operation: "CancelSigningProfile", path: "/signing-profiles/{profileName}", httpMethod: "DELETE", input: input)
+    @discardableResult public func cancelSigningProfile(_ input: CancelSigningProfileRequest) throws -> Future<Void> {
+        return try client.send(operation: "CancelSigningProfile", path: "/signing-profiles/{profileName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Returns information about a specific code signing job. You specify the job by using the jobId value that is returned by the StartSigningJob operation. 

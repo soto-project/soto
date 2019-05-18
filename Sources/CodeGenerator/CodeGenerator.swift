@@ -66,6 +66,11 @@ extension AWSSDKSwiftCore.Operation {
     func generateSwiftFunctionCode() -> String {
         var code = ""
 
+        if let _ = self.outputShape { }
+        else {
+            code += "@discardableResult "
+        }
+
         if let shape = self.inputShape {
             code += "public func \(name.toSwiftVariableCase())(_ input: \(shape.swiftTypeName))"
         } else {
@@ -76,15 +81,13 @@ extension AWSSDKSwiftCore.Operation {
 
         if let shape = self.outputShape {
             code += " -> Future<\(shape.swiftTypeName)>"
+        } else {
+            code += " -> Future<Void>"
         }
 
         code += " {\n"
 
-        if outputShape != nil {
-            code += "\(indt(1))return try client.send("
-        } else {
-            code += "\(indt(1))_ = try client.send("
-        }
+        code += "\(indt(1))return try client.send("
 
         code += "operation: \"\(name)\", "
         code += "path: \"\(path)\", "

@@ -37,8 +37,8 @@ public struct CognitoIdentity {
     }
 
     ///  Deletes a user pool. Once a pool is deleted, users will not be able to authenticate with the pool. You must use AWS Developer credentials to call this API.
-    public func deleteIdentityPool(_ input: DeleteIdentityPoolInput) throws {
-        _ = try client.send(operation: "DeleteIdentityPool", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteIdentityPool(_ input: DeleteIdentityPoolInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteIdentityPool", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns metadata related to the given identity, including when the identity was created and any associated linked logins. You must use AWS Developer credentials to call this API.
@@ -97,18 +97,18 @@ public struct CognitoIdentity {
     }
 
     ///  Sets the roles for an identity pool. These roles are used when making calls to GetCredentialsForIdentity action. You must use AWS Developer credentials to call this API.
-    public func setIdentityPoolRoles(_ input: SetIdentityPoolRolesInput) throws {
-        _ = try client.send(operation: "SetIdentityPoolRoles", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func setIdentityPoolRoles(_ input: SetIdentityPoolRolesInput) throws -> Future<Void> {
+        return try client.send(operation: "SetIdentityPoolRoles", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Unlinks a DeveloperUserIdentifier from an existing identity. Unlinked developer users will be considered new identities next time they are seen. If, for a given Cognito identity, you remove all federated identities as well as the developer user identifier, the Cognito identity becomes inaccessible. You must use AWS Developer credentials to call this API.
-    public func unlinkDeveloperIdentity(_ input: UnlinkDeveloperIdentityInput) throws {
-        _ = try client.send(operation: "UnlinkDeveloperIdentity", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func unlinkDeveloperIdentity(_ input: UnlinkDeveloperIdentityInput) throws -> Future<Void> {
+        return try client.send(operation: "UnlinkDeveloperIdentity", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Unlinks a federated identity from an existing account. Unlinked logins will be considered new identities next time they are seen. Removing the last linked login will make this identity inaccessible. This is a public API. You do not need any credentials to call this API.
-    public func unlinkIdentity(_ input: UnlinkIdentityInput) throws {
-        _ = try client.send(operation: "UnlinkIdentity", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func unlinkIdentity(_ input: UnlinkIdentityInput) throws -> Future<Void> {
+        return try client.send(operation: "UnlinkIdentity", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a user pool. You must use AWS Developer credentials to call this API.

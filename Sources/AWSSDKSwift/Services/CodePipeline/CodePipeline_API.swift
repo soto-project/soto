@@ -47,13 +47,13 @@ public struct CodePipeline {
     }
 
     ///  Marks a custom action as deleted. PollForJobs for the custom action will fail after the action is marked for deletion. Only used for custom actions.  To re-create a custom action after it has been deleted you must use a string in the version field that has never been used before. This string can be an incremented version number, for example. To restore a deleted custom action, use a JSON file that is identical to the deleted action, including the original string in the version field. 
-    public func deleteCustomActionType(_ input: DeleteCustomActionTypeInput) throws {
-        _ = try client.send(operation: "DeleteCustomActionType", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteCustomActionType(_ input: DeleteCustomActionTypeInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteCustomActionType", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified pipeline.
-    public func deletePipeline(_ input: DeletePipelineInput) throws {
-        _ = try client.send(operation: "DeletePipeline", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deletePipeline(_ input: DeletePipelineInput) throws -> Future<Void> {
+        return try client.send(operation: "DeletePipeline", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a previously created webhook by name. Deleting the webhook stops AWS CodePipeline from starting a pipeline every time an external event occurs. The API will return successfully when trying to delete a webhook that is already deleted. If a deleted webhook is re-created by calling PutWebhook with the same name, it will have a different URL.
@@ -67,13 +67,13 @@ public struct CodePipeline {
     }
 
     ///  Prevents artifacts in a pipeline from transitioning to the next stage in the pipeline.
-    public func disableStageTransition(_ input: DisableStageTransitionInput) throws {
-        _ = try client.send(operation: "DisableStageTransition", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func disableStageTransition(_ input: DisableStageTransitionInput) throws -> Future<Void> {
+        return try client.send(operation: "DisableStageTransition", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Enables artifacts in a pipeline to transition to a stage in a pipeline.
-    public func enableStageTransition(_ input: EnableStageTransitionInput) throws {
-        _ = try client.send(operation: "EnableStageTransition", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func enableStageTransition(_ input: EnableStageTransitionInput) throws -> Future<Void> {
+        return try client.send(operation: "EnableStageTransition", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about a job. Only used for custom actions.  When this API is called, AWS CodePipeline returns temporary credentials for the Amazon S3 bucket used to store artifacts for the pipeline, if the action requires access to that Amazon S3 bucket for input or output artifacts. Additionally, this API returns any secret values defined for the action. 
@@ -142,23 +142,23 @@ public struct CodePipeline {
     }
 
     ///  Represents the failure of a job as returned to the pipeline by a job worker. Only used for custom actions.
-    public func putJobFailureResult(_ input: PutJobFailureResultInput) throws {
-        _ = try client.send(operation: "PutJobFailureResult", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func putJobFailureResult(_ input: PutJobFailureResultInput) throws -> Future<Void> {
+        return try client.send(operation: "PutJobFailureResult", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Represents the success of a job as returned to the pipeline by a job worker. Only used for custom actions.
-    public func putJobSuccessResult(_ input: PutJobSuccessResultInput) throws {
-        _ = try client.send(operation: "PutJobSuccessResult", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func putJobSuccessResult(_ input: PutJobSuccessResultInput) throws -> Future<Void> {
+        return try client.send(operation: "PutJobSuccessResult", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Represents the failure of a third party job as returned to the pipeline by a job worker. Only used for partner actions.
-    public func putThirdPartyJobFailureResult(_ input: PutThirdPartyJobFailureResultInput) throws {
-        _ = try client.send(operation: "PutThirdPartyJobFailureResult", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func putThirdPartyJobFailureResult(_ input: PutThirdPartyJobFailureResultInput) throws -> Future<Void> {
+        return try client.send(operation: "PutThirdPartyJobFailureResult", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Represents the success of a third party job as returned to the pipeline by a job worker. Only used for partner actions.
-    public func putThirdPartyJobSuccessResult(_ input: PutThirdPartyJobSuccessResultInput) throws {
-        _ = try client.send(operation: "PutThirdPartyJobSuccessResult", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func putThirdPartyJobSuccessResult(_ input: PutThirdPartyJobSuccessResultInput) throws -> Future<Void> {
+        return try client.send(operation: "PutThirdPartyJobSuccessResult", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Defines a webhook and returns a unique webhook URL generated by CodePipeline. This URL can be supplied to third party source hosting providers to call every time there's a code change. When CodePipeline receives a POST request on this URL, the pipeline defined in the webhook is started as long as the POST request satisfied the authentication and filtering requirements supplied when defining the webhook. RegisterWebhookWithThirdParty and DeregisterWebhookWithThirdParty APIs can be used to automatically configure supported third parties to call the generated webhook URL.

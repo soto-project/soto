@@ -27,8 +27,8 @@ public struct CloudWatchEvents {
     }
 
     ///  Deletes the specified rule. Before you can delete the rule, you must remove all targets, using RemoveTargets. When you delete a rule, incoming events might continue to match to the deleted rule. Allow a short period of time for changes to take effect. Managed rules are rules created and managed by another AWS service on your behalf. These rules are created by those other AWS services to support functionality in those services. You can delete these rules using the Force option, but you should do so only if you are sure the other service is not still using that rule.
-    public func deleteRule(_ input: DeleteRuleRequest) throws {
-        _ = try client.send(operation: "DeleteRule", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteRule(_ input: DeleteRuleRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteRule", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Displays the external AWS accounts that are permitted to write events to your account using your account's event bus, and the associated policy. To enable your account to receive events from other accounts, use PutPermission.
@@ -42,13 +42,13 @@ public struct CloudWatchEvents {
     }
 
     ///  Disables the specified rule. A disabled rule won't match any events, and won't self-trigger if it has a schedule expression. When you disable a rule, incoming events might continue to match to the disabled rule. Allow a short period of time for changes to take effect.
-    public func disableRule(_ input: DisableRuleRequest) throws {
-        _ = try client.send(operation: "DisableRule", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func disableRule(_ input: DisableRuleRequest) throws -> Future<Void> {
+        return try client.send(operation: "DisableRule", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Enables the specified rule. If the rule does not exist, the operation fails. When you enable a rule, incoming events might not immediately start matching to a newly enabled rule. Allow a short period of time for changes to take effect.
-    public func enableRule(_ input: EnableRuleRequest) throws {
-        _ = try client.send(operation: "EnableRule", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func enableRule(_ input: EnableRuleRequest) throws -> Future<Void> {
+        return try client.send(operation: "EnableRule", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the rules for the specified target. You can see which of the rules in Amazon CloudWatch Events can invoke a specific target in your account.
@@ -72,8 +72,8 @@ public struct CloudWatchEvents {
     }
 
     ///  Running PutPermission permits the specified AWS account or AWS organization to put events to your account's default event bus. CloudWatch Events rules in your account are triggered by these events arriving to your default event bus.  For another account to send events to your account, that external account must have a CloudWatch Events rule with your account's default event bus as a target. To enable multiple AWS accounts to put events to your default event bus, run PutPermission once for each of these accounts. Or, if all the accounts are members of the same AWS organization, you can run PutPermission once specifying Principal as "*" and specifying the AWS organization ID in Condition, to grant permissions to all accounts in that organization. If you grant permissions using an organization, then accounts in that organization must specify a RoleArn with proper permissions when they use PutTarget to add your account's event bus as a target. For more information, see Sending and Receiving Events Between AWS Accounts in the Amazon CloudWatch Events User Guide. The permission policy on the default event bus cannot exceed 10 KB in size.
-    public func putPermission(_ input: PutPermissionRequest) throws {
-        _ = try client.send(operation: "PutPermission", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func putPermission(_ input: PutPermissionRequest) throws -> Future<Void> {
+        return try client.send(operation: "PutPermission", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates or updates the specified rule. Rules are enabled by default, or based on value of the state. You can disable a rule using DisableRule. If you are updating an existing rule, the rule is replaced with what you specify in this PutRule command. If you omit arguments in PutRule, the old values for those arguments are not kept. Instead, they are replaced with null values. When you create or update a rule, incoming events might not immediately start matching to new or updated rules. Allow a short period of time for changes to take effect. A rule must contain at least an EventPattern or ScheduleExpression. Rules with EventPatterns are triggered when a matching event is observed. Rules with ScheduleExpressions self-trigger based on the given schedule. A rule can have both an EventPattern and a ScheduleExpression, in which case the rule triggers on matching events as well as on a schedule. Most services in AWS treat : or / as the same character in Amazon Resource Names (ARNs). However, CloudWatch Events uses an exact match in event patterns and rules. Be sure to use the correct ARN characters when creating event patterns so that they match the ARN syntax in the event you want to match. In CloudWatch Events, it is possible to create rules that lead to infinite loops, where a rule is fired repeatedly. For example, a rule might detect that ACLs have changed on an S3 bucket, and trigger software to change them to the desired state. If the rule is not written carefully, the subsequent change to the ACLs fires the rule again, creating an infinite loop. To prevent this, write the rules so that the triggered actions do not re-fire the same rule. For example, your rule could fire only if ACLs are found to be in a bad state, instead of after any change.  An infinite loop can quickly cause higher than expected charges. We recommend that you use budgeting, which alerts you when charges exceed your specified limit. For more information, see Managing Your Costs with Budgets.
@@ -87,8 +87,8 @@ public struct CloudWatchEvents {
     }
 
     ///  Revokes the permission of another AWS account to be able to put events to your default event bus. Specify the account to revoke by the StatementId value that you associated with the account when you granted it permission with PutPermission. You can find the StatementId by using DescribeEventBus.
-    public func removePermission(_ input: RemovePermissionRequest) throws {
-        _ = try client.send(operation: "RemovePermission", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func removePermission(_ input: RemovePermissionRequest) throws -> Future<Void> {
+        return try client.send(operation: "RemovePermission", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes the specified targets from the specified rule. When the rule is triggered, those targets are no longer be invoked. When you remove a target, when the associated rule triggers, removed targets might continue to be invoked. Allow a short period of time for changes to take effect. This action can partially fail if too many requests are made at the same time. If that happens, FailedEntryCount is non-zero in the response and each entry in FailedEntries provides the ID of the failed target and the error code.

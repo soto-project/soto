@@ -86,8 +86,8 @@ public struct CognitoSync {
     }
 
     ///  Sets the AWS Lambda function for a given event type for an identity pool. This request only updates the key/value pair specified. Other key/values pairs are not updated. To remove a key value pair, pass a empty value for the particular key. This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
-    public func setCognitoEvents(_ input: SetCognitoEventsRequest) throws {
-        _ = try client.send(operation: "SetCognitoEvents", path: "/identitypools/{IdentityPoolId}/events", httpMethod: "POST", input: input)
+    @discardableResult public func setCognitoEvents(_ input: SetCognitoEventsRequest) throws -> Future<Void> {
+        return try client.send(operation: "SetCognitoEvents", path: "/identitypools/{IdentityPoolId}/events", httpMethod: "POST", input: input)
     }
 
     ///  Sets the necessary configuration for push sync. This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.

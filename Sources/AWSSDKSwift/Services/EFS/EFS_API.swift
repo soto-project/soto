@@ -36,23 +36,23 @@ public struct EFS {
     }
 
     ///  Creates or overwrites tags associated with a file system. Each tag is a key-value pair. If a tag key specified in the request already exists on the file system, this operation overwrites its value with the value provided in the request. If you add the Name tag to your file system, Amazon EFS returns it in the response to the DescribeFileSystems operation.  This operation requires permission for the elasticfilesystem:CreateTags action.
-    public func createTags(_ input: CreateTagsRequest) throws {
-        _ = try client.send(operation: "CreateTags", path: "/2015-02-01/create-tags/{FileSystemId}", httpMethod: "POST", input: input)
+    @discardableResult public func createTags(_ input: CreateTagsRequest) throws -> Future<Void> {
+        return try client.send(operation: "CreateTags", path: "/2015-02-01/create-tags/{FileSystemId}", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a file system, permanently severing access to its contents. Upon return, the file system no longer exists and you can't access any contents of the deleted file system.  You can't delete a file system that is in use. That is, if the file system has any mount targets, you must first delete them. For more information, see DescribeMountTargets and DeleteMountTarget.   The DeleteFileSystem call returns while the file system state is still deleting. You can check the file system deletion status by calling the DescribeFileSystems operation, which returns a list of file systems in your account. If you pass file system ID or creation token for the deleted file system, the DescribeFileSystems returns a 404 FileSystemNotFound error.  This operation requires permissions for the elasticfilesystem:DeleteFileSystem action.
-    public func deleteFileSystem(_ input: DeleteFileSystemRequest) throws {
-        _ = try client.send(operation: "DeleteFileSystem", path: "/2015-02-01/file-systems/{FileSystemId}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteFileSystem(_ input: DeleteFileSystemRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteFileSystem", path: "/2015-02-01/file-systems/{FileSystemId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the specified mount target. This operation forcibly breaks any mounts of the file system via the mount target that is being deleted, which might disrupt instances or applications using those mounts. To avoid applications getting cut off abruptly, you might consider unmounting any mounts of the mount target, if feasible. The operation also deletes the associated network interface. Uncommitted writes may be lost, but breaking a mount target using this operation does not corrupt the file system itself. The file system you created remains. You can mount an EC2 instance in your VPC via another mount target. This operation requires permissions for the following action on the file system:    elasticfilesystem:DeleteMountTarget     The DeleteMountTarget call returns while the mount target state is still deleting. You can check the mount target deletion by calling the DescribeMountTargets operation, which returns a list of mount target descriptions for the given file system.   The operation also requires permissions for the following Amazon EC2 action on the mount target's network interface:    ec2:DeleteNetworkInterface   
-    public func deleteMountTarget(_ input: DeleteMountTargetRequest) throws {
-        _ = try client.send(operation: "DeleteMountTarget", path: "/2015-02-01/mount-targets/{MountTargetId}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteMountTarget(_ input: DeleteMountTargetRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteMountTarget", path: "/2015-02-01/mount-targets/{MountTargetId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the specified tags from a file system. If the DeleteTags request includes a tag key that does not exist, Amazon EFS ignores it and doesn't cause an error. For more information about tags and related restrictions, see Tag Restrictions in the AWS Billing and Cost Management User Guide. This operation requires permissions for the elasticfilesystem:DeleteTags action.
-    public func deleteTags(_ input: DeleteTagsRequest) throws {
-        _ = try client.send(operation: "DeleteTags", path: "/2015-02-01/delete-tags/{FileSystemId}", httpMethod: "POST", input: input)
+    @discardableResult public func deleteTags(_ input: DeleteTagsRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteTags", path: "/2015-02-01/delete-tags/{FileSystemId}", httpMethod: "POST", input: input)
     }
 
     ///  Returns the description of a specific Amazon EFS file system if either the file system CreationToken or the FileSystemId is provided. Otherwise, it returns descriptions of all file systems owned by the caller's AWS account in the AWS Region of the endpoint that you're calling.  When retrieving all file system descriptions, you can optionally specify the MaxItems parameter to limit the number of descriptions in a response. If more file system descriptions remain, Amazon EFS returns a NextMarker, an opaque token, in the response. In this case, you should send a subsequent request with the Marker request parameter set to the value of NextMarker.  To retrieve a list of your file system descriptions, this operation is used in an iterative process, where DescribeFileSystems is called first without the Marker and then the operation continues to call it with the Marker parameter set to the value of the NextMarker from the previous response until the response has no NextMarker.  The implementation may return fewer than MaxItems file system descriptions while still including a NextMarker value.   The order of file systems returned in the response of one DescribeFileSystems call and the order of file systems returned across the responses of a multi-call iteration is unspecified.   This operation requires permissions for the elasticfilesystem:DescribeFileSystems action. 
@@ -76,8 +76,8 @@ public struct EFS {
     }
 
     ///  Modifies the set of security groups in effect for a mount target. When you create a mount target, Amazon EFS also creates a new network interface. For more information, see CreateMountTarget. This operation replaces the security groups in effect for the network interface associated with a mount target, with the SecurityGroups provided in the request. This operation requires that the network interface of the mount target has been created and the lifecycle state of the mount target is not deleted.  The operation requires permissions for the following actions:    elasticfilesystem:ModifyMountTargetSecurityGroups action on the mount target's file system.     ec2:ModifyNetworkInterfaceAttribute action on the mount target's network interface.   
-    public func modifyMountTargetSecurityGroups(_ input: ModifyMountTargetSecurityGroupsRequest) throws {
-        _ = try client.send(operation: "ModifyMountTargetSecurityGroups", path: "/2015-02-01/mount-targets/{MountTargetId}/security-groups", httpMethod: "PUT", input: input)
+    @discardableResult public func modifyMountTargetSecurityGroups(_ input: ModifyMountTargetSecurityGroupsRequest) throws -> Future<Void> {
+        return try client.send(operation: "ModifyMountTargetSecurityGroups", path: "/2015-02-01/mount-targets/{MountTargetId}/security-groups", httpMethod: "PUT", input: input)
     }
 
     ///  Updates the throughput mode or the amount of provisioned throughput of an existing file system.

@@ -157,8 +157,8 @@ public struct DynamoDB {
     }
 
     ///  Associate a set of tags with an Amazon DynamoDB resource. You can then activate these user-defined tags so that they appear on the Billing and Cost Management console for cost allocation tracking. You can call TagResource up to 5 times per second, per account.  For an overview on tagging DynamoDB resources, see Tagging for DynamoDB in the Amazon DynamoDB Developer Guide.
-    public func tagResource(_ input: TagResourceInput) throws {
-        _ = try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func tagResource(_ input: TagResourceInput) throws -> Future<Void> {
+        return try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   TransactGetItems is a synchronous operation that atomically retrieves multiple items from one or more tables (but not from indexes) in a single account and region. A TransactGetItems call can contain up to 10 TransactGetItem objects, each of which contains a Get structure that specifies an item to retrieve from a table in the account and region. A call to TransactGetItems cannot retrieve items from tables in more than one AWS account or region. DynamoDB rejects the entire TransactGetItems request if any of the following is true:   A conflicting operation is in the process of updating an item to be read.   There is insufficient provisioned capacity for the transaction to be completed.   There is a user error, such as an invalid data format.  
@@ -172,8 +172,8 @@ public struct DynamoDB {
     }
 
     ///  Removes the association of tags from an Amazon DynamoDB resource. You can call UntagResource up to 5 times per second, per account.  For an overview on tagging DynamoDB resources, see Tagging for DynamoDB in the Amazon DynamoDB Developer Guide.
-    public func untagResource(_ input: UntagResourceInput) throws {
-        _ = try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func untagResource(_ input: UntagResourceInput) throws -> Future<Void> {
+        return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   UpdateContinuousBackups enables or disables point in time recovery for the specified table. A successful UpdateContinuousBackups call returns the current ContinuousBackupsDescription. Continuous backups are ENABLED on all tables at table creation. If point in time recovery is enabled, PointInTimeRecoveryStatus will be set to ENABLED.  Once continuous backups and point in time recovery are enabled, you can restore to any point in time within EarliestRestorableDateTime and LatestRestorableDateTime.   LatestRestorableDateTime is typically 5 minutes before the current time. You can restore your table to any point in time during the last 35 days.. 

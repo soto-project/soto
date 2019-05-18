@@ -25,8 +25,8 @@ public struct MediaTailor {
     }
 
     ///  Deletes the configuration for the specified name. 
-    public func deletePlaybackConfiguration(_ input: DeletePlaybackConfigurationRequest) throws {
-        _ = try client.send(operation: "DeletePlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deletePlaybackConfiguration(_ input: DeletePlaybackConfigurationRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeletePlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: "DELETE", input: input)
     }
 
     ///  Returns the configuration for the specified name. 

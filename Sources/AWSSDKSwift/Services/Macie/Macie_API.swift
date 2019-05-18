@@ -27,8 +27,8 @@ public struct Macie {
     }
 
     ///  Associates a specified AWS account with Amazon Macie as a member account.
-    public func associateMemberAccount(_ input: AssociateMemberAccountRequest) throws {
-        _ = try client.send(operation: "AssociateMemberAccount", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func associateMemberAccount(_ input: AssociateMemberAccountRequest) throws -> Future<Void> {
+        return try client.send(operation: "AssociateMemberAccount", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Associates specified S3 resources with Amazon Macie for monitoring and data classification. If memberAccountId isn't specified, the action associates specified S3 resources with Macie for the current master account. If memberAccountId is specified, the action associates specified S3 resources with Macie for the specified member account. 
@@ -37,8 +37,8 @@ public struct Macie {
     }
 
     ///  Removes the specified member account from Amazon Macie.
-    public func disassociateMemberAccount(_ input: DisassociateMemberAccountRequest) throws {
-        _ = try client.send(operation: "DisassociateMemberAccount", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func disassociateMemberAccount(_ input: DisassociateMemberAccountRequest) throws -> Future<Void> {
+        return try client.send(operation: "DisassociateMemberAccount", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes specified S3 resources from being monitored by Amazon Macie. If memberAccountId isn't specified, the action removes specified S3 resources from Macie for the current master account. If memberAccountId is specified, the action removes specified S3 resources from Macie for the specified member account.

@@ -87,18 +87,18 @@ public struct GameLift {
     }
 
     ///  Deletes an alias. This action removes all record of the alias. Game clients attempting to access a server process using the deleted alias receive an error. To delete an alias, specify the alias ID to be deleted. Alias-related operations include:    CreateAlias     ListAliases     DescribeAlias     UpdateAlias     DeleteAlias     ResolveAlias   
-    public func deleteAlias(_ input: DeleteAliasInput) throws {
-        _ = try client.send(operation: "DeleteAlias", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteAlias(_ input: DeleteAliasInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteAlias", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a build. This action permanently deletes the build record and any uploaded build files. To delete a build, specify its ID. Deleting a build does not affect the status of any active fleets using the build, but you can no longer create new fleets with the deleted build. Build-related operations include:    CreateBuild     ListBuilds     DescribeBuild     UpdateBuild     DeleteBuild   
-    public func deleteBuild(_ input: DeleteBuildInput) throws {
-        _ = try client.send(operation: "DeleteBuild", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteBuild(_ input: DeleteBuildInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteBuild", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes everything related to a fleet. Before deleting a fleet, you must set the fleet's desired capacity to zero. See UpdateFleetCapacity. This action removes the fleet's resources and the fleet record. Once a fleet is deleted, you can no longer use that fleet. Fleet-related operations include:    CreateFleet     ListFleets     DeleteFleet    Describe fleets:    DescribeFleetAttributes     DescribeFleetCapacity     DescribeFleetPortSettings     DescribeFleetUtilization     DescribeRuntimeConfiguration     DescribeEC2InstanceLimits     DescribeFleetEvents      Update fleets:    UpdateFleetAttributes     UpdateFleetCapacity     UpdateFleetPortSettings     UpdateRuntimeConfiguration      Manage fleet actions:    StartFleetActions     StopFleetActions     
-    public func deleteFleet(_ input: DeleteFleetInput) throws {
-        _ = try client.send(operation: "DeleteFleet", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteFleet(_ input: DeleteFleetInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteFleet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a game session queue. This action means that any StartGameSessionPlacement requests that reference this queue will fail. To delete a queue, specify the queue name. Queue-related operations include:    CreateGameSessionQueue     DescribeGameSessionQueues     UpdateGameSessionQueue     DeleteGameSessionQueue   
@@ -112,8 +112,8 @@ public struct GameLift {
     }
 
     ///  Deletes a fleet scaling policy. This action means that the policy is no longer in force and removes all record of it. To delete a scaling policy, specify both the scaling policy name and the fleet ID it is associated with. To temporarily suspend scaling policies, call StopFleetActions. This operation suspends all policies for the fleet. Operations related to fleet capacity scaling include:    DescribeFleetCapacity     UpdateFleetCapacity     DescribeEC2InstanceLimits    Manage scaling policies:    PutScalingPolicy (auto-scaling)    DescribeScalingPolicies (auto-scaling)    DeleteScalingPolicy (auto-scaling)     Manage fleet actions:    StartFleetActions     StopFleetActions     
-    public func deleteScalingPolicy(_ input: DeleteScalingPolicyInput) throws {
-        _ = try client.send(operation: "DeleteScalingPolicy", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteScalingPolicy(_ input: DeleteScalingPolicyInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteScalingPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Cancels a pending VPC peering authorization for the specified VPC. If the authorization has already been used to create a peering connection, call DeleteVpcPeeringConnection to remove the connection.  VPC peering connection operations include:    CreateVpcPeeringAuthorization     DescribeVpcPeeringAuthorizations     DeleteVpcPeeringAuthorization     CreateVpcPeeringConnection     DescribeVpcPeeringConnections     DeleteVpcPeeringConnection   

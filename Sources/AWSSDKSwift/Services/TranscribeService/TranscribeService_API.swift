@@ -32,13 +32,13 @@ public struct TranscribeService {
     }
 
     ///  Deletes a previously submitted transcription job along with any other generated results such as the transcription, models, and so on.
-    public func deleteTranscriptionJob(_ input: DeleteTranscriptionJobRequest) throws {
-        _ = try client.send(operation: "DeleteTranscriptionJob", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteTranscriptionJob(_ input: DeleteTranscriptionJobRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteTranscriptionJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a vocabulary from Amazon Transcribe. 
-    public func deleteVocabulary(_ input: DeleteVocabularyRequest) throws {
-        _ = try client.send(operation: "DeleteVocabulary", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteVocabulary(_ input: DeleteVocabularyRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteVocabulary", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about a transcription job. To see the status of the job, check the TranscriptionJobStatus field. If the status is COMPLETED, the job is finished and you can find the results at the location specified in the TranscriptionFileUri field.

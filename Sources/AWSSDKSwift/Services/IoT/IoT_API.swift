@@ -26,8 +26,8 @@ public struct IoT {
     }
 
     ///  Accepts a pending certificate transfer. The default state of the certificate is INACTIVE. To check for pending certificate transfers, call ListCertificates to enumerate your certificates.
-    public func acceptCertificateTransfer(_ input: AcceptCertificateTransferRequest) throws {
-        _ = try client.send(operation: "AcceptCertificateTransfer", path: "/accept-certificate-transfer/{certificateId}", httpMethod: "PATCH", input: input)
+    @discardableResult public func acceptCertificateTransfer(_ input: AcceptCertificateTransferRequest) throws -> Future<Void> {
+        return try client.send(operation: "AcceptCertificateTransfer", path: "/accept-certificate-transfer/{certificateId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Adds a thing to a billing group.
@@ -46,13 +46,13 @@ public struct IoT {
     }
 
     ///  Attaches a policy to the specified target.
-    public func attachPolicy(_ input: AttachPolicyRequest) throws {
-        _ = try client.send(operation: "AttachPolicy", path: "/target-policies/{policyName}", httpMethod: "PUT", input: input)
+    @discardableResult public func attachPolicy(_ input: AttachPolicyRequest) throws -> Future<Void> {
+        return try client.send(operation: "AttachPolicy", path: "/target-policies/{policyName}", httpMethod: "PUT", input: input)
     }
 
     ///  Attaches the specified policy to the specified principal (certificate or other credential).  Note: This API is deprecated. Please use AttachPolicy instead.
-    public func attachPrincipalPolicy(_ input: AttachPrincipalPolicyRequest) throws {
-        _ = try client.send(operation: "AttachPrincipalPolicy", path: "/principal-policies/{policyName}", httpMethod: "PUT", input: input)
+    @discardableResult public func attachPrincipalPolicy(_ input: AttachPrincipalPolicyRequest) throws -> Future<Void> {
+        return try client.send(operation: "AttachPrincipalPolicy", path: "/principal-policies/{policyName}", httpMethod: "PUT", input: input)
     }
 
     ///  Associates a Device Defender security profile with a thing group or with this account. Each thing group or account can have up to five security profiles associated with it.
@@ -71,8 +71,8 @@ public struct IoT {
     }
 
     ///  Cancels a pending transfer for the specified certificate.  Note Only the transfer source account can use this operation to cancel a transfer. (Transfer destinations can use RejectCertificateTransfer instead.) After transfer, AWS IoT returns the certificate to the source account in the INACTIVE state. After the destination account has accepted the transfer, the transfer cannot be cancelled. After a certificate transfer is cancelled, the status of the certificate changes from PENDING_TRANSFER to INACTIVE.
-    public func cancelCertificateTransfer(_ input: CancelCertificateTransferRequest) throws {
-        _ = try client.send(operation: "CancelCertificateTransfer", path: "/cancel-certificate-transfer/{certificateId}", httpMethod: "PATCH", input: input)
+    @discardableResult public func cancelCertificateTransfer(_ input: CancelCertificateTransferRequest) throws -> Future<Void> {
+        return try client.send(operation: "CancelCertificateTransfer", path: "/cancel-certificate-transfer/{certificateId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Cancels a job.
@@ -81,8 +81,8 @@ public struct IoT {
     }
 
     ///  Cancels the execution of a job for a given thing.
-    public func cancelJobExecution(_ input: CancelJobExecutionRequest) throws {
-        _ = try client.send(operation: "CancelJobExecution", path: "/things/{thingName}/jobs/{jobId}/cancel", httpMethod: "PUT", input: input)
+    @discardableResult public func cancelJobExecution(_ input: CancelJobExecutionRequest) throws -> Future<Void> {
+        return try client.send(operation: "CancelJobExecution", path: "/things/{thingName}/jobs/{jobId}/cancel", httpMethod: "PUT", input: input)
     }
 
     ///  Clears the default authorizer.
@@ -171,8 +171,8 @@ public struct IoT {
     }
 
     ///  Creates a rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule.
-    public func createTopicRule(_ input: CreateTopicRuleRequest) throws {
-        _ = try client.send(operation: "CreateTopicRule", path: "/rules/{ruleName}", httpMethod: "POST", input: input)
+    @discardableResult public func createTopicRule(_ input: CreateTopicRuleRequest) throws -> Future<Void> {
+        return try client.send(operation: "CreateTopicRule", path: "/rules/{ruleName}", httpMethod: "POST", input: input)
     }
 
     ///  Restores the default settings for Device Defender audits for this account. Any configuration data you entered is deleted and all audit checks are reset to disabled. 
@@ -196,8 +196,8 @@ public struct IoT {
     }
 
     ///  Deletes the specified certificate. A certificate cannot be deleted if it has a policy attached to it or if its status is set to ACTIVE. To delete a certificate, first use the DetachPrincipalPolicy API to detach all policies. Next, use the UpdateCertificate API to set the certificate to the INACTIVE status.
-    public func deleteCertificate(_ input: DeleteCertificateRequest) throws {
-        _ = try client.send(operation: "DeleteCertificate", path: "/certificates/{certificateId}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteCertificate(_ input: DeleteCertificateRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteCertificate", path: "/certificates/{certificateId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a dynamic thing group.
@@ -206,13 +206,13 @@ public struct IoT {
     }
 
     ///  Deletes a job and its related job executions. Deleting a job may take time, depending on the number of job executions created for the job and various other factors. While the job is being deleted, the status of the job will be shown as "DELETION_IN_PROGRESS". Attempting to delete or cancel a job whose status is already "DELETION_IN_PROGRESS" will result in an error. Only 10 jobs may have status "DELETION_IN_PROGRESS" at the same time, or a LimitExceededException will occur.
-    public func deleteJob(_ input: DeleteJobRequest) throws {
-        _ = try client.send(operation: "DeleteJob", path: "/jobs/{jobId}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteJob(_ input: DeleteJobRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteJob", path: "/jobs/{jobId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a job execution.
-    public func deleteJobExecution(_ input: DeleteJobExecutionRequest) throws {
-        _ = try client.send(operation: "DeleteJobExecution", path: "/things/{thingName}/jobs/{jobId}/executionNumber/{executionNumber}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteJobExecution(_ input: DeleteJobExecutionRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteJobExecution", path: "/things/{thingName}/jobs/{jobId}/executionNumber/{executionNumber}", httpMethod: "DELETE", input: input)
     }
 
     ///  Delete an OTA update.
@@ -221,13 +221,13 @@ public struct IoT {
     }
 
     ///  Deletes the specified policy. A policy cannot be deleted if it has non-default versions or it is attached to any certificate. To delete a policy, use the DeletePolicyVersion API to delete all non-default versions of the policy; use the DetachPrincipalPolicy API to detach the policy from any certificate; and then use the DeletePolicy API to delete the policy. When a policy is deleted using DeletePolicy, its default version is deleted with it.
-    public func deletePolicy(_ input: DeletePolicyRequest) throws {
-        _ = try client.send(operation: "DeletePolicy", path: "/policies/{policyName}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deletePolicy(_ input: DeletePolicyRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeletePolicy", path: "/policies/{policyName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the specified version of the specified policy. You cannot delete the default version of a policy using this API. To delete the default version of a policy, use DeletePolicy. To find out which version of a policy is marked as the default version, use ListPolicyVersions.
-    public func deletePolicyVersion(_ input: DeletePolicyVersionRequest) throws {
-        _ = try client.send(operation: "DeletePolicyVersion", path: "/policies/{policyName}/version/{policyVersionId}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deletePolicyVersion(_ input: DeletePolicyVersionRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeletePolicyVersion", path: "/policies/{policyName}/version/{policyVersionId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a CA certificate registration code.
@@ -271,13 +271,13 @@ public struct IoT {
     }
 
     ///  Deletes the rule.
-    public func deleteTopicRule(_ input: DeleteTopicRuleRequest) throws {
-        _ = try client.send(operation: "DeleteTopicRule", path: "/rules/{ruleName}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteTopicRule(_ input: DeleteTopicRuleRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteTopicRule", path: "/rules/{ruleName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a logging level.
-    public func deleteV2LoggingLevel(_ input: DeleteV2LoggingLevelRequest) throws {
-        _ = try client.send(operation: "DeleteV2LoggingLevel", path: "/v2LoggingLevel", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteV2LoggingLevel(_ input: DeleteV2LoggingLevelRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteV2LoggingLevel", path: "/v2LoggingLevel", httpMethod: "DELETE", input: input)
     }
 
     ///  Deprecates a thing type. You can not associate new things with deprecated thing type.
@@ -386,13 +386,13 @@ public struct IoT {
     }
 
     ///  Detaches a policy from the specified target.
-    public func detachPolicy(_ input: DetachPolicyRequest) throws {
-        _ = try client.send(operation: "DetachPolicy", path: "/target-policies/{policyName}", httpMethod: "POST", input: input)
+    @discardableResult public func detachPolicy(_ input: DetachPolicyRequest) throws -> Future<Void> {
+        return try client.send(operation: "DetachPolicy", path: "/target-policies/{policyName}", httpMethod: "POST", input: input)
     }
 
     ///  Removes the specified policy from the specified certificate.  Note: This API is deprecated. Please use DetachPolicy instead.
-    public func detachPrincipalPolicy(_ input: DetachPrincipalPolicyRequest) throws {
-        _ = try client.send(operation: "DetachPrincipalPolicy", path: "/principal-policies/{policyName}", httpMethod: "DELETE", input: input)
+    @discardableResult public func detachPrincipalPolicy(_ input: DetachPrincipalPolicyRequest) throws -> Future<Void> {
+        return try client.send(operation: "DetachPrincipalPolicy", path: "/principal-policies/{policyName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Disassociates a Device Defender security profile from a thing group or from this account.
@@ -406,13 +406,13 @@ public struct IoT {
     }
 
     ///  Disables the rule.
-    public func disableTopicRule(_ input: DisableTopicRuleRequest) throws {
-        _ = try client.send(operation: "DisableTopicRule", path: "/rules/{ruleName}/disable", httpMethod: "POST", input: input)
+    @discardableResult public func disableTopicRule(_ input: DisableTopicRuleRequest) throws -> Future<Void> {
+        return try client.send(operation: "DisableTopicRule", path: "/rules/{ruleName}/disable", httpMethod: "POST", input: input)
     }
 
     ///  Enables the rule.
-    public func enableTopicRule(_ input: EnableTopicRuleRequest) throws {
-        _ = try client.send(operation: "EnableTopicRule", path: "/rules/{ruleName}/enable", httpMethod: "POST", input: input)
+    @discardableResult public func enableTopicRule(_ input: EnableTopicRuleRequest) throws -> Future<Void> {
+        return try client.send(operation: "EnableTopicRule", path: "/rules/{ruleName}/enable", httpMethod: "POST", input: input)
     }
 
     ///  Gets a list of the policies that have an effect on the authorization behavior of the specified device when it connects to the AWS IoT device gateway.
@@ -681,8 +681,8 @@ public struct IoT {
     }
 
     ///  Rejects a pending certificate transfer. After AWS IoT rejects a certificate transfer, the certificate status changes from PENDING_TRANSFER to INACTIVE. To check for pending certificate transfers, call ListCertificates to enumerate your certificates. This operation can only be called by the transfer destination. After it is called, the certificate will be returned to the source's account in the INACTIVE state.
-    public func rejectCertificateTransfer(_ input: RejectCertificateTransferRequest) throws {
-        _ = try client.send(operation: "RejectCertificateTransfer", path: "/reject-certificate-transfer/{certificateId}", httpMethod: "PATCH", input: input)
+    @discardableResult public func rejectCertificateTransfer(_ input: RejectCertificateTransferRequest) throws -> Future<Void> {
+        return try client.send(operation: "RejectCertificateTransfer", path: "/reject-certificate-transfer/{certificateId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Removes the given thing from the billing group.
@@ -696,8 +696,8 @@ public struct IoT {
     }
 
     ///  Replaces the rule. You must specify all parameters for the new rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule.
-    public func replaceTopicRule(_ input: ReplaceTopicRuleRequest) throws {
-        _ = try client.send(operation: "ReplaceTopicRule", path: "/rules/{ruleName}", httpMethod: "PATCH", input: input)
+    @discardableResult public func replaceTopicRule(_ input: ReplaceTopicRuleRequest) throws -> Future<Void> {
+        return try client.send(operation: "ReplaceTopicRule", path: "/rules/{ruleName}", httpMethod: "PATCH", input: input)
     }
 
     ///  The query search index.
@@ -711,23 +711,23 @@ public struct IoT {
     }
 
     ///  Sets the specified version of the specified policy as the policy's default (operative) version. This action affects all certificates to which the policy is attached. To list the principals the policy is attached to, use the ListPrincipalPolicy API.
-    public func setDefaultPolicyVersion(_ input: SetDefaultPolicyVersionRequest) throws {
-        _ = try client.send(operation: "SetDefaultPolicyVersion", path: "/policies/{policyName}/version/{policyVersionId}", httpMethod: "PATCH", input: input)
+    @discardableResult public func setDefaultPolicyVersion(_ input: SetDefaultPolicyVersionRequest) throws -> Future<Void> {
+        return try client.send(operation: "SetDefaultPolicyVersion", path: "/policies/{policyName}/version/{policyVersionId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Sets the logging options. NOTE: use of this command is not recommended. Use SetV2LoggingOptions instead.
-    public func setLoggingOptions(_ input: SetLoggingOptionsRequest) throws {
-        _ = try client.send(operation: "SetLoggingOptions", path: "/loggingOptions", httpMethod: "POST", input: input)
+    @discardableResult public func setLoggingOptions(_ input: SetLoggingOptionsRequest) throws -> Future<Void> {
+        return try client.send(operation: "SetLoggingOptions", path: "/loggingOptions", httpMethod: "POST", input: input)
     }
 
     ///  Sets the logging level.
-    public func setV2LoggingLevel(_ input: SetV2LoggingLevelRequest) throws {
-        _ = try client.send(operation: "SetV2LoggingLevel", path: "/v2LoggingLevel", httpMethod: "POST", input: input)
+    @discardableResult public func setV2LoggingLevel(_ input: SetV2LoggingLevelRequest) throws -> Future<Void> {
+        return try client.send(operation: "SetV2LoggingLevel", path: "/v2LoggingLevel", httpMethod: "POST", input: input)
     }
 
     ///  Sets the logging options for the V2 logging service.
-    public func setV2LoggingOptions(_ input: SetV2LoggingOptionsRequest) throws {
-        _ = try client.send(operation: "SetV2LoggingOptions", path: "/v2LoggingOptions", httpMethod: "POST", input: input)
+    @discardableResult public func setV2LoggingOptions(_ input: SetV2LoggingOptionsRequest) throws -> Future<Void> {
+        return try client.send(operation: "SetV2LoggingOptions", path: "/v2LoggingOptions", httpMethod: "POST", input: input)
     }
 
     ///  Starts an on-demand Device Defender audit.
@@ -786,13 +786,13 @@ public struct IoT {
     }
 
     ///  Updates a registered CA certificate.
-    public func updateCACertificate(_ input: UpdateCACertificateRequest) throws {
-        _ = try client.send(operation: "UpdateCACertificate", path: "/cacertificate/{caCertificateId}", httpMethod: "PUT", input: input)
+    @discardableResult public func updateCACertificate(_ input: UpdateCACertificateRequest) throws -> Future<Void> {
+        return try client.send(operation: "UpdateCACertificate", path: "/cacertificate/{caCertificateId}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates the status of the specified certificate. This operation is idempotent. Moving a certificate from the ACTIVE state (including REVOKED) will not disconnect currently connected devices, but these devices will be unable to reconnect. The ACTIVE state is required to authenticate devices connecting to AWS IoT using a certificate.
-    public func updateCertificate(_ input: UpdateCertificateRequest) throws {
-        _ = try client.send(operation: "UpdateCertificate", path: "/certificates/{certificateId}", httpMethod: "PUT", input: input)
+    @discardableResult public func updateCertificate(_ input: UpdateCertificateRequest) throws -> Future<Void> {
+        return try client.send(operation: "UpdateCertificate", path: "/certificates/{certificateId}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates a dynamic thing group.
@@ -811,8 +811,8 @@ public struct IoT {
     }
 
     ///  Updates supported fields of the specified job.
-    public func updateJob(_ input: UpdateJobRequest) throws {
-        _ = try client.send(operation: "UpdateJob", path: "/jobs/{jobId}", httpMethod: "PATCH", input: input)
+    @discardableResult public func updateJob(_ input: UpdateJobRequest) throws -> Future<Void> {
+        return try client.send(operation: "UpdateJob", path: "/jobs/{jobId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates a role alias.

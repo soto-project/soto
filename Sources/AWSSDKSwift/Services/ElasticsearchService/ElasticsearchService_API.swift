@@ -26,8 +26,8 @@ public struct ElasticsearchService {
     }
 
     ///  Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags. See  Tagging Amazon Elasticsearch Service Domains for more information.
-    public func addTags(_ input: AddTagsRequest) throws {
-        _ = try client.send(operation: "AddTags", path: "/2015-01-01/tags", httpMethod: "POST", input: input)
+    @discardableResult public func addTags(_ input: AddTagsRequest) throws -> Future<Void> {
+        return try client.send(operation: "AddTags", path: "/2015-01-01/tags", httpMethod: "POST", input: input)
     }
 
     ///  Cancels a scheduled service software update for an Amazon ES domain. You can only perform this operation before the AutomatedUpdateDate and when the UpdateStatus is in the PENDING_UPDATE state.
@@ -46,8 +46,8 @@ public struct ElasticsearchService {
     }
 
     ///  Deletes the service-linked role that Elasticsearch Service uses to manage and maintain VPC domains. Role deletion will fail if any existing VPC domains use the role. You must delete any such Elasticsearch domains before deleting the role. See Deleting Elasticsearch Service Role in VPC Endpoints for Amazon Elasticsearch Service Domains.
-    public func deleteElasticsearchServiceRole() throws {
-        _ = try client.send(operation: "DeleteElasticsearchServiceRole", path: "/2015-01-01/es/role", httpMethod: "DELETE")
+    @discardableResult public func deleteElasticsearchServiceRole() throws -> Future<Void> {
+        return try client.send(operation: "DeleteElasticsearchServiceRole", path: "/2015-01-01/es/role", httpMethod: "DELETE")
     }
 
     ///  Returns domain configuration information about the specified Elasticsearch domain, including the domain ID, domain endpoint, and domain ARN.
@@ -121,8 +121,8 @@ public struct ElasticsearchService {
     }
 
     ///  Removes the specified set of tags from the specified Elasticsearch domain.
-    public func removeTags(_ input: RemoveTagsRequest) throws {
-        _ = try client.send(operation: "RemoveTags", path: "/2015-01-01/tags-removal", httpMethod: "POST", input: input)
+    @discardableResult public func removeTags(_ input: RemoveTagsRequest) throws -> Future<Void> {
+        return try client.send(operation: "RemoveTags", path: "/2015-01-01/tags-removal", httpMethod: "POST", input: input)
     }
 
     ///  Schedules a service software update for an Amazon ES domain.
