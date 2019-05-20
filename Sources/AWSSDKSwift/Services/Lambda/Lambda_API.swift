@@ -51,8 +51,8 @@ public struct Lambda {
     }
 
     ///  Deletes the specified Lambda function alias. For more information, see Introduction to AWS Lambda Aliases. This requires permission for the lambda:DeleteAlias action.
-    public func deleteAlias(_ input: DeleteAliasRequest) throws {
-        _ = try client.send(operation: "DeleteAlias", path: "/2015-03-31/functions/{FunctionName}/aliases/{Name}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteAlias(_ input: DeleteAliasRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteAlias", path: "/2015-03-31/functions/{FunctionName}/aliases/{Name}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an event source mapping.
@@ -61,18 +61,18 @@ public struct Lambda {
     }
 
     ///  Deletes a Lambda function. To delete a specific function version, use the Qualifier parameter. Otherwise, all versions and aliases are deleted. Event source mappings are not deleted. This operation requires permission for the lambda:DeleteFunction action.
-    public func deleteFunction(_ input: DeleteFunctionRequest) throws {
-        _ = try client.send(operation: "DeleteFunction", path: "/2015-03-31/functions/{FunctionName}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteFunction(_ input: DeleteFunctionRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteFunction", path: "/2015-03-31/functions/{FunctionName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Removes concurrent execution limits from this function. For more information, see Managing Concurrency.
-    public func deleteFunctionConcurrency(_ input: DeleteFunctionConcurrencyRequest) throws {
-        _ = try client.send(operation: "DeleteFunctionConcurrency", path: "/2017-10-31/functions/{FunctionName}/concurrency", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteFunctionConcurrency(_ input: DeleteFunctionConcurrencyRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteFunctionConcurrency", path: "/2017-10-31/functions/{FunctionName}/concurrency", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a version of a function layer. Deleted versions can no longer be viewed or added to functions. However, a copy of the version remains in Lambda until no functions refer to it.
-    public func deleteLayerVersion(_ input: DeleteLayerVersionRequest) throws {
-        _ = try client.send(operation: "DeleteLayerVersion", path: "/2018-10-31/layers/{LayerName}/versions/{VersionNumber}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteLayerVersion(_ input: DeleteLayerVersionRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteLayerVersion", path: "/2018-10-31/layers/{LayerName}/versions/{VersionNumber}", httpMethod: "DELETE", input: input)
     }
 
     ///  Retrieves details about your account's limits and usage in a region.
@@ -176,23 +176,23 @@ public struct Lambda {
     }
 
     ///  Removes a statement from the permissions policy for a layer version. For more information, see AddLayerVersionPermission.
-    public func removeLayerVersionPermission(_ input: RemoveLayerVersionPermissionRequest) throws {
-        _ = try client.send(operation: "RemoveLayerVersionPermission", path: "/2018-10-31/layers/{LayerName}/versions/{VersionNumber}/policy/{StatementId}", httpMethod: "DELETE", input: input)
+    @discardableResult public func removeLayerVersionPermission(_ input: RemoveLayerVersionPermissionRequest) throws -> Future<Void> {
+        return try client.send(operation: "RemoveLayerVersionPermission", path: "/2018-10-31/layers/{LayerName}/versions/{VersionNumber}/policy/{StatementId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Removes permissions from a function. You can remove individual permissions from an resource policy associated with a Lambda function by providing a statement ID that you provided when you added the permission. When you remove permissions, disable the event source mapping or trigger configuration first to avoid errors. Permissions apply to the Amazon Resource Name (ARN) used to invoke the function, which can be unqualified (the unpublished version of the function), or include a version or alias. If a client uses a version or alias to invoke a function, use the Qualifier parameter to apply permissions to that ARN. For more information about versioning, see AWS Lambda Function Versioning and Aliases.  You need permission for the lambda:RemovePermission action.
-    public func removePermission(_ input: RemovePermissionRequest) throws {
-        _ = try client.send(operation: "RemovePermission", path: "/2015-03-31/functions/{FunctionName}/policy/{StatementId}", httpMethod: "DELETE", input: input)
+    @discardableResult public func removePermission(_ input: RemovePermissionRequest) throws -> Future<Void> {
+        return try client.send(operation: "RemovePermission", path: "/2015-03-31/functions/{FunctionName}/policy/{StatementId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Creates a list of tags (key-value pairs) on the Lambda function. Requires the Lambda function ARN (Amazon Resource Name). If a key is specified without a value, Lambda creates a tag with the specified key and a value of null. For more information, see Tagging Lambda Functions in the AWS Lambda Developer Guide. 
-    public func tagResource(_ input: TagResourceRequest) throws {
-        _ = try client.send(operation: "TagResource", path: "/2017-03-31/tags/{ARN}", httpMethod: "POST", input: input)
+    @discardableResult public func tagResource(_ input: TagResourceRequest) throws -> Future<Void> {
+        return try client.send(operation: "TagResource", path: "/2017-03-31/tags/{ARN}", httpMethod: "POST", input: input)
     }
 
     ///  Removes tags from a Lambda function. Requires the function ARN (Amazon Resource Name). For more information, see Tagging Lambda Functions in the AWS Lambda Developer Guide. 
-    public func untagResource(_ input: UntagResourceRequest) throws {
-        _ = try client.send(operation: "UntagResource", path: "/2017-03-31/tags/{ARN}", httpMethod: "DELETE", input: input)
+    @discardableResult public func untagResource(_ input: UntagResourceRequest) throws -> Future<Void> {
+        return try client.send(operation: "UntagResource", path: "/2017-03-31/tags/{ARN}", httpMethod: "DELETE", input: input)
     }
 
     ///  Using this API you can update the function version to which the alias points and the alias description. For more information, see Introduction to AWS Lambda Aliases. This requires permission for the lambda:UpdateAlias action.

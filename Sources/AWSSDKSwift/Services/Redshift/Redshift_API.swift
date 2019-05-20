@@ -111,8 +111,8 @@ public struct Redshift {
     }
 
     ///  Adds one or more tags to a specified resource. A resource can have up to 50 tags. If you try to create more than 50 tags for a resource, you will receive an error and the attempt will fail. If you specify a key that already exists for the resource, the value for that key will be updated with the new value.
-    public func createTags(_ input: CreateTagsMessage) throws {
-        _ = try client.send(operation: "CreateTags", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func createTags(_ input: CreateTagsMessage) throws -> Future<Void> {
+        return try client.send(operation: "CreateTags", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a previously provisioned cluster. A successful response from the web service indicates that the request was received correctly. Use DescribeClusters to monitor the status of the deletion. The delete operation cannot be canceled or reverted once submitted. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide. If you want to shut down the cluster and retain it for future use, set SkipFinalClusterSnapshot to false and specify a name for FinalClusterSnapshotIdentifier. You can later restore this snapshot to resume using the cluster. If a final cluster snapshot is requested, the status of the cluster will be "final-snapshot" while the snapshot is being taken, then it's "deleting" once Amazon Redshift begins deleting the cluster.   For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide.
@@ -121,13 +121,13 @@ public struct Redshift {
     }
 
     ///  Deletes a specified Amazon Redshift parameter group.  You cannot delete a parameter group if it is associated with a cluster. 
-    public func deleteClusterParameterGroup(_ input: DeleteClusterParameterGroupMessage) throws {
-        _ = try client.send(operation: "DeleteClusterParameterGroup", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteClusterParameterGroup(_ input: DeleteClusterParameterGroupMessage) throws -> Future<Void> {
+        return try client.send(operation: "DeleteClusterParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an Amazon Redshift security group.  You cannot delete a security group that is associated with any clusters. You cannot delete the default security group.   For information about managing security groups, go to Amazon Redshift Cluster Security Groups in the Amazon Redshift Cluster Management Guide.
-    public func deleteClusterSecurityGroup(_ input: DeleteClusterSecurityGroupMessage) throws {
-        _ = try client.send(operation: "DeleteClusterSecurityGroup", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteClusterSecurityGroup(_ input: DeleteClusterSecurityGroupMessage) throws -> Future<Void> {
+        return try client.send(operation: "DeleteClusterSecurityGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified manual snapshot. The snapshot must be in the available state, with no other users authorized to access the snapshot.  Unlike automated snapshots, manual snapshots are retained even after you delete your cluster. Amazon Redshift does not delete your manual snapshots. You must delete manual snapshot explicitly to avoid getting charged. If other accounts are authorized to access the snapshot, you must revoke all of the authorizations before you can delete the snapshot.
@@ -136,38 +136,38 @@ public struct Redshift {
     }
 
     ///  Deletes the specified cluster subnet group.
-    public func deleteClusterSubnetGroup(_ input: DeleteClusterSubnetGroupMessage) throws {
-        _ = try client.send(operation: "DeleteClusterSubnetGroup", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteClusterSubnetGroup(_ input: DeleteClusterSubnetGroupMessage) throws -> Future<Void> {
+        return try client.send(operation: "DeleteClusterSubnetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an Amazon Redshift event notification subscription.
-    public func deleteEventSubscription(_ input: DeleteEventSubscriptionMessage) throws {
-        _ = try client.send(operation: "DeleteEventSubscription", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteEventSubscription(_ input: DeleteEventSubscriptionMessage) throws -> Future<Void> {
+        return try client.send(operation: "DeleteEventSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified HSM client certificate.
-    public func deleteHsmClientCertificate(_ input: DeleteHsmClientCertificateMessage) throws {
-        _ = try client.send(operation: "DeleteHsmClientCertificate", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteHsmClientCertificate(_ input: DeleteHsmClientCertificateMessage) throws -> Future<Void> {
+        return try client.send(operation: "DeleteHsmClientCertificate", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified Amazon Redshift HSM configuration.
-    public func deleteHsmConfiguration(_ input: DeleteHsmConfigurationMessage) throws {
-        _ = try client.send(operation: "DeleteHsmConfiguration", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteHsmConfiguration(_ input: DeleteHsmConfigurationMessage) throws -> Future<Void> {
+        return try client.send(operation: "DeleteHsmConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified snapshot copy grant.
-    public func deleteSnapshotCopyGrant(_ input: DeleteSnapshotCopyGrantMessage) throws {
-        _ = try client.send(operation: "DeleteSnapshotCopyGrant", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteSnapshotCopyGrant(_ input: DeleteSnapshotCopyGrantMessage) throws -> Future<Void> {
+        return try client.send(operation: "DeleteSnapshotCopyGrant", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a snapshot schedule.
-    public func deleteSnapshotSchedule(_ input: DeleteSnapshotScheduleMessage) throws {
-        _ = try client.send(operation: "DeleteSnapshotSchedule", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteSnapshotSchedule(_ input: DeleteSnapshotScheduleMessage) throws -> Future<Void> {
+        return try client.send(operation: "DeleteSnapshotSchedule", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a tag or tags from a resource. You must provide the ARN of the resource from which you want to delete the tag or tags.
-    public func deleteTags(_ input: DeleteTagsMessage) throws {
-        _ = try client.send(operation: "DeleteTags", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteTags(_ input: DeleteTagsMessage) throws -> Future<Void> {
+        return try client.send(operation: "DeleteTags", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of attributes attached to an account
@@ -361,8 +361,8 @@ public struct Redshift {
     }
 
     ///  Modifies a snapshot schedule for a cluster.
-    public func modifyClusterSnapshotSchedule(_ input: ModifyClusterSnapshotScheduleMessage) throws {
-        _ = try client.send(operation: "ModifyClusterSnapshotSchedule", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func modifyClusterSnapshotSchedule(_ input: ModifyClusterSnapshotScheduleMessage) throws -> Future<Void> {
+        return try client.send(operation: "ModifyClusterSnapshotSchedule", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies a cluster subnet group to include the specified list of VPC subnets. The operation replaces the existing list of subnets with the new list of subnets.

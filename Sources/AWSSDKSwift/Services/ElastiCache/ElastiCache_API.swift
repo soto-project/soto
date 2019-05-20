@@ -82,18 +82,18 @@ public struct ElastiCache {
     }
 
     ///  Deletes the specified cache parameter group. You cannot delete a cache parameter group if it is associated with any cache clusters.
-    public func deleteCacheParameterGroup(_ input: DeleteCacheParameterGroupMessage) throws {
-        _ = try client.send(operation: "DeleteCacheParameterGroup", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteCacheParameterGroup(_ input: DeleteCacheParameterGroupMessage) throws -> Future<Void> {
+        return try client.send(operation: "DeleteCacheParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a cache security group.  You cannot delete a cache security group if it is associated with any clusters. 
-    public func deleteCacheSecurityGroup(_ input: DeleteCacheSecurityGroupMessage) throws {
-        _ = try client.send(operation: "DeleteCacheSecurityGroup", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteCacheSecurityGroup(_ input: DeleteCacheSecurityGroupMessage) throws -> Future<Void> {
+        return try client.send(operation: "DeleteCacheSecurityGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a cache subnet group.  You cannot delete a cache subnet group if it is associated with any clusters. 
-    public func deleteCacheSubnetGroup(_ input: DeleteCacheSubnetGroupMessage) throws {
-        _ = try client.send(operation: "DeleteCacheSubnetGroup", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteCacheSubnetGroup(_ input: DeleteCacheSubnetGroupMessage) throws -> Future<Void> {
+        return try client.send(operation: "DeleteCacheSubnetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an existing replication group. By default, this operation deletes the entire replication group, including the primary/primaries and all of the read replicas. If the replication group has only one primary, you can optionally delete only the read replicas, while retaining the primary by setting RetainPrimaryCluster=true. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the selected resources; you cannot cancel or revert this operation.  This operation is valid for Redis only. 

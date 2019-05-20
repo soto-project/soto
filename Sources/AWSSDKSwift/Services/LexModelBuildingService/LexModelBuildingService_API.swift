@@ -41,48 +41,48 @@ public struct LexModelBuildingService {
     }
 
     ///  Deletes all versions of the bot, including the $LATEST version. To delete a specific version of the bot, use the DeleteBotVersion operation. If a bot has an alias, you can't delete it. Instead, the DeleteBot operation returns a ResourceInUseException exception that includes a reference to the alias that refers to the bot. To remove the reference to the bot, delete the alias. If you get the same exception again, delete the referring alias until the DeleteBot operation is successful. This operation requires permissions for the lex:DeleteBot action.
-    public func deleteBot(_ input: DeleteBotRequest) throws {
-        _ = try client.send(operation: "DeleteBot", path: "/bots/{name}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteBot(_ input: DeleteBotRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteBot", path: "/bots/{name}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an alias for the specified bot.  You can't delete an alias that is used in the association between a bot and a messaging channel. If an alias is used in a channel association, the DeleteBot operation returns a ResourceInUseException exception that includes a reference to the channel association that refers to the bot. You can remove the reference to the alias by deleting the channel association. If you get the same exception again, delete the referring association until the DeleteBotAlias operation is successful.
-    public func deleteBotAlias(_ input: DeleteBotAliasRequest) throws {
-        _ = try client.send(operation: "DeleteBotAlias", path: "/bots/{botName}/aliases/{name}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteBotAlias(_ input: DeleteBotAliasRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteBotAlias", path: "/bots/{botName}/aliases/{name}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the association between an Amazon Lex bot and a messaging platform. This operation requires permission for the lex:DeleteBotChannelAssociation action.
-    public func deleteBotChannelAssociation(_ input: DeleteBotChannelAssociationRequest) throws {
-        _ = try client.send(operation: "DeleteBotChannelAssociation", path: "/bots/{botName}/aliases/{aliasName}/channels/{name}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteBotChannelAssociation(_ input: DeleteBotChannelAssociationRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteBotChannelAssociation", path: "/bots/{botName}/aliases/{aliasName}/channels/{name}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a specific version of a bot. To delete all versions of a bot, use the DeleteBot operation.  This operation requires permissions for the lex:DeleteBotVersion action.
-    public func deleteBotVersion(_ input: DeleteBotVersionRequest) throws {
-        _ = try client.send(operation: "DeleteBotVersion", path: "/bots/{name}/versions/{version}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteBotVersion(_ input: DeleteBotVersionRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteBotVersion", path: "/bots/{name}/versions/{version}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes all versions of the intent, including the $LATEST version. To delete a specific version of the intent, use the DeleteIntentVersion operation.  You can delete a version of an intent only if it is not referenced. To delete an intent that is referred to in one or more bots (see how-it-works), you must remove those references first.    If you get the ResourceInUseException exception, it provides an example reference that shows where the intent is referenced. To remove the reference to the intent, either update the bot or delete it. If you get the same exception when you attempt to delete the intent again, repeat until the intent has no references and the call to DeleteIntent is successful.    This operation requires permission for the lex:DeleteIntent action. 
-    public func deleteIntent(_ input: DeleteIntentRequest) throws {
-        _ = try client.send(operation: "DeleteIntent", path: "/intents/{name}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteIntent(_ input: DeleteIntentRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteIntent", path: "/intents/{name}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a specific version of an intent. To delete all versions of a intent, use the DeleteIntent operation.  This operation requires permissions for the lex:DeleteIntentVersion action.
-    public func deleteIntentVersion(_ input: DeleteIntentVersionRequest) throws {
-        _ = try client.send(operation: "DeleteIntentVersion", path: "/intents/{name}/versions/{version}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteIntentVersion(_ input: DeleteIntentVersionRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteIntentVersion", path: "/intents/{name}/versions/{version}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes all versions of the slot type, including the $LATEST version. To delete a specific version of the slot type, use the DeleteSlotTypeVersion operation.  You can delete a version of a slot type only if it is not referenced. To delete a slot type that is referred to in one or more intents, you must remove those references first.    If you get the ResourceInUseException exception, the exception provides an example reference that shows the intent where the slot type is referenced. To remove the reference to the slot type, either update the intent or delete it. If you get the same exception when you attempt to delete the slot type again, repeat until the slot type has no references and the DeleteSlotType call is successful.   This operation requires permission for the lex:DeleteSlotType action.
-    public func deleteSlotType(_ input: DeleteSlotTypeRequest) throws {
-        _ = try client.send(operation: "DeleteSlotType", path: "/slottypes/{name}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteSlotType(_ input: DeleteSlotTypeRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteSlotType", path: "/slottypes/{name}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a specific version of a slot type. To delete all versions of a slot type, use the DeleteSlotType operation.  This operation requires permissions for the lex:DeleteSlotTypeVersion action.
-    public func deleteSlotTypeVersion(_ input: DeleteSlotTypeVersionRequest) throws {
-        _ = try client.send(operation: "DeleteSlotTypeVersion", path: "/slottypes/{name}/version/{version}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteSlotTypeVersion(_ input: DeleteSlotTypeVersionRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteSlotTypeVersion", path: "/slottypes/{name}/version/{version}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes stored utterances. Amazon Lex stores the utterances that users send to your bot. Utterances are stored for 15 days for use with the GetUtterancesView operation, and then stored indefinitely for use in improving the ability of your bot to respond to user input. Use the DeleteStoredUtterances operation to manually delete stored utterances for a specific user. This operation requires permissions for the lex:DeleteUtterances action.
-    public func deleteUtterances(_ input: DeleteUtterancesRequest) throws {
-        _ = try client.send(operation: "DeleteUtterances", path: "/bots/{botName}/utterances/{userId}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteUtterances(_ input: DeleteUtterancesRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteUtterances", path: "/bots/{botName}/utterances/{userId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Returns metadata information for a specific bot. You must provide the bot name and the bot version or alias.   This operation requires permissions for the lex:GetBot action. 

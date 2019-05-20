@@ -26,8 +26,8 @@ public struct AutoScaling {
     }
 
     ///  Attaches one or more EC2 instances to the specified Auto Scaling group. When you attach instances, Amazon EC2 Auto Scaling increases the desired capacity of the group by the number of instances being attached. If the number of instances being attached plus the desired capacity of the group exceeds the maximum size of the group, the operation fails. If there is a Classic Load Balancer attached to your Auto Scaling group, the instances are also registered with the load balancer. If there are target groups attached to your Auto Scaling group, the instances are also registered with the target groups. For more information, see Attach EC2 Instances to Your Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide.
-    public func attachInstances(_ input: AttachInstancesQuery) throws {
-        _ = try client.send(operation: "AttachInstances", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func attachInstances(_ input: AttachInstancesQuery) throws -> Future<Void> {
+        return try client.send(operation: "AttachInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Attaches one or more target groups to the specified Auto Scaling group. To describe the target groups for an Auto Scaling group, use DescribeLoadBalancerTargetGroups. To detach the target group from the Auto Scaling group, use DetachLoadBalancerTargetGroups. For more information, see Attach a Load Balancer to Your Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide.
@@ -56,28 +56,28 @@ public struct AutoScaling {
     }
 
     ///  Creates an Auto Scaling group with the specified name and attributes. If you exceed your maximum limit of Auto Scaling groups, the call fails. For information about viewing this limit, see DescribeAccountLimits. For information about updating this limit, see Auto Scaling Limits in the Amazon EC2 Auto Scaling User Guide. For more information, see Auto Scaling Groups in the Amazon EC2 Auto Scaling User Guide.
-    public func createAutoScalingGroup(_ input: CreateAutoScalingGroupType) throws {
-        _ = try client.send(operation: "CreateAutoScalingGroup", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func createAutoScalingGroup(_ input: CreateAutoScalingGroupType) throws -> Future<Void> {
+        return try client.send(operation: "CreateAutoScalingGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a launch configuration. If you exceed your maximum limit of launch configurations, the call fails. For information about viewing this limit, see DescribeAccountLimits. For information about updating this limit, see Auto Scaling Limits in the Amazon EC2 Auto Scaling User Guide. For more information, see Launch Configurations in the Amazon EC2 Auto Scaling User Guide.
-    public func createLaunchConfiguration(_ input: CreateLaunchConfigurationType) throws {
-        _ = try client.send(operation: "CreateLaunchConfiguration", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func createLaunchConfiguration(_ input: CreateLaunchConfigurationType) throws -> Future<Void> {
+        return try client.send(operation: "CreateLaunchConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates or updates tags for the specified Auto Scaling group. When you specify a tag with a key that already exists, the operation overwrites the previous tag definition, and you do not get an error message. For more information, see Tagging Auto Scaling Groups and Instances in the Amazon EC2 Auto Scaling User Guide.
-    public func createOrUpdateTags(_ input: CreateOrUpdateTagsType) throws {
-        _ = try client.send(operation: "CreateOrUpdateTags", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func createOrUpdateTags(_ input: CreateOrUpdateTagsType) throws -> Future<Void> {
+        return try client.send(operation: "CreateOrUpdateTags", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified Auto Scaling group. If the group has instances or scaling activities in progress, you must specify the option to force the deletion in order for it to succeed. If the group has policies, deleting the group deletes the policies, the underlying alarm actions, and any alarm that no longer has an associated action. To remove instances from the Auto Scaling group before deleting it, call DetachInstances with the list of instances and the option to decrement the desired capacity. This ensures that Amazon EC2 Auto Scaling does not launch replacement instances. To terminate all instances before deleting the Auto Scaling group, call UpdateAutoScalingGroup and set the minimum size and desired capacity of the Auto Scaling group to zero.
-    public func deleteAutoScalingGroup(_ input: DeleteAutoScalingGroupType) throws {
-        _ = try client.send(operation: "DeleteAutoScalingGroup", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteAutoScalingGroup(_ input: DeleteAutoScalingGroupType) throws -> Future<Void> {
+        return try client.send(operation: "DeleteAutoScalingGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified launch configuration. The launch configuration must not be attached to an Auto Scaling group. When this call completes, the launch configuration is no longer available for use.
-    public func deleteLaunchConfiguration(_ input: LaunchConfigurationNameType) throws {
-        _ = try client.send(operation: "DeleteLaunchConfiguration", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteLaunchConfiguration(_ input: LaunchConfigurationNameType) throws -> Future<Void> {
+        return try client.send(operation: "DeleteLaunchConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified lifecycle hook. If there are any outstanding lifecycle actions, they are completed first (ABANDON for launching instances, CONTINUE for terminating instances).
@@ -86,23 +86,23 @@ public struct AutoScaling {
     }
 
     ///  Deletes the specified notification.
-    public func deleteNotificationConfiguration(_ input: DeleteNotificationConfigurationType) throws {
-        _ = try client.send(operation: "DeleteNotificationConfiguration", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteNotificationConfiguration(_ input: DeleteNotificationConfigurationType) throws -> Future<Void> {
+        return try client.send(operation: "DeleteNotificationConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified Auto Scaling policy. Deleting a policy deletes the underlying alarm action, but does not delete the alarm, even if it no longer has an associated action.
-    public func deletePolicy(_ input: DeletePolicyType) throws {
-        _ = try client.send(operation: "DeletePolicy", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deletePolicy(_ input: DeletePolicyType) throws -> Future<Void> {
+        return try client.send(operation: "DeletePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified scheduled action.
-    public func deleteScheduledAction(_ input: DeleteScheduledActionType) throws {
-        _ = try client.send(operation: "DeleteScheduledAction", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteScheduledAction(_ input: DeleteScheduledActionType) throws -> Future<Void> {
+        return try client.send(operation: "DeleteScheduledAction", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified tags.
-    public func deleteTags(_ input: DeleteTagsType) throws {
-        _ = try client.send(operation: "DeleteTags", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteTags(_ input: DeleteTagsType) throws -> Future<Void> {
+        return try client.send(operation: "DeleteTags", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the current Auto Scaling resource limits for your AWS account. For information about requesting an increase in these limits, see Auto Scaling Limits in the Amazon EC2 Auto Scaling User Guide.
@@ -211,13 +211,13 @@ public struct AutoScaling {
     }
 
     ///  Disables group metrics for the specified Auto Scaling group.
-    public func disableMetricsCollection(_ input: DisableMetricsCollectionQuery) throws {
-        _ = try client.send(operation: "DisableMetricsCollection", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func disableMetricsCollection(_ input: DisableMetricsCollectionQuery) throws -> Future<Void> {
+        return try client.send(operation: "DisableMetricsCollection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Enables group metrics for the specified Auto Scaling group. For more information, see Monitoring Your Auto Scaling Groups and Instances in the Amazon EC2 Auto Scaling User Guide.
-    public func enableMetricsCollection(_ input: EnableMetricsCollectionQuery) throws {
-        _ = try client.send(operation: "EnableMetricsCollection", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func enableMetricsCollection(_ input: EnableMetricsCollectionQuery) throws -> Future<Void> {
+        return try client.send(operation: "EnableMetricsCollection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Moves the specified instances into the standby state. For more information, see Temporarily Removing Instances from Your Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide.
@@ -226,8 +226,8 @@ public struct AutoScaling {
     }
 
     ///  Executes the specified policy.
-    public func executePolicy(_ input: ExecutePolicyType) throws {
-        _ = try client.send(operation: "ExecutePolicy", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func executePolicy(_ input: ExecutePolicyType) throws -> Future<Void> {
+        return try client.send(operation: "ExecutePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Moves the specified instances out of the standby state. For more information, see Temporarily Removing Instances from Your Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide.
@@ -241,8 +241,8 @@ public struct AutoScaling {
     }
 
     ///  Configures an Auto Scaling group to send notifications when specified events take place. Subscribers to the specified topic can have messages delivered to an endpoint such as a web server or an email address. This configuration overwrites any existing configuration. For more information, see Getting SNS Notifications When Your Auto Scaling Group Scales in the Auto Scaling User Guide.
-    public func putNotificationConfiguration(_ input: PutNotificationConfigurationType) throws {
-        _ = try client.send(operation: "PutNotificationConfiguration", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func putNotificationConfiguration(_ input: PutNotificationConfigurationType) throws -> Future<Void> {
+        return try client.send(operation: "PutNotificationConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates or updates a policy for an Auto Scaling group. To update an existing policy, use the existing policy name and set the parameters to change. Any existing parameter not changed in an update to an existing policy is not changed in this update request. If you exceed your maximum limit of step adjustments, which by default is 20 per region, the call fails. For information about updating this limit, see AWS Service Limits in the Amazon Web Services General Reference.
@@ -251,8 +251,8 @@ public struct AutoScaling {
     }
 
     ///  Creates or updates a scheduled scaling action for an Auto Scaling group. If you leave a parameter unspecified when updating a scheduled scaling action, the corresponding value remains unchanged. For more information, see Scheduled Scaling in the Amazon EC2 Auto Scaling User Guide.
-    public func putScheduledUpdateGroupAction(_ input: PutScheduledUpdateGroupActionType) throws {
-        _ = try client.send(operation: "PutScheduledUpdateGroupAction", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func putScheduledUpdateGroupAction(_ input: PutScheduledUpdateGroupActionType) throws -> Future<Void> {
+        return try client.send(operation: "PutScheduledUpdateGroupAction", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Records a heartbeat for the lifecycle action associated with the specified token or instance. This extends the timeout by the length of time defined using PutLifecycleHook. This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling group:   (Optional) Create a Lambda function and a rule that allows CloudWatch Events to invoke your Lambda function when Amazon EC2 Auto Scaling launches or terminates instances.   (Optional) Create a notification target and an IAM role. The target can be either an Amazon SQS queue or an Amazon SNS topic. The role allows Amazon EC2 Auto Scaling to publish lifecycle notifications to the target.   Create the lifecycle hook. Specify whether the hook is used when the instances launch or terminate.    If you need more time, record the lifecycle action heartbeat to keep the instance in a pending state.    If you finish before the timeout period ends, complete the lifecycle action.   For more information, see Auto Scaling Lifecycle in the Amazon EC2 Auto Scaling User Guide.
@@ -261,18 +261,18 @@ public struct AutoScaling {
     }
 
     ///  Resumes the specified suspended automatic scaling processes, or all suspended process, for the specified Auto Scaling group. For more information, see Suspending and Resuming Scaling Processes in the Amazon EC2 Auto Scaling User Guide.
-    public func resumeProcesses(_ input: ScalingProcessQuery) throws {
-        _ = try client.send(operation: "ResumeProcesses", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func resumeProcesses(_ input: ScalingProcessQuery) throws -> Future<Void> {
+        return try client.send(operation: "ResumeProcesses", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets the size of the specified Auto Scaling group. For more information about desired capacity, see What Is Amazon EC2 Auto Scaling? in the Amazon EC2 Auto Scaling User Guide.
-    public func setDesiredCapacity(_ input: SetDesiredCapacityType) throws {
-        _ = try client.send(operation: "SetDesiredCapacity", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func setDesiredCapacity(_ input: SetDesiredCapacityType) throws -> Future<Void> {
+        return try client.send(operation: "SetDesiredCapacity", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets the health status of the specified instance. For more information, see Health Checks in the Amazon EC2 Auto Scaling User Guide.
-    public func setInstanceHealth(_ input: SetInstanceHealthQuery) throws {
-        _ = try client.send(operation: "SetInstanceHealth", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func setInstanceHealth(_ input: SetInstanceHealthQuery) throws -> Future<Void> {
+        return try client.send(operation: "SetInstanceHealth", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the instance protection settings of the specified instances. For more information, see Instance Protection in the Amazon EC2 Auto Scaling User Guide.
@@ -281,8 +281,8 @@ public struct AutoScaling {
     }
 
     ///  Suspends the specified automatic scaling processes, or all processes, for the specified Auto Scaling group. If you suspend either the Launch or Terminate process types, it can prevent other process types from functioning properly. To resume processes that have been suspended, use ResumeProcesses. For more information, see Suspending and Resuming Scaling Processes in the Amazon EC2 Auto Scaling User Guide.
-    public func suspendProcesses(_ input: ScalingProcessQuery) throws {
-        _ = try client.send(operation: "SuspendProcesses", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func suspendProcesses(_ input: ScalingProcessQuery) throws -> Future<Void> {
+        return try client.send(operation: "SuspendProcesses", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Terminates the specified instance and optionally adjusts the desired group size. This call simply makes a termination request. The instance is not terminated immediately.
@@ -291,8 +291,8 @@ public struct AutoScaling {
     }
 
     ///  Updates the configuration for the specified Auto Scaling group. The new settings take effect on any scaling activities after this call returns. Scaling activities that are currently in progress aren't affected. To update an Auto Scaling group with a launch configuration with InstanceMonitoring set to false, you must first disable the collection of group metrics. Otherwise, you get an error. If you have previously enabled the collection of group metrics, you can disable it using DisableMetricsCollection. Note the following:   If you specify a new value for MinSize without specifying a value for DesiredCapacity, and the new MinSize is larger than the current size of the group, we implicitly call SetDesiredCapacity to set the size of the group to the new value of MinSize.   If you specify a new value for MaxSize without specifying a value for DesiredCapacity, and the new MaxSize is smaller than the current size of the group, we implicitly call SetDesiredCapacity to set the size of the group to the new value of MaxSize.   All other optional parameters are left unchanged if not specified.  
-    public func updateAutoScalingGroup(_ input: UpdateAutoScalingGroupType) throws {
-        _ = try client.send(operation: "UpdateAutoScalingGroup", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func updateAutoScalingGroup(_ input: UpdateAutoScalingGroupType) throws -> Future<Void> {
+        return try client.send(operation: "UpdateAutoScalingGroup", path: "/", httpMethod: "POST", input: input)
     }
 
 

@@ -1,8 +1,8 @@
 sourcekitten_sourcefile: awssdkswift.json
-author: Yuki Takei, Joe Smith, Jonathan McAllister
+author: Yuki Takei, Joe Smith, Jonathan McAllister, Adam Fowler
 author_url: https://github.com/swift-aws
 github_url: https://github.com/swift-aws/aws-sdk-swift
-copyright: '© Copyright (c) 2018 Yuki Takei(noppoMan), Joe Smith(Yasumoto), Jonathan McAllister(jonnymacs)'
+copyright: '© Copyright (c) 2019 Yuki Takei(noppoMan), Joe Smith(Yasumoto), Jonathan McAllister(jonnymacs), Adam Fowler (adam-fowler)'
 theme: fullwidth
 readme: README.md
 

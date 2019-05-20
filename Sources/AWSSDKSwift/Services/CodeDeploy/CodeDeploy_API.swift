@@ -28,8 +28,8 @@ public struct CodeDeploy {
     }
 
     ///  Adds tags to on-premises instances.
-    public func addTagsToOnPremisesInstances(_ input: AddTagsToOnPremisesInstancesInput) throws {
-        _ = try client.send(operation: "AddTagsToOnPremisesInstances", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func addTagsToOnPremisesInstances(_ input: AddTagsToOnPremisesInstancesInput) throws -> Future<Void> {
+        return try client.send(operation: "AddTagsToOnPremisesInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about one or more application revisions.
@@ -68,8 +68,8 @@ public struct CodeDeploy {
     }
 
     ///  For a blue/green deployment, starts the process of rerouting traffic from instances in the original environment to instances in the replacement environment without waiting for a specified wait time to elapse. (Traffic rerouting, which is achieved by registering instances in the replacement environment with the load balancer, can start as soon as all instances have a status of Ready.) 
-    public func continueDeployment(_ input: ContinueDeploymentInput) throws {
-        _ = try client.send(operation: "ContinueDeployment", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func continueDeployment(_ input: ContinueDeploymentInput) throws -> Future<Void> {
+        return try client.send(operation: "ContinueDeployment", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an application.
@@ -93,13 +93,13 @@ public struct CodeDeploy {
     }
 
     ///  Deletes an application.
-    public func deleteApplication(_ input: DeleteApplicationInput) throws {
-        _ = try client.send(operation: "DeleteApplication", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteApplication(_ input: DeleteApplicationInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteApplication", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a deployment configuration.  A deployment configuration cannot be deleted if it is currently in use. Predefined configurations cannot be deleted. 
-    public func deleteDeploymentConfig(_ input: DeleteDeploymentConfigInput) throws {
-        _ = try client.send(operation: "DeleteDeploymentConfig", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteDeploymentConfig(_ input: DeleteDeploymentConfigInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteDeploymentConfig", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a deployment group.
@@ -113,8 +113,8 @@ public struct CodeDeploy {
     }
 
     ///  Deregisters an on-premises instance.
-    public func deregisterOnPremisesInstance(_ input: DeregisterOnPremisesInstanceInput) throws {
-        _ = try client.send(operation: "DeregisterOnPremisesInstance", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deregisterOnPremisesInstance(_ input: DeregisterOnPremisesInstanceInput) throws -> Future<Void> {
+        return try client.send(operation: "DeregisterOnPremisesInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about an application.
@@ -208,23 +208,23 @@ public struct CodeDeploy {
     }
 
     ///  Registers with AWS CodeDeploy a revision for the specified application.
-    public func registerApplicationRevision(_ input: RegisterApplicationRevisionInput) throws {
-        _ = try client.send(operation: "RegisterApplicationRevision", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func registerApplicationRevision(_ input: RegisterApplicationRevisionInput) throws -> Future<Void> {
+        return try client.send(operation: "RegisterApplicationRevision", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Registers an on-premises instance.  Only one IAM ARN (an IAM session ARN or IAM user ARN) is supported in the request. You cannot use both. 
-    public func registerOnPremisesInstance(_ input: RegisterOnPremisesInstanceInput) throws {
-        _ = try client.send(operation: "RegisterOnPremisesInstance", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func registerOnPremisesInstance(_ input: RegisterOnPremisesInstanceInput) throws -> Future<Void> {
+        return try client.send(operation: "RegisterOnPremisesInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes one or more tags from one or more on-premises instances.
-    public func removeTagsFromOnPremisesInstances(_ input: RemoveTagsFromOnPremisesInstancesInput) throws {
-        _ = try client.send(operation: "RemoveTagsFromOnPremisesInstances", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func removeTagsFromOnPremisesInstances(_ input: RemoveTagsFromOnPremisesInstancesInput) throws -> Future<Void> {
+        return try client.send(operation: "RemoveTagsFromOnPremisesInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  In a blue/green deployment, overrides any specified wait time and starts terminating instances immediately after the traffic routing is completed.
-    public func skipWaitTimeForInstanceTermination(_ input: SkipWaitTimeForInstanceTerminationInput) throws {
-        _ = try client.send(operation: "SkipWaitTimeForInstanceTermination", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func skipWaitTimeForInstanceTermination(_ input: SkipWaitTimeForInstanceTerminationInput) throws -> Future<Void> {
+        return try client.send(operation: "SkipWaitTimeForInstanceTermination", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Attempts to stop an ongoing deployment.
@@ -233,8 +233,8 @@ public struct CodeDeploy {
     }
 
     ///  Changes the name of an application.
-    public func updateApplication(_ input: UpdateApplicationInput) throws {
-        _ = try client.send(operation: "UpdateApplication", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func updateApplication(_ input: UpdateApplicationInput) throws -> Future<Void> {
+        return try client.send(operation: "UpdateApplication", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Changes information about a deployment group.

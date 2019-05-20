@@ -37,28 +37,28 @@ public struct ConfigService {
     }
 
     ///  Deletes the authorization granted to the specified configuration aggregator account in a specified region.
-    public func deleteAggregationAuthorization(_ input: DeleteAggregationAuthorizationRequest) throws {
-        _ = try client.send(operation: "DeleteAggregationAuthorization", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteAggregationAuthorization(_ input: DeleteAggregationAuthorizationRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteAggregationAuthorization", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified AWS Config rule and all of its evaluation results. AWS Config sets the state of a rule to DELETING until the deletion is complete. You cannot update a rule while it is in this state. If you make a PutConfigRule or DeleteConfigRule request for the rule, you will receive a ResourceInUseException. You can check the state of a rule by using the DescribeConfigRules request.
-    public func deleteConfigRule(_ input: DeleteConfigRuleRequest) throws {
-        _ = try client.send(operation: "DeleteConfigRule", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteConfigRule(_ input: DeleteConfigRuleRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteConfigRule", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified configuration aggregator and the aggregated data associated with the aggregator.
-    public func deleteConfigurationAggregator(_ input: DeleteConfigurationAggregatorRequest) throws {
-        _ = try client.send(operation: "DeleteConfigurationAggregator", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteConfigurationAggregator(_ input: DeleteConfigurationAggregatorRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteConfigurationAggregator", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the configuration recorder. After the configuration recorder is deleted, AWS Config will not record resource configuration changes until you create a new configuration recorder. This action does not delete the configuration information that was previously recorded. You will be able to access the previously recorded information by using the GetResourceConfigHistory action, but you will not be able to access this information in the AWS Config console until you create a new configuration recorder.
-    public func deleteConfigurationRecorder(_ input: DeleteConfigurationRecorderRequest) throws {
-        _ = try client.send(operation: "DeleteConfigurationRecorder", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteConfigurationRecorder(_ input: DeleteConfigurationRecorderRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteConfigurationRecorder", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the delivery channel. Before you can delete the delivery channel, you must stop the configuration recorder by using the StopConfigurationRecorder action.
-    public func deleteDeliveryChannel(_ input: DeleteDeliveryChannelRequest) throws {
-        _ = try client.send(operation: "DeleteDeliveryChannel", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteDeliveryChannel(_ input: DeleteDeliveryChannelRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteDeliveryChannel", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the evaluation results for the specified AWS Config rule. You can specify one AWS Config rule per request. After you delete the evaluation results, you can call the StartConfigRulesEvaluation API to start evaluating your AWS resources against the rule.
@@ -67,13 +67,13 @@ public struct ConfigService {
     }
 
     ///  Deletes pending authorization requests for a specified aggregator account in a specified region.
-    public func deletePendingAggregationRequest(_ input: DeletePendingAggregationRequestRequest) throws {
-        _ = try client.send(operation: "DeletePendingAggregationRequest", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deletePendingAggregationRequest(_ input: DeletePendingAggregationRequestRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeletePendingAggregationRequest", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the retention configuration.
-    public func deleteRetentionConfiguration(_ input: DeleteRetentionConfigurationRequest) throws {
-        _ = try client.send(operation: "DeleteRetentionConfiguration", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteRetentionConfiguration(_ input: DeleteRetentionConfigurationRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteRetentionConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Schedules delivery of a configuration snapshot to the Amazon S3 bucket in the specified delivery channel. After the delivery has started, AWS Config sends the following notifications using an Amazon SNS topic that you have specified.   Notification of the start of the delivery.   Notification of the completion of the delivery, if the delivery was successfully completed.   Notification of delivery failure, if the delivery failed.  
@@ -217,8 +217,8 @@ public struct ConfigService {
     }
 
     ///  Adds or updates an AWS Config rule for evaluating whether your AWS resources comply with your desired configurations. You can use this action for custom AWS Config rules and AWS managed Config rules. A custom AWS Config rule is a rule that you develop and maintain. An AWS managed Config rule is a customizable, predefined rule that AWS Config provides. If you are adding a new custom AWS Config rule, you must first create the AWS Lambda function that the rule invokes to evaluate your resources. When you use the PutConfigRule action to add the rule to AWS Config, you must specify the Amazon Resource Name (ARN) that AWS Lambda assigns to the function. Specify the ARN for the SourceIdentifier key. This key is part of the Source object, which is part of the ConfigRule object.  If you are adding an AWS managed Config rule, specify the rule's identifier for the SourceIdentifier key. To reference AWS managed Config rule identifiers, see About AWS Managed Config Rules. For any new rule that you add, specify the ConfigRuleName in the ConfigRule object. Do not specify the ConfigRuleArn or the ConfigRuleId. These values are generated by AWS Config for new rules. If you are updating a rule that you added previously, you can specify the rule by ConfigRuleName, ConfigRuleId, or ConfigRuleArn in the ConfigRule data type that you use in this request. The maximum number of rules that AWS Config supports is 50. For information about requesting a rule limit increase, see AWS Config Limits in the AWS General Reference Guide. For more information about developing and using AWS Config rules, see Evaluating AWS Resource Configurations with AWS Config in the AWS Config Developer Guide.
-    public func putConfigRule(_ input: PutConfigRuleRequest) throws {
-        _ = try client.send(operation: "PutConfigRule", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func putConfigRule(_ input: PutConfigRuleRequest) throws -> Future<Void> {
+        return try client.send(operation: "PutConfigRule", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates and updates the configuration aggregator with the selected source accounts and regions. The source account can be individual account(s) or an organization.  AWS Config should be enabled in source accounts and regions you want to aggregate. If your source type is an organization, you must be signed in to the master account and all features must be enabled in your organization. AWS Config calls EnableAwsServiceAccess API to enable integration between AWS Config and AWS Organizations.  
@@ -227,13 +227,13 @@ public struct ConfigService {
     }
 
     ///  Creates a new configuration recorder to record the selected resource configurations. You can use this action to change the role roleARN or the recordingGroup of an existing recorder. To change the role, call the action on the existing configuration recorder and specify a role.  Currently, you can specify only one configuration recorder per region in your account. If ConfigurationRecorder does not have the recordingGroup parameter specified, the default is to record all supported resource types. 
-    public func putConfigurationRecorder(_ input: PutConfigurationRecorderRequest) throws {
-        _ = try client.send(operation: "PutConfigurationRecorder", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func putConfigurationRecorder(_ input: PutConfigurationRecorderRequest) throws -> Future<Void> {
+        return try client.send(operation: "PutConfigurationRecorder", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a delivery channel object to deliver configuration information to an Amazon S3 bucket and Amazon SNS topic. Before you can create a delivery channel, you must create a configuration recorder. You can use this action to change the Amazon S3 bucket or an Amazon SNS topic of the existing delivery channel. To change the Amazon S3 bucket or an Amazon SNS topic, call this action and specify the changed values for the S3 bucket and the SNS topic. If you specify a different value for either the S3 bucket or the SNS topic, this action will keep the existing value for the parameter that is not changed.  You can have only one delivery channel per region in your account. 
-    public func putDeliveryChannel(_ input: PutDeliveryChannelRequest) throws {
-        _ = try client.send(operation: "PutDeliveryChannel", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func putDeliveryChannel(_ input: PutDeliveryChannelRequest) throws -> Future<Void> {
+        return try client.send(operation: "PutDeliveryChannel", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Used by an AWS Lambda function to deliver evaluation results to AWS Config. This action is required in every AWS Lambda function that is invoked by an AWS Config rule.
@@ -252,13 +252,13 @@ public struct ConfigService {
     }
 
     ///  Starts recording configurations of the AWS resources you have selected to record in your AWS account. You must have created at least one delivery channel to successfully start the configuration recorder.
-    public func startConfigurationRecorder(_ input: StartConfigurationRecorderRequest) throws {
-        _ = try client.send(operation: "StartConfigurationRecorder", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func startConfigurationRecorder(_ input: StartConfigurationRecorderRequest) throws -> Future<Void> {
+        return try client.send(operation: "StartConfigurationRecorder", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops recording configurations of the AWS resources you have selected to record in your AWS account.
-    public func stopConfigurationRecorder(_ input: StopConfigurationRecorderRequest) throws {
-        _ = try client.send(operation: "StopConfigurationRecorder", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func stopConfigurationRecorder(_ input: StopConfigurationRecorderRequest) throws -> Future<Void> {
+        return try client.send(operation: "StopConfigurationRecorder", path: "/", httpMethod: "POST", input: input)
     }
 
 

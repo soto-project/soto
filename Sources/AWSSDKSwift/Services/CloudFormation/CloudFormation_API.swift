@@ -26,8 +26,8 @@ public struct CloudFormation {
     }
 
     ///  Cancels an update on the specified stack. If the call completes successfully, the stack rolls back the update and reverts to the previous stack configuration.  You can cancel only stacks that are in the UPDATE_IN_PROGRESS state. 
-    public func cancelUpdateStack(_ input: CancelUpdateStackInput) throws {
-        _ = try client.send(operation: "CancelUpdateStack", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func cancelUpdateStack(_ input: CancelUpdateStackInput) throws -> Future<Void> {
+        return try client.send(operation: "CancelUpdateStack", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  For a specified stack that is in the UPDATE_ROLLBACK_FAILED state, continues rolling it back to the UPDATE_ROLLBACK_COMPLETE state. Depending on the cause of the failure, you can manually  fix the error and continue the rollback. By continuing the rollback, you can return your stack to a working state (the UPDATE_ROLLBACK_COMPLETE state), and then try to update the stack again. A stack goes into the UPDATE_ROLLBACK_FAILED state when AWS CloudFormation cannot roll back all changes after a failed stack update. For example, you might have a stack that is rolling back to an old database instance that was deleted outside of AWS CloudFormation. Because AWS CloudFormation doesn't know the database was deleted, it assumes that the database instance still exists and attempts to roll back to it, causing the update rollback to fail.
@@ -61,8 +61,8 @@ public struct CloudFormation {
     }
 
     ///  Deletes a specified stack. Once the call completes successfully, stack deletion starts. Deleted stacks do not show up in the DescribeStacks API if the deletion has been completed successfully.
-    public func deleteStack(_ input: DeleteStackInput) throws {
-        _ = try client.send(operation: "DeleteStack", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteStack(_ input: DeleteStackInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteStack", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes stack instances for the specified accounts, in the specified regions. 
@@ -211,13 +211,13 @@ public struct CloudFormation {
     }
 
     ///  Sets a stack policy for a specified stack.
-    public func setStackPolicy(_ input: SetStackPolicyInput) throws {
-        _ = try client.send(operation: "SetStackPolicy", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func setStackPolicy(_ input: SetStackPolicyInput) throws -> Future<Void> {
+        return try client.send(operation: "SetStackPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sends a signal to the specified resource with a success or failure status. You can use the SignalResource API in conjunction with a creation policy or update policy. AWS CloudFormation doesn't proceed with a stack creation or update until resources receive the required number of signals or the timeout period is exceeded. The SignalResource API is useful in cases where you want to send signals from anywhere other than an Amazon EC2 instance.
-    public func signalResource(_ input: SignalResourceInput) throws {
-        _ = try client.send(operation: "SignalResource", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func signalResource(_ input: SignalResourceInput) throws -> Future<Void> {
+        return try client.send(operation: "SignalResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops an in-progress operation on a stack set and its associated stack instances. 

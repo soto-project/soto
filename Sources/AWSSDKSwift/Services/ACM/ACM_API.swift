@@ -27,13 +27,13 @@ public struct ACM {
     }
 
     ///  Adds one or more tags to an ACM certificate. Tags are labels that you can use to identify and organize your AWS resources. Each tag consists of a key and an optional value. You specify the certificate on input by its Amazon Resource Name (ARN). You specify the tag by using a key-value pair.  You can apply a tag to just one certificate if you want to identify a specific characteristic of that certificate, or you can apply the same tag to multiple certificates if you want to filter for a common relationship among those certificates. Similarly, you can apply the same tag to multiple resources if you want to specify a relationship among those resources. For example, you can add the same tag to an ACM certificate and an Elastic Load Balancing load balancer to indicate that they are both used by the same website. For more information, see Tagging ACM certificates.  To remove one or more tags, use the RemoveTagsFromCertificate action. To view all of the tags that have been applied to the certificate, use the ListTagsForCertificate action. 
-    public func addTagsToCertificate(_ input: AddTagsToCertificateRequest) throws {
-        _ = try client.send(operation: "AddTagsToCertificate", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func addTagsToCertificate(_ input: AddTagsToCertificateRequest) throws -> Future<Void> {
+        return try client.send(operation: "AddTagsToCertificate", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a certificate and its associated private key. If this action succeeds, the certificate no longer appears in the list that can be displayed by calling the ListCertificates action or be retrieved by calling the GetCertificate action. The certificate will not be available for use by AWS services integrated with ACM.   You cannot delete an ACM certificate that is being used by another AWS service. To delete a certificate that is in use, the certificate association must first be removed. 
-    public func deleteCertificate(_ input: DeleteCertificateRequest) throws {
-        _ = try client.send(operation: "DeleteCertificate", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteCertificate(_ input: DeleteCertificateRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteCertificate", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns detailed metadata about the specified ACM certificate.
@@ -67,8 +67,8 @@ public struct ACM {
     }
 
     ///  Remove one or more tags from an ACM certificate. A tag consists of a key-value pair. If you do not specify the value portion of the tag when calling this function, the tag will be removed regardless of value. If you specify a value, the tag is removed only if it is associated with the specified value.  To add tags to a certificate, use the AddTagsToCertificate action. To view all of the tags that have been applied to a specific ACM certificate, use the ListTagsForCertificate action. 
-    public func removeTagsFromCertificate(_ input: RemoveTagsFromCertificateRequest) throws {
-        _ = try client.send(operation: "RemoveTagsFromCertificate", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func removeTagsFromCertificate(_ input: RemoveTagsFromCertificateRequest) throws -> Future<Void> {
+        return try client.send(operation: "RemoveTagsFromCertificate", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Requests an ACM certificate for use with other AWS services. To request an ACM certificate, you must specify a fully qualified domain name (FQDN) in the DomainName parameter. You can also specify additional FQDNs in the SubjectAlternativeNames parameter.  If you are requesting a private certificate, domain validation is not required. If you are requesting a public certificate, each domain name that you specify must be validated to verify that you own or control the domain. You can use DNS validation or email validation. We recommend that you use DNS validation. ACM issues public certificates after receiving approval from the domain owner. 
@@ -77,13 +77,13 @@ public struct ACM {
     }
 
     ///  Resends the email that requests domain ownership validation. The domain owner or an authorized representative must approve the ACM certificate before it can be issued. The certificate can be approved by clicking a link in the mail to navigate to the Amazon certificate approval website and then clicking I Approve. However, the validation email can be blocked by spam filters. Therefore, if you do not receive the original mail, you can request that the mail be resent within 72 hours of requesting the ACM certificate. If more than 72 hours have elapsed since your original request or since your last attempt to resend validation mail, you must request a new certificate. For more information about setting up your contact email addresses, see Configure Email for your Domain. 
-    public func resendValidationEmail(_ input: ResendValidationEmailRequest) throws {
-        _ = try client.send(operation: "ResendValidationEmail", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func resendValidationEmail(_ input: ResendValidationEmailRequest) throws -> Future<Void> {
+        return try client.send(operation: "ResendValidationEmail", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a certificate. Currently, you can use this function to specify whether to opt in to or out of recording your certificate in a certificate transparency log. For more information, see  Opting Out of Certificate Transparency Logging. 
-    public func updateCertificateOptions(_ input: UpdateCertificateOptionsRequest) throws {
-        _ = try client.send(operation: "UpdateCertificateOptions", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func updateCertificateOptions(_ input: UpdateCertificateOptionsRequest) throws -> Future<Void> {
+        return try client.send(operation: "UpdateCertificateOptions", path: "/", httpMethod: "POST", input: input)
     }
 
 

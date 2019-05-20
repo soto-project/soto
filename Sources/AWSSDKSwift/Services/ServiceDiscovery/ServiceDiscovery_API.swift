@@ -117,8 +117,8 @@ public struct ServiceDiscovery {
     }
 
     ///  Submits a request to change the health status of a custom health check to healthy or unhealthy. You can use UpdateInstanceCustomHealthStatus to change the status only for custom health checks, which you define using HealthCheckCustomConfig when you create a service. You can't use it to change the status for Route 53 health checks, which you define using HealthCheckConfig. For more information, see HealthCheckCustomConfig.
-    public func updateInstanceCustomHealthStatus(_ input: UpdateInstanceCustomHealthStatusRequest) throws {
-        _ = try client.send(operation: "UpdateInstanceCustomHealthStatus", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func updateInstanceCustomHealthStatus(_ input: UpdateInstanceCustomHealthStatusRequest) throws -> Future<Void> {
+        return try client.send(operation: "UpdateInstanceCustomHealthStatus", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Submits a request to perform the following operations:   Add or delete DnsRecords configurations   Update the TTL setting for existing DnsRecords configurations   Add, update, or delete HealthCheckConfig for a specified service   For public and private DNS namespaces, you must specify all DnsRecords configurations (and, optionally, HealthCheckConfig) that you want to appear in the updated service. Any current configurations that don't appear in an UpdateService request are deleted. When you update the TTL setting for a service, AWS Cloud Map also updates the corresponding settings in all the records and health checks that were created by using the specified service.

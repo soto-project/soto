@@ -107,43 +107,43 @@ public struct SageMaker {
     }
 
     ///  Removes the specified algorithm from your account.
-    public func deleteAlgorithm(_ input: DeleteAlgorithmInput) throws {
-        _ = try client.send(operation: "DeleteAlgorithm", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteAlgorithm(_ input: DeleteAlgorithmInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteAlgorithm", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified git repository from your account.
-    public func deleteCodeRepository(_ input: DeleteCodeRepositoryInput) throws {
-        _ = try client.send(operation: "DeleteCodeRepository", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteCodeRepository(_ input: DeleteCodeRepositoryInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteCodeRepository", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an endpoint. Amazon SageMaker frees up all of the resources that were deployed when the endpoint was created.  Amazon SageMaker retires any custom KMS key grants associated with the endpoint, meaning you don't need to use the RevokeGrant API call.
-    public func deleteEndpoint(_ input: DeleteEndpointInput) throws {
-        _ = try client.send(operation: "DeleteEndpoint", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteEndpoint(_ input: DeleteEndpointInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an endpoint configuration. The DeleteEndpointConfig API deletes only the specified configuration. It does not delete endpoints created using the configuration. 
-    public func deleteEndpointConfig(_ input: DeleteEndpointConfigInput) throws {
-        _ = try client.send(operation: "DeleteEndpointConfig", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteEndpointConfig(_ input: DeleteEndpointConfigInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteEndpointConfig", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a model. The DeleteModel API deletes only the model entry that was created in Amazon SageMaker when you called the CreateModel API. It does not delete model artifacts, inference code, or the IAM role that you specified when creating the model. 
-    public func deleteModel(_ input: DeleteModelInput) throws {
-        _ = try client.send(operation: "DeleteModel", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteModel(_ input: DeleteModelInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteModel", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a model package. A model package is used to create Amazon SageMaker models or list on AWS Marketplace. Buyers can subscribe to model packages listed on AWS Marketplace to create models in Amazon SageMaker.
-    public func deleteModelPackage(_ input: DeleteModelPackageInput) throws {
-        _ = try client.send(operation: "DeleteModelPackage", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteModelPackage(_ input: DeleteModelPackageInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteModelPackage", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Deletes an Amazon SageMaker notebook instance. Before you can delete a notebook instance, you must call the StopNotebookInstance API.   When you delete a notebook instance, you lose all of your data. Amazon SageMaker removes the ML compute instance, and deletes the ML storage volume and the network interface associated with the notebook instance.  
-    public func deleteNotebookInstance(_ input: DeleteNotebookInstanceInput) throws {
-        _ = try client.send(operation: "DeleteNotebookInstance", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteNotebookInstance(_ input: DeleteNotebookInstanceInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteNotebookInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a notebook instance lifecycle configuration.
-    public func deleteNotebookInstanceLifecycleConfig(_ input: DeleteNotebookInstanceLifecycleConfigInput) throws {
-        _ = try client.send(operation: "DeleteNotebookInstanceLifecycleConfig", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteNotebookInstanceLifecycleConfig(_ input: DeleteNotebookInstanceLifecycleConfigInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteNotebookInstanceLifecycleConfig", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified tags from an Amazon SageMaker resource. To list a resource's tags, use the ListTags API.   When you call this API to delete tags from a hyperparameter tuning job, the deleted tags are not removed from training jobs that the hyperparameter tuning job launched before you called this API. 
@@ -337,38 +337,38 @@ public struct SageMaker {
     }
 
     ///  Launches an ML compute instance with the latest version of the libraries and attaches your ML storage volume. After configuring the notebook instance, Amazon SageMaker sets the notebook instance status to InService. A notebook instance's status must be InService before you can connect to your Jupyter notebook. 
-    public func startNotebookInstance(_ input: StartNotebookInstanceInput) throws {
-        _ = try client.send(operation: "StartNotebookInstance", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func startNotebookInstance(_ input: StartNotebookInstanceInput) throws -> Future<Void> {
+        return try client.send(operation: "StartNotebookInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops a model compilation job.  To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal. This gracefully shuts the job down. If the job hasn’t stopped, it sends the SIGKILL signal. When it receives a StopCompilationJob request, Amazon SageMaker changes the CompilationJobSummary$CompilationJobStatus of the job to Stopping. After Amazon SageMaker stops the job, it sets the CompilationJobSummary$CompilationJobStatus to Stopped. 
-    public func stopCompilationJob(_ input: StopCompilationJobRequest) throws {
-        _ = try client.send(operation: "StopCompilationJob", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func stopCompilationJob(_ input: StopCompilationJobRequest) throws -> Future<Void> {
+        return try client.send(operation: "StopCompilationJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops a running hyperparameter tuning job and all running training jobs that the tuning job launched. All model artifacts output from the training jobs are stored in Amazon Simple Storage Service (Amazon S3). All data that the training jobs write to Amazon CloudWatch Logs are still available in CloudWatch. After the tuning job moves to the Stopped state, it releases all reserved resources for the tuning job.
-    public func stopHyperParameterTuningJob(_ input: StopHyperParameterTuningJobRequest) throws {
-        _ = try client.send(operation: "StopHyperParameterTuningJob", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func stopHyperParameterTuningJob(_ input: StopHyperParameterTuningJobRequest) throws -> Future<Void> {
+        return try client.send(operation: "StopHyperParameterTuningJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops a running labeling job. A job that is stopped cannot be restarted. Any results obtained before the job is stopped are placed in the Amazon S3 output bucket.
-    public func stopLabelingJob(_ input: StopLabelingJobRequest) throws {
-        _ = try client.send(operation: "StopLabelingJob", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func stopLabelingJob(_ input: StopLabelingJobRequest) throws -> Future<Void> {
+        return try client.send(operation: "StopLabelingJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Terminates the ML compute instance. Before terminating the instance, Amazon SageMaker disconnects the ML storage volume from it. Amazon SageMaker preserves the ML storage volume.  To access data on the ML storage volume for a notebook instance that has been terminated, call the StartNotebookInstance API. StartNotebookInstance launches another ML compute instance, configures it, and attaches the preserved ML storage volume so you can continue your work. 
-    public func stopNotebookInstance(_ input: StopNotebookInstanceInput) throws {
-        _ = try client.send(operation: "StopNotebookInstance", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func stopNotebookInstance(_ input: StopNotebookInstanceInput) throws -> Future<Void> {
+        return try client.send(operation: "StopNotebookInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops a training job. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms might use this 120-second window to save the model artifacts, so the results of the training is not lost.  Training algorithms provided by Amazon SageMaker save the intermediate results of a model training job. This intermediate data is a valid model artifact. You can use the model artifacts that are saved when Amazon SageMaker stops a training job to create a model.  When it receives a StopTrainingJob request, Amazon SageMaker changes the status of the job to Stopping. After Amazon SageMaker stops the job, it sets the status to Stopped.
-    public func stopTrainingJob(_ input: StopTrainingJobRequest) throws {
-        _ = try client.send(operation: "StopTrainingJob", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func stopTrainingJob(_ input: StopTrainingJobRequest) throws -> Future<Void> {
+        return try client.send(operation: "StopTrainingJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops a transform job. When Amazon SageMaker receives a StopTransformJob request, the status of the job changes to Stopping. After Amazon SageMaker stops the job, the status is set to Stopped. When you stop a transform job before it is completed, Amazon SageMaker doesn't store the job's output in Amazon S3.
-    public func stopTransformJob(_ input: StopTransformJobRequest) throws {
-        _ = try client.send(operation: "StopTransformJob", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func stopTransformJob(_ input: StopTransformJobRequest) throws -> Future<Void> {
+        return try client.send(operation: "StopTransformJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the specified git repository with the specified values.

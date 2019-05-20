@@ -99,116 +99,116 @@ public struct APIGateway {
     }
 
     ///  Deletes the ApiKey resource.
-    public func deleteApiKey(_ input: DeleteApiKeyRequest) throws {
-        _ = try client.send(operation: "DeleteApiKey", path: "/apikeys/{api_Key}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteApiKey(_ input: DeleteApiKeyRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteApiKey", path: "/apikeys/{api_Key}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an existing Authorizer resource. AWS CLI
-    public func deleteAuthorizer(_ input: DeleteAuthorizerRequest) throws {
-        _ = try client.send(operation: "DeleteAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteAuthorizer(_ input: DeleteAuthorizerRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the BasePathMapping resource.
-    public func deleteBasePathMapping(_ input: DeleteBasePathMappingRequest) throws {
-        _ = try client.send(operation: "DeleteBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings/{base_path}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteBasePathMapping(_ input: DeleteBasePathMappingRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings/{base_path}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the ClientCertificate resource.
-    public func deleteClientCertificate(_ input: DeleteClientCertificateRequest) throws {
-        _ = try client.send(operation: "DeleteClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteClientCertificate(_ input: DeleteClientCertificateRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a Deployment resource. Deleting a deployment will only succeed if there are no Stage resources associated with it.
-    public func deleteDeployment(_ input: DeleteDeploymentRequest) throws {
-        _ = try client.send(operation: "DeleteDeployment", path: "/restapis/{restapi_id}/deployments/{deployment_id}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteDeployment(_ input: DeleteDeploymentRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteDeployment", path: "/restapis/{restapi_id}/deployments/{deployment_id}", httpMethod: "DELETE", input: input)
     }
 
-    public func deleteDocumentationPart(_ input: DeleteDocumentationPartRequest) throws {
-        _ = try client.send(operation: "DeleteDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteDocumentationPart(_ input: DeleteDocumentationPartRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: "DELETE", input: input)
     }
 
-    public func deleteDocumentationVersion(_ input: DeleteDocumentationVersionRequest) throws {
-        _ = try client.send(operation: "DeleteDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteDocumentationVersion(_ input: DeleteDocumentationVersionRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the DomainName resource.
-    public func deleteDomainName(_ input: DeleteDomainNameRequest) throws {
-        _ = try client.send(operation: "DeleteDomainName", path: "/domainnames/{domain_name}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteDomainName(_ input: DeleteDomainNameRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteDomainName", path: "/domainnames/{domain_name}", httpMethod: "DELETE", input: input)
     }
 
     ///  Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
-    public func deleteGatewayResponse(_ input: DeleteGatewayResponseRequest) throws {
-        _ = try client.send(operation: "DeleteGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteGatewayResponse(_ input: DeleteGatewayResponseRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: "DELETE", input: input)
     }
 
     ///  Represents a delete integration.
-    public func deleteIntegration(_ input: DeleteIntegrationRequest) throws {
-        _ = try client.send(operation: "DeleteIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteIntegration(_ input: DeleteIntegrationRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "DELETE", input: input)
     }
 
     ///  Represents a delete integration response.
-    public func deleteIntegrationResponse(_ input: DeleteIntegrationResponseRequest) throws {
-        _ = try client.send(operation: "DeleteIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteIntegrationResponse(_ input: DeleteIntegrationResponseRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an existing Method resource.
-    public func deleteMethod(_ input: DeleteMethodRequest) throws {
-        _ = try client.send(operation: "DeleteMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteMethod(_ input: DeleteMethodRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an existing MethodResponse resource.
-    public func deleteMethodResponse(_ input: DeleteMethodResponseRequest) throws {
-        _ = try client.send(operation: "DeleteMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteMethodResponse(_ input: DeleteMethodResponseRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a model.
-    public func deleteModel(_ input: DeleteModelRequest) throws {
-        _ = try client.send(operation: "DeleteModel", path: "/restapis/{restapi_id}/models/{model_name}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteModel(_ input: DeleteModelRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteModel", path: "/restapis/{restapi_id}/models/{model_name}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a RequestValidator of a given RestApi.
-    public func deleteRequestValidator(_ input: DeleteRequestValidatorRequest) throws {
-        _ = try client.send(operation: "DeleteRequestValidator", path: "/restapis/{restapi_id}/requestvalidators/{requestvalidator_id}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteRequestValidator(_ input: DeleteRequestValidatorRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteRequestValidator", path: "/restapis/{restapi_id}/requestvalidators/{requestvalidator_id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a Resource resource.
-    public func deleteResource(_ input: DeleteResourceRequest) throws {
-        _ = try client.send(operation: "DeleteResource", path: "/restapis/{restapi_id}/resources/{resource_id}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteResource(_ input: DeleteResourceRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteResource", path: "/restapis/{restapi_id}/resources/{resource_id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the specified API.
-    public func deleteRestApi(_ input: DeleteRestApiRequest) throws {
-        _ = try client.send(operation: "DeleteRestApi", path: "/restapis/{restapi_id}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteRestApi(_ input: DeleteRestApiRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteRestApi", path: "/restapis/{restapi_id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a Stage resource.
-    public func deleteStage(_ input: DeleteStageRequest) throws {
-        _ = try client.send(operation: "DeleteStage", path: "/restapis/{restapi_id}/stages/{stage_name}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteStage(_ input: DeleteStageRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteStage", path: "/restapis/{restapi_id}/stages/{stage_name}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a usage plan of a given plan Id.
-    public func deleteUsagePlan(_ input: DeleteUsagePlanRequest) throws {
-        _ = try client.send(operation: "DeleteUsagePlan", path: "/usageplans/{usageplanId}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteUsagePlan(_ input: DeleteUsagePlanRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteUsagePlan", path: "/usageplans/{usageplanId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a usage plan key and remove the underlying API key from the associated usage plan.
-    public func deleteUsagePlanKey(_ input: DeleteUsagePlanKeyRequest) throws {
-        _ = try client.send(operation: "DeleteUsagePlanKey", path: "/usageplans/{usageplanId}/keys/{keyId}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteUsagePlanKey(_ input: DeleteUsagePlanKeyRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteUsagePlanKey", path: "/usageplans/{usageplanId}/keys/{keyId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an existing VpcLink of a specified identifier.
-    public func deleteVpcLink(_ input: DeleteVpcLinkRequest) throws {
-        _ = try client.send(operation: "DeleteVpcLink", path: "/vpclinks/{vpclink_id}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteVpcLink(_ input: DeleteVpcLinkRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteVpcLink", path: "/vpclinks/{vpclink_id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Flushes all authorizer cache entries on a stage.
-    public func flushStageAuthorizersCache(_ input: FlushStageAuthorizersCacheRequest) throws {
-        _ = try client.send(operation: "FlushStageAuthorizersCache", path: "/restapis/{restapi_id}/stages/{stage_name}/cache/authorizers", httpMethod: "DELETE", input: input)
+    @discardableResult public func flushStageAuthorizersCache(_ input: FlushStageAuthorizersCacheRequest) throws -> Future<Void> {
+        return try client.send(operation: "FlushStageAuthorizersCache", path: "/restapis/{restapi_id}/stages/{stage_name}/cache/authorizers", httpMethod: "DELETE", input: input)
     }
 
     ///  Flushes a stage's cache.
-    public func flushStageCache(_ input: FlushStageCacheRequest) throws {
-        _ = try client.send(operation: "FlushStageCache", path: "/restapis/{restapi_id}/stages/{stage_name}/cache/data", httpMethod: "DELETE", input: input)
+    @discardableResult public func flushStageCache(_ input: FlushStageCacheRequest) throws -> Future<Void> {
+        return try client.send(operation: "FlushStageCache", path: "/restapis/{restapi_id}/stages/{stage_name}/cache/data", httpMethod: "DELETE", input: input)
     }
 
     ///  Generates a ClientCertificate resource.
@@ -485,8 +485,8 @@ public struct APIGateway {
     }
 
     ///  Adds or updates a tag on a given resource.
-    public func tagResource(_ input: TagResourceRequest) throws {
-        _ = try client.send(operation: "TagResource", path: "/tags/{resource_arn}", httpMethod: "PUT", input: input)
+    @discardableResult public func tagResource(_ input: TagResourceRequest) throws -> Future<Void> {
+        return try client.send(operation: "TagResource", path: "/tags/{resource_arn}", httpMethod: "PUT", input: input)
     }
 
     ///  Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.  Enable custom authorizers 
@@ -500,8 +500,8 @@ public struct APIGateway {
     }
 
     ///  Removes a tag from a given resource.
-    public func untagResource(_ input: UntagResourceRequest) throws {
-        _ = try client.send(operation: "UntagResource", path: "/tags/{resource_arn}", httpMethod: "DELETE", input: input)
+    @discardableResult public func untagResource(_ input: UntagResourceRequest) throws -> Future<Void> {
+        return try client.send(operation: "UntagResource", path: "/tags/{resource_arn}", httpMethod: "DELETE", input: input)
     }
 
     ///  Changes information about the current Account resource.

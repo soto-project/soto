@@ -55,58 +55,58 @@ public struct S3 {
     }
 
     ///  Deletes the bucket. All objects (including all object versions and Delete Markers) in the bucket must be deleted before the bucket itself can be deleted.
-    public func deleteBucket(_ input: DeleteBucketRequest) throws {
-        _ = try client.send(operation: "DeleteBucket", path: "/{Bucket}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteBucket(_ input: DeleteBucketRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteBucket", path: "/{Bucket}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an analytics configuration for the bucket (specified by the analytics configuration ID).
-    public func deleteBucketAnalyticsConfiguration(_ input: DeleteBucketAnalyticsConfigurationRequest) throws {
-        _ = try client.send(operation: "DeleteBucketAnalyticsConfiguration", path: "/{Bucket}?analytics", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteBucketAnalyticsConfiguration(_ input: DeleteBucketAnalyticsConfigurationRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteBucketAnalyticsConfiguration", path: "/{Bucket}?analytics", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the CORS configuration information set for the bucket.
-    public func deleteBucketCors(_ input: DeleteBucketCorsRequest) throws {
-        _ = try client.send(operation: "DeleteBucketCors", path: "/{Bucket}?cors", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteBucketCors(_ input: DeleteBucketCorsRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteBucketCors", path: "/{Bucket}?cors", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the server-side encryption configuration from the bucket.
-    public func deleteBucketEncryption(_ input: DeleteBucketEncryptionRequest) throws {
-        _ = try client.send(operation: "DeleteBucketEncryption", path: "/{Bucket}?encryption", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteBucketEncryption(_ input: DeleteBucketEncryptionRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteBucketEncryption", path: "/{Bucket}?encryption", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an inventory configuration (identified by the inventory ID) from the bucket.
-    public func deleteBucketInventoryConfiguration(_ input: DeleteBucketInventoryConfigurationRequest) throws {
-        _ = try client.send(operation: "DeleteBucketInventoryConfiguration", path: "/{Bucket}?inventory", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteBucketInventoryConfiguration(_ input: DeleteBucketInventoryConfigurationRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteBucketInventoryConfiguration", path: "/{Bucket}?inventory", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the lifecycle configuration from the bucket.
-    public func deleteBucketLifecycle(_ input: DeleteBucketLifecycleRequest) throws {
-        _ = try client.send(operation: "DeleteBucketLifecycle", path: "/{Bucket}?lifecycle", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteBucketLifecycle(_ input: DeleteBucketLifecycleRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteBucketLifecycle", path: "/{Bucket}?lifecycle", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a metrics configuration (specified by the metrics configuration ID) from the bucket.
-    public func deleteBucketMetricsConfiguration(_ input: DeleteBucketMetricsConfigurationRequest) throws {
-        _ = try client.send(operation: "DeleteBucketMetricsConfiguration", path: "/{Bucket}?metrics", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteBucketMetricsConfiguration(_ input: DeleteBucketMetricsConfigurationRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteBucketMetricsConfiguration", path: "/{Bucket}?metrics", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the policy from the bucket.
-    public func deleteBucketPolicy(_ input: DeleteBucketPolicyRequest) throws {
-        _ = try client.send(operation: "DeleteBucketPolicy", path: "/{Bucket}?policy", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteBucketPolicy(_ input: DeleteBucketPolicyRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteBucketPolicy", path: "/{Bucket}?policy", httpMethod: "DELETE", input: input)
     }
 
     ///   Deletes the replication configuration from the bucket. For information about replication configuration, see Cross-Region Replication (CRR) in the Amazon S3 Developer Guide. 
-    public func deleteBucketReplication(_ input: DeleteBucketReplicationRequest) throws {
-        _ = try client.send(operation: "DeleteBucketReplication", path: "/{Bucket}?replication", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteBucketReplication(_ input: DeleteBucketReplicationRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteBucketReplication", path: "/{Bucket}?replication", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the tags from the bucket.
-    public func deleteBucketTagging(_ input: DeleteBucketTaggingRequest) throws {
-        _ = try client.send(operation: "DeleteBucketTagging", path: "/{Bucket}?tagging", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteBucketTagging(_ input: DeleteBucketTaggingRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteBucketTagging", path: "/{Bucket}?tagging", httpMethod: "DELETE", input: input)
     }
 
     ///  This operation removes the website configuration from the bucket.
-    public func deleteBucketWebsite(_ input: DeleteBucketWebsiteRequest) throws {
-        _ = try client.send(operation: "DeleteBucketWebsite", path: "/{Bucket}?website", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteBucketWebsite(_ input: DeleteBucketWebsiteRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteBucketWebsite", path: "/{Bucket}?website", httpMethod: "DELETE", input: input)
     }
 
     ///  Removes the null version (if there is one) of an object and inserts a delete marker, which becomes the latest version of the object. If there isn't a null version, Amazon S3 does not remove any objects.
@@ -125,8 +125,8 @@ public struct S3 {
     }
 
     ///  Removes the PublicAccessBlock configuration from an Amazon S3 bucket.
-    public func deletePublicAccessBlock(_ input: DeletePublicAccessBlockRequest) throws {
-        _ = try client.send(operation: "DeletePublicAccessBlock", path: "/{Bucket}?publicAccessBlock", httpMethod: "DELETE", input: input)
+    @discardableResult public func deletePublicAccessBlock(_ input: DeletePublicAccessBlockRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeletePublicAccessBlock", path: "/{Bucket}?publicAccessBlock", httpMethod: "DELETE", input: input)
     }
 
     ///  Returns the accelerate configuration of a bucket.
@@ -270,8 +270,8 @@ public struct S3 {
     }
 
     ///  This operation is useful to determine if a bucket exists and you have permission to access it.
-    public func headBucket(_ input: HeadBucketRequest) throws {
-        _ = try client.send(operation: "HeadBucket", path: "/{Bucket}", httpMethod: "HEAD", input: input)
+    @discardableResult public func headBucket(_ input: HeadBucketRequest) throws -> Future<Void> {
+        return try client.send(operation: "HeadBucket", path: "/{Bucket}", httpMethod: "HEAD", input: input)
     }
 
     ///  The HEAD operation retrieves metadata from an object without returning the object itself. This operation is useful if you're only interested in an object's metadata. To use HEAD, you must have READ access to the object.
@@ -325,93 +325,93 @@ public struct S3 {
     }
 
     ///  Sets the accelerate configuration of an existing bucket.
-    public func putBucketAccelerateConfiguration(_ input: PutBucketAccelerateConfigurationRequest) throws {
-        _ = try client.send(operation: "PutBucketAccelerateConfiguration", path: "/{Bucket}?accelerate", httpMethod: "PUT", input: input)
+    @discardableResult public func putBucketAccelerateConfiguration(_ input: PutBucketAccelerateConfigurationRequest) throws -> Future<Void> {
+        return try client.send(operation: "PutBucketAccelerateConfiguration", path: "/{Bucket}?accelerate", httpMethod: "PUT", input: input)
     }
 
     ///  Sets the permissions on a bucket using access control lists (ACL).
-    public func putBucketAcl(_ input: PutBucketAclRequest) throws {
-        _ = try client.send(operation: "PutBucketAcl", path: "/{Bucket}?acl", httpMethod: "PUT", input: input)
+    @discardableResult public func putBucketAcl(_ input: PutBucketAclRequest) throws -> Future<Void> {
+        return try client.send(operation: "PutBucketAcl", path: "/{Bucket}?acl", httpMethod: "PUT", input: input)
     }
 
     ///  Sets an analytics configuration for the bucket (specified by the analytics configuration ID).
-    public func putBucketAnalyticsConfiguration(_ input: PutBucketAnalyticsConfigurationRequest) throws {
-        _ = try client.send(operation: "PutBucketAnalyticsConfiguration", path: "/{Bucket}?analytics", httpMethod: "PUT", input: input)
+    @discardableResult public func putBucketAnalyticsConfiguration(_ input: PutBucketAnalyticsConfigurationRequest) throws -> Future<Void> {
+        return try client.send(operation: "PutBucketAnalyticsConfiguration", path: "/{Bucket}?analytics", httpMethod: "PUT", input: input)
     }
 
     ///  Sets the CORS configuration for a bucket.
-    public func putBucketCors(_ input: PutBucketCorsRequest) throws {
-        _ = try client.send(operation: "PutBucketCors", path: "/{Bucket}?cors", httpMethod: "PUT", input: input)
+    @discardableResult public func putBucketCors(_ input: PutBucketCorsRequest) throws -> Future<Void> {
+        return try client.send(operation: "PutBucketCors", path: "/{Bucket}?cors", httpMethod: "PUT", input: input)
     }
 
     ///  Creates a new server-side encryption configuration (or replaces an existing one, if present).
-    public func putBucketEncryption(_ input: PutBucketEncryptionRequest) throws {
-        _ = try client.send(operation: "PutBucketEncryption", path: "/{Bucket}?encryption", httpMethod: "PUT", input: input)
+    @discardableResult public func putBucketEncryption(_ input: PutBucketEncryptionRequest) throws -> Future<Void> {
+        return try client.send(operation: "PutBucketEncryption", path: "/{Bucket}?encryption", httpMethod: "PUT", input: input)
     }
 
     ///  Adds an inventory configuration (identified by the inventory ID) from the bucket.
-    public func putBucketInventoryConfiguration(_ input: PutBucketInventoryConfigurationRequest) throws {
-        _ = try client.send(operation: "PutBucketInventoryConfiguration", path: "/{Bucket}?inventory", httpMethod: "PUT", input: input)
+    @discardableResult public func putBucketInventoryConfiguration(_ input: PutBucketInventoryConfigurationRequest) throws -> Future<Void> {
+        return try client.send(operation: "PutBucketInventoryConfiguration", path: "/{Bucket}?inventory", httpMethod: "PUT", input: input)
     }
 
     ///  Deprecated, see the PutBucketLifecycleConfiguration operation.
-    public func putBucketLifecycle(_ input: PutBucketLifecycleRequest) throws {
-        _ = try client.send(operation: "PutBucketLifecycle", path: "/{Bucket}?lifecycle", httpMethod: "PUT", input: input)
+    @discardableResult public func putBucketLifecycle(_ input: PutBucketLifecycleRequest) throws -> Future<Void> {
+        return try client.send(operation: "PutBucketLifecycle", path: "/{Bucket}?lifecycle", httpMethod: "PUT", input: input)
     }
 
     ///  Sets lifecycle configuration for your bucket. If a lifecycle configuration exists, it replaces it.
-    public func putBucketLifecycleConfiguration(_ input: PutBucketLifecycleConfigurationRequest) throws {
-        _ = try client.send(operation: "PutBucketLifecycleConfiguration", path: "/{Bucket}?lifecycle", httpMethod: "PUT", input: input)
+    @discardableResult public func putBucketLifecycleConfiguration(_ input: PutBucketLifecycleConfigurationRequest) throws -> Future<Void> {
+        return try client.send(operation: "PutBucketLifecycleConfiguration", path: "/{Bucket}?lifecycle", httpMethod: "PUT", input: input)
     }
 
     ///  Set the logging parameters for a bucket and to specify permissions for who can view and modify the logging parameters. To set the logging status of a bucket, you must be the bucket owner.
-    public func putBucketLogging(_ input: PutBucketLoggingRequest) throws {
-        _ = try client.send(operation: "PutBucketLogging", path: "/{Bucket}?logging", httpMethod: "PUT", input: input)
+    @discardableResult public func putBucketLogging(_ input: PutBucketLoggingRequest) throws -> Future<Void> {
+        return try client.send(operation: "PutBucketLogging", path: "/{Bucket}?logging", httpMethod: "PUT", input: input)
     }
 
     ///  Sets a metrics configuration (specified by the metrics configuration ID) for the bucket.
-    public func putBucketMetricsConfiguration(_ input: PutBucketMetricsConfigurationRequest) throws {
-        _ = try client.send(operation: "PutBucketMetricsConfiguration", path: "/{Bucket}?metrics", httpMethod: "PUT", input: input)
+    @discardableResult public func putBucketMetricsConfiguration(_ input: PutBucketMetricsConfigurationRequest) throws -> Future<Void> {
+        return try client.send(operation: "PutBucketMetricsConfiguration", path: "/{Bucket}?metrics", httpMethod: "PUT", input: input)
     }
 
     ///  Deprecated, see the PutBucketNotificationConfiguraiton operation.
-    public func putBucketNotification(_ input: PutBucketNotificationRequest) throws {
-        _ = try client.send(operation: "PutBucketNotification", path: "/{Bucket}?notification", httpMethod: "PUT", input: input)
+    @discardableResult public func putBucketNotification(_ input: PutBucketNotificationRequest) throws -> Future<Void> {
+        return try client.send(operation: "PutBucketNotification", path: "/{Bucket}?notification", httpMethod: "PUT", input: input)
     }
 
     ///  Enables notifications of specified events for a bucket.
-    public func putBucketNotificationConfiguration(_ input: PutBucketNotificationConfigurationRequest) throws {
-        _ = try client.send(operation: "PutBucketNotificationConfiguration", path: "/{Bucket}?notification", httpMethod: "PUT", input: input)
+    @discardableResult public func putBucketNotificationConfiguration(_ input: PutBucketNotificationConfigurationRequest) throws -> Future<Void> {
+        return try client.send(operation: "PutBucketNotificationConfiguration", path: "/{Bucket}?notification", httpMethod: "PUT", input: input)
     }
 
     ///  Replaces a policy on a bucket. If the bucket already has a policy, the one in this request completely replaces it.
-    public func putBucketPolicy(_ input: PutBucketPolicyRequest) throws {
-        _ = try client.send(operation: "PutBucketPolicy", path: "/{Bucket}?policy", httpMethod: "PUT", input: input)
+    @discardableResult public func putBucketPolicy(_ input: PutBucketPolicyRequest) throws -> Future<Void> {
+        return try client.send(operation: "PutBucketPolicy", path: "/{Bucket}?policy", httpMethod: "PUT", input: input)
     }
 
     ///   Creates a replication configuration or replaces an existing one. For more information, see Cross-Region Replication (CRR) in the Amazon S3 Developer Guide. 
-    public func putBucketReplication(_ input: PutBucketReplicationRequest) throws {
-        _ = try client.send(operation: "PutBucketReplication", path: "/{Bucket}?replication", httpMethod: "PUT", input: input)
+    @discardableResult public func putBucketReplication(_ input: PutBucketReplicationRequest) throws -> Future<Void> {
+        return try client.send(operation: "PutBucketReplication", path: "/{Bucket}?replication", httpMethod: "PUT", input: input)
     }
 
     ///  Sets the request payment configuration for a bucket. By default, the bucket owner pays for downloads from the bucket. This configuration parameter enables the bucket owner (only) to specify that the person requesting the download will be charged for the download. Documentation on requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html
-    public func putBucketRequestPayment(_ input: PutBucketRequestPaymentRequest) throws {
-        _ = try client.send(operation: "PutBucketRequestPayment", path: "/{Bucket}?requestPayment", httpMethod: "PUT", input: input)
+    @discardableResult public func putBucketRequestPayment(_ input: PutBucketRequestPaymentRequest) throws -> Future<Void> {
+        return try client.send(operation: "PutBucketRequestPayment", path: "/{Bucket}?requestPayment", httpMethod: "PUT", input: input)
     }
 
     ///  Sets the tags for a bucket.
-    public func putBucketTagging(_ input: PutBucketTaggingRequest) throws {
-        _ = try client.send(operation: "PutBucketTagging", path: "/{Bucket}?tagging", httpMethod: "PUT", input: input)
+    @discardableResult public func putBucketTagging(_ input: PutBucketTaggingRequest) throws -> Future<Void> {
+        return try client.send(operation: "PutBucketTagging", path: "/{Bucket}?tagging", httpMethod: "PUT", input: input)
     }
 
     ///  Sets the versioning state of an existing bucket. To set the versioning state, you must be the bucket owner.
-    public func putBucketVersioning(_ input: PutBucketVersioningRequest) throws {
-        _ = try client.send(operation: "PutBucketVersioning", path: "/{Bucket}?versioning", httpMethod: "PUT", input: input)
+    @discardableResult public func putBucketVersioning(_ input: PutBucketVersioningRequest) throws -> Future<Void> {
+        return try client.send(operation: "PutBucketVersioning", path: "/{Bucket}?versioning", httpMethod: "PUT", input: input)
     }
 
     ///  Set the website configuration for a bucket.
-    public func putBucketWebsite(_ input: PutBucketWebsiteRequest) throws {
-        _ = try client.send(operation: "PutBucketWebsite", path: "/{Bucket}?website", httpMethod: "PUT", input: input)
+    @discardableResult public func putBucketWebsite(_ input: PutBucketWebsiteRequest) throws -> Future<Void> {
+        return try client.send(operation: "PutBucketWebsite", path: "/{Bucket}?website", httpMethod: "PUT", input: input)
     }
 
     ///  Adds an object to a bucket.
@@ -445,8 +445,8 @@ public struct S3 {
     }
 
     ///  Creates or modifies the PublicAccessBlock configuration for an Amazon S3 bucket.
-    public func putPublicAccessBlock(_ input: PutPublicAccessBlockRequest) throws {
-        _ = try client.send(operation: "PutPublicAccessBlock", path: "/{Bucket}?publicAccessBlock", httpMethod: "PUT", input: input)
+    @discardableResult public func putPublicAccessBlock(_ input: PutPublicAccessBlockRequest) throws -> Future<Void> {
+        return try client.send(operation: "PutPublicAccessBlock", path: "/{Bucket}?publicAccessBlock", httpMethod: "PUT", input: input)
     }
 
     ///  Restores an archived copy of an object back into Amazon S3
@@ -455,8 +455,8 @@ public struct S3 {
     }
 
     ///  This operation filters the contents of an Amazon S3 object based on a simple Structured Query Language (SQL) statement. In the request, along with the SQL expression, you must also specify a data serialization format (JSON or CSV) of the object. Amazon S3 uses this to parse object data into records, and returns only records that match the specified SQL expression. You must also specify the data serialization format for the response.
-    public func selectObjectContent(_ input: SelectObjectContentRequest) throws {
-        _ = try client.send(operation: "SelectObjectContent", path: "/{Bucket}/{Key+}?select&select-type=2", httpMethod: "POST", input: input)
+    @discardableResult public func selectObjectContent(_ input: SelectObjectContentRequest) throws -> Future<Void> {
+        return try client.send(operation: "SelectObjectContent", path: "/{Bucket}/{Key+}?select&select-type=2", httpMethod: "POST", input: input)
     }
 
     ///  Uploads a part in a multipart upload.  Note: After you initiate multipart upload and upload one or more parts, you must either complete or abort multipart upload in order to stop getting charged for storage of the uploaded parts. Only after you either complete or abort multipart upload, Amazon S3 frees up the parts storage and stops charging you for the parts storage.

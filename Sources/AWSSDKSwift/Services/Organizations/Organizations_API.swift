@@ -34,8 +34,8 @@ public struct Organizations {
     }
 
     ///  Attaches a policy to a root, an organizational unit (OU), or an individual account. How the policy affects accounts depends on the type of policy:    Service control policy (SCP) - An SCP specifies what permissions can be delegated to users in affected member accounts. The scope of influence for a policy depends on what you attach the policy to:   If you attach an SCP to a root, it affects all accounts in the organization.   If you attach an SCP to an OU, it affects all accounts in that OU and in any child OUs.   If you attach the policy directly to an account, then it affects only that account.   SCPs essentially are permission "filters". When you attach one SCP to a higher level root or OU, and you also attach a different SCP to a child OU or to an account, the child policy can further restrict only the permissions that pass through the parent filter and are available to the child. An SCP that is attached to a child cannot grant a permission that is not already granted by the parent. For example, imagine that the parent SCP allows permissions A, B, C, D, and E. The child SCP allows C, D, E, F, and G. The result is that the accounts affected by the child SCP are allowed to use only C, D, and E. They cannot use A or B because they were filtered out by the child OU. They also cannot use F and G because they were filtered out by the parent OU. They cannot be granted back by the child SCP; child SCPs can only filter the permissions they receive from the parent SCP. AWS Organizations attaches a default SCP named "FullAWSAccess to every root, OU, and account. This default SCP allows all services and actions, enabling any new child OU or account to inherit the permissions of the parent root or OU. If you detach the default policy, you must replace it with a policy that specifies the permissions that you want to allow in that OU or account. For more information about how Organizations policies permissions work, see Using Service Control Policies in the AWS Organizations User Guide.   This operation can be called only from the organization's master account.
-    public func attachPolicy(_ input: AttachPolicyRequest) throws {
-        _ = try client.send(operation: "AttachPolicy", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func attachPolicy(_ input: AttachPolicyRequest) throws -> Future<Void> {
+        return try client.send(operation: "AttachPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Cancels a handshake. Canceling a handshake sets the handshake state to CANCELED.  This operation can be called only from the account that originated the handshake. The recipient of the handshake can't cancel it, but can use DeclineHandshake instead. After a handshake is canceled, the recipient can no longer respond to that handshake. After you cancel a handshake, it continues to appear in the results of relevant APIs for only 30 days. After that it is deleted.
@@ -69,18 +69,18 @@ public struct Organizations {
     }
 
     ///  Deletes the organization. You can delete an organization only by using credentials from the master account. The organization must be empty of member accounts.
-    public func deleteOrganization() throws {
-        _ = try client.send(operation: "DeleteOrganization", path: "/", httpMethod: "POST")
+    @discardableResult public func deleteOrganization() throws -> Future<Void> {
+        return try client.send(operation: "DeleteOrganization", path: "/", httpMethod: "POST")
     }
 
     ///  Deletes an organizational unit (OU) from a root or another OU. You must first remove all accounts and child OUs from the OU that you want to delete. This operation can be called only from the organization's master account.
-    public func deleteOrganizationalUnit(_ input: DeleteOrganizationalUnitRequest) throws {
-        _ = try client.send(operation: "DeleteOrganizationalUnit", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteOrganizationalUnit(_ input: DeleteOrganizationalUnitRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteOrganizationalUnit", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified policy from your organization. Before you perform this operation, you must first detach the policy from all organizational units (OUs), roots, and accounts. This operation can be called only from the organization's master account.
-    public func deletePolicy(_ input: DeletePolicyRequest) throws {
-        _ = try client.send(operation: "DeletePolicy", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deletePolicy(_ input: DeletePolicyRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeletePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves Organizations-related information about the specified account. This operation can be called only from the organization's master account.
@@ -114,13 +114,13 @@ public struct Organizations {
     }
 
     ///  Detaches a policy from a target root, organizational unit (OU), or account. If the policy being detached is a service control policy (SCP), the changes to permissions for IAM users and roles in affected accounts are immediate.  Note: Every root, OU, and account must have at least one SCP attached. If you want to replace the default FullAWSAccess policy with one that limits the permissions that can be delegated, then you must attach the replacement policy before you can remove the default one. This is the authorization strategy of whitelisting. If you instead attach a second SCP and leave the FullAWSAccess SCP still attached, and specify "Effect": "Deny" in the second SCP to override the "Effect": "Allow" in the FullAWSAccess policy (or any other attached SCP), then you are using the authorization strategy of blacklisting.  This operation can be called only from the organization's master account.
-    public func detachPolicy(_ input: DetachPolicyRequest) throws {
-        _ = try client.send(operation: "DetachPolicy", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func detachPolicy(_ input: DetachPolicyRequest) throws -> Future<Void> {
+        return try client.send(operation: "DetachPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disables the integration of an AWS service (the service that is specified by ServicePrincipal) with AWS Organizations. When you disable integration, the specified service no longer can create a service-linked role in new accounts in your organization. This means the service can't perform operations on your behalf on any new accounts in your organization. The service can still perform operations in older accounts until the service completes its clean-up from AWS Organizations.   We recommend that you disable integration between AWS Organizations and the specified AWS service by using the console or commands that are provided by the specified service. Doing so ensures that the other service is aware that it can clean up any resources that are required only for the integration. How the service cleans up its resources in the organization's accounts depends on that service. For more information, see the documentation for the other AWS service.  After you perform the DisableAWSServiceAccess operation, the specified service can no longer perform operations in your organization's accounts unless the operations are explicitly permitted by the IAM policies that are attached to your roles.  For more information about integrating other services with AWS Organizations, including the list of services that work with Organizations, see Integrating AWS Organizations with Other AWS Services in the AWS Organizations User Guide. This operation can be called only from the organization's master account.
-    public func disableAWSServiceAccess(_ input: DisableAWSServiceAccessRequest) throws {
-        _ = try client.send(operation: "DisableAWSServiceAccess", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func disableAWSServiceAccess(_ input: DisableAWSServiceAccessRequest) throws -> Future<Void> {
+        return try client.send(operation: "DisableAWSServiceAccess", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disables an organizational control policy type in a root. A policy of a certain type can be attached to entities in a root only if that type is enabled in the root. After you perform this operation, you no longer can attach policies of the specified type to that root or to any organizational unit (OU) or account in that root. You can undo this by using the EnablePolicyType operation. This operation can be called only from the organization's master account.  If you disable a policy type for a root, it still shows as enabled for the organization if all features are enabled in that organization. Use ListRoots to see the status of policy types for a specified root. Use DescribeOrganization to see the status of policy types in the organization. 
@@ -129,8 +129,8 @@ public struct Organizations {
     }
 
     ///  Enables the integration of an AWS service (the service that is specified by ServicePrincipal) with AWS Organizations. When you enable integration, you allow the specified service to create a service-linked role in all the accounts in your organization. This allows the service to perform operations on your behalf in your organization and its accounts.  We recommend that you enable integration between AWS Organizations and the specified AWS service by using the console or commands that are provided by the specified service. Doing so ensures that the service is aware that it can create the resources that are required for the integration. How the service creates those resources in the organization's accounts depends on that service. For more information, see the documentation for the other AWS service.  For more information about enabling services to integrate with AWS Organizations, see Integrating AWS Organizations with Other AWS Services in the AWS Organizations User Guide. This operation can be called only from the organization's master account and only if the organization has enabled all features.
-    public func enableAWSServiceAccess(_ input: EnableAWSServiceAccessRequest) throws {
-        _ = try client.send(operation: "EnableAWSServiceAccess", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func enableAWSServiceAccess(_ input: EnableAWSServiceAccessRequest) throws -> Future<Void> {
+        return try client.send(operation: "EnableAWSServiceAccess", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Enables all features in an organization. This enables the use of organization policies that can restrict the services and actions that can be called in each account. Until you enable all features, you have access only to consolidated billing, and you can't use any of the advanced account administration features that AWS Organizations supports. For more information, see Enabling All Features in Your Organization in the AWS Organizations User Guide.  This operation is required only for organizations that were created explicitly with only the consolidated billing features enabled. Calling this operation sends a handshake to every invited account in the organization. The feature set change can be finalized and the additional features enabled only after all administrators in the invited accounts approve the change by accepting the handshake.  After you enable all features, you can separately enable or disable individual policy types in a root using EnablePolicyType and DisablePolicyType. To see the status of policy types in a root, use ListRoots. After all invited member accounts accept the handshake, you finalize the feature set change by accepting the handshake that contains "Action": "ENABLE_ALL_FEATURES". This completes the change. After you enable all features in your organization, the master account in the organization can apply policies on all member accounts. These policies can restrict what users and even administrators in those accounts can do. The master account can apply policies that prevent accounts from leaving the organization. Ensure that your account administrators are aware of this. This operation can be called only from the organization's master account. 
@@ -149,8 +149,8 @@ public struct Organizations {
     }
 
     ///  Removes a member account from its parent organization. This version of the operation is performed by the account that wants to leave. To remove a member account as a user in the master account, use RemoveAccountFromOrganization instead. This operation can be called only from a member account in the organization.    The master account in an organization with all features enabled can set service control policies (SCPs) that can restrict what administrators of member accounts can do, including preventing them from successfully calling LeaveOrganization and leaving the organization.    You can leave an organization as a member account only if the account is configured with the information required to operate as a standalone account. When you create an account in an organization using the AWS Organizations console, API, or CLI commands, the information required of standalone accounts is not automatically collected. For each account that you want to make standalone, you must accept the End User License Agreement (EULA), choose a support plan, provide and verify the required contact information, and provide a current payment method. AWS uses the payment method to charge for any billable (not free tier) AWS activity that occurs while the account is not attached to an organization. Follow the steps at  To leave an organization when all required account information has not yet been provided in the AWS Organizations User Guide.   You can leave an organization only after you enable IAM user access to billing in your account. For more information, see Activating Access to the Billing and Cost Management Console in the AWS Billing and Cost Management User Guide.   
-    public func leaveOrganization() throws {
-        _ = try client.send(operation: "LeaveOrganization", path: "/", httpMethod: "POST")
+    @discardableResult public func leaveOrganization() throws -> Future<Void> {
+        return try client.send(operation: "LeaveOrganization", path: "/", httpMethod: "POST")
     }
 
     ///  Returns a list of the AWS services that you enabled to integrate with your organization. After a service on this list creates the resources that it requires for the integration, it can perform operations on your organization and its accounts. For more information about integrating other services with AWS Organizations, including the list of services that currently work with Organizations, see Integrating AWS Organizations with Other AWS Services in the AWS Organizations User Guide. This operation can be called only from the organization's master account.
@@ -219,13 +219,13 @@ public struct Organizations {
     }
 
     ///  Moves an account from its current source parent root or organizational unit (OU) to the specified destination parent root or OU. This operation can be called only from the organization's master account.
-    public func moveAccount(_ input: MoveAccountRequest) throws {
-        _ = try client.send(operation: "MoveAccount", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func moveAccount(_ input: MoveAccountRequest) throws -> Future<Void> {
+        return try client.send(operation: "MoveAccount", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes the specified account from the organization. The removed account becomes a stand-alone account that is not a member of any organization. It is no longer subject to any policies and is responsible for its own bill payments. The organization's master account is no longer charged for any expenses accrued by the member account after it is removed from the organization. This operation can be called only from the organization's master account. Member accounts can remove themselves with LeaveOrganization instead.  You can remove an account from your organization only if the account is configured with the information required to operate as a standalone account. When you create an account in an organization using the AWS Organizations console, API, or CLI commands, the information required of standalone accounts is not automatically collected. For an account that you want to make standalone, you must accept the End User License Agreement (EULA), choose a support plan, provide and verify the required contact information, and provide a current payment method. AWS uses the payment method to charge for any billable (not free tier) AWS activity that occurs while the account is not attached to an organization. To remove an account that does not yet have this information, you must sign in as the member account and follow the steps at  To leave an organization when all required account information has not yet been provided in the AWS Organizations User Guide. 
-    public func removeAccountFromOrganization(_ input: RemoveAccountFromOrganizationRequest) throws {
-        _ = try client.send(operation: "RemoveAccountFromOrganization", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func removeAccountFromOrganization(_ input: RemoveAccountFromOrganizationRequest) throws -> Future<Void> {
+        return try client.send(operation: "RemoveAccountFromOrganization", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Renames the specified organizational unit (OU). The ID and ARN do not change. The child OUs and accounts remain in place, and any attached policies of the OU remain attached.  This operation can be called only from the organization's master account.

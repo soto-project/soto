@@ -26,8 +26,8 @@ public struct Neptune {
     }
 
     ///  Associates an Identity and Access Management (IAM) role from an Neptune DB cluster. 
-    public func addRoleToDBCluster(_ input: AddRoleToDBClusterMessage) throws {
-        _ = try client.send(operation: "AddRoleToDBCluster", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func addRoleToDBCluster(_ input: AddRoleToDBClusterMessage) throws -> Future<Void> {
+        return try client.send(operation: "AddRoleToDBCluster", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds a source identifier to an existing event notification subscription.
@@ -36,8 +36,8 @@ public struct Neptune {
     }
 
     ///  Adds metadata tags to an Amazon Neptune resource. These tags can also be used with cost allocation reporting to track cost associated with Amazon Neptune resources, or used in a Condition statement in an IAM policy for Amazon Neptune.
-    public func addTagsToResource(_ input: AddTagsToResourceMessage) throws {
-        _ = try client.send(operation: "AddTagsToResource", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func addTagsToResource(_ input: AddTagsToResourceMessage) throws -> Future<Void> {
+        return try client.send(operation: "AddTagsToResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Applies a pending maintenance action to a resource (for example, to a DB instance).
@@ -101,8 +101,8 @@ public struct Neptune {
     }
 
     ///  Deletes a specified DB cluster parameter group. The DB cluster parameter group to be deleted can't be associated with any DB clusters.
-    public func deleteDBClusterParameterGroup(_ input: DeleteDBClusterParameterGroupMessage) throws {
-        _ = try client.send(operation: "DeleteDBClusterParameterGroup", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteDBClusterParameterGroup(_ input: DeleteDBClusterParameterGroupMessage) throws -> Future<Void> {
+        return try client.send(operation: "DeleteDBClusterParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a DB cluster snapshot. If the snapshot is being copied, the copy operation is terminated.  The DB cluster snapshot must be in the available state to be deleted. 
@@ -116,13 +116,13 @@ public struct Neptune {
     }
 
     ///  Deletes a specified DBParameterGroup. The DBParameterGroup to be deleted can't be associated with any DB instances.
-    public func deleteDBParameterGroup(_ input: DeleteDBParameterGroupMessage) throws {
-        _ = try client.send(operation: "DeleteDBParameterGroup", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteDBParameterGroup(_ input: DeleteDBParameterGroupMessage) throws -> Future<Void> {
+        return try client.send(operation: "DeleteDBParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a DB subnet group.  The specified database subnet group must not be associated with any DB instances. 
-    public func deleteDBSubnetGroup(_ input: DeleteDBSubnetGroupMessage) throws {
-        _ = try client.send(operation: "DeleteDBSubnetGroup", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteDBSubnetGroup(_ input: DeleteDBSubnetGroupMessage) throws -> Future<Void> {
+        return try client.send(operation: "DeleteDBSubnetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an event notification subscription.
@@ -276,8 +276,8 @@ public struct Neptune {
     }
 
     ///  Disassociates an Identity and Access Management (IAM) role from a DB cluster. 
-    public func removeRoleFromDBCluster(_ input: RemoveRoleFromDBClusterMessage) throws {
-        _ = try client.send(operation: "RemoveRoleFromDBCluster", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func removeRoleFromDBCluster(_ input: RemoveRoleFromDBClusterMessage) throws -> Future<Void> {
+        return try client.send(operation: "RemoveRoleFromDBCluster", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes a source identifier from an existing event notification subscription.
@@ -286,8 +286,8 @@ public struct Neptune {
     }
 
     ///  Removes metadata tags from an Amazon Neptune resource.
-    public func removeTagsFromResource(_ input: RemoveTagsFromResourceMessage) throws {
-        _ = try client.send(operation: "RemoveTagsFromResource", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func removeTagsFromResource(_ input: RemoveTagsFromResourceMessage) throws -> Future<Void> {
+        return try client.send(operation: "RemoveTagsFromResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Modifies the parameters of a DB cluster parameter group to the default value. To reset specific parameters submit a list of the following: ParameterName and ApplyMethod. To reset the entire DB cluster parameter group, specify the DBClusterParameterGroupName and ResetAllParameters parameters.   When resetting the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance request. You must call RebootDBInstance for every DB instance in your DB cluster that you want the updated static parameter to apply to.

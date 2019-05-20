@@ -47,8 +47,8 @@ public struct DataPipeline {
     }
 
     ///  Deletes a pipeline, its pipeline definition, and its run history. AWS Data Pipeline attempts to cancel instances associated with the pipeline that are currently being processed by task runners. Deleting a pipeline cannot be undone. You cannot query or restore a deleted pipeline. To temporarily pause a pipeline instead of deleting it, call SetStatus with the status set to PAUSE on individual components. Components that are paused by SetStatus can be resumed.
-    public func deletePipeline(_ input: DeletePipelineInput) throws {
-        _ = try client.send(operation: "DeletePipeline", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deletePipeline(_ input: DeletePipelineInput) throws -> Future<Void> {
+        return try client.send(operation: "DeletePipeline", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the object definitions for a set of objects associated with the pipeline. Object definitions are composed of a set of fields that define the properties of the object.
@@ -107,8 +107,8 @@ public struct DataPipeline {
     }
 
     ///  Requests that the status of the specified physical or logical pipeline objects be updated in the specified pipeline. This update might not occur immediately, but is eventually consistent. The status that can be set depends on the type of object (for example, DataNode or Activity). You cannot perform this operation on FINISHED pipelines and attempting to do so returns InvalidRequestException.
-    public func setStatus(_ input: SetStatusInput) throws {
-        _ = try client.send(operation: "SetStatus", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func setStatus(_ input: SetStatusInput) throws -> Future<Void> {
+        return try client.send(operation: "SetStatus", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Task runners call SetTaskStatus to notify AWS Data Pipeline that a task is completed and provide information about the final status. A task runner makes this call regardless of whether the task was sucessful. A task runner does not need to call SetTaskStatus for tasks that are canceled by the web service during a call to ReportTaskProgress.

@@ -26,8 +26,8 @@ public struct ElasticBeanstalk {
     }
 
     ///  Cancels in-progress environment configuration update or application version deployment.
-    public func abortEnvironmentUpdate(_ input: AbortEnvironmentUpdateMessage) throws {
-        _ = try client.send(operation: "AbortEnvironmentUpdate", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func abortEnvironmentUpdate(_ input: AbortEnvironmentUpdateMessage) throws -> Future<Void> {
+        return try client.send(operation: "AbortEnvironmentUpdate", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Applies a scheduled managed action immediately. A managed action can be applied only if its status is Scheduled. Get the status and action ID of a managed action with DescribeEnvironmentManagedActions.
@@ -76,23 +76,23 @@ public struct ElasticBeanstalk {
     }
 
     ///  Deletes the specified application along with all associated versions and configurations. The application versions will not be deleted from your Amazon S3 bucket.  You cannot delete an application that has a running environment. 
-    public func deleteApplication(_ input: DeleteApplicationMessage) throws {
-        _ = try client.send(operation: "DeleteApplication", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteApplication(_ input: DeleteApplicationMessage) throws -> Future<Void> {
+        return try client.send(operation: "DeleteApplication", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified version from the specified application.  You cannot delete an application version that is associated with a running environment. 
-    public func deleteApplicationVersion(_ input: DeleteApplicationVersionMessage) throws {
-        _ = try client.send(operation: "DeleteApplicationVersion", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteApplicationVersion(_ input: DeleteApplicationVersionMessage) throws -> Future<Void> {
+        return try client.send(operation: "DeleteApplicationVersion", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified configuration template.  When you launch an environment using a configuration template, the environment gets a copy of the template. You can delete or modify the environment's copy of the template without affecting the running environment. 
-    public func deleteConfigurationTemplate(_ input: DeleteConfigurationTemplateMessage) throws {
-        _ = try client.send(operation: "DeleteConfigurationTemplate", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteConfigurationTemplate(_ input: DeleteConfigurationTemplateMessage) throws -> Future<Void> {
+        return try client.send(operation: "DeleteConfigurationTemplate", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the draft configuration associated with the running environment. Updating a running environment with any configuration changes creates a draft configuration set. You can get the draft configuration using DescribeConfigurationSettings while the update is in progress or if the update fails. The DeploymentStatus for the draft configuration indicates whether the deployment is in process or has failed. The draft configuration remains in existence until it is deleted with this action.
-    public func deleteEnvironmentConfiguration(_ input: DeleteEnvironmentConfigurationMessage) throws {
-        _ = try client.send(operation: "DeleteEnvironmentConfiguration", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteEnvironmentConfiguration(_ input: DeleteEnvironmentConfigurationMessage) throws -> Future<Void> {
+        return try client.send(operation: "DeleteEnvironmentConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified version of a custom platform.
@@ -181,18 +181,18 @@ public struct ElasticBeanstalk {
     }
 
     ///  Deletes and recreates all of the AWS resources (for example: the Auto Scaling group, load balancer, etc.) for a specified environment and forces a restart.
-    public func rebuildEnvironment(_ input: RebuildEnvironmentMessage) throws {
-        _ = try client.send(operation: "RebuildEnvironment", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func rebuildEnvironment(_ input: RebuildEnvironmentMessage) throws -> Future<Void> {
+        return try client.send(operation: "RebuildEnvironment", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Initiates a request to compile the specified type of information of the deployed environment.  Setting the InfoType to tail compiles the last lines from the application server log files of every Amazon EC2 instance in your environment.   Setting the InfoType to bundle compresses the application server log files for every Amazon EC2 instance into a .zip file. Legacy and .NET containers do not support bundle logs.   Use RetrieveEnvironmentInfo to obtain the set of logs.  Related Topics    RetrieveEnvironmentInfo   
-    public func requestEnvironmentInfo(_ input: RequestEnvironmentInfoMessage) throws {
-        _ = try client.send(operation: "RequestEnvironmentInfo", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func requestEnvironmentInfo(_ input: RequestEnvironmentInfoMessage) throws -> Future<Void> {
+        return try client.send(operation: "RequestEnvironmentInfo", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Causes the environment to restart the application container server running on each Amazon EC2 instance.
-    public func restartAppServer(_ input: RestartAppServerMessage) throws {
-        _ = try client.send(operation: "RestartAppServer", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func restartAppServer(_ input: RestartAppServerMessage) throws -> Future<Void> {
+        return try client.send(operation: "RestartAppServer", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the compiled information from a RequestEnvironmentInfo request. Related Topics    RequestEnvironmentInfo   
@@ -201,8 +201,8 @@ public struct ElasticBeanstalk {
     }
 
     ///  Swaps the CNAMEs of two environments.
-    public func swapEnvironmentCNAMEs(_ input: SwapEnvironmentCNAMEsMessage) throws {
-        _ = try client.send(operation: "SwapEnvironmentCNAMEs", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func swapEnvironmentCNAMEs(_ input: SwapEnvironmentCNAMEsMessage) throws -> Future<Void> {
+        return try client.send(operation: "SwapEnvironmentCNAMEs", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Terminates the specified environment.
@@ -236,8 +236,8 @@ public struct ElasticBeanstalk {
     }
 
     ///  Update the list of tags applied to an AWS Elastic Beanstalk resource. Two lists can be passed: TagsToAdd for tags to add or update, and TagsToRemove. Currently, Elastic Beanstalk only supports tagging of Elastic Beanstalk environments. For details about environment tagging, see Tagging Resources in Your Elastic Beanstalk Environment. If you create a custom IAM user policy to control permission to this operation, specify one of the following two virtual actions (or both) instead of the API operation name:  elasticbeanstalk:AddTags  Controls permission to call UpdateTagsForResource and pass a list of tags to add in the TagsToAdd parameter.  elasticbeanstalk:RemoveTags  Controls permission to call UpdateTagsForResource and pass a list of tag keys to remove in the TagsToRemove parameter.   For details about creating a custom user policy, see Creating a Custom User Policy.
-    public func updateTagsForResource(_ input: UpdateTagsForResourceMessage) throws {
-        _ = try client.send(operation: "UpdateTagsForResource", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func updateTagsForResource(_ input: UpdateTagsForResourceMessage) throws -> Future<Void> {
+        return try client.send(operation: "UpdateTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Takes a set of configuration settings and either a configuration template or environment, and determines whether those values are valid. This action returns a list of messages indicating any errors or warnings associated with the selection of option values.

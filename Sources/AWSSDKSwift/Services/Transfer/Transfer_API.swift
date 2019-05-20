@@ -37,18 +37,18 @@ public struct Transfer {
     }
 
     ///  Deletes the Secure File Transfer Protocol (SFTP) server that you specify. If you used SERVICE_MANAGED as your IdentityProviderType, you need to delete all users associated with this server before deleting the server itself No response returns from this call.
-    public func deleteServer(_ input: DeleteServerRequest) throws {
-        _ = try client.send(operation: "DeleteServer", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteServer(_ input: DeleteServerRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteServer", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a user's Secure Shell (SSH) public key. No response is returned from this call.
-    public func deleteSshPublicKey(_ input: DeleteSshPublicKeyRequest) throws {
-        _ = try client.send(operation: "DeleteSshPublicKey", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteSshPublicKey(_ input: DeleteSshPublicKeyRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteSshPublicKey", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the user belonging to the server you specify. No response returns from this call.  When you delete a user from a server, the user's information is lost. 
-    public func deleteUser(_ input: DeleteUserRequest) throws {
-        _ = try client.send(operation: "DeleteUser", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteUser(_ input: DeleteUserRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteUser", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the server that you specify by passing the ServerId parameter. The response contains a description of the server's properties.
@@ -82,18 +82,18 @@ public struct Transfer {
     }
 
     ///  Changes the state of a Secure File Transfer Protocol (SFTP) server from OFFLINE to ONLINE. It has no impact on an SFTP server that is already ONLINE. An ONLINE server can accept and process file transfer jobs. The state of STARTING indicates that the server is in an intermediate state, either not fully able to respond, or not fully online. The values of START_FAILED can indicate an error condition.  No response is returned from this call.
-    public func startServer(_ input: StartServerRequest) throws {
-        _ = try client.send(operation: "StartServer", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func startServer(_ input: StartServerRequest) throws -> Future<Void> {
+        return try client.send(operation: "StartServer", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Changes the state of an SFTP server from ONLINE to OFFLINE. An OFFLINE server cannot accept and process file transfer jobs. Information tied to your server such as server and user properties are not affected by stopping your server. Stopping a server will not reduce or impact your Secure File Transfer Protocol (SFTP) endpoint billing. The states of STOPPING indicates that the server is in an intermediate state, either not fully able to respond, or not fully offline. The values of STOP_FAILED can indicate an error condition. No response is returned from this call.
-    public func stopServer(_ input: StopServerRequest) throws {
-        _ = try client.send(operation: "StopServer", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func stopServer(_ input: StopServerRequest) throws -> Future<Void> {
+        return try client.send(operation: "StopServer", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities. There is no response returned from this call.
-    public func tagResource(_ input: TagResourceRequest) throws {
-        _ = try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func tagResource(_ input: TagResourceRequest) throws -> Future<Void> {
+        return try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  If the IdentityProviderType of the server is API_Gateway, tests whether your API Gateway is set up successfully. We highly recommend that you call this method to test your authentication method as soon as you create your server. By doing so, you can troubleshoot issues with the API Gateway integration to ensure that your users can successfully use the service.
@@ -102,8 +102,8 @@ public struct Transfer {
     }
 
     ///  Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities. No response is returned from this call.
-    public func untagResource(_ input: UntagResourceRequest) throws {
-        _ = try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func untagResource(_ input: UntagResourceRequest) throws -> Future<Void> {
+        return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the server properties after that server has been created. The UpdateServer call returns the ServerId of the Secure File Transfer Protocol (SFTP) server you updated.

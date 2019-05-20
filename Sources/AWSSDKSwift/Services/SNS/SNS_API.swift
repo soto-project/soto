@@ -26,8 +26,8 @@ public struct SNS {
     }
 
     ///  Adds a statement to a topic's access control policy, granting access for the specified AWS accounts to the specified actions.
-    public func addPermission(_ input: AddPermissionInput) throws {
-        _ = try client.send(operation: "AddPermission", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func addPermission(_ input: AddPermissionInput) throws -> Future<Void> {
+        return try client.send(operation: "AddPermission", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Accepts a phone number and indicates whether the phone holder has opted out of receiving SMS messages from your account. You cannot send SMS messages to a number that is opted out. To resume sending messages, you can opt in the number by using the OptInPhoneNumber action.
@@ -56,18 +56,18 @@ public struct SNS {
     }
 
     ///  Deletes the endpoint for a device and mobile app from Amazon SNS. This action is idempotent. For more information, see Using Amazon SNS Mobile Push Notifications.  When you delete an endpoint that is also subscribed to a topic, then you must also unsubscribe the endpoint from the topic.
-    public func deleteEndpoint(_ input: DeleteEndpointInput) throws {
-        _ = try client.send(operation: "DeleteEndpoint", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteEndpoint(_ input: DeleteEndpointInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a platform application object for one of the supported push notification services, such as APNS and GCM. For more information, see Using Amazon SNS Mobile Push Notifications. 
-    public func deletePlatformApplication(_ input: DeletePlatformApplicationInput) throws {
-        _ = try client.send(operation: "DeletePlatformApplication", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deletePlatformApplication(_ input: DeletePlatformApplicationInput) throws -> Future<Void> {
+        return try client.send(operation: "DeletePlatformApplication", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a topic and all its subscriptions. Deleting a topic might prevent some messages previously sent to the topic from being delivered to subscribers. This action is idempotent, so deleting a topic that does not exist does not result in an error.
-    public func deleteTopic(_ input: DeleteTopicInput) throws {
-        _ = try client.send(operation: "DeleteTopic", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteTopic(_ input: DeleteTopicInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteTopic", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the endpoint attributes for a device on one of the supported push notification services, such as GCM and APNS. For more information, see Using Amazon SNS Mobile Push Notifications. 
@@ -136,18 +136,18 @@ public struct SNS {
     }
 
     ///  Removes a statement from a topic's access control policy.
-    public func removePermission(_ input: RemovePermissionInput) throws {
-        _ = try client.send(operation: "RemovePermission", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func removePermission(_ input: RemovePermissionInput) throws -> Future<Void> {
+        return try client.send(operation: "RemovePermission", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets the attributes for an endpoint for a device on one of the supported push notification services, such as GCM and APNS. For more information, see Using Amazon SNS Mobile Push Notifications. 
-    public func setEndpointAttributes(_ input: SetEndpointAttributesInput) throws {
-        _ = try client.send(operation: "SetEndpointAttributes", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func setEndpointAttributes(_ input: SetEndpointAttributesInput) throws -> Future<Void> {
+        return try client.send(operation: "SetEndpointAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets the attributes of the platform application object for the supported push notification services, such as APNS and GCM. For more information, see Using Amazon SNS Mobile Push Notifications. For information on configuring attributes for message delivery status, see Using Amazon SNS Application Attributes for Message Delivery Status. 
-    public func setPlatformApplicationAttributes(_ input: SetPlatformApplicationAttributesInput) throws {
-        _ = try client.send(operation: "SetPlatformApplicationAttributes", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func setPlatformApplicationAttributes(_ input: SetPlatformApplicationAttributesInput) throws -> Future<Void> {
+        return try client.send(operation: "SetPlatformApplicationAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Use this request to set the default settings for sending SMS messages and receiving daily SMS usage reports. You can override some of these settings for a single message when you use the Publish action with the MessageAttributes.entry.N parameter. For more information, see Sending an SMS Message in the Amazon SNS Developer Guide.
@@ -156,13 +156,13 @@ public struct SNS {
     }
 
     ///  Allows a subscription owner to set an attribute of the subscription to a new value.
-    public func setSubscriptionAttributes(_ input: SetSubscriptionAttributesInput) throws {
-        _ = try client.send(operation: "SetSubscriptionAttributes", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func setSubscriptionAttributes(_ input: SetSubscriptionAttributesInput) throws -> Future<Void> {
+        return try client.send(operation: "SetSubscriptionAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Allows a topic owner to set an attribute of the topic to a new value.
-    public func setTopicAttributes(_ input: SetTopicAttributesInput) throws {
-        _ = try client.send(operation: "SetTopicAttributes", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func setTopicAttributes(_ input: SetTopicAttributesInput) throws -> Future<Void> {
+        return try client.send(operation: "SetTopicAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Prepares to subscribe an endpoint by sending the endpoint a confirmation message. To actually create a subscription, the endpoint owner must call the ConfirmSubscription action with the token from the confirmation message. Confirmation tokens are valid for three days. This action is throttled at 100 transactions per second (TPS).
@@ -171,8 +171,8 @@ public struct SNS {
     }
 
     ///  Deletes a subscription. If the subscription requires authentication for deletion, only the owner of the subscription or the topic's owner can unsubscribe, and an AWS signature is required. If the Unsubscribe call does not require authentication and the requester is not the subscription owner, a final cancellation message is delivered to the endpoint, so that the endpoint owner can easily resubscribe to the topic if the Unsubscribe request was unintended. This action is throttled at 100 transactions per second (TPS).
-    public func unsubscribe(_ input: UnsubscribeInput) throws {
-        _ = try client.send(operation: "Unsubscribe", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func unsubscribe(_ input: UnsubscribeInput) throws -> Future<Void> {
+        return try client.send(operation: "Unsubscribe", path: "/", httpMethod: "POST", input: input)
     }
 
 

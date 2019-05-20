@@ -42,18 +42,18 @@ public struct GlobalAccelerator {
     }
 
     ///  Delete an accelerator. Note: before you can delete an accelerator, you must disable it.
-    public func deleteAccelerator(_ input: DeleteAcceleratorRequest) throws {
-        _ = try client.send(operation: "DeleteAccelerator", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteAccelerator(_ input: DeleteAcceleratorRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteAccelerator", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Delete an endpoint group from a listener.
-    public func deleteEndpointGroup(_ input: DeleteEndpointGroupRequest) throws {
-        _ = try client.send(operation: "DeleteEndpointGroup", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteEndpointGroup(_ input: DeleteEndpointGroupRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteEndpointGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Delete a listener from an accelerator.
-    public func deleteListener(_ input: DeleteListenerRequest) throws {
-        _ = try client.send(operation: "DeleteListener", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteListener(_ input: DeleteListenerRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteListener", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describe an accelerator. To see an AWS CLI example of describing an accelerator, scroll down to Example.

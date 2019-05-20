@@ -65,8 +65,8 @@ public struct EC2 {
     }
 
     ///  Assigns one or more secondary private IP addresses to the specified network interface. You can specify one or more specific secondary IP addresses, or you can specify the number of secondary IP addresses to be automatically assigned within the subnet's CIDR block range. The number of secondary IP addresses that you can assign to an instance varies by instance type. For information about instance types, see Instance Types in the Amazon Elastic Compute Cloud User Guide. For more information about Elastic IP addresses, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide. When you move a secondary private IP address to another network interface, any Elastic IP address that is associated with the IP address is also moved. Remapping an IP address is an asynchronous operation. When you move an IP address from one network interface to another, check network/interfaces/macs/mac/local-ipv4s in the instance metadata to confirm that the remapping is complete.
-    public func assignPrivateIpAddresses(_ input: AssignPrivateIpAddressesRequest) throws {
-        _ = try client.send(operation: "AssignPrivateIpAddresses", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func assignPrivateIpAddresses(_ input: AssignPrivateIpAddressesRequest) throws -> Future<Void> {
+        return try client.send(operation: "AssignPrivateIpAddresses", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Associates an Elastic IP address with an instance or a network interface. Before you can use an Elastic IP address, you must allocate it to your account. An Elastic IP address is for use in either the EC2-Classic platform or in a VPC. For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide. [EC2-Classic, VPC in an EC2-VPC-only account] If the Elastic IP address is already associated with a different instance, it is disassociated from that instance and associated with the specified instance. If you associate an Elastic IP address with an instance that has an existing Elastic IP address, the existing address is disassociated from the instance, but remains allocated to your account. [VPC in an EC2-Classic account] If you don't specify a private IP address, the Elastic IP address is associated with the primary IP address. If the Elastic IP address is already associated with a different instance or a network interface, you get an error unless you allow reassociation. You cannot associate an Elastic IP address with an instance or network interface that has an existing Elastic IP address.  This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error, and you may be charged for each time the Elastic IP address is remapped to the same instance. For more information, see the Elastic IP Addresses section of Amazon EC2 Pricing. 
@@ -75,8 +75,8 @@ public struct EC2 {
     }
 
     ///  Associates a set of DHCP options (that you've previously created) with the specified VPC, or associates no DHCP options with the VPC. After you associate the options with the VPC, any existing instances and all new instances that you launch in that VPC use the options. You don't need to restart or relaunch the instances. They automatically pick up the changes within a few hours, depending on how frequently the instance renews its DHCP lease. You can explicitly renew the lease using the operating system on the instance. For more information, see DHCP Options Sets in the Amazon Virtual Private Cloud User Guide.
-    public func associateDhcpOptions(_ input: AssociateDhcpOptionsRequest) throws {
-        _ = try client.send(operation: "AssociateDhcpOptions", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func associateDhcpOptions(_ input: AssociateDhcpOptionsRequest) throws -> Future<Void> {
+        return try client.send(operation: "AssociateDhcpOptions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Associates an IAM instance profile with a running or stopped instance. You cannot associate more than one IAM instance profile with an instance.
@@ -110,8 +110,8 @@ public struct EC2 {
     }
 
     ///  Attaches an internet gateway to a VPC, enabling connectivity between the internet and the VPC. For more information about your VPC and internet gateway, see the Amazon Virtual Private Cloud User Guide.
-    public func attachInternetGateway(_ input: AttachInternetGatewayRequest) throws {
-        _ = try client.send(operation: "AttachInternetGateway", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func attachInternetGateway(_ input: AttachInternetGatewayRequest) throws -> Future<Void> {
+        return try client.send(operation: "AttachInternetGateway", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Attaches a network interface to an instance.
@@ -130,13 +130,13 @@ public struct EC2 {
     }
 
     ///  [EC2-VPC only] Adds one or more egress rules to a security group for use with a VPC. Specifically, this action permits instances to send traffic to one or more destination IPv4 or IPv6 CIDR address ranges, or to one or more destination security groups for the same VPC. This action doesn't apply to security groups for use in EC2-Classic. For more information, see Security Groups for Your VPC in the Amazon Virtual Private Cloud User Guide. For more information about security group limits, see Amazon VPC Limits. Each rule consists of the protocol (for example, TCP), plus either a CIDR range or a source group. For the TCP and UDP protocols, you must also specify the destination port or port range. For the ICMP protocol, you must also specify the ICMP type and code. You can use -1 for the type or code to mean all types or all codes. You can optionally specify a description for the rule. Rule changes are propagated to affected instances as quickly as possible. However, a small delay might occur.
-    public func authorizeSecurityGroupEgress(_ input: AuthorizeSecurityGroupEgressRequest) throws {
-        _ = try client.send(operation: "AuthorizeSecurityGroupEgress", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func authorizeSecurityGroupEgress(_ input: AuthorizeSecurityGroupEgressRequest) throws -> Future<Void> {
+        return try client.send(operation: "AuthorizeSecurityGroupEgress", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds one or more ingress rules to a security group. Rule changes are propagated to instances within the security group as quickly as possible. However, a small delay might occur. [EC2-Classic] This action gives one or more IPv4 CIDR address ranges permission to access a security group in your account, or gives one or more security groups (called the source groups) permission to access a security group for your account. A source group can be for your own AWS account, or another. You can have up to 100 rules per group. [EC2-VPC] This action gives one or more IPv4 or IPv6 CIDR address ranges permission to access a security group in your VPC, or gives one or more other security groups (called the source groups) permission to access a security group for your VPC. The security groups must all be for the same VPC or a peer VPC in a VPC peering connection. For more information about VPC security group limits, see Amazon VPC Limits. You can optionally specify a description for the security group rule.
-    public func authorizeSecurityGroupIngress(_ input: AuthorizeSecurityGroupIngressRequest) throws {
-        _ = try client.send(operation: "AuthorizeSecurityGroupIngress", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func authorizeSecurityGroupIngress(_ input: AuthorizeSecurityGroupIngressRequest) throws -> Future<Void> {
+        return try client.send(operation: "AuthorizeSecurityGroupIngress", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Bundles an Amazon instance store-backed Windows instance. During bundling, only the root device volume (C:\) is bundled. Data on other instance store volumes is not preserved.  This action is not applicable for Linux/Unix instances or Windows instances that are backed by Amazon EBS. 
@@ -155,13 +155,13 @@ public struct EC2 {
     }
 
     ///  Cancels an active conversion task. The task can be the import of an instance or volume. The action removes all artifacts of the conversion, including a partially uploaded volume or instance. If the conversion is complete or is in the process of transferring the final disk image, the command fails and returns an exception. For more information, see Importing a Virtual Machine Using the Amazon EC2 CLI.
-    public func cancelConversionTask(_ input: CancelConversionRequest) throws {
-        _ = try client.send(operation: "CancelConversionTask", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func cancelConversionTask(_ input: CancelConversionRequest) throws -> Future<Void> {
+        return try client.send(operation: "CancelConversionTask", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Cancels an active export task. The request removes all artifacts of the export, including any partially-created Amazon S3 objects. If the export task is complete or is in the process of transferring the final disk image, the command fails and returns an error.
-    public func cancelExportTask(_ input: CancelExportTaskRequest) throws {
-        _ = try client.send(operation: "CancelExportTask", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func cancelExportTask(_ input: CancelExportTaskRequest) throws -> Future<Void> {
+        return try client.send(operation: "CancelExportTask", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Cancels an in-process import virtual machine or import snapshot task.
@@ -290,8 +290,8 @@ public struct EC2 {
     }
 
     ///  Creates an entry (a rule) in a network ACL with the specified rule number. Each network ACL has a set of numbered ingress rules and a separate set of numbered egress rules. When determining whether a packet should be allowed in or out of a subnet associated with the ACL, we process the entries in the ACL according to the rule numbers, in ascending order. Each network ACL has a set of ingress rules and a separate set of egress rules. We recommend that you leave room between the rule numbers (for example, 100, 110, 120, ...), and not number them one right after the other (for example, 101, 102, 103, ...). This makes it easier to add a rule between existing ones without having to renumber the rules. After you add an entry, you can't modify it; you must either replace it, or create an entry and delete the old one. For more information about network ACLs, see Network ACLs in the Amazon Virtual Private Cloud User Guide.
-    public func createNetworkAclEntry(_ input: CreateNetworkAclEntryRequest) throws {
-        _ = try client.send(operation: "CreateNetworkAclEntry", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func createNetworkAclEntry(_ input: CreateNetworkAclEntryRequest) throws -> Future<Void> {
+        return try client.send(operation: "CreateNetworkAclEntry", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a network interface in the specified subnet. For more information about network interfaces, see Elastic Network Interfaces in the Amazon Virtual Private Cloud User Guide.
@@ -305,8 +305,8 @@ public struct EC2 {
     }
 
     ///  Creates a placement group in which to launch instances. The strategy of the placement group determines how the instances are organized within the group.  A cluster placement group is a logical grouping of instances within a single Availability Zone that benefit from low network latency, high network throughput. A spread placement group places instances on distinct hardware. For more information, see Placement Groups in the Amazon Elastic Compute Cloud User Guide.
-    public func createPlacementGroup(_ input: CreatePlacementGroupRequest) throws {
-        _ = try client.send(operation: "CreatePlacementGroup", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func createPlacementGroup(_ input: CreatePlacementGroupRequest) throws -> Future<Void> {
+        return try client.send(operation: "CreatePlacementGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a listing for Amazon EC2 Standard Reserved Instances to be sold in the Reserved Instance Marketplace. You can submit one Standard Reserved Instance listing at a time. To get a list of your Standard Reserved Instances, you can use the DescribeReservedInstances operation.  Only Standard Reserved Instances with a capacity reservation can be sold in the Reserved Instance Marketplace. Convertible Reserved Instances and Standard Reserved Instances with a regional benefit cannot be sold.  The Reserved Instance Marketplace matches sellers who want to resell Standard Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Reserved Instances. To sell your Standard Reserved Instances, you must first register as a seller in the Reserved Instance Marketplace. After completing the registration process, you can create a Reserved Instance Marketplace listing of some or all of your Standard Reserved Instances, and specify the upfront price to receive for them. Your Standard Reserved Instance listings then become available for purchase. To view the details of your Standard Reserved Instance listing, you can use the DescribeReservedInstancesListings operation. For more information, see Reserved Instance Marketplace in the Amazon Elastic Compute Cloud User Guide.
@@ -345,8 +345,8 @@ public struct EC2 {
     }
 
     ///  Adds or overwrites one or more tags for the specified Amazon EC2 resource or resources. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value. Tag keys must be unique per resource. For more information about tags, see Tagging Your Resources in the Amazon Elastic Compute Cloud User Guide. For more information about creating IAM policies that control users' access to resources based on tags, see Supported Resource-Level Permissions for Amazon EC2 API Actions in the Amazon Elastic Compute Cloud User Guide.
-    public func createTags(_ input: CreateTagsRequest) throws {
-        _ = try client.send(operation: "CreateTags", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func createTags(_ input: CreateTagsRequest) throws -> Future<Void> {
+        return try client.send(operation: "CreateTags", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a transit gateway. You can use a transit gateway to interconnect your virtual private clouds (VPC) and on-premises networks. After the transit gateway enters the available state, you can attach your VPCs and VPN connections to the transit gateway. To attach your VPCs, use CreateTransitGatewayVpcAttachment. To attach a VPN connection, use CreateCustomerGateway to create a customer gateway and specify the ID of the customer gateway and the ID of the transit gateway in a call to CreateVpnConnection. When you create a transit gateway, we create a default transit gateway route table and use it as the default association route table and the default propagation route table. You can use CreateTransitGatewayRouteTable to create additional transit gateway route tables. If you disable automatic route propagation, we do not create a default transit gateway route table. You can use EnableTransitGatewayRouteTablePropagation to propagate routes from a resource attachment to a transit gateway route table. If you disable automatic associations, you can use AssociateTransitGatewayRouteTable to associate a resource attachment with a transit gateway route table.
@@ -405,8 +405,8 @@ public struct EC2 {
     }
 
     ///  Creates a static route associated with a VPN connection between an existing virtual private gateway and a VPN customer gateway. The static route allows traffic to be routed from the virtual private gateway to the VPN customer gateway. For more information about VPN connections, see AWS Managed VPN Connections in the Amazon Virtual Private Cloud User Guide.
-    public func createVpnConnectionRoute(_ input: CreateVpnConnectionRouteRequest) throws {
-        _ = try client.send(operation: "CreateVpnConnectionRoute", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func createVpnConnectionRoute(_ input: CreateVpnConnectionRouteRequest) throws -> Future<Void> {
+        return try client.send(operation: "CreateVpnConnectionRoute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a virtual private gateway. A virtual private gateway is the endpoint on the VPC side of your VPN connection. You can create a virtual private gateway before creating the VPC itself. For more information about virtual private gateways, see AWS Managed VPN Connections in the Amazon Virtual Private Cloud User Guide.
@@ -415,13 +415,13 @@ public struct EC2 {
     }
 
     ///  Deletes the specified customer gateway. You must delete the VPN connection before you can delete the customer gateway.
-    public func deleteCustomerGateway(_ input: DeleteCustomerGatewayRequest) throws {
-        _ = try client.send(operation: "DeleteCustomerGateway", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteCustomerGateway(_ input: DeleteCustomerGatewayRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteCustomerGateway", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified set of DHCP options. You must disassociate the set of DHCP options before you can delete it. You can disassociate the set of DHCP options by associating either a new set of options or the default set of options with the VPC.
-    public func deleteDhcpOptions(_ input: DeleteDhcpOptionsRequest) throws {
-        _ = try client.send(operation: "DeleteDhcpOptions", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteDhcpOptions(_ input: DeleteDhcpOptionsRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteDhcpOptions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an egress-only internet gateway.
@@ -445,13 +445,13 @@ public struct EC2 {
     }
 
     ///  Deletes the specified internet gateway. You must detach the internet gateway from the VPC before you can delete it.
-    public func deleteInternetGateway(_ input: DeleteInternetGatewayRequest) throws {
-        _ = try client.send(operation: "DeleteInternetGateway", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteInternetGateway(_ input: DeleteInternetGatewayRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteInternetGateway", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified key pair, by removing the public key from Amazon EC2.
-    public func deleteKeyPair(_ input: DeleteKeyPairRequest) throws {
-        _ = try client.send(operation: "DeleteKeyPair", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteKeyPair(_ input: DeleteKeyPairRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteKeyPair", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a launch template. Deleting a launch template deletes all of its versions.
@@ -470,18 +470,18 @@ public struct EC2 {
     }
 
     ///  Deletes the specified network ACL. You can't delete the ACL if it's associated with any subnets. You can't delete the default network ACL.
-    public func deleteNetworkAcl(_ input: DeleteNetworkAclRequest) throws {
-        _ = try client.send(operation: "DeleteNetworkAcl", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteNetworkAcl(_ input: DeleteNetworkAclRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteNetworkAcl", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified ingress or egress entry (rule) from the specified network ACL.
-    public func deleteNetworkAclEntry(_ input: DeleteNetworkAclEntryRequest) throws {
-        _ = try client.send(operation: "DeleteNetworkAclEntry", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteNetworkAclEntry(_ input: DeleteNetworkAclEntryRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteNetworkAclEntry", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified network interface. You must detach the network interface before you can delete it.
-    public func deleteNetworkInterface(_ input: DeleteNetworkInterfaceRequest) throws {
-        _ = try client.send(operation: "DeleteNetworkInterface", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteNetworkInterface(_ input: DeleteNetworkInterfaceRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteNetworkInterface", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a permission for a network interface. By default, you cannot delete the permission if the account for which you're removing the permission has attached the network interface to an instance. However, you can force delete the permission, regardless of any attachment.
@@ -490,43 +490,43 @@ public struct EC2 {
     }
 
     ///  Deletes the specified placement group. You must terminate all instances in the placement group before you can delete the placement group. For more information, see Placement Groups in the Amazon Elastic Compute Cloud User Guide.
-    public func deletePlacementGroup(_ input: DeletePlacementGroupRequest) throws {
-        _ = try client.send(operation: "DeletePlacementGroup", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deletePlacementGroup(_ input: DeletePlacementGroupRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeletePlacementGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified route from the specified route table.
-    public func deleteRoute(_ input: DeleteRouteRequest) throws {
-        _ = try client.send(operation: "DeleteRoute", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteRoute(_ input: DeleteRouteRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteRoute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified route table. You must disassociate the route table from any subnets before you can delete it. You can't delete the main route table.
-    public func deleteRouteTable(_ input: DeleteRouteTableRequest) throws {
-        _ = try client.send(operation: "DeleteRouteTable", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteRouteTable(_ input: DeleteRouteTableRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteRouteTable", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a security group. If you attempt to delete a security group that is associated with an instance, or is referenced by another security group, the operation fails with InvalidGroup.InUse in EC2-Classic or DependencyViolation in EC2-VPC.
-    public func deleteSecurityGroup(_ input: DeleteSecurityGroupRequest) throws {
-        _ = try client.send(operation: "DeleteSecurityGroup", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteSecurityGroup(_ input: DeleteSecurityGroupRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteSecurityGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified snapshot. When you make periodic snapshots of a volume, the snapshots are incremental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snapshots will have access to all the information needed to restore the volume. You cannot delete a snapshot of the root device of an EBS volume used by a registered AMI. You must first de-register the AMI before you can delete the snapshot. For more information, see Deleting an Amazon EBS Snapshot in the Amazon Elastic Compute Cloud User Guide.
-    public func deleteSnapshot(_ input: DeleteSnapshotRequest) throws {
-        _ = try client.send(operation: "DeleteSnapshot", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteSnapshot(_ input: DeleteSnapshotRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the data feed for Spot Instances.
-    public func deleteSpotDatafeedSubscription(_ input: DeleteSpotDatafeedSubscriptionRequest) throws {
-        _ = try client.send(operation: "DeleteSpotDatafeedSubscription", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteSpotDatafeedSubscription(_ input: DeleteSpotDatafeedSubscriptionRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteSpotDatafeedSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified subnet. You must terminate all running instances in the subnet before you can delete the subnet.
-    public func deleteSubnet(_ input: DeleteSubnetRequest) throws {
-        _ = try client.send(operation: "DeleteSubnet", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteSubnet(_ input: DeleteSubnetRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteSubnet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified set of tags from the specified set of resources. To list the current tags, use DescribeTags. For more information about tags, see Tagging Your Resources in the Amazon Elastic Compute Cloud User Guide.
-    public func deleteTags(_ input: DeleteTagsRequest) throws {
-        _ = try client.send(operation: "DeleteTags", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteTags(_ input: DeleteTagsRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteTags", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified transit gateway.
@@ -550,13 +550,13 @@ public struct EC2 {
     }
 
     ///  Deletes the specified EBS volume. The volume must be in the available state (not attached to an instance). The volume can remain in the deleting state for several minutes. For more information, see Deleting an Amazon EBS Volume in the Amazon Elastic Compute Cloud User Guide.
-    public func deleteVolume(_ input: DeleteVolumeRequest) throws {
-        _ = try client.send(operation: "DeleteVolume", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteVolume(_ input: DeleteVolumeRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteVolume", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified VPC. You must detach or delete all gateways and resources that are associated with the VPC before you can delete it. For example, you must terminate all instances running in the VPC, delete all security groups associated with the VPC (except the default one), delete all route tables associated with the VPC (except the default one), and so on.
-    public func deleteVpc(_ input: DeleteVpcRequest) throws {
-        _ = try client.send(operation: "DeleteVpc", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteVpc(_ input: DeleteVpcRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteVpc", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes one or more VPC endpoint connection notifications.
@@ -580,18 +580,18 @@ public struct EC2 {
     }
 
     ///  Deletes the specified VPN connection. If you're deleting the VPC and its associated components, we recommend that you detach the virtual private gateway from the VPC and delete the VPC before deleting the VPN connection. If you believe that the tunnel credentials for your VPN connection have been compromised, you can delete the VPN connection and create a new one that has new keys, without needing to delete the VPC or virtual private gateway. If you create a new VPN connection, you must reconfigure the customer gateway using the new configuration information returned with the new VPN connection ID.
-    public func deleteVpnConnection(_ input: DeleteVpnConnectionRequest) throws {
-        _ = try client.send(operation: "DeleteVpnConnection", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteVpnConnection(_ input: DeleteVpnConnectionRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteVpnConnection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified static route associated with a VPN connection between an existing virtual private gateway and a VPN customer gateway. The static route allows traffic to be routed from the virtual private gateway to the VPN customer gateway.
-    public func deleteVpnConnectionRoute(_ input: DeleteVpnConnectionRouteRequest) throws {
-        _ = try client.send(operation: "DeleteVpnConnectionRoute", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteVpnConnectionRoute(_ input: DeleteVpnConnectionRouteRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteVpnConnectionRoute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified virtual private gateway. We recommend that before you delete a virtual private gateway, you detach it from the VPC and delete the VPN connection. Note that you don't need to delete the virtual private gateway if you plan to delete and recreate the VPN connection between your VPC and your network.
-    public func deleteVpnGateway(_ input: DeleteVpnGatewayRequest) throws {
-        _ = try client.send(operation: "DeleteVpnGateway", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteVpnGateway(_ input: DeleteVpnGatewayRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteVpnGateway", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Releases the specified address range that you provisioned for use with your AWS resources through bring your own IP addresses (BYOIP) and deletes the corresponding address pool. Before you can release an address range, you must stop advertising it using WithdrawByoipCidr and you must not have any IP addresses allocated from its address range.
@@ -600,8 +600,8 @@ public struct EC2 {
     }
 
     ///  Deregisters the specified AMI. After you deregister an AMI, it can't be used to launch new instances; however, it doesn't affect any instances that you've already launched from the AMI. You'll continue to incur usage costs for those instances until you terminate them. When you deregister an Amazon EBS-backed AMI, it doesn't affect the snapshot that was created for the root volume of the instance during the AMI creation process. When you deregister an instance store-backed AMI, it doesn't affect the files that you uploaded to Amazon S3 when you created the AMI.
-    public func deregisterImage(_ input: DeregisterImageRequest) throws {
-        _ = try client.send(operation: "DeregisterImage", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deregisterImage(_ input: DeregisterImageRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeregisterImage", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes attributes of your AWS account. The following are the supported account attributes:    supported-platforms: Indicates whether your account can launch instances into EC2-Classic and EC2-VPC, or only into EC2-VPC.    default-vpc: The ID of the default VPC for your account, or none.    max-instances: The maximum number of On-Demand Instances that you can run.    vpc-max-security-groups-per-interface: The maximum number of security groups that you can assign to a network interface.    max-elastic-ips: The maximum number of Elastic IP addresses that you can allocate for use with EC2-Classic.     vpc-max-elastic-ips: The maximum number of Elastic IP addresses that you can allocate for use with EC2-VPC.  
@@ -1060,13 +1060,13 @@ public struct EC2 {
     }
 
     ///  Detaches an internet gateway from a VPC, disabling connectivity between the internet and the VPC. The VPC must not contain any running instances with Elastic IP addresses or public IPv4 addresses.
-    public func detachInternetGateway(_ input: DetachInternetGatewayRequest) throws {
-        _ = try client.send(operation: "DetachInternetGateway", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func detachInternetGateway(_ input: DetachInternetGatewayRequest) throws -> Future<Void> {
+        return try client.send(operation: "DetachInternetGateway", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Detaches a network interface from an instance.
-    public func detachNetworkInterface(_ input: DetachNetworkInterfaceRequest) throws {
-        _ = try client.send(operation: "DetachNetworkInterface", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func detachNetworkInterface(_ input: DetachNetworkInterfaceRequest) throws -> Future<Void> {
+        return try client.send(operation: "DetachNetworkInterface", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Detaches an EBS volume from an instance. Make sure to unmount any file systems on the device within your operating system before detaching the volume. Failure to do so can result in the volume becoming stuck in the busy state while detaching. If this happens, detachment can be delayed indefinitely until you unmount the volume, force detachment, reboot the instance, or all three. If an EBS volume is the root device of an instance, it can't be detached while the instance is running. To detach the root volume, stop the instance first. When a volume with an AWS Marketplace product code is detached from an instance, the product code is no longer associated with the instance. For more information, see Detaching an Amazon EBS Volume in the Amazon Elastic Compute Cloud User Guide.
@@ -1075,8 +1075,8 @@ public struct EC2 {
     }
 
     ///  Detaches a virtual private gateway from a VPC. You do this if you're planning to turn off the VPC and not use it anymore. You can confirm a virtual private gateway has been completely detached from a VPC by describing the virtual private gateway (any attachments to the virtual private gateway are also described). You must wait for the attachment's state to switch to detached before you can delete the VPC or attach a different VPC to the virtual private gateway.
-    public func detachVpnGateway(_ input: DetachVpnGatewayRequest) throws {
-        _ = try client.send(operation: "DetachVpnGateway", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func detachVpnGateway(_ input: DetachVpnGatewayRequest) throws -> Future<Void> {
+        return try client.send(operation: "DetachVpnGateway", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disables the specified resource attachment from propagating routes to the specified propagation route table.
@@ -1085,8 +1085,8 @@ public struct EC2 {
     }
 
     ///  Disables a virtual private gateway (VGW) from propagating routes to a specified route table of a VPC.
-    public func disableVgwRoutePropagation(_ input: DisableVgwRoutePropagationRequest) throws {
-        _ = try client.send(operation: "DisableVgwRoutePropagation", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func disableVgwRoutePropagation(_ input: DisableVgwRoutePropagationRequest) throws -> Future<Void> {
+        return try client.send(operation: "DisableVgwRoutePropagation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disables ClassicLink for a VPC. You cannot disable ClassicLink for a VPC that has EC2-Classic instances linked to it.
@@ -1100,8 +1100,8 @@ public struct EC2 {
     }
 
     ///  Disassociates an Elastic IP address from the instance or network interface it's associated with. An Elastic IP address is for use in either the EC2-Classic platform or in a VPC. For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide. This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error.
-    public func disassociateAddress(_ input: DisassociateAddressRequest) throws {
-        _ = try client.send(operation: "DisassociateAddress", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func disassociateAddress(_ input: DisassociateAddressRequest) throws -> Future<Void> {
+        return try client.send(operation: "DisassociateAddress", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates an IAM instance profile from a running or stopped instance. Use DescribeIamInstanceProfileAssociations to get the association ID.
@@ -1110,8 +1110,8 @@ public struct EC2 {
     }
 
     ///  Disassociates a subnet from a route table. After you perform this action, the subnet no longer uses the routes in the route table. Instead, it uses the routes in the VPC's main route table. For more information about route tables, see Route Tables in the Amazon Virtual Private Cloud User Guide.
-    public func disassociateRouteTable(_ input: DisassociateRouteTableRequest) throws {
-        _ = try client.send(operation: "DisassociateRouteTable", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func disassociateRouteTable(_ input: DisassociateRouteTableRequest) throws -> Future<Void> {
+        return try client.send(operation: "DisassociateRouteTable", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates a CIDR block from a subnet. Currently, you can disassociate an IPv6 CIDR block only. You must detach or delete all gateways and resources that are associated with the CIDR block before you can disassociate it. 
@@ -1135,13 +1135,13 @@ public struct EC2 {
     }
 
     ///  Enables a virtual private gateway (VGW) to propagate routes to the specified route table of a VPC.
-    public func enableVgwRoutePropagation(_ input: EnableVgwRoutePropagationRequest) throws {
-        _ = try client.send(operation: "EnableVgwRoutePropagation", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func enableVgwRoutePropagation(_ input: EnableVgwRoutePropagationRequest) throws -> Future<Void> {
+        return try client.send(operation: "EnableVgwRoutePropagation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Enables I/O operations for a volume that had I/O operations disabled because the data on the volume was potentially inconsistent.
-    public func enableVolumeIO(_ input: EnableVolumeIORequest) throws {
-        _ = try client.send(operation: "EnableVolumeIO", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func enableVolumeIO(_ input: EnableVolumeIORequest) throws -> Future<Void> {
+        return try client.send(operation: "EnableVolumeIO", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Enables a VPC for ClassicLink. You can then link EC2-Classic instances to your ClassicLink-enabled VPC to allow communication over private IP addresses. You cannot enable your VPC for ClassicLink if any of your VPC route tables have existing routes for address ranges within the 10.0.0.0/8 IP address range, excluding local routes for VPCs in the 10.0.0.0/16 and 10.1.0.0/16 IP address ranges. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
@@ -1250,23 +1250,23 @@ public struct EC2 {
     }
 
     ///  Modifies the ID format for the specified resource on a per-region basis. You can specify that resources should receive longer IDs (17-character IDs) when they are created. This request can only be used to modify longer ID settings for resource types that are within the opt-in period. Resources currently in their opt-in period include: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | route-table | route-table-association | security-group | subnet | subnet-cidr-block-association | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway. This setting applies to the IAM user who makes the request; it does not apply to the entire AWS account. By default, an IAM user defaults to the same settings as the root user. If you're using this action as the root user, then these settings apply to the entire account, unless an IAM user explicitly overrides these settings for themselves. For more information, see Resource IDs in the Amazon Elastic Compute Cloud User Guide. Resources created with longer IDs are visible to all IAM roles and users, regardless of these settings and provided that they have permission to use the relevant Describe command for the resource type.
-    public func modifyIdFormat(_ input: ModifyIdFormatRequest) throws {
-        _ = try client.send(operation: "ModifyIdFormat", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func modifyIdFormat(_ input: ModifyIdFormatRequest) throws -> Future<Void> {
+        return try client.send(operation: "ModifyIdFormat", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the ID format of a resource for a specified IAM user, IAM role, or the root user for an account; or all IAM users, IAM roles, and the root user for an account. You can specify that resources should receive longer IDs (17-character IDs) when they are created.  This request can only be used to modify longer ID settings for resource types that are within the opt-in period. Resources currently in their opt-in period include: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | route-table | route-table-association | security-group | subnet | subnet-cidr-block-association | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway.  For more information, see Resource IDs in the Amazon Elastic Compute Cloud User Guide.  This setting applies to the principal specified in the request; it does not apply to the principal that makes the request.  Resources created with longer IDs are visible to all IAM roles and users, regardless of these settings and provided that they have permission to use the relevant Describe command for the resource type.
-    public func modifyIdentityIdFormat(_ input: ModifyIdentityIdFormatRequest) throws {
-        _ = try client.send(operation: "ModifyIdentityIdFormat", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func modifyIdentityIdFormat(_ input: ModifyIdentityIdFormatRequest) throws -> Future<Void> {
+        return try client.send(operation: "ModifyIdentityIdFormat", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the specified attribute of the specified AMI. You can specify only one attribute at a time. You can use the Attribute parameter to specify the attribute or one of the following parameters: Description, LaunchPermission, or ProductCode. AWS Marketplace product codes cannot be modified. Images with an AWS Marketplace product code cannot be made public. To enable the SriovNetSupport enhanced networking attribute of an image, enable SriovNetSupport on an instance and create an AMI from the instance.
-    public func modifyImageAttribute(_ input: ModifyImageAttributeRequest) throws {
-        _ = try client.send(operation: "ModifyImageAttribute", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func modifyImageAttribute(_ input: ModifyImageAttributeRequest) throws -> Future<Void> {
+        return try client.send(operation: "ModifyImageAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the specified attribute of the specified instance. You can specify only one attribute at a time.  Note: Using this action to change the security groups associated with an elastic network interface (ENI) attached to an instance in a VPC can result in an error if the instance has more than one ENI. To change the security groups associated with an ENI attached to an instance that has multiple ENIs, we recommend that you use the ModifyNetworkInterfaceAttribute action. To modify some attributes, the instance must be stopped. For more information, see Modifying Attributes of a Stopped Instance in the Amazon Elastic Compute Cloud User Guide.
-    public func modifyInstanceAttribute(_ input: ModifyInstanceAttributeRequest) throws {
-        _ = try client.send(operation: "ModifyInstanceAttribute", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func modifyInstanceAttribute(_ input: ModifyInstanceAttributeRequest) throws -> Future<Void> {
+        return try client.send(operation: "ModifyInstanceAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the Capacity Reservation settings for a stopped instance. Use this action to configure an instance to target a specific Capacity Reservation, run in any open Capacity Reservation with matching attributes, or run On-Demand Instance capacity.
@@ -1290,8 +1290,8 @@ public struct EC2 {
     }
 
     ///  Modifies the specified network interface attribute. You can specify only one attribute at a time.
-    public func modifyNetworkInterfaceAttribute(_ input: ModifyNetworkInterfaceAttributeRequest) throws {
-        _ = try client.send(operation: "ModifyNetworkInterfaceAttribute", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func modifyNetworkInterfaceAttribute(_ input: ModifyNetworkInterfaceAttributeRequest) throws -> Future<Void> {
+        return try client.send(operation: "ModifyNetworkInterfaceAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the Availability Zone, instance count, instance type, or network platform (EC2-Classic or EC2-VPC) of your Reserved Instances. The Reserved Instances to be modified must be identical, except for Availability Zone, network platform, and instance type. For more information, see Modifying Reserved Instances in the Amazon Elastic Compute Cloud User Guide.
@@ -1300,8 +1300,8 @@ public struct EC2 {
     }
 
     ///  Adds or removes permission settings for the specified snapshot. You may add or remove specified AWS account IDs from a snapshot's list of create volume permissions, but you cannot do both in a single API call. If you need to both add and remove account IDs for a snapshot, you must use multiple API calls. Encrypted snapshots and snapshots with AWS Marketplace product codes cannot be made public. Snapshots encrypted with your default CMK cannot be shared with other accounts. For more information about modifying snapshot permissions, see Sharing Snapshots in the Amazon Elastic Compute Cloud User Guide.
-    public func modifySnapshotAttribute(_ input: ModifySnapshotAttributeRequest) throws {
-        _ = try client.send(operation: "ModifySnapshotAttribute", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func modifySnapshotAttribute(_ input: ModifySnapshotAttributeRequest) throws -> Future<Void> {
+        return try client.send(operation: "ModifySnapshotAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the specified Spot Fleet request. While the Spot Fleet request is being modified, it is in the modifying state. To scale up your Spot Fleet, increase its target capacity. The Spot Fleet launches the additional Spot Instances according to the allocation strategy for the Spot Fleet request. If the allocation strategy is lowestPrice, the Spot Fleet launches instances using the Spot pool with the lowest price. If the allocation strategy is diversified, the Spot Fleet distributes the instances across the Spot pools. To scale down your Spot Fleet, decrease its target capacity. First, the Spot Fleet cancels any open requests that exceed the new target capacity. You can request that the Spot Fleet terminate Spot Instances until the size of the fleet no longer exceeds the new target capacity. If the allocation strategy is lowestPrice, the Spot Fleet terminates the instances with the highest price per unit. If the allocation strategy is diversified, the Spot Fleet terminates instances across the Spot pools. Alternatively, you can request that the Spot Fleet keep the fleet at its current size, but not replace any Spot Instances that are interrupted or that you terminate manually. If you are finished with your Spot Fleet for now, but will use it again later, you can set the target capacity to 0.
@@ -1310,8 +1310,8 @@ public struct EC2 {
     }
 
     ///  Modifies a subnet attribute. You can only modify one attribute at a time.
-    public func modifySubnetAttribute(_ input: ModifySubnetAttributeRequest) throws {
-        _ = try client.send(operation: "ModifySubnetAttribute", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func modifySubnetAttribute(_ input: ModifySubnetAttributeRequest) throws -> Future<Void> {
+        return try client.send(operation: "ModifySubnetAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the specified VPC attachment.
@@ -1325,13 +1325,13 @@ public struct EC2 {
     }
 
     ///  Modifies a volume attribute. By default, all I/O operations for the volume are suspended when the data on the volume is determined to be potentially inconsistent, to prevent undetectable, latent data corruption. The I/O access to the volume can be resumed by first enabling I/O access and then checking the data consistency on your volume. You can change the default behavior to resume I/O operations. We recommend that you change this only for boot volumes or for volumes that are stateless or disposable.
-    public func modifyVolumeAttribute(_ input: ModifyVolumeAttributeRequest) throws {
-        _ = try client.send(operation: "ModifyVolumeAttribute", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func modifyVolumeAttribute(_ input: ModifyVolumeAttributeRequest) throws -> Future<Void> {
+        return try client.send(operation: "ModifyVolumeAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the specified attribute of the specified VPC.
-    public func modifyVpcAttribute(_ input: ModifyVpcAttributeRequest) throws {
-        _ = try client.send(operation: "ModifyVpcAttribute", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func modifyVpcAttribute(_ input: ModifyVpcAttributeRequest) throws -> Future<Void> {
+        return try client.send(operation: "ModifyVpcAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies attributes of a specified VPC endpoint. The attributes that you can modify depend on the type of VPC endpoint (interface or gateway). For more information, see VPC Endpoints in the Amazon Virtual Private Cloud User Guide.
@@ -1395,8 +1395,8 @@ public struct EC2 {
     }
 
     ///  Requests a reboot of one or more instances. This operation is asynchronous; it only queues a request to reboot the specified instances. The operation succeeds if the instances are valid and belong to you. Requests to reboot terminated instances are ignored. If an instance does not cleanly shut down within four minutes, Amazon EC2 performs a hard reboot. For more information about troubleshooting, see Getting Console Output and Rebooting Instances in the Amazon Elastic Compute Cloud User Guide.
-    public func rebootInstances(_ input: RebootInstancesRequest) throws {
-        _ = try client.send(operation: "RebootInstances", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func rebootInstances(_ input: RebootInstancesRequest) throws -> Future<Void> {
+        return try client.send(operation: "RebootInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Registers an AMI. When you're creating an AMI, this is the final step you must complete before you can launch an instance from the AMI. For more information about creating AMIs, see Creating Your Own AMIs in the Amazon Elastic Compute Cloud User Guide.  For Amazon EBS-backed instances, CreateImage creates and registers the AMI in a single request, so you don't have to register the AMI yourself.  You can also use RegisterImage to create an Amazon EBS-backed Linux AMI from a snapshot of a root device volume. You specify the snapshot using the block device mapping. For more information, see Launching a Linux Instance from a Backup in the Amazon Elastic Compute Cloud User Guide. You can't register an image where a secondary (non-root) snapshot has AWS Marketplace product codes. Some Linux distributions, such as Red Hat Enterprise Linux (RHEL) and SUSE Linux Enterprise Server (SLES), use the EC2 billing product code associated with an AMI to verify the subscription status for package updates. Creating an AMI from an EBS snapshot does not maintain this billing code, and instances launched from such an AMI are not able to connect to package update infrastructure. If you purchase a Reserved Instance offering for one of these Linux distributions and launch instances using an AMI that does not contain the required billing code, your Reserved Instance is not applied to these instances. To create an AMI for operating systems that require a billing code, see CreateImage. If needed, you can deregister an AMI at any time. Any modifications you make to an AMI backed by an instance store volume invalidates its registration. If you make changes to an image, deregister the previous image and register the new image.
@@ -1420,8 +1420,8 @@ public struct EC2 {
     }
 
     ///  Releases the specified Elastic IP address. [EC2-Classic, default VPC] Releasing an Elastic IP address automatically disassociates it from any instance that it's associated with. To disassociate an Elastic IP address without releasing it, use DisassociateAddress. [Nondefault VPC] You must use DisassociateAddress to disassociate the Elastic IP address before you can release it. Otherwise, Amazon EC2 returns an error (InvalidIPAddress.InUse). After releasing an Elastic IP address, it is released to the IP address pool. Be sure to update your DNS records and any servers or devices that communicate with the address. If you attempt to release an Elastic IP address that you already released, you'll get an AuthFailure error if the address is already allocated to another AWS account. [EC2-VPC] After you release an Elastic IP address for use in a VPC, you might be able to recover it. For more information, see AllocateAddress.
-    public func releaseAddress(_ input: ReleaseAddressRequest) throws {
-        _ = try client.send(operation: "ReleaseAddress", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func releaseAddress(_ input: ReleaseAddressRequest) throws -> Future<Void> {
+        return try client.send(operation: "ReleaseAddress", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  When you no longer want to use an On-Demand Dedicated Host it can be released. On-Demand billing is stopped and the host goes into released state. The host ID of Dedicated Hosts that have been released can no longer be specified in another request, for example, to modify the host. You must stop or terminate all instances on a host before it can be released. When Dedicated Hosts are released, it may take some time for them to stop counting toward your limit and you may receive capacity errors when trying to allocate new Dedicated Hosts. Wait a few minutes and then try again. Released hosts still appear in a DescribeHosts response.
@@ -1440,13 +1440,13 @@ public struct EC2 {
     }
 
     ///  Replaces an entry (rule) in a network ACL. For more information, see Network ACLs in the Amazon Virtual Private Cloud User Guide.
-    public func replaceNetworkAclEntry(_ input: ReplaceNetworkAclEntryRequest) throws {
-        _ = try client.send(operation: "ReplaceNetworkAclEntry", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func replaceNetworkAclEntry(_ input: ReplaceNetworkAclEntryRequest) throws -> Future<Void> {
+        return try client.send(operation: "ReplaceNetworkAclEntry", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Replaces an existing route within a route table in a VPC. You must provide only one of the following: internet gateway or virtual private gateway, NAT instance, NAT gateway, VPC peering connection, network interface, or egress-only internet gateway. For more information, see Route Tables in the Amazon Virtual Private Cloud User Guide.
-    public func replaceRoute(_ input: ReplaceRouteRequest) throws {
-        _ = try client.send(operation: "ReplaceRoute", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func replaceRoute(_ input: ReplaceRouteRequest) throws -> Future<Void> {
+        return try client.send(operation: "ReplaceRoute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Changes the route table associated with a given subnet in a VPC. After the operation completes, the subnet uses the routes in the new route table it's associated with. For more information about route tables, see Route Tables in the Amazon Virtual Private Cloud User Guide. You can also use ReplaceRouteTableAssociation to change which table is the main route table in the VPC. You just specify the main route table's association ID and the route table to be the new main route table.
@@ -1460,8 +1460,8 @@ public struct EC2 {
     }
 
     ///  Submits feedback about the status of an instance. The instance must be in the running state. If your experience with the instance differs from the instance status returned by DescribeInstanceStatus, use ReportInstanceStatus to report your experience with the instance. Amazon EC2 collects this information to improve the accuracy of status checks. Use of this action does not change the value returned by DescribeInstanceStatus.
-    public func reportInstanceStatus(_ input: ReportInstanceStatusRequest) throws {
-        _ = try client.send(operation: "ReportInstanceStatus", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func reportInstanceStatus(_ input: ReportInstanceStatusRequest) throws -> Future<Void> {
+        return try client.send(operation: "ReportInstanceStatus", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a Spot Fleet request. The Spot Fleet request specifies the total target capacity and the On-Demand target capacity. Amazon EC2 calculates the difference between the total capacity and On-Demand capacity, and launches the difference as Spot capacity. You can submit a single request that includes multiple launch specifications that vary by instance type, AMI, Availability Zone, or subnet. By default, the Spot Fleet requests Spot Instances in the Spot pool where the price per unit is the lowest. Each launch specification can include its own instance weighting that reflects the value of the instance type to your application workload. Alternatively, you can specify that the Spot Fleet distribute the target capacity across the Spot pools included in its launch specifications. By ensuring that the Spot Instances in your Spot Fleet are in different Spot pools, you can improve the availability of your fleet. You can specify tags for the Spot Instances. You cannot tag other resource types in a Spot Fleet request because only the instance resource type is supported. For more information, see Spot Fleet Requests in the Amazon EC2 User Guide for Linux Instances.
@@ -1480,23 +1480,23 @@ public struct EC2 {
     }
 
     ///  Resets an attribute of an AMI to its default value.  The productCodes attribute can't be reset. 
-    public func resetImageAttribute(_ input: ResetImageAttributeRequest) throws {
-        _ = try client.send(operation: "ResetImageAttribute", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func resetImageAttribute(_ input: ResetImageAttributeRequest) throws -> Future<Void> {
+        return try client.send(operation: "ResetImageAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Resets an attribute of an instance to its default value. To reset the kernel or ramdisk, the instance must be in a stopped state. To reset the sourceDestCheck, the instance can be either running or stopped. The sourceDestCheck attribute controls whether source/destination checking is enabled. The default value is true, which means checking is enabled. This value must be false for a NAT instance to perform NAT. For more information, see NAT Instances in the Amazon Virtual Private Cloud User Guide.
-    public func resetInstanceAttribute(_ input: ResetInstanceAttributeRequest) throws {
-        _ = try client.send(operation: "ResetInstanceAttribute", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func resetInstanceAttribute(_ input: ResetInstanceAttributeRequest) throws -> Future<Void> {
+        return try client.send(operation: "ResetInstanceAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Resets a network interface attribute. You can specify only one attribute at a time.
-    public func resetNetworkInterfaceAttribute(_ input: ResetNetworkInterfaceAttributeRequest) throws {
-        _ = try client.send(operation: "ResetNetworkInterfaceAttribute", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func resetNetworkInterfaceAttribute(_ input: ResetNetworkInterfaceAttributeRequest) throws -> Future<Void> {
+        return try client.send(operation: "ResetNetworkInterfaceAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Resets permission settings for the specified snapshot. For more information about modifying snapshot permissions, see Sharing Snapshots in the Amazon Elastic Compute Cloud User Guide.
-    public func resetSnapshotAttribute(_ input: ResetSnapshotAttributeRequest) throws {
-        _ = try client.send(operation: "ResetSnapshotAttribute", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func resetSnapshotAttribute(_ input: ResetSnapshotAttributeRequest) throws -> Future<Void> {
+        return try client.send(operation: "ResetSnapshotAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Restores an Elastic IP address that was previously moved to the EC2-VPC platform back to the EC2-Classic platform. You cannot move an Elastic IP address that was originally allocated for use in EC2-VPC. The Elastic IP address must not be associated with an instance or network interface.
@@ -1505,13 +1505,13 @@ public struct EC2 {
     }
 
     ///  [EC2-VPC only] Removes one or more egress rules from a security group for EC2-VPC. This action doesn't apply to security groups for use in EC2-Classic. To remove a rule, the values that you specify (for example, ports) must match the existing rule's values exactly. Each rule consists of the protocol and the IPv4 or IPv6 CIDR range or source security group. For the TCP and UDP protocols, you must also specify the destination port or range of ports. For the ICMP protocol, you must also specify the ICMP type and code. If the security group rule has a description, you do not have to specify the description to revoke the rule. Rule changes are propagated to instances within the security group as quickly as possible. However, a small delay might occur.
-    public func revokeSecurityGroupEgress(_ input: RevokeSecurityGroupEgressRequest) throws {
-        _ = try client.send(operation: "RevokeSecurityGroupEgress", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func revokeSecurityGroupEgress(_ input: RevokeSecurityGroupEgressRequest) throws -> Future<Void> {
+        return try client.send(operation: "RevokeSecurityGroupEgress", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes one or more ingress rules from a security group. To remove a rule, the values that you specify (for example, ports) must match the existing rule's values exactly.  [EC2-Classic security groups only] If the values you specify do not match the existing rule's values, no error is returned. Use DescribeSecurityGroups to verify that the rule has been removed.  Each rule consists of the protocol and the CIDR range or source security group. For the TCP and UDP protocols, you must also specify the destination port or range of ports. For the ICMP protocol, you must also specify the ICMP type and code. If the security group rule has a description, you do not have to specify the description to revoke the rule. Rule changes are propagated to instances within the security group as quickly as possible. However, a small delay might occur.
-    public func revokeSecurityGroupIngress(_ input: RevokeSecurityGroupIngressRequest) throws {
-        _ = try client.send(operation: "RevokeSecurityGroupIngress", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func revokeSecurityGroupIngress(_ input: RevokeSecurityGroupIngressRequest) throws -> Future<Void> {
+        return try client.send(operation: "RevokeSecurityGroupIngress", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Launches the specified number of instances using an AMI for which you have permissions.  You can specify a number of options, or leave the default options. The following rules apply:   [EC2-VPC] If you don't specify a subnet ID, we choose a default subnet from your default VPC for you. If you don't have a default VPC, you must specify a subnet ID in the request.   [EC2-Classic] If don't specify an Availability Zone, we choose one for you.   Some instance types must be launched into a VPC. If you do not have a default VPC, or if you do not specify a subnet ID, the request fails. For more information, see Instance Types Available Only in a VPC.   [EC2-VPC] All instances have a network interface with a primary private IPv4 address. If you don't specify this address, we choose one from the IPv4 range of your subnet.   Not all instance types support IPv6 addresses. For more information, see Instance Types.   If you don't specify a security group ID, we use the default security group. For more information, see Security Groups.   If any of the AMIs have a product code attached for which the user has not subscribed, the request fails.   You can create a launch template, which is a resource that contains the parameters to launch an instance. When you launch an instance using RunInstances, you can specify the launch template instead of specifying the launch parameters. To ensure faster instance launches, break up large requests into smaller batches. For example, create five separate launch requests for 100 instances each instead of one launch request for 500 instances. An instance is ready for you to use when it's in the running state. You can check the state of your instance using DescribeInstances. You can tag instances and EBS volumes during launch, after launch, or both. For more information, see CreateTags and Tagging Your Amazon EC2 Resources. Linux instances have access to the public key of the key pair at boot. You can use this key to provide secure access to the instance. Amazon EC2 public images use this feature to provide secure access without passwords. For more information, see Key Pairs in the Amazon Elastic Compute Cloud User Guide. For troubleshooting, see What To Do If An Instance Immediately Terminates, and Troubleshooting Connecting to Your Instance in the Amazon Elastic Compute Cloud User Guide.
@@ -1550,8 +1550,8 @@ public struct EC2 {
     }
 
     ///  Unassigns one or more secondary private IP addresses from a network interface.
-    public func unassignPrivateIpAddresses(_ input: UnassignPrivateIpAddressesRequest) throws {
-        _ = try client.send(operation: "UnassignPrivateIpAddresses", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func unassignPrivateIpAddresses(_ input: UnassignPrivateIpAddressesRequest) throws -> Future<Void> {
+        return try client.send(operation: "UnassignPrivateIpAddresses", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disables detailed monitoring for a running instance. For more information, see Monitoring Your Instances and Volumes in the Amazon Elastic Compute Cloud User Guide.

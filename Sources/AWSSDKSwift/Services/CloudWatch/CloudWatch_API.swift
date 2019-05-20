@@ -26,8 +26,8 @@ public struct CloudWatch {
     }
 
     ///  Deletes the specified alarms. In the event of an error, no alarms are deleted.
-    public func deleteAlarms(_ input: DeleteAlarmsInput) throws {
-        _ = try client.send(operation: "DeleteAlarms", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteAlarms(_ input: DeleteAlarmsInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteAlarms", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes all dashboards that you specify. You may specify up to 100 dashboards to delete. If there is an error during this call, no dashboards are deleted.
@@ -51,13 +51,13 @@ public struct CloudWatch {
     }
 
     ///  Disables the actions for the specified alarms. When an alarm's actions are disabled, the alarm actions do not execute when the alarm state changes.
-    public func disableAlarmActions(_ input: DisableAlarmActionsInput) throws {
-        _ = try client.send(operation: "DisableAlarmActions", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func disableAlarmActions(_ input: DisableAlarmActionsInput) throws -> Future<Void> {
+        return try client.send(operation: "DisableAlarmActions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Enables the actions for the specified alarms.
-    public func enableAlarmActions(_ input: EnableAlarmActionsInput) throws {
-        _ = try client.send(operation: "EnableAlarmActions", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func enableAlarmActions(_ input: EnableAlarmActionsInput) throws -> Future<Void> {
+        return try client.send(operation: "EnableAlarmActions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Displays the details of the dashboard that you specify. To copy an existing dashboard, use GetDashboard, and then use the data returned within DashboardBody as the template for the new dashboard when you call PutDashboard to create the copy.
@@ -96,18 +96,18 @@ public struct CloudWatch {
     }
 
     ///  Creates or updates an alarm and associates it with the specified metric or metric math expression. When this operation creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA. The alarm is then evaluated and its state is set appropriately. Any actions associated with the new state are then executed. When you update an existing alarm, its state is left unchanged, but the update completely overwrites the previous configuration of the alarm. If you are an IAM user, you must have Amazon EC2 permissions for some alarm operations:    iam:CreateServiceLinkedRole for all alarms with EC2 actions    ec2:DescribeInstanceStatus and ec2:DescribeInstances for all alarms on EC2 instance status metrics    ec2:StopInstances for alarms with stop actions    ec2:TerminateInstances for alarms with terminate actions    ec2:DescribeInstanceRecoveryAttribute and ec2:RecoverInstances for alarms with recover actions   If you have read/write permissions for Amazon CloudWatch but not for Amazon EC2, you can still create an alarm, but the stop or terminate actions are not performed. However, if you are later granted the required permissions, the alarm actions that you created earlier are performed. If you are using an IAM role (for example, an EC2 instance profile), you cannot stop or terminate the instance using alarm actions. However, you can still see the alarm state and perform any other actions such as Amazon SNS notifications or Auto Scaling policies. If you are using temporary security credentials granted using AWS STS, you cannot stop or terminate an EC2 instance using alarm actions. The first time you create an alarm in the AWS Management Console, the CLI, or by using the PutMetricAlarm API, CloudWatch creates the necessary service-linked role for you. The service-linked role is called AWSServiceRoleForCloudWatchEvents. For more information, see AWS service-linked role.
-    public func putMetricAlarm(_ input: PutMetricAlarmInput) throws {
-        _ = try client.send(operation: "PutMetricAlarm", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func putMetricAlarm(_ input: PutMetricAlarmInput) throws -> Future<Void> {
+        return try client.send(operation: "PutMetricAlarm", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Publishes metric data points to Amazon CloudWatch. CloudWatch associates the data points with the specified metric. If the specified metric does not exist, CloudWatch creates the metric. When CloudWatch creates a metric, it can take up to fifteen minutes for the metric to appear in calls to ListMetrics. You can publish either individual data points in the Value field, or arrays of values and the number of times each value occurred during the period by using the Values and Counts fields in the MetricDatum structure. Using the Values and Counts method enables you to publish up to 150 values per metric with one PutMetricData request, and supports retrieving percentile statistics on this data. Each PutMetricData request is limited to 40 KB in size for HTTP POST requests. You can send a payload compressed by gzip. Each request is also limited to no more than 20 different metrics. Although the Value parameter accepts numbers of type Double, CloudWatch rejects values that are either too small or too large. Values must be in the range of 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2). In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported. You can use up to 10 dimensions per metric to further clarify what data the metric collects. For more information about specifying dimensions, see Publishing Metrics in the Amazon CloudWatch User Guide. Data points with time stamps from 24 hours ago or longer can take at least 48 hours to become available for GetMetricData or GetMetricStatistics from the time they are submitted. CloudWatch needs raw data points to calculate percentile statistics. If you publish data using a statistic set instead, you can only retrieve percentile statistics for this data if one of the following conditions is true:   The SampleCount value of the statistic set is 1 and Min, Max, and Sum are all equal.   The Min and Max are equal, and Sum is equal to Min multiplied by SampleCount.  
-    public func putMetricData(_ input: PutMetricDataInput) throws {
-        _ = try client.send(operation: "PutMetricData", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func putMetricData(_ input: PutMetricDataInput) throws -> Future<Void> {
+        return try client.send(operation: "PutMetricData", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Temporarily sets the state of an alarm for testing purposes. When the updated state differs from the previous value, the action configured for the appropriate state is invoked. For example, if your alarm is configured to send an Amazon SNS message when an alarm is triggered, temporarily changing the alarm state to ALARM sends an SNS message. The alarm returns to its actual state (often within seconds). Because the alarm state change happens quickly, it is typically only visible in the alarm's History tab in the Amazon CloudWatch console or through DescribeAlarmHistory.
-    public func setAlarmState(_ input: SetAlarmStateInput) throws {
-        _ = try client.send(operation: "SetAlarmState", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func setAlarmState(_ input: SetAlarmStateInput) throws -> Future<Void> {
+        return try client.send(operation: "SetAlarmState", path: "/", httpMethod: "POST", input: input)
     }
 
 
