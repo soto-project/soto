@@ -1,7 +1,6 @@
 import Foundation
 import SwiftyJSON
 import Dispatch
-import AWSSDKSwiftCore
 
 
 let apis = try loadAPIJSONList()
