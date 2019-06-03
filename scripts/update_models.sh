@@ -46,7 +46,7 @@ build_files()
 check_for_local_changes()
 {
     LOCAL_CHANGES=`git status --porcelain`
-    if [ -n "$LOCAL_CHANGES" ] && [ $COMMIT_CHANGES=1 ]; then
+    if [ -n "$LOCAL_CHANGES" ] && [ "$COMMIT_CHANGES" == 1 ]; then
         echo "You have local changes already and you have requested to commit changes after this script has run.\nEither remove the -c option or stash your local changes."
         usage
         exit
@@ -102,6 +102,6 @@ copy_model_files $AWS_SDK_GO_MODELS $TARGET_MODELS
 #build service files from the models and check they compile
 build_files
 
-if [ $COMMIT_CHANGES=1 ]; then
+if [ "$COMMIT_CHANGES" == 1 ]; then
     commit_changes
 fi
