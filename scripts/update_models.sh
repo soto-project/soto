@@ -56,6 +56,8 @@ check_for_local_changes()
 commit_changes()
 {
     COMMIT_MSG="Sync models with aws-sdk-go "$AWS_MODELS_VERSION
+    git add models
+    git add Sources/AWSSDKSwift
     git commit -m "$COMMIT_MSG"
 }
 
